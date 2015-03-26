@@ -1,0 +1,11 @@
+common:
+  application_name: "McGill Historical Weather"
+  application_name_short: "McGillOldWeather"
+  release_name: "Snowflake"
+  location: "0.0.0.0:3000/"
+
+development:
+
+production:
+  
+test:
