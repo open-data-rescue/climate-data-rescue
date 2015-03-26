@@ -15,8 +15,8 @@ Scribe::Application.routes.draw do
     end
   end
   
-  match 'transcribe' => "transcriptions#new"
-  match 'about' => 'home#about'
+  match 'transcribe' => "transcriptions#new", :via => [:get, :post]
+  match 'about' => 'home#about', :via => [:get, :post]
   
   root :to => 'home#index'
 end

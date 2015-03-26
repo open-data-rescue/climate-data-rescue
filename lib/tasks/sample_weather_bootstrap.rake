@@ -4,7 +4,7 @@ task :sample_weather_bootstrap => :environment do
   Asset.delete_all
   
   template = Template.create( :name => "My Transcription Template",
-                              :description => "A template for transcribing weather recordds",
+                              :description => "A template for transcribing weather records",
                               :project => "My great project",
                               :display_width => 600,
                               :default_zoom => 1.5)
@@ -95,10 +95,10 @@ task :sample_weather_bootstrap => :environment do
   template.save 
 
   #generate a single asset and a single user for testing just now
-  voyage = AssetCollection.create(:title => "HMS Attack", :author => "", :extern_ref => "http://en.wikipedia.org/wiki/HMS_Attack_(1911)")
+  logBook = AssetCollection.create(:title => "McGill Weather Observatory", :author => "", :extern_ref => "http://en.wikipedia.org/wiki/HMS_Attack_(1911)")
   
-  Asset.create(:location => "/images/1.jpeg", :display_width => 800, :height => 2126, :width => 1388, :template => template, :asset_collection => voyage)
-  Asset.create(:location => "/images/2.jpeg", :display_width => 800, :height => 2107, :width => 1380, :template => template, :asset_collection => voyage)
+  Asset.create(:location => "/images/1.jpeg", :display_width => 800, :height => 2126, :width => 1388, :template => template, :asset_collection => logBook)
+  Asset.create(:location => "/images/2.jpeg", :display_width => 800, :height => 2107, :width => 1380, :template => template, :asset_collection => logBook)
 
   ZooniverseUser.create()
   
