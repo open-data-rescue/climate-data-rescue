@@ -3,9 +3,9 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
 
-def cas_login(request)
-  "#{CASClient::Frameworks::Rails::Filter.client.login_url}?service=http%3A%2F%2F#{ request.host_with_port }#{ request.fullpath }"
-end
+#def cas_login(request)
+#  "#{CASClient::Frameworks::Rails::Filter.client.login_url}?service=http%3A%2F%2F#{ request.host_with_port }#{ request.fullpath }"
+#end
 
 module Shoulda
   class Context
@@ -79,8 +79,8 @@ class ActiveSupport::TestCase
     @request.session[:cas_user] = @user.name
     @request.session[:cas_extra_attributes] = {}
     @request.session[:cas_extra_attributes]['id'] = @user.zooniverse_user_id
-    CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
-    CASClient::Frameworks::Rails::GatewayFilter.stubs(:filter).returns(true)
+    #CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
+    #CASClient::Frameworks::Rails::GatewayFilter.stubs(:filter).returns(true)
   end
   
   def standard_cas_login_without_stub(user = nil)

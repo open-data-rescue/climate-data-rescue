@@ -10,8 +10,8 @@ class HomeControllerTest < ActionController::TestCase
     
     context "#index logged in" do
       setup do
-        standard_cas_login_without_stub
-        CASClient::Frameworks::Rails::GatewayFilter.stubs(:filter).returns(true)
+        #standard_cas_login_without_stub
+        #CASClient::Frameworks::Rails::GatewayFilter.stubs(:filter).returns(true)
         get :index
       end
       

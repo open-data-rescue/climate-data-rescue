@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'rails', '4.2.0'
-gem 'rubycas-client', '~> 2.3.9'
+gem 'rails', '3.1.2'
+gem 'rubycas-client', '2.3.6'
 gem 'rake', '10.4.2'
-gem "activeresource", "~> 4.0.0"
+gem "activeresource", "3.1.2"
 gem 'bson_ext'
 gem 'mongo_mapper', :branch => 'rails3'
 #gem 'barista'

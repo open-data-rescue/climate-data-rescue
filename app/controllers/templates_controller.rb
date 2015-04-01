@@ -1,5 +1,5 @@
 class TemplatesController < ApplicationController
-  before_filter CASClient::Frameworks::Rails::GatewayFilter
+  #before_filter CASClient::Frameworks::Rails::GatewayFilter
   before_filter :require_privileged_user, :except => [ :show ]
   
   def index

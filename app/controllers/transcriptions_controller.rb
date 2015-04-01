@@ -1,5 +1,5 @@
 class TranscriptionsController < ApplicationController
-  before_filter CASClient::Frameworks::Rails::Filter, :only => [:new, :index, :edit]
+  #before_filter CASClient::Frameworks::Rails::Filter, :only => [:new, :index, :edit]
   before_filter :check_or_create_zooniverse_user, :only => [:new, :index, :edit]
   before_filter :get_or_assign_collection, :get_or_assign_asset, :only => [:new]
   after_filter :clear_session, :only =>[ :create ]
