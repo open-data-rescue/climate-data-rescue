@@ -64,6 +64,10 @@ Assets are the objects which you wish to have the user transcribe. They contain 
 
 Assets are organised in to asset_collections. These are collections of assets which the user will look through and transcribe. Assets must belong to an AssetCollection.
 
+#### Relationships
+- has many: transcriptions
+- belongs to: template, asset collection
+
 #### Attributes
 - integer  "height"
 - integer  "width"
@@ -87,6 +91,10 @@ Assets are organised in to asset_collections. These are collections of assets wh
 
 A simple grouping class that links Assets. This can be used to model a book (e.g. the logs in Old Weather).
 
+#### Relationships
+- has many: assets
+- belongs to: collection group
+
 #### Attributes
 - string   "title"
 - string   "author"
@@ -100,6 +108,9 @@ A simple grouping class that links Assets. This can be used to model a book (e.g
 
 A simple grouping class that links AssetCollections. This can be used to model a book set (set of book volumes).
 
+#### Relationships
+- has many: asset collections
+
 #### Attributes
 - string   "title"
 - string   "author"
@@ -112,6 +123,10 @@ A simple grouping class that links AssetCollections. This can be used to model a
 
 These belong to User and Asset. A Transcription is the result of a user interacting with an Asset. It is composed of many Annotations.
 
+#### Relationships
+- has many: annotations
+- belongs to: asset, user, asset_collection
+
 #### Attributes
 - text     "page_data"
 - datetime "created_at", :null => false
@@ -122,6 +137,9 @@ These belong to User and Asset. A Transcription is the result of a user interact
 ### Annotation
 
 An Annotation belongs to a parent Transcription and has many Entities. The data attribute persists the content of the individual user entry (such as a name, position, date etc.)
+
+#### Relationships
+- belongs to: transcription, entity, asset
 
 #### Attributes
 - text     "bounds"
@@ -136,6 +154,10 @@ An Annotation belongs to a parent Transcription and has many Entities. The data 
 
 A Template has many Assets and Entities and essentially defines what types (Fields) of records are to be collected from a given image (Asset).
 
+#### Relationships
+- has many: assets, entities
+- belongs to: asset
+
 #### Attributes
 - string   "name"
 - string   "description"
@@ -147,6 +169,9 @@ A Template has many Assets and Entities and essentially defines what types (Fiel
 ### Field
 
 A Field belongs to an Entity. A Field has a key which is used in the Annotation data hash. The 'kind' defines how the transcription field is rendered in the UI (currently text/select/date are supported).
+
+#### Relationships
+- belongs to: entity
 
 #### Attributes
 - string   "name"
@@ -162,6 +187,12 @@ A Field belongs to an Entity. A Field has a key which is used in the Annotation 
 ### Entity
 
 Entity belongs to Template and is composed of many Fields. An Entity might be something like 'position' which would be composed of two Fields: Latitude and Longitude.
+
+#### Relationships
+- has many: annotations, fields
+- belongs to: template
+
+#### Attributes
 - string   "name"
 - string   "description"
 - string   "help"
@@ -177,6 +208,9 @@ Entity belongs to Template and is composed of many Fields. An Entity might be so
 ### User
 
 The user producing the Transcriptions.
+
+#### Relationships
+- has many: transcriptions
 
 #### Attributes
 - string   "email",                  :default => "", :null => false
