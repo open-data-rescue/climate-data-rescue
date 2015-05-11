@@ -1,5 +1,30 @@
 # ClimateDataRescue
 
+## Contents
+- [Introduction](#introduction)
+- [Data Model Overview](#data-model-overview)
+  - [Asset](#asset)
+  - [Asset Collection](#assetcollection)
+  - [Collection Group](#collectiongroup)
+  - [Transcription](#transcription)
+  - [Annotation](#annotation)
+  - [Template](#template)
+  - [Entity](#entity)
+  - [Field](#field)
+  - [User](#user)
+  - [Album and Photo](#album-and-photo)
+- [Requirements](#requirements)
+- [Requirements Installation Guide](#requirements-installation-guide)
+  - [Ruby](#ruby-193-p551-using-rvm)
+  - [SQLite3](#sqlite3)
+  - [NodeJS](#nodejs)
+  - [LibJPEG](#libjpeg)
+  - [ImageMagick](#imagemagick)
+- [Project Setup](#set-up-project)
+- [Configuration](#configuration)
+
+## Introduction
+
 ClimateDataRescue is a framework for generating crowd sourced transcriptions of image-based documents.
 It provides a system for generating templates which combined with a magnification tool guide a user through the process of transcribing an asset (an image). 
 
