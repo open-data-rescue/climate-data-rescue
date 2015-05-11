@@ -1,0 +1,10 @@
+h3 Annotation
+/! show json data for the annotation in a paragraph
+
+p
+  strong Data:
+  = @annotation.data
+
+= link_to 'Edit', edit_annotation_path(@annotation)
+'&nbsp|
+= link_to 'Back', annotations_path

@@ -1,0 +1,31 @@
+h3 Transcription #{@transcription.id}
+/!Get the name and load the image of the asset associated with the transcription
+h5 Document: #{@transcription.asset.name}
+= image_tag @transcription.asset.upload.url
+/! Display the information of all the annotations associated with this transcription in table format
+h4 Annotations
+table
+  thead
+    tr
+      th Document Name
+      th Field Group
+      th Content (Document Name, Field Group, Field Names:Values)
+      th
+      th
+      th
+
+  tbody
+    - @transcription.annotations.each do |a|
+      tr
+        td = a.asset.name
+        td = a.entity.name
+        td = a.data
+        td = link_to 'Show', a
+        td = link_to 'Edit', edit_annotation_path(a)
+        td = link_to 'Destroy', a, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+
+
+= link_to 'Edit', edit_transcription_path(@transcription)
+'&nbsp|
+= link_to 'Back', transcriptions_path

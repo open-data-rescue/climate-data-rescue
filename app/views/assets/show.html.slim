@@ -1,0 +1,44 @@
+h3 = @asset.name
+/!show the asset image
+p = image_tag @asset.upload.url
+= link_to 'Transcribe', new_transcription_path(@transcription, :currentAsset => @asset)
+<br />
+<hr />
+/! list its info in a table
+table
+  thead
+    tr
+      th Group
+      th Template
+      th Name
+      th Height
+      th Width
+      th Display width
+      th Display height
+      th Ext ref
+      th Order
+      th Done
+      th Transcriptions Completed
+
+  tbody
+    
+    tr
+      td = link_to @asset.asset_collection.title, @asset.asset_collection
+      td = link_to @asset.template.name, @asset.template
+      td = @asset.name
+      td = @asset.height
+      td = @asset.width
+      td = @asset.display_width
+      td = @asset.display_height
+      td = @asset.ext_ref
+      td = @asset.order
+      td = @asset.done
+      td = @asset.classification_count
+
+/! modification controls for admins
+- if current_user.admin?
+  = link_to 'Edit', edit_asset_path(@asset)
+  '&nbsp|
+  = link_to 'Delete', @asset, data: {:confirm => 'Are you sure?'}, :method => :delete
+  '&nbsp|
+= link_to 'Back', assets_path

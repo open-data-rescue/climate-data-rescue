@@ -1,0 +1,9 @@
+br
+.row
+  .medium-8.columns
+    h1 Album: #{@album.name}
+  .medium-4.columns
+    p = link_to "+ Add new photo", new_photo_path(album_id: @album.id), class: "button expand"
+ul class="small-block-grid-4"
+  - @album.photos.each do |photo|
+    li = link_to image_tag(photo.upload.url), photo_path(photo)

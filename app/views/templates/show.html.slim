@@ -1,0 +1,53 @@
+
+h3 Template Details
+/! lists template attributes
+p
+  strong Name:
+  = @template.name
+p
+  strong Description:
+  = @template.description
+p
+  strong Project:
+  = @template.project
+= link_to 'Edit', edit_template_path(@template)
+'&nbsp|
+= link_to 'Delete', @template, data: {:confirm => 'Are you sure?'}, :method => :delete
+'&nbsp|
+= link_to 'Back', templates_path
+br
+
+h3 Template Field Groups
+/!shows field groups associated with the template and their info
+table
+  thead
+    tr
+      th Name
+      th Description
+      th Help
+      th Resizable
+      th Width
+      th Height
+      th
+      th
+      th
+
+  tbody
+    - @template.entities.each do |entity|
+      tr
+        td = link_to entity.name, entity
+        td = entity.description
+        td = entity.help
+        td = entity.resizable
+        td = entity.width
+        td = entity.height
+        td = link_to 'Show', entity
+        td = link_to 'Edit', edit_entity_path(entity)
+        td = link_to 'Destroy', entity, data: {:confirm => 'Are you sure?'}, :method => :delete 
+
+h3 Documents Using #{@template.name}
+/!shows image grid of all assets using this template
+ul.small-block-grid-4  
+  - @assets.each do |asset|
+    - if asset.template == @template
+      li = link_to image_tag(asset.upload.url), asset_path(asset)

@@ -1,0 +1,5 @@
+h1 Albums
+p = link_to "Create a new album", new_album_path
+ul
+  - @albums.each do |album|
+    li = link_to album.name, album_path(album)

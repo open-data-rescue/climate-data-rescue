@@ -1,0 +1,28 @@
+h1 Listing transcriptions
+/! Load a list of all transcriptions into a table with their attribute info, including which asset they relate to. Table rows are each transcription, table columns are self explanitory.
+table
+  thead
+    tr
+      th Document
+      th Document Name
+      th Transcription ID
+      th Annotation Count
+      th
+      th
+      th
+
+  tbody
+    - @transcriptions.each do |transcription|
+      tr
+        td = image_tag(transcription.asset.upload.url(:thumb))
+        td = transcription.asset.name
+        td = transcription.id
+        td = transcription.annotations.count
+        td = link_to 'Show', transcription
+        td = link_to 'Edit', edit_transcription_path(transcription)
+        td = link_to 'Delete', transcription, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+
+br
+
+= link_to 'New Transcription', new_transcription_path

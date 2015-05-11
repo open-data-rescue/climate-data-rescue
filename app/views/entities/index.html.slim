@@ -1,0 +1,35 @@
+h3 Field Groups
+/! List all entities and their attribute information in a table
+table
+  thead
+    tr
+      th Name
+      th Description
+      th Help
+      th Resizable
+      th Width
+      th Height
+      th Bounds
+      th Zoom
+      th
+      th
+      th
+
+  tbody
+    - @entities.each do |entity|
+      tr
+        td = link_to entity.name, entity
+        td = entity.description
+        td = entity.help
+        td = entity.resizable
+        td = entity.width
+        td = entity.height
+        td = entity.bounds
+        td = entity.zoom
+        td = link_to 'Show', entity
+        td = link_to 'Edit', edit_entity_path(entity)
+        td = link_to 'Destroy', entity, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Group of Fields', new_entity_path

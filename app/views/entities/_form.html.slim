@@ -1,0 +1,21 @@
+= simple_form_for(@entity) do |f|
+  - if @entity.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@entity.errors.count, "error")} prohibited this entity from being saved:"
+      ul
+        - @entity.errors.full_messages.each do |message|
+          li = message
+  = f.error_notification
+  = f.association :template, include_blank: false
+  .form-inputs
+    = f.input :name
+    = f.input :description
+    = f.input :help
+    = f.input :resizable
+    = f.input :width
+    = f.input :height
+    = f.input :bounds
+    = f.input :zoom
+
+  .form-actions
+    = f.button :submit

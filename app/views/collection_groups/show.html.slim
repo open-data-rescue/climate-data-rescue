@@ -1,0 +1,22 @@
+/! Collection groups, as the name suggests, are a group of asset_collections
+/
+/! List collection group info
+h1 Collection: #{@collection_group.title}
+  
+p
+  strong Author:&nbsp
+  = @collection_group.author
+
+p
+  strong Collection Title:&nbsp
+  = @collection_group.title
+
+/! list all asset_collections associated with this collection group
+ul 
+  - @collection_group.asset_collections.each do |asset_collection|
+    li = link_to "#{asset_collection.title}", asset_collection_path(asset_collection)
+
+- if current_user.admin?
+  = link_to 'Edit', edit_collection_group_path(@collection_group)
+  '&nbsp|
+= link_to 'Back', collection_groups_path

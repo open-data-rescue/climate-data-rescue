@@ -1,0 +1,50 @@
+nav.top-bar data-topbar="data-topbar"
+  ul.title-area
+    /! Set the site name to be displayed
+    li.name
+      h1 =link_to "WeatherDataRescue".html_safe, root_path        
+    li.toggle-topbar.menu-icon
+      a href="#"
+        span Menu
+  /! Creates the site nav bar. Displays different things if a user is logged-in or not. Some elements are removed if user is admin because they are placed in the admin bar
+  section.top-bar-section
+    ul.right
+      li = link_to "Home", root_path
+      li = link_to "About", "/about"
+      /! These elements are only displayed if a user is logged in. Certain are only displayed if not an admin
+      - if user_signed_in? && current_user.admin!=true
+        li = link_to "Collections", "/collections"
+      - if user_signed_in?
+        - if current_user.admin != true
+          li = link_to "Transcribe", new_transcription_path
+        li = link_to "Users", "/users"
+        /! Current user profile page. 'show.html.slim' view for user
+        li = link_to current_user.name, "/users/#{current_user.id}"
+      /! Login/out buttons depending on login status
+      - if user_signed_in?
+        li = link_to "Logout", logout_path
+      - else
+        li = link_to "Login", login_path
+/! If the user currently logged-in is an administrator, display the admin nav bar as well
+- if user_signed_in? && current_user.admin?
+  nav.top-bar data-topbar="data-topbar"
+    ul.title-area
+      li.name
+        h1 = link_to "Administrative Tasks".html_safe 
+      li.toggle-topbar.menu-icon
+        a href="#"
+          /! nav bar title
+          span Admin Menu
+
+    section.top-bar-section
+      ul.right
+        /! Links to model instances to modify. Takes admin users to the 'index.html.slim' view for each model type. Users can be modified from the main nav bar 'Users' link
+        li = link_to "Transcriptions", transcriptions_path
+        li = link_to "Annotations", annotations_path
+        li = link_to "Templates", templates_path
+        li = link_to "Field Groups", entities_path
+        li = link_to "Fields", fields_path
+        li = link_to "Collection Groups", collection_groups_path
+        li = link_to "Collections", asset_collections_path
+        li = link_to "Documents", assets_path
+        

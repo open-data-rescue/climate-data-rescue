@@ -1,0 +1,33 @@
+h3 Available Fields
+/! List all fields and their attribute information in a table
+table
+  thead
+    tr
+      th Group
+      th Name
+      th Field key
+      th Kind
+      th Initial value
+      th Options
+      th Validations
+      th
+      th
+      th
+
+  tbody
+    - @fields.each do |field|
+      tr
+        td = field.entity.name
+        td = field.name
+        td = field.field_key
+        td = field.kind
+        td = field.initial_value
+        td = field.options
+        td = field.validations
+        td = link_to 'Show', field
+        td = link_to 'Edit', edit_field_path(field)
+        td = link_to 'Destroy', field, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Field', new_field_path

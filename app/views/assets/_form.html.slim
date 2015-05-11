@@ -1,0 +1,22 @@
+= simple_form_for(@asset) do |f|
+  - if @asset.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@asset.errors.count, "error")} prohibited this asset from being saved:"
+      ul
+        - @asset.errors.full_messages.each do |message|
+          li = message
+
+  = f.error_notification
+  = f.association :asset_collection, include_blank: false
+  = f.association :template, include_blank: false
+  .form-inputs
+    = f.input :name
+    = f.input :display_width
+    = f.input :ext_ref
+    = f.input :order
+    = f.input :done
+    = f.input :classification_count
+    = f.input :upload, as: :file
+
+  .form-actions
+    = f.button :submit

@@ -1,0 +1,41 @@
+h3 Current Documents
+/! List all assets and their info in a table
+table
+  thead
+    tr
+      th Thumbnail
+      th Collection
+      th Template
+      th Filename
+      th Height
+      th Width
+      th Display width
+      th Order
+      th Done
+      th Completed Transcriptions
+      th
+      - if current_user.admin?
+        th
+        th
+
+  tbody
+    - @assets.each do |asset|
+      tr
+        td = link_to image_tag(asset.upload.url(:thumb)), asset_path(asset)
+        td = link_to asset.asset_collection.title, asset.asset_collection
+        td = link_to asset.template.name, asset.template
+        td = asset.name
+        td = asset.height
+        td = asset.width
+        td = asset.display_width
+        td = asset.order
+        td = asset.done
+        td = asset.classification_count
+        td = link_to 'Show', asset
+        - if current_user.admin?
+          td = link_to 'Edit', edit_asset_path(asset)
+          td = link_to 'Destroy', asset, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Document', new_asset_path

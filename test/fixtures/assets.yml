@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  height: 1
+  width: 1
+  display_width: 1
+  ext_ref: MyString
+  order: 1
+  template_id: 
+  done: false
+  classification_count: 1
+
+two:
+  height: 1
+  width: 1
+  display_width: 1
+  ext_ref: MyString
+  order: 1
+  template_id: 
+  done: false
+  classification_count: 1

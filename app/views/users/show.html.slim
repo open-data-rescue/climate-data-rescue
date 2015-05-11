@@ -1,0 +1,18 @@
+.row
+  .medium-8.columns
+    /! Show user information. Pulled dynamically from the user model instance
+    h1 Profile: #{@user.name}
+    p 
+      strong Email:&nbsp 
+      = @user.email
+    p #{@user.contributions} paged transcribed
+    p = @user.about
+    - if @user.id == current_user.id || current_user.admin?
+      /! if current user is admin or this is their user page, show links to edit the user information
+      = link_to 'Edit', "#{@user.id}/edit"
+      '&nbsp|
+      = link_to 'Back', "/users"
+  .medium-4.columns
+    p = image_tag @user.avatar.url
+
+

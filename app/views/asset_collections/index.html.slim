@@ -1,0 +1,28 @@
+h3 Available Collections
+/! List all asset_collections and their info
+table
+  thead
+    tr
+      th Title
+      th Author
+      th External URL
+      th
+      - if current_user.admin?
+        th
+        th
+
+  tbody
+    - @asset_collections.each do |asset_collection|
+      tr
+        td = link_to asset_collection.title, asset_collection
+        td = asset_collection.author
+        td = asset_collection.extern_ref
+        td = link_to 'Show', asset_collection
+        - if current_user.admin?
+          td = link_to 'Edit', edit_asset_collection_path(asset_collection)
+          td = link_to 'Delete', asset_collection, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+- if current_user.admin?
+  = link_to 'New Collection', new_asset_collection_path

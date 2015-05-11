@@ -1,0 +1,21 @@
+/! This form handles user creation and editing. If an admin edits a user, they can grant admin priviledges to the user
+/! if new attributes are added to the user model, new inputs can be added here to set or modify them at user creation or edit
+= simple_form_for(@user) do |f|
+  - if @user.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      ul
+        - @user.errors.full_messages.each do |message|
+          li = message
+
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    - if current_user.admin?
+      = f.input :admin
+    = f.input :about
+    = f.input :avatar, as: :file
+
+  .form-actions
+    = f.button :submit

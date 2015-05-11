@@ -1,0 +1,9 @@
+= simple_form_for(@annotation) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :bounds
+    = f.input :data
+
+  .form-actions
+    = f.button :submit
