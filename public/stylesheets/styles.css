@@ -1,0 +1,449 @@
+@import url(reset.css);
+@import url(fonts.css);
+
+body{
+	width:100%;
+	height:100%;
+	margin: 0;
+	padding: 0;
+	background: url('../images/background-full.jpeg');
+	background-color: #52708B;
+	color: black;
+}
+
+#page{
+	width:900px;
+	margin:25px auto;
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #000;
+}
+
+#header{
+	border-bottom:1px solid gray;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-weight:normal;
+	font-family:Georgia, serif;
+}
+
+h1{
+	font-size:48px;
+	color: black;
+}
+
+h2{
+	font-size:20px;
+	color: black;
+}
+
+h2{
+	font-size:18px;
+}
+
+.stats_panel{
+	float:left;
+	padding:5px;
+}
+
+.pad{
+	padding-top:30px;
+}
+
+.half_chart{
+	margin:10px 0px;
+	width:440px;
+	height:250px;
+}
+
+ul#recent_users{
+	width:440px;
+	border: 1px solid #3c3c3c;
+}
+
+ul#recent_users li{
+	padding:5px;
+}
+
+ul#recent_users li.odd{
+	background:#efefef;
+}
+
+#paginator{
+	padding-top:5px;
+	text-align:center;
+}
+
+/* Front page */
+
+#welcome{
+	position: absolute;
+	width: 500px;
+	height: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	top: 75px;
+	display: block;
+	font-family:Georgia, serif;
+	text-align: center;
+}
+
+#welcome p, #welcome p a{
+	font-size: 24px;
+	color: black;
+}
+
+span.big_header {
+	color: black;
+	font-size: 90px;
+}
+
+/* Default styles for classification UI */
+
+#classify_asset{
+	float:left;
+	padding:5px;
+}
+
+#question_container{
+	width:400px;
+	margin:30px 0px 0px 40px;
+	float:left;
+}
+
+#question{
+	font-size:20px;
+	background: #FF9;
+	border:1px solid #2c2c2c;
+	padding:10px;
+}
+
+
+/* flashes */
+
+.flash p{
+	font-size: 0.9em;
+	line-height:0.9em;
+	text-align:center;
+	padding:10px 10px 10px 10px;
+	margin:0;
+}
+
+.notice {
+	background: #cfe7a6; 
+	border: 1px dashed #76b900; 
+	margin:5px;
+}
+
+.warning {
+	background: #fdf4a6; 
+	border: 1px dashed #fadf00; 
+	margin:5px;
+}
+
+.error {
+	background: #ffcccc; 
+	border: 1px dashed #d81f2a; 
+	margin:5px;
+}
+
+
+
+body{
+	font-family: helvetica, sans-serif;
+}
+
+#transcription_container img{
+	padding:0px;
+	margin:0px;
+	border:0px;
+	cursor:crosshair;
+	display:inline;
+}
+
+#transcription_container{
+	float:left;
+	position:relative;
+}
+
+.transcription_entity{
+	position:absolute;
+	background:white;
+	border:1px solid #3c3c3c;
+}
+
+form.new_annotation{
+	width:200px;
+}
+
+td.label{
+	font-size: 12px;
+	text-align: right;
+}
+
+form.new_annotation input{
+	width: 80px;
+}
+
+#banner {
+	position: fixed;
+	background: transparent;
+	z-index: 99;
+	margin: 0;
+	top: 10px;
+	left: 10px;
+}
+
+#banner h1{
+	font-size:38px;
+	color: black;
+}
+
+#banner, #banner a {
+	color: black;
+	text-decoration: none;
+}
+
+#banner span.version {
+	font-size: 14px;
+	position: relative;
+	bottom: 0px;
+	right: -3px;
+}
+
+#banner p{
+	font-size: 14px;
+	position:relative;
+	bottom:5px;
+	left:60px;
+	color: black;
+}
+
+#banner p.nav{
+	float:left;
+	font-size:12px;
+	padding-right:3px;
+}
+
+#banner p.user{
+	font-size:14px;
+	top:10px;
+}
+
+#banner p.nav:hover{
+	text-decoration:underline;
+}
+
+#controls{
+	position:fixed;
+	top:20px;
+	left:100%;
+	margin-left: -340px;
+	display:block;
+	background: #EEE;
+	border:2px solid #2c2c2c;
+	padding:10px;
+	z-index: 99;
+	-moz-box-shadow: 3px 3px 4px #3c3c3c;
+	-webkit-box-shadow: 3px 3px 4px #3c3c3c;
+	box-shadow: 3px 3px 4px #3c3c3c;
+}
+
+#controls h3 {
+	margin-bottom: 5px;
+	font-size: 18px;
+}
+
+#results{
+	width:300px;
+}
+
+@-webkit-keyframes colorfade {
+   from {
+     border-color: black;
+   }
+
+   to {
+     border-color:  #FF007E;
+   }
+}
+
+#results li{
+	background: #DDD;
+	border: 2px solid black;
+	margin-bottom: 5px;
+	padding: 5px;
+	font-size: 11px;
+	overflow: hidden;
+
+}
+
+#results li.editing_annotation{
+/*	border-color:#FF007E;*/
+-webkit-animation-name: colorfade;
+-webkit-animation-duration: 2s;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-direction: alternate;
+-webkit-animation-timing-function: ease-in-out;
+}
+
+#results li div.annotation_item {
+	float: left;
+	width: 200px;
+
+}
+
+#results li div.annotation_button {
+	width: 10px;
+	height: 10px;
+	background: #555;
+	float: right;
+}
+
+#scribe_done_button{
+	font-size:12px;
+	padding: 5px 0px 0px 0px;
+	position: relative;
+	float: right;
+}
+#transcription_list{
+	margin-top:10px;
+	width:80%;
+	margin-left:30%;
+	margin-right:auto;
+	color:black;
+}
+
+h1{
+	color:black;
+}
+#transcription_list{
+	margin-top:50px;
+}
+#transcription_list li{
+	float:left;
+	margin-right:20px;
+}
+#transcription_list a{
+	color:black;
+	
+}
+
+#collections_list{
+	position: absolute;
+	top: 70px;
+	left: 10%;
+	width:80%;
+	margin-left:auto;
+	margin-right:auto;
+	color:black;
+}
+#collections_list li{
+	float: left;
+	margin-right:20px;
+	margin-top:90px;
+	width:300px;
+}
+#collections_list a{
+	color:black;
+	
+}
+
+#collections_list li img{
+	width: 100%;
+}
+
+
+.scribe_marker_controls{
+	display:none;
+	right:2px;
+	bottom:0px;
+	position:absolute;
+}
+
+.scribe_marker_controls a{
+	margin-left:5px;
+}
+
+
+.scribe_marker:hover .scribe_marker_controls{
+	display:block;
+}
+
+
+#project_about_title{
+	margin:30px auto;
+	text-align:center;
+	width:900px;
+}
+
+#project_about p{
+	font-weight:normal;
+	font-family:Georgia, serif;
+	color:black ;
+	font-size:20px; 
+	margin:25px auto;
+	width:700px;
+}
+
+
+	
+#collection_details{
+	width :40%;
+	margin-right:auto;
+	margin-left: auto;
+	margin-top: 70px;
+	color:black;
+	font-weight:normal;
+	font-family:Georgia, serif;
+	text-align:center;
+}
+
+#collection_details #collection_title{
+	font-size:20pt;
+}
+
+#collection_page{
+	margin-right:auto;
+	margin-left:auto;
+	width:80%;
+}
+
+#collection_page p {
+	color:black;
+	cursor:pointer;
+}
+
+#collection_page img {
+	width: 100%;
+
+}
+
+#collection_page #prev_page{
+	float:left;
+	font-size: 25px;
+}
+
+#collection_page #next_page{
+	float:right;
+	font-size: 25px;
+
+}
+
+#collections_header{
+	margin-left:20px;
+position: absolute;
+	top: 60px;
+}
+
+#collection_front_page{
+	position:absolute;
+	bottom:40%;
+	left:30px;
+	width:200px;
+	color :black;
+	text-align:center;
+}
+
+

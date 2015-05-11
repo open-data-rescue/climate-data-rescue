@@ -1,0 +1,93 @@
+#scribe_transcription_area{
+	background-color:white;
+	border:1px solid #3c3c3c;
+}
+
+
+#scribe_top_bar{
+	padding:5px;
+}
+
+#scribe_tab_bar{
+	height:auto;
+	width:100%;
+	list-style:none;
+	font-size :10pt;
+}
+
+#scribe_tab_bar li{
+	float :left;
+	margin-right:5px	;
+	background-color:#F4F4F4;
+	border-top: 2px solid #E0E0E0;
+	border-left: 2px solid #E0E0E0;
+	border-right: 2px solid #E0E0E0;
+	color: #3c3c3c;
+	text-align:center;
+	padding:2px;
+}
+
+#scribe_tab_bar li:hover{
+	color:black;
+	cursor:pointer;
+}
+
+
+
+#scribe_transcription_area .ui-draggable-dragging {
+-moz-box-shadow: 3px 3px 4px #000;
+-webkit-box-shadow: 3px 3px 4px #000;
+box-shadow: 3px 3px 4px #000;
+}
+
+.scribe_input_field{
+	float:left;
+	font-size:10pt;
+}
+
+.scribe_selected_tab{
+/*	background-color:#FF007E ! important ;*/
+	color:black ! important;
+	border-color: #3c3c3c ! important ;
+}
+
+#scribe_bottom_area{
+	padding:5px;
+	clear:both;
+}
+
+#scribe_zoom_box{
+	border-width:2px;
+	border-style:solid;
+	border-color:black;
+}
+
+.scribe_marker {
+	position: absolute;
+	z-index: 1;
+	border-style: solid;
+	border-width: 3px;
+	border-color: #FF007E;
+	-moz-box-shadow: 1px 1px 1px #3c3c3c;
+	-webkit-box-shadow: 1px 1px 1px #3c3c3c;
+	box-shadow: 1px 1px 1px #3c3c3c;
+}
+
+.scribe_marker a{
+	background-color:white;
+}
+
+#scribe_annotation_close_button{
+	float :right;
+}
+
+#scribe_annotation_help{
+	width:300px;
+	height:100px;
+	position:absolute;
+	right:20px;
+	background-color:white;
+	border: 1px solid black;
+	z-index:-1;
+	padding:10px;
+}
