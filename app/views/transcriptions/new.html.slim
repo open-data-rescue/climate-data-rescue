@@ -27,7 +27,13 @@ h2 New transcription
           = f.button :submit
     .medium-4.columns
       = link_to "Skip and Try Another", new_transcription_path, class: "button success"
-    
+.row
+  h5 Transcription Instructions
+  p Click the image below to begin transcribing it. A box will pop up containing tabs of different data types to transcribe. You can drag the box into position, or resize it as need be. When you click on a tab, the form containing fields that you can use to input data for your annotation will appear. Enter the values and click OK. The box will disappear, and your annotation will appear in JSON format in a form field below the image. You can continue to make as many annotations as you wish my clicking the image and repeating the process.
+
+  p When you are finished annotating the image, click the "Create Annotation" button below each annotation. Don't worry if you don't get a confirmation message, your annotation was created and saved. Don't click the button again or you will create a duplicate. This bug is actively being looked into.
+
+  p When you finish submitting the annotations, navigate back to the top of this page and click the "Create Transcription" button to save and submit the transcription.  
 .row
   /! Conditional statement to determine if an asset was sucessfully loaded
   - if @asset
