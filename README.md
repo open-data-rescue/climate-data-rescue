@@ -1,5 +1,10 @@
 # ClimateDataRescue
 
+ClimateDataRescue is a framework for generating crowd sourced transcriptions of image-based documents.
+It provides a system for generating templates which combined with a magnification tool guide a user through the process of transcribing an asset (an image). 
+
+While this application was developed for the purpose of transcribing images of historical weather observation logs, it can be adapted for use in transcribing other kinds of documents as well
+
 This application was built from scratch as a new rails app but modeled after Zooniverse's Scribe framework. It uses many of the same model types, while adding others. It also uses some styles from Scribe and Old Weather. The main differences between this project and Scribe are:
 - This app uses Devise to handle user authentication while Scribe uses rubycas-client, rubycas-server and mongomapper.
 - Because this app uses Devise, it does not require a seperate authentication server to be set up for user authentication and can run as a standalone product.
@@ -10,12 +15,187 @@ This application was built from scratch as a new rails app but modeled after Zoo
 - This app allows for the creation, editing and deletion of instances of all its models through an admin interface, making it easy for an admin user to add new instances without any programming experience needed. Scribe creates model instances manually using a sample_weather_bootstrap.rake file.
 - Using ActiveRecord makes it easy for developers to add new model types and add new fields to model tables. Developers can generate scaffolds for new model types or create new migrations to add columns to model tables from the terminal using rails g scaffold and rake g migration, respectively.
 
-ClimateDataRescue is a framework for generating crowd sourced transcriptions of image-based documents.
-It provides a system for generating templates which combined with a magnification tool guide a user through the process of transcribing an asset (an image). 
+It is recommended to use a programming-centric and language-agnostic text editor like Sublime to work with the files contained in this project. By default, the plugin for .slim syntax highlighting is not installed and should be added to aid working with the model view files.
 
-While this application was developed for the purpose of transcribing images of historical weather observation logs, it can be adapted for use in transcribing other kinds of documents as well
+## Data Model Overview
 
-It is recommended to use a programming-centric and language-agnostic text editor like Sublime to work with the files contained in this project. By default, the plugin for .slim syntax highlighting is not installed and should be added to aid working with the model view files
+There are a number of models in ClimateDataRescue:
+
+- Asset (Document Page)
+- AssetCollection (Book)
+- CollectionGroup (Set of Books)
+- Transcription (Set of Annotations)
+- Annotation
+- Template (Groups of Entities)
+- Entity (Group of Fields)
+- Field 
+- User
+- Album (Collection of Photos)
+- Photo
+
+### Asset
+
+Assets are the objects which you wish to have the user transcribe. They contain a link to the image file to be shown, a desired width to be displayed at and a template_id to be applied to them. The Template that Asset belongs to defines the Fields that can be transcribed.
+
+Assets are organised in to asset_collections. These are collections of assets which the user will look through and transcribe. Assets must belong to an AssetCollection.
+
+#### Attributes
+- integer  "height"
+- integer  "width"
+- integer  "display_width"
+- string   "ext_ref"
+- integer  "order"
+- boolean  "done"
+- integer  "classification_count"
+- datetime "created_at",           :null => false
+- datetime "updated_at",           :null => false
+- integer  "asset_collection_id"
+- string   "upload_file_name"
+- string   "upload_content_type"
+- integer  "upload_file_size"
+- datetime "upload_updated_at"
+- integer  "template_id"
+- integer  "transcription_id"
+- string   "name"
+
+### AssetCollection
+
+A simple grouping class that links Assets. This can be used to model a book (e.g. the logs in Old Weather).
+
+#### Attributes
+- string   "title"
+- string   "author"
+- string   "extern_ref"
+- datetime "created_at",          :null => false
+- datetime "updated_at",          :null => false
+- integer  "collectionID"
+- integer  "collection_group_id"
+
+### CollectionGroup
+
+A simple grouping class that links AssetCollections. This can be used to model a book set (set of book volumes).
+
+#### Attributes
+- string   "title"
+- string   "author"
+- string   "extern_ref"
+- integer  "asset_collection_id"
+- datetime "created_at",          :null => false
+- datetime "updated_at",          :null => false
+
+### Transcription
+
+These belong to User and Asset. A Transcription is the result of a user interacting with an Asset. It is composed of many Annotations.
+
+#### Attributes
+- text     "page_data"
+- datetime "created_at", :null => false
+- datetime "updated_at", :null => false
+- integer  "user_id"
+- integer  "asset_id"
+
+### Annotation
+
+An Annotation belongs to a parent Transcription and has many Entities. The data attribute persists the content of the individual user entry (such as a name, position, date etc.)
+
+#### Attributes
+- text     "bounds"
+- text     "data"
+- datetime "created_at",       :null => false
+- datetime "updated_at",       :null => false
+- integer  "transcription_id"
+- integer  "asset_id"
+- integer  "entity_id"
+
+### Template
+
+A Template has many Assets and Entities and essentially defines what types (Fields) of records are to be collected from a given image (Asset).
+
+#### Attributes
+- string   "name"
+- string   "description"
+- string   "project"
+- float    "default_zoom"
+- datetime "created_at",   :null => false
+- datetime "updated_at",   :null => false
+
+### Field
+
+A Field belongs to an Entity. A Field has a key which is used in the Annotation data hash. The 'kind' defines how the transcription field is rendered in the UI (currently text/select/date are supported).
+
+#### Attributes
+- string   "name"
+- string   "field_key"
+- string   "kind"
+- string   "initial_value"
+- text     "options"
+- text     "validations"
+- datetime "created_at",    :null => false
+- datetime "updated_at",    :null => false
+- integer  "entity_id"
+
+### Entity
+
+Entity belongs to Template and is composed of many Fields. An Entity might be something like 'position' which would be composed of two Fields: Latitude and Longitude.
+- string   "name"
+- string   "description"
+- string   "help"
+- boolean  "resizable"
+- integer  "width"
+- integer  "height"
+- text     "bounds"
+- float    "zoom"
+- datetime "created_at",  :null => false
+- datetime "updated_at",  :null => false
+- integer  "template_id"
+
+### User
+
+The user producing the Transcriptions.
+
+#### Attributes
+- string   "email",                  :default => "", :null => false
+- string   "encrypted_password",     :default => "", :null => false
+- string   "reset_password_token"
+- datetime "reset_password_sent_at"
+- datetime "remember_created_at"
+- integer  "sign_in_count",          :default => 0,  :null => false
+- datetime "current_sign_in_at"
+- datetime "last_sign_in_at"
+- string   "current_sign_in_ip"
+- string   "last_sign_in_ip"
+- datetime "created_at",                             :null => false
+- datetime "updated_at",                             :null => false
+- string   "name"
+- string   "avatar_file_name"
+- string   "avatar_content_type"
+- integer  "avatar_file_size"
+- datetime "avatar_updated_at"
+- boolean  "admin"
+- text     "about"
+- integer  "contributions"
+- string   "rank"
+- integer  "asset_id"
+- integer  "transcription_id"
+
+### Album and Photo
+
+Albums are a collection of photos with metadata. Photos contain an image upload and metadata such as filename. These models are unused for the main part of the application but are included for future use. They could be used to create galleries of photos that relate to the project such as historical photos taken by scientists at weather observatory stations.
+
+#### Album Attributes
+- string   "name"
+- datetime "created_at", :null => false
+- datetime "updated_at", :null => false
+
+#### Photo Attributes
+- integer  "album_id"
+- string   "name"
+- datetime "created_at",          :null => false
+- datetime "updated_at",          :null => false
+- string   "upload_file_name"
+- string   "upload_content_type"
+- integer  "upload_file_size"
+- datetime "upload_updated_at"
 
 ## Requirements
 - developed on Ubuntu: a UNIX-based OS will provide the best development experience
@@ -83,3 +263,27 @@ bundle install
 rails s OR rails server
 ```
 - Open the project in your browser. Navigate to localhost:3000
+
+## Configuration
+### Database
+The database configuration file can be found in "<rails_app_directory>\config\database.yml". You must specify the rails adpater for the database you are using. SQLite3 is the default and is simple to set up. No authentication needs to be set. You should not use SQLite3 for your production database. 
+
+- [New SQLite3 Database Setup Guide](http://www.xyzpub.com/en/ruby-on-rails/3.2/seed_rb.html)
+
+This app comes with an existing SQLite3 database so you can get started right away, but if it is not present or you would like to start from scratch, delete the existing databases and populate a new one from schema.rb and seeds.rb using: 
+```
+rake db:setup
+rake db:schema:load
+rake db:seed
+```
+
+If an administrator user was defined in the seeds.db file, use the login information identified in the seeds file to login to the app as an administrator. If you would like to set a personalized admin user, create a new user from the login form and then logout. Log back in as the predefined admin user and edit the new user's attributes to set it as admin. You may delete the predefined admin user once you create another.
+
+*Note!*  For a new database, you may have to create a new user from the web signup form and use the rails console to give it admin privileges. 
+- To set a new user's admin privileges from the rails console, first navigate to the project root in terminal and run `rails c`
+- Next, type `u = User.find(1)` and press enter. Type `u` and press enter to confirm that this user has the correct attributes that you entered into the user creation form.
+- Next, type `u.admin = true` into the console and press enter.
+- If the operation was sucessful, typing `u` into the console and pressing enter should show that the :admin attribute was sucessfully set to true.
+- If you correctly set the attribute, type `u.save` into the console and press enter to commit the changes to the database. If you don't save, the changes will not persist.
+
+To migrate an existing SQLite3 database to PostgreSQL use [this guide](http://railscasts.com/episodes/342-migrating-to-postgresql).
