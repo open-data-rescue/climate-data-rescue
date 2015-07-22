@@ -38,7 +38,7 @@ gem 'will_paginate', '~> 3.0.6'
 #for attachments
 gem "paperclip", "~> 4.2"
 
-gem 'aws-sdk'
+# gem 'aws-sdk'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -50,6 +50,16 @@ gem 'aws-sdk'
 
 # Deploy with Capistrano
 # gem 'capistrano'
+group :development do
+  gem 'capistrano',         '~> 3.1'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler', '~> 1.1.2'
+  gem 'capistrano-rails',   '~> 1.1'
+end
+
+group :production do
+  gem 'puma'
+end
 
 # To use debugger
 # gem 'debugger'
