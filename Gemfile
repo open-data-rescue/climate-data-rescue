@@ -6,7 +6,7 @@ gem 'rails', '3.2.16'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem 'execjs'
+
 
 gem 'jquery-rails', '3.1.2'
 gem 'jquery-ui-rails', '~> 5.0.3'
@@ -55,6 +55,8 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-bundler', '~> 1.1.2'
   gem 'capistrano-rails',   '~> 1.1'
+  gem 'capistrano3-puma'
+  gem 'execjs'
 end
 
 group :production do
