@@ -23,5 +23,4 @@ production:
   database: climatedatarescue
   user: climate_app
   password: !McGillClimate?
-  pool: 5
-  timeout: 5000
+  host: localhost
