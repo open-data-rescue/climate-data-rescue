@@ -91,6 +91,7 @@ GEM
     mime-types (1.25.1)
     mimemagic (0.3.0)
     multi_json (1.11.2)
+    mysql2 (0.3.19)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
@@ -102,7 +103,7 @@ GEM
       mime-types
       mimemagic (= 0.3.0)
     polyglot (0.3.5)
-    puma (2.12.2)
+    puma (2.12.3)
     rack (1.4.7)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -187,6 +188,7 @@ DEPENDENCIES
   foundation-rails (~> 5.4.5.0)
   jquery-rails (= 3.1.2)
   jquery-ui-rails (~> 5.0.3)
+  mysql2
   paperclip (~> 4.2)
   puma
   rails (= 3.2.16)
