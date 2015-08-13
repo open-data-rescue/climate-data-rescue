@@ -8,7 +8,7 @@ development:
   encoding: utf8
   database: climatedatarescue
   username: climate_app
-  password: !McGillClimate?
+  password: "!McGillClimate?"
   host: localhost
   port: 3306
   pool: 10

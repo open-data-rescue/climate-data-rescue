@@ -6,11 +6,12 @@ class CreateAssets < ActiveRecord::Migration
       t.integer :display_width
       t.string :ext_ref
       t.integer :order
-      t.text :template_id
+      t.integer :template_id
       t.boolean :done
       t.integer :classification_count
 
       t.timestamps
     end
+    add_index :assets, :template_id
   end
 end

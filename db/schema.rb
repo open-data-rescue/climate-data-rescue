@@ -61,13 +61,11 @@ ActiveRecord::Schema.define(:version => 20150511153216) do
     t.string   "upload_content_type"
     t.integer  "upload_file_size"
     t.datetime "upload_updated_at"
-    t.integer  "template_id"
     t.integer  "transcription_id"
     t.string   "name"
   end
 
   add_index "assets", ["asset_collection_id"], :name => "index_assets_on_asset_collection_id"
-  add_index "assets", ["template_id"], :name => "index_assets_on_template_id"
   add_index "assets", ["transcription_id"], :name => "index_assets_on_transcription_id"
 
   create_table "collection_groups", :force => true do |t|
