@@ -1,6 +1,6 @@
 /! main site index page. This is the front page of the site and content adjusts depending on if a user is logged in or not and can display different things for admins too! Add whatever content you want here!
 /!In the future, this page could show the user assets that were created since the user's last login. Assets have a "created_at" datetime attribute and users have a "last_sign_in_at" datetime attribute
-h1 Home
+h1 HOME
 - if user_signed_in?
   .panel
     p Welcome #{current_user.email}!
