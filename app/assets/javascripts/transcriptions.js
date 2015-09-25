@@ -49,7 +49,7 @@
         $('#' + countDiv).attr("data-remote", "true");
         var formContents = JSON.stringify($('#currentForm').serializeObject()); //set formContents variable to the JSON string from the transcription form
         $('#' + formDataCount).val(formContents); //set value of new annotation form :data input field to the JSON string
-        return
+        return;
         
       });
 
@@ -59,7 +59,7 @@
 
 //function to toggle between field group form layers when you click on their respective tab. Marks current tab as active
   $(".scribe_tab").bind("click",function(){ //perform function when user click on an element with the "scribe_tab" class. Corresponds to Field Group tabs in the transcription box
-     $(".scribe_annotation_input, .DisplayBlock, .DisplayNone").hide() //hide all other instances of the entity data forms when switching tabs
+     $(".scribe_annotation_input, .DisplayBlock, .DisplayNone").hide(); //hide all other instances of the entity data forms when switching tabs
      $('#formInstructions').hide();
      $(this).addClass("scribe_selected_tab"); //mark clicked tab as active by settings its class
      $('#currentForm').removeAttr('id', 'currentForm'); //remove the ID 'currentForm' from whichever element currently has it
@@ -79,8 +79,8 @@
            $("#scribe_annotation_box").show(500); //open the box with a delay of half a second. This is what makes the transcription box open with a flourish. Remove the value from the .show() function to make it open instantly
            $("#scribe_annotation_box").offset({left:e.pageX,top:e.pageY}); //set position of the box to open at the click event 'e' position
 
-           })
-  })
+          });
+  });
 //end transcription box toggle
 
 //function to enable the image zoom box. Adapted from http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3 and http://jsfiddle.net/aasFx/

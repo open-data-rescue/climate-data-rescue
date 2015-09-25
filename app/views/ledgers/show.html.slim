@@ -1,0 +1,22 @@
+/! Ledgers, as the name suggests, are a group of pagetypes
+/
+/! List ledger info
+h1 Pagetype: #{@ledger.title}
+  
+p
+  strong Author:&nbsp
+  = @ledger.author
+
+p
+  strong Pagetype Title:&nbsp
+  = @ledger.title
+
+/! list all pagetypes associated with this ledger
+ul 
+  - @ledger.pagetypes.each do |pagetype|
+    li = link_to "#{pagetype.title}", pagetype_path(pagetype)
+
+- if current_user.admin?
+  = link_to 'Edit', edit_ledger_path(@ledger)
+  '&nbsp|
+= link_to 'Back', ledgers_path

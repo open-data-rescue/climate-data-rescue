@@ -1,7 +1,7 @@
 class Asset < ActiveRecord::Base
-  attr_accessible :classification_count, :display_width, :done, :ext_ref, :height, :order, :template_id, :width, :asset_collection_id, :upload, :name, :template_id
-  belongs_to :template, foreign_key: "template_id"
-  belongs_to :asset_collection
+  attr_accessible :classification_count, :display_width, :done, :ext_ref, :height, :order, :template_id, :width, :pagetype_id, :upload, :name, :template_id
+  has_one :template, :through => :pagetype
+  belongs_to :pagetype
   has_many :transcriptions
 
   #handles the image uplaod association
@@ -67,7 +67,7 @@ class Asset < ActiveRecord::Base
   end
   #on new transcription creation, increment the classification count of its associated asset
   def increment_classification_count
-    count = self.classification_count
+    count = self.classification_count.nil? ? 0 : self.classification_count
     count += 1
     self.classification_count = count
     if self.classification_count == CLASSIFICATION_COUNT

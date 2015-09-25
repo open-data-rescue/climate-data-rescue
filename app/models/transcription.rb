@@ -1,9 +1,9 @@
 class Transcription < ActiveRecord::Base
   #attributes that can be called on the model object
-  attr_accessible :page_data, :user_id, :asset_collection_id, :asset_id, :user_id
+  attr_accessible :page_data
   belongs_to :asset
   belongs_to :user
-  belongs_to :asset_collection
+  belongs_to :pagetype
   has_many :annotations
   
 

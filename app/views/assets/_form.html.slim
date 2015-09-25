@@ -7,7 +7,7 @@
           li = message
 
   = f.error_notification
-  = f.association :asset_collection, include_blank: false
+  = f.association :pagetype, include_blank: false
   = f.association :template, include_blank: false
   .form-inputs
     = f.input :name

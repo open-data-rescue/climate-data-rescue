@@ -16,7 +16,7 @@ $.widget("ui.annotate", {
         onAnnotationUpdated: null,
         onAnnotationEditedStarted: null,
         showHelp: false,
-        initalEntity: null,
+        initalFieldgroup: null,
         annotationBox: null,
         image: null,
         page_data: {},
@@ -30,8 +30,8 @@ $.widget("ui.annotate", {
     },
     _create: function() {
         var self = this;
-        if (this.options.initalEntity == null) {
-            this.options.initalEntity = this.options.template.entities[0].name.replace(/ /, "_");
+        if (this.options.initalFieldgroup == null) {
+            this.options.initalFieldgroup = this.options.template.fieldgroups[0].name.replace(/ /, "_");
         }
 
 
@@ -103,11 +103,11 @@ $.widget("ui.annotate", {
             }
         });
     },
-    _entity_name_for_id: function(id) {
-        for (var i in this.options.template.entities) {
-            //console.log("testing "+this.options.template.entities[i].id+" and "+id);
-            if (this.options.template.entities[i].id == id) {
-                return this.options.template.entities[i].name.replace(/ /, "_");
+    _fieldgroups_name_for_id: function(id) {
+        for (var i in this.options.template.fieldgroups) {
+            //console.log("testing "+this.options.template.fieldgroups[i].id+" and "+id);
+            if (this.options.template.fieldgroups[i].id == id) {
+                return this.options.template.fieldgroups[i].name.replace(/ /, "_");
             }
         }
         return nil;
@@ -121,7 +121,7 @@ $.widget("ui.annotate", {
             var bounds = this.options.annotations[id].bounds;
             //console.log(this._denormaliseBounds(bounds));
 
-            this.options.annotations[id].kind = this._entity_name_for_id(this.options.annotations[id].entity_id);
+            this.options.annotations[id].kind = this._fieldgroups_name_for_id(this.options.annotations[id].fieldgroups_id);
 
             this._generateMarker(this._denormaliseBounds(bounds), id);
             if (this.options.onAnnotationAdded != null) {
@@ -195,7 +195,7 @@ $.widget("ui.annotate", {
 
             $(this.options.zoomBox).find("img").css("top", zoomY)
                 .css("left", zoomX);
-            this._selectEntity(this.options.initalEntity);
+            this._selectFieldgroup(this.options.initalFieldgroup);
 
 
         }
@@ -219,7 +219,7 @@ $.widget("ui.annotate", {
 
 
         this.showBox(bounds);
-        this._selectEntity(annotation.kind);
+        this._selectFieldgroup(annotation.kind);
         //console.log(annotation.data);
         $("div.scribe_current_inputs input, div.scribe_current_inputs select").each(function(index, element) {
             var ell_id = $(element).attr("id").replace("scribe_field_", "");
@@ -422,19 +422,19 @@ $.widget("ui.annotate", {
         }
         return inputDiv.append(result);
     },
-    _selectEntity: function(entityName) {
+    _selectFieldgroup: function(fieldgroupsName) {
         $("#scribe_tab_bar li").removeClass("scribe_selected_tab");
-        $("#scribe_tab_bar #scribe_tab_" + entityName).addClass("scribe_selected_tab");
+        $("#scribe_tab_bar #scribe_tab_" + fieldgroupsName).addClass("scribe_selected_tab");
         $(".scribe_annotation_input").hide();
-        $("#scribe_input_" + entityName).show();
+        $("#scribe_input_" + fieldgroupsName).show();
         $(".scribe_current_inputs").removeClass("scribe_current_inputs");
-        $("#scribe_input_" + entityName + " .scribe_input_field").addClass("scribe_current_inputs");
+        $("#scribe_input_" + fieldgroupsName + " .scribe_input_field").addClass("scribe_current_inputs");
         $(".scribe_input_field").show();
         $(".scribe_input_field").filter(".scribe_current_inputs");
-        this.changeHelp(entityName);
+        this.changeHelp(fieldgroupsName);
     },
-    _switchEntityType: function(event) {
-        this._selectEntity(event.data);
+    _switchFieldgroupType: function(event) {
+        this._selectFieldgroup(event.data);
     },
 
     _updateWithDrag: function(position) {
@@ -493,8 +493,8 @@ $.widget("ui.annotate", {
         annotationBox.css("cursor", "move");
 
         var topBar = $("<div id ='scribe_top_bar'></div>");
-        var tabBar = this._generateTabBar(this.options.template.entities);
-        var help = this._generateHelp(this.options.template.entities);
+        var tabBar = this._generateTabBar(this.options.template.fieldgroups);
+        var help = this._generateHelp(this.options.template.fieldgroups);
 
         topBar.append(tabBar);
         topBar.append(help);
@@ -513,7 +513,7 @@ $.widget("ui.annotate", {
         topBar.append(helpButton);
         topBar.append(closeButton);
         var bottomArea = $("<div id='scribe_bottom_area'></div>");
-        var inputBar = this._generateInputs(this.options.template.entities);
+        var inputBar = this._generateInputs(this.options.template.fieldgroups);
         bottomArea.append(inputBar);
         bottomArea.append($("<input type='submit' value='save'>").addClass("button").click(function(e) {
             self._addAnnotation(e)
@@ -567,9 +567,9 @@ $.widget("ui.annotate", {
         return zoomBox.append(image);
 
     },
-    _generateHelp: function(entities) {
+    _generateHelp: function(fieldgroups) {
         var helpDiv = $("<div id='scribe_annotation_help'></div>").hide();
-        $.each(entities, function() {
+        $.each(fieldgroups, function() {
             helpDiv.append($("<div id='scribe_help_" + this.name.replace(/ /, "_") + "'></div>")
                 .append(this.help)
                 .hide()
@@ -577,27 +577,27 @@ $.widget("ui.annotate", {
         });
         return helpDiv;
     },
-    _generateTabBar: function(entities) {
+    _generateTabBar: function(fieldgroups) {
         var tabBar = $("<ul id='scribe_tab_bar'></ul>");
         var self = this;
-        $.each(entities, function() {
+        $.each(fieldgroups, function() {
             var elementName = this.name.replace(/ /, "_");
             var elementId = "scribe_tab_" + elementName;
             var tab = $("<li id='" + elementId + "'>" + elementName + "</li>");
-            tab.click(elementName, jQuery.proxy(self._switchEntityType, self));
+            tab.click(elementName, jQuery.proxy(self._switchFieldgroupType, self));
             tabBar.append(tab);
         });
         return tabBar;
     },
-    _generateInputs: function(entities) {
+    _generateInputs: function(fieldgroups) {
         var inputBar = $("<div id='scribe_input_bar'></div>");
         var self = this;
 
-        $.each(entities, function(entity_index, entity) {
-            var currentInputPane = $("<div id='scribe_input_" + entity.name.replace(/ /, "_") + "'></div>").addClass("scribe_annotation_input").hide();
-            $.each(entity.fields, function(field_index, field) {
+        $.each(fieldgroups, function(fieldgroups_index, fieldgroups) {
+            var currentInputPane = $("<div id='scribe_input_" + fieldgroups.name.replace(/ /, "_") + "'></div>").addClass("scribe_annotation_input").hide();
+            $.each(fieldgroups.fields, function(field_index, field) {
                 var current_field = self._generateField(field);
-                if (entity_index == 0) {
+                if (fieldgroups_index == 0) {
                     current_field.show();
                 } else {
                     current_field.hide();
@@ -609,9 +609,9 @@ $.widget("ui.annotate", {
         return inputBar;
     },
 
-    changeHelp: function(entity_name) {
+    changeHelp: function(fieldgroups_name) {
         $(".scribe_help_content").hide();
-        $("#scribe_help_" + entity_name).show();
+        $("#scribe_help_" + fieldgroups_name).show();
     },
     showHelp: function() {
         this.options.helpShowing = true;

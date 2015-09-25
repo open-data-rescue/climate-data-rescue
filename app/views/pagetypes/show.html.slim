@@ -1,0 +1,24 @@
+
+
+.row
+  .medium-8.columns
+    h1 Pagetype: #{@pagetype.title}
+  .medium-4.columns
+    /! Add button for admins to add a new document(asset)
+    p = link_to "+ Add new page", new_asset_path(pagetype_id: @pagetype.id), class: "button expand"
+p
+  strong Author:&nbsp
+  = @pagetype.author
+
+p
+  strong Pagetype Title:&nbsp
+  = @pagetype.title
+/! show image grid of all assets in this pagetype
+ul class="small-block-grid-4"
+  - @pagetype.assets.each do |asset|
+    li = link_to image_tag(asset.upload.url), asset_path(asset)
+/! admin controls
+- if current_user.admin?
+  = link_to 'Edit', edit_pagetype_path(@pagetype)
+  '&nbsp|
+= link_to 'Back', pagetypes_path

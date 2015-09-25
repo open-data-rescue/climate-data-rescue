@@ -2,7 +2,7 @@ Weather::Application.routes.draw do
   
 
 
-  resources :collection_groups
+  resources :ledgers
 
 
   resources :transcriptions
@@ -11,7 +11,7 @@ Weather::Application.routes.draw do
   resources :annotations
 
 
-  resources :asset_collections
+  resources :pagetypes
 
 
   resources :assets
@@ -20,7 +20,7 @@ Weather::Application.routes.draw do
   resources :templates
 
 
-  resources :entities
+  resources :fieldgroups
 
 
   resources :fields
@@ -34,14 +34,14 @@ Weather::Application.routes.draw do
   root :to => "home#index"
   match 'about' => 'home#about', :via => [:get, :post]
   match 'transcribe' => 'transcriptions#new', :via => [:get, :post]
-  match 'collections' => 'asset_collections#index', :via => [:get, :post]
-  match 'collectiongroups' => 'collection_groups#index', :via => [:get, :post]
+  match 'collections' => 'pagetypes#index', :via => [:get, :post]
+  match 'ledgers' => 'ledgers#index', :via => [:get, :post]
   match 'users' => 'users#index', :via => [:get, :post]
   match 'users/:id' => 'users#show', :via => [:get, :post, :put]
   match 'users/:id/edit' => 'users#edit', :via => [:get, :post]
   match '/assets/:id/template' => 'assets#show', :via => [:get, :post]
   match 'new-user' => 'users#new', :via => [:get, :post]
-  match 'fieldGroups' => 'entities#index', :via => [:get, :post]
+  match 'fieldGroups' => 'fieldgroups#index', :via => [:get, :post]
   match 'fields' => 'fields#index', :via => [:get, :post]
   #match '/avatars/original/missing.png', :via => [:get, :post]
   resources :albums do

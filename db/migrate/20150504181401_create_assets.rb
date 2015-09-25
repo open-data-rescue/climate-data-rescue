@@ -8,7 +8,7 @@ class CreateAssets < ActiveRecord::Migration
       t.integer :order
       t.integer :template_id
       t.boolean :done
-      t.integer :classification_count
+      t.integer :classification_count, :null => false, :default => 0
 
       t.timestamps
     end

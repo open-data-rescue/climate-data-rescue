@@ -40,7 +40,8 @@ class User < ActiveRecord::Base
   end
   #Function called when user creates a new transcription, increments their contribution count for display and future ranking implementation. Called from transcriptions#new
   def increment_contributions
-    self.contributions += 1
+    contributions = self.contributions.nil? ? 0 : self.contributions
+    contributions += 1
     self.save
   end
 end

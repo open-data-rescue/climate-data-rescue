@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150511153216) do
+ActiveRecord::Schema.define(:version => 20150924231026) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -26,25 +26,12 @@ ActiveRecord::Schema.define(:version => 20150511153216) do
     t.datetime "updated_at",       :null => false
     t.integer  "transcription_id"
     t.integer  "asset_id"
-    t.integer  "entity_id"
+    t.integer  "fieldgroup_id"
   end
 
   add_index "annotations", ["asset_id"], :name => "index_annotations_on_asset_id"
-  add_index "annotations", ["entity_id"], :name => "index_annotations_on_entity_id"
+  add_index "annotations", ["fieldgroup_id"], :name => "index_annotations_on_entity_id"
   add_index "annotations", ["transcription_id"], :name => "index_annotations_on_transcription_id"
-
-  create_table "asset_collections", :force => true do |t|
-    t.string   "title"
-    t.string   "author"
-    t.string   "extern_ref"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-    t.integer  "collectionID"
-    t.integer  "collection_group_id"
-  end
-
-  add_index "asset_collections", ["collectionID"], :name => "index_asset_collections_on_collectionID"
-  add_index "asset_collections", ["collection_group_id"], :name => "index_asset_collections_on_collection_group_id"
 
   create_table "assets", :force => true do |t|
     t.integer  "height"
@@ -52,11 +39,12 @@ ActiveRecord::Schema.define(:version => 20150511153216) do
     t.integer  "display_width"
     t.string   "ext_ref"
     t.integer  "order"
+    t.integer  "template_id"
     t.boolean  "done"
-    t.integer  "classification_count"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
-    t.integer  "asset_collection_id"
+    t.integer  "classification_count", :default => 0, :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.integer  "pagetype_id"
     t.string   "upload_file_name"
     t.string   "upload_content_type"
     t.integer  "upload_file_size"
@@ -65,21 +53,11 @@ ActiveRecord::Schema.define(:version => 20150511153216) do
     t.string   "name"
   end
 
-  add_index "assets", ["asset_collection_id"], :name => "index_assets_on_asset_collection_id"
+  add_index "assets", ["pagetype_id"], :name => "index_assets_on_asset_collection_id"
+  add_index "assets", ["template_id"], :name => "index_assets_on_template_id"
   add_index "assets", ["transcription_id"], :name => "index_assets_on_transcription_id"
 
-  create_table "collection_groups", :force => true do |t|
-    t.string   "title"
-    t.string   "author"
-    t.string   "extern_ref"
-    t.integer  "asset_collection_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-  end
-
-  add_index "collection_groups", ["asset_collection_id"], :name => "index_collection_groups_on_asset_collection_id"
-
-  create_table "entities", :force => true do |t|
+  create_table "fieldgroups", :force => true do |t|
     t.string   "name"
     t.string   "description"
     t.string   "help"
@@ -93,7 +71,7 @@ ActiveRecord::Schema.define(:version => 20150511153216) do
     t.integer  "template_id"
   end
 
-  add_index "entities", ["template_id"], :name => "index_entities_on_template_id"
+  add_index "fieldgroups", ["template_id"], :name => "index_entities_on_template_id"
 
   create_table "fields", :force => true do |t|
     t.string   "name"
@@ -104,10 +82,34 @@ ActiveRecord::Schema.define(:version => 20150511153216) do
     t.text     "validations"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
-    t.integer  "entity_id"
+    t.integer  "fieldgroup_id"
   end
 
-  add_index "fields", ["entity_id"], :name => "index_fields_on_entity_id"
+  add_index "fields", ["fieldgroup_id"], :name => "index_fields_on_entity_id"
+
+  create_table "ledgers", :force => true do |t|
+    t.string   "title"
+    t.string   "author"
+    t.string   "extern_ref"
+    t.integer  "pagetype_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "ledgers", ["pagetype_id"], :name => "index_collection_groups_on_asset_collection_id"
+
+  create_table "pagetypes", :force => true do |t|
+    t.string   "title"
+    t.string   "author"
+    t.string   "extern_ref"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "pagetype_id"
+    t.integer  "ledger_id"
+  end
+
+  add_index "pagetypes", ["ledger_id"], :name => "index_asset_collections_on_collection_group_id"
+  add_index "pagetypes", ["pagetype_id"], :name => "index_asset_collections_on_collectionID"
 
   create_table "photos", :force => true do |t|
     t.integer  "album_id"

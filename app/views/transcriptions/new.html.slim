@@ -98,7 +98,7 @@ h2 New transcription
                   - index + 1
               - formIndex + 1
             - else
-              form class="transcription_form" transcriptionCount="#{Transcription.last.id}" entityId="#{entity.id}" assetId='#{@asset.id}'
+              form class="transcription_form" transcriptionCount="#{Transcription.all.any? ? Transcription.last.id : 1}" entityId="#{entity.id}" assetId='#{@asset.id}'
                 input type="hidden" name="Filename" value="#{@asset.name}"
                 input type="hidden" name="Field Group" value="#{entity.name}"
                 - if index == 0
@@ -122,4 +122,5 @@ h2 New transcription
     
     /! create the box that will act as the zoom window to display the full-sized image for easier image viewing. Currently accurately displays the contents of the document image that are directly under the bottom edge of the zoom window unless it is resized. Div background image set with the style tag (to get the URL from the current asset using ruby code) and scrolled using javascript
     div id="scribe_zoom_box" style="background-image: url('#{@asset.upload.url(:original)}'); background-repeat: no-repeat;" 
+      
       
