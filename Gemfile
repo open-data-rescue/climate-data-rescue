@@ -23,7 +23,6 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-
 #for user authentication
 gem 'devise', "3.2"
 gem 'cancan'
@@ -57,6 +56,8 @@ group :development do
   gem 'capistrano-rails',   '~> 1.1'
   gem 'capistrano3-puma'
   gem 'execjs'
+  #web server - better than WEBrick
+  gem 'thin'
 end
 
 group :production do
