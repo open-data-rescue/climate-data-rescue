@@ -4,12 +4,12 @@
 - [Introduction](#introduction)
 - [Data Model Overview](#data-model-overview)
   - [Asset](#asset)
-  - [Asset Collection](#assetcollection)
-  - [Collection Group](#collectiongroup)
+  - [Pagetype](#pagetype)
+  - [Ledger](#ledger)
   - [Transcription](#transcription)
   - [Annotation](#annotation)
   - [Template](#template)
-  - [Entity](#entity)
+  - [Fieldgroup](#fieldgroups)
   - [Field](#field)
   - [User](#user)
   - [Album and Photo](#album-and-photo)
@@ -47,12 +47,12 @@ It is recommended to use a programming-centric and language-agnostic text editor
 There are a number of models in ClimateDataRescue:
 
 - Asset (Document Page)
-- AssetCollection (Book)
-- CollectionGroup (Set of Books)
+- Pagetype (Book)
+- Ledger (Set of Books)
 - Transcription (Set of Annotations)
 - Annotation
-- Template (Groups of Entities)
-- Entity (Group of Fields)
+- Template (Groups of Fieldgroups)
+- Fieldgroup (Group of Fields)
 - Field 
 - User
 - Album (Collection of Photos)
@@ -60,13 +60,13 @@ There are a number of models in ClimateDataRescue:
 
 ### Asset
 
-Assets are the objects which you wish to have the user transcribe. They contain a link to the image file to be shown, a desired width to be displayed at and a template_id to be applied to them. The Template that Asset belongs to defines the Fields that can be transcribed.
+Assets are the objects which you wish to have the user transcribe (usually a ledger page). They contain a link to the image file to be shown, a desired width to be displayed at and a template_id to be applied to them. The Template that Asset belongs to defines the Fields that can be transcribed.
 
-Assets are organised in to asset_collections. These are collections of assets which the user will look through and transcribe. Assets must belong to an AssetCollection.
+Assets are organised in to pagetypes. These are collections of assets (pages) with the same layout, which the user will look through and transcribe. Assets must belong to an Pagetype.
 
 #### Relationships
 - has many: transcriptions
-- belongs to: template, asset collection
+- belongs to: template, pagetype
 
 #### Attributes
 - integer  "height"
@@ -78,7 +78,7 @@ Assets are organised in to asset_collections. These are collections of assets wh
 - integer  "classification_count"
 - datetime "created_at",           :null => false
 - datetime "updated_at",           :null => false
-- integer  "asset_collection_id"
+- integer  "pagetype_id"
 - string   "upload_file_name"
 - string   "upload_content_type"
 - integer  "upload_file_size"
@@ -87,13 +87,13 @@ Assets are organised in to asset_collections. These are collections of assets wh
 - integer  "transcription_id"
 - string   "name"
 
-### AssetCollection
+### Pagetype
 
 A simple grouping class that links Assets. This can be used to model a book (e.g. the logs in Old Weather).
 
 #### Relationships
 - has many: assets
-- belongs to: collection group
+- belongs to: ledger
 
 #### Attributes
 - string   "title"
@@ -101,21 +101,21 @@ A simple grouping class that links Assets. This can be used to model a book (e.g
 - string   "extern_ref"
 - datetime "created_at",          :null => false
 - datetime "updated_at",          :null => false
-- integer  "collectionID"
-- integer  "collection_group_id"
+- integer  "pagetype_id"
+- integer  "ledger_id"
 
-### CollectionGroup
+### Ledger
 
-A simple grouping class that links AssetCollections. This can be used to model a book set (set of book volumes).
+A simple grouping class that links Pagetypes. This can be used to model a book set (set of book volumes).
 
 #### Relationships
-- has many: asset collections
+- has many: pagetypes
 
 #### Attributes
 - string   "title"
 - string   "author"
 - string   "extern_ref"
-- integer  "asset_collection_id"
+- integer  "pagetype_id"
 - datetime "created_at",          :null => false
 - datetime "updated_at",          :null => false
 
@@ -125,7 +125,7 @@ These belong to User and Asset. A Transcription is the result of a user interact
 
 #### Relationships
 - has many: annotations
-- belongs to: asset, user, asset_collection
+- belongs to: asset, user, pagetype
 
 #### Attributes
 - text     "page_data"
@@ -136,10 +136,10 @@ These belong to User and Asset. A Transcription is the result of a user interact
 
 ### Annotation
 
-An Annotation belongs to a parent Transcription and has many Entities. The data attribute persists the content of the individual user entry (such as a name, position, date etc.)
+An Annotation belongs to a parent Transcription and has many Fieldgroups. The data attribute persists the content of the individual user entry (such as a name, position, date etc.)
 
 #### Relationships
-- belongs to: transcription, entity, asset
+- belongs to: transcription, fieldgroups, asset
 
 #### Attributes
 - text     "bounds"
@@ -148,14 +148,14 @@ An Annotation belongs to a parent Transcription and has many Entities. The data 
 - datetime "updated_at",       :null => false
 - integer  "transcription_id"
 - integer  "asset_id"
-- integer  "entity_id"
+- integer  "fieldgroups_id"
 
 ### Template
 
-A Template has many Assets and Entities and essentially defines what types (Fields) of records are to be collected from a given image (Asset).
+A Template has many Assets and Fieldgroups and essentially defines what types (Fields) of records are to be collected from a given image (Asset).
 
 #### Relationships
-- has many: assets, entities
+- has many: assets, fieldgroups
 - belongs to: asset
 
 #### Attributes
@@ -168,10 +168,10 @@ A Template has many Assets and Entities and essentially defines what types (Fiel
 
 ### Field
 
-A Field belongs to an Entity. A Field has a key which is used in the Annotation data hash. The 'kind' defines how the transcription field is rendered in the UI (currently text/select/date are supported).
+A Field belongs to an Fieldgroup. A Field has a key which is used in the Annotation data hash. The 'kind' defines how the transcription field is rendered in the UI (currently text/select/date are supported).
 
 #### Relationships
-- belongs to: entity
+- belongs to: fieldgroups
 
 #### Attributes
 - string   "name"
@@ -182,11 +182,11 @@ A Field belongs to an Entity. A Field has a key which is used in the Annotation 
 - text     "validations"
 - datetime "created_at",    :null => false
 - datetime "updated_at",    :null => false
-- integer  "entity_id"
+- integer  "fieldgroups_id"
 
-### Entity
+### Fieldgroup
 
-Entity belongs to Template and is composed of many Fields. An Entity might be something like 'position' which would be composed of two Fields: Latitude and Longitude.
+Fieldgroup belongs to Template and is composed of many Fields. An Fieldgroup might be something like 'position' which would be composed of two Fields: Latitude and Longitude.
 
 #### Relationships
 - has many: annotations, fields
