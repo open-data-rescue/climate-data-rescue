@@ -1,6 +1,7 @@
 class Asset < ActiveRecord::Base
   attr_accessible :classification_count, :display_width, :done, :ext_ref, :height, :order, :template_id, :width, :pagetype_id, :upload, :name, :template_id
   has_one :template, :through => :pagetype
+  has_one :ledger, :through => :pagetype
   belongs_to :pagetype
   has_many :transcriptions
 
