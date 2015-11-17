@@ -41,7 +41,7 @@ class TranscriptionsController < ApplicationController
     # set the attributes of the new transcription instance.
     @user = current_user
     get_or_assign_asset(params[:currentAsset])
-    @entities = @asset.template.entities.all
+    @fieldgroups = @asset.template.fieldgroups.all
     @transcription = Transcription.new
     
     
@@ -76,7 +76,7 @@ class TranscriptionsController < ApplicationController
         format.json { render json: @transcription, status: :created, location: @transcription }
       else
         format.html { render action: "new" }
-        format.json { render json: @transcription.errors, status: :unprocessable_entity }
+        format.json { render json: @transcription.errors, status: :unprocessable_fieldgroup }
       end
     end
   end

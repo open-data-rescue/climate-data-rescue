@@ -43,7 +43,7 @@ class FieldsController < ApplicationController
       @field = Field.new
       respond_to do |format|
         format.html # new.html.erb
-        format.json { render json: @asset_collection }
+        format.json { render json: @pagetype }
       end
     else
       redirect_to root_path, alert: 'Only administrators can modify fields!'
@@ -73,7 +73,7 @@ class FieldsController < ApplicationController
           format.json { render json: @field, status: :created, location: @field }
         else
           format.html { render action: "new" }
-          format.json { render json: @field.errors, status: :unprocessable_entity }
+          format.json { render json: @field.errors, status: :unprocessable_fieldgroup }
         end
       end
     else
@@ -94,7 +94,7 @@ class FieldsController < ApplicationController
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
-          format.json { render json: @field.errors, status: :unprocessable_entity }
+          format.json { render json: @field.errors, status: :unprocessable_fieldgroup }
         end
       end
     else

@@ -1,33 +1,33 @@
 
-h3 #{@entity.name} Details
-/! Show entity attribute information
+h3 #{@fieldgroup.name} Details
+/! Show fieldgroup attribute information
 p
   strong Name:
-  = @entity.name
+  = @fieldgroup.name
 p
   strong Description:
-  = @entity.description
+  = @fieldgroup.description
 p
   strong Help:
-  = @entity.help
+  = @fieldgroup.help
 p
   strong Resizable:
-  = @entity.resizable
+  = @fieldgroup.resizable
 p
   strong Width:
-  = @entity.width
+  = @fieldgroup.width
 p
   strong Height:
-  = @entity.height
+  = @fieldgroup.height
 p
   strong Bounds:
-  = @entity.bounds
+  = @fieldgroup.bounds
 p
   strong Zoom:
-  = @entity.zoom
+  = @fieldgroup.zoom
 
-/! show all the fields associated with this entity and their attribute information in a table
-h3 #{@entity.name} Fields
+/! show all the fields associated with this fieldgroup and their attribute information in a table
+h3 #{@fieldgroup.name} Fields
 
 table
   thead
@@ -40,7 +40,7 @@ table
       th Validations
 
   tbody
-    - @entity.fields.each do |field|
+    - @fieldgroup.fields.each do |field|
       tr
         td = link_to field.name, field
         td = field.field_key
@@ -49,8 +49,8 @@ table
         td = field.options
         td = field.validations
 
-= link_to 'Edit', edit_entity_path(@entity)
+= link_to 'Edit', edit_fieldgroup_path(@fieldgroup)
 '&nbsp|
-= link_to 'Delete', @entity, data: {:confirm => 'Are you sure?'}, :method => :delete
+= link_to 'Delete', @fieldgroup, data: {:confirm => 'Are you sure?'}, :method => :delete
 '&nbsp|
-= link_to 'Back', entities_path
+= link_to 'Back', fieldgroups_path

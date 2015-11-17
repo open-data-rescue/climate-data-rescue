@@ -70,7 +70,7 @@ class AssetsController < ApplicationController
         format.json { render json: @asset, status: :created, location: @asset }
       else
         format.html { render action: "new" }
-        format.json { render json: @asset.errors, status: :unprocessable_entity }
+        format.json { render json: @asset.errors, status: :unprocessable_fieldgroup }
       end
     end
   end
@@ -92,7 +92,7 @@ class AssetsController < ApplicationController
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @asset.errors, status: :unprocessable_entity }
+        format.json { render json: @asset.errors, status: :unprocessable_fieldgroup }
       end
     end
   end

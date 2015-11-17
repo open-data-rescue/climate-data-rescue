@@ -58,7 +58,7 @@ class AnnotationsController < ApplicationController
         format.json { render json: @annotation, status: :created, location: @annotation }
       else
         format.html { render action: "new" }
-        format.json { render json: @annotation.errors, status: :unprocessable_entity }
+        format.json { render json: @annotation.errors, status: :unprocessable_fieldgroup }
       end
     end
   end
@@ -75,7 +75,7 @@ class AnnotationsController < ApplicationController
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @annotation.errors, status: :unprocessable_entity }
+        format.json { render json: @annotation.errors, status: :unprocessable_fieldgroup }
       end
     end
   end

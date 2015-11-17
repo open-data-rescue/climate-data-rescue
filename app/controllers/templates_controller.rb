@@ -29,7 +29,7 @@ class TemplatesController < ApplicationController
       respond_to do |format|
         format.html
         format.json {
-          render :json => @asset.template.to_json(:include => { :entities => { :include => :fields }})
+          render :json => @asset.template.to_json(:include => { :fieldgroups => { :include => :fields }})
         }
       end
     else
@@ -76,7 +76,7 @@ class TemplatesController < ApplicationController
           format.json { render json: @template, status: :created, location: @template }
         else
           format.html { render action: "new" }
-          format.json { render json: @template.errors, status: :unprocessable_entity }
+          format.json { render json: @template.errors, status: :unprocessable_fieldgroup }
         end
       end
     else
@@ -97,7 +97,7 @@ class TemplatesController < ApplicationController
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
-          format.json { render json: @template.errors, status: :unprocessable_entity }
+          format.json { render json: @template.errors, status: :unprocessable_fieldgroup }
         end
       end
     else

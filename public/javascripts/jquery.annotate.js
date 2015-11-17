@@ -103,7 +103,7 @@ $.widget("ui.annotate", {
             }
         });
     },
-    _fieldgroups_name_for_id: function(id) {
+    _fieldgroup_name_for_id: function(id) {
         for (var i in this.options.template.fieldgroups) {
             //console.log("testing "+this.options.template.fieldgroups[i].id+" and "+id);
             if (this.options.template.fieldgroups[i].id == id) {
@@ -121,7 +121,7 @@ $.widget("ui.annotate", {
             var bounds = this.options.annotations[id].bounds;
             //console.log(this._denormaliseBounds(bounds));
 
-            this.options.annotations[id].kind = this._fieldgroups_name_for_id(this.options.annotations[id].fieldgroups_id);
+            this.options.annotations[id].kind = this._fieldgroup_name_for_id(this.options.annotations[id].fieldgroup_id);
 
             this._generateMarker(this._denormaliseBounds(bounds), id);
             if (this.options.onAnnotationAdded != null) {
@@ -422,16 +422,16 @@ $.widget("ui.annotate", {
         }
         return inputDiv.append(result);
     },
-    _selectFieldgroup: function(fieldgroupsName) {
+    _selectFieldgroup: function(fieldgroupName) {
         $("#scribe_tab_bar li").removeClass("scribe_selected_tab");
-        $("#scribe_tab_bar #scribe_tab_" + fieldgroupsName).addClass("scribe_selected_tab");
+        $("#scribe_tab_bar #scribe_tab_" + fieldgroupName).addClass("scribe_selected_tab");
         $(".scribe_annotation_input").hide();
-        $("#scribe_input_" + fieldgroupsName).show();
+        $("#scribe_input_" + fieldgroupName).show();
         $(".scribe_current_inputs").removeClass("scribe_current_inputs");
-        $("#scribe_input_" + fieldgroupsName + " .scribe_input_field").addClass("scribe_current_inputs");
+        $("#scribe_input_" + fieldgroupName + " .scribe_input_field").addClass("scribe_current_inputs");
         $(".scribe_input_field").show();
         $(".scribe_input_field").filter(".scribe_current_inputs");
-        this.changeHelp(fieldgroupsName);
+        this.changeHelp(fieldgroupName);
     },
     _switchFieldgroupType: function(event) {
         this._selectFieldgroup(event.data);
@@ -593,11 +593,11 @@ $.widget("ui.annotate", {
         var inputBar = $("<div id='scribe_input_bar'></div>");
         var self = this;
 
-        $.each(fieldgroups, function(fieldgroups_index, fieldgroups) {
-            var currentInputPane = $("<div id='scribe_input_" + fieldgroups.name.replace(/ /, "_") + "'></div>").addClass("scribe_annotation_input").hide();
-            $.each(fieldgroups.fields, function(field_index, field) {
+        $.each(fieldgroups, function(fieldgroup_index, fieldgroup) {
+            var currentInputPane = $("<div id='scribe_input_" + fieldgroup.name.replace(/ /, "_") + "'></div>").addClass("scribe_annotation_input").hide();
+            $.each(fieldgroup.fields, function(field_index, field) {
                 var current_field = self._generateField(field);
-                if (fieldgroups_index == 0) {
+                if (fieldgroup_index == 0) {
                     current_field.show();
                 } else {
                     current_field.hide();
@@ -609,9 +609,9 @@ $.widget("ui.annotate", {
         return inputBar;
     },
 
-    changeHelp: function(fieldgroups_name) {
+    changeHelp: function(fieldgroup_name) {
         $(".scribe_help_content").hide();
-        $("#scribe_help_" + fieldgroups_name).show();
+        $("#scribe_help_" + fieldgroup_name).show();
     },
     showHelp: function() {
         this.options.helpShowing = true;

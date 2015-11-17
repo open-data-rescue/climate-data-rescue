@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150924231026) do
+ActiveRecord::Schema.define(:version => 20150511153216) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -30,8 +30,21 @@ ActiveRecord::Schema.define(:version => 20150924231026) do
   end
 
   add_index "annotations", ["asset_id"], :name => "index_annotations_on_asset_id"
-  add_index "annotations", ["fieldgroup_id"], :name => "index_annotations_on_entity_id"
+  add_index "annotations", ["fieldgroup_id"], :name => "index_annotations_on_fieldgroup_id"
   add_index "annotations", ["transcription_id"], :name => "index_annotations_on_transcription_id"
+
+  create_table "pagetypes", :force => true do |t|
+    t.string   "title"
+    t.string   "author"
+    t.string   "extern_ref"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.integer  "pagetype_id"
+    t.integer  "ledger_id"
+  end
+
+  add_index "pagetypes", ["pagetype_id"], :name => "index_pagetypes_on_pagetype_id"
+  add_index "pagetypes", ["ledger_id"], :name => "index_pagetypes_on_ledger_id"
 
   create_table "assets", :force => true do |t|
     t.integer  "height"
@@ -53,9 +66,20 @@ ActiveRecord::Schema.define(:version => 20150924231026) do
     t.string   "name"
   end
 
-  add_index "assets", ["pagetype_id"], :name => "index_assets_on_asset_collection_id"
+  add_index "assets", ["pagetype_id"], :name => "index_assets_on_pagetype_id"
   add_index "assets", ["template_id"], :name => "index_assets_on_template_id"
   add_index "assets", ["transcription_id"], :name => "index_assets_on_transcription_id"
+
+  create_table "ledgers", :force => true do |t|
+    t.string   "title"
+    t.string   "author"
+    t.string   "extern_ref"
+    t.integer  "pagetype_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "ledgers", ["pagetype_id"], :name => "index_ledgers_on_pagetype_id"
 
   create_table "fieldgroups", :force => true do |t|
     t.string   "name"
@@ -71,7 +95,7 @@ ActiveRecord::Schema.define(:version => 20150924231026) do
     t.integer  "template_id"
   end
 
-  add_index "fieldgroups", ["template_id"], :name => "index_entities_on_template_id"
+  add_index "fieldgroups", ["template_id"], :name => "index_fieldgroups_on_template_id"
 
   create_table "fields", :force => true do |t|
     t.string   "name"
@@ -85,31 +109,7 @@ ActiveRecord::Schema.define(:version => 20150924231026) do
     t.integer  "fieldgroup_id"
   end
 
-  add_index "fields", ["fieldgroup_id"], :name => "index_fields_on_entity_id"
-
-  create_table "ledgers", :force => true do |t|
-    t.string   "title"
-    t.string   "author"
-    t.string   "extern_ref"
-    t.integer  "pagetype_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "ledgers", ["pagetype_id"], :name => "index_collection_groups_on_asset_collection_id"
-
-  create_table "pagetypes", :force => true do |t|
-    t.string   "title"
-    t.string   "author"
-    t.string   "extern_ref"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.integer  "pagetype_id"
-    t.integer  "ledger_id"
-  end
-
-  add_index "pagetypes", ["ledger_id"], :name => "index_asset_collections_on_collection_group_id"
-  add_index "pagetypes", ["pagetype_id"], :name => "index_asset_collections_on_collectionID"
+  add_index "fields", ["fieldgroup_id"], :name => "index_fields_on_fieldgroup_id"
 
   create_table "photos", :force => true do |t|
     t.integer  "album_id"

@@ -23,7 +23,7 @@ class UsersController < ApplicationController
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { redirect_to "/new-user", notice: 'User creation failed!' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_fieldgroup }
       end
     end
 
@@ -72,7 +72,7 @@ class UsersController < ApplicationController
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_fieldgroup }
       end
     end
     

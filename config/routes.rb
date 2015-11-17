@@ -34,7 +34,7 @@ Weather::Application.routes.draw do
   root :to => "home#index"
   match 'about' => 'home#about', :via => [:get, :post]
   match 'transcribe' => 'transcriptions#new', :via => [:get, :post]
-  match 'collections' => 'pagetypes#index', :via => [:get, :post]
+  match 'pagetypes' => 'pagetypes#index', :via => [:get, :post]
   match 'ledgers' => 'ledgers#index', :via => [:get, :post]
   match 'users' => 'users#index', :via => [:get, :post]
   match 'users/:id' => 'users#show', :via => [:get, :post, :put]

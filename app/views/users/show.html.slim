@@ -5,7 +5,7 @@
     p 
       strong Email:&nbsp 
       = @user.email
-    p #{@user.contributions} paged transcribed
+    p #{@user.contributions} pages transcribed
     p = @user.about
     - if @user.id == current_user.id || current_user.admin?
       /! if current user is admin or this is their user page, show links to edit the user information

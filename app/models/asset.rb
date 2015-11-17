@@ -50,7 +50,7 @@ class Asset < ActiveRecord::Base
       self.save
     end
   end
-  #sets a scope for all transcribable documents to be those that are not done
+  #sets a scope for all transcribable pages to be those that are not done
   scope :transcribeable, where(done: false)
 
   

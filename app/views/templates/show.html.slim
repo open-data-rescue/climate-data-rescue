@@ -33,19 +33,19 @@ table
       th
 
   tbody
-    - @template.entities.each do |entity|
+    - @template.fieldgroups.each do |fieldgroup|
       tr
-        td = link_to entity.name, entity
-        td = entity.description
-        td = entity.help
-        td = entity.resizable
-        td = entity.width
-        td = entity.height
-        td = link_to 'Show', entity
-        td = link_to 'Edit', edit_entity_path(entity)
-        td = link_to 'Destroy', entity, data: {:confirm => 'Are you sure?'}, :method => :delete 
+        td = link_to fieldgroup.name, fieldgroup
+        td = fieldgroup.description
+        td = fieldgroup.help
+        td = fieldgroup.resizable
+        td = fieldgroup.width
+        td = fieldgroup.height
+        td = link_to 'Show', fieldgroup
+        td = link_to 'Edit', edit_fieldgroup_path(fieldgroup)
+        td = link_to 'Destroy', fieldgroup, data: {:confirm => 'Are you sure?'}, :method => :delete 
 
-h3 Documents Using #{@template.name}
+h3 Pages Using #{@template.name}
 /!shows image grid of all assets using this template
 ul.small-block-grid-4  
   - @assets.each do |asset|

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class FieldgroupsControllerTest < ActionController::TestCase
   setup do
-    @fieldgroups = fieldgroups(:one)
+    @fieldgroup = fieldgroups(:one)
   end
 
   test "should get index" do
@@ -16,32 +16,32 @@ class FieldgroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create fieldgroups" do
+  test "should create fieldgroup" do
     assert_difference('Fieldgroup.count') do
-      post :create, fieldgroups: { bounds: @fieldgroups.bounds, description: @fieldgroups.description, height: @fieldgroups.height, help: @fieldgroups.help, name: @fieldgroups.name, resizable: @fieldgroups.resizable, width: @fieldgroups.width, zoom: @fieldgroups.zoom }
+      post :create, fieldgroup: { bounds: @fieldgroup.bounds, description: @fieldgroup.description, height: @fieldgroup.height, help: @fieldgroup.help, name: @fieldgroup.name, resizable: @fieldgroup.resizable, width: @fieldgroup.width, zoom: @fieldgroup.zoom }
     end
 
-    assert_redirected_to fieldgroups_path(assigns(:fieldgroups))
+    assert_redirected_to fieldgroup_path(assigns(:fieldgroup))
   end
 
-  test "should show fieldgroups" do
-    get :show, id: @fieldgroups
+  test "should show fieldgroup" do
+    get :show, id: @fieldgroup
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @fieldgroups
+    get :edit, id: @fieldgroup
     assert_response :success
   end
 
-  test "should update fieldgroups" do
-    put :update, id: @fieldgroups, fieldgroups: { bounds: @fieldgroups.bounds, description: @fieldgroups.description, height: @fieldgroups.height, help: @fieldgroups.help, name: @fieldgroups.name, resizable: @fieldgroups.resizable, width: @fieldgroups.width, zoom: @fieldgroups.zoom }
-    assert_redirected_to fieldgroups_path(assigns(:fieldgroups))
+  test "should update fieldgroup" do
+    put :update, id: @fieldgroup, fieldgroup: { bounds: @fieldgroup.bounds, description: @fieldgroup.description, height: @fieldgroup.height, help: @fieldgroup.help, name: @fieldgroup.name, resizable: @fieldgroup.resizable, width: @fieldgroup.width, zoom: @fieldgroup.zoom }
+    assert_redirected_to fieldgroup_path(assigns(:fieldgroup))
   end
 
-  test "should destroy fieldgroups" do
+  test "should destroy fieldgroup" do
     assert_difference('Fieldgroup.count', -1) do
-      delete :destroy, id: @fieldgroups
+      delete :destroy, id: @fieldgroup
     end
 
     assert_redirected_to fieldgroups_path
