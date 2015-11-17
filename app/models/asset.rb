@@ -54,7 +54,7 @@ class Asset < ActiveRecord::Base
   scope :transcribeable, where(done: false)
 
   
-  #constant that determines the # of transcriptions an asset must ahve to be marked done
+  #constant that determines the # of transcriptions an asset must have to be marked done
   CLASSIFICATION_COUNT = 5
 
   def classification_limit
