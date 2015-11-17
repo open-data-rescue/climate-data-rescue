@@ -9,7 +9,7 @@
   - [Transcription](#transcription)
   - [Annotation](#annotation)
   - [Template](#template)
-  - [Fieldgroup](#fieldgroups)
+  - [Fieldgroup](#fieldgroup)
   - [Field](#field)
   - [User](#user)
   - [Album and Photo](#album-and-photo)
@@ -46,23 +46,23 @@ It is recommended to use a programming-centric and language-agnostic text editor
 
 There are a number of models in ClimateDataRescue:
 
-- Asset (Document Page)
-- Pagetype (Book)
-- Ledger (Set of Books)
-- Transcription (Set of Annotations)
-- Annotation
-- Template (Groups of Fieldgroups)
-- Fieldgroup (Group of Fields)
-- Field 
+- Asset (one ledger page)
+- Pagetype (set of pages with one template)
+- Ledger (set of pagetypes)
+- Transcription (set of annotations - one complete attempt at transcribing a page)
+- Annotation (one attempt to transcribe a part of the page)
+- Template (set of fieldgroups)
+- Fieldgroup (group of fields)
+- Field (a specific input variable - e.g. maximum temperature)
 - User
-- Album (Collection of Photos)
+- Album (collection of photos)
 - Photo
 
 ### Asset
 
-Assets are the objects which you wish to have the user transcribe (usually a ledger page). They contain a link to the image file to be shown, a desired width to be displayed at and a template_id to be applied to them. The Template that Asset belongs to defines the Fields that can be transcribed.
+Assets are the objects which you wish to have the user transcribe. They contain a link to the image file to be shown, a desired width to be displayed at and a template_id to be applied to them. The Template that Asset belongs to defines the Fields that can be transcribed.
 
-Assets are organised in to pagetypes. These are collections of assets (pages) with the same layout, which the user will look through and transcribe. Assets must belong to an Pagetype.
+Assets are organised in to pagetypes. These are collections of assets which the user will look through and transcribe. Assets must belong to an Pagetype.
 
 #### Relationships
 - has many: transcriptions
@@ -139,7 +139,7 @@ These belong to User and Asset. A Transcription is the result of a user interact
 An Annotation belongs to a parent Transcription and has many Fieldgroups. The data attribute persists the content of the individual user entry (such as a name, position, date etc.)
 
 #### Relationships
-- belongs to: transcription, fieldgroups, asset
+- belongs to: transcription, fieldgroup, asset
 
 #### Attributes
 - text     "bounds"
@@ -148,7 +148,7 @@ An Annotation belongs to a parent Transcription and has many Fieldgroups. The da
 - datetime "updated_at",       :null => false
 - integer  "transcription_id"
 - integer  "asset_id"
-- integer  "fieldgroups_id"
+- integer  "fieldgroup_id"
 
 ### Template
 
@@ -171,7 +171,7 @@ A Template has many Assets and Fieldgroups and essentially defines what types (F
 A Field belongs to an Fieldgroup. A Field has a key which is used in the Annotation data hash. The 'kind' defines how the transcription field is rendered in the UI (currently text/select/date are supported).
 
 #### Relationships
-- belongs to: fieldgroups
+- belongs to: fieldgroup
 
 #### Attributes
 - string   "name"
@@ -182,7 +182,7 @@ A Field belongs to an Fieldgroup. A Field has a key which is used in the Annotat
 - text     "validations"
 - datetime "created_at",    :null => false
 - datetime "updated_at",    :null => false
-- integer  "fieldgroups_id"
+- integer  "fieldgroup_id"
 
 ### Fieldgroup
 
