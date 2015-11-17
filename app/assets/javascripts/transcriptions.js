@@ -165,7 +165,7 @@ and http://jsfiddle.net/aasFx/ */
                  {
                     action: '/annotations',
                     class: "new_annotation",
-                    id: "new_annotation" + annotationCount,/
+                    id: "new_annotation" + annotationCount,
                     method: 'post'
                  }
     );
