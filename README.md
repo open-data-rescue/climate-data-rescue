@@ -8,7 +8,6 @@
   - [Ledger](#ledger)
   - [Transcription](#transcription)
   - [Annotation](#annotation)
-  - [Template](#template)
   - [Fieldgroup](#fieldgroup)
   - [Field](#field)
   - [User](#user)
@@ -26,7 +25,7 @@
 ## Introduction
 
 ClimateDataRescue is a framework for generating crowd sourced transcriptions of image-based documents.
-It provides a system for generating templates which combined with a magnification tool guide a user through the process of transcribing an asset (an image). 
+It provides a system for generating page templates which combined with a magnification tool guide a user through the process of transcribing an asset (an image). 
 
 While this application was developed for the purpose of transcribing images of historical weather observation logs, it can be adapted for use in transcribing other kinds of documents as well
 
@@ -35,7 +34,7 @@ This application was built from scratch as a new rails app but modeled after Zoo
 - Because this app uses Devise, it does not require a seperate authentication server to be set up for user authentication and can run as a standalone product.
 - Developers can add other modules using gems, and as long as they support Devise for authentication the user can have a single-sign-on experience across the different parts of the app. Examples include ActiveAdmin or forum modules.
 - This app uses ActiveRecord with SQLite3 for its development database, with support for PostgreSQL and MySQL. Scribe uses mongo-mapper with Mongo-DB.
-- This app uses rails methods in the transcriptions#new .slim view to build the transcription box and programmatically populate it with forms for each field group associated with the asset's template. Scribe handles new transcription functiality entirely in a jquery plugin that the development team built.
+- This app uses rails methods in the transcriptions#new .slim view to build the transcription box and programmatically populate it with forms for each field group associated with the asset's pagetype. Scribe handles new transcription functiality entirely in a jquery plugin that the development team built.
 - This app handles annotation creation using forms created using javascript/JQUERY and rails methods. I created and adapted a number of javascript functions to handle annotation data scructure and handling. Scribe handle annotations using the same custom jquery plugin they developed that I mentioned above
 - This app allows for the creation, editing and deletion of instances of all its models through an admin interface, making it easy for an admin user to add new instances without any programming experience needed. Scribe creates model instances manually using a sample_weather_bootstrap.rake file.
 - Using ActiveRecord makes it easy for developers to add new model types and add new fields to model tables. Developers can generate scaffolds for new model types or create new migrations to add columns to model tables from the terminal using rails g scaffold and rake g migration, respectively.
@@ -46,27 +45,27 @@ It is recommended to use a programming-centric and language-agnostic text editor
 
 There are a number of models in ClimateDataRescue:
 
-- Asset (one ledger page)
-- Pagetype (set of pages with one template)
-- Ledger (set of pagetypes)
-- Transcription (set of annotations - one complete attempt at transcribing a page)
-- Annotation (one attempt to transcribe a part of the page)
-- Template (set of fieldgroups)
-- Fieldgroup (group of fields)
-- Field (a specific input variable - e.g. maximum temperature)
+- Asset: one ledger page
+- Pagetype: set of Assets (pages) with the same layout, which is composed of multiple field groups
+- Ledger: set of Pagetypes
+- Transcription: set of annotations - one complete attempt at transcribing a page
+- Annotation: one attempt to transcribe a part of the page
+- Fieldgroup: group of fields
+- Field: a specific input variable - e.g. maximum temperature
 - User
-- Album (collection of photos)
-- Photo
+- Album: collection of photos
+- Photo: uploaded by a user
 
 ### Asset
 
-Assets are the objects which you wish to have the user transcribe. They contain a link to the image file to be shown, a desired width to be displayed at and a template_id to be applied to them. The Template that Asset belongs to defines the Fields that can be transcribed.
-
-Assets are organised in to pagetypes. These are collections of assets which the user will look through and transcribe. Assets must belong to an Pagetype.
+-Assets are the objects (pages) which you wish to have the user transcribe. 
+-They contain a link to the image file to be shown, a desired width to be displayed at and they belong to a Pagetype. 
+-The Pagetype that an Asset belongs to defines the Fields (organized into Fieldgroups) that can be transcribed for that Asset. 
+-Each Asset has many Transcriptions, which are users' attempts to transcribe the page.
 
 #### Relationships
 - has many: transcriptions
-- belongs to: template, pagetype
+- belongs to: pagetype
 
 #### Attributes
 - integer  "height"
@@ -83,30 +82,28 @@ Assets are organised in to pagetypes. These are collections of assets which the 
 - string   "upload_content_type"
 - integer  "upload_file_size"
 - datetime "upload_updated_at"
-- integer  "template_id"
-- integer  "transcription_id"
 - string   "name"
 
 ### Pagetype
 
-A simple grouping class that links Assets. This can be used to model a book (e.g. the logs in Old Weather).
+-A simple grouping class that links Assets (pages of a ledger) with the same layout (Fieldgroups). Most Ledgers have two Pagetypes, side A and side B.
+-Has attributes for title (e.g. "Side A"), description, default zoom level and the associated ledger.
 
 #### Relationships
-- has many: assets
+- has many: assets, fieldgroups
 - belongs to: ledger
 
 #### Attributes
 - string   "title"
-- string   "author"
-- string   "extern_ref"
+- string   "description"
+- float    "default_zoom"
 - datetime "created_at",          :null => false
 - datetime "updated_at",          :null => false
-- integer  "pagetype_id"
 - integer  "ledger_id"
 
 ### Ledger
 
-A simple grouping class that links Pagetypes. This can be used to model a book set (set of book volumes).
+-A simple grouping class that links Pagetypes. This can be used to model a book (set of Assets (pages), organized by Pagetype).
 
 #### Relationships
 - has many: pagetypes
@@ -121,11 +118,12 @@ A simple grouping class that links Pagetypes. This can be used to model a book s
 
 ### Transcription
 
-These belong to User and Asset. A Transcription is the result of a user interacting with an Asset. It is composed of many Annotations.
+-A Transcription is the result of a user interacting with an Asset. It is composed of many Annotations.
+-Essentially one attempt to transcribe a whole page.
 
 #### Relationships
 - has many: annotations
-- belongs to: asset, user, pagetype
+- belongs to: asset, user
 
 #### Attributes
 - text     "page_data"
@@ -136,10 +134,13 @@ These belong to User and Asset. A Transcription is the result of a user interact
 
 ### Annotation
 
-An Annotation belongs to a parent Transcription and has many Fieldgroups. The data attribute persists the content of the individual user entry (such as a name, position, date etc.)
+-An Annotation belongs to a parent Transcription and has many Fieldgroups.
+-Each annotation made for a Transcription can be thought of as entering one "row" of data.
+-Each annotation is made for one Fieldgroup (collection of fields).
+-The data attribute persists the content of the individual user entry (such as a name, position, date etc.)
 
 #### Relationships
-- belongs to: transcription, fieldgroup, asset
+- belongs to: transcription, fieldgroup
 
 #### Attributes
 - text     "bounds"
@@ -150,25 +151,10 @@ An Annotation belongs to a parent Transcription and has many Fieldgroups. The da
 - integer  "asset_id"
 - integer  "fieldgroup_id"
 
-### Template
-
-A Template has many Assets and Fieldgroups and essentially defines what types (Fields) of records are to be collected from a given image (Asset).
-
-#### Relationships
-- has many: assets, fieldgroups
-- belongs to: asset
-
-#### Attributes
-- string   "name"
-- string   "description"
-- string   "project"
-- float    "default_zoom"
-- datetime "created_at",   :null => false
-- datetime "updated_at",   :null => false
-
 ### Field
 
-A Field belongs to an Fieldgroup. A Field has a key which is used in the Annotation data hash. The 'kind' defines how the transcription field is rendered in the UI (currently text/select/date are supported).
+-A Field belongs to an Fieldgroup. A Field has a key which is used in the Annotation data hash.
+-The 'kind' defines how the transcription field is rendered in the UI (currently text/select/date are supported).
 
 #### Relationships
 - belongs to: fieldgroup
@@ -186,11 +172,15 @@ A Field belongs to an Fieldgroup. A Field has a key which is used in the Annotat
 
 ### Fieldgroup
 
-Fieldgroup belongs to Template and is composed of many Fields. An Fieldgroup might be something like 'position' which would be composed of two Fields: Latitude and Longitude.
+-Fieldgroup belongs to Pagetype and is composed of many Fields.
+-Fieldgroups represent different collections of data on a page.
+-When a user wants to make an annotation, they will select a fieldgroup to use, which will then generate input fields for that section of the page.
+-Each Pagetype will usually have at least two fieldgroups, one for information at the top of the page (such as the date/week, location and name of the person who made the recording), and one for the actual rows of data.
+-Pagetypes with more complex layouts (e.g. ledger I page 1) will have more fieldgroups, because the fields of data on the page are grouped with more complexity.
 
 #### Relationships
 - has many: annotations, fields
-- belongs to: template
+- belongs to: pagetype
 
 #### Attributes
 - string   "name"
@@ -203,11 +193,11 @@ Fieldgroup belongs to Template and is composed of many Fields. An Fieldgroup mig
 - float    "zoom"
 - datetime "created_at",  :null => false
 - datetime "updated_at",  :null => false
-- integer  "template_id"
+- integer  "pagetype_id"
 
 ### User
 
-The user producing the Transcriptions.
+-The user producing the Transcriptions.
 
 #### Relationships
 - has many: transcriptions
@@ -239,7 +229,9 @@ The user producing the Transcriptions.
 
 ### Album and Photo
 
-Albums are a collection of photos with metadata. Photos contain an image upload and metadata such as filename. These models are unused for the main part of the application but are included for future use. They could be used to create galleries of photos that relate to the project such as historical photos taken by scientists at weather observatory stations.
+-Albums are a collection of photos with metadata. Photos contain an image upload and metadata such as filename.
+-These models are unused for the main part of the application but are included for future use. 
+-They could be used to create galleries of photos that relate to the project such as historical photos taken by scientists at weather observatory stations.
 
 #### Album Attributes
 - string   "name"
