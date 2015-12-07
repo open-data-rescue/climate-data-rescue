@@ -17,9 +17,6 @@ Weather::Application.routes.draw do
   resources :assets
 
 
-  resources :templates
-
-
   resources :fieldgroups
 
 
@@ -39,7 +36,6 @@ Weather::Application.routes.draw do
   match 'users' => 'users#index', :via => [:get, :post]
   match 'users/:id' => 'users#show', :via => [:get, :post, :put]
   match 'users/:id/edit' => 'users#edit', :via => [:get, :post]
-  match '/assets/:id/template' => 'assets#show', :via => [:get, :post]
   match 'new-user' => 'users#new', :via => [:get, :post]
   match 'fieldGroups' => 'fieldgroups#index', :via => [:get, :post]
   match 'fields' => 'fields#index', :via => [:get, :post]

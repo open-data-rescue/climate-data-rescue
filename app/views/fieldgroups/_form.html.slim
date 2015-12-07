@@ -6,7 +6,7 @@
         - @fieldgroup.errors.full_messages.each do |message|
           li = message
   = f.error_notification
-  = f.association :template, include_blank: false
+  = f.association :pagetype, include_blank: false
   .form-inputs
     = f.input :name
     = f.input :description

@@ -3,7 +3,6 @@ class Transcription < ActiveRecord::Base
   attr_accessible :page_data
   belongs_to :asset
   belongs_to :user
-  belongs_to :pagetype
   has_many :annotations
   
 

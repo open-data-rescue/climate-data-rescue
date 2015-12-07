@@ -41,7 +41,7 @@ class TranscriptionsController < ApplicationController
     # set the attributes of the new transcription instance.
     @user = current_user
     get_or_assign_asset(params[:currentAsset])
-    @fieldgroups = @asset.template.fieldgroups.all
+    @fieldgroups = @asset.pagetype.fieldgroups.all
     @transcription = Transcription.new
     
     

@@ -31,9 +31,9 @@ $.widget("ui.annotate", {
     _create: function() {
         var self = this;
         if (this.options.initalFieldgroup == null) {
-            this.options.initalFieldgroup = this.options.template.fieldgroups[0].name.replace(/ /, "_");
+            this.options.initalFieldgroup = this.options.pagetype.fieldgroups[0].name.replace(/ /, "_");
         }
-
+ 
 
 
         this.element.css("width", this.options.assetScreenWidth)
@@ -104,10 +104,10 @@ $.widget("ui.annotate", {
         });
     },
     _fieldgroup_name_for_id: function(id) {
-        for (var i in this.options.template.fieldgroups) {
-            //console.log("testing "+this.options.template.fieldgroups[i].id+" and "+id);
-            if (this.options.template.fieldgroups[i].id == id) {
-                return this.options.template.fieldgroups[i].name.replace(/ /, "_");
+        for (var i in this.options.pagetype.fieldgroups) {
+            //console.log("testing "+this.options.pagetype.fieldgroups[i].id+" and "+id);
+            if (this.options.pagetype.fieldgroups[i].id == id) {
+                return this.options.pagetype.fieldgroups[i].name.replace(/ /, "_");
             }
         }
         return nil;
@@ -493,8 +493,8 @@ $.widget("ui.annotate", {
         annotationBox.css("cursor", "move");
 
         var topBar = $("<div id ='scribe_top_bar'></div>");
-        var tabBar = this._generateTabBar(this.options.template.fieldgroups);
-        var help = this._generateHelp(this.options.template.fieldgroups);
+        var tabBar = this._generateTabBar(this.options.pagetype.fieldgroups);
+        var help = this._generateHelp(this.options.pagetype.fieldgroups);
 
         topBar.append(tabBar);
         topBar.append(help);
@@ -513,7 +513,7 @@ $.widget("ui.annotate", {
         topBar.append(helpButton);
         topBar.append(closeButton);
         var bottomArea = $("<div id='scribe_bottom_area'></div>");
-        var inputBar = this._generateInputs(this.options.template.fieldgroups);
+        var inputBar = this._generateInputs(this.options.pagetype.fieldgroups);
         bottomArea.append(inputBar);
         bottomArea.append($("<input type='submit' value='save'>").addClass("button").click(function(e) {
             self._addAnnotation(e)

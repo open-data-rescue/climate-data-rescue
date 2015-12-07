@@ -11,7 +11,6 @@ class Ability
     can :manage, Annotation
     can :manage, Pagetype
     can :manage, Field
-    can :manage, Template
     can :manage, Ledger
   end
 end

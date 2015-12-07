@@ -5,7 +5,6 @@ table
     tr
       th Thumbnail
       th Pagetype
-      th Template
       th Filename
       th Height
       th Width
@@ -23,7 +22,6 @@ table
       tr
         td = link_to image_tag(asset.upload.url(:thumb)), asset_path(asset)
         td = link_to asset.pagetype.title, asset.pagetype
-        td = link_to asset.template.name, asset.template
         td = asset.name
         td = asset.height
         td = asset.width

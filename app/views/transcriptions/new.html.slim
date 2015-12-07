@@ -44,7 +44,7 @@ h2 New transcription
   /! Pass this div the value of the current authenticity token for use in building the new forms with javascript for each annotation
   .row id="annotateResults" token="#{form_authenticity_token}"
     h4 Annotations
-  /! build transcription box and programatically populate it with tabs and forms for each fieldgroup associated with the template of the current asset to be transcribed  
+  /! build transcription box and programatically populate it with tabs and forms for each fieldgroup associated with the pagetype of the current asset to be transcribed  
   div id="scribe_annotation_box"
     div id="scribe_transcription_area" style="height: 130px; width:820px;"
       /! Builds the top half of the annotaiton box containg the prompt, close button and tabs
