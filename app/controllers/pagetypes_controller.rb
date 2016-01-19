@@ -92,8 +92,6 @@ class PagetypesController < ApplicationController
     #@pagetype is a variable containing an instance of the "pagetype.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
     if current_user.admin?
       @pagetype = Pagetype.find(params[:id])
-
-      #@pagetype.author = current_user.email
       #respond_with @pagetype if @pagetype.save
       
       respond_to do |format|

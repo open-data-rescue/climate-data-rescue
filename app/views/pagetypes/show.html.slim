@@ -6,9 +6,6 @@
   .medium-4.columns
     /! Add button for admins to add a new page(asset)
     p = link_to "+ Add new page", new_asset_path(pagetype_id: @pagetype.id), class: "button expand"
-p
-  strong Author:&nbsp
-  = @pagetype.author
 
 p
   strong Pagetype Title:&nbsp

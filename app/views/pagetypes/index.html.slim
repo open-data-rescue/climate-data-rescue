@@ -4,8 +4,6 @@ table
   thead
     tr
       th Title
-      th Author
-      th External URL
       th
       - if current_user.admin?
         th
@@ -15,8 +13,6 @@ table
     - @pagetypes.each do |pagetype|
       tr
         td = link_to pagetype.title, pagetype
-        td = pagetype.author
-        td = pagetype.extern_ref
         td = link_to 'Show', pagetype
         - if current_user.admin?
           td = link_to 'Edit', edit_pagetype_path(pagetype)

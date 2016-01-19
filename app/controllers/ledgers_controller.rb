@@ -67,8 +67,6 @@ class LedgersController < ApplicationController
   def update
     #@ledger is a variable containing an instance of the "ledger.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
     @ledger = Ledger.find(params[:id])
-
-    @ledger.author = current_user.email
     respond_with @ledger if @ledger.save
     
   end
