@@ -13,7 +13,6 @@ gem 'jquery-ui-rails', '~> 5.0.3'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'foundation-rails', '~> 5.4.5.0'
   gem 'foundation-icons-sass-rails'
@@ -22,6 +21,11 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
 end
+
+#boostrap stuff
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'sass-rails', '>= 3.2'
+gem 'autoprefixer-rails', '5.2.1'
 
 #for user authentication
 gem 'devise', "3.2"
@@ -44,17 +48,14 @@ gem "paperclip", "~> 4.2"
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
 # Deploy with Capistrano
-# gem 'capistrano'
 group :development do
   gem 'capistrano',         '~> 3.1'
   gem 'capistrano-rvm'
   gem 'capistrano-bundler', '~> 1.1.2'
   gem 'capistrano-rails',   '~> 1.1'
   gem 'capistrano3-puma'
+  
   gem 'execjs'
   #web server - better than WEBrick
   gem 'thin'

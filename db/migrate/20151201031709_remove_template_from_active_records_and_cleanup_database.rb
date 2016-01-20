@@ -3,13 +3,13 @@ class RemoveTemplateFromActiveRecordsAndCleanupDatabase < ActiveRecord::Migratio
     
 # ******** I had to comment all this in order to get the next migration to work
     
-    #drop_table :templates
+    drop_table :templates
     
-    #add_column :pagetypes, :default_zoom, :float
-    #add_column :pagetypes, :description, :string
-    #remove_column :pagetypes, :author
-    #remove_column :pagetypes, :extern_ref
-    #remove_column :pagetypes, :pagetype_id
+    add_column :pagetypes, :default_zoom, :float
+    add_column :pagetypes, :description, :string
+    remove_column :pagetypes, :author
+    remove_column :pagetypes, :extern_ref
+    remove_column :pagetypes, :pagetype_id
     
     #remove_column :assets, :template_id
     #remove_column :assets, :pagetype_id

@@ -1,6 +1,6 @@
-class CreatePagetypes < ActiveRecord::Migration
+class CreateAssetCollections < ActiveRecord::Migration
   def change
-    create_table :pagetypes do |t|
+    create_table :asset_collections do |t|
       t.string :title
       t.string :author
       t.string :extern_ref

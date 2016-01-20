@@ -1,6 +1,6 @@
-class CreateFieldgroups < ActiveRecord::Migration
+class CreateEntities < ActiveRecord::Migration
   def change
-    create_table :fieldgroups do |t|
+    create_table :entities do |t|
       t.string :name
       t.string :description
       t.string :help

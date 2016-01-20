@@ -1,7 +1,7 @@
 class AddUploadToAsset < ActiveRecord::Migration
   def change
-  	add_column :assets, :pagetype_id, :integer
-  	add_index :assets, :pagetype_id
+  	add_column :assets, :asset_collection_id, :integer
+  	add_index :assets, :asset_collection_id
 
   end
   def self.up
