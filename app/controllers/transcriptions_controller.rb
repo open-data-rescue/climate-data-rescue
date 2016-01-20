@@ -7,7 +7,9 @@ class TranscriptionsController < ApplicationController
   # GET /transcriptions
   # GET /transcriptions.json
   def index
-    #@transcriptions is the variable containing all instances of the "transcription.rb" model passed to the transcription view "index.html.slim" (project_root/transcriptions) and is used to populate the page with information about each transcription using @transcriptions.each (an iterative loop).
+    #@transcriptions is the variable containing all instances of the "transcription.rb" model passed to 
+    #the transcription view "index.html.slim" (project_root/transcriptions) and is used to populate the 
+    #page with information about each transcription using @transcriptions.each (an iterative loop).
     if current_user.admin?
       @transcriptions = Transcription.all
     else
@@ -18,9 +20,11 @@ class TranscriptionsController < ApplicationController
   # GET /transcriptions/transcription_id
   # GET /transcriptions/transcription_id.json
   def show
-    #@transcription is a variable containing an instance of the "transcription.rb" model. It is passed to the transcription view "show.html.slim" (project_root/transcriptions/transcription_id) and is used to populate the page with information about the transcription instance.
+    # @transcription is a variable containing an instance of the "transcription.rb" model. 
+    # It is passed to the transcription view "show.html.slim" (project_root/transcriptions/transcription_id)
+    # and is used to populate the page with information about the transcription instance.
     @transcription = Transcription.find(params[:id])
-   # @asset = @transcription.asset
+    # @asset = @transcription.asset
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @transcription }
@@ -30,10 +34,14 @@ class TranscriptionsController < ApplicationController
   # GET /transcriptions/new
   # GET /transcriptions/new.json
   def new
-    #@transcription is a variable containing an instance of the "transcription.rb" model. It is passed to the transcription view "new.html.slim" (project_root/transcriptions/new) and is used to populate the page with information about the transcription instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new transcription instance.
+    # @transcription is a variable containing an instance of the "transcription.rb" model.
+    # It is passed to the transcription view "new.html.slim" (project_root/transcriptions/new)
+    # and is used to populate the page with information about the transcription instance.
+    # "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to 
+    # set the attributes of the new transcription instance.
     @user = current_user
     get_or_assign_asset(params[:currentAsset])
-    @entities = @asset.template.entities.all
+    @fieldgroups = @asset.pagetype.fieldgroups.all
     @transcription = Transcription.new
     
     
@@ -41,7 +49,11 @@ class TranscriptionsController < ApplicationController
 
   # GET /transcriptions/transcription_id/edit
   def edit
-    #@transcription is a variable containing an instance of the "transcription.rb" model. It is passed to the transcription view "edit.html.slim" (project_root/transcriptions/edit) and is used to populate the page with information about the transcription instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent transcription instance.
+    # @transcription is a variable containing an instance of the "transcription.rb" model. 
+    # It is passed to the transcription view "edit.html.slim" (project_root/transcriptions/edit)
+    # and is used to populate the page with information about the transcription instance.
+    # "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to
+    # set the attributes of the curent transcription instance.
     @transcription = Transcription.find(params[:id])
     @asset = @transcription.asset
     @user = current_user
@@ -50,11 +62,13 @@ class TranscriptionsController < ApplicationController
   # POST /transcriptions
   # POST /transcriptions.json
   def create
-    #@transcription is a variable containing an instance of the "transcription.rb" model created with data passed in the params of the "new.html.slim" form submit action.
+    # @transcription is a variable containing an instance of the "transcription.rb" model 
+    # created with data passed in the params of the "new.html.slim" form submit action.
     @transcription = Transcription.new(params[:transcription])
-    #on new transcription creation, this function is called on the transcription asset to update it's transcription count. Once it reaches 5, the asset is marked as "done"
+    # on new transcription creation, this function is called on the transcription asset to 
+    # update it's transcription count. Once it reaches 5, the asset is marked as "done"
     @transcription.asset.increment_classification_count
-    #increments current user's contribution count with each new transcription created by them
+    # increments current user's contribution count with each new transcription created by them
     current_user.increment_contributions
     respond_to do |format|
       if @transcription.save
@@ -62,7 +76,7 @@ class TranscriptionsController < ApplicationController
         format.json { render json: @transcription, status: :created, location: @transcription }
       else
         format.html { render action: "new" }
-        format.json { render json: @transcription.errors, status: :unprocessable_entity }
+        format.json { render json: @transcription.errors, status: :unprocessable_fieldgroup }
       end
     end
   end
@@ -70,7 +84,8 @@ class TranscriptionsController < ApplicationController
   # PUT /transcriptions/transcription_id
   # PUT /transcriptions/transcription_id.json
   def update
-    #@transcription is a variable containing an instance of the "transcription.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
+    # @transcription is a variable containing an instance of the "transcription.rb" model 
+    # with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
     transcription = Transcription.find(params[:id])
 
      logger.error "count not find transcription to update" unless transcription
@@ -88,7 +103,8 @@ class TranscriptionsController < ApplicationController
   # DELETE /transcriptions/transcription_id
   # DELETE /transcriptions/transcription_id.json
   def destroy
-    #this function is called to delete the instance of "transcription.rb" identified by the transcription_id passed to the destroy function when it was called
+    # this function is called to delete the instance of "transcription.rb" identified by 
+    # the transcription_id passed to the destroy function when it was called
     if current_user.admin?
       @transcription = Transcription.find(params[:id])
       @transcription.destroy
@@ -101,7 +117,8 @@ class TranscriptionsController < ApplicationController
       redirect_to transcription_path(params[:id]), alert: 'Only administrators can delete transcriptions!'
     end
   end
-  #this function gets a random asset for display on the new transcription page if one has not been set by selecting "Transcribe" on an asset's show page
+  # this function gets a random asset for display on the new transcription page 
+  # if one has not been set by selecting "Transcribe" on an asset's show page
   def get_or_assign_asset(currentAsset)
     if currentAsset.present?
       @asset = Asset.find(currentAsset)

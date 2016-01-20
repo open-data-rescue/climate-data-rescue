@@ -9,7 +9,6 @@ table
   thead
     tr
       th Group
-      th Template
       th Name
       th Height
       th Width
@@ -23,8 +22,7 @@ table
   tbody
     
     tr
-      td = link_to @asset.asset_collection.title, @asset.asset_collection
-      td = link_to @asset.template.name, @asset.template
+      td = link_to @asset.pagetype.title, @asset.pagetype
       td = @asset.name
       td = @asset.height
       td = @asset.width

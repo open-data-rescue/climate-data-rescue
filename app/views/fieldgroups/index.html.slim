@@ -1,0 +1,35 @@
+h3 Field Groups
+/! List all fieldgroups and their attribute information in a table
+table
+  thead
+    tr
+      th Name
+      th Description
+      th Help
+      th Resizable
+      th Width
+      th Height
+      th Bounds
+      th Zoom
+      th
+      th
+      th
+
+  tbody
+    - @fieldgroups.each do |fieldgroup|
+      tr
+        td = link_to fieldgroup.name, fieldgroup
+        td = fieldgroup.description
+        td = fieldgroup.help
+        td = fieldgroup.resizable
+        td = fieldgroup.width
+        td = fieldgroup.height
+        td = fieldgroup.bounds
+        td = fieldgroup.zoom
+        td = link_to 'Show', fieldgroup
+        td = link_to 'Edit', edit_fieldgroup_path(fieldgroup)
+        td = link_to 'Destroy', fieldgroup, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Group of Fields', new_fieldgroup_path

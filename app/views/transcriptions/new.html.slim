@@ -15,8 +15,7 @@ h2 New transcription
   .medium-12.columns
     .medium-4.columns
       h4 Collection Info
-      p Name: #{@asset.asset_collection.title}
-      p Author: #{@asset.asset_collection.author}
+      p Name: #{@asset.pagetype.title}
     /! New Transcription Submission form
     .medium-3.columns 
       /! Form to create new transcription with hidden fields to associate it with the transcribed asset and current user
@@ -44,7 +43,7 @@ h2 New transcription
   /! Pass this div the value of the current authenticity token for use in building the new forms with javascript for each annotation
   .row id="annotateResults" token="#{form_authenticity_token}"
     h4 Annotations
-  /! build transcription box and programatically populate it with tabs and forms for each entity associated with the template of the current asset to be transcribed  
+  /! build transcription box and programatically populate it with tabs and forms for each fieldgroup associated with the pagetype of the current asset to be transcribed  
   div id="scribe_annotation_box"
     div id="scribe_transcription_area" style="height: 130px; width:820px;"
       /! Builds the top half of the annotaiton box containg the prompt, close button and tabs
@@ -55,42 +54,42 @@ h2 New transcription
             /! when the user clicks the close button, hide the annotation box div
             a onclick="$('#scribe_annotation_box').hide();" close
         ul id="scribe_tab_bar"
-          /! Build the tabs with each entity name
-          - @entities.each_with_index do |entity, index|
+          /! Build the tabs with each fieldgroup name
+          - @fieldgroups.each_with_index do |fieldgroup, index|
             
             - if index == 0
               
-              li id="scribe_tab_#{entity.name}" class="scribe_tab" divID="scribe_input_#{entity.name}" = entity.name
+              li id="scribe_tab_#{fieldgroup.name}" class="scribe_tab" divID="scribe_input_#{fieldgroup.name}" = fieldgroup.name
             
             - else
-              li id="scribe_tab_#{entity.name}" class="scribe_tab" divID="scribe_input_#{entity.name}" = entity.name
+              li id="scribe_tab_#{fieldgroup.name}" class="scribe_tab" divID="scribe_input_#{fieldgroup.name}" = fieldgroup.name
             - index + 1
-      /! Builds the bottom half of the annotation box with the forms and fields for each entity to be transcribed
+      /! Builds the bottom half of the annotation box with the forms and fields for each fieldgroup to be transcribed
       div id="scribe_bottom_area"
         div id="scribe_input_bar"
           /! Users have to click on a tab to begin transcribing. There was an issue with the JSON grabber not being able to find the current form if the ID 'currentForm' was not added on tab click (with the tab switching function)
           p id="formInstructions" Click on a tab to begin
-          - @entities.each_with_index do |entity, index, formIndex|
+          - @fieldgroups.each_with_index do |fieldgroup, index, formIndex|
             - if formIndex == 0
-              /! forms get attributes containing the current # of transcriptions and id of the entity they relate to for passing javascript uisng jquery selectors
-              form class="transcription_form" transcriptionCount="#{Transcription.last.id}" entityId="#{entity.id}"
+              /! forms get attributes containing the current # of transcriptions and id of the fieldgroup they relate to for passing javascript uisng jquery selectors
+              form class="transcription_form" transcriptionCount="#{Transcription.last.id}" fieldgroupId="#{fieldgroup.id}"
                 /! hidden fields to include in the captured JSON data but not viewable to the user. Helps keep track of which asset and which group of fields were transcribed.
                 input type="hidden" name="Filename" value="#{@asset.name}"
-                input type="hidden" name="Field Group" value="#{entity.name}"
+                input type="hidden" name="Field Group" value="#{fieldgroup.name}"
                 - if index == 0
                   /! By default, each form is hidden and the user sees only the instructions paragraph until they click on a tab
-                  div id="scribe_input_#{entity.name}" class="scribe_annotation_input DisplayNone"
-                    /! Programatically populate the form with input fields corresponding to each field linked to the current entity. In the future, this will create input fields of the type specified in the :type attribute of the field model instance using the options specified it its :options attribute. Currently creates text fields with no data validation
-                    - entity.fields.each do |field|
+                  div id="scribe_input_#{fieldgroup.name}" class="scribe_annotation_input DisplayNone"
+                    /! Programatically populate the form with input fields corresponding to each field linked to the current fieldgroup. In the future, this will create input fields of the type specified in the :type attribute of the field model instance using the options specified it its :options attribute. Currently creates text fields with no data validation
+                    - fieldgroup.fields.each do |field|
                       .scribe_input_field.scribe_current_inputs style=("display: block;")
                         p.scribe_input_label = field.name
                         input index="#{field.name}" kind="text" name="#{field.name}" placeholder="--" size="10" /
                     input.ok_button type="submit" value="" /
                   - index + 1
                 - else
-                  div id="scribe_input_#{entity.name}" class="scribe_annotation_input DisplayNone"
+                  div id="scribe_input_#{fieldgroup.name}" class="scribe_annotation_input DisplayNone"
                     
-                    - entity.fields.each do |field|
+                    - fieldgroup.fields.each do |field|
                       .scribe_input_field.scribe_current_inputs style=("display: block;")
                         p.scribe_input_label = field.name
                         input index="#{field.name}" kind="text" name="#{field.name}" placeholder="--" size="10" /
@@ -98,28 +97,29 @@ h2 New transcription
                   - index + 1
               - formIndex + 1
             - else
-              form class="transcription_form" transcriptionCount="#{Transcription.last.id}" entityId="#{entity.id}" assetId='#{@asset.id}'
+              form class="transcription_form" transcriptionCount="#{Transcription.all.any? ? Transcription.last.id : 1}" fieldgroupId="#{fieldgroup.id}" assetId='#{@asset.id}'
                 input type="hidden" name="Filename" value="#{@asset.name}"
-                input type="hidden" name="Field Group" value="#{entity.name}"
+                input type="hidden" name="Field Group" value="#{fieldgroup.name}"
                 - if index == 0
-                  div id="scribe_input_#{entity.name}" class="scribe_annotation_input DisplayNone"
+                  div id="scribe_input_#{fieldgroup.name}" class="scribe_annotation_input DisplayNone"
                     
-                    - entity.fields.each do |field|
+                    - fieldgroup.fields.each do |field|
                       .scribe_input_field.scribe_current_inputs style=("display: block;")
                         p.scribe_input_label = field.name
                         input index="#{field.name}" kind="text" name="#{field.name}" placeholder="--" size="10" /
                     input.ok_button type="submit" value="" /
                   - index + 1
                 - else
-                  div id="scribe_input_#{entity.name}" class="scribe_annotation_input DisplayNone"
+                  div id="scribe_input_#{fieldgroup.name}" class="scribe_annotation_input DisplayNone"
                     
-                    - entity.fields.each do |field|
+                    - fieldgroup.fields.each do |field|
                       .scribe_input_field.scribe_current_inputs style=("display: block;")
                         p.scribe_input_label = field.name
                         input index="#{field.name}" kind="text" name="#{field.name}" placeholder="--" size="10" /
                     input.ok_button type="submit" value="" /
                   - index + 1
     
-    /! create the box that will act as the zoom window to display the full-sized image for easier image viewing. Currently accurately displays the contents of the document image that are directly under the bottom edge of the zoom window unless it is resized. Div background image set with the style tag (to get the URL from the current asset using ruby code) and scrolled using javascript
+    /! create the box that will act as the zoom window to display the full-sized image for easier image viewing. Currently accurately displays the contents of the page image that are directly under the bottom edge of the zoom window unless it is resized. Div background image set with the style tag (to get the URL from the current asset using ruby code) and scrolled using javascript
     div id="scribe_zoom_box" style="background-image: url('#{@asset.upload.url(:original)}'); background-repeat: no-repeat;" 
+      
       

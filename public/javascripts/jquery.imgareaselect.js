@@ -267,7 +267,7 @@ $.imgAreaSelect = function (img, options) {
 
     function areaMouseDown(event) {
 				// When we start the drag then we need to hide the transcription box
-				$('#transcription_entity_'+$box.attr('id')).hide();
+				$('#transcription_fieldgroup_'+$box.attr('id')).hide();
         if (event.which != 1) return false;
 
         adjust();
@@ -291,12 +291,12 @@ $.imgAreaSelect = function (img, options) {
             $(document).mousemove(movingMouseMove)
                 .one('mouseup', function () {
                     options.onSelectEnd(img, getSelection());
-										// Move the transcription entity and show it
-										$('#transcription_entity_'+$box.attr('id')).css('background', 'red');
-										$('#transcription_entity_'+$box.attr('id')).css('top', selection.y2);
-										$('#transcription_entity_'+$box.attr('id')).css('left', selection.x1);
-										$('#transcription_entity_'+$box.attr('id')).css('width', selection.x2-selection.x1 + 'px');
-										$('#transcription_entity_'+$box.attr('id')).show();
+										// Move the transcription fieldgroup and show it
+										$('#transcription_fieldgroup_'+$box.attr('id')).css('background', 'red');
+										$('#transcription_fieldgroup_'+$box.attr('id')).css('top', selection.y2);
+										$('#transcription_fieldgroup_'+$box.attr('id')).css('left', selection.x1);
+										$('#transcription_fieldgroup_'+$box.attr('id')).css('width', selection.x2-selection.x1 + 'px');
+										$('#transcription_fieldgroup_'+$box.attr('id')).show();
                     $(document).unbind('mousemove', movingMouseMove);
                     $box.mousemove(areaMouseMove);
                 });

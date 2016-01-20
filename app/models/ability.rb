@@ -6,12 +6,11 @@ class Ability
     can :manage, Album
     can :manage, Photo
     can :manage, Transcription
-    can :manage, Entity
+    can :manage, Fieldgroup
     can :manage, Asset
     can :manage, Annotation
-    can :manage, AssetCollection
+    can :manage, Pagetype
     can :manage, Field
-    can :manage, Template
-    can :manage, CollectionGroup
+    can :manage, Ledger
   end
 end

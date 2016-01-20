@@ -1,15 +1,15 @@
 h3 Transcription #{@transcription.id}
 /!Get the name and load the image of the asset associated with the transcription
-h5 Document: #{@transcription.asset.name}
+h5 Page: #{@transcription.asset.name}
 = image_tag @transcription.asset.upload.url
 /! Display the information of all the annotations associated with this transcription in table format
 h4 Annotations
 table
   thead
     tr
-      th Document Name
+      th Page Name
       th Field Group
-      th Content (Document Name, Field Group, Field Names:Values)
+      th Content (Page Name, Field Group, Field Names:Values)
       th
       th
       th
@@ -18,7 +18,7 @@ table
     - @transcription.annotations.each do |a|
       tr
         td = a.asset.name
-        td = a.entity.name
+        td = a.fieldgroup.name
         td = a.data
         td = link_to 'Show', a
         td = link_to 'Edit', edit_annotation_path(a)

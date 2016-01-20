@@ -1,7 +1,6 @@
 class Asset < ActiveRecord::Base
-  attr_accessible :classification_count, :display_width, :done, :ext_ref, :height, :order, :template_id, :width, :asset_collection_id, :upload, :name, :template_id
-  belongs_to :template, foreign_key: "template_id"
-  belongs_to :asset_collection
+  attr_accessible :classification_count, :display_width, :done, :ext_ref, :height, :order, :width, :pagetype_id, :upload, :name
+  belongs_to :pagetype
   has_many :transcriptions
 
   #handles the image uplaod association
@@ -49,11 +48,11 @@ class Asset < ActiveRecord::Base
       self.save
     end
   end
-  #sets a scope for all transcribable documents to be those that are not done
+  #sets a scope for all transcribable pages to be those that are not done
   scope :transcribeable, where(done: false)
 
   
-  #constant that determines the # of transcriptions an asset must ahve to be marked done
+  #constant that determines the # of transcriptions an asset must have to be marked done
   CLASSIFICATION_COUNT = 5
 
   def classification_limit
@@ -67,7 +66,7 @@ class Asset < ActiveRecord::Base
   end
   #on new transcription creation, increment the classification count of its associated asset
   def increment_classification_count
-    count = self.classification_count
+    count = self.classification_count.nil? ? 0 : self.classification_count
     count += 1
     self.classification_count = count
     if self.classification_count == CLASSIFICATION_COUNT

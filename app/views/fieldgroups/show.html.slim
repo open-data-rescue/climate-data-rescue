@@ -1,0 +1,56 @@
+
+h3 #{@fieldgroup.name} Details
+/! Show fieldgroup attribute information
+p
+  strong Name:
+  = @fieldgroup.name
+p
+  strong Description:
+  = @fieldgroup.description
+p
+  strong Help:
+  = @fieldgroup.help
+p
+  strong Resizable:
+  = @fieldgroup.resizable
+p
+  strong Width:
+  = @fieldgroup.width
+p
+  strong Height:
+  = @fieldgroup.height
+p
+  strong Bounds:
+  = @fieldgroup.bounds
+p
+  strong Zoom:
+  = @fieldgroup.zoom
+
+/! show all the fields associated with this fieldgroup and their attribute information in a table
+h3 #{@fieldgroup.name} Fields
+
+table
+  thead
+    tr
+      th Name
+      th Field key
+      th Kind
+      th Initial value
+      th Options
+      th Validations
+
+  tbody
+    - @fieldgroup.fields.each do |field|
+      tr
+        td = link_to field.name, field
+        td = field.field_key
+        td = field.kind
+        td = field.initial_value
+        td = field.options
+        td = field.validations
+
+= link_to 'Edit', edit_fieldgroup_path(@fieldgroup)
+'&nbsp|
+= link_to 'Delete', @fieldgroup, data: {:confirm => 'Are you sure?'}, :method => :delete
+'&nbsp|
+= link_to 'Back', fieldgroups_path

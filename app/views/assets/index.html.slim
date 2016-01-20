@@ -1,11 +1,10 @@
-h3 Current Documents
+h3 Current Pages
 /! List all assets and their info in a table
 table
   thead
     tr
       th Thumbnail
-      th Collection
-      th Template
+      th Pagetype
       th Filename
       th Height
       th Width
@@ -22,8 +21,7 @@ table
     - @assets.each do |asset|
       tr
         td = link_to image_tag(asset.upload.url(:thumb)), asset_path(asset)
-        td = link_to asset.asset_collection.title, asset.asset_collection
-        td = link_to asset.template.name, asset.template
+        td = link_to asset.pagetype.title, asset.pagetype
         td = asset.name
         td = asset.height
         td = asset.width
@@ -38,4 +36,4 @@ table
 
 br
 
-= link_to 'New Document', new_asset_path
+= link_to 'New Page', new_asset_path
