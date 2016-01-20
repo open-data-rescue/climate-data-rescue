@@ -22,7 +22,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-#boostrap stuff
+#bootstrap stuff
+gem 'sprockets-rails', '2.3.3'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'sass-rails', '>= 3.2'
 gem 'autoprefixer-rails', '5.2.1'
