@@ -210,7 +210,7 @@ DEPENDENCIES
   sass-rails (>= 3.2)
   simple_form
   slim-rails
-  sprockets-rails
+  sprockets-rails (= 2.3.3)
   thin
   uglifier (>= 1.0.3)
   will_paginate (~> 3.0.6)
