@@ -1,5 +1,5 @@
 class Pagetype < ActiveRecord::Base
-  attr_accessible :default_zoom, :description, :title, :ledger_id
+  #attr_accessible :default_zoom, :description, :title, :ledger_id
   #TODO: remove :author and :extern_ref attributes from database and attr_accessible and update the form views for pagetype
   has_many :assets
   has_many :fieldgroups
