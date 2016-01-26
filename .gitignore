@@ -23,3 +23,6 @@ log
 config/database.yml
 log/development.log
 .gitignore
+.settings
+log
+tmp
