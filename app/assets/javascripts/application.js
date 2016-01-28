@@ -13,16 +13,15 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require foundation
 //= require twitter/bootstrap
 //= require_tree .
 
-$(function(){ 
-  $(document).foundation();
-  fade_out_system_alerts();
-});
-
-$(function(){ $(document).foundation(); });
+// $(function(){ 
+  // $(document).foundation();
+  // fade_out_system_alerts();
+// });
+// 
+// $(function(){ $(document).foundation(); });
 
 $(document).ready(function(){
 	
