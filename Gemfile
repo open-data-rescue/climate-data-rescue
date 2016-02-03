@@ -21,13 +21,13 @@ group :assets do
   gem 'uglifier', '~> 2.7.2' #'>= 1.0.3'
   
   #bootstrap stuff
-    #gem 'sprockets-rails', '~> 3.0.0' #'2.3.3'
-    #gem 'bootstrap-sass', '~> 3.3.6'
+  gem 'sprockets-rails', '~> 3.0.0' #'2.3.3'
+  gem 'bootstrap-sass', '~> 3.3.6'
   gem 'sass-rails', '5.0.4' #'>= 3.2'
-    #gem 'autoprefixer-rails', '5.2.1'
-  gem "therubyracer"
-  gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-  gem "twitter-bootstrap-rails"
+  gem 'autoprefixer-rails', '5.2.1'
+    #gem "therubyracer"
+    #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+    #gem "twitter-bootstrap-rails"
 end
 
 
