@@ -7,3 +7,43 @@
 */
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "users";
+
+
+.main-app {
+  padding-bottom:200px;
+}
+
+.footer {
+  background:#ffffff;
+  height:200px;
+  position:center;
+  bottom:0;
+}
+
+.btn-signup:link {color:white}
+.btn-signup:active {color:white}
+.btn-signup:visited {color:white}
+.btn-signup:hover {color:white}
+
+.sidebar-url:link {color:black}
+.sidebar-url:active {color:black}
+.sidebar-url:visited {color:black}
+.sidebar-url:hover {color:black}
+
+.partner-logo {
+  height: 80px;
+}
+
+.footer-copyright {
+  text-align: center;
+}
+
+.footer-nav {
+    display: inline-block;
+    float: none;
+}
+
+.footer-nav-collapse {
+    text-align: center;
+}

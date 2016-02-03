@@ -4,7 +4,9 @@ html lang="en"
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"
     meta name="viewport" content="width=device-width, initial-scale=1.0"
-    title= content_for?(:title) ? yield(:title) : "Weather"
+    title
+      = "DRAW | "
+      = yield(:title)
     = csrf_meta_tags
     = stylesheet_link_tag "application", :media => "all"
     = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
@@ -19,56 +21,38 @@ html lang="en"
 
 
   body
-    .navbar.navbar-default.navbar-static-top
-        .container
-          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          = link_to "Weather", root_path, :class => "navbar-brand"
-          .navbar-collapse.collapse.navbar-responsive-collapse
-            ul.nav.navbar-nav
-              li = link_to "Home", root_path
-              li = link_to "About", "/about"
-              /! These elements are only displayed if a user is logged in. Certain are only displayed if not an admin
-              - if user_signed_in? && current_user.admin!=true
-                li = link_to "Pagetypes", "/pagetypes"
-              - if user_signed_in?
-                - if current_user.admin != true
-                  li = link_to "Transcribe", new_transcription_path
-                li = link_to "Users", "/users"
-                /! Current user profile page. 'show.html.slim' view for user
-                li = link_to current_user.name, "/users/#{current_user.id}"
-              /! Login/out buttons depending on login status
-              - if user_signed_in?
-                li = link_to "Logout", logout_path
-              - else
-                li = link_to "Login", login_path
-          - if user_signed_in? && current_user.admin?
-            .navbar-collapse.collapse.navbar-responsive-collapse
-              ul.nav.navbar-nav
-                /! Links to model instances to modify. Takes admin users to the 'index.html.slim' view for each model type. Users can be modified from the main nav bar 'Users' link
-                li = link_to "Transcriptions", transcriptions_path
-                li = link_to "Annotations", annotations_path
-                li = link_to "Field Groups", fieldgroups_path
-                li = link_to "Fields", fields_path
-                li = link_to "Ledgers", ledgers_path
-                li = link_to "Pagetypes", pagetypes_path
-                li = link_to "Pages", assets_path
 
-    .container
+    .container.top-nav
+      = render 'application/nav'
+
+    .container.main-app
       .row
-        .col-lg-9
-          = bootstrap_flash
+        .col-sm-9
           = yield
-        .col-lg-3
+        .col-sm-3
           .well.sidebar-nav
-            h3 Sidebar
-            ul.nav.nav-list
-              li.nav-header Sidebar
-              li= link_to "Link 1", "/path1"
-              li= link_to "Link 2", "/path2"
-              li= link_to "Link 3", "/path3"
-
+            - if user_signed_in?
+              h3 Actions
+              ul.nav.nav-list
+                li = link_to "New Transcription", new_transcription_path, :class => "sidebar-url"
+                li = link_to "My Transcriptions", "#", :class => "sidebar-url"
+                li = link_to "Tutorial", "#", :class => "sidebar-url"
+                li = link_to "Log out", "/logout", :class => "sidebar-url"
+            - else
+              h3 Get Started
+              ul.nav.nav-list
+                li = link_to "Log in", "/login", :class => "sidebar-url"
+                li = link_to "Sign up", "/users/sign_up", :class => "sidebar-url"
+    
+    .container.footer
       footer
-        p &copy; Company 2016
+        .row
+          .col-sm-5.p-test
+            img.partner-logo.geothink-logo src= "#{image_path 'Geothink_Logo_NT.png'}" target="" alt="" align="right"
+          .col-sm-7.p-test
+            img.partner-logo.mcgill-logo src= "#{image_path 'McGill_logoT.gif'}" target="" alt="" align="left"
+        br
+        .row
+          = render 'application/footer'
+        .row
+          p.footer-copyright &copy; DRAW 2016

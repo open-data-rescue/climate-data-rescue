@@ -1,3 +1,5 @@
+- provide(:title, "Register")
+
 h2 Sign up
 = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   = f.error_notification
@@ -9,6 +11,6 @@ h2 Sign up
     = f.input :about
     = f.input :avatar, as: :file
   .form-actions
-    = f.button :submit, "Sign up"
+    = f.button :submit, "Register"
 = render "devise/shared/links"
  

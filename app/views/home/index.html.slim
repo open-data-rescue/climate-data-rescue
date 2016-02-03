@@ -1,14 +1,39 @@
 /! main site index page. This is the front page of the site and content adjusts depending on if a user is logged in or not and can display different things for admins too! Add whatever content you want here!
 /!In the future, this page could show the user assets that were created since the user's last login. Assets have a "created_at" datetime attribute and users have a "last_sign_in_at" datetime attribute
-.row
-	.col-md-12
-		h1 HOME
-		- if user_signed_in?
-		  .panel
-		    p Welcome #{current_user.email}!
-		    p Last login: #{current_user.last_sign_in_at}
-		    - if current_user.admin?
-		      p You are an administrator
+- provide(:home, "active")
+- provide(:title, "Home")
+
+.jumbotron
+    .container
+        - if user_signed_in?
+		    
+		        p Welcome #{current_user.name}!
+		        p Last login: #{current_user.last_sign_in_at}
+		        - if current_user.admin?
+		            p You are an administrator
 		- else
-		  .panel
-		    p Welcome, please #{link_to "Login", login_path}.
+		    
+		        h1 Welcome to DRAW!
+				p This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.
+            	p
+            		a.btn.btn-primary.btn-lg.btn-signup href="/users/sign_up" role="button"  Sign up &raquo;
+
+- if !user_signed_in?
+	.row
+	  .col-md-4
+	    h2 Heading
+	    p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+	    p
+	      a.btn.btn-default href="#" role="button"  View details &raquo;
+	  .col-md-4
+	    h2 Heading
+	    p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+	    p
+	      a.btn.btn-default href="#" role="button"  View details &raquo;
+	  .col-md-4
+	    h2 Heading
+	    p Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+	    p
+	      a.btn.btn-default href="#" role="button"  View details &raquo;
+
+
