@@ -21,9 +21,8 @@
 tmp
 log
 config/database.yml
-log/development.log
-.gitignore
-.settings
+/.settings
 log
 tmp
-log
+log/**
+tmp/**
