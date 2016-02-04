@@ -1,3 +1,7 @@
+- provide(:user, "active")
+- provide(:profile, "active")
+- provide(:title, "#{@user.name}'s profile")
+
 .row
   .medium-8.columns
     /! Show user information. Pulled dynamically from the user model instance
@@ -13,6 +17,6 @@
       '&nbsp|
       = link_to 'Back', "/users"
   .medium-4.columns
-    p = image_tag @user.avatar.url
+    p = image_tag @user.avatar.url, :class => "user-avatar"
 
 
