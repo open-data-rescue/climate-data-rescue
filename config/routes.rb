@@ -29,13 +29,18 @@ Weather::Application.routes.draw do
   post 'create_user' => 'users#create', as: :create_user
 
   root :to => "home#index"
+  match 'home' => 'home#index', :via => [:get, :post]
   match 'about' => 'home#about', :via => [:get, :post]
+  match 'science' => 'home#science', :via => [:get, :post]
+  match 'faq' => 'home#faq', :via => [:get, :post]
+  match 'contact' => 'home#contact', :via => [:get, :post]
   match 'transcribe' => 'transcriptions#new', :via => [:get, :post]
   match 'pagetypes' => 'pagetypes#index', :via => [:get, :post]
   match 'ledgers' => 'ledgers#index', :via => [:get, :post]
   match 'users' => 'users#index', :via => [:get, :post]
-  match 'users/:id' => 'users#show', :via => [:get, :post, :put]
+  match 'users/:id/profile' => 'users#show', :via => [:get, :post, :put]
   match 'users/:id/edit' => 'users#edit', :via => [:get, :post]
+  match 'users/:id/stats' => 'users#stats', :via => [:get, :post]
   match 'new-user' => 'users#new', :via => [:get, :post]
   match 'fieldGroups' => 'fieldgroups#index', :via => [:get, :post]
   match 'fields' => 'fields#index', :via => [:get, :post]

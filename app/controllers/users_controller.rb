@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
   def create
     #@user is a variable containing an instance of the "user.rb" model created with data passed in the params of the "new.html.slim" form submit action.
-    @user = User.new(params[:user])
+    @user = User.new(users_params)
 
     respond_to do |format|
       if @user.save
@@ -61,13 +61,23 @@ class UsersController < ApplicationController
       redirect_to root_path, alert: 'Only administrators can modify users!'
     end
   end
+  
+  def stats
+    #@user is a variable containing an instance of the "user.rb" model. It is passed to the user view "show.html.slim" (project_root/users/user_id) and is used to populate the page with information about the user instance.
+    @user = User.find(params[:id])
+
+    # respond_to do |format|
+      # format.html # show.html.erb
+      # format.json { render json: @user }
+    # end
+  end
 
   def update
     #@user is a variable containing an instance of the "user.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
     @user = User.find(params[:id])
 
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(users_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else
@@ -87,6 +97,12 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def users_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :remember_me, :name, :admin, :avatar, :about, :contributions, :rank)
   end
 
 end

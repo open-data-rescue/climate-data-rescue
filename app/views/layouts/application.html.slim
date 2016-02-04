@@ -1,34 +1,58 @@
-/!Main layout for the site. Add sitewide head and body elements here such as custom fonts
 doctype html
-== "<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->"
-== "<!--[if lt IE 7 ]> <html class=\"ie6\" lang=\"en\"> <![endif]-->"
-== "<!--[if IE 7 ]>    <html class=\"ie7\" lang=\"en\"> <![endif]-->"
-== "<!--[if IE 8 ]>    <html class=\"ie8\" lang=\"en\"> <![endif]-->"
-== "<!--[if IE 9 ]>    <html class=\"ie9\" lang=\"en\"> <![endif]-->"
-== "<!--[if (gt IE 9)|!(IE)]><!--> <html lang=\"en\"> <!--<![endif]-->"
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    title
+      = "DRAW | "
+      = yield(:title)
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", :media => "all"
+    = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
+    = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114'
+    = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
+    = favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
+    = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
+    = javascript_include_tag "application"
+    /! Le HTML5 shim, for IE6-8 support of HTML elements
+    /[if lt IE 9]
+      = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"
 
-head
-  meta charset="utf-8"
 
-  / Uncomment to make IE8 render like IE7
-  / meta http-equiv="X-UA-Compatible" content="IE=7"
-  / Set the viewport width to device width for mobile
-  meta name="viewport" content="width=device-width, initial-scale=1.0"
-  link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'
-  title= content_for?(:title) ? yield(:title) : "WeatherDataRescue".html_safe
-  = stylesheet_link_tag "application"
-  /= javascript_include_tag "vendor/modernizr"
-  /= javascript_include_tag "https://github.com/ankane/chartkick/blob/master/app/assets/javascripts/chartkick.js"
-  = csrf_meta_tag
+  body
 
-body
-  /! add support for the nav bars and flash messages
-  = render 'nav'
-  = render 'flash_messages'
-  .row
-    .medium-12.columns
-      == yield
-  #myModal.reveal-modal data-reveal="data-reveal"
-  = javascript_include_tag "application"
-  = yield(:javascript)
-  
+    .container.top-nav
+      = render 'application/nav'
+
+    .container.main-app
+      .row
+        .col-sm-9
+          = yield
+        .col-sm-3
+          .well.sidebar-nav
+            - if user_signed_in?
+              h3 Actions
+              ul.nav.nav-list
+                li = link_to "New Transcription", new_transcription_path, :class => "sidebar-url"
+                li = link_to "My Transcriptions", "#", :class => "sidebar-url"
+                li = link_to "Tutorial", "#", :class => "sidebar-url"
+                li = link_to "Log out", "/logout", :class => "sidebar-url"
+            - else
+              h3 Get Started
+              ul.nav.nav-list
+                li = link_to "Log in", "/login", :class => "sidebar-url"
+                li = link_to "Sign up", "/users/sign_up", :class => "sidebar-url"
+    
+    .container.footer
+      footer
+        .row
+          .col-sm-5.p-test
+            img.partner-logo.geothink-logo src= "#{image_path 'Geothink_Logo_NT.png'}" target="" alt="" align="right"
+          .col-sm-7.p-test
+            img.partner-logo.mcgill-logo src= "#{image_path 'McGill_logoT.gif'}" target="" alt="" align="left"
+        br
+        .row
+          = render 'application/footer'
+        .row
+          p.footer-copyright &copy; DRAW 2016

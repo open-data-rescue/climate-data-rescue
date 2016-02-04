@@ -1,5 +1,5 @@
 class Asset < ActiveRecord::Base
-  attr_accessible :classification_count, :display_width, :done, :ext_ref, :height, :order, :width, :pagetype_id, :upload, :name
+  #attr_accessible :classification_count, :display_width, :done, :ext_ref, :height, :order, :width, :pagetype_id, :upload, :name
   belongs_to :pagetype
   has_many :transcriptions
 
@@ -49,7 +49,7 @@ class Asset < ActiveRecord::Base
     end
   end
   #sets a scope for all transcribable pages to be those that are not done
-  scope :transcribeable, where(done: false)
+  scope :transcribeable, -> { where(done: false) }
 
   
   #constant that determines the # of transcriptions an asset must have to be marked done

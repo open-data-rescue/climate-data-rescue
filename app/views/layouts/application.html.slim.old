@@ -1,0 +1,36 @@
+/!Main layout for the site. Add sitewide head and body elements here such as custom fonts
+doctype html
+== "<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->"
+== "<!--[if lt IE 7 ]> <html class=\"ie6\" lang=\"en\"> <![endif]-->"
+== "<!--[if IE 7 ]>    <html class=\"ie7\" lang=\"en\"> <![endif]-->"
+== "<!--[if IE 8 ]>    <html class=\"ie8\" lang=\"en\"> <![endif]-->"
+== "<!--[if IE 9 ]>    <html class=\"ie9\" lang=\"en\"> <![endif]-->"
+== "<!--[if (gt IE 9)|!(IE)]><!--> <html lang=\"en\"> <!--<![endif]-->"
+
+head
+  meta charset="utf-8"
+
+  / Uncomment to make IE8 render like IE7
+  / meta http-equiv="X-UA-Compatible" content="IE=7"
+  / Set the viewport width to device width for mobile
+  meta name="viewport" content="width=device-width, initial-scale=1.0"
+  link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'
+  title= content_for?(:title) ? yield(:title) : "WeatherDataRescue".html_safe
+  = stylesheet_link_tag "application"
+  /= javascript_include_tag "vendor/modernizr"
+  /= javascript_include_tag "https://github.com/ankane/chartkick/blob/master/app/assets/javascripts/chartkick.js"
+  = csrf_meta_tag
+
+body
+  /! add support for the nav bars and flash messages
+  
+  .container
+    = render 'nav'
+    = render 'flash_messages'
+    .row
+      .col-md-12
+        == yield
+  #myModal.reveal-modal data-reveal="data-reveal"
+  = javascript_include_tag "application"
+  = yield(:javascript)
+  

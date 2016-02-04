@@ -13,13 +13,16 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require foundation
 //= require bootstrap-sprockets
 //= require_tree .
 
-$(function(){ 
-  $(document).foundation();
-  fade_out_system_alerts();
-});
+// $(function(){ 
+  // $(document).foundation();
+  // fade_out_system_alerts();
+// });
+// 
+// $(function(){ $(document).foundation(); });
 
-$(function(){ $(document).foundation(); });
+$(document).ready(function(){
+	
+});
