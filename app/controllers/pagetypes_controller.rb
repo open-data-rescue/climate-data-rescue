@@ -1,5 +1,5 @@
 class PagetypesController < ApplicationController
-  load_and_authorize_resource
+  # load_and_authorize_resource
   respond_to :html, :json, :js
   #Corresponds to the "pagetype" model, pagetype.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the pagetype model
   # All .html.slim views for "pagetype.rb" are located at "project_root\app\views\pagetypes"
@@ -69,9 +69,11 @@ class PagetypesController < ApplicationController
   # POST /pagetypes.json
   def create
     #@pagetype is a variable containing an instance of the "pagetype.rb" model created with data passed in the params of the "new.html.slim" form submit action.
+    # raise params.inspect.to_s
     if current_user.admin?
-      @pagetype = Pagetype.new(params[:pagetype])
-
+      begin
+      @pagetype = Pagetype.new(pagetype_params)
+      
       respond_to do |format|
         if @pagetype.save
           format.html { redirect_to @pagetype, notice: 'Pagetype was successfully created.' }
@@ -80,6 +82,10 @@ class PagetypesController < ApplicationController
           format.html { render action: "new" }
           format.json { render json: @pagetype.errors, status: :unprocessable_fieldgroup }
         end
+      end
+      rescue => e
+        flash[:alert] = e.message
+        redirect_to :back
       end
     else
       redirect_to root_path, alert: 'Only administrators can modify pagetypes!'
@@ -95,7 +101,7 @@ class PagetypesController < ApplicationController
       #respond_with @pagetype if @pagetype.save
       
       respond_to do |format|
-        if @pagetype.update_attributes(params[:pagetype])
+        if @pagetype.update_attributes(pagetype_params)
           format.html { redirect_to @pagetype, notice: 'Pagetype was successfully updated.' }
           format.json { head :no_content }
         else
@@ -124,5 +130,10 @@ class PagetypesController < ApplicationController
     else
       redirect_to root_path, alert: 'Only administrators can modify pagetypes!'
     end
+  end
+  
+  private
+  def pagetype_params
+    params.require(:pagetype).permit(:description, :title, :ledger_id)
   end
 end

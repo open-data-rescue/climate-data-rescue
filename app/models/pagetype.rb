@@ -6,7 +6,7 @@ class Pagetype < ActiveRecord::Base
   belongs_to :ledger #, foreign_key: "ledger_id"
 
 #TODO: Figure out what the hell this is for, and change it.
-def front_page
+  def front_page
     self.assets.where.order(:order).first
   end
   

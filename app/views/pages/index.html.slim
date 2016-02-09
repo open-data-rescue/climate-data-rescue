@@ -1,0 +1,43 @@
+- provide(:pages, "active")
+- provide(:admin, "active")
+- provide(:title, "Pages")
+
+h3 Current Pages
+/! List all assets and their info in a table
+table
+  thead
+    tr
+      th Thumbnail
+      th Pagetype
+      th Filename
+      th Height
+      th Width
+      th Display width
+      th Order
+      th Done
+      th Completed Transcriptions
+      th
+      - if current_user.admin?
+        th
+        th
+
+  tbody
+    - @pages.each do |page|
+      tr
+        td = link_to image_tag(page.upload.url(:thumb)), page_path(page)
+        td = link_to page.pagetype.title, page.pagetype
+        td = page.name
+        td = page.height
+        td = page.width
+        td = page.display_width
+        td = page.order
+        td = page.done
+        td = page.classification_count
+        td = link_to 'Show', page
+        - if current_user.admin?
+          td = link_to 'Edit', edit_page_path(page)
+          td = link_to 'Destroy', page, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Page', new_page_path

@@ -27,6 +27,10 @@ html lang="en"
 
     .container.main-app
       .row
+        .col-md-12
+          - flash.each do |key, value|
+            div class=("alert alert-#{key}") = value.html_safe
+      .row
         .col-sm-9
           = yield
         .col-sm-3

@@ -14,7 +14,8 @@ Weather::Application.routes.draw do
   resources :pagetypes
 
 
-  resources :assets
+  resources :pages
+  # post 'pages' => 'assets#create', as: "pages_create"
 
 
   resources :fieldgroups
@@ -35,7 +36,7 @@ Weather::Application.routes.draw do
   match 'faq' => 'home#faq', :via => [:get, :post]
   match 'contact' => 'home#contact', :via => [:get, :post]
   match 'transcribe' => 'transcriptions#new', :via => [:get, :post]
-  match 'pagetypes' => 'pagetypes#index', :via => [:get, :post]
+  # match 'pagetypes' => 'pagetypes#index', :via => [:get, :post]
   match 'ledgers' => 'ledgers#index', :via => [:get, :post]
   match 'users' => 'users#index', :via => [:get, :post]
   match 'users/:id/profile' => 'users#show', :via => [:get, :post, :put]

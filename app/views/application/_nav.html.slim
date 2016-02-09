@@ -30,7 +30,7 @@ nav.navbar.navbar-default.navbar-static-top
         - else
           li class="#{yield(:login)}" = link_to "Log in", "/login"
         - if user_signed_in?
-          - if current_user.admin = true
+          - if current_user.admin == true
             li class="#{yield(:admin)} dropdown"
               a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
                 | Admin
@@ -40,7 +40,7 @@ nav.navbar.navbar-default.navbar-static-top
                 li class="#{yield(:users)}" = link_to "Users", "/users"
                 li class="#{yield(:ledgers)}" = link_to "Ledgers", ledgers_path
                 li class="#{yield(:pagetypes)}" = link_to "Pagetypes", pagetypes_path
-                li class="#{yield(:pages)}" = link_to "Pages", assets_path
+                li class="#{yield(:pages)}" = link_to "Pages", pages_path
                 li class="#{yield(:transcriptions)}" = link_to "Transcriptions", transcriptions_path
                 li class="#{yield(:annotations)}" = link_to "Annotations", annotations_path
                 li class="#{yield(:fieldgroups)}" = link_to "Field Groups", fieldgroups_path

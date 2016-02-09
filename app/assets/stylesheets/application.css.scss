@@ -47,3 +47,14 @@
 .footer-nav-collapse {
     text-align: center;
 }
+
+.input.error {
+  background-color: #F2DEDE;
+  border-color: #EBCCD1;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  
+  small {
+    color: #A94442;
+  }
+}

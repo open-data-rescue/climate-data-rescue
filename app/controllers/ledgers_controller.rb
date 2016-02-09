@@ -1,5 +1,5 @@
 class LedgersController < ApplicationController
-  load_and_authorize_resource
+  # load_and_authorize_resource
   respond_to :html, :json, :js
   #Corresponds to the "ledger" model, ledger.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the ledger model
   # All .html.slim views for "ledger.rb" are located at "project_root\app\views\ledgers"

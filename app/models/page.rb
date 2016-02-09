@@ -1,4 +1,4 @@
-class Asset < ActiveRecord::Base
+class Page < ActiveRecord::Base
   #attr_accessible :classification_count, :display_width, :done, :ext_ref, :height, :order, :width, :pagetype_id, :upload, :name
   belongs_to :pagetype
   has_many :transcriptions
@@ -10,6 +10,18 @@ class Asset < ActiveRecord::Base
                   :default_url => "/images/:style/missing.png"
   validates_attachment_content_type :upload, :content_type => /\Aimage\/.*\Z/
   after_create :set_name_to_filename
+  
+  # after_create :parse_filename
+  def parse_filename
+    if self.upload.present?
+      filename = self.upload_file_name
+      components = filename.split("_")
+      self.from_date = Date.parse(components[4])
+      
+      self.save
+    end
+  end
+  
   #sets the name attribute to the filename of the attached image
   def set_name_to_filename
     if self.upload.present?
