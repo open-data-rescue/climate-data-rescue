@@ -1,5 +1,5 @@
 class AnnotationsController < ApplicationController
-  load_and_authorize_resource
+  #load_and_authorize_resource
   respond_to :html, :json, :js
   
   #Corresponds to the "Annotation" model, Annotation.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the Annotation model
@@ -49,7 +49,7 @@ class AnnotationsController < ApplicationController
   # POST /annotations.json
   def create
     #@annotation is a variable containing an instance of the "annotation.rb" model created with data passed in the params of the "new.html.slim" form submit action. 
-    @annotation = Annotation.new(params[:annotation])
+    @annotation = Annotation.new(annotation_params)
     
     respond_to do |format|
       if @annotation.save
@@ -70,7 +70,7 @@ class AnnotationsController < ApplicationController
     @annotation = Annotation.find(params[:id])
 
     respond_to do |format|
-      if @annotation.update_attributes(params[:annotation])
+      if @annotation.update_attributes(annotation_params)
         format.html { redirect_to @annotation, notice: 'Annotation was successfully updated.' }
         format.json { head :no_content }
       else
@@ -91,5 +91,10 @@ class AnnotationsController < ApplicationController
       format.html { redirect_to annotations_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  def annotation_params
+    params.require(:annotation).permit(:bounds, :data, :transcription_id, :fieldgroup_id, :page_id)
   end
 end

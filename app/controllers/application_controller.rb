@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   # end
   # #function to restrict access of a page to admins only
   # def authorize_admin
-    # redirect_to root_path, alert: 'Access Denied' unless current_user.admin?
+    # redirect_to root_path, alert: 'Access Denied' unless current_user && current_user.admin?
   # end
   
 end

@@ -36,7 +36,7 @@ class PagesController < ApplicationController
   # GET /pages/new.json
   def new
     #@page is a variable containing an instance of the "page.rb" model. It is passed to the page view "new.html.slim" (project_root/pages/new) and is used to populate the page with information about the page instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new page instance.
-    if current_user.admin?
+    if current_user && current_user.admin?
       @page = Page.new
 
       respond_to do |format|
@@ -51,7 +51,7 @@ class PagesController < ApplicationController
   # GET /pages/page_id/edit
   def edit
     #@page is a variable containing an instance of the "page.rb" model. It is passed to the page view "edit.html.slim" (project_root/pages/edit) and is used to populate the page with information about the page instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent page instance.
-    if current_user.admin?
+    if current_user && current_user.admin?
       @page = Page.find(params[:id])
     else
       redirect_to root_path, alert: 'Only administrators can modify pages!'

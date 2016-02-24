@@ -49,7 +49,7 @@ class LedgersController < ApplicationController
   # POST /ledgers.json
   def create
     #@ledger is a variable containing an instance of the "ledger.rb" model created with data passed in the params of the "new.html.slim" form submit action.
-    @ledger = Ledger.new(params[:ledger])
+    @ledger = Ledger.new(ledger_params)
 
     respond_to do |format|
       if @ledger.save
@@ -82,5 +82,10 @@ class LedgersController < ApplicationController
       format.html { redirect_to ledgers_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  def ledger_params
+    params.require(:ledger).permit(:author, :extern_ref, :title, :pagetype_id)
   end
 end

@@ -10,7 +10,7 @@ class TranscriptionsController < ApplicationController
     #@transcriptions is the variable containing all instances of the "transcription.rb" model passed to 
     #the transcription view "index.html.slim" (project_root/transcriptions) and is used to populate the 
     #page with information about each transcription using @transcriptions.each (an iterative loop).
-    if current_user.admin?
+    if current_user && current_user.admin?
       @transcriptions = Transcription.all
     else
       @transcriptions = current_user.transcriptions.all
@@ -64,7 +64,7 @@ class TranscriptionsController < ApplicationController
   def create
     # @transcription is a variable containing an instance of the "transcription.rb" model 
     # created with data passed in the params of the "new.html.slim" form submit action.
-    @transcription = Transcription.new(params[:transcription])
+    @transcription = Transcription.new(transcription_params)
     # on new transcription creation, this function is called on the transcription page to 
     # update it's transcription count. Once it reaches 5, the page is marked as "done"
     @transcription.page.increment_classification_count
@@ -90,10 +90,10 @@ class TranscriptionsController < ApplicationController
 
      logger.error "count not find transcription to update" unless transcription
      
-     transcription_params = params[:transcription]
+     #transcription_params = params[:transcription]
      
      transcription.transcriptions.delete_all
-     transcription.add_transcriptions_from_json( transcription_params[:transcriptions])
+     transcription.add_transcriptions_from_json(transcription_params[:transcriptions])
      
      respond_to do |format|
        format.js { render :nothing => true, :status => :created }
@@ -105,7 +105,7 @@ class TranscriptionsController < ApplicationController
   def destroy
     # this function is called to delete the instance of "transcription.rb" identified by 
     # the transcription_id passed to the destroy function when it was called
-    if current_user.admin?
+    if current_user && current_user.admin?
       @transcription = Transcription.find(params[:id])
       @transcription.destroy
 
@@ -125,5 +125,10 @@ class TranscriptionsController < ApplicationController
     else
       @page = Page.transcribeable.order("RANDOM()").first
     end
+  end
+  
+  private
+  def transcription_params
+    params.require(:transcription).permit()
   end
 end

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  load_and_authorize_resource
+  #load_and_authorize_resource
   respond_to :html, :json, :js
   #Corresponds to the "user" model, user.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the user model
   #All .html.slim views for "user.rb" are located at "project_root\app\views\users"
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   def new
     #@user is a variable containing an instance of the "user.rb" model. It is passed to the user view "new.html.slim" (project_root/users/new) and is used to populate the page with information about the user instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new user instance.
-    if current_user.admin?
+    if current_user && current_user.admin?
       @user = User.new
 
       respond_to do |format|
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
 
   def edit
     #@user is a variable containing an instance of the "user.rb" model. It is passed to the user view "edit.html.slim" (project_root/users/edit) and is used to populate the page with information about the user instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent user instance.
-    if current_user.admin? || current_user.id == @user.id
+    if current_user && current_user.admin? || current_user.id == @user.id
       @user = User.find(params[:id])
     else
       redirect_to root_path, alert: 'Only administrators can modify users!'
