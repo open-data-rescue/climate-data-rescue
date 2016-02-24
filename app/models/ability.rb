@@ -7,7 +7,7 @@ class Ability
     can :manage, Photo
     can :manage, Transcription
     can :manage, Fieldgroup
-    can :manage, Asset
+    can :manage, Page
     can :manage, Annotation
     can :manage, Pagetype
     can :manage, Field

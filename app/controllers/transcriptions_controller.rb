@@ -24,7 +24,7 @@ class TranscriptionsController < ApplicationController
     # It is passed to the transcription view "show.html.slim" (project_root/transcriptions/transcription_id)
     # and is used to populate the page with information about the transcription instance.
     @transcription = Transcription.find(params[:id])
-    # @asset = @transcription.asset
+    # @page = @transcription.page
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @transcription }
@@ -40,8 +40,8 @@ class TranscriptionsController < ApplicationController
     # "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to 
     # set the attributes of the new transcription instance.
     @user = current_user
-    get_or_assign_asset(params[:currentAsset])
-    @fieldgroups = @asset.pagetype.fieldgroups.all
+    get_or_assign_page(params[:currentPage])
+    @fieldgroups = @page.pagetype.fieldgroups.all
     @transcription = Transcription.new
     
     
@@ -55,7 +55,7 @@ class TranscriptionsController < ApplicationController
     # "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to
     # set the attributes of the curent transcription instance.
     @transcription = Transcription.find(params[:id])
-    @asset = @transcription.asset
+    @page = @transcription.page
     @user = current_user
   end
 
@@ -65,9 +65,9 @@ class TranscriptionsController < ApplicationController
     # @transcription is a variable containing an instance of the "transcription.rb" model 
     # created with data passed in the params of the "new.html.slim" form submit action.
     @transcription = Transcription.new(params[:transcription])
-    # on new transcription creation, this function is called on the transcription asset to 
-    # update it's transcription count. Once it reaches 5, the asset is marked as "done"
-    @transcription.asset.increment_classification_count
+    # on new transcription creation, this function is called on the transcription page to 
+    # update it's transcription count. Once it reaches 5, the page is marked as "done"
+    @transcription.page.increment_classification_count
     # increments current user's contribution count with each new transcription created by them
     current_user.increment_contributions
     respond_to do |format|
@@ -117,13 +117,13 @@ class TranscriptionsController < ApplicationController
       redirect_to transcription_path(params[:id]), alert: 'Only administrators can delete transcriptions!'
     end
   end
-  # this function gets a random asset for display on the new transcription page 
-  # if one has not been set by selecting "Transcribe" on an asset's show page
-  def get_or_assign_asset(currentAsset)
-    if currentAsset.present?
-      @asset = Asset.find(currentAsset)
+  # this function gets a random page for display on the new transcription page 
+  # if one has not been set by selecting "Transcribe" on an page's show page
+  def get_or_assign_page(currentPage)
+    if currentPage.present?
+      @page = Page.find(currentPage)
     else
-      @asset = Asset.transcribeable.order("RANDOM()").first
+      @page = Page.transcribeable.order("RANDOM()").first
     end
   end
 end

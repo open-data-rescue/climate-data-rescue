@@ -10,17 +10,17 @@ h2 New transcription
         h4 #{current_user.name}
         p #{current_user.contributions} Pages Transcribed
     <br />
-- if @asset
-  /!Information on the asset to be transcribed and actions for creating the transcription on skipping the current iamge and finding another 
+- if @page
+  /!Information on the page to be transcribed and actions for creating the transcription on skipping the current iamge and finding another 
   .medium-12.columns
     .medium-4.columns
       h4 Collection Info
-      p Name: #{@asset.pagetype.title}
+      p Name: #{@page.pagetype.title}
     /! New Transcription Submission form
     .medium-3.columns 
-      /! Form to create new transcription with hidden fields to associate it with the transcribed asset and current user
+      /! Form to create new transcription with hidden fields to associate it with the transcribed page and current user
       = simple_form_for (@transcription) do |f|
-        = f.hidden_field :asset_id, :value => "#{@asset.id}"
+        = f.hidden_field :page_id, :value => "#{@page.id}"
         = f.hidden_field :user_id, :value => "#{current_user.id}"
         .form-actions
           = f.button :submit
@@ -34,16 +34,16 @@ h2 New transcription
 
   p When you finish submitting the annotations, navigate back to the top of this page and click the "Create Transcription" button to save and submit the transcription.  
 .row
-  /! Conditional statement to determine if an asset was sucessfully loaded
-  - if @asset
+  /! Conditional statement to determine if a page was sucessfully loaded
+  - if @page
       #binding
-        = image_tag (@asset.upload.url), :id => "baseImage", :draggable => true
+        = image_tag (@page.upload.url), :id => "baseImage", :draggable => true
   - else
-    p No asset selected
+    p No page selected
   /! Pass this div the value of the current authenticity token for use in building the new forms with javascript for each annotation
   .row id="annotateResults" token="#{form_authenticity_token}"
     h4 Annotations
-  /! build transcription box and programatically populate it with tabs and forms for each fieldgroup associated with the pagetype of the current asset to be transcribed  
+  /! build transcription box and programatically populate it with tabs and forms for each fieldgroup associated with the pagetype of the current page to be transcribed  
   div id="scribe_annotation_box"
     div id="scribe_transcription_area" style="height: 130px; width:820px;"
       /! Builds the top half of the annotaiton box containg the prompt, close button and tabs
@@ -73,8 +73,8 @@ h2 New transcription
             - if formIndex == 0
               /! forms get attributes containing the current # of transcriptions and id of the fieldgroup they relate to for passing javascript uisng jquery selectors
               form class="transcription_form" transcriptionCount="#{Transcription.last.id}" fieldgroupId="#{fieldgroup.id}"
-                /! hidden fields to include in the captured JSON data but not viewable to the user. Helps keep track of which asset and which group of fields were transcribed.
-                input type="hidden" name="Filename" value="#{@asset.name}"
+                /! hidden fields to include in the captured JSON data but not viewable to the user. Helps keep track of which page and which group of fields were transcribed.
+                input type="hidden" name="Filename" value="#{@page.name}"
                 input type="hidden" name="Field Group" value="#{fieldgroup.name}"
                 - if index == 0
                   /! By default, each form is hidden and the user sees only the instructions paragraph until they click on a tab
@@ -97,8 +97,8 @@ h2 New transcription
                   - index + 1
               - formIndex + 1
             - else
-              form class="transcription_form" transcriptionCount="#{Transcription.all.any? ? Transcription.last.id : 1}" fieldgroupId="#{fieldgroup.id}" assetId='#{@asset.id}'
-                input type="hidden" name="Filename" value="#{@asset.name}"
+              form class="transcription_form" transcriptionCount="#{Transcription.all.any? ? Transcription.last.id : 1}" fieldgroupId="#{fieldgroup.id}" pageId='#{@page.id}'
+                input type="hidden" name="Filename" value="#{@page.name}"
                 input type="hidden" name="Field Group" value="#{fieldgroup.name}"
                 - if index == 0
                   div id="scribe_input_#{fieldgroup.name}" class="scribe_annotation_input DisplayNone"
@@ -119,7 +119,7 @@ h2 New transcription
                     input.ok_button type="submit" value="" /
                   - index + 1
     
-    /! create the box that will act as the zoom window to display the full-sized image for easier image viewing. Currently accurately displays the contents of the page image that are directly under the bottom edge of the zoom window unless it is resized. Div background image set with the style tag (to get the URL from the current asset using ruby code) and scrolled using javascript
-    div id="scribe_zoom_box" style="background-image: url('#{@asset.upload.url(:original)}'); background-repeat: no-repeat;" 
+    /! create the box that will act as the zoom window to display the full-sized image for easier image viewing. Currently accurately displays the contents of the page image that are directly under the bottom edge of the zoom window unless it is resized. Div background image set with the style tag (to get the URL from the current page using ruby code) and scrolled using javascript
+    div id="scribe_zoom_box" style="background-image: url('#{@page.upload.url(:original)}'); background-repeat: no-repeat;" 
       
       

@@ -1,8 +1,8 @@
 $.widget("ui.annotate", {
     options: {
         'zoomLevel': 1,
-        'assetScreenWidth': 600,
-        'assetScreenHeight': 900,
+        'pageScreenWidth': 600,
+        'pageScreenHeight': 900,
         'annotationBoxWidth': 500,
         'annotationBoxHeight': 100,
         'zoomBoxWidth': 500,
@@ -36,13 +36,13 @@ $.widget("ui.annotate", {
  
 
 
-        this.element.css("width", this.options.assetScreenWidth)
-            .css("height", this.options.assetScreenHeight)
+        this.element.css("width", this.options.pageScreenWidth)
+            .css("height", this.options.pageScreenHeight)
             .css("position", "relative");
         var image = $("<img></img>").attr("id", "scribe_main_image")
             .attr("src", this.options.imageURL)
-            .css("width", this.options.assetScreenWidth)
-            .css("height", this.options.assetScreenHeight)
+            .css("width", this.options.pageScreenWidth)
+            .css("height", this.options.pageScreenHeight)
             .css("position", "relative")
             .css("margin", "0px auto")
             .css("left", "0px")
@@ -81,15 +81,15 @@ $.widget("ui.annotate", {
         }
 
 
-        this.options.page_data["asset_screen_width"] = this.options.assetScreenWidth;
-        this.options.page_data["asset_screen_height"] = this.options.assetScreenHeight;
-        this.options.page_data["asset_width"] = this.options.assetWidth;
-        this.options.page_data["asset_height"] = this.options.assetHeight;
+        this.options.page_data["page_screen_width"] = this.options.pageScreenWidth;
+        this.options.page_data["page_screen_height"] = this.options.pageScreenHeight;
+        this.options.page_data["page_width"] = this.options.pageWidth;
+        this.options.page_data["page_height"] = this.options.pageHeight;
         this.options.page_data["zooniverse_user_id"] = this.options.userID;
 
 
-        this.options.xZoom = this.options.assetWidth / this.options.assetScreenWidth;
-        this.options.yZoom = this.options.assetHeight / this.options.assetScreenHeight;
+        this.options.xZoom = this.options.pageWidth / this.options.pageScreenWidth;
+        this.options.yZoom = this.options.pageHeight / this.options.pageScreenHeight;
 
         this._setUpAnnotations();
 
@@ -136,20 +136,20 @@ $.widget("ui.annotate", {
     _normaliseBounds: function(bounds) {
         var zoomLevel = this.options.zoomLevel;
         var normalized_bounds = {
-            width: bounds.width / this.options.assetScreenWidth,
-            height: bounds.height / this.options.assetScreenHeight,
-            x: bounds.x / this.options.assetScreenWidth,
-            y: bounds.y / this.options.assetScreenHeight,
+            width: bounds.width / this.options.pageScreenWidth,
+            height: bounds.height / this.options.pageScreenHeight,
+            x: bounds.x / this.options.pageScreenWidth,
+            y: bounds.y / this.options.pageScreenHeight,
             zoom_level: zoomLevel
         };
         return normalized_bounds
     },
     _denormaliseBounds: function(bounds) {
         var denorm = {
-            width: bounds.width * this.options.assetScreenWidth,
-            height: bounds.height * this.options.assetScreenHeight,
-            x: bounds.x * this.options.assetScreenWidth,
-            y: bounds.y * this.options.assetScreenHeight,
+            width: bounds.width * this.options.pageScreenWidth,
+            height: bounds.height * this.options.pageScreenHeight,
+            x: bounds.x * this.options.pageScreenWidth,
+            y: bounds.y * this.options.pageScreenHeight,
             zoom_level: bounds.zoomLevel
         }
         return denorm;
@@ -184,7 +184,7 @@ $.widget("ui.annotate", {
             var zoomX = -1 * (position.x * this.options.zoomLevel - this.options.zoomBoxWidth / 2.0);
             var zoomY = -1 * (position.y * this.options.zoomLevel - this.options.zoomBoxHeight / 2.0);
 
-            if (position.y > this.options.assetScreenHeight / 2) {
+            if (position.y > this.options.pageScreenHeight / 2) {
                 this.options.orientation = "floatAbove";
                 $("#scribe_transcription_area").css("top", 0);
             } else {
@@ -452,7 +452,7 @@ $.widget("ui.annotate", {
             .css("left", zoomX);
     },
     _checkAndSwitchOrientation: function(position) {
-        if (this.options.orientation == "floatUnder" && position.y > this.options.assetScreenHeight / 2) {
+        if (this.options.orientation == "floatUnder" && position.y > this.options.pageScreenHeight / 2) {
             this.options.orientation = "floatAbove";
             $("#scribe_transcription_area").animate({
                 "top": "-=" + (this.options.zoomBoxHeight + this.options.annotationBoxHeight)
@@ -463,7 +463,7 @@ $.widget("ui.annotate", {
             }
         }
 
-        if (this.options.orientation == "floatAbove" && position.y < this.options.assetScreenHeight / 2) {
+        if (this.options.orientation == "floatAbove" && position.y < this.options.pageScreenHeight / 2) {
             this.options.orientation = "floatUnder";
             $("#scribe_transcription_area").animate({
                 "top": "+=" + (this.options.zoomBoxHeight + this.options.annotationBoxHeight)
@@ -549,8 +549,8 @@ $.widget("ui.annotate", {
         this.options.annotationBox = null;
     },
     _generateZoomBox: function() {
-        var imageWidth = this.options.assetScreenWidth * this.options.zoomLevel;
-        var imageHeight = this.options.assetScreenHeight * this.options.zoomLevel;
+        var imageWidth = this.options.pageScreenWidth * this.options.zoomLevel;
+        var imageHeight = this.options.pageScreenHeight * this.options.zoomLevel;
         var image = $("<img></img>").attr("src", this.options.imageURL)
             .css("width", imageWidth)
             .css('height', imageHeight)

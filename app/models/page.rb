@@ -3,7 +3,7 @@ class Page < ActiveRecord::Base
   belongs_to :pagetype
   has_many :transcriptions
 
-  #handles the image uplaod association
+  #handles the image upload association
   has_attached_file :upload, :styles =>  
                   { :thumb => "100x100>",
                     :medium => "300x300"}, 
@@ -29,7 +29,7 @@ class Page < ActiveRecord::Base
       self.save
     end
   end
-  #sets the height and width attributes of the asset to those of its attachment dimensions on update
+  #sets the height and width attributes of the page to those of its attachment dimensions on update
   def extract_dimensions
     return unless self.upload?
     #regex to select all parts of the filename preceding the end of the supported file types and forms
@@ -47,7 +47,7 @@ class Page < ActiveRecord::Base
       self.save
     end
   end
-  #sets the height and width attributes of the asset to those of its attachment dimensions on create
+  #sets the height and width attributes of the page to those of its attachment dimensions on create
   def extract_upload_dimensions
     return unless upload?
     
@@ -64,7 +64,7 @@ class Page < ActiveRecord::Base
   scope :transcribeable, -> { where(done: false) }
 
   
-  #constant that determines the # of transcriptions an asset must have to be marked done
+  #constant that determines the # of transcriptions an page must have to be marked done
   CLASSIFICATION_COUNT = 5
 
   def classification_limit
@@ -76,7 +76,7 @@ class Page < ActiveRecord::Base
     disp_height = (1.0 * self.display_width / self.width) * self.height
     return disp_height.to_i
   end
-  #on new transcription creation, increment the classification count of its associated asset
+  #on new transcription creation, increment the classification count of its associated page
   def increment_classification_count
     count = self.classification_count.nil? ? 0 : self.classification_count
     count += 1

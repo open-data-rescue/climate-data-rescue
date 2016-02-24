@@ -15,7 +15,7 @@ Weather::Application.routes.draw do
 
 
   resources :pages
-  # post 'pages' => 'assets#create', as: "pages_create"
+  # post 'pages' => 'pages#create', as: "pages_create"
 
 
   resources :fieldgroups

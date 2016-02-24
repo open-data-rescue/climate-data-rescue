@@ -82,7 +82,7 @@
   });
 //end field toggler
 
-//open transcription box at asset image mouse click position
+//open transcription box at page image mouse click position
   jQuery(document).ready(function(){
     $("#baseImage").click(function(e){
            $("#scribe_annotation_box").show(500); /*open the box with a delay of half a second. This is what makes the transcription 
@@ -199,11 +199,11 @@ and http://jsfiddle.net/aasFx/ */
     with the next created transcription (the one we have yet to submit on the current page). */
     var transcriptionId = $('#currentForm').attr('transcriptionCount');
     transcriptionId++;
-    //Let's also get the ID of the fieldgroup related to the current form and the asset we are transcribing
+    //Let's also get the ID of the fieldgroup related to the current form and the page we are transcribing
     var fieldgroupId = $('#currentForm').attr('fieldgroupId');
-    var assetId = $('#currentForm').attr('assetId');
+    var pageId = $('#currentForm').attr('pageId');
     /*Append hidden fields to have the form automatically associate the annotation with the current (future) transcription, the fieldgroup whose
-    fields we are collecting data from, and the asset that we are transcribing. */
+    fields we are collecting data from, and the page that we are transcribing. */
     form.append(
        $("<input/>", 
            { 
@@ -227,10 +227,10 @@ and http://jsfiddle.net/aasFx/ */
     form.append(
        $("<input/>", 
            { 
-             name:'annotation[asset_id]', 
+             name:'annotation[page_id]', 
              type:'hidden', 
-             value: assetId,
-             id: 'annotation_asset_id' 
+             value: pageId,
+             id: 'annotation_page_id' 
            }
         )
     );

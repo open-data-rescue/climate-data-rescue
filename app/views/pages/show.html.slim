@@ -1,7 +1,7 @@
-h3 = @asset.name
-/!show the asset image
-p = image_tag @asset.upload.url
-= link_to 'Transcribe', new_transcription_path(@transcription, :currentAsset => @asset)
+h3 = @page.name
+/!show the page image
+p = image_tag @page.upload.url
+= link_to 'Transcribe', new_transcription_path(@transcription, :currentPage => @page)
 <br />
 <hr />
 /! list its info in a table
@@ -22,21 +22,21 @@ table
   tbody
     
     tr
-      td = link_to @asset.pagetype.title, @asset.pagetype
-      td = @asset.name
-      td = @asset.height
-      td = @asset.width
-      td = @asset.display_width
-      td = @asset.display_height
-      td = @asset.ext_ref
-      td = @asset.order
-      td = @asset.done
-      td = @asset.classification_count
+      td = link_to @page.pagetype.title, @page.pagetype
+      td = @page.name
+      td = @page.height
+      td = @page.width
+      td = @page.display_width
+      td = @page.display_height
+      td = @page.ext_ref
+      td = @page.order
+      td = @page.done
+      td = @page.classification_count
 
 /! modification controls for admins
 - if current_user.admin?
-  = link_to 'Edit', edit_asset_path(@asset)
+  = link_to 'Edit', edit_page_path(@page)
   '&nbsp|
-  = link_to 'Delete', @asset, data: {:confirm => 'Are you sure?'}, :method => :delete
+  = link_to 'Delete', @page, data: {:confirm => 'Are you sure?'}, :method => :delete
   '&nbsp|
-= link_to 'Back', assets_path
+= link_to 'Back', pages_path

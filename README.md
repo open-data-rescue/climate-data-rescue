@@ -3,7 +3,7 @@
 ## Contents
 - [Introduction](#introduction)
 - [Data Model Overview](#data-model-overview)
-  - [Asset](#asset)
+  - [Page](#page)
   - [Pagetype](#pagetype)
   - [Ledger](#ledger)
   - [Transcription](#transcription)
@@ -25,7 +25,7 @@
 ## Introduction
 
 ClimateDataRescue is a framework for generating crowd sourced transcriptions of image-based documents.
-It provides a system for generating page templates which combined with a magnification tool guide a user through the process of transcribing an asset (an image). 
+It provides a system for generating page templates which combined with a magnification tool guide a user through the process of transcribing a page (an image). 
 
 While this application was developed for the purpose of transcribing images of historical weather observation logs, it can be adapted for use in transcribing other kinds of documents as well
 
@@ -34,7 +34,7 @@ This application was built from scratch as a new rails app but modeled after Zoo
 - Because this app uses Devise, it does not require a seperate authentication server to be set up for user authentication and can run as a standalone product.
 - Developers can add other modules using gems, and as long as they support Devise for authentication the user can have a single-sign-on experience across the different parts of the app. Examples include ActiveAdmin or forum modules.
 - This app uses ActiveRecord with SQLite3 for its development database, with support for PostgreSQL and MySQL. Scribe uses mongo-mapper with Mongo-DB.
-- This app uses rails methods in the transcriptions#new .slim view to build the transcription box and programmatically populate it with forms for each field group associated with the asset's pagetype. Scribe handles new transcription functiality entirely in a jquery plugin that the development team built.
+- This app uses rails methods in the transcriptions#new .slim view to build the transcription box and programmatically populate it with forms for each field group associated with the page's pagetype. Scribe handles new transcription functiality entirely in a jquery plugin that the development team built.
 - This app handles annotation creation using forms created using javascript/JQUERY and rails methods. I created and adapted a number of javascript functions to handle annotation data scructure and handling. Scribe handle annotations using the same custom jquery plugin they developed that I mentioned above
 - This app allows for the creation, editing and deletion of instances of all its models through an admin interface, making it easy for an admin user to add new instances without any programming experience needed. Scribe creates model instances manually using a sample_weather_bootstrap.rake file.
 - Using ActiveRecord makes it easy for developers to add new model types and add new fields to model tables. Developers can generate scaffolds for new model types or create new migrations to add columns to model tables from the terminal using rails g scaffold and rake g migration, respectively.
@@ -45,8 +45,8 @@ It is recommended to use a programming-centric and language-agnostic text editor
 
 There are a number of models in ClimateDataRescue:
 
-- Asset: one ledger page
-- Pagetype: set of Assets (pages) with the same layout, which is composed of multiple field groups
+- Page: one ledger page
+- Pagetype: set of Pages with the same layout, which is composed of multiple field groups
 - Ledger: set of Pagetypes
 - Transcription: set of annotations - one complete attempt at transcribing a page
 - Annotation: one attempt to transcribe a part of the page
@@ -56,12 +56,12 @@ There are a number of models in ClimateDataRescue:
 - Album: collection of photos
 - Photo: uploaded by a user
 
-### Asset
+### Page
 
--Assets are the objects (pages) which you wish to have the user transcribe. 
+-Pages are the objects (pages) which you wish to have the user transcribe. 
 -They contain a link to the image file to be shown, a desired width to be displayed at and they belong to a Pagetype. 
--The Pagetype that an Asset belongs to defines the Fields (organized into Fieldgroups) that can be transcribed for that Asset. 
--Each Asset has many Transcriptions, which are users' attempts to transcribe the page.
+-The Pagetype that a Page belongs to defines the Fields (organized into Fieldgroups) that can be transcribed for that Page. 
+-Each Page has many Transcriptions, which are users' attempts to transcribe the page.
 
 #### Relationships
 - has many: transcriptions
@@ -86,11 +86,11 @@ There are a number of models in ClimateDataRescue:
 
 ### Pagetype
 
--A simple grouping class that links Assets (pages of a ledger) with the same layout (Fieldgroups). Most Ledgers have two Pagetypes, side A and side B.
+-A simple grouping class that links Pages (of a Ledger) with the same layout (Fieldgroups). Most Ledgers have two Pagetypes, side A and side B.
 -Has attributes for title (e.g. "Side A"), description, default zoom level and the associated ledger.
 
 #### Relationships
-- has many: assets, fieldgroups
+- has many: pages, fieldgroups
 - belongs to: ledger
 
 #### Attributes
@@ -103,7 +103,7 @@ There are a number of models in ClimateDataRescue:
 
 ### Ledger
 
--A simple grouping class that links Pagetypes. This can be used to model a book (set of Assets (pages), organized by Pagetype).
+-A simple grouping class that links Pagetypes. This can be used to model a book (set of Pages, organized by Pagetype).
 
 #### Relationships
 - has many: pagetypes
@@ -118,19 +118,19 @@ There are a number of models in ClimateDataRescue:
 
 ### Transcription
 
--A Transcription is the result of a user interacting with an Asset. It is composed of many Annotations.
+-A Transcription is the result of a user interacting with a Page. It is composed of many Annotations.
 -Essentially one attempt to transcribe a whole page.
 
 #### Relationships
 - has many: annotations
-- belongs to: asset, user
+- belongs to: page, user
 
 #### Attributes
 - text     "page_data"
 - datetime "created_at", :null => false
 - datetime "updated_at", :null => false
 - integer  "user_id"
-- integer  "asset_id"
+- integer  "page_id"
 
 ### Annotation
 
@@ -148,7 +148,7 @@ There are a number of models in ClimateDataRescue:
 - datetime "created_at",       :null => false
 - datetime "updated_at",       :null => false
 - integer  "transcription_id"
-- integer  "asset_id"
+- integer  "page_id"
 - integer  "fieldgroup_id"
 
 ### Field
@@ -224,7 +224,7 @@ There are a number of models in ClimateDataRescue:
 - text     "about"
 - integer  "contributions"
 - string   "rank"
-- integer  "asset_id"
+- integer  "page_id"
 - integer  "transcription_id"
 
 ### Album and Photo

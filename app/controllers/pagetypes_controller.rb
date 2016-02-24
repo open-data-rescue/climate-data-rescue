@@ -26,12 +26,12 @@ class PagetypesController < ApplicationController
     #@pagetype is a variable containing an instance of the "pagetype.rb" model. It is passed to the pagetype view "show.html.slim" (project_root/pagetypes/pagetype_id) and is used to populate the page with information about the pagetype instance.
     if current_user.admin? 
       @pagetype = Pagetype.find(params[:id])
-      @assets = Asset.all
+      @pages = Page.all
       respond_to do |format|
         format.html # show.html.erb
         #format.json { render json: @pagetype }
         format.json {
-          render :json => @asset.pagetype.to_json(:include => { :fieldgroups => { :include => :fields }})
+          render :json => @page.pagetype.to_json(:include => { :fieldgroups => { :include => :fields }})
         }
       end
     else

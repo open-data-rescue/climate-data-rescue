@@ -1,7 +1,7 @@
 h3 Transcription #{@transcription.id}
-/!Get the name and load the image of the asset associated with the transcription
-h5 Page: #{@transcription.asset.name}
-= image_tag @transcription.asset.upload.url
+/!Get the name and load the image of the page associated with the transcription
+h5 Page: #{@transcription.page.name}
+= image_tag @transcription.page.upload.url
 /! Display the information of all the annotations associated with this transcription in table format
 h4 Annotations
 table
@@ -17,7 +17,7 @@ table
   tbody
     - @transcription.annotations.each do |a|
       tr
-        td = a.asset.name
+        td = a.page.name
         td = a.fieldgroup.name
         td = a.data
         td = link_to 'Show', a
