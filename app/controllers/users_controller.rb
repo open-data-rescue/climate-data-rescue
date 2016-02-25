@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
   
   def new
-    if current_user && current_user.admin?
+    #if current_user && current_user.admin?
       
       User.transaction do
         begin
@@ -45,21 +45,20 @@ class UsersController < ApplicationController
       format.json { render json: @user }
       end
       
-    else
-      flash[:danger] = 'Only administrators can modify users! <a href="' + new_user_session_path + '">Log in to continue.</a>'
-      redirect_to root_path
-    end
+    # else
+      # flash[:danger] = 'Only administrators can modify users! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      # redirect_to root_path
+    # end
   end
 
   def create
-    if current_user && current_user.admin?
-      
+    #if current_user && current_user.admin?
       User.transaction do
         begin
           #@user is a variable containing an instance of the "user.rb" model created with data passed in the params of the "new.html.slim" form submit action.
           @user = User.new(users_params)
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
       
@@ -69,13 +68,13 @@ class UsersController < ApplicationController
           format.json { render json: @user, status: :created, location: @user }
         else
           format.html { redirect_to "/new-user", notice: 'User creation failed!' }
-          format.json { render json: @user.errors, status: :unprocessable_fieldgroup }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       end
-    else
-      flash[:danger] = 'Only administrators can modify users! <a href="' + new_user_session_path + '">Log in to continue.</a>'
-      redirect_to root_path
-    end
+    # else
+      # flash[:danger] = 'Only administrators can modify users! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      # redirect_to root_path
+    # end
   end
 
   def edit
@@ -124,7 +123,7 @@ class UsersController < ApplicationController
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
-          format.json { render json: @user.errors, status: :unprocessable_fieldgroup }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       end
       

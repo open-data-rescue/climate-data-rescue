@@ -9,7 +9,7 @@ h2 Sign up
     = f.input :password, :required => true
     = f.input :password_confirmation, :required => true
     = f.input :about
-    = f.input :avatar, as: :file
+    /= f.input :avatar, as: :file
   .form-actions
     = f.button :submit, "Register"
 = render "devise/shared/links"
