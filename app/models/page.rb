@@ -16,8 +16,12 @@ class Page < ActiveRecord::Base
     if self.upload.present?
       filename = self.upload_file_name
       components = filename.split("_")
+      self.accession_number = String.parse(components[1])
+      self.ledger_id = String.parse(components[2])
+      self.ledger_volume = String.parse(components[3])
       self.from_date = Date.parse(components[4])
-      
+      self.to_date = Date.parse(components[5])
+      self.pagetype_id = String.parse(components[6])
       self.save
     end
   end

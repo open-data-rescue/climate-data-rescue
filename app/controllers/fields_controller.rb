@@ -15,7 +15,8 @@ class FieldsController < ApplicationController
         format.json { render json: @fields }
       end
     else
-      redirect_to root_path, alert: 'Only administrators can modify fields!'
+      flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
 
@@ -30,43 +31,69 @@ class FieldsController < ApplicationController
         format.html # show.html.erb
         format.json { render json: @field }
       end
+      
     else
-      redirect_to root_path, alert: 'Only administrators can modify fields!'
+      flash[:danger] = 'Only administrators can view fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
 
   # GET /fields/new
   # GET /fields/new.json
   def new
-    #@field is a variable containing an instance of the "field.rb" model. It is passed to the field view "new.html.slim" (project_root/fields/new) and is used to populate the page with information about the field instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new field instance.
     if current_user && current_user.admin?
-      @field = Field.new
+      Field.transaction do
+        begin
+          #@field is a variable containing an instance of the "field.rb" model. It is passed to the field view "new.html.slim" (project_root/fields/new) and is used to populate the page with information about the field instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new field instance.
+          @field = Field.new
+        rescue => e
+          # flash[:danger] = e.message
+        end
+      end
+      
       respond_to do |format|
         format.html # new.html.erb
         format.json { render json: @pagetype }
       end
+      
     else
-      redirect_to root_path, alert: 'Only administrators can modify fields!'
+      flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
 
   # GET /fields/field_id/edit
   def edit
-    #@field is a variable containing an instance of the "field.rb" model. It is passed to the field view "edit.html.slim" (project_root/fields/edit) and is used to populate the page with information about the field instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent field instance.
     if current_user && current_user.admin?
-      @field = Field.find(params[:id])
+      Field.transaction do
+        begin
+          #@field is a variable containing an instance of the "field.rb" model. It is passed to the field view "edit.html.slim" (project_root/fields/edit) and is used to populate the page with information about the field instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent field instance.
+          @field = Field.find(params[:id])
+        rescue => e
+          # flash[:danger] = e.message
+        end
+      end
+      
     else
-      redirect_to root_path, alert: 'Only administrators can modify fields!'
+      flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
 
   # POST /fields
   # POST /fields.json
   def create
-    #@field is a variable containing an instance of the "field.rb" model created with data passed in the params of the "new.html.slim" form submit action.
     if current_user && current_user.admin?
-      @field = Field.new(field_params)
-
+        
+      Field.transaction do
+        begin
+          #@field is a variable containing an instance of the "field.rb" model created with data passed in the params of the "new.html.slim" form submit action.
+          @field = Field.new(field_params)
+        rescue => e
+          # flash[:danger] = e.message
+        end
+      end
+      
       respond_to do |format|
         if @field.save
           format.html { redirect_to @field, notice: 'Field was successfully created.' }
@@ -76,17 +103,26 @@ class FieldsController < ApplicationController
           format.json { render json: @field.errors, status: :unprocessable_fieldgroup }
         end
       end
+      
     else
-      redirect_to root_path, alert: 'Only administrators can modify fields!'
+      flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
 
   # PUT /fields/field_id
   # PUT /fields/field_id.json
   def update
-    #@field is a variable containing an instance of the "field.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
     if current_user && current_user.admin?
-      @field = Field.find(params[:id])
+      
+      Field.transaction do
+        begin
+          #@field is a variable containing an instance of the "field.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
+          @field = Field.find(params[:id])
+        rescue => e
+          # flash[:danger] = e.message
+        end
+      end
 
       respond_to do |format|
         if @field.update_attributes(field_params)
@@ -97,8 +133,10 @@ class FieldsController < ApplicationController
           format.json { render json: @field.errors, status: :unprocessable_fieldgroup }
         end
       end
+      
     else
-      redirect_to root_path, alert: 'Only administrators can modify fields!'
+      flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
 
@@ -107,15 +145,23 @@ class FieldsController < ApplicationController
   def destroy
     #this function is called to delete the instance of "field.rb" identified by the field_id passed to the destroy function when it was called
     if current_user && current_user.admin?
-      @field = Field.find(params[:id])
-      @field.destroy
-
+      Field.transaction do
+        begin
+          @field = Field.find(params[:id])
+          @field.destroy
+        rescue => e
+          # flash[:danger] = e.message
+        end
+      end
+      
       respond_to do |format|
         format.html { redirect_to fields_url }
         format.json { head :no_content }
       end
+      
     else
-      redirect_to root_path, alert: 'Only administrators can modify fields!'
+      flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
   

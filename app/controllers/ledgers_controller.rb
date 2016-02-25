@@ -6,81 +6,147 @@ class LedgersController < ApplicationController
   # GET /ledgers
   # GET /ledgers.json
   def index
-    #@ledgers is the variable containing all instances of the "ledger.rb" model passed to the ledger view "index.html.slim" (project_root/ledgers) and is used to populate the page with information about each ledger using @ledgers.each (an iterative loop).
-    @ledgers = Ledger.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @ledgers }
+    if current_user && current_user.admin?
+      
+      #@ledgers is the variable containing all instances of the "ledger.rb" model passed to the ledger view "index.html.slim" (project_root/ledgers) and is used to populate the page with information about each ledger using @ledgers.each (an iterative loop).
+      @ledgers = Ledger.all
+  
+      respond_to do |format|
+        format.html # index.html.erb
+        format.json { render json: @ledgers }
+      end
+    else
+      flash[:danger] = 'Only administrators can modify ledgers! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
 
   # GET /ledgers/ledger_id
   # GET /ledgers/ledger_id.json
   def show
-    #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "show.html.slim" (project_root/ledgers/ledger_id) and is used to populate the page with information about the ledger instance.
-    @ledger = Ledger.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @ledger }
+    if current_user
+      #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "show.html.slim" (project_root/ledgers/ledger_id) and is used to populate the page with information about the ledger instance.
+      @ledger = Ledger.find(params[:id])
+  
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @ledger }
+      end
+    else
+      flash[:danger] = 'Only users can view ledgers! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
 
   # GET /ledgers/new
   # GET /ledgers/new.json
   def new
-    #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "new.html.slim" (project_root/ledgers/new) and is used to populate the page with information about the ledger instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new ledger instance.
-    @ledger = Ledger.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @ledger }
+    if current_user && current_user.admin?
+      Ledger.transaction do
+        begin
+          #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "new.html.slim" (project_root/ledgers/new) and is used to populate the page with information about the ledger instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new ledger instance.
+          @ledger = Ledger.new
+        rescue => e
+          # flash[:danger] = e.message
+        end
+      end
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @ledger }
+      end
+    else
+      flash[:danger] = 'Only administrators can modify ledgers! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
 
   # GET /ledgers/ledger_id/edit
   def edit
-    #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "edit.html.slim" (project_root/ledgers/edit) and is used to populate the page with information about the ledger instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent ledger instance.
-    @ledger = Ledger.find(params[:id])
+    if current_user && current_user.admin?
+      Ledger.transaction do
+        begin
+          #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "edit.html.slim" (project_root/ledgers/edit) and is used to populate the page with information about the ledger instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent ledger instance.
+          @ledger = Ledger.find(params[:id])
+        rescue => e
+          # flash[:danger] = e.message
+        end
+      end
+    else
+      flash[:danger] = 'Only administrators can modify ledgers! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
+    end
   end
 
   # POST /ledgers
   # POST /ledgers.json
   def create
-    #@ledger is a variable containing an instance of the "ledger.rb" model created with data passed in the params of the "new.html.slim" form submit action.
-    @ledger = Ledger.new(ledger_params)
-
-    respond_to do |format|
-      if @ledger.save
-        format.html { redirect_to @ledger, notice: 'Pagetype was successfully created.' }
-        format.json { render json: @ledger, status: :created, location: @ledger }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @ledger.errors, status: :unprocessable_fieldgroup }
+    if current_user && current_user.admin?
+      Ledger.transaction do
+        begin
+          #@ledger is a variable containing an instance of the "ledger.rb" model created with data passed in the params of the "new.html.slim" form submit action.
+          @ledger = Ledger.new(ledger_params)
+        rescue => e
+          # flash[:danger] = e.message
+        end
       end
+  
+      respond_to do |format|
+        if @ledger.save
+          format.html { redirect_to @ledger, notice: 'Pagetype was successfully created.' }
+          format.json { render json: @ledger, status: :created, location: @ledger }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @ledger.errors, status: :unprocessable_fieldgroup }
+        end
+      end
+    else
+      flash[:danger] = 'Only administrators can modify ledgers! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
 
   # PUT /ledgers/ledger_id
   # PUT /ledgers/ledger_id.json
   def update
-    #@ledger is a variable containing an instance of the "ledger.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
-    @ledger = Ledger.find(params[:id])
-    respond_with @ledger if @ledger.save
-    
+    if current_user && current_user.admin?
+      Ledger.transaction do
+        begin
+          #@ledger is a variable containing an instance of the "ledger.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
+          @ledger = Ledger.find(params[:id])
+          respond_with @ledger if @ledger.save
+        rescue => e
+          # flash[:danger] = e.message
+        end
+      end
+    else
+      flash[:danger] = 'Only administrators can modify ledgers! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
+    end
   end
 
   # DELETE /ledgers/ledger_id
   # DELETE /ledgers/ledger_id.json
   def destroy
-    #this function is called to delete the instance of "ledger.rb" identified by the ledger_id passed to the destroy function when it was called
-    @ledger = Ledger.find(params[:id])
-    @ledger.destroy
-
-    respond_to do |format|
-      format.html { redirect_to ledgers_url }
-      format.json { head :no_content }
+      #this function is called to delete the instance of "ledger.rb" identified by the ledger_id passed to the destroy function when it was called
+    
+    if current_user && current_user.admin?
+      
+      Ledger.transaction do
+        begin
+          @ledger = Ledger.find(params[:id])
+          @ledger.destroy
+        rescue => e
+          # flash[:danger] = e.message
+        end 
+      end
+      
+      respond_to do |format|
+        format.html { redirect_to ledgers_url }
+        format.json { head :no_content }
+      end
+    else
+      flash[:danger] = 'Only administrators can modify ledgers! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
     end
   end
   
