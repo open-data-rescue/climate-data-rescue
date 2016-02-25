@@ -4,8 +4,8 @@ class RenameDataModels < ActiveRecord::Migration
     rename_table :asset_collections, :pagetypes
     rename_table :entities, :fieldgroups
     rename_column :ledgers, :asset_collection_id, :pagetype_id
-    rename_column :pagetypes, :asset_collection_id, :pagetype_id
-    rename_column :pagetypes, :collection_group_id, :ledger_id
+    # rename_column :pagetypes, :asset_collection_id, :pagetype_id
+    add_column :pagetypes, :ledger_id, :integer
     rename_column :assets, :asset_collection_id, :pagetype_id
     rename_column :fields, :entity_id, :fieldgroup_id
     rename_column :annotations, :entity_id, :fieldgroup_id

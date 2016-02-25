@@ -9,7 +9,7 @@ class RemoveTemplateFromActiveRecordsAndCleanupDatabase < ActiveRecord::Migratio
     add_column :pagetypes, :description, :string
     remove_column :pagetypes, :author
     remove_column :pagetypes, :extern_ref
-    remove_column :pagetypes, :pagetype_id
+    # remove_column :pagetypes, :pagetype_id
     
     #remove_column :assets, :template_id
     #remove_column :assets, :pagetype_id
