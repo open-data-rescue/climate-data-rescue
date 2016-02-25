@@ -28,71 +28,10 @@ class UsersController < ApplicationController
     end
   end
   
-  def new
-    #if current_user && current_user.admin?
-      
-      User.transaction do
-        begin
-          #@user is a variable containing an instance of the "user.rb" model. It is passed to the user view "new.html.slim" (project_root/users/new) and is used to populate the page with information about the user instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new user instance.
-          @user = User.new
-        rescue => e
-          # flash[:danger] = e.message
-        end
-      end
-      
-      respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @user }
-      end
-      
-    # else
-      # flash[:danger] = 'Only administrators can modify users! <a href="' + new_user_session_path + '">Log in to continue.</a>'
-      # redirect_to root_path
-    # end
-  end
-
-  def create
-    #if current_user && current_user.admin?
-      User.transaction do
-        begin
-          #@user is a variable containing an instance of the "user.rb" model created with data passed in the params of the "new.html.slim" form submit action.
-          @user = User.new(users_params)
-        rescue => e
-          flash[:danger] = e.message
-        end
-      end
-      
-      respond_to do |format|
-        if @user.save
-          format.html { redirect_to @user, notice: 'User was successfully created.' }
-          format.json { render json: @user, status: :created, location: @user }
-        else
-          format.html { redirect_to "/new-user", notice: 'User creation failed!' }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
-      end
-    # else
-      # flash[:danger] = 'Only administrators can modify users! <a href="' + new_user_session_path + '">Log in to continue.</a>'
-      # redirect_to root_path
-    # end
-  end
+  
 
   def edit
-    if current_user && current_user.admin? || current_user.id == @user.id
-      
-      User.transaction do
-        begin
-          #@user is a variable containing an instance of the "user.rb" model. It is passed to the user view "edit.html.slim" (project_root/users/edit) and is used to populate the page with information about the user instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent user instance.
-          @user = User.find(params[:id])
-        rescue => e
-          # flash[:danger] = e.message
-        end
-      end
-      
-    else
-      flash[:danger] = 'Only administrators can modify users! <a href="' + new_user_session_path + '">Log in to continue.</a>'
-      redirect_to root_path
-    end
+      @user = User.find(params[:id])
   end
   
   def stats
@@ -106,31 +45,27 @@ class UsersController < ApplicationController
   end
 
   def update
-    if current_user && current_user.admin? || current_user.id == @user.id
-      
+    
       User.transaction do
         begin
           #@user is a variable containing an instance of the "user.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           @user = User.find(params[:id])
+          @user.update_attributes(users_params)
+          
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
       
       respond_to do |format|
-        if @user.update_attributes(users_params)
-          format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        if @user.save
+          format.html { redirect_to @user, success: 'User was successfully updated.' }
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
           format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       end
-      
-    else
-      flash[:danger] = 'Only administrators can modify users! <a href="' + new_user_session_path + '">Log in to continue.</a>'
-      redirect_to root_path
-    end
   end
 
   def destroy

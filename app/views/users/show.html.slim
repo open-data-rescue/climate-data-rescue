@@ -13,9 +13,9 @@
     p = @user.about
     - if @user.id == current_user.id || current_user.admin?
       /! if current user is admin or this is their user page, show links to edit the user information
-      = link_to 'Edit', "#{@user.id}/edit"
+      = link_to 'Edit', edit_user_url(@user)
       '&nbsp|
-      = link_to 'Back', "/users"
+      = link_to 'Back', users_url
   .medium-4.columns
     p = image_tag @user.avatar.url, :class => "user-avatar"
 
