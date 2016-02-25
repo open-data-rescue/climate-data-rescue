@@ -37,7 +37,7 @@ h2 New transcription
   /! Conditional statement to determine if a page was sucessfully loaded
   - if @page
       #binding
-        = image_tag (@page.upload.url), :id => "baseImage", :draggable => true
+        = image_tag (@page.upload.url), :id => "baseImage", :draggable => true, :class => "transcribeable-img"
   - else
     p No page selected
   /! Pass this div the value of the current authenticity token for use in building the new forms with javascript for each annotation

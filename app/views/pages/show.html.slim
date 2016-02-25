@@ -1,6 +1,6 @@
 h3 = @page.name
 /!show the page image
-p = image_tag @page.upload.url
+p = image_tag @page.upload.url(:medium)
 = link_to 'Transcribe', new_transcription_path(@transcription, :currentPage => @page)
 <br />
 <hr />
