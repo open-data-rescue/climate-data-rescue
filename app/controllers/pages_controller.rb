@@ -84,11 +84,11 @@ class PagesController < ApplicationController
       Page.transaction do
         begin
           @page = Page.new(page_params)
-          @page.extract_upload_dimensions
+          # @page.extract_upload_dimensions
           #respond_with(@page, location: page_path(@page)) if @page.save
           @page.save!
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
         

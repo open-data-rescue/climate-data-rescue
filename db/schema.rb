@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209012910) do
+ActiveRecord::Schema.define(version: 20160224104701) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -89,8 +89,14 @@ ActiveRecord::Schema.define(version: 20160209012910) do
     t.integer  "transcription_id",     limit: 4
     t.string   "name",                 limit: 255
     t.integer  "pagetype_id",          limit: 4
+    t.string   "accession_number",     limit: 255
+    t.string   "ledger_id",            limit: 255
+    t.string   "ledger_volume",        limit: 255
+    t.date     "from_date"
+    t.date     "to_date"
   end
 
+  add_index "pages", ["ledger_id"], name: "index_pages_on_ledger_id", using: :btree
   add_index "pages", ["pagetype_id"], name: "index_pages_on_pagetype_id", using: :btree
   add_index "pages", ["transcription_id"], name: "index_pages_on_transcription_id", using: :btree
 
