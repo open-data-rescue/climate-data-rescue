@@ -26,3 +26,6 @@ log
 tmp
 log/**
 tmp/**
+.project
+config/database.yml
+log
