@@ -1,4 +1,6 @@
 # Change these
+set :branch, ENV['BRANCH'] || "production"
+
 server '132.216.28.226', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:rsmithlal/ClimateDataRescue.git'
