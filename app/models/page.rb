@@ -8,32 +8,44 @@ class Page < ActiveRecord::Base
                   { :thumb => "100x100>",
                     :medium => "300x300"}, 
                   :default_url => "/images/:style/missing.png"
-  validates_attachment_content_type :upload, :content_type => /\Aimage\/.*\Z/
+  validates_attachment_content_type :upload, :presence => true, :content_type => /\Aimage\/.*\Z/
   after_create :set_name_to_filename
   before_save :extract_upload_dimensions
-  after_create :parse_filename
+  # after_create :parse_filename
+  
+  def to_jq_upload
+      {
+        "name" => read_attribute(:upload_file_name),
+        "size" => upload.size,
+        "url" => upload.url,
+        "thumbnailUrl" => upload.url(:thumb),
+        "deleteUrl" => "/pages/#{self.id}",
+        "deleteType" => "DELETE",
+        "pageId" => "page-#{self.id}"
+      }
+  end
   
   # after_create :parse_filename
-  def parse_filename
-    if self.upload.present?
-      filename = self.upload_file_name
-      components = filename.split("_")
-      unless components.count == 6
-        raise "invalid filename"
-      end
-      self.accession_number = components[1]
-      if components[2].count == 1
-        self.ledger_id = components[2]
-      else  
-        raise "invalid filename"
-      end
-      self.ledger_volume = components[3]
-      self.from_date = Date.parse(components[4])
-      self.to_date = Date.parse(components[5])
-      self.pagetype_id = components[6]
-      self.save!
-    end
-  end
+  # def parse_filename
+    # if self.upload.present?
+      # filename = self.upload_file_name
+      # components = filename.split("_")
+      # unless components.count == 6
+        # raise "invalid filename"
+      # end
+      # self.accession_number = components[1]
+      # if components[2].count == 1
+        # self.ledger_id = components[2]
+      # else  
+        # raise "invalid filename"
+      # end
+      # self.ledger_volume = components[3]
+      # self.from_date = Date.parse(components[4])
+      # self.to_date = Date.parse(components[5])
+      # self.pagetype_id = components[6]
+      # self.save!
+    # end
+  # end
   
   #sets the name attribute to the filename of the attached image
   def set_name_to_filename

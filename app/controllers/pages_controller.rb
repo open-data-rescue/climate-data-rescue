@@ -79,26 +79,40 @@ class PagesController < ApplicationController
   # POST /pages
   # POST /pages.json
   def create
+    #raise params.inspect
     #@page is a variable containing an instance of the "page.rb" model created with data passed in the params of the "new.html.slim" form submit action.
     if current_user && current_user.admin?
       Page.transaction do
         begin
-          @page = Page.new(page_params)
-          # @page.extract_upload_dimensions
-          #respond_with(@page, location: page_path(@page)) if @page.save
-          @page.save!
+          if params[:page][:upload]
+            image = params[:page][:upload]
+            Rails.logger.info image
+            Rails.logger.info image.class
+            page = nil
+            if image.is_a? Array
+              page = Page.create!(:upload => image[0])
+            else
+              page = Page.create!(params.require(:page).permit(:upload))
+            end
+            
+            if page.id
+              flash[:success] = (t 'pages-uploaded') if page.upload.present?
+              respond_to do |format|
+                format.html { #(html response is for browsers using iframe solution)
+                  render :json => [page.to_jq_upload].to_json,
+                  :content_type => 'text/html',
+                  :layout => false
+                }
+                format.json {
+                  render :json => {files: [page.to_jq_upload] }.to_json
+                }
+              end
+            else
+              render :json => [{:error => page.errors.full_messages }], :status => :bad_request
+            end
+          end
         rescue => e
           flash[:danger] = e.message
-        end
-      end
-        
-      respond_to do |format|
-        if @page.id
-          format.html { redirect_to @page, notice: 'Page was successfully created.' }
-          format.json { render json: @page, status: :created, location: @page }
-        else
-          format.html { render action: "new" }
-          format.json { render json: @page.errors, status: :unprocessable_fieldgroup }
         end
       end
     else
@@ -145,18 +159,13 @@ class PagesController < ApplicationController
   def destroy
     #this function is called to delete the instance of "page.rb" identified by the page_id passed to the destroy function when it was called
     if current_user && current_user.admin?
-      Page.transaction do
-        begin
-          @page = Page.find(params[:id])
-          @page.destroy
-        rescue => e
-          # flash[:danger] = e.message
-        end
-      end
+      
+      page = Page.find(params[:id])
+      page.destroy
       
       respond_to do |format|
         format.html { redirect_to pages_url }
-        format.json { head :no_content }
+        format.json { render :json => true }
       end
     else
       flash[:danger] = 'Only administrators can modify pages! <a href="' + new_user_session_path + '">Log in to continue.</a>'
