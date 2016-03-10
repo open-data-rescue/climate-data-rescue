@@ -14,6 +14,9 @@ html lang="en"
     = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
     = favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    
     = javascript_include_tag "application"
     /! Le HTML5 shim, for IE6-8 support of HTML elements
     /[if lt IE 9]
@@ -27,7 +30,7 @@ html lang="en"
 
     .container.main-app
       .row
-        .col-md-12
+        #message-container.col-md-12
           - flash.each do |key, value|
             div class=("alert alert-#{key}") = value.html_safe
       .row
@@ -60,3 +63,4 @@ html lang="en"
           = render 'application/footer'
         .row
           p.footer-copyright &copy; DRAW 2016
+    = render partial: 'shared/templates'
