@@ -4,6 +4,12 @@
 	</div>
 </div>
 <div class="row">
+    <div class="col-md-12">
+        <p>This has been disabled until the upload process is working completely.</p>
+    </div>
+</div>
+<% if false %>
+<div class="row">
 	<div class="col-md-12">
 		<%= form_tag(pages_url+ ".json", method: :post, multipart: true, id: "fileupload-form") do %>
                 <span class="btn btn-primary fileinput-button" style="margin-right: 0;">
@@ -21,6 +27,7 @@
           <% end %>
 	</div>
 </div>
+<% end %>
 
 <script type="text/javascript">
 	$(document).ready(function(){
