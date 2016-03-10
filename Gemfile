@@ -53,7 +53,13 @@ gem 'select2-rails'
 
 gem 'jbuilder'
 
-gem "jquery-fileupload-rails", '0.4.1'
+gem "jquery-fileupload-rails"
+
+gem 'rails-i18n' # translations
+gem 'i18n-active_record',
+      :git => 'git://github.com/svenfuchs/i18n-active_record.git',
+      :branch => 'rails-4-release',
+      :require => 'i18n/active_record'
 
 # gem 'aws-sdk'
 # To use ActiveModel has_secure_password
