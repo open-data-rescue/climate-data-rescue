@@ -1,0 +1,104 @@
+<div class="row">
+	<div class="col-md-12">
+		<h1>Upload Pages</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<%= form_tag(pages_url+ ".json", method: :post, multipart: true, id: "fileupload-form") do %>
+                <span class="btn btn-primary fileinput-button" style="margin-right: 0;">
+                    <i class="fa fa-upload" style="top: 2px;"></i>&nbsp;
+                    Upload Pages
+                    <%= file_field :page, :upload, :multiple => true %>
+                </span>
+                
+                
+                <table class="table table-striped" style="margin-top: 20px;">
+                    <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+                        
+                    </tbody>
+                </table>
+          <% end %>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var filesCount = 0;
+        var filesCompleted = 0;
+        var filesDeleted = 0;
+        
+        // $.getJSON($('#fileupload').prop('action'), function (files) {
+          // var fu = $('#fileupload').data('fileupload'), 
+            // template;
+          // fu._adjustMaxNumberOfFiles(-files.length);
+          // template = fu._renderDownload(files)
+            // .appendTo($('#fileupload .files'));
+          // // Force reflow:
+          // fu._reflow = fu._transition && template.length &&
+            // template[0].offsetWidth;
+          // template.addClass('in');
+          // $('#loading').remove();
+        // });
+        
+		$('#fileupload-form').pageUploader({
+            max_number : 20,
+            submit_fn : function(){
+                if ($('#continue-btn').prop('disabled') != 'disabled'){
+                    $('#continue-btn').prop('disabled', true);
+                }
+                filesCount++;
+                console.log('#files: ' + filesCount);
+            },
+            complete_fn : function(){
+                //empty so it skips the default complete action
+                var empty = null;
+            },
+            always_fn : function(){
+                filesCompleted++;
+                if (filesCount == (filesCompleted + filesDeleted)){
+                    $('#continue-btn').prop('disabled', false);
+                }
+                console.log('#files: ' + filesCount);
+                console.log('#files completed: ' + filesCompleted);
+                console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
+            },
+            delete_fn : function(data, response, xhr){
+                console.log(data);
+                console.log(data.context.context.firstElementChild);
+                
+                url = $("#" + data.context.context.firstElementChild.id).data('url');
+                
+                $.ajax({
+                    url : url,
+                    dataType : "json",
+                    type : "DELETE",
+                    success : function(response){
+                        console.log(response);
+                    }
+                });
+                
+                if (true){
+                    filesDeleted++;
+                    filesCompleted--;
+                }
+                if (filesCount == (filesCompleted + filesDeleted)){
+                    $('#continue-btn').prop('disabled', false);
+                }
+                console.log('#files: ' + filesCount);
+                console.log('#files deleted: ' + filesDeleted);
+                console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
+            },
+            fail_fn : function(data){
+                var response = data.jqXHR.responseJSON;
+                if (response){
+                    var errors = response[0].error;
+                    $(data.context).find('#error-msg').html(errors.join('<br>'));
+                    console.log('#files: ' + filesCount);
+                    console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
+                    // console.log(data);
+                }
+            }
+        });
+	});
+</script>
