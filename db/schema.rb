@@ -11,26 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224104701) do
+ActiveRecord::Schema.define(version: 20160310011306) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "annotations", force: :cascade do |t|
     t.text     "bounds",           limit: 65535
     t.text     "data",             limit: 65535
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "transcription_id", limit: 4
     t.integer  "asset_id",         limit: 4
     t.integer  "fieldgroup_id",    limit: 4
   end
 
   add_index "annotations", ["asset_id"], name: "index_annotations_on_asset_id", using: :btree
-  add_index "annotations", ["fieldgroup_id"], name: "index_annotations_on_entity_id", using: :btree
+  add_index "annotations", ["fieldgroup_id"], name: "index_annotations_on_fieldgroup_id", using: :btree
   add_index "annotations", ["transcription_id"], name: "index_annotations_on_transcription_id", using: :btree
 
   create_table "fieldgroups", force: :cascade do |t|
@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 20160224104701) do
     t.integer  "height",      limit: 4
     t.text     "bounds",      limit: 65535
     t.float    "zoom",        limit: 24
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "pagetype_id", limit: 4
   end
 
@@ -56,20 +56,20 @@ ActiveRecord::Schema.define(version: 20160224104701) do
     t.string   "initial_value", limit: 255
     t.text     "options",       limit: 65535
     t.text     "validations",   limit: 65535
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "fieldgroup_id", limit: 4
     t.string   "data_type",     limit: 255
   end
 
-  add_index "fields", ["fieldgroup_id"], name: "index_fields_on_entity_id", using: :btree
+  add_index "fields", ["fieldgroup_id"], name: "index_fields_on_fieldgroup_id", using: :btree
 
   create_table "ledgers", force: :cascade do |t|
     t.string   "title",      limit: 255
     t.string   "author",     limit: 255
     t.string   "extern_ref", limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -80,8 +80,8 @@ ActiveRecord::Schema.define(version: 20160224104701) do
     t.integer  "order",                limit: 4
     t.boolean  "done",                 limit: 1
     t.integer  "classification_count", limit: 4,   default: 0, null: false
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "upload_file_name",     limit: 255
     t.string   "upload_content_type",  limit: 255
     t.integer  "upload_file_size",     limit: 4
@@ -101,21 +101,24 @@ ActiveRecord::Schema.define(version: 20160224104701) do
   add_index "pages", ["transcription_id"], name: "index_pages_on_transcription_id", using: :btree
 
   create_table "pagetypes", force: :cascade do |t|
-    t.string   "title",        limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "ledger_id",    limit: 4
-    t.float    "default_zoom", limit: 24
-    t.string   "description",  limit: 255
+    t.string   "title",               limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "collectionID",        limit: 4
+    t.integer  "collection_group_id", limit: 4
+    t.integer  "ledger_id",           limit: 4
+    t.float    "default_zoom",        limit: 24
+    t.string   "description",         limit: 255
   end
 
-  add_index "pagetypes", ["ledger_id"], name: "index_asset_collections_on_collection_group_id", using: :btree
+  add_index "pagetypes", ["collectionID"], name: "index_pagetypes_on_collectionID", using: :btree
+  add_index "pagetypes", ["collection_group_id"], name: "index_pagetypes_on_collection_group_id", using: :btree
 
   create_table "photos", force: :cascade do |t|
     t.integer  "album_id",            limit: 4
     t.string   "name",                limit: 255
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "upload_file_name",    limit: 255
     t.string   "upload_content_type", limit: 255
     t.integer  "upload_file_size",    limit: 4
@@ -126,14 +129,24 @@ ActiveRecord::Schema.define(version: 20160224104701) do
 
   create_table "transcriptions", force: :cascade do |t|
     t.text     "page_data",  limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id",    limit: 4
     t.integer  "asset_id",   limit: 4
   end
 
   add_index "transcriptions", ["asset_id"], name: "index_transcriptions_on_asset_id", using: :btree
   add_index "transcriptions", ["user_id"], name: "index_transcriptions_on_user_id", using: :btree
+
+  create_table "translations", force: :cascade do |t|
+    t.string   "locale",         limit: 255
+    t.string   "key",            limit: 255
+    t.text     "value",          limit: 65535
+    t.text     "interpolations", limit: 65535
+    t.boolean  "is_proc",        limit: 1,     default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255,   default: "", null: false
@@ -146,8 +159,8 @@ ActiveRecord::Schema.define(version: 20160224104701) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 255
     t.string   "last_sign_in_ip",        limit: 255
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "name",                   limit: 255
     t.string   "avatar_file_name",       limit: 255
     t.string   "avatar_content_type",    limit: 255
