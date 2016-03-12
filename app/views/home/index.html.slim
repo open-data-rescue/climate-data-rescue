@@ -7,9 +7,9 @@
     .container
         - if user_signed_in?
 		    
-		        p Welcome #{current_user.name}!
+		        p Welcome #{current_user.display_name}!
 		        p Last login: #{current_user.last_sign_in_at}
-		        - if current_user.admin?
+		        - if current_user.admin
 		            p You are an administrator
 		- else
 		    
