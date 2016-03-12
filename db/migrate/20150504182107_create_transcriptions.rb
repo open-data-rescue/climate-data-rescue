@@ -1,7 +1,8 @@
 class CreateTranscriptions < ActiveRecord::Migration
   def change
     create_table :transcriptions do |t|
-      t.text :page_data
+      t.integer :user_id
+      t.integer :page_id
 
       t.timestamps
     end
