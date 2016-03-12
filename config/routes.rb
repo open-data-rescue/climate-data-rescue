@@ -23,7 +23,7 @@ Weather::Application.routes.draw do
 
   resources :fields
 
-  devise_for :users #, :path => 'u'
+  devise_for :users, :controllers => {:registrations => "registrations"}
   resources :users, except: [:create, :new]
 
   # Name it however you want
