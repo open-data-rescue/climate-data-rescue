@@ -84,19 +84,19 @@ class PagesController < ApplicationController
     if current_user && current_user.admin?
       Page.transaction do
         begin
-          if params[:page][:upload]
-            image = params[:page][:upload]
+          if params[:page][:image]
+            image = params[:page][:image]
             Rails.logger.info image
             Rails.logger.info image.class
             page = nil
             if image.is_a? Array
-              page = Page.create!(:upload => image[0])
+              page = Page.create!(:image => image[0])
             else
-              page = Page.create!(params.require(:page).permit(:upload))
+              page = Page.create!(params.require(:page).permit(:image))
             end
             
             if page.id
-              flash[:success] = (t 'pages-uploaded') if page.upload.present?
+              flash[:success] = (t 'pages-uploaded') if page.image.present?
               respond_to do |format|
                 format.html { #(html response is for browsers using iframe solution)
                   render :json => [page.to_jq_upload].to_json,
@@ -113,6 +113,7 @@ class PagesController < ApplicationController
           end
         rescue => e
           flash[:danger] = e.message
+          render :json => [{:error => e.message }], :status => :bad_request
         end
       end
     else
@@ -175,6 +176,6 @@ class PagesController < ApplicationController
   
   private
   def page_params
-    params.require(:page).permit(:classification_count, :display_width, :done, :ext_ref, :height, :order, :width, :pagetype_id, :upload, :name)
+    params.require(:page).permit(:classification_count, :done, :height, :order, :width, :page_type_id, :image, :title, :accession_number, :start_date, :start_date, :page_type)
   end
 end
