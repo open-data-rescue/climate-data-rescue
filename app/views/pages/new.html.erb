@@ -4,11 +4,6 @@
 	</div>
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <p>This has been disabled until the upload process is working completely.</p>
-    </div>
-</div>
-<div class="row">
 	<div class="col-md-12">
 		<%= form_tag(pages_url+ ".json", method: :post, multipart: true, id: "fileupload-form", remote: true) do %>
                 <p><%= t('upload-pages-help-text') %></p>
