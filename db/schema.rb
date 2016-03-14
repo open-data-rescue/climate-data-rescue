@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160312033746) do
+ActiveRecord::Schema.define(version: 20160310011306) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "top",              limit: 4
@@ -57,17 +57,19 @@ ActiveRecord::Schema.define(version: 20160312033746) do
   end
 
   create_table "ledgers", force: :cascade do |t|
-    t.string   "title",      limit: 255
-    t.string   "type",       limit: 255
-    t.date     "from_date"
-    t.date     "to_date"
+    t.string   "title",       limit: 255
+    t.string   "ledger_type", limit: 255
+    t.string   "volume",      limit: 255
+    t.date     "start_date"
+    t.date     "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "page_types", force: :cascade do |t|
     t.string   "title",       limit: 255
-    t.string   "type",        limit: 255
+    t.string   "ledger_type", limit: 255
+    t.integer  "number",      limit: 4
     t.text     "description", limit: 65535
     t.integer  "ledger_id",   limit: 4
     t.datetime "created_at"
@@ -83,20 +85,16 @@ ActiveRecord::Schema.define(version: 20160312033746) do
     t.boolean  "done",                 limit: 1,   default: false, null: false
     t.integer  "classification_count", limit: 4,   default: 0,     null: false
     t.string   "accession_number",     limit: 255
-    t.string   "ledger_type",          limit: 255
-    t.string   "ledger_volume",        limit: 255
-    t.date     "from_date"
-    t.date     "to_date"
+    t.date     "start_date"
+    t.date     "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image_file_name",      limit: 255
     t.string   "image_content_type",   limit: 255
     t.integer  "image_file_size",      limit: 4
     t.datetime "image_updated_at"
-    t.integer  "page_number",          limit: 4
   end
 
-  add_index "pages", ["ledger_type"], name: "index_pages_on_ledger_type", using: :btree
   add_index "pages", ["page_type_id"], name: "index_pages_on_page_type_id", using: :btree
 
   create_table "transcriptions", force: :cascade do |t|

@@ -9,14 +9,11 @@ class CreatePages < ActiveRecord::Migration
       t.boolean :done, :null => false, :default => 0
       t.integer :classification_count, :null => false, :default => 0
       t.string :accession_number
-      t.string :ledger_type
-      t.string :ledger_volume
-      t.date :from_date
-      t.date :to_date
+      t.date :start_date
+      t.date :end_date
 
       t.timestamps
     end
     add_index :pages, :page_type_id
-    add_index :pages, :ledger_type
   end
 end
