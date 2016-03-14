@@ -11,14 +11,14 @@ Weather::Application.routes.draw do
   resources :annotations
 
 
-  resources :pagetypes
+  resources :page_types
 
 
   resources :pages
   # post 'pages' => 'pages#create', as: "pages_create"
 
 
-  resources :fieldgroups
+  resources :field_groups
 
 
   resources :fields
@@ -27,7 +27,6 @@ Weather::Application.routes.draw do
   resources :users, except: [:create, :new]
 
   # Name it however you want
-  post 'create_user' => 'users#create', as: :create_user
 
   root :to => "home#index"
   match 'home' => 'home#index', :via => [:get, :post]
