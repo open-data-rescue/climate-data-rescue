@@ -7,15 +7,12 @@
           li = message
 
   = f.error_notification
-  = f.association :pagetype, include_blank: false
+  = f.association :page_type, include_blank: false
   .form-inputs
-    = f.input :name
-    = f.input :display_width
-    = f.input :ext_ref
+    = f.input :title
+    = f.input :accession_number
     = f.input :order
-    = f.input :done
-    = f.input :classification_count
-    = f.input :upload, as: :file
+    = f.input :image, as: :file
 
   .form-actions
     = f.button :submit
