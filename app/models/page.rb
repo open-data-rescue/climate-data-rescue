@@ -1,6 +1,5 @@
 class Page < ActiveRecord::Base
-  #attr_accessible :classification_count, :display_width, :done, :ext_ref, :height, :order, :width, :pagetype_id, :upload, :name
-  belongs_to :pagetype
+  belongs_to :page_type
   has_many :transcriptions
 
   #handles the image upload association
@@ -24,48 +23,60 @@ class Page < ActiveRecord::Base
       }
   end
   
-  # after_create :parse_filename
-  # def parse_filename
-    # Page.transaction do
+  after_create :parse_filename
+  def parse_filename
+    Page.transaction do
       # begin
-        # if self.image.present?
-          # filename = self.image_file_name
-          # components = filename.split("_")
-          # unless components.count == 6
-            # raise "invalid filename"
-          # end
-          # self.accession_number = components[0]
-          # if components[1].length == 1
-            # self.ledger_type = components[1]
-            # ledger = Ledger.find_by(type: components[1])
-            # if ledger
-#               
-            # end
-          # else  
-            # raise "invalid filename"
-          # end
-          # self.ledger_volume = components[2]
-          # self.from_date = Date.parse(components[3])
-          # self.to_date = Date.parse(components[4])
-#           
-          # #TODO: Check that the heck this part of the filename means.
-          # self.page_number = components[5]
-          # self.save!
-        # end
+        if self.image.present?
+          filename = self.image_file_name
+          components = filename.split("_")
+          if components.count == 6
+            self.accession_number = components[0]
+            if components[1].length == 1 && components[2]
+              ledger_type = components[1]
+              volume = components[2]
+              ledger = Ledger.find_by(volume: volume)
+              unless ledger
+                ledger = Ledger.create!(title: volume, ledger_type: ledger_type, volume: volume)
+              end
+            end
+            self.start_date = Date.parse(components[3])
+            self.end_date = Date.parse(components[4])
+            
+            self.title = components[3] + " to " + components[4]
+            
+            #TODO: Check that the heck this part of the filename means.
+            if components[5] && components[5].length > 0
+              page_type_num = components[5][0]
+              page_type = PageType.find_by(number: page_type_num, ledger_id: ledger.id)
+              if page_type
+                self.page_type_id = page_type.id
+              else
+                page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: (ledger_type + page_type_num))
+                
+                self.page_type_id = page_type.id
+              end
+            end
+          else
+            raise "invalid filename"
+          end
+          
+          self.save!
+        end
       # rescue => e
-#         
+        
       # end
-#       
-    # end
-  # end
+      
+    end
+  end
   
   
   #sets the height and width attributes of the page to those of its attachment dimensions on update
   def extract_dimensions
-    return unless self.upload?
+    return unless self.image?
     #regex to select all parts of the filename preceding the end of the supported file types and forms
     reg = /(.+\.(jpg|JPG|jpeg|JPEG|png|PNG))/
-    tempfile = self.upload.url
+    tempfile = self.image.url
     puts tempfile
     cleaned = reg.match(tempfile).to_s
     puts cleaned
@@ -80,9 +91,9 @@ class Page < ActiveRecord::Base
   end
   #sets the height and width attributes of the page to those of its attachment dimensions on create
   def extract_upload_dimensions
-    return unless upload?
+    return unless image?
     
-    tempfile = upload.queued_for_write[:original]
+    tempfile = image.queued_for_write[:original]
     
     unless tempfile.nil?
       geometry = Paperclip::Geometry.from_file(tempfile)
