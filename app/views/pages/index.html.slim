@@ -24,12 +24,11 @@ table
   tbody
     - @pages.each do |page|
       tr
-        td = link_to image_tag(page.upload.url(:thumb)), page_path(page)
-        td = link_to page.pagetype.title, page.pagetype
-        td = page.name
+        td = link_to image_tag(page.image.url(:thumb)), page_path(page)
+        td = page.page_type ? link_to(page.page_type.title, page_type_path(page.page_type)) : ''
+        td = page.title
         td = page.height
         td = page.width
-        td = page.display_width
         td = page.order
         td = page.done
         td = page.classification_count

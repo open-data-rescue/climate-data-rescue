@@ -1,6 +1,6 @@
-h3 = @page.name
+h3 = @page.title
 /!show the page image
-p = image_tag @page.upload.url(:medium)
+p = image_tag @page.image.url(:medium)
 = link_to 'Transcribe', new_transcription_path(@transcription, :currentPage => @page)
 <br />
 <hr />
@@ -12,9 +12,7 @@ table
       th Name
       th Height
       th Width
-      th Display width
-      th Display height
-      th Ext ref
+      th Ascession #
       th Order
       th Done
       th Transcriptions Completed
@@ -22,13 +20,11 @@ table
   tbody
     
     tr
-      td = link_to @page.pagetype.title, @page.pagetype
-      td = @page.name
+      td = @page.page_type ? link_to(@page.page_type.title, @page.page_type) : ''
+      td = @page.title
       td = @page.height
       td = @page.width
-      td = @page.display_width
-      td = @page.display_height
-      td = @page.ext_ref
+      td = @page.accession_number
       td = @page.order
       td = @page.done
       td = @page.classification_count
