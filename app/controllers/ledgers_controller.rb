@@ -42,14 +42,7 @@ class LedgersController < ApplicationController
   # GET /ledgers/new.json
   def new
     if current_user && current_user.admin?
-      Ledger.transaction do
-        begin
-          #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "new.html.slim" (project_root/ledgers/new) and is used to populate the page with information about the ledger instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new ledger instance.
-          @ledger = Ledger.new
-        rescue => e
-          # flash[:danger] = e.message
-        end
-      end
+      @ledger = Ledger.new
       respond_to do |format|
         format.html # new.html.erb
         format.json { render json: @ledger }
@@ -63,13 +56,11 @@ class LedgersController < ApplicationController
   # GET /ledgers/ledger_id/edit
   def edit
     if current_user && current_user.admin?
-      Ledger.transaction do
-        begin
-          #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "edit.html.slim" (project_root/ledgers/edit) and is used to populate the page with information about the ledger instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent ledger instance.
-          @ledger = Ledger.find(params[:id])
-        rescue => e
-          # flash[:danger] = e.message
-        end
+      begin
+        #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "edit.html.slim" (project_root/ledgers/edit) and is used to populate the page with information about the ledger instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent ledger instance.
+        @ledger = Ledger.find(params[:id])
+      rescue => e
+        flash[:danger] = e.message
       end
     else
       flash[:danger] = 'Only administrators can modify ledgers! <a href="' + new_user_session_path + '">Log in to continue.</a>'
@@ -84,19 +75,19 @@ class LedgersController < ApplicationController
       Ledger.transaction do
         begin
           #@ledger is a variable containing an instance of the "ledger.rb" model created with data passed in the params of the "new.html.slim" form submit action.
-          @ledger = Ledger.new(ledger_params)
+          @ledger = Ledger.create!(ledger_params)
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
   
       respond_to do |format|
-        if @ledger.save
-          format.html { redirect_to @ledger, notice: 'Pagetype was successfully created.' }
+        if @ledger && @ledger.id
+          format.html { redirect_to @ledger, notice: 'Ledger was successfully created.' }
           format.json { render json: @ledger, status: :created, location: @ledger }
         else
           format.html { render action: "new" }
-          format.json { render json: @ledger.errors, status: :unprocessable_fieldgroup }
+          format.json { render json: @ledger.errors, status: :unprocessable_ledger }
         end
       end
     else
@@ -112,8 +103,9 @@ class LedgersController < ApplicationController
       Ledger.transaction do
         begin
           #@ledger is a variable containing an instance of the "ledger.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
-          @ledger = Ledger.find(params[:id])
-          respond_with @ledger if @ledger.save
+          ledger = Ledger.find(params[:id])
+          ledger.update_attributes(ledger_params)
+          respond_with ledger if ledger.save
         rescue => e
           # flash[:danger] = e.message
         end
@@ -152,6 +144,6 @@ class LedgersController < ApplicationController
   
   private
   def ledger_params
-    params.require(:ledger).permit(:author, :extern_ref, :title, :pagetype_id)
+    params.require(:ledger).permit(:title, :ledger_type, :volume, :start_date, :end_date)
   end
 end

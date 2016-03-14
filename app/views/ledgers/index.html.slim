@@ -17,7 +17,7 @@ table
     - @ledgers.each do |ledger|
       tr
         td = ledger.title
-        td = ledger.pagetypes.count
+        td = ledger.page_types.count
         td = link_to 'Show', ledger
         td = link_to 'Edit', edit_ledger_path(ledger)
         td = link_to 'Destroy', ledger, data: {:confirm => 'Are you sure?'}, :method => :delete

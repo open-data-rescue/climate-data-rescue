@@ -9,8 +9,10 @@
   = f.error_notification
   .form-inputs
     = f.input :title
-    = f.input :author
-    = f.input :extern_ref
+    = f.input :ledger_type
+    = f.input :volume
+    /= f.input :start_date
+    /= f.input :end_date
 
   .form-actions
     = f.button :submit

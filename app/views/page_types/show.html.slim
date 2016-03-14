@@ -1,0 +1,18 @@
+
+
+.row
+  .col-md-12
+    h1 Pagetype: #{@page_type.title}
+
+p
+  strong Pagetype Title:&nbsp
+  = @page_type.title
+/! show image grid of all pages in this pagetype
+ul class="small-block-grid-4"
+  - @page_type.pages.each do |page|
+    li = link_to(image_tag(page.image.url(:thumb)), page_path(page)) + " " + page.title
+/! admin controls
+- if current_user.admin?
+  = link_to 'Edit', edit_page_type_path(@page_type)
+  '&nbsp|
+= link_to 'Back', page_types_path

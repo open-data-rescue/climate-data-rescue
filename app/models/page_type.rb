@@ -1,7 +1,7 @@
 class PageType < ActiveRecord::Base
   has_many :pages
   has_many :field_groups
-  has_one :ledger #, foreign_key: "ledger_id"
+  belongs_to :ledger #, foreign_key: "ledger_id"
 
 #TODO: Figure out what the hell this is for, and change it.
   def front_page

@@ -8,7 +8,7 @@
 	/! this will allow an admin to add a new user once I figure out how to remove the restriction on creating a new user while logged in
   / .medium-4.columns
   /   - if current_user.admin?
-  /     p = link_to "+ Add new user", "/new-user", class: "button expand"
+  /     p = link_to "+ Add new user", new_user_path, class: "button expand"
 
 - @users.each do |user|
   /! Each user's information is loaded on a new row div. If user is admin shows links to edit or remove a user, otherwise just shows their info to non-admin users
@@ -17,13 +17,13 @@
       .medium-2.columns
         = image_tag(user.avatar.url(:thumb))
       .medium-10.columns
-        h4 #{user.name}
+        h4 #{user.display_name}
         ul.inline-list
           
           li Rank
-          li #{user.contributions} Pages Transcribed
+          li #{user.num_contributions} Pages Transcribed
           li = link_to user.email, "mailto:#{user.email}"
           - if current_user.admin?
-	          li = link_to 'Edit', "users/#{user.id}/edit"
+	          li = link_to 'Edit', edit_user_path(user)
 	          li = link_to 'Delete', user, data: {:confirm => 'Are you sure?'}, :method => :delete
        

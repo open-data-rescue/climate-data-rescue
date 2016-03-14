@@ -27,12 +27,11 @@ class PageTypesController < ApplicationController
     if current_user
       #@page_type is a variable containing an instance of the "pagetype.rb" model. It is passed to the pagetype view "show.html.slim" (project_root/page_types/pagetype_id) and is used to populate the page with information about the pagetype instance.
       @page_type = PageType.find(params[:id])
-      @pages = Page.all
       respond_to do |format|
         format.html # show.html.erb
         #format.json { render json: @page_type }
         format.json {
-          render :json => @page.pagetype.to_json(:include => { :fieldgroups => { :include => :fields }})
+          render :json => @pagetype.to_json(:include => { :fieldgroups => { :include => :fields }})
         }
       end
     else
@@ -45,15 +44,7 @@ class PageTypesController < ApplicationController
   # GET /page_types/new.json
   def new
     if current_user && current_user.admin?
-      
-      PageType.transaction do
-        begin
-          #@page_type is a variable containing an instance of the "pagetype.rb" model. It is passed to the pagetype view "new.html.slim" (project_root/page_types/new) and is used to populate the page with information about the pagetype instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new pagetype instance.
-          @page_type = PageType.new
-        rescue => e
-          # flash[:danger] = e.message
-        end
-      end
+      @page_type = PageType.new
       
       respond_to do |format|
         format.html # new.html.erb
@@ -74,7 +65,7 @@ class PageTypesController < ApplicationController
           #@page_type is a variable containing an instance of the "pagetype.rb" model. It is passed to the pagetype view "edit.html.slim" (project_root/page_types/edit) and is used to populate the page with information about the pagetype instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent pagetype instance.
           @page_type = PageType.find(params[:id])
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
     else
@@ -92,19 +83,19 @@ class PageTypesController < ApplicationController
       PageType.transaction do  
         begin
           #@page_type is a variable containing an instance of the "pagetype.rb" model created with data passed in the params of the "new.html.slim" form submit action.
-          @page_type = PageType.new(pagetype_params)
+          @page_type = PageType.create!(pagetype_params)
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
       
       respond_to do |format|
-        if @page_type.save
+        if @page_type && @page_type.id
           format.html { redirect_to @page_type, notice: 'Pagetype was successfully created.' }
           format.json { render json: @page_type, status: :created, location: @page_type }
         else
           format.html { render action: "new" }
-          format.json { render json: @page_type.errors, status: :unprocessable_fieldgroup }
+          format.json { render json: @page_type.errors, status: :unprocessable_page_type }
         end
       end
       
