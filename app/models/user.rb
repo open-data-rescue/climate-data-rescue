@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 
   
   validates_attachment :avatar,
-    :size => { :in => 0..10.megabytes },
+    :size => { :in => 0..2.megabytes },
     :content_type => { :content_type => /^image\/(jpeg|png|gif|tiff)$/ }
 
   def privileged?

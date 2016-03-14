@@ -8,14 +8,14 @@
         <p>This has been disabled until the upload process is working completely.</p>
     </div>
 </div>
-<% if false %>
 <div class="row">
 	<div class="col-md-12">
-		<%= form_tag(pages_url+ ".json", method: :post, multipart: true, id: "fileupload-form") do %>
+		<%= form_tag(pages_url+ ".json", method: :post, multipart: true, id: "fileupload-form", remote: true) do %>
+                <p><%= t('upload-pages-help-text') %></p>
                 <span class="btn btn-primary fileinput-button" style="margin-right: 0;">
                     <i class="fa fa-upload" style="top: 2px;"></i>&nbsp;
                     Upload Pages
-                    <%= file_field :page, :upload, :multiple => true %>
+                    <%= file_field :page, :image, :multiple => true %>
                 </span>
                 
                 
@@ -27,26 +27,17 @@
           <% end %>
 	</div>
 </div>
-<% end %>
+<div class="row">
+    <div class="col-md-6 col-md-offset-6">
+        <%= link_to t('continue'), pages_url, id: "continue-btn", class: "btn btn-success btn-lg pull-right"%>
+    </div>
+</div>
 
 <script type="text/javascript">
 	$(document).ready(function(){
 		var filesCount = 0;
         var filesCompleted = 0;
         var filesDeleted = 0;
-        
-        // $.getJSON($('#fileupload').prop('action'), function (files) {
-          // var fu = $('#fileupload').data('fileupload'), 
-            // template;
-          // fu._adjustMaxNumberOfFiles(-files.length);
-          // template = fu._renderDownload(files)
-            // .appendTo($('#fileupload .files'));
-          // // Force reflow:
-          // fu._reflow = fu._transition && template.length &&
-            // template[0].offsetWidth;
-          // template.addClass('in');
-          // $('#loading').remove();
-        // });
         
 		$('#fileupload-form').pageUploader({
             max_number : 20,

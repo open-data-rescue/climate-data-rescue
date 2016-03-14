@@ -7,6 +7,8 @@ class CreateFields < ActiveRecord::Migration
       t.string :initial_value
       t.text :options
       t.text :validations
+      t.integer :field_group_id
+      t.string :data_type
 
       t.timestamps
     end

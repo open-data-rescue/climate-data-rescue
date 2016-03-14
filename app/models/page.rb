@@ -1,65 +1,82 @@
 class Page < ActiveRecord::Base
-  #attr_accessible :classification_count, :display_width, :done, :ext_ref, :height, :order, :width, :pagetype_id, :upload, :name
-  belongs_to :pagetype
+  belongs_to :page_type
   has_many :transcriptions
 
   #handles the image upload association
-  has_attached_file :upload, :styles =>  
+  has_attached_file :image, :styles =>  
                   { :thumb => "100x100>",
                     :medium => "300x300"}, 
                   :default_url => "/images/:style/missing.png"
-  validates_attachment_content_type :upload, :presence => true, :content_type => /\Aimage\/.*\Z/
-  after_create :set_name_to_filename
+  validates_attachment_content_type :image, :presence => true, :content_type => /\Aimage\/.*\Z/
   before_save :extract_upload_dimensions
   # after_create :parse_filename
   
   def to_jq_upload
       {
-        "name" => read_attribute(:upload_file_name),
-        "size" => upload.size,
-        "url" => upload.url,
-        "thumbnailUrl" => upload.url(:thumb),
+        "name" => read_attribute(:image_file_name),
+        "size" => image.size,
+        "url" => image.url,
+        "thumbnailUrl" => image.url(:thumb),
         "deleteUrl" => "/pages/#{self.id}",
         "deleteType" => "DELETE",
         "pageId" => "page-#{self.id}"
       }
   end
   
-  # after_create :parse_filename
-  # def parse_filename
-    # if self.upload.present?
-      # filename = self.upload_file_name
-      # components = filename.split("_")
-      # unless components.count == 6
-        # raise "invalid filename"
+  after_create :parse_filename
+  def parse_filename
+    Page.transaction do
+      # begin
+        if self.image.present?
+          filename = self.image_file_name
+          components = filename.split("_")
+          if components.count == 6
+            self.accession_number = components[0]
+            if components[1].length == 1 && components[2]
+              ledger_type = components[1]
+              volume = components[2]
+              ledger = Ledger.find_by(volume: volume)
+              unless ledger
+                ledger = Ledger.create!(title: volume, ledger_type: ledger_type, volume: volume)
+              end
+            end
+            self.start_date = Date.parse(components[3])
+            self.end_date = Date.parse(components[4])
+            
+            self.title = components[3] + " to " + components[4]
+            
+            #TODO: Check that the heck this part of the filename means.
+            if components[5] && components[5].length > 0
+              page_type_num = components[5][0]
+              page_type = PageType.find_by(number: page_type_num, ledger_id: ledger.id)
+              if page_type
+                self.page_type_id = page_type.id
+              else
+                page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: (ledger_type + page_type_num))
+                
+                self.page_type_id = page_type.id
+              end
+            end
+          else
+            raise "invalid filename"
+          end
+          
+          self.save!
+        end
+      # rescue => e
+        
       # end
-      # self.accession_number = components[1]
-      # if components[2].count == 1
-        # self.ledger_id = components[2]
-      # else  
-        # raise "invalid filename"
-      # end
-      # self.ledger_volume = components[3]
-      # self.from_date = Date.parse(components[4])
-      # self.to_date = Date.parse(components[5])
-      # self.pagetype_id = components[6]
-      # self.save!
-    # end
-  # end
-  
-  #sets the name attribute to the filename of the attached image
-  def set_name_to_filename
-    if self.upload.present?
-      self.name = self.upload_file_name
-      self.save
+      
     end
   end
+  
+  
   #sets the height and width attributes of the page to those of its attachment dimensions on update
   def extract_dimensions
-    return unless self.upload?
+    return unless self.image?
     #regex to select all parts of the filename preceding the end of the supported file types and forms
     reg = /(.+\.(jpg|JPG|jpeg|JPEG|png|PNG))/
-    tempfile = self.upload.url
+    tempfile = self.image.url
     puts tempfile
     cleaned = reg.match(tempfile).to_s
     puts cleaned
@@ -74,9 +91,9 @@ class Page < ActiveRecord::Base
   end
   #sets the height and width attributes of the page to those of its attachment dimensions on create
   def extract_upload_dimensions
-    return unless upload?
+    return unless image?
     
-    tempfile = upload.queued_for_write[:original]
+    tempfile = image.queued_for_write[:original]
     
     unless tempfile.nil?
       geometry = Paperclip::Geometry.from_file(tempfile)
@@ -92,24 +109,14 @@ class Page < ActiveRecord::Base
   #constant that determines the # of transcriptions an page must have to be marked done
   CLASSIFICATION_COUNT = 5
 
-  def classification_limit
-    5
-  end
+  # def classification_limit
+    # 5
+  # end
 
-  # Don't want the image to be squashed
-  def display_height
-    if self.display_width
-      disp_height = (1.0 * self.display_width / self.width) * self.height
-      disp_height.to_i
-    else
-      self.height
-    end
-  end
+  
   #on new transcription creation, increment the classification count of its associated page
   def increment_classification_count
-    count = self.classification_count.nil? ? 0 : self.classification_count
-    count += 1
-    self.classification_count = count
+    self.classification_count += 1
     if self.classification_count == CLASSIFICATION_COUNT
       self.done = true
     end

@@ -39,11 +39,11 @@ nav.navbar.navbar-default.navbar-static-top
                 li = link_to "Mailbox", "#"
                 li class="#{yield(:users)}" = link_to "Users", "/users"
                 li class="#{yield(:ledgers)}" = link_to "Ledgers", ledgers_path
-                li class="#{yield(:pagetypes)}" = link_to "Pagetypes", pagetypes_path
+                li class="#{yield(:pagetypes)}" = link_to "Pagetypes", page_types_path
                 li class="#{yield(:pages)}" = link_to "Pages", pages_path
                 li class="#{yield(:transcriptions)}" = link_to "Transcriptions", transcriptions_path
                 li class="#{yield(:annotations)}" = link_to "Annotations", annotations_path
-                li class="#{yield(:fieldgroups)}" = link_to "Field Groups", fieldgroups_path
+                li class="#{yield(:fieldgroups)}" = link_to "Field Groups", field_groups_path
                 li class="#{yield(:fields)}" = link_to "Fields", fields_path
         li class="#{yield(:contact)}" = link_to "Contact us", "/contact"
 
