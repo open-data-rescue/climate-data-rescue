@@ -1,21 +1,18 @@
 
 
 .row
-  .medium-8.columns
-    h1 Pagetype: #{@pagetype.title}
-  .medium-4.columns
-    /! Add button for admins to add a new page
-    p = link_to "+ Add new page", new_page_path(pagetype_id: @pagetype.id), class: "button expand"
+  .col-md-12
+    h1 Pagetype: #{@page_type.title}
 
 p
   strong Pagetype Title:&nbsp
-  = @pagetype.title
+  = @page_type.title
 /! show image grid of all pages in this pagetype
 ul class="small-block-grid-4"
-  - @pagetype.pages.each do |page|
-    li = link_to image_tag(page.upload.url), page_path(page)
+  - @page_type.pages.each do |page|
+    li = link_to(image_tag(page.image.url(:thumb)), page_path(page)) + " " + page.title
 /! admin controls
 - if current_user.admin?
-  = link_to 'Edit', edit_pagetype_path(@pagetype)
+  = link_to 'Edit', edit_page_type_path(@page_type)
   '&nbsp|
-= link_to 'Back', pagetypes_path
+= link_to 'Back', page_types_path
