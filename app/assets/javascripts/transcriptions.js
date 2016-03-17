@@ -1,3 +1,4 @@
+$(document).ready(function(){
 //Javascript for custom functionality on new transcription page. 
 //All javascript written by the author unless otherwise credited. 
 //Code credited as "sourced from" have been modified little to none. 
@@ -66,9 +67,9 @@
 //end form submit action
 
 //function to toggle between field group form layers when you click on their respective tab. Marks current tab as active
-  $(".scribe_tab").bind("click",function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds 
+  $(".scribe_tab").click(function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds 
   to Field Group tabs in the transcription box */
-     $(".scribe_annotation_input, .DisplayBlock, .DisplayNone").hide(); //hide all other instances of the fieldgroup data forms when switching tabs
+     $(".scribe_annotation_input, .DisplayBlock, .DisplayNone").hide(); //hide all other instances of the field_group data forms when switching tabs
      $('#formInstructions').hide();
      $(this).addClass("scribe_selected_tab"); //mark clicked tab as active by settings its class
      $('#currentForm').removeAttr('id', 'currentForm'); //remove the ID 'currentForm' from whichever element currently has it
@@ -193,24 +194,24 @@ and http://jsfiddle.net/aasFx/ */
 
     /*We're adding a form to create an annotation associated with a transcription that has not been created yet. In order to associate the newly
     created annotations with the future new transcription of the page we are on, the model instance ID of the last created transcription is passed
-    to the forms for each fieldgroup tab in the transcription box. When the user clicks on the tab for that field group (fieldgroup), the form for
-    that fieldgroup is given the ID "currentForm" to identify it as the active form. Upon clicking the submit button in the transcription box, we
+    to the forms for each field_group tab in the transcription box. When the user clicks on the tab for that field group (field_group), the form for
+    that field_group is given the ID "currentForm" to identify it as the active form. Upon clicking the submit button in the transcription box, we
     get the ID of the most recent transription using the ruby code "Transcription.last" and increment it by one to associate our new annotation
     with the next created transcription (the one we have yet to submit on the current page). */
     var transcriptionId = $('#currentForm').attr('transcriptionCount');
     transcriptionId++;
-    //Let's also get the ID of the fieldgroup related to the current form and the page we are transcribing
-    var fieldgroupId = $('#currentForm').attr('fieldgroupId');
+    //Let's also get the ID of the field_group related to the current form and the page we are transcribing
+    var field_groupId = $('#currentForm').attr('field_groupId');
     var pageId = $('#currentForm').attr('pageId');
-    /*Append hidden fields to have the form automatically associate the annotation with the current (future) transcription, the fieldgroup whose
+    /*Append hidden fields to have the form automatically associate the annotation with the current (future) transcription, the field_group whose
     fields we are collecting data from, and the page that we are transcribing. */
     form.append(
        $("<input/>", 
            { 
-             name:'annotation[fieldgroup_id]', 
+             name:'annotation[field_group_id]', 
              type:'hidden', 
-             value: fieldgroupId,
-             id: 'annotation_fieldgroup_id' 
+             value: field_groupId,
+             id: 'annotation_field_group_id' 
            }
         )
     );
@@ -262,3 +263,5 @@ and http://jsfiddle.net/aasFx/ */
 
   }
 //end form
+
+});

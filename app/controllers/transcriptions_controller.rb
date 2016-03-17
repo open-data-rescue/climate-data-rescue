@@ -46,22 +46,15 @@ class TranscriptionsController < ApplicationController
   # GET /transcriptions/new.json
   def new
     if current_user
-      
-      Transcription.transaction do
-        begin
-          # @transcription is a variable containing an instance of the "transcription.rb" model.
-          # It is passed to the transcription view "new.html.slim" (project_root/transcriptions/new)
-          # and is used to populate the page with information about the transcription instance.
-          # "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to 
-          # set the attributes of the new transcription instance.
-          @user = current_user
-          get_or_assign_page(params[:currentPage])
-          @fieldgroups = @page.pagetype.fieldgroups.all
-          @transcription = Transcription.new
-        rescue => e
-          # flash[:danger] = e.message
-        end
-      end
+      # @transcription is a variable containing an instance of the "transcription.rb" model.
+      # It is passed to the transcription view "new.html.slim" (project_root/transcriptions/new)
+      # and is used to populate the page with information about the transcription instance.
+      # "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to 
+      # set the attributes of the new transcription instance.
+      @user = current_user
+      get_or_assign_page(params[:currentPage])
+      @field_groups = @page.page_type.field_groups.all
+      @transcription = Transcription.new
       
     else
       flash[:danger] = 'Only users can modify transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
@@ -194,7 +187,7 @@ class TranscriptionsController < ApplicationController
     if currentPage.present?
       @page = Page.find(currentPage)
     else
-      @page = Page.transcribeable.order("RANDOM()").first
+      @page = Page.transcribeable.order("RAND()").first
     end
   end
   
