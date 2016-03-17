@@ -21,7 +21,7 @@ table
   tbody
     - @fields.each do |field|
       tr
-        td = field.fieldgroup.name
+        td = field.field_group ? field.field_group.name : ''
         td = field.name
         td = field.field_key
         td = field.kind
