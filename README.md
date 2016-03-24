@@ -258,7 +258,7 @@ There are a number of models in ClimateDataRescue:
 - libjpeg62, libjpeg62-dev
 
 ##Requirements Installation Guide
-###ruby-1.9.3-p551, using RVM
+###ruby-2.3.0, using RVM
 - [RVM Installation Guide](http://www.webupd8.org/2014/11/how-to-install-rvm-ruby-version-manager.html) or follow instructions below
 - If RVM is not currently installed, from the terminal, add the repository for RVM: 
 ```
@@ -271,7 +271,7 @@ sudo apt-get install rvm
 ```
 - install ruby
 ```
-rvm install ruby-1.9.3-p551
+rvm install ruby-2.3.0
 rvm alias create default <ruby>
 ```
 - install bundler gem
@@ -285,11 +285,6 @@ sudo apt-get install sqlite3
 ```
 - if you use another database system, look for a guide. There are certain things you must do to get PostgreSQL and MySQL working properly
 
-###NodeJS
-- install from terminal
-```
-sudo apt-get install nodejs
-```
 ### LibJPEG
 - install from terminal
 ```
@@ -309,6 +304,12 @@ cd <your_project_directory_location>
 ```
 bundle install
 ```
+- create a database.yml file on config with your server details
+ 
+- run database migrations
+
+`rake db:migrate`
+
 - run the rails server
 ```
 rails s OR rails server
