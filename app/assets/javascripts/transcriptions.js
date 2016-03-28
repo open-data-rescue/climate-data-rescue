@@ -69,28 +69,27 @@ $(document).ready(function(){
 //function to toggle between field group form layers when you click on their respective tab. Marks current tab as active
   $(".scribe_tab").click(function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds 
   to Field Group tabs in the transcription box */
-     $(".scribe_annotation_input, .DisplayBlock, .DisplayNone").hide(); //hide all other instances of the field_group data forms when switching tabs
+     $tab = $(this);
+     $(".transcription_form").hide(); //hide all other instances of the field_group data forms when switching tabs
      $('#formInstructions').hide();
-     $(this).addClass("scribe_selected_tab"); //mark clicked tab as active by settings its class
-     $('#currentForm').removeAttr('id', 'currentForm'); //remove the ID 'currentForm' from whichever element currently has it
-     $('#' + $(this).attr("divId")).parents('form').attr('id', 'currentForm');//mark form associated with the clicked tab as 'currentForm'
+     $tab.addClass("scribe_selected_tab"); //mark clicked tab as active by settings its class
+     // $('#currentForm').removeAttr('id', 'currentForm'); //remove the ID 'currentForm' from whichever element currently has it
+     // $('#' + $(this).attr("divId")).parents('form').attr('id', 'currentForm');//mark form associated with the clicked tab as 'currentForm'
 
-     $(this).siblings().removeClass('scribe_selected_tab'); //set all siblings of the clicked tab as unselected
-     var divId= $(this).attr("divId");
-     currentFieldGroup = divId;
-     $("#" + divId).show();
+     $tab.siblings().removeClass('scribe_selected_tab'); //set all siblings of the clicked tab as unselected
+     
+     var $currentForm = $("form#" + $tab.data('form-id'));
+     $currentForm.show();
+
      //console.log('success'); 
   });
 //end field toggler
 
 //open transcription box at page image mouse click position
-  jQuery(document).ready(function(){
-    $("#baseImage").click(function(e){
-           $("#scribe_annotation_box").show(500); /*open the box with a delay of half a second. This is what makes the transcription 
-           box open with a flourish. Remove the value from the .show() function to make it open instantly */
-           $("#scribe_annotation_box").offset({left:e.pageX,top:e.pageY}); //set position of the box to open at the click event 'e' position
-
-          });
+  $("#baseImage").click(function(e){
+     $("#scribe_annotation_box").show(500); /*open the box with a delay of half a second. This is what makes the transcription 
+     box open with a flourish. Remove the value from the .show() function to make it open instantly */
+     $("#scribe_annotation_box").offset({left:e.pageX,top:e.pageY}); //set position of the box to open at the click event 'e' position
   });
 //end transcription box toggle
 
