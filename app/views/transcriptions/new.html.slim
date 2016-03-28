@@ -58,7 +58,7 @@ h2 New transcription
           /! Build the tabs with each field_group name
           - @field_groups.each do |field_group|
             
-            li id="scribe_tab_#{field_group.name}" class="scribe_tab" divID="scribe_input_#{field_group.name}" = field_group.name
+            li id="scribe_tab_#{field_group.name.gsub(" ", "_")}" class="scribe_tab" divID="scribe_input_#{field_group.name.gsub(" ", "_")}" = field_group.name
             
       /! Builds the bottom half of the annotation box with the forms and fields for each field_group to be transcribed
       div id="scribe_bottom_area"
@@ -71,47 +71,47 @@ h2 New transcription
               form class="transcription_form" transcriptionCount="#{Transcription.count}" field_groupId="#{field_group.id}"
                 /! hidden fields to include in the captured JSON data but not viewable to the user. Helps keep track of which page and which group of fields were transcribed.
                 input type="hidden" name="Filename" value="#{@page.image_file_name}"
-                input type="hidden" name="Field Group" value="#{field_group.name}"
+                input type="hidden" name="Field Group" value="#{field_group.name.gsub(" ", "_").gsub(" ", "_")}"
                 - if index == 0
                   /! By default, each form is hidden and the user sees only the instructions paragraph until they click on a tab
-                  div id="scribe_input_#{field_group.name}" class="scribe_annotation_input DisplayNone"
+                  div id="scribe_input_#{field_group.name.gsub(" ", "_").gsub(" ", "_")}" class="scribe_annotation_input DisplayNone"
                     /! Programatically populate the form with input fields corresponding to each field linked to the current field_group. In the future, this will create input fields of the type specified in the :type attribute of the field model instance using the options specified it its :options attribute. Currently creates text fields with no data validation
                     - field_group.fields.each do |field|
                       .scribe_input_field.scribe_current_inputs style=("display: block;")
                         p.scribe_input_label = field.name
-                        input index="#{field.name}" kind="text" name="#{field.name}" placeholder="--" size="10" /
+                        input index="#{field.name.gsub(" ", "_")}" kind="text" name="#{field.name.gsub(" ", "_").gsub(" ", "_")}" placeholder="--" size="10" /
                     input.ok_button type="submit" value="" /
                   - index + 1
                 - else
-                  div id="scribe_input_#{field_group.name}" class="scribe_annotation_input DisplayNone"
+                  div id="scribe_input_#{field_group.name.gsub(" ", "_").gsub(" ", "_")}" class="scribe_annotation_input DisplayNone"
                     
                     - field_group.fields.each do |field|
                       .scribe_input_field.scribe_current_inputs style=("display: block;")
                         p.scribe_input_label = field.name
-                        input index="#{field.name}" kind="text" name="#{field.name}" placeholder="--" size="10" /
+                        input index="#{field.name.gsub(" ", "_").gsub(" ", "_")}" kind="text" name="#{field.name.gsub(" ", "_").gsub(" ", "_")}" placeholder="--" size="10" /
                     input.ok_button type="submit" value="" /
                   - index + 1
               - formIndex + 1
             - else
               form class="transcription_form" transcriptionCount="#{Transcription.count}" field_groupId="#{field_group.id}" pageId='#{@page.id}'
                 input type="hidden" name="Filename" value="#{@page.title}"
-                input type="hidden" name="Field Group" value="#{field_group.name}"
+                input type="hidden" name="Field Group" value="#{field_group.name.gsub(" ", "_")}"
                 - if index == 0
-                  div id="scribe_input_#{field_group.name}" class="scribe_annotation_input DisplayNone"
+                  div id="scribe_input_#{field_group.name.gsub(" ", "_")}" class="scribe_annotation_input DisplayNone"
                     
                     - field_group.fields.each do |field|
                       .scribe_input_field.scribe_current_inputs style=("display: block;")
                         p.scribe_input_label = field.name
-                        input index="#{field.name}" kind="text" name="#{field.name}" placeholder="--" size="10" /
+                        input index="#{field.name.gsub(" ", "_")}" kind="text" name="#{field.name.gsub(" ", "_")}" placeholder="--" size="10" /
                     input.ok_button type="submit" value="" /
                   - index + 1
                 - else
-                  div id="scribe_input_#{field_group.name}" class="scribe_annotation_input DisplayNone"
+                  div id="scribe_input_#{field_group.name.gsub(" ", "_")}" class="scribe_annotation_input DisplayNone"
                     
                     - field_group.fields.each do |field|
                       .scribe_input_field.scribe_current_inputs style=("display: block;")
                         p.scribe_input_label = field.name
-                        input index="#{field.name}" kind="text" name="#{field.name}" placeholder="--" size="10" /
+                        input index="#{field.name.gsub(" ", "_")}" kind="text" name="#{field.name.gsub(" ", "_")}" placeholder="--" size="10" /
                     input.ok_button type="submit" value="" /
                   - index + 1
     
