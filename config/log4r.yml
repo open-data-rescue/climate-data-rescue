@@ -1,0 +1,37 @@
+log4r_config:
+  # define all loggers ...
+  loggers:
+    - name      : production
+      level     : WARN
+      trace     : 'false'
+      outputters :
+      - datefile
+    - name      : staging
+      level     : DEBUG
+      trace     : 'true'
+      outputters :
+      - datefile
+      - console
+    - name      : development
+      level     : DEBUG
+      trace     : 'true'
+      outputters :
+      - datefile
+      - console
+
+  # define all outputters (incl. formatters)
+  outputters:
+  - type: DateFileOutputter
+    name: datefile
+    dirname: "log"
+    filename: "climate.log" # notice the file extension is needed! 
+    formatter:
+      date_pattern: '%H:%M:%S'
+      pattern     : '%d %l: %m '
+      type        : PatternFormatter
+  - type: StdoutOutputter
+    name: console
+    formatter:
+      date_pattern: '%H:%M:%S'
+      pattern     : '%d %l: %m '
+      type        : PatternFormatter

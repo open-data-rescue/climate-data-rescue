@@ -32,7 +32,7 @@ group :assets do
     #gem "twitter-bootstrap-rails"
 end
 
-
+gem 'log4r'
 
 #for user authentication
 gem 'devise', '~> 3.5.4' #"3.2"
