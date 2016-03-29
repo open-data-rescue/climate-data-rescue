@@ -31,8 +31,8 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-# set :linked_files, %w{config/database.yml}
-# set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_files, %w{config/database.yml config/initializers/secret_token.rb}
+set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
@@ -73,21 +73,11 @@ namespace :deploy do
     end
   end
 
-  desc "Symlink shared config files"
-  task :symlink_config_files do
-    on roles(:app) do
-      execute :sudo, "ln -s #{ deploy_to }/shared/config/database.yml #{ current_path }/config/database.yml"
-      execute :sudo, "ln -s #{ deploy_to }/shared/config/initializers/secret_token.rb #{ current_path }/config/initializers/secret_token.rb"
-      execute :sudo, "ln -s #{ deploy_to }/shared/log #{ current_path }/log"
-      execute :sudo, "ln -s #{ deploy_to }/shared/tmp #{ current_path }/tmp"
-    end
-  end
 
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
-  after :finishing,     :symlink_config_files
 end
 
 # ps aux | grep puma    # Get puma pid
