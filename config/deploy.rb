@@ -73,10 +73,16 @@ namespace :deploy do
     end
   end
 
+  desc "Symlink shared config files"
+  task :symlink_config_files do
+      run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/database.yml #{ current_path }/config/database.yml"
+  end
+
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
+  after :finishing,     :symlink_config_files
 end
 
 # ps aux | grep puma    # Get puma pid
