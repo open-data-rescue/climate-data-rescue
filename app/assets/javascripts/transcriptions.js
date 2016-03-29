@@ -16,8 +16,8 @@ $(document).ready(function(){
 //end global vars
 
 //make transcription elements resizable and draggable
-  $( "#scribe_zoom_box" ).resizable();
-  $( "#scribe_transcription_area" ).resizable();
+  // $( "#scribe_zoom_box" ).resizable();
+  // $( "#scribe_transcription_area" ).resizable();
 //end transcription box controls
 
 //on transcription form submit, capture input as json and close the transcription box
@@ -69,28 +69,27 @@ $(document).ready(function(){
 //function to toggle between field group form layers when you click on their respective tab. Marks current tab as active
   $(".scribe_tab").click(function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds 
   to Field Group tabs in the transcription box */
-     $(".scribe_annotation_input, .DisplayBlock, .DisplayNone").hide(); //hide all other instances of the field_group data forms when switching tabs
+     $tab = $(this);
+     $(".transcription_form").hide(); //hide all other instances of the field_group data forms when switching tabs
      $('#formInstructions').hide();
-     $(this).addClass("scribe_selected_tab"); //mark clicked tab as active by settings its class
-     $('#currentForm').removeAttr('id', 'currentForm'); //remove the ID 'currentForm' from whichever element currently has it
-     $('#' + $(this).attr("divId")).parents('form').attr('id', 'currentForm');//mark form associated with the clicked tab as 'currentForm'
+     $tab.addClass("scribe_selected_tab"); //mark clicked tab as active by settings its class
+     // $('#currentForm').removeAttr('id', 'currentForm'); //remove the ID 'currentForm' from whichever element currently has it
+     // $('#' + $(this).attr("divId")).parents('form').attr('id', 'currentForm');//mark form associated with the clicked tab as 'currentForm'
 
-     $(this).siblings().removeClass('scribe_selected_tab'); //set all siblings of the clicked tab as unselected
-     var divId= $(this).attr("divId");
-     currentFieldGroup = divId;
-     $("#" + divId).show();
+     $tab.siblings().removeClass('scribe_selected_tab'); //set all siblings of the clicked tab as unselected
+     
+     var $currentForm = $("form#" + $tab.data('form-id'));
+     $currentForm.show();
+
      //console.log('success'); 
   });
 //end field toggler
 
 //open transcription box at page image mouse click position
-  jQuery(document).ready(function(){
-    $("#baseImage").click(function(e){
-           $("#scribe_annotation_box").show(500); /*open the box with a delay of half a second. This is what makes the transcription 
-           box open with a flourish. Remove the value from the .show() function to make it open instantly */
-           $("#scribe_annotation_box").offset({left:e.pageX,top:e.pageY}); //set position of the box to open at the click event 'e' position
-
-          });
+  $("#baseImage").click(function(e){
+     $("#scribe_annotation_box").show(500); /*open the box with a delay of half a second. This is what makes the transcription 
+     box open with a flourish. Remove the value from the .show() function to make it open instantly */
+     $("#scribe_annotation_box").offset({left:e.pageX,top:e.pageY}); //set position of the box to open at the click event 'e' position
   });
 //end transcription box toggle
 
@@ -101,51 +100,51 @@ and http://jsfiddle.net/aasFx/ */
       var native_width = 0;
       var native_height = 0;
 
-      $("#scribe_annotation_box").draggable(
-      {
+      var image_object = new Image();
+      image_object.src = $("#baseImage").attr("src");
+
+      //This code is wrapped in the .load function which is important.
+      //width and height of the object would return 0 if accessed before 
+      //the image gets loaded.
+      native_width = image_object.width;
+      native_height = image_object.height;
+
+      // console.log(image_object);
+
+      $("#scribe_annotation_box").draggable({
           containment: "#magnify",
           scroll: false,
-          drag: function()
-          {
-              if (!native_width && !native_height)
-              {
-                  var image_object = new Image();
-                  image_object.src = $("#baseImage").attr("src");
+          drag: function(){
+            var $this = $(this);
+            var $baseImage = $("#baseImage");
+            var $box = $("#scribe_zoom_box");
 
-                  //This code is wrapped in the .load function which is important.
-                  //width and height of the object would return 0 if accessed before 
-                  //the image gets loaded.
-                  native_width = image_object.width;
-                  native_height = image_object.height;
-              }
-              else
-              {
+            var baseWidth = $baseImage.width();
+            var boxWidth = $box.width();
 
-                  var $this = $(this);
-                  var thisPos = $this.position();
-                  var parentPos = $('#baseImage').position();
+            var boxBaseRatio = Math.round(baseWidth / boxWidth);
+            var imageZoomRatio = Math.round(native_width / baseWidth);
+            var thisPos = $this.position();
+            var basePos = $baseImage.position();
 
-                  var mx = thisPos.left - parentPos.left;
-                  var my = thisPos.top - parentPos.top;
-                  
-                  
-                  if ($("#scribe_zoom_box").is(":visible"))
-                  {
-                      //The background position of scribe_zoom_box will be changed according to the position
-                      //of the mouse over the #baseImage image. So we will get the ratio of the pixel
-                      //under the mouse pointer with respect to the image and use that to position the 
-                      //large image inside the zoom box
-                      var rx = (Math.round(mx/$("#baseImage").width()*native_width + ($("#baseImage").width()/2) - $("#scribe_zoom_box").width()/2)*-1)-150;
-                      var ry = (Math.round(my/$("#baseImage").height()*native_height + ($("#baseImage").height()/2) - $("#scribe_zoom_box").height()/2))*-1;
-                      
-                      var bgp = rx + "px " + ry + "px";
-                      //If you move the box over the image now, you should see the zoom box in action
-                      $("#scribe_zoom_box").css("background-position", bgp);
-               
-                      
-                  }
-              }
-           }
+            var dX = basePos.left - thisPos.left;
+            var dY = basePos.top - thisPos.top;
+            // console.log("x-diff: " + dX + ", y-diff: " + dY);
+            
+            //The background position of scribe_zoom_box will be changed according to the position
+            //of the mouse over the #baseImage image. So we will get the ratio of the pixel
+            //under the mouse pointer with respect to the image and use that to position the 
+            //large image inside the zoom box
+            // var rx = (Math.round(mx/$base.width()*native_width + ($base.width()/2) - $zoom.width()/2)*-1)-150;
+            // var ry = (Math.round(my/$base.height()*native_height + ($base.height()/2) - $zoom.height()/2))*-1;
+            
+            var rX = Math.round(dX * imageZoomRatio);
+            var rY = Math.round(dY * imageZoomRatio);
+
+            var bgp = rX + "px " + rY + "px";
+            // //If you move the box over the image now, you should see the zoom box in action
+            $box.css("background-position", bgp);
+          }
       });
   });
 //end image zoom box

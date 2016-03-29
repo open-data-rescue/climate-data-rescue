@@ -1,3 +1,9 @@
+set :branch, ENV['BRANCH'] || "master"
+set :stage,           :staging
+
+set :deploy_to,       "/opt/www/climate_test"
+
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.

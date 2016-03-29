@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310011306) do
+ActiveRecord::Schema.define(version: 20160328185727) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "top",              limit: 4
@@ -24,23 +24,22 @@ ActiveRecord::Schema.define(version: 20160310011306) do
     t.datetime "updated_at"
   end
 
-  create_table "annotations_data", id: false, force: :cascade do |t|
-    t.integer  "annotation_id", limit: 4,   null: false
-    t.integer  "field_id",      limit: 4,   null: false
-    t.string   "value",         limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "data_entries", force: :cascade do |t|
+    t.string  "value",         limit: 255
+    t.string  "type",          limit: 255
+    t.integer "user_id",       limit: 4
+    t.integer "page_id",       limit: 4
+    t.integer "annotation_id", limit: 4
+    t.integer "field_id",      limit: 4
   end
 
-  add_index "annotations_data", ["annotation_id"], name: "index_annotations_data_on_annotation_id", using: :btree
-  add_index "annotations_data", ["field_id"], name: "index_annotations_data_on_field_id", using: :btree
-
   create_table "field_groups", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.string   "description", limit: 255
-    t.string   "help",        limit: 255
+    t.string   "name",         limit: 255
+    t.string   "description",  limit: 255
+    t.string   "help",         limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "page_type_id", limit: 4
   end
 
   create_table "fields", force: :cascade do |t|
