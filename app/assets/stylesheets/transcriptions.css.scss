@@ -22,7 +22,7 @@
 #scribe_annotation_box {
     font-family: verdana,tahoma,sans-serif;
     font-size: 13px;
-    height: 130px; 
+    height: 285px; 
     width:820px; 
     position:absolute; 
     z-index:200; 
@@ -94,14 +94,17 @@
     height: 130px; 
     width: 820px; 
     position:absolute; 
-    z-index:200; 
-    bottom:150px;
+    z-index:200;
 }
 #scribe_zoom_box {
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
     width:100%; 
-    height:130px; 
-    overflow:hidden; 
+    height:130px;
+    margin-bottom: 15px;
+    overflow:hidden;
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
 }
 #scribe_top_bar {
     height:71px;
@@ -139,11 +142,6 @@
 .scribe_input_field input {
     display:inline;
     float:left;
-}
-#scribe_zoom_box {
-    border-color: black;
-    border-style: solid;
-    border-width: 2px;
 }
 .scribe_marker {
     background: none repeat scroll 0 0 gray;
