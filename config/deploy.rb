@@ -76,6 +76,9 @@ namespace :deploy do
   desc "Symlink shared config files"
   task :symlink_config_files do
       run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/database.yml #{ current_path }/config/database.yml"
+      run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/initializers/secret_token.rb #{ current_path }/config/initializers/secret_token.rb"
+      run "#{ try_sudo } ln -s #{ deploy_to }/shared/log #{ current_path }/log"
+      run "#{ try_sudo } ln -s #{ deploy_to }/shared/tmp #{ current_path }/tmp"
   end
 
   before :starting,     :check_revision
