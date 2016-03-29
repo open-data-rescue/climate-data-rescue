@@ -1,3 +1,9 @@
+set :branch, ENV['BRANCH'] || "production"
+set :stage,           :production
+
+set :deploy_to,       "/opt/www/ClimateDataRescue"
+
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
