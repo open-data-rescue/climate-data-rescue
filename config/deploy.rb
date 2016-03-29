@@ -75,10 +75,10 @@ namespace :deploy do
 
   desc "Symlink shared config files"
   task :symlink_config_files do
-      run "ln -s #{ deploy_to }/shared/config/database.yml #{ current_path }/config/database.yml"
-      run "ln -s #{ deploy_to }/shared/config/initializers/secret_token.rb #{ current_path }/config/initializers/secret_token.rb"
-      run "ln -s #{ deploy_to }/shared/log #{ current_path }/log"
-      run "ln -s #{ deploy_to }/shared/tmp #{ current_path }/tmp"
+      invoke "ln -s #{ deploy_to }/shared/config/database.yml #{ current_path }/config/database.yml"
+      invoke "ln -s #{ deploy_to }/shared/config/initializers/secret_token.rb #{ current_path }/config/initializers/secret_token.rb"
+      invoke "ln -s #{ deploy_to }/shared/log #{ current_path }/log"
+      invoke "ln -s #{ deploy_to }/shared/tmp #{ current_path }/tmp"
   end
 
   before :starting,     :check_revision
