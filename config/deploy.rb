@@ -76,10 +76,10 @@ namespace :deploy do
   desc "Symlink shared config files"
   task :symlink_config_files do
     on roles(:app) do
-      execute "sudo ln -s #{ deploy_to }/shared/config/database.yml #{ current_path }/config/database.yml"
-      execute "sudo ln -s #{ deploy_to }/shared/config/initializers/secret_token.rb #{ current_path }/config/initializers/secret_token.rb"
-      execute "sudo ln -s #{ deploy_to }/shared/log #{ current_path }/log"
-      execute "sudo ln -s #{ deploy_to }/shared/tmp #{ current_path }/tmp"
+      execute :sudo "ln -s #{ deploy_to }/shared/config/database.yml #{ current_path }/config/database.yml"
+      execute :sudo "ln -s #{ deploy_to }/shared/config/initializers/secret_token.rb #{ current_path }/config/initializers/secret_token.rb"
+      execute :sudo "ln -s #{ deploy_to }/shared/log #{ current_path }/log"
+      execute :sudo "ln -s #{ deploy_to }/shared/tmp #{ current_path }/tmp"
     end
   end
 
