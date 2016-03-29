@@ -58,7 +58,7 @@ gem "jquery-fileupload-rails"
 gem 'rails-i18n' # translations
 gem 'i18n-active_record',
       :git => 'git://github.com/svenfuchs/i18n-active_record.git',
-      :branch => 'rails-4-release',
+      :tag => 'v0.1.0',
       :require => 'i18n/active_record'
 
 # gem 'aws-sdk'

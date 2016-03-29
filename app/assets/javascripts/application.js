@@ -16,6 +16,7 @@
 //= require bootstrap-sprockets
 //= require jquery-fileupload
 //= require page-uploader-plugin
+//= require transcriptions
 //= require_tree .
 
 // $(function(){ 
@@ -33,9 +34,9 @@ function alertMessageJson(message) {
     var msg = '';
     console.log(message);
     if (message){
-        message.forEach(function(el,idx,arr){
+        message.each(function(el,idx,arr){
             console.log(el);
-            el.error.forEach(function(e){
+            el.error.each(function(e){
                 msg += e;
                 if (el.error.length > 0) {
                     msg += '<br />';

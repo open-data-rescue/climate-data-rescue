@@ -1,5 +1,5 @@
 class FieldGroupsController < ApplicationController
-  load_and_authorize_resource
+  # load_and_authorize_resource
   respond_to :html, :json, :js
   #Corresponds to the "fieldgroup" model, FieldGroup.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the FieldGroup model
   #Fieldgroups contain (relate to) many fields and group them based on their location on a page
@@ -44,14 +44,8 @@ class FieldGroupsController < ApplicationController
   def new
     if current_user && current_user.admin?
       
-      FieldGroup.transaction do
-        begin
-          #@field_group is a variable containing an instance of the "FieldGroup.rb" model. It is passed to the fieldgroup view "new.html.slim" (project_root/fieldgroups/new) and is used to populate the page with information about the fieldgroup instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new fieldgroup instance.
-          @field_group = FieldGroup.new
-        rescue => e
-          # flash[:danger] = e.message
-        end
-      end
+      #@field_group is a variable containing an instance of the "FieldGroup.rb" model. It is passed to the fieldgroup view "new.html.slim" (project_root/fieldgroups/new) and is used to populate the page with information about the fieldgroup instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new fieldgroup instance.
+      @field_group = FieldGroup.new
       
       respond_to do |format|
         format.html # new.html.erb
@@ -67,14 +61,8 @@ class FieldGroupsController < ApplicationController
   # GET /fieldgroups/fieldgroup_id/edit
   def edit
     if current_user && current_user.admin?
-      FieldGroup.transaction do
-        begin
-          #@field_group is a variable containing an instance of the "FieldGroup.rb" model. It is passed to the fieldgroup view "edit.html.slim" (project_root/fieldgroups/edit) and is used to populate the page with information about the fieldgroup instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent fieldgroup instance.
-          @field_group = FieldGroup.find(params[:id])
-        rescue => e
-          # flash[:danger] = e.message
-        end
-      end
+      #@field_group is a variable containing an instance of the "FieldGroup.rb" model. It is passed to the fieldgroup view "edit.html.slim" (project_root/fieldgroups/edit) and is used to populate the page with information about the fieldgroup instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent fieldgroup instance.
+      @field_group = FieldGroup.find(params[:id])
     else
       flash[:danger] = 'Only users can modify fieldgroups! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
@@ -89,14 +77,14 @@ class FieldGroupsController < ApplicationController
       FieldGroup.transaction do
         begin
           #@field_group is a variable containing an instance of the "FieldGroup.rb" model created with data passed in the params of the "new.html.slim" form submit action.
-          @field_group = FieldGroup.new(params[:fieldgroup])
+          @field_group = FieldGroup.create!(field_group_params)
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
       
       respond_to do |format|
-        if @field_group.save
+        if @field_group.id
           format.html { redirect_to @field_group, notice: 'Fieldgroup was successfully created.' }
           format.json { render json: @field_group, status: :created, location: @field_group }
         else
@@ -126,7 +114,7 @@ class FieldGroupsController < ApplicationController
       end
 
       respond_to do |format|
-        if @field_group.update_attributes(params[:fieldgroup])
+        if @field_group.update_attributes(field_group_params)
           format.html { redirect_to @field_group, notice: 'Fieldgroup was successfully updated.' }
           format.json { head :no_content }
         else
@@ -164,5 +152,10 @@ class FieldGroupsController < ApplicationController
       flash[:danger] = 'Only users can modify fieldgroups! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
     end
+  end
+  
+  protected
+  def field_group_params
+    params.require(:field_group).permit(:name, :description, :help, :page_type_id)
   end
 end

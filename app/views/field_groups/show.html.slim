@@ -1,33 +1,18 @@
 
-h3 #{@fieldgroup.name} Details
-/! Show fieldgroup attribute information
+h3 #{@field_group.name} Details
+/! Show field_group attribute information
 p
   strong Name:
-  = @fieldgroup.name
+  = @field_group.name
 p
   strong Description:
-  = @fieldgroup.description
+  = @field_group.description
 p
   strong Help:
-  = @fieldgroup.help
-p
-  strong Resizable:
-  = @fieldgroup.resizable
-p
-  strong Width:
-  = @fieldgroup.width
-p
-  strong Height:
-  = @fieldgroup.height
-p
-  strong Bounds:
-  = @fieldgroup.bounds
-p
-  strong Zoom:
-  = @fieldgroup.zoom
+  = @field_group.help
 
-/! show all the fields associated with this fieldgroup and their attribute information in a table
-h3 #{@fieldgroup.name} Fields
+/! show all the fields associated with this field_group and their attribute information in a table
+h3 #{@field_group.name} Fields
 
 table
   thead
@@ -40,7 +25,7 @@ table
       th Validations
 
   tbody
-    - @fieldgroup.fields.each do |field|
+    - @field_group.fields.each do |field|
       tr
         td = link_to field.name, field
         td = field.field_key
@@ -49,8 +34,8 @@ table
         td = field.options
         td = field.validations
 
-= link_to 'Edit', edit_fieldgroup_path(@fieldgroup)
+= link_to 'Edit', edit_field_group_path(@field_group)
 '&nbsp|
-= link_to 'Delete', @fieldgroup, data: {:confirm => 'Are you sure?'}, :method => :delete
+= link_to 'Delete', @field_group, data: {:confirm => 'Are you sure?'}, :method => :delete
 '&nbsp|
-= link_to 'Back', fieldgroups_path
+= link_to 'Back', field_groups_path

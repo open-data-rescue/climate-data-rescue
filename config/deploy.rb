@@ -1,5 +1,5 @@
 # Change these
-set :branch, ENV['BRANCH'] || "production"
+
 
 server '132.216.28.226', port: 22, roles: [:web, :app, :db], primary: true
 
@@ -12,9 +12,7 @@ set :puma_workers,    0
 # Don't change these unless you know what you're doing
 set :pty,             true
 set :use_sudo,        false
-set :stage,           :production
 set :deploy_via,      :remote_cache
-set :deploy_to,       "/opt/www/ClimateDataRescue"
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
@@ -33,8 +31,8 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-# set :linked_files, %w{config/database.yml}
-# set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_files, %w{config/database.yml config/initializers/secret_token.rb}
+set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
@@ -74,6 +72,7 @@ namespace :deploy do
       invoke 'puma:restart'
     end
   end
+
 
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
