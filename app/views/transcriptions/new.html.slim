@@ -66,14 +66,14 @@ h2 New transcription
                     form id="field_group_#{field_group.id}" class="transcription_form" transcriptionCount="#{Transcription.count}" field_groupId="#{field_group.id}" style="display: none;"
                       /! hidden fields to include in the captured JSON data but not viewable to the user. Helps keep track of which page and which group of fields were transcribed.
                       input type="hidden" name="Filename" value="#{@page.image_file_name}"
-                      input type="hidden" name="Field Group" value="#{field_group.name.gsub(" ", "_").gsub(" ", "_")}"
+                      input type="hidden" name="Field Group" value="#{field_group.name.gsub(" ", "_")}"
                       /! By default, each form is hidden and the user sees only the instructions paragraph until they click on a tab
-                      div id="scribe_input_#{field_group.name.gsub(" ", "_").gsub(" ", "_")}" class="scribe_annotation_input"
+                      div id="scribe_input_#{field_group.name.gsub(" ", "_")}" class="scribe_annotation_input"
                         /! Programatically populate the form with input fields corresponding to each field linked to the current field_group. In the future, this will create input fields of the type specified in the :type attribute of the field model instance using the options specified it its :options attribute. Currently creates text fields with no data validation
                         - field_group.fields.each do |field|
                           .scribe_input_field.scribe_current_inputs style=("display: block;")
                             p.scribe_input_label = field.name
-                            input index="#{field.name.gsub(" ", "_")}" kind="text" name="#{field.name.gsub(" ", "_").gsub(" ", "_")}" placeholder="--" size="10" /
+                            input index="#{field.name.gsub(" ", "_")}" kind="text" name="#{field.name.gsub(" ", "_")}" placeholder="--" size="10" /
                         input.ok_button type="submit" value="" /
             
       - else
