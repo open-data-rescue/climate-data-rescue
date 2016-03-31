@@ -11,17 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160328185727) do
+ActiveRecord::Schema.define(version: 20160331213952) do
 
   create_table "annotations", force: :cascade do |t|
-    t.integer  "top",              limit: 4
-    t.integer  "right",            limit: 4
-    t.integer  "bottom",           limit: 4
-    t.integer  "left",             limit: 4
+    t.integer  "x_tl",             limit: 4
+    t.integer  "y_tl",             limit: 4
+    t.integer  "x_br",             limit: 4
+    t.integer  "y_br",             limit: 4
     t.integer  "page_id",          limit: 4
     t.integer  "transcription_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "date_time_id",     limit: 255
   end
 
   create_table "data_entries", force: :cascade do |t|
