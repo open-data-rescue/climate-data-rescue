@@ -42,7 +42,7 @@ $(document).ready(function(){
 
   /*call json grabber on form submit, put it in a box on the page. Converts form inputs to JSON. Adapted from 
   http://jsfiddle.net/davidhong/gP9bh/ */
-    $(function() {
+    // $(function() {
       $('.transcription_form').submit(function(event) {
         event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
         transcription */
@@ -63,7 +63,7 @@ $(document).ready(function(){
       });
 
       return false;
-    });
+    // });
 //end form submit action
 
 //function to toggle between field group form layers when you click on their respective tab. Marks current tab as active
@@ -95,8 +95,8 @@ $(document).ready(function(){
 
 /*function to enable the image zoom box. Adapted from http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
 and http://jsfiddle.net/aasFx/ */
-  $(document).ready(function()
-  {
+  // $(document).ready(function()
+  // {
       var native_width = 0;
       var native_height = 0;
 
@@ -146,7 +146,7 @@ and http://jsfiddle.net/aasFx/ */
             $box.css("background-position", bgp);
           }
       });
-  });
+  // });
 //end image zoom box
 
 //build form for each transcription submission

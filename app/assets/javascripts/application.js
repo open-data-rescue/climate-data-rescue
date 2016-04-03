@@ -17,14 +17,9 @@
 //= require jquery-fileupload
 //= require page-uploader-plugin
 //= require transcriptions
-//= require_tree .
+// require_tree .
 
-// $(function(){ 
-  // $(document).foundation();
-  // fade_out_system_alerts();
-// });
-// 
-// $(function(){ $(document).foundation(); });
+
 
 $(document).ready(function(){
 	
@@ -33,7 +28,7 @@ $(document).ready(function(){
 function alertMessageJson(message) {
     var msg = '';
     console.log(message);
-    if (message){
+    if (message && message.isArray){
         message.each(function(el,idx,arr){
             console.log(el);
             el.error.each(function(e){
@@ -45,6 +40,8 @@ function alertMessageJson(message) {
         });
         
         alertMessage(msg);
+    } else if (message && message.error){
+      alertMessage(message.error);
     }
 };
 
