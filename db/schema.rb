@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160331213952) do
+ActiveRecord::Schema.define(version: 20160403202102) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
