@@ -85,12 +85,19 @@
             },
             fail_fn : function(data){
                 var response = data.jqXHR.responseJSON;
+                console.log(data.context);
+                console.log(response);
                 if (response){
                     var errors = response[0].error;
-                    $(data.context).find('#error-msg').html(errors.join('<br>'));
+                    $(data.context[0]).find('.error-msg').html(errors);
                     console.log('#files: ' + filesCount);
                     console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
                     // console.log(data);
+                } else if (response && response.error){
+                  $(data.context).find('.error-msg').html(response.error);
+                  console.log("one error");
+                  console.log('#files: ' + filesCount);
+                  console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
                 }
             }
         });
