@@ -3,11 +3,18 @@ class Page < ActiveRecord::Base
   has_many :transcriptions
 
   #handles the image upload association
-  has_attached_file :image, :styles =>  
-                  { :thumb => "100x100>",
-                    :medium => "300x300"}, 
-                  :default_url => "/images/:style/missing.png"
-  validates_attachment_content_type :image, :presence => true, :content_type => /\Aimage\/.*\Z/
+  has_attached_file :image,
+                  styles: { 
+                    thumb: ["64x64#", :jpg],
+                    small: ["200x200>", :jpg],
+                    medium: ["400x400>", :jpg],
+                    large: ["600x600>", :jpg]
+                  },
+                  default_style: :medium,
+                  url: "/system/:attachment/:style/:hash.:extension",
+                  hash_secret: "SECRET"
+  validates_attachment :image,
+                     content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
   before_save :extract_upload_dimensions
   # after_create :parse_filename
   
