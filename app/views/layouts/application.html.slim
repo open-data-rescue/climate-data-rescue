@@ -9,18 +9,14 @@ html lang="en"
       = yield(:title)
     = csrf_meta_tags
     = stylesheet_link_tag "application", :media => "all"
-    = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
-    = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114'
-    = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
-    = favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
-    = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
+    /!= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     
     = javascript_include_tag "application"
     /! Le HTML5 shim, for IE6-8 support of HTML elements
     /[if lt IE 9]
-      = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"
+      = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"
 
 
   body
@@ -31,29 +27,24 @@ html lang="en"
     .container.main-app
       .row
         #message-container.col-md-12
-          - flash.each do |key, value|
-            div class=("alert alert-#{key}") = value.html_safe
+          = render partial: 'application/alerts'
       .row
-        - if params[:controller] == "transcriptions" && params[:action] == "new"
-          .col-md-12
-            = yield
-        - else
-          .col-sm-9
-            = yield
-          .col-sm-3
-            .well.sidebar-nav
-              - if user_signed_in?
-                h3 Actions
-                ul.nav.nav-list
-                  li = link_to "New Transcription", new_transcription_path, :class => "sidebar-url"
-                  li = link_to "My Transcriptions", "#", :class => "sidebar-url"
-                  li = link_to "Tutorial", "#", :class => "sidebar-url"
-                  li = link_to "Log out", "/logout", :class => "sidebar-url"
-              - else
-                h3 Get Started
-                ul.nav.nav-list
-                  li = link_to "Log in", "/login", :class => "sidebar-url"
-                  li = link_to "Sign up", "/users/sign_up", :class => "sidebar-url"
+        .col-sm-9
+          = yield
+        .col-sm-3
+          .well.sidebar-nav
+            - if user_signed_in?
+              h3 Actions
+              ul.nav.nav-list
+                li = link_to "New Transcription", new_transcription_path, :class => "sidebar-url"
+                li = link_to "My Transcriptions", "#", :class => "sidebar-url"
+                li = link_to "Tutorial", "#", :class => "sidebar-url"
+                li = link_to "Log out", "/logout", :class => "sidebar-url"
+            - else
+              h3 Get Started
+              ul.nav.nav-list
+                li = link_to "Log in", "/login", :class => "sidebar-url"
+                li = link_to "Sign up", "/users/sign_up", :class => "sidebar-url"
     
     .container.footer
       footer
@@ -62,7 +53,6 @@ html lang="en"
             img.partner-logo.geothink-logo src= "#{image_path 'Geothink_Logo_NT.png'}" target="" alt="" align="right"
           .col-sm-7.p-test
             img.partner-logo.mcgill-logo src= "#{image_path 'McGill_logoT.gif'}" target="" alt="" align="left"
-        br
         .row
           = render 'application/footer'
         .row
