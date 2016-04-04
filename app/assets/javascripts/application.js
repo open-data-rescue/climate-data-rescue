@@ -16,7 +16,7 @@
 //= require bootstrap-sprockets
 //= require jquery-fileupload
 //= require page-uploader-plugin
-//= require transcriptions
+// require transcriptions
 // require_tree .
 
 

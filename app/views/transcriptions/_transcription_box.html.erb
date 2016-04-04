@@ -1,0 +1,45 @@
+<div id="scribe_annotation_box">
+    <div id="scribe_transcription_area" style="min-height: 130px; width: 820px;">
+        <div id="scribe_top_bar">
+            <div id="scribe_prompt">
+                <p id="scribe_prompt_text">Enter the values for each field to be transcribed</p>
+                <button id="scribe_annotation_close_button" onClick="$('#scribe_annotation_box').hide();">Close</button>
+            </div>
+            <ul id="scribe_tab_bar">
+                <% field_groups.each do |field_group| %>
+                    <li id="scribe_tab_<%= field_group.name.gsub(" ", "_") %>" class="scribe_tab" data-form-id="field_group_<%= field_group.id %>"><%= field_group.name %></li>
+                <% end %>
+            </ul>
+        </div>
+        <div id="scribe_bottom_area">
+            <div id="scribe_input_bar">
+                <p id="formInstructions">Click a tab to begin</p>
+                <% field_groups.each do |field_group| %>
+                    <div id="scribe_input_<%= field_group.name.gsub(' ', '_') %>">
+                        <%= form_tag annotations_path, id: ("field_group_" + field_group.id.to_s), class:"annotation-form", style:"display: none;", remote: true do %>
+                            <%= hidden_field_tag "filename", page.image_file_name %>
+                            <%= hidden_field_tag "annotation[transcription_id]", transcription.id %>
+                            <%= hidden_field_tag "annotation[page_id]", page.id %>
+                            <%= hidden_field_tag "annotation[data][field_group_id]", field_group.id %>
+                            
+                            <% field_group.fields.each do |field| %>
+                                <div class="scribe_input_field">
+                                    <p class="scribe_input_label"><%= field.name %></p>
+                                    <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]", page.id %>
+                                    <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
+                                    <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id %>
+                                    <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][type]", field.data_type %>
+                                    <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:10 %>
+                                </div>
+                            <% end %>
+                            
+                            <%= submit_tag "Submit", class:"btn btn-primary btn-xs pull-left" %>
+                        <% end %>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    
+    <div id="scribe_zoom_box" style="background-image: url('<%= @page.image.url(:original) %>'); background-repeat: no-repeat;"></div>
+</div>

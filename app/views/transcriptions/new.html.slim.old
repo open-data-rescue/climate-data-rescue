@@ -35,7 +35,7 @@ h2 New transcription
   div
       - if @page
           #binding
-            = image_tag (@page.image.url), :id => "baseImage", :draggable => true, :class => "transcribeable-img"
+            = image_tag (@page.image.url(:xlarge)), :id => "baseImage", :draggable => true, :class => "transcribeable-img", data: {original: "#{@page.image.url(:original)}"}
           /! build transcription box and programatically populate it with tabs and forms for each field_group associated with the page_type of the current page to be transcribed  
           div id="scribe_annotation_box"
             /! create the box that will act as the zoom window to display the full-sized image for easier image viewing. Currently accurately displays the contents of the page image that are directly under the bottom edge of the zoom window unless it is resized. Div background image set with the style tag (to get the URL from the current page using ruby code) and scrolled using javascript
@@ -63,17 +63,23 @@ h2 New transcription
                   p id="formInstructions" Click on a tab to begin
                   - @field_groups.each do |field_group|
                     /! forms get attributes containing the current # of transcriptions and id of the field_group they relate to for passing javascript uisng jquery selectors
-                    form id="field_group_#{field_group.id}" class="transcription_form" transcriptionCount="#{Transcription.count}" field_groupId="#{field_group.id}" style="display: none;"
+                    - form_tag annotations_path, id:"field_group_#{field_group.id}", class:"transcription_form", style:"display: none;", remote: true
                       /! hidden fields to include in the captured JSON data but not viewable to the user. Helps keep track of which page and which group of fields were transcribed.
                       input type="hidden" name="Filename" value="#{@page.image_file_name}"
-                      input type="hidden" name="Field Group" value="#{field_group.name.gsub(" ", "_")}"
+                      input type="hidden" name="annotation[data][field_group_id]" value="#{field_group.id}"
                       /! By default, each form is hidden and the user sees only the instructions paragraph until they click on a tab
                       div id="scribe_input_#{field_group.name.gsub(" ", "_")}" class="scribe_annotation_input"
                         /! Programatically populate the form with input fields corresponding to each field linked to the current field_group. In the future, this will create input fields of the type specified in the :type attribute of the field model instance using the options specified it its :options attribute. Currently creates text fields with no data validation
                         - field_group.fields.each do |field|
                           .scribe_input_field.scribe_current_inputs style=("display: block;")
                             p.scribe_input_label = field.name
-                            input index="#{field.name.gsub(" ", "_")}" kind="text" name="#{field.name.gsub(" ", "_")}" placeholder="--" size="10" /
+                            = hidden_field_tag "annotation[data][#{field.name.gsub(" ", "_")}][field_id]", field.id
+                            - case field.kind
+                                - when "select"
+                                    = select_tag "annotation[data][#{field.name.gsub(" ", "_")}][user_input]", ( field.options.length > 0 ? field.options.split(",").collect{|o| "<option>" + o.strip + "</option>"}.join('') : '<option>No Options</option>' ).html_safe
+                                    p = "test"
+                                - else
+                                  input kind="text" name="annotation[data][#{field.name.gsub(" ", "_")}][user_input]" placeholder="--" size="10" /
                         input.ok_button type="submit" value="" /
             
       - else
