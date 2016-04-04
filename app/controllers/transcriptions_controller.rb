@@ -187,7 +187,7 @@ class TranscriptionsController < ApplicationController
     if currentPage.present?
       @page = Page.find(currentPage)
     else
-      @page = Page.transcribeable.order("RAND()").first
+      @page = Page.transcribeable.order("RAND(pages.id)").first
     end
   end
   
