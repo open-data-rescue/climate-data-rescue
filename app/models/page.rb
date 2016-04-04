@@ -8,7 +8,8 @@ class Page < ActiveRecord::Base
                     thumb: ["64x64#", :jpg],
                     small: ["200x200>", :jpg],
                     medium: ["400x400>", :jpg],
-                    large: ["600x600>", :jpg]
+                    large: ["600x600>", :jpg],
+                    xlarge: ["1000x1000>", :jpg]
                   },
                   default_style: :medium,
                   url: "/system/:attachment/:style/:hash.:extension",
@@ -56,13 +57,10 @@ class Page < ActiveRecord::Base
             if components[5] && components[5].length > 0
               page_type_num = components[5][0]
               page_type = PageType.find_by(number: page_type_num, ledger_id: ledger.id)
-              if page_type
-                self.page_type_id = page_type.id
-              else
-                page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: (ledger_type + page_type_num))
-                
-                self.page_type_id = page_type.id
+              if !page_type
+                page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: (ledger_type + page_type_num + "-" + volume))
               end
+              self.page_type_id = page_type.id
             end
           else
             raise "invalid filename"
@@ -110,7 +108,7 @@ class Page < ActiveRecord::Base
     end
   end
   #sets a scope for all transcribable pages to be those that are not done
-  scope :transcribeable, -> { where(done: false) }
+  scope :transcribeable, -> { joins(:page_type).where(done: false, page_types: {number: 1}) }
 
   
   #constant that determines the # of transcriptions an page must have to be marked done
