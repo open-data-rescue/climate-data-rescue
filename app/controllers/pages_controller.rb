@@ -83,19 +83,20 @@ class PagesController < ApplicationController
     #@page is a variable containing an instance of the "page.rb" model created with data passed in the params of the "new.html.slim" form submit action.
     if current_user && current_user.admin?
       Page.transaction do
-        begin
           if params[:page][:image]
             image = params[:page][:image]
-            Rails.logger.info image
-            Rails.logger.info image.class
             page = nil
-            if image.is_a? Array
-              page = Page.create!(:image => image[0])
-            else
-              page = Page.create!(params.require(:page).permit(:image))
+            begin
+              if image.is_a? Array
+                page = Page.create!(:image => image[0])
+              else
+                page = Page.create!(params.require(:page).permit(:image))
+              end
+            rescue => e
+              # flash[:danger] = e.message
+              render :json => [{:error => e.message }], :status => :bad_request
             end
-            
-            if page.id
+            if page && page.id
               flash[:success] = (t 'pages-uploaded') if page.image.present?
               respond_to do |format|
                 format.html { #(html response is for browsers using iframe solution)
@@ -107,18 +108,11 @@ class PagesController < ApplicationController
                   render :json => {files: [page.to_jq_upload] }.to_json
                 }
               end
-            else
-              render :json => [{:error => page.errors.full_messages }], :status => :bad_request
+            # else
+              # render :json => [{:error => page.errors.full_messages }], :status => :bad_request
             end
           end
-        rescue => e
-          flash[:danger] = e.message
-          render :json => [{:error => e.message }], :status => :bad_request
-        end
       end
-    else
-      flash[:danger] = 'Only administrators can modify pages! <a href="' + new_user_session_path + '">Log in to continue.</a>'
-      redirect_to root_path
     end
   end
 
