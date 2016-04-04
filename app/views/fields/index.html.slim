@@ -4,16 +4,17 @@
 
 h3 Available Fields
 /! List all fields and their attribute information in a table
-table
+table.table
   thead
     tr
       th Group
       th Name
       th Field key
-      th Kind
+      th HTML Field Type
       th Initial value
       th Options
       th Validations
+      th Data Type
       th
       th
       th
@@ -24,10 +25,11 @@ table
         td = field.field_group ? field.field_group.name : ''
         td = field.name
         td = field.field_key
-        td = field.kind
+        td = field.html_field_type
         td = field.initial_value
         td = field.options
         td = field.validations
+        td = field.data_type
         td = link_to 'Show', field
         td = link_to 'Edit', edit_field_path(field)
         td = link_to 'Destroy', field, data: {:confirm => 'Are you sure?'}, :method => :delete
