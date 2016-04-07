@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :transcriptions
+  has_many :pages
   #before_filter :authorize_admin, except [:index, :show]
 
   # Include default devise modules. Others available are:

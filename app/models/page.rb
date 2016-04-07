@@ -1,6 +1,7 @@
 class Page < ActiveRecord::Base
   belongs_to :page_type
   has_many :transcriptions
+  belongs_to :transcriber, class_name: "User"
 
   #handles the image upload association
   has_attached_file :image,
@@ -108,7 +109,7 @@ class Page < ActiveRecord::Base
     end
   end
   #sets a scope for all transcribable pages to be those that are not done
-  scope :transcribeable, -> { joins(:page_type).where(done: false, page_types: {number: 1}) }
+  scope :transcribeable, -> { joins(:page_type).where(done: false, transcriber_id: nil, page_types: {number: 1}) }
 
   
   #constant that determines the # of transcriptions an page must have to be marked done
