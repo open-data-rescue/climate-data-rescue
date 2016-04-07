@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404020411) do
+ActiveRecord::Schema.define(version: 20160407001538) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20160404020411) do
     t.string   "image_content_type",   limit: 255
     t.integer  "image_file_size",      limit: 4
     t.datetime "image_updated_at"
+    t.integer  "transcriber_id",       limit: 4
   end
 
   add_index "pages", ["page_type_id"], name: "index_pages_on_page_type_id", using: :btree
@@ -103,6 +104,7 @@ ActiveRecord::Schema.define(version: 20160404020411) do
     t.integer  "page_id",    limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "complete"
   end
 
   create_table "translations", force: :cascade do |t|
