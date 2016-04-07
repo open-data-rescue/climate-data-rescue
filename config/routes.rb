@@ -34,7 +34,7 @@ Weather::Application.routes.draw do
   match 'science' => 'home#science', :via => [:get, :post]
   match 'faq' => 'home#faq', :via => [:get, :post]
   match 'contact' => 'home#contact', :via => [:get, :post]
-  match 'transcribe' => 'transcriptions#new', :via => [:get, :post]
+  get 'transcribe(/:current_page_id)' => 'transcriptions#new', as: "transcribe_page"
   # match 'pagetypes' => 'pagetypes#index', :via => [:get, :post]
   match 'ledgers' => 'ledgers#index', :via => [:get, :post]
   match 'users' => 'users#index', :via => [:get, :post]
