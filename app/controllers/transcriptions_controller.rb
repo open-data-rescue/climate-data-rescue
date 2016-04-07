@@ -1,6 +1,7 @@
 class TranscriptionsController < ApplicationController
   #load_and_authorize_resource
   respond_to :html, :json, :js
+  layout 'layouts/transcriber', :only => [:edit]
   #Corresponds to the "transcription" model, transcription.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the transcription model
   #All .html.slim views for "transcription.rb" are located at "project_root\app\views\transcriptions"
   
@@ -52,7 +53,7 @@ class TranscriptionsController < ApplicationController
       # "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to 
       # set the attributes of the new transcription instance.
       @user = current_user
-      get_or_assign_page(params[:currentPage])
+      get_or_assign_page(params[:current_page_id])
       @field_groups = @page.page_type.field_groups.all
       @transcription = Transcription.new
       
@@ -65,24 +66,11 @@ class TranscriptionsController < ApplicationController
   # GET /transcriptions/transcription_id/edit
   def edit
     if current_user
-      
-      Transcription.transaction do
-        begin
-          # @transcription is a variable containing an instance of the "transcription.rb" model. 
-          # It is passed to the transcription view "edit.html.slim" (project_root/transcriptions/edit)
-          # and is used to populate the page with information about the transcription instance.
-          # "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to
-          # set the attributes of the curent transcription instance.
-          @transcription = Transcription.find(params[:id])
-          @page = @transcription.page
-          @user = current_user
-        rescue => e
-          # flash[:danger] = e.message
-        end
-      end
-      
+      @transcription = Transcription.find(params[:id])
+      @page = @transcription.page
+      @user = current_user
     else
-      flash[:danger] = 'Only users can modify transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      flash[:danger] = 'Only users can transcribe documents! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
     end
   end
@@ -96,29 +84,25 @@ class TranscriptionsController < ApplicationController
         begin
           # @transcription is a variable containing an instance of the "transcription.rb" model 
           # created with data passed in the params of the "new.html.slim" form submit action.
-          @transcription = Transcription.new(transcription_params)
-          # on new transcription creation, this function is called on the transcription page to 
-          # update it's transcription count. Once it reaches 5, the page is marked as "done"
-          @transcription.page.increment_classification_count
-          # increments current user's contribution count with each new transcription created by them
-          current_user.increment_contributions
+          @transcription = nil
+          @transcription = Transcription.create!(transcription_params)
+          @transcription.page.transcriber_id = transcription_params[:user_id]
+          @transcription.page.save!
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
       
       respond_to do |format|
-        if @transcription.save
-          format.html { redirect_to @transcription, notice: 'transcription was successfully created.' }
-          format.json { render json: @transcription, status: :created, location: @transcription }
+        if @transcription && @transcription.id
+          format.html { redirect_to edit_transcription_url(@transcription), info: 'You may now begin transcribing' }
         else
-          format.html { render action: "new" }
-          format.json { render json: @transcription.errors, status: :unprocessable_fieldgroup }
+          format.html { redirect_to transcribe_page_url(:current_page_id => params[:page_id]) }
         end
       end
       
     else
-      flash[:danger] = 'Only users can modify transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      flash[:danger] = 'Only users can create transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
     end
   end
@@ -181,10 +165,10 @@ class TranscriptionsController < ApplicationController
     end
   end
   
-  def get_or_assign_page(currentPage) #TODO: shouldn't this be in the helper - file not the controller?
+  def get_or_assign_page(page_id) #TODO: shouldn't this be in the helper - file not the controller?
   # this function gets a random page for display on the new transcription page 
   # if one has not been set by selecting "Transcribe" on an page's show page
-    if currentPage.present?
+    if page_id
       @page = Page.find(currentPage)
     else
       @page = Page.transcribeable.order("RAND(pages.id)").first
@@ -193,6 +177,6 @@ class TranscriptionsController < ApplicationController
   
   private
   def transcription_params
-    params.require(:transcription).permit()
+    params.require(:transcription).permit(:user_id, :page_id, :complete)
   end
 end
