@@ -33,10 +33,11 @@ $(document).ready(function(){
 //end field toggler
 
 //open transcription box at page image mouse click position
-  $("#baseImage").click(function(e){
+  $("#target-image").click(function(e){
      $("#scribe_annotation_box").show(500); /*open the box with a delay of half a second. This is what makes the transcription 
      box open with a flourish. Remove the value from the .show() function to make it open instantly */
      $("#scribe_annotation_box").offset({left:e.pageX,top:e.pageY}); //set position of the box to open at the click event 'e' position
+     $("#scribe_zoom_box").css("background-position-x", (-1 * e.pageX));
   });
 //end transcription box toggle
 });
@@ -46,7 +47,7 @@ $(document).ready(function(){
       var native_height = 0;
 
       var image_object = new Image();
-      image_object.src = $("#baseImage").data("original");
+      image_object.src = $("#target-image").attr("src");
 
       //This code is wrapped in the .load function which is important.
       //width and height of the object would return 0 if accessed before 
@@ -61,8 +62,9 @@ $(document).ready(function(){
           scroll: false,
           drag: function(){
             var $this = $(this);
-            var $baseImage = $("#baseImage");
+            var $baseImage = $("#target-image");
             var $box = $("#scribe_zoom_box");
+            var bgpY = $box.css("background-position-y");
 
             var baseWidth = $baseImage.width();
             var boxWidth = $box.width();
@@ -73,7 +75,6 @@ $(document).ready(function(){
             var basePos = $baseImage.position();
 
             var dX = basePos.left - thisPos.left;
-            var dY = basePos.top - thisPos.top;
             // console.log("x-diff: " + dX + ", y-diff: " + dY);
             
             //The background position of scribe_zoom_box will be changed according to the position
@@ -83,14 +84,31 @@ $(document).ready(function(){
             // var rx = (Math.round(mx/$base.width()*native_width + ($base.width()/2) - $zoom.width()/2)*-1)-150;
             // var ry = (Math.round(my/$base.height()*native_height + ($base.height()/2) - $zoom.height()/2))*-1;
             
-            var rX = Math.round(dX * imageZoomRatio);
-            var rY = Math.round(dY * imageZoomRatio);
+            var rX = Math.round(dX);
 
-            var bgp = rX + "px " + rY + "px";
+            var bgp = dX + "px " + bgpY;
             // //If you move the box over the image now, you should see the zoom box in action
             $box.css("background-position", bgp);
           }
       });
+      
+      $("#scribe_zoom_box").mousedown(function(e) {
+          $("#scribe_annotation_box").draggable("disable");
+          var $box = $(this);
+          var clickY = e.pageY;
+          var bgp = $box.css("background-position-y");
+          var bY = parseInt(bgp.slice(0,bgp.length - 2));
+          $(window).mousemove(function(e) {
+             var y = e.pageY;
+             var dY = clickY - y;
+             var bgpNew = bY - dY;
+             $box.css("background-position-y", bgpNew);
+          });
+      }).mouseup(function() {
+          $(window).unbind("mousemove");
+          $("#scribe_annotation_box").draggable("enable");
+      });
+      
   });
 //end image zoom box
 
