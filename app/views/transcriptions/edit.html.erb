@@ -1,0 +1,22 @@
+<% if @transcription %>
+    <div id="transcriber-container">
+        <div id="transcriber-toolbar">
+            <div id="transcription-buttons" class="btn-toolbar" role="toolbar">
+                <div class="btn-group" role="group" data-purpose="guide and help">
+                    <button type="button" class="btn btn-default">Instructions</button>
+                    <button type="button" class="btn btn-default">Help</button>
+                </div>
+                <div class="btn-group" role="group" data-purpose="action buttons">
+                    <button type="button" class="btn btn-default">New Annotation</button>
+                    <button type="button" class="btn btn-default">Button</button>
+                </div>
+            </div>
+            <div id="transcription-form-container">
+                
+            </div>
+        </div>
+        <div id="page-container">
+            <%= image_tag @transcription.page.image.url(:original), id: "target-image" %>
+        </div>
+    </div>
+<% end %>

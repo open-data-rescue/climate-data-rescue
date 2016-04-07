@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+          <%= "DRAW | " %>
+          <%= yield(:title) %>
+        </title>
+        <%= csrf_meta_tags %>
+        <%= stylesheet_link_tag "application", :media => "all"%>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        
+        <%= javascript_include_tag "application" %>
+    </head>
+    <body>
+        <%= yield %>
+        
+        <%= render partial: "transcription_box", locals: {page: @page, field_groups: @page.page_type.field_groups, transcription: @transcription} %>
+        <%= render partial: "transcription_js" %>
+    </body>
+</html>
