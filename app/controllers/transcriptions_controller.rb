@@ -15,7 +15,7 @@ class TranscriptionsController < ApplicationController
         #page with information about each transcription using @transcriptions.each (an iterative loop).
         @transcriptions = Transcription.all
       else
-        @transcriptions = current_user.transcriptions.all
+        @transcriptions = current_user.transcriptions
       end
     else
       flash[:danger] = 'Only users can modify transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
@@ -117,20 +117,16 @@ class TranscriptionsController < ApplicationController
           # @transcription is a variable containing an instance of the "transcription.rb" model 
           # with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           transcription = Transcription.find(params[:id])
-    
-          logger.error "count not find transcription to update" unless transcription
          
-          #transcription_params = params[:transcription]
-         
-          transcription.transcriptions.delete_all
-          transcription.add_transcriptions_from_json(transcription_params[:transcriptions])
+          transcription.update(transcription_params)
+          flash[:success] = "Transcription sucessfully updated!"
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
       
       respond_to do |format|
-        format.js { render :nothing => true, :status => :created }
+        format.html { redirect_to transcriptions_url}
       end
       
     else
