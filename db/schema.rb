@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 20160407001538) do
     t.integer  "page_id",    limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "complete"
+    t.boolean  "complete",             default: false, null: false
   end
 
   create_table "translations", force: :cascade do |t|
