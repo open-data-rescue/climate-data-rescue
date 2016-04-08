@@ -4,13 +4,14 @@
 
 h1 Listing transcriptions
 /! Load a list of all transcriptions into a table with their attribute info, including which page they relate to. Table rows are each transcription, table columns are self explanitory.
-table
+table class="table"
   thead
     tr
+      th ID
       th Page
       th Page Name
-      th Transcription ID
       th Annotation Count
+      th Complete?
       th
       th
       th
@@ -18,10 +19,11 @@ table
   tbody
     - @transcriptions.each do |transcription|
       tr
-        td = image_tag(transcription.page.upload.url(:thumb))
-        td = transcription.page.name
         td = transcription.id
+        td = image_tag(transcription.page.image.url(:small))
+        td = transcription.page.title
         td = transcription.annotations.count
+        td = (transcription.complete ? "Yes" : "No")
         td = link_to 'Show', transcription
         td = link_to 'Edit', edit_transcription_path(transcription)
         td = link_to 'Delete', transcription, data: {:confirm => 'Are you sure?'}, :method => :delete
