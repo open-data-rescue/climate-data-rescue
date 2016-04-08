@@ -16,11 +16,29 @@
                 <p id="formInstructions">Click a tab to begin</p>
                 <% field_groups.each do |field_group| %>
                     <div id="scribe_input_<%= field_group.name.gsub(' ', '_') %>">
-                        <%= form_tag annotations_path, id: ("field_group_" + field_group.id.to_s), class:"annotation-form", style:"display: none;", remote: true do %>
+                        <%= form_tag annotations_path, id: ("field_group_" + field_group.id.to_s), class:"annotation-form", style:"display: none;", remote: true, format: :json do %>
                             <%= hidden_field_tag "filename", page.image_file_name %>
-                            <%= hidden_field_tag "annotation[transcription_id]", transcription.id %>
-                            <%= hidden_field_tag "annotation[page_id]", page.id %>
-                            <%= hidden_field_tag "annotation[data][field_group_id]", field_group.id %>
+                            <%= hidden_field_tag "annotation[meta][transcription_id]", transcription.id %>
+                            <%= hidden_field_tag "annotation[meta][page_id]", page.id %>
+                            <%= hidden_field_tag "annotation[meta][field_group_id]", field_group.id %>
+                            <%= hidden_field_tag "annotation[meta][x_tl]", nil %>
+                            <%= hidden_field_tag "annotation[meta][y_tl]", nil %>
+                            <%= hidden_field_tag "annotation[meta][x_br]", nil %>
+                            <%= hidden_field_tag "annotation[meta][y_br]", nil %>
+                            
+                            
+                            <div class="scribe_input_field">
+                                <p class="scribe_input_label">Day of Week</p>
+                                <%= select_tag "annotation[week_day]", options_for_select(t('date.day_names')), required: true, prompt: "Select Day" %>
+                            </div>
+                            <div class="scribe_input_field">
+                                <p class="scribe_input_label">Observation Date</p>
+                                <%= select_tag "annotation[obs_date]", options_for_select(transcription.page.start_date..transcription.page.end_date), required: true, prompt: "Select Date" %>
+                            </div>
+                            <div class="scribe_input_field">
+                                <p class="scribe_input_label">Observation Time</p>
+                                <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00" %>
+                            </div>
                             
                             <% field_group.fields.each do |field| %>
                                 <div class="scribe_input_field">
@@ -28,7 +46,7 @@
                                     <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]", page.id %>
                                     <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
                                     <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id %>
-                                    <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][type]", field.data_type %>
+                                    <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
                                     <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:10 %>
                                 </div>
                             <% end %>
@@ -36,10 +54,25 @@
                             <%= submit_tag "Submit", class:"btn btn-primary btn-xs pull-left" %>
                         <% end %>
                     </div>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $("#field_group_<%= field_group.id.to_s %>").on("ajax:success", function(e, data, status, xhr) {
+                                console.log(e);
+                                console.log(data);
+                                console.log(status);
+                                console.log(xhr);
+                            }).on("ajax:error", function(e, xhr, status, error) {
+                                console.log(e);
+                                console.log(error);
+                                console.log(status);
+                                console.log(xhr);
+                            });
+                        });
+                    </script>
                 <% end %>
             </div>
         </div>
     </div>
     
-    <div id="scribe_zoom_box" style="background-image: url('<%= @page.image.url(:original) %>'); background-repeat: no-repeat; background-position-y: -200px;"></div>
+    <div id="scribe_zoom_box" style="background-image: url('<%= page.image.url(:original) %>'); background-repeat: no-repeat; background-position-y: -200px;"></div>
 </div>
