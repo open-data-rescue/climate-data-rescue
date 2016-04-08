@@ -17,7 +17,7 @@
                         <div class="checkbox">
                             <label style="color: white;">
                                 <%= hidden_field_tag "transcription[complete]", false %>
-                                <%= check_box_tag "transcription[complete]", true, checked: @transcription.complete %> Transcription is complete
+                                <%= check_box_tag "transcription[complete]", true, @transcription.complete %> Transcription is complete
                             </label>
                         </div>
                         <%= submit_tag "Stop Transcribing", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-primary" %>
