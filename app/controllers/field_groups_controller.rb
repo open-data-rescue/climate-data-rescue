@@ -145,7 +145,7 @@ class FieldGroupsController < ApplicationController
       end
 
       respond_to do |format|
-        format.html { redirect_to fieldgroups_url }
+        format.html { redirect_to field_groups_url }
         format.json { head :no_content }
       end
     else
