@@ -54,7 +54,7 @@ class TranscriptionsController < ApplicationController
       # set the attributes of the new transcription instance.
       @user = current_user
       get_or_assign_page(params[:current_page_id])
-      @field_groups = @page.page_type.field_groups.all
+      @field_groups = @page.page_type.field_groups if @page && @page.page_type
       @transcription = Transcription.new
       
     else
@@ -165,7 +165,7 @@ class TranscriptionsController < ApplicationController
   # this function gets a random page for display on the new transcription page 
   # if one has not been set by selecting "Transcribe" on an page's show page
     if page_id
-      @page = Page.find(currentPage)
+      @page = Page.find(page_id)
     else
       @page = Page.transcribeable.order("RAND(pages.id)").first
     end
