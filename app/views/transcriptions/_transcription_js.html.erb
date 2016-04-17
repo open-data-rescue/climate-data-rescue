@@ -81,7 +81,7 @@ $(document).ready(function(){
         console.log(status);
         console.log(xhr);
 
-        setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "success");
+        setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "info");
 
         $form.unbind("ajax:success");
         $form.on("ajax:success", function(e, status, data, xhr) {
@@ -171,7 +171,13 @@ $(document).ready(function(){
        $transcriber.show(500); /*open the box with a delay of half a second. This is what makes the transcription 
        box open with a flourish. Remove the value from the .show() function to make it open instantly */
        $transcriber.offset({left: 25, top: ($("#page-container").height() / 2)}); //set position of the box to open at the click event 'e' position
-       // $("#scribe_zoom_box").css("background-position-x", "-25px");
+
+       var position = {
+          x: $transcriber.offset().left - $(document).scrollLeft() - $("#canvas").offset().left,
+          y : $transcriber.offset().top - $(document).scrollTop() - $("#canvas").offset().top
+       };
+
+       $("#scribe_zoom_box").css("background-position-x", (-1 * position.x));
     }
   });
 //end transcription box toggle
@@ -197,30 +203,9 @@ $(document).ready(function(){
           scroll: false,
           drag: function(){
             var $this = $(this);
-            var $baseImage = $("#target-image");
             var $box = $("#scribe_zoom_box");
             var bgpY = $box.css("background-position-y");
-
-            var baseWidth = $baseImage.width();
-            var boxWidth = $box.width();
-
-            var boxBaseRatio = Math.round(baseWidth / boxWidth);
-            var imageZoomRatio = Math.round(native_width / baseWidth);
-            var thisPos = $this.position();
-            var basePos = $baseImage.position();
-
-            var dX = basePos.left - thisPos.left;
-            // console.log("x-diff: " + dX + ", y-diff: " + dY);
-            
-            //The background position of scribe_zoom_box will be changed according to the position
-            //of the mouse over the #baseImage image. So we will get the ratio of the pixel
-            //under the mouse pointer with respect to the image and use that to position the 
-            //large image inside the zoom box
-            // var rx = (Math.round(mx/$base.width()*native_width + ($base.width()/2) - $zoom.width()/2)*-1)-150;
-            // var ry = (Math.round(my/$base.height()*native_height + ($base.height()/2) - $zoom.height()/2))*-1;
-            
-            var rX = Math.round(dX);
-
+            var dX = -1 * ($this.offset().left - $(document).scrollLeft() - $("#canvas").offset().left);
             var bgp = dX + "px " + bgpY;
             // //If you move the box over the image now, you should see the zoom box in action
             $box.css("background-position", bgp);
