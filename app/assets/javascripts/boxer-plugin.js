@@ -34,8 +34,8 @@ $.widget("ui.boxer", $.ui.mouse, {
         var offset = $(options.appendTo).offset();
 
         var position = {
-	      x: event.pageX - $(document).scrollLeft() - $(options.appendTo).offset().left,
-	      y : event.pageY - $(document).scrollTop() - $(options.appendTo).offset().top
+	      x: event.pageX - $(document).scrollLeft() - offset.left,
+	      y : event.pageY - $(document).scrollTop() - offset.top
 	    };
 
 		this.opos = [position.x, position.y];
