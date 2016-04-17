@@ -1,5 +1,5 @@
 <div id="scribe_annotation_box">
-    <div id="scribe_transcription_area" style="min-height: 130px; width: 820px;">
+    <div id="scribe_transcription_area">
         <div id="scribe_top_bar">
             <div id="scribe_prompt">
                 <p id="scribe_prompt_text">Enter the values for each field to be transcribed</p>
@@ -21,10 +21,10 @@
                             <%= hidden_field_tag "annotation[meta][transcription_id]", transcription.id %>
                             <%= hidden_field_tag "annotation[meta][page_id]", page.id %>
                             <%= hidden_field_tag "annotation[meta][field_group_id]", field_group.id %>
-                            <%= hidden_field_tag "annotation[meta][x_tl]", nil %>
-                            <%= hidden_field_tag "annotation[meta][y_tl]", nil %>
-                            <%= hidden_field_tag "annotation[meta][x_br]", nil %>
-                            <%= hidden_field_tag "annotation[meta][y_br]", nil %>
+                            <%= hidden_field_tag "annotation[meta][x_tl]", nil, id: "x-field" %>
+                            <%= hidden_field_tag "annotation[meta][y_tl]", nil, id: "y-field" %>
+                            <%= hidden_field_tag "annotation[meta][x_br]", nil, id: "width-field" %>
+                            <%= hidden_field_tag "annotation[meta][y_br]", nil, id: "height-field" %>
                             
                             
                             <div class="scribe_input_field">
@@ -51,22 +51,12 @@
                                 </div>
                             <% end %>
                             
-                            <%= submit_tag "Submit", class:"btn btn-primary btn-xs pull-left" %>
+                            <%= submit_tag "Submit", class:"submit-btn btn btn-primary btn-xs pull-left" %>
                         <% end %>
                     </div>
                     <script type="text/javascript">
                         $(document).ready(function() {
-                            $("#field_group_<%= field_group.id.to_s %>").on("ajax:success", function(e, data, status, xhr) {
-                                console.log(e);
-                                console.log(data);
-                                console.log(status);
-                                console.log(xhr);
-                            }).on("ajax:error", function(e, xhr, status, error) {
-                                console.log(e);
-                                console.log(error);
-                                console.log(status);
-                                console.log(xhr);
-                            });
+                            
                         });
                     </script>
                 <% end %>
