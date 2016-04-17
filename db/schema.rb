@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407001538) do
+ActiveRecord::Schema.define(version: 20160417150700) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
     t.integer  "y_tl",             limit: 4
-    t.integer  "x_br",             limit: 4
-    t.integer  "y_br",             limit: 4
+    t.integer  "width",            limit: 4
+    t.integer  "height",           limit: 4
     t.integer  "page_id",          limit: 4
     t.integer  "transcription_id", limit: 4
     t.datetime "created_at"

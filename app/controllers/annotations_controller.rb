@@ -59,7 +59,7 @@ class AnnotationsController < ApplicationController
         logger.debug "meta: " + meta.to_s
         logger.debug "data: " + data.to_s
         
-        @annotation = Annotation.new(transcription_id: meta[:transcription_id], page_id: meta[:page_id], field_group_id: meta[:field_group_id], x_tl: meta[:x_tl], y_tl: meta[:y_tl], x_br: meta[:x_br], y_br: meta[:y_br])
+        @annotation = Annotation.new(transcription_id: meta[:transcription_id], page_id: meta[:page_id], field_group_id: meta[:field_group_id], x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
         @annotation.date_time_id = annotation_params[:obs_date] + "_" + annotation_params[:obs_time]
         
         if data && data.length > 0
@@ -91,7 +91,7 @@ class AnnotationsController < ApplicationController
         @annotation = Annotation.find(params[:id])
         meta = params[:annotation][:meta]
 
-        @annotation.update(x_tl: meta[:x_tl], y_tl: meta[:y_tl], x_br: meta[:x_br], y_br: meta[:y_br])
+        @annotation.update(x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
       rescue => e 
         error = e.message
       end
