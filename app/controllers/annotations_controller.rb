@@ -59,7 +59,7 @@ class AnnotationsController < ApplicationController
         logger.debug "meta: " + meta.to_s
         logger.debug "data: " + data.to_s
         
-        @annotation = Annotation.new(transcription_id: meta[:transcription_id], page_id: meta[:page_id], field_group_id: meta[:field_group_id], x_tl: meta[:x_tl], y_tl: meta[:y_tl], x_br: meta[:x_br], y_br: meta[:y_br])
+        @annotation = Annotation.new(transcription_id: meta[:transcription_id], page_id: meta[:page_id], field_group_id: meta[:field_group_id], x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
         @annotation.date_time_id = annotation_params[:obs_date] + "_" + annotation_params[:obs_time]
         
         if data && data.length > 0
@@ -74,7 +74,6 @@ class AnnotationsController < ApplicationController
     end
     
     if @annotation && @annotation.id
-      flash[:notice] = 'success'
       render json: @annotation.to_json, status: :created
     else
       render json: (@annotation ? @annotation.errors : error), status: :bad_request 
@@ -85,16 +84,24 @@ class AnnotationsController < ApplicationController
   # PUT /annotations/annotation_id.json
   def update
     #@annotation is a variable containing an instance of the "annotation.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
-    @annotation = Annotation.find(params[:id])
+    error = ""
+    Annotation.transaction do
+      begin
 
-    respond_to do |format|
-      if @annotation.update_attributes(annotation_params)
-        format.html { redirect_to @annotation, notice: 'Annotation was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @annotation.errors, status: :unprocessable_fieldgroup }
+        @annotation = Annotation.find(params[:id])
+        meta = params[:annotation][:meta]
+
+        @annotation.update(x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
+      rescue => e 
+        error = e.message
       end
+    end
+
+
+    if @annotation && @annotation.x_tl
+      render json: @annotation.to_json, status: :created
+    else
+      render json: (@annotation ? @annotation.errors : error), status: :bad_request 
     end
   end
 

@@ -95,7 +95,8 @@ class TranscriptionsController < ApplicationController
       
       respond_to do |format|
         if @transcription && @transcription.id
-          format.html { redirect_to edit_transcription_url(@transcription), info: 'You may now begin transcribing' }
+          flash[:info] = 'You may now begin transcribing'
+          format.html { redirect_to edit_transcription_url(@transcription) }
         else
           format.html { redirect_to transcribe_page_url(:current_page_id => params[:page_id]) }
         end

@@ -28,8 +28,8 @@
     font-family: verdana,tahoma,sans-serif;
     font-size: 13px;
     height: 400px; 
-    width:820px; 
-    position:absolute; 
+    width: calc(100% - 50px); 
+    position:absolute;
     z-index:200; 
     top:20px; 
     left:25%;
