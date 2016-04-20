@@ -1,27 +1,32 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.0' #'3.2.16'
+gem 'rails', '4.2.5' #'3.2.16'
 
-gem 'railties', '~> 4.2.0' #'3.2.16'
+#gem 'railties', '~> 4.2.0' #'3.2.16'
 
-gem 'mysql2', '~> 0.3.20'
+gem 'mysql2', '0.4.2' #'~> 0.3.20'
+
+gem 'mime-types', require: 'mime/types/full'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-gem 'coffee-rails'
-  #gem 'foundation-rails', '~> 6.1.1.3' #'~> 5.4.5.0'
-  #gem 'foundation-icons-sass-rails'
-  #See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', :platforms => :ruby
-
 gem 'uglifier', '~> 2.7.2' #'>= 1.0.3'
 
 #bootstrap stuff
-gem 'sass-rails'
-gem 'sprockets-rails'
+gem 'sass-rails', '~> 5.0'
+#gem 'sprockets-rails'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails', '5.2.1'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end
+
+# Use CoffeeScript for .coffee assets and views
+gem 'coffee-rails', '~> 4.1.0'
+# See https://github.com/rails/execjs#readme for more supported runtimes
+gem 'therubyracer', platforms: :ruby
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -32,7 +37,7 @@ group :assets do
     #gem "twitter-bootstrap-rails"
 end
 
-
+gem 'log4r'
 
 #for user authentication
 gem 'devise', '~> 3.5.4' #"3.2"
@@ -46,27 +51,29 @@ gem 'simple_form', '~> 3.2.1' #'2.1.3'
 gem 'will_paginate', '3.1.0' #'~> 3.0.6'
 
 #for attachments
-gem 'paperclip', '4.3.2' #'~> 4.2'
+gem 'paperclip', '4.3.6' #'~> 4.2'
 
 # Support for tag inputs
 gem 'select2-rails'
 
-gem 'jbuilder'
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 2.0'
 
 gem "jquery-fileupload-rails"
+
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
 
 gem 'rails-i18n' # translations
 gem 'i18n-active_record',
       :git => 'git://github.com/svenfuchs/i18n-active_record.git',
-      :branch => 'rails-4-release',
+      :tag => 'v0.1.0',
       :require => 'i18n/active_record'
 
 # gem 'aws-sdk'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
 
 # Deploy with Capistrano
 group :development do

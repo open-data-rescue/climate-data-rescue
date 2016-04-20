@@ -1,0 +1,37 @@
+<% if @transcription %>
+    <div id="transcriber-container">
+        <div id="transcriber-toolbar">
+            <div id="transcription-buttons" class="btn-toolbar" role="toolbar">
+                <div class="btn-group" role="group" data-purpose="guide and help">
+                    <button type="button" class="btn btn-default">Instructions</button>
+                    <button type="button" class="btn btn-default">Help</button>
+                </div>
+                <div class="btn-group" role="group" data-purpose="action buttons">
+                    <button id="new-annotation" type="button" class="btn btn-default">New Annotation</button>
+                    <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button>
+                </div>
+            </div>
+            <div id="transcription-form-container">
+                <div class="pull-right">
+                    <%= form_for @transcription, html: {class: "form-inline"} do %>
+                        <div class="checkbox">
+                            <label style="color: white;">
+                                <%= hidden_field_tag "transcription[complete]", false %>
+                                <%= check_box_tag "transcription[complete]", true, @transcription.complete %> Transcription is complete
+                            </label>
+                        </div>
+                        <%= submit_tag "Stop Transcribing", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-primary" %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+        <div id="transcription-msg-container">
+            <div id="transcription-msg" class="fade">
+                <span id="msg"></span><button type="button" class="close pull-right" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+        </div>
+        <div id="page-container">
+            <div id="canvas"><%= image_tag @transcription.page.image.url(:original), id: "target-image" %></div>
+        </div>
+    </div>
+<% end %>

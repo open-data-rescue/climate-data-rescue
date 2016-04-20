@@ -11,6 +11,11 @@
   width: 100%;
 }
 
+.scribe_input_field {
+  float: left;
+  margin-right: 5px;
+}
+
 // Place all the styles related to the Transcriptions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
@@ -22,9 +27,9 @@
 #scribe_annotation_box {
     font-family: verdana,tahoma,sans-serif;
     font-size: 13px;
-    height: 130px; 
-    width:820px; 
-    position:absolute; 
+    height: 400px; 
+    width: calc(100% - 50px); 
+    position:absolute;
     z-index:200; 
     top:20px; 
     left:25%;
@@ -91,17 +96,20 @@
 #scribe_transcription_area {
     background-color: white;
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
-    height: 130px; 
-    width: 820px; 
-    position:absolute; 
-    z-index:200; 
-    bottom:150px;
+    min-height: 130px; 
+    width: 100%;
+    z-index:200;
+    margin-bottom: 15px;
 }
 #scribe_zoom_box {
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
     width:100%; 
-    height:130px; 
-    overflow:hidden; 
+    height:250px;
+    overflow:hidden;
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
+    cursor: row-resize;
 }
 #scribe_top_bar {
     height:71px;
@@ -139,11 +147,6 @@
 .scribe_input_field input {
     display:inline;
     float:left;
-}
-#scribe_zoom_box {
-    border-color: black;
-    border-style: solid;
-    border-width: 2px;
 }
 .scribe_marker {
     background: none repeat scroll 0 0 gray;

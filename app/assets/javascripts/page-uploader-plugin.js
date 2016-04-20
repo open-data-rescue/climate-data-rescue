@@ -45,7 +45,7 @@
                     progress + '%'
                 );
             }).bind('fileuploadfailed', function(e,data) {
-                alertMessageJson(data.jqXHR.responseJSON);
+                // alertMessageJson(data.jqXHR.responseJSON);
                 if (fail_fn) {
                     fail_fn(data);
                 }

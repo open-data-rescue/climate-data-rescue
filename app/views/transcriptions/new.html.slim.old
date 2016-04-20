@@ -1,0 +1,102 @@
+h2 New transcription
+.row
+  /! User information above the image to be transcribed
+  .col-md-2
+    /! User avatar image
+    = image_tag(current_user.avatar.url(:thumb))
+  .col-md-10
+    h4 #{current_user.display_name}
+    p #{current_user.num_contributions} Pages Transcribed
+- if @page
+  /!Information on the page to be transcribed and actions for creating the transcription on skipping the current iamge and finding another 
+  .row
+    .col-md-4
+      h4 Collection Info
+      p Name: #{@page.page_type.title}
+    /! New Transcription Submission form
+    .col-md-3 
+      /! Form to create new transcription with hidden fields to associate it with the transcribed page and current user
+      = simple_form_for (@transcription) do |f|
+        = f.hidden_field :page_id, :value => "#{@page.id}"
+        = f.hidden_field :user_id, :value => "#{current_user.id}"
+        .form-actions
+          = f.button :submit
+    .col-md-4
+      = link_to "Skip and Try Another", new_transcription_path, class: "button success"
+.row
+  h5 Transcription Instructions
+  p Click the image below to begin transcribing it. A box will pop up containing tabs of different data types to transcribe. You can drag the box into position, or resize it as need be. When you click on a tab, the form containing fields that you can use to input data for your annotation will appear. Enter the values and click OK. The box will disappear, and your annotation will appear in JSON format in a form field below the image. You can continue to make as many annotations as you wish my clicking the image and repeating the process.
+
+  p When you are finished annotating the image, click the "Create Annotation" button below each annotation. Don't worry if you don't get a confirmation message, your annotation was created and saved. Don't click the button again or you will create a duplicate. This bug is actively being looked into.
+
+  p When you finish submitting the annotations, navigate back to the top of this page and click the "Create Transcription" button to save and submit the transcription.  
+.row
+  /! Conditional statement to determine if a page was sucessfully loaded
+  div
+      - if @page
+          #binding
+            = image_tag (@page.image.url(:xlarge)), :id => "baseImage", :draggable => true, :class => "transcribeable-img", data: {original: "#{@page.image.url(:original)}"}
+          /! build transcription box and programatically populate it with tabs and forms for each field_group associated with the page_type of the current page to be transcribed  
+          div id="scribe_annotation_box"
+            /! create the box that will act as the zoom window to display the full-sized image for easier image viewing. Currently accurately displays the contents of the page image that are directly under the bottom edge of the zoom window unless it is resized. Div background image set with the style tag (to get the URL from the current page using ruby code) and scrolled using javascript
+            div id="scribe_zoom_box" style="background-image: url('#{@page.image.url(:original)}'); background-repeat: no-repeat;" 
+
+
+            div id="scribe_transcription_area" style="height: 130px; width:820px;"
+              /! Builds the top half of the annotaiton box containg the prompt, close button and tabs
+              div id="scribe_top_bar"
+                div id="scribe_prompt"
+                  p id="scribe_prompt_text" Enter the values for each field to be transcribed
+                  p id="scribe_annotation_close_button" 
+                    /! when the user clicks the close button, hide the annotation box div
+                    a onclick="$('#scribe_annotation_box').hide();" close
+                ul id="scribe_tab_bar"
+                  /! Build the tabs with each field_group name
+                  - @field_groups.each do |field_group|
+                    
+                    li id="scribe_tab_#{field_group.name.gsub(" ", "_")}" class="scribe_tab" data-form-id="field_group_#{field_group.id}" = field_group.name
+                    
+              /! Builds the bottom half of the annotation box with the forms and fields for each field_group to be transcribed
+              div id="scribe_bottom_area"
+                div id="scribe_input_bar"
+                  /! Users have to click on a tab to begin transcribing. There was an issue with the JSON grabber not being able to find the current form if the ID 'currentForm' was not added on tab click (with the tab switching function)
+                  p id="formInstructions" Click on a tab to begin
+                  - @field_groups.each do |field_group|
+                    /! forms get attributes containing the current # of transcriptions and id of the field_group they relate to for passing javascript uisng jquery selectors
+                    - form_tag annotations_path, id:"field_group_#{field_group.id}", class:"transcription_form", style:"display: none;", remote: true
+                      /! hidden fields to include in the captured JSON data but not viewable to the user. Helps keep track of which page and which group of fields were transcribed.
+                      input type="hidden" name="Filename" value="#{@page.image_file_name}"
+                      input type="hidden" name="annotation[data][field_group_id]" value="#{field_group.id}"
+                      /! By default, each form is hidden and the user sees only the instructions paragraph until they click on a tab
+                      div id="scribe_input_#{field_group.name.gsub(" ", "_")}" class="scribe_annotation_input"
+                        /! Programatically populate the form with input fields corresponding to each field linked to the current field_group. In the future, this will create input fields of the type specified in the :type attribute of the field model instance using the options specified it its :options attribute. Currently creates text fields with no data validation
+                        - field_group.fields.each do |field|
+                          .scribe_input_field.scribe_current_inputs style=("display: block;")
+                            p.scribe_input_label = field.name
+                            = hidden_field_tag "annotation[data][#{field.name.gsub(" ", "_")}][field_id]", field.id
+                            - case field.kind
+                                - when "select"
+                                    = select_tag "annotation[data][#{field.name.gsub(" ", "_")}][user_input]", ( field.options.length > 0 ? field.options.split(",").collect{|o| "<option>" + o.strip + "</option>"}.join('') : '<option>No Options</option>' ).html_safe
+                                    p = "test"
+                                - else
+                                  input kind="text" name="annotation[data][#{field.name.gsub(" ", "_")}][user_input]" placeholder="--" size="10" /
+                        input.ok_button type="submit" value="" /
+            
+      - else
+        p No page selected
+/! Pass this div the value of the current authenticity token for use in building the new forms with javascript for each annotation
+.row id="annotateResults" token="#{form_authenticity_token}"
+  .col-md-12
+    h4 Annotations
+
+
+= render partial: "transcription_js"
+
+
+
+
+
+
+
+
+

@@ -6,11 +6,12 @@
         - @field.errors.full_messages.each do |message|
           li = message
   = f.error_notification
-  = f.association :fieldgroup, include_blank: false
+  = f.association :field_group, include_blank: false
   .form-inputs
     = f.input :name
     = f.input :field_key
-    = f.input :kind
+    = f.input :html_field_type
+    = f.input :data_type
     = f.input :initial_value
     = f.input :options
     = f.input :validations

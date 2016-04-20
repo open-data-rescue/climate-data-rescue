@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   has_many :transcriptions
+  has_many :pages
+  has_many :annotations, through: :transcriptions
   #before_filter :authorize_admin, except [:index, :show]
 
   # Include default devise modules. Others available are:
@@ -11,10 +13,7 @@ class User < ActiveRecord::Base
   #attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :admin, :avatar, :about, :contributions, :rank, :transcription_id
 
   #attachment for user afatar and settings
-  has_attached_file :avatar, 
-  :path => 
-  ":rails_root/public/system/:attachment/:id/:basename_:style.:extension",
-  :url => "/system/:attachment/:id/:basename_:style.:extension",
+  has_attached_file :avatar,
   :styles => {
     :thumb    => ['100x100#',  :jpg, :quality => 70],
     :medium  => ['200x200#',  :jpg, :quality => 70],
@@ -27,12 +26,15 @@ class User < ActiveRecord::Base
     :preview  => '-set colorspace sRGB -strip',
     :large    => '-set colorspace sRGB -strip',
     :retina   => '-set colorspace sRGB -strip -sharpen 0x0.5'
-  }
+  },
+  default_style: :thumb,
+  url: "/system/:attachment/:style/:hash.:extension",
+  hash_secret: "SECRET"
 
   
   validates_attachment :avatar,
     :size => { :in => 0..2.megabytes },
-    :content_type => { :content_type => /^image\/(jpeg|png|gif|tiff)$/ }
+    :content_type => { :content_type => /^image\/(jpeg|jpg|png)$/ }
 
   def privileged?
     self.admin?

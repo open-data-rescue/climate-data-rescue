@@ -12,13 +12,8 @@ Weather::Application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
-  # for dev purposes
-  # config.consider_all_requests_local       = true
-  # config.action_controller.perform_caching = false
-
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.serve_static_files = false
-  # config.serve_static_files = true #for dev purposes
 
   # Compress JavaScripts and CSS
   config.assets.compress = true

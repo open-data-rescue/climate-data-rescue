@@ -1,3 +1,4 @@
+$(document).ready(function(){
 //Javascript for custom functionality on new transcription page. 
 //All javascript written by the author unless otherwise credited. 
 //Code credited as "sourced from" have been modified little to none. 
@@ -15,8 +16,8 @@
 //end global vars
 
 //make transcription elements resizable and draggable
-  $( "#scribe_zoom_box" ).resizable();
-  $( "#scribe_transcription_area" ).resizable();
+  // $( "#scribe_zoom_box" ).resizable();
+  // $( "#scribe_transcription_area" ).resizable();
 //end transcription box controls
 
 //on transcription form submit, capture input as json and close the transcription box
@@ -41,7 +42,7 @@
 
   /*call json grabber on form submit, put it in a box on the page. Converts form inputs to JSON. Adapted from 
   http://jsfiddle.net/davidhong/gP9bh/ */
-    $(function() {
+    // $(function() {
       $('.transcription_form').submit(function(event) {
         event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
         transcription */
@@ -62,91 +63,90 @@
       });
 
       return false;
-    });
+    // });
 //end form submit action
 
 //function to toggle between field group form layers when you click on their respective tab. Marks current tab as active
-  $(".scribe_tab").bind("click",function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds 
+  $(".scribe_tab").click(function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds 
   to Field Group tabs in the transcription box */
-     $(".scribe_annotation_input, .DisplayBlock, .DisplayNone").hide(); //hide all other instances of the fieldgroup data forms when switching tabs
+     $tab = $(this);
+     $(".transcription_form").hide(); //hide all other instances of the field_group data forms when switching tabs
      $('#formInstructions').hide();
-     $(this).addClass("scribe_selected_tab"); //mark clicked tab as active by settings its class
-     $('#currentForm').removeAttr('id', 'currentForm'); //remove the ID 'currentForm' from whichever element currently has it
-     $('#' + $(this).attr("divId")).parents('form').attr('id', 'currentForm');//mark form associated with the clicked tab as 'currentForm'
+     $tab.addClass("scribe_selected_tab"); //mark clicked tab as active by settings its class
+     // $('#currentForm').removeAttr('id', 'currentForm'); //remove the ID 'currentForm' from whichever element currently has it
+     // $('#' + $(this).attr("divId")).parents('form').attr('id', 'currentForm');//mark form associated with the clicked tab as 'currentForm'
 
-     $(this).siblings().removeClass('scribe_selected_tab'); //set all siblings of the clicked tab as unselected
-     var divId= $(this).attr("divId");
-     currentFieldGroup = divId;
-     $("#" + divId).show();
+     $tab.siblings().removeClass('scribe_selected_tab'); //set all siblings of the clicked tab as unselected
+     
+     var $currentForm = $("form#" + $tab.data('form-id'));
+     $currentForm.show();
+
      //console.log('success'); 
   });
 //end field toggler
 
 //open transcription box at page image mouse click position
-  jQuery(document).ready(function(){
-    $("#baseImage").click(function(e){
-           $("#scribe_annotation_box").show(500); /*open the box with a delay of half a second. This is what makes the transcription 
-           box open with a flourish. Remove the value from the .show() function to make it open instantly */
-           $("#scribe_annotation_box").offset({left:e.pageX,top:e.pageY}); //set position of the box to open at the click event 'e' position
-
-          });
+  $("#baseImage").click(function(e){
+     $("#scribe_annotation_box").show(500); /*open the box with a delay of half a second. This is what makes the transcription 
+     box open with a flourish. Remove the value from the .show() function to make it open instantly */
+     $("#scribe_annotation_box").offset({left:e.pageX,top:e.pageY}); //set position of the box to open at the click event 'e' position
   });
 //end transcription box toggle
 
 /*function to enable the image zoom box. Adapted from http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
 and http://jsfiddle.net/aasFx/ */
-  $(document).ready(function()
-  {
+  // $(document).ready(function()
+  // {
       var native_width = 0;
       var native_height = 0;
 
-      $("#scribe_annotation_box").draggable(
-      {
+      var image_object = new Image();
+      image_object.src = $("#baseImage").attr("src");
+
+      //This code is wrapped in the .load function which is important.
+      //width and height of the object would return 0 if accessed before 
+      //the image gets loaded.
+      native_width = image_object.width;
+      native_height = image_object.height;
+
+      // console.log(image_object);
+
+      $("#scribe_annotation_box").draggable({
           containment: "#magnify",
           scroll: false,
-          drag: function()
-          {
-              if (!native_width && !native_height)
-              {
-                  var image_object = new Image();
-                  image_object.src = $("#baseImage").attr("src");
+          drag: function(){
+            var $this = $(this);
+            var $baseImage = $("#baseImage");
+            var $box = $("#scribe_zoom_box");
 
-                  //This code is wrapped in the .load function which is important.
-                  //width and height of the object would return 0 if accessed before 
-                  //the image gets loaded.
-                  native_width = image_object.width;
-                  native_height = image_object.height;
-              }
-              else
-              {
+            var baseWidth = $baseImage.width();
+            var boxWidth = $box.width();
 
-                  var $this = $(this);
-                  var thisPos = $this.position();
-                  var parentPos = $('#baseImage').position();
+            var boxBaseRatio = Math.round(baseWidth / boxWidth);
+            var imageZoomRatio = Math.round(native_width / baseWidth);
+            var thisPos = $this.position();
+            var basePos = $baseImage.position();
 
-                  var mx = thisPos.left - parentPos.left;
-                  var my = thisPos.top - parentPos.top;
-                  
-                  
-                  if ($("#scribe_zoom_box").is(":visible"))
-                  {
-                      //The background position of scribe_zoom_box will be changed according to the position
-                      //of the mouse over the #baseImage image. So we will get the ratio of the pixel
-                      //under the mouse pointer with respect to the image and use that to position the 
-                      //large image inside the zoom box
-                      var rx = (Math.round(mx/$("#baseImage").width()*native_width + ($("#baseImage").width()/2) - $("#scribe_zoom_box").width()/2)*-1)-150;
-                      var ry = (Math.round(my/$("#baseImage").height()*native_height + ($("#baseImage").height()/2) - $("#scribe_zoom_box").height()/2))*-1;
-                      
-                      var bgp = rx + "px " + ry + "px";
-                      //If you move the box over the image now, you should see the zoom box in action
-                      $("#scribe_zoom_box").css("background-position", bgp);
-               
-                      
-                  }
-              }
-           }
+            var dX = basePos.left - thisPos.left;
+            var dY = basePos.top - thisPos.top;
+            // console.log("x-diff: " + dX + ", y-diff: " + dY);
+            
+            //The background position of scribe_zoom_box will be changed according to the position
+            //of the mouse over the #baseImage image. So we will get the ratio of the pixel
+            //under the mouse pointer with respect to the image and use that to position the 
+            //large image inside the zoom box
+            // var rx = (Math.round(mx/$base.width()*native_width + ($base.width()/2) - $zoom.width()/2)*-1)-150;
+            // var ry = (Math.round(my/$base.height()*native_height + ($base.height()/2) - $zoom.height()/2))*-1;
+            
+            var rX = Math.round(dX * imageZoomRatio);
+            var rY = Math.round(dY * imageZoomRatio);
+
+            var bgp = rX + "px " + rY + "px";
+            // //If you move the box over the image now, you should see the zoom box in action
+            $box.css("background-position", bgp);
+          }
       });
-  });
+  // });
 //end image zoom box
 
 //build form for each transcription submission
@@ -193,24 +193,24 @@ and http://jsfiddle.net/aasFx/ */
 
     /*We're adding a form to create an annotation associated with a transcription that has not been created yet. In order to associate the newly
     created annotations with the future new transcription of the page we are on, the model instance ID of the last created transcription is passed
-    to the forms for each fieldgroup tab in the transcription box. When the user clicks on the tab for that field group (fieldgroup), the form for
-    that fieldgroup is given the ID "currentForm" to identify it as the active form. Upon clicking the submit button in the transcription box, we
+    to the forms for each field_group tab in the transcription box. When the user clicks on the tab for that field group (field_group), the form for
+    that field_group is given the ID "currentForm" to identify it as the active form. Upon clicking the submit button in the transcription box, we
     get the ID of the most recent transription using the ruby code "Transcription.last" and increment it by one to associate our new annotation
     with the next created transcription (the one we have yet to submit on the current page). */
     var transcriptionId = $('#currentForm').attr('transcriptionCount');
     transcriptionId++;
-    //Let's also get the ID of the fieldgroup related to the current form and the page we are transcribing
-    var fieldgroupId = $('#currentForm').attr('fieldgroupId');
+    //Let's also get the ID of the field_group related to the current form and the page we are transcribing
+    var field_groupId = $('#currentForm').attr('field_groupId');
     var pageId = $('#currentForm').attr('pageId');
-    /*Append hidden fields to have the form automatically associate the annotation with the current (future) transcription, the fieldgroup whose
+    /*Append hidden fields to have the form automatically associate the annotation with the current (future) transcription, the field_group whose
     fields we are collecting data from, and the page that we are transcribing. */
     form.append(
        $("<input/>", 
            { 
-             name:'annotation[fieldgroup_id]', 
+             name:'annotation[field_group_id]', 
              type:'hidden', 
-             value: fieldgroupId,
-             id: 'annotation_fieldgroup_id' 
+             value: field_groupId,
+             id: 'annotation_field_group_id' 
            }
         )
     );
@@ -262,3 +262,5 @@ and http://jsfiddle.net/aasFx/ */
 
   }
 //end form
+
+});

@@ -48,18 +48,35 @@ class AnnotationsController < ApplicationController
   # POST /annotations
   # POST /annotations.json
   def create
-    #@annotation is a variable containing an instance of the "annotation.rb" model created with data passed in the params of the "new.html.slim" form submit action. 
-    @annotation = Annotation.new(annotation_params)
-    
-    respond_to do |format|
-      if @annotation.save
-        flash[:notice] = 'success'
-        format.html { redirect_to @annotation, notice: 'Annotation was successfully created.' }
-        format.json { render json: @annotation, status: :created, location: @annotation }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @annotation.errors, status: :unprocessable_fieldgroup }
+    error = ""
+    Annotation.transaction do
+      begin
+        #@annotation is a variable containing an instance of the "annotation.rb" model created with data passed in the params of the "new.html.slim" form submit action. 
+        
+        meta = params[:annotation][:meta]
+        data = params[:annotation][:data]
+        
+        logger.debug "meta: " + meta.to_s
+        logger.debug "data: " + data.to_s
+        
+        @annotation = Annotation.new(transcription_id: meta[:transcription_id], page_id: meta[:page_id], field_group_id: meta[:field_group_id], x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
+        @annotation.date_time_id = annotation_params[:obs_date] + "_" + annotation_params[:obs_time]
+        
+        if data && data.length > 0
+          data.each do |key, value|
+            @annotation.data_entries.build(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type], value: value[:value])
+          end
+        end
+        @annotation.save!
+      rescue => e
+        error = e.message
       end
+    end
+    
+    if @annotation && @annotation.id
+      render json: @annotation.to_json, status: :created
+    else
+      render json: (@annotation ? @annotation.errors : error), status: :bad_request 
     end
   end
 
@@ -67,16 +84,24 @@ class AnnotationsController < ApplicationController
   # PUT /annotations/annotation_id.json
   def update
     #@annotation is a variable containing an instance of the "annotation.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
-    @annotation = Annotation.find(params[:id])
+    error = ""
+    Annotation.transaction do
+      begin
 
-    respond_to do |format|
-      if @annotation.update_attributes(annotation_params)
-        format.html { redirect_to @annotation, notice: 'Annotation was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @annotation.errors, status: :unprocessable_fieldgroup }
+        @annotation = Annotation.find(params[:id])
+        meta = params[:annotation][:meta]
+
+        @annotation.update(x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
+      rescue => e 
+        error = e.message
       end
+    end
+
+
+    if @annotation && @annotation.x_tl
+      render json: @annotation.to_json, status: :created
+    else
+      render json: (@annotation ? @annotation.errors : error), status: :bad_request 
     end
   end
 
@@ -95,6 +120,6 @@ class AnnotationsController < ApplicationController
   
   private
   def annotation_params
-    params.require(:annotation).permit(:bounds, :data, :transcription_id, :fieldgroup_id, :page_id)
+    params.require(:annotation).permit(:obs_date, :obs_time, :week_day)
   end
 end

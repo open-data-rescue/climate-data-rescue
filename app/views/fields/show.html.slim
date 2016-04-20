@@ -9,16 +9,18 @@ table
       th Initial value
       th Options
       th Validations
+      th Data Type
 
   tbody
     
     tr
       td = link_to @field.name, @field
       td = @field.field_key
-      td = @field.kind
+      td = @field.html_field_type
       td = @field.initial_value
       td = @field.options
       td = @field.validations
+      td = @field.data_type
 
 = link_to 'Edit', edit_field_path(@field)
 '&nbsp|
