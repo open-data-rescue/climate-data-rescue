@@ -45,11 +45,8 @@ Weather::Application.routes.draw do
   match 'fieldGroups' => 'fieldgroups#index', :via => [:get, :post]
   match 'fields' => 'fields#index', :via => [:get, :post]
   #match '/avatars/original/missing.png', :via => [:get, :post]
-  resources :albums do
-    
-  end
   
-  resources :photos
+  post 'create_page_metadata' => "page_days#create"
 
   devise_scope :user do
     get "login", to: "devise/sessions#new"

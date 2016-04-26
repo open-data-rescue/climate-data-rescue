@@ -33,7 +33,7 @@
                             </div>
                             <div class="scribe_input_field">
                                 <p class="scribe_input_label">Observation Date</p>
-                                <%= select_tag "annotation[obs_date]", options_for_select(transcription.page.start_date..transcription.page.end_date), required: true, prompt: "Select Date" %>
+                                <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date" %>
                             </div>
                             <div class="scribe_input_field">
                                 <p class="scribe_input_label">Observation Time</p>
