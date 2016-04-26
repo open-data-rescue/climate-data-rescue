@@ -27,7 +27,8 @@
 #scribe_annotation_box {
     font-family: verdana,tahoma,sans-serif;
     font-size: 13px;
-    height: 400px; 
+    min-height: 400px; 
+    height: auto;
     width: calc(100% - 50px); 
     position:absolute;
     z-index:200; 
@@ -96,7 +97,8 @@
 #scribe_transcription_area {
     background-color: white;
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
-    min-height: 130px; 
+    min-height: 130px;
+    height: auto;
     width: 100%;
     z-index:200;
     margin-bottom: 15px;
