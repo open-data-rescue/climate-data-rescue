@@ -148,7 +148,7 @@ $(document).ready(function(){
   $(".scribe_tab").click(function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds 
   to Field Group tabs in the transcription box */
      $tab = $(this);
-     $(".transcription_form").hide(); //hide all other instances of the field_group data forms when switching tabs
+     $(".annotation-form-field-group").hide(); //hide all other instances of the field_group data forms when switching tabs
      $('#formInstructions').hide();
      $tab.addClass("scribe_selected_tab"); //mark clicked tab as active by settings its class
      // $('#currentForm').removeAttr('id', 'currentForm'); //remove the ID 'currentForm' from whichever element currently has it
@@ -156,7 +156,7 @@ $(document).ready(function(){
 
      $tab.siblings().removeClass('scribe_selected_tab'); //set all siblings of the clicked tab as unselected
      
-     var $currentForm = $("form#" + $tab.data('form-id'));
+     var $currentForm = $("#" + $tab.data('field-group-id'));
      $currentForm.show();
 
      //console.log('success'); 
