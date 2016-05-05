@@ -61,6 +61,7 @@ class AnnotationsController < ApplicationController
         
         @annotation = Annotation.new(transcription_id: meta[:transcription_id], page_id: meta[:page_id], field_group_id: meta[:field_group_id], x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
         @annotation.date_time_id = annotation_params[:obs_date] + "_" + annotation_params[:obs_time]
+        @annotation.observation_date = DateTime.strptime((annotation_params[:obs_date] + " " + annotation_params[:obs_time]), '%Y-%m-%d %H:%M')
         
         if data && data.length > 0
           data.each do |key, value|
