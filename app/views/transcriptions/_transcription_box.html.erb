@@ -47,7 +47,7 @@
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
-                                        <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input", required: true %>
+                                        <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input" %>
                                     </div>
                                 <% end %>
 
