@@ -75,7 +75,7 @@ $(document).ready(function(){
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
     transcription */
     var $form = $(this).parents("form");
-    $('#scribe_annotation_box').hide();
+    
 
     $form.unbind("ajax:success");
     $form.on("ajax:success", function(e, data, status, xhr) {
@@ -83,6 +83,8 @@ $(document).ready(function(){
         console.log(data);
         console.log(status);
         console.log(xhr);
+
+        $('#scribe_annotation_box').hide();
 
         setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "info");
 
@@ -124,7 +126,7 @@ $(document).ready(function(){
 
               $('#canvas').unbind(".boxer");
               $form.submit();
-              $form.clear();
+              $form.find(".observation-input").val('');
           }
         });
 
@@ -135,7 +137,7 @@ $(document).ready(function(){
         console.log(xhr);
         setMsg("Annotation could not be saved!", true, "danger");
     });
-
+    
     $form.submit();
 
     // setMsg("Click and drag a box around the area that you just transcribed");
