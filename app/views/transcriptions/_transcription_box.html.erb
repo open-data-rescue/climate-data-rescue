@@ -27,10 +27,10 @@
                             <%= hidden_field_tag "annotation[meta][height]", nil, id: "height-field" %>
                             
                             <div class="user-input-container">
-                                <div class="scribe_input_field">
+                                <!-- <div class="scribe_input_field">
                                     <div class="scribe_input_label">Day of Week</div>
                                     <%= select_tag "annotation[week_day]", options_for_select(t('date.day_names')), required: true, prompt: "Select Day" %>
-                                </div>
+                                </div> -->
                                 <div class="scribe_input_field">
                                     <div class="scribe_input_label">Observation Date</div>
                                     <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date" %>
@@ -47,7 +47,7 @@
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
-                                        <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:10 %>
+                                        <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, required: true %>
                                     </div>
                                 <% end %>
 

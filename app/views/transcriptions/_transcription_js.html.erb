@@ -35,13 +35,14 @@ $(document).ready(function(){
 //All javascript written by the author unless otherwise credited. 
 //Code credited as "sourced from" have been modified little to none. 
 //Code credited as "adapted from" uses ideas and some lines from the credited location while modifying them to work with this project
-  $("#target-image").on("load", function() {
+  console.log("test");
+  $("#target-image").ready( function() {
     var $canvas = $("#canvas");
     $canvas.width($(this).width());
-
+    console.log("annotation boxes");
     if (<%= @transcription.annotations.any? ? true : false %>) {
       <% @transcription.annotations.each do |annotation| %>
-        <% if annotation.x_tl && annotation.y_tl && annotation.width && annotation.height %>
+        <% if annotation.x_tl.present? && annotation.y_tl.present? && annotation.width.present? && annotation.height.present? %>
           var box = $("<div><div>").css({
             "z-index": 100,
             "position": "absolute",
@@ -55,6 +56,8 @@ $(document).ready(function(){
           }).attr("id", "<%= 'annotation' + annotation.id.to_s %>").addClass("annotation-marker");
 
           $canvas.append(box);
+
+          console.log("<%= annotation.date_time_id %>");
         <% end %>
       <% end %>
     }
@@ -109,9 +112,10 @@ $(document).ready(function(){
               };
               ui.box.css({ border: '1px solid black', background: '#A95EFF', opacity: '0.3' })
                     .attr('id',('annotation-' + data.id))
-              .append('x:' + position.x + ', y:' + position.y)
-              .append('<br>')
-              .append('w:' + ui.box.width() + ', h:' + ui.box.height());
+
+              // .append('x:' + position.x + ', y:' + position.y)
+              // .append('<br>')
+              // .append('w:' + ui.box.width() + ', h:' + ui.box.height());
 
               $form.find("#x-field").val(position.x);
               $form.find("#y-field").val(position.y);
@@ -120,6 +124,7 @@ $(document).ready(function(){
 
               $('#canvas').unbind(".boxer");
               $form.submit();
+              $form.clear();
           }
         });
 
