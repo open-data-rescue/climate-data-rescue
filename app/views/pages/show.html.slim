@@ -1,7 +1,7 @@
 h3 = @page.title
 /!show the page image
 p = image_tag @page.image.url(:medium)
-= link_to 'Transcribe', new_transcription_path(@transcription, :currentPage => @page)
+= link_to 'Transcribe', new_transcription_path(@transcription, :current_page_id => @page)
 <br />
 <hr />
 /! list its info in a table

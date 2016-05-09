@@ -4,11 +4,10 @@
 
 h1 Listing annotations
 /! list all annotations and their data
-table
+table.table
   thead
     tr
       th Transcription
-      th Data
       th
       th
       th
@@ -17,7 +16,6 @@ table
     - @annotations.each do |annotation|
       tr
         td = annotation.transcription_id
-        td = annotation.data
         td = link_to 'Show', annotation
         td = link_to 'Edit', edit_annotation_path(annotation)
         td = link_to 'Destroy', annotation, data: {:confirm => 'Are you sure?'}, :method => :delete

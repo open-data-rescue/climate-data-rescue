@@ -8,10 +8,13 @@
   = f.error_notification
   = f.association :field_group, include_blank: false
   .form-inputs
-    = f.input :name
-    = f.input :field_key
-    = f.input :html_field_type
-    = f.input :data_type
+    = f.input :name, required: true
+    = f.input :field_key, required: true
+    = f.label :html_field_type
+    = f.select :html_field_type, options_for_select(%w(text select number time date)), required: true, prompt: "Select One"
+    br
+    = f.label :data_type
+    = f.select :data_type, options_for_select(%w(string integer float)), required: true, prompt: "Select One"
     = f.input :initial_value
     = f.input :options
     = f.input :validations

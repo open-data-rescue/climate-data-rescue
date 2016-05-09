@@ -14,12 +14,11 @@ p
 /! show all the fields associated with this field_group and their attribute information in a table
 h3 #{@field_group.name} Fields
 
-table
+table.table
   thead
     tr
       th Name
       th Field key
-      th Kind
       th Initial value
       th Options
       th Validations
@@ -29,7 +28,6 @@ table
       tr
         td = link_to field.name, field
         td = field.field_key
-        td = field.kind
         td = field.initial_value
         td = field.options
         td = field.validations
