@@ -2,6 +2,8 @@ class Page < ActiveRecord::Base
   belongs_to :page_type
   has_many :transcriptions
   belongs_to :transcriber, class_name: "User"
+  
+  has_many :page_days
 
   #handles the image upload association
   has_attached_file :image,
@@ -19,6 +21,10 @@ class Page < ActiveRecord::Base
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
   before_save :extract_upload_dimensions
   # after_create :parse_filename
+  
+  def has_metadata?
+    self.page_days.any? && self.page_days.count == ((self.end_date - self.start_date).to_i + 1)
+  end
   
   def to_jq_upload
       {

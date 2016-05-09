@@ -35,13 +35,14 @@ $(document).ready(function(){
 //All javascript written by the author unless otherwise credited. 
 //Code credited as "sourced from" have been modified little to none. 
 //Code credited as "adapted from" uses ideas and some lines from the credited location while modifying them to work with this project
-  $("#target-image").on("load", function() {
+  console.log("test");
+  $("#target-image").ready( function() {
     var $canvas = $("#canvas");
     $canvas.width($(this).width());
-
+    console.log("annotation boxes");
     if (<%= @transcription.annotations.any? ? true : false %>) {
       <% @transcription.annotations.each do |annotation| %>
-        <% if annotation.x_tl && annotation.y_tl && annotation.width && annotation.height %>
+        <% if annotation.x_tl.present? && annotation.y_tl.present? && annotation.width.present? && annotation.height.present? %>
           var box = $("<div><div>").css({
             "z-index": 100,
             "position": "absolute",
@@ -55,6 +56,8 @@ $(document).ready(function(){
           }).attr("id", "<%= 'annotation' + annotation.id.to_s %>").addClass("annotation-marker");
 
           $canvas.append(box);
+
+          console.log("<%= annotation.date_time_id %>");
         <% end %>
       <% end %>
     }
@@ -72,7 +75,7 @@ $(document).ready(function(){
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
     transcription */
     var $form = $(this).parents("form");
-    $('#scribe_annotation_box').hide();
+    
 
     $form.unbind("ajax:success");
     $form.on("ajax:success", function(e, data, status, xhr) {
@@ -80,6 +83,8 @@ $(document).ready(function(){
         console.log(data);
         console.log(status);
         console.log(xhr);
+
+        $('#scribe_annotation_box').hide();
 
         setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "info");
 
@@ -109,9 +114,10 @@ $(document).ready(function(){
               };
               ui.box.css({ border: '1px solid black', background: '#A95EFF', opacity: '0.3' })
                     .attr('id',('annotation-' + data.id))
-              .append('x:' + position.x + ', y:' + position.y)
-              .append('<br>')
-              .append('w:' + ui.box.width() + ', h:' + ui.box.height());
+
+              // .append('x:' + position.x + ', y:' + position.y)
+              // .append('<br>')
+              // .append('w:' + ui.box.width() + ', h:' + ui.box.height());
 
               $form.find("#x-field").val(position.x);
               $form.find("#y-field").val(position.y);
@@ -120,6 +126,7 @@ $(document).ready(function(){
 
               $('#canvas').unbind(".boxer");
               $form.submit();
+              $form.find(".observation-input").val('');
           }
         });
 
@@ -130,7 +137,7 @@ $(document).ready(function(){
         console.log(xhr);
         setMsg("Annotation could not be saved!", true, "danger");
     });
-
+    
     $form.submit();
 
     // setMsg("Click and drag a box around the area that you just transcribed");
@@ -148,7 +155,7 @@ $(document).ready(function(){
   $(".scribe_tab").click(function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds 
   to Field Group tabs in the transcription box */
      $tab = $(this);
-     $(".transcription_form").hide(); //hide all other instances of the field_group data forms when switching tabs
+     $(".annotation-form-field-group").hide(); //hide all other instances of the field_group data forms when switching tabs
      $('#formInstructions').hide();
      $tab.addClass("scribe_selected_tab"); //mark clicked tab as active by settings its class
      // $('#currentForm').removeAttr('id', 'currentForm'); //remove the ID 'currentForm' from whichever element currently has it
@@ -156,7 +163,7 @@ $(document).ready(function(){
 
      $tab.siblings().removeClass('scribe_selected_tab'); //set all siblings of the clicked tab as unselected
      
-     var $currentForm = $("form#" + $tab.data('form-id'));
+     var $currentForm = $("#" + $tab.data('field-group-id'));
      $currentForm.show();
 
      //console.log('success'); 

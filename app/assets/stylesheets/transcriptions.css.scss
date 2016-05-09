@@ -11,10 +11,6 @@
   width: 100%;
 }
 
-.scribe_input_field {
-  float: left;
-  margin-right: 5px;
-}
 
 // Place all the styles related to the Transcriptions controller here.
 // They will automatically be included in application.css.
@@ -27,7 +23,8 @@
 #scribe_annotation_box {
     font-family: verdana,tahoma,sans-serif;
     font-size: 13px;
-    height: 400px; 
+    min-height: 400px; 
+    height: auto;
     width: calc(100% - 50px); 
     position:absolute;
     z-index:200; 
@@ -96,7 +93,8 @@
 #scribe_transcription_area {
     background-color: white;
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
-    min-height: 130px; 
+    min-height: 130px;
+    height: auto;
     width: 100%;
     z-index:200;
     margin-bottom: 15px;
@@ -125,29 +123,49 @@
     box-shadow: 3px 3px 4px #000;
     z-index: 1;
 }
-.scribe_input_field {
-    float: left;
-    font-size: 8pt;
-    height:48px;
+
+.user-input-container {
+    display: block;
+    height: auto;
+    overflow-x: auto;
+
+    .scribe_input_field {
+        float: left;
+        font-size: 8pt;
+        margin: 5px;
+        vertical-align: top;
+        width: 100px;
+
+        .scribe_input_label {
+            word-break: break-all;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        input, select {
+            width: 100%;
+            display: block;
+        }
+    }
+    .scribe_input_field:last-of-type:after {
+        clear: left;
+    }
 }
+
+
 #scribe_bottom_area {
     clear: both;
-    height: 49px;
+    // height: 49px;
     padding: 5px;
 }
 #scribe_input_bar {
-    height:39px;
+    // height:39px;
 }
 .scribe_annotation_input, .scribe_annotation_input form {
-    height:39px;
+    // height:39px;
 }
-.scribe_input_field {
-    margin-left:10px;
-}
-.scribe_input_field input {
-    display:inline;
-    float:left;
-}
+
 .scribe_marker {
     background: none repeat scroll 0 0 gray;
     border: 1px solid gray;
@@ -155,41 +173,7 @@
     position: absolute;
     z-index: 1;
 }
-.scribe_marker:hover {
-    border-color: rgba(236, 84, 20, 0.9);
-}
-.scribe_marker a {
-    background-color: white;
-}
 
-#scribe_annotation_help {
-    background-color: white;
-    border: 1px solid black;
-    height: 100px;
-    padding: 10px;
-    position: absolute;
-    right: 20px;
-    width: 300px;
-    z-index: -1;
-}
-.scribe_input_field {
-    margin-left: 10px;
-}
-.scribe_input_field p {
-    margin-bottom: 5px;
-}
-.scribe_input_field {
-    text-align: center;
-}
-.ok_button {
-    background: url(image_path('okButton.png')) no-repeat scroll 0 0 rgba(255, 0, 0, 0);
-    border: medium none;
-    height: 26px;
-    margin-left: 10px;
-    margin-top: 13px;
-    width: 37px;
-    float:left;
-}
 
 
 #scribe_done_button{

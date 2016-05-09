@@ -20,7 +20,10 @@ html lang="en"
 
 
   body
-
+    / .container
+    /   .row
+    /     .col-md-12
+    /       p style="text-align: center; background:#E41E32; color: white; font-weight: bold; font-size: 9px; padding: 1px 0; border-radius: 15px; display: block; margin: 0 auto; width: 125px;" = "Testing Environment"
     .container.top-nav
       = render 'application/nav'
 
@@ -29,32 +32,37 @@ html lang="en"
         #message-container.col-md-12
           = render partial: 'application/alerts'
       .row
-        .col-sm-9
-          = yield
-        .col-sm-3
-          .well.sidebar-nav
-            - if user_signed_in?
-              h3 Actions
-              ul.nav.nav-list
-                li = link_to "New Transcription", new_transcription_path, :class => "sidebar-url"
-                li = link_to "My Transcriptions", "#", :class => "sidebar-url"
-                li = link_to "Tutorial", "#", :class => "sidebar-url"
-                li = link_to "Log out", "/logout", :class => "sidebar-url"
-            - else
-              h3 Get Started
-              ul.nav.nav-list
-                li = link_to "Log in", "/login", :class => "sidebar-url"
-                li = link_to "Sign up", "/users/sign_up", :class => "sidebar-url"
+        - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index")
+            .col-md-12
+                = yield
+        - else
+            .col-sm-9
+              = yield
+            .col-sm-3
+              .well.sidebar-nav
+                - if user_signed_in?
+                  h3 Actions
+                  ul.nav.nav-list
+                    li = link_to "New Transcription", new_transcription_path, :class => "sidebar-url"
+                    li = link_to "My Transcriptions", "#", :class => "sidebar-url"
+                    li = link_to "Tutorial", "#", :class => "sidebar-url"
+                    li = link_to "Log out", "/logout", :class => "sidebar-url"
+                - else
+                  h3 Get Started
+                  ul.nav.nav-list
+                    li = link_to "Log in", "/login", :class => "sidebar-url"
+                    li = link_to "Sign up", "/users/sign_up", :class => "sidebar-url"
     
     .container.footer
       footer
         .row
           .col-sm-5.p-test
-            img.partner-logo.geothink-logo src= "#{image_path 'Geothink_Logo_NT.png'}" target="" alt="" align="right"
+            img.partner-logo.geothink-logo src= "#{image_path 'Geothink_Logo_T2.jpg'}" target="" alt="" align="right"
           .col-sm-7.p-test
             img.partner-logo.mcgill-logo src= "#{image_path 'McGill_logoT.gif'}" target="" alt="" align="left"
         .row
           = render 'application/footer'
         .row
           p.footer-copyright &copy; DRAW 2016
+
     = render partial: 'shared/templates'

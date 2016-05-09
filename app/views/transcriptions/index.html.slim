@@ -20,8 +20,8 @@ table class="table"
     - @transcriptions.each do |transcription|
       tr
         td = transcription.id
-        td = image_tag(transcription.page.image.url(:small))
-        td = transcription.page.title
+        td = (transcription.page ? image_tag(transcription.page.image.url(:small)) : '')
+        td = (transcription.page ? transcription.page.title : '')
         td = transcription.annotations.count
         td = (transcription.complete ? "Yes" : "No")
         td = link_to 'Show', transcription
