@@ -32,7 +32,7 @@ html lang="en"
         #message-container.col-md-12
           = render partial: 'application/alerts'
       .row
-        - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index")
+        - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index") || (params[:controller] == "pages" && params[:action] == "index")
             .col-md-12
                 = yield
         - else
@@ -44,7 +44,7 @@ html lang="en"
                   h3 Actions
                   ul.nav.nav-list
                     li = link_to "New Transcription", new_transcription_path, :class => "sidebar-url"
-                    li = link_to "My Transcriptions", "#", :class => "sidebar-url"
+                    li = link_to "My Transcriptions", my_transcriptions_path(current_user), :class => "sidebar-url"
                     li = link_to "Tutorial", "#", :class => "sidebar-url"
                     li = link_to "Log out", "/logout", :class => "sidebar-url"
                 - else
