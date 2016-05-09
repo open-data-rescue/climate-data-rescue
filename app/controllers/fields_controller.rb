@@ -167,6 +167,6 @@ class FieldsController < ApplicationController
   
   private
   def field_params
-    params.require(:field).permit(:field_key, :initial_value, :kind, :name, :options, :validations, :field_group_id)
+    params.require(:field).permit(:field_key, :initial_value, :data_type, :html_field_type, :name, :options, :validations, :field_group_id)
   end
 end
