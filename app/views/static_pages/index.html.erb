@@ -1,0 +1,27 @@
+<% if @static_pages %>
+  <h1>Static Content Pages</h1>
+
+  <table class="table table-striped">
+    <colgroup>
+      <col style="width: 10%">
+      <col style="width: 30%">
+      <col style="width: 35%">
+      <col style="width: 10%">
+      <col style="width: 15%">
+    </colgroup>
+    <thead>
+      <th></th>
+      <th>Title</th>
+      <th>Link</th>
+      <th><%= StaticPage.human_attribute_name(:visible) %></th>
+      <th></th>
+    </thead>
+    <tbody>
+      <%= render @static_pages %>
+    </tbody>
+  </table>
+
+  <%= link_to "New Content Page", new_static_page_path %>
+  
+<% else %>
+<% end %>

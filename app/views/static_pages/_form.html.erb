@@ -1,0 +1,80 @@
+<%= form_for (@static_page) do |f| %>
+  <div class="row" data-hook="admin_page_form_fields">
+    <div class="col-md-6" data-hook="admin_page_form_left">
+      <div class="form-group">
+        <%= f.label :title %> <span class="required">*</span>
+        <%= f.text_field :title, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :slug %> <span class="required">*</span>
+        <%= f.text_field :slug, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :body %> <span class="required">*</span>
+        <%= f.text_area :body, rows: 12, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="col-md-6" data-hook="admin_page_form_right">
+
+      <div class="form-group">
+        <%= f.label :foreign_link %>
+        <%= f.text_field :foreign_link, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :position %>
+        <%= f.number_field :position, min: 0, class: 'form-control' %>
+      </div>
+
+      <div class="checkbox">
+        <%= f.label :show_in_header do %>
+          <%= f.check_box :show_in_header %>
+          <%= StaticPage.human_attribute_name(:show_in_header) %>
+        <% end %>
+      </div>
+
+      <!-- <div class="checkbox">
+        <%= f.label :show_in_sidebar do %>
+          <%= f.check_box :show_in_sidebar %>
+          <%= StaticPage.human_attribute_name(:show_in_sidebar) %>
+        <% end %>
+      </div> -->
+
+      <div class="checkbox">
+        <%= f.label :visible do %>
+          <%= f.check_box :visible %>
+          <%= StaticPage.human_attribute_name(:visible) %>
+        <% end %>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <div class="row" data-hook="admin_page_form_meta">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= f.label :meta_title %>
+        <%= f.text_field :meta_title, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :meta_keywords %>
+        <%= f.text_field :meta_keywords, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :meta_description %>
+        <%= f.text_field :meta_description, class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

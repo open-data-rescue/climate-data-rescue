@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426210010) do
+ActiveRecord::Schema.define(version: 20160509032602) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -106,6 +106,24 @@ ActiveRecord::Schema.define(version: 20160426210010) do
   end
 
   add_index "pages", ["page_type_id"], name: "index_pages_on_page_type_id", using: :btree
+
+  create_table "static_pages", force: :cascade do |t|
+    t.string   "title",            limit: 255
+    t.text     "body",             limit: 65535
+    t.string   "slug",             limit: 255
+    t.boolean  "show_in_header",                 default: false, null: false
+    t.boolean  "show_in_sidebar",                default: false, null: false
+    t.boolean  "visible",                        default: true,  null: false
+    t.string   "foreign_link",     limit: 255
+    t.integer  "position",         limit: 4,     default: 1,     null: false
+    t.string   "meta_keywords",    limit: 255
+    t.string   "meta_title",       limit: 255
+    t.string   "meta_description", limit: 255
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+  end
+
+  add_index "static_pages", ["slug"], name: "index_static_pages_on_slug", using: :btree
 
   create_table "transcriptions", force: :cascade do |t|
     t.integer  "user_id",    limit: 4

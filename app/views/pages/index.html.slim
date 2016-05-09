@@ -4,7 +4,7 @@
 
 h3 Current Pages
 /! List all pages and their info in a table
-table
+table.table.table-striped
   thead
     tr
       th Thumbnail
@@ -12,10 +12,9 @@ table
       th Filename
       th Height
       th Width
-      th Display width
       th Order
       th Done
-      th Completed Transcriptions
+      th 
       th
       - if current_user.admin?
         th
