@@ -31,8 +31,6 @@ Weather::Application.routes.draw do
   root :to => "home#index"
   match 'home' => 'home#index', :via => [:get, :post]
   match 'about' => 'home#about', :via => [:get, :post]
-  match 'science' => 'home#science', :via => [:get, :post]
-  match 'faq' => 'home#faq', :via => [:get, :post]
   match 'contact' => 'home#contact', :via => [:get, :post]
   get 'transcribe(/:current_page_id)' => 'transcriptions#new', as: "transcribe_page"
   # match 'pagetypes' => 'pagetypes#index', :via => [:get, :post]
@@ -47,6 +45,13 @@ Weather::Application.routes.draw do
   #match '/avatars/original/missing.png', :via => [:get, :post]
   
   post 'create_page_metadata' => "page_days#create"
+
+  get 'my_transcriptions/:user_id' => 'transcriptions#my_transcriptions', as: "my_transcriptions"
+
+  resources :static_pages
+  constraints(StaticPage) do
+    get '/(*path)', to: 'static_pages#show', as: 'static'
+  end
 
   devise_scope :user do
     get "login", to: "devise/sessions#new"

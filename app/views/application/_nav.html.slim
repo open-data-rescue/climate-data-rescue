@@ -10,9 +10,9 @@ nav.navbar.navbar-default.navbar-static-top
     #navbar.navbar-collapse.collapse.navbar-responsive-collapse
       ul.nav.navbar-nav
         li class="#{yield(:home)}" = link_to "Home", root_path
-        li class="#{yield(:about)}" = link_to "About", "/about"
-        li class="#{yield(:science)}" = link_to "Citizen Science", "/science"
-        li class="#{yield(:faq)}" = link_to "FAQ", "/faq"
+        - if StaticPage.header_links.any?
+          - StaticPage.header_links.each do |sp|
+            li = link_to sp.title, sp.link
         - if user_signed_in?
           li class="#{yield(:user)} dropdown"
             a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button" class="#{yield(:user)}"
@@ -45,6 +45,7 @@ nav.navbar.navbar-default.navbar-static-top
                 li class="#{yield(:annotations)}" = link_to "Annotations", annotations_path
                 li class="#{yield(:fieldgroups)}" = link_to "Field Groups", field_groups_path
                 li class="#{yield(:fields)}" = link_to "Fields", fields_path
+                li class="#{yield(:static_pages)}" = link_to "Content Pages", static_pages_path
         li class="#{yield(:contact)}" = link_to "Contact us", "/contact"
 
 
