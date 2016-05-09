@@ -23,6 +23,19 @@ class TranscriptionsController < ApplicationController
     end
   end
 
+  def my_transcriptions
+    if params[:user_id]
+      begin
+        user = User.find params[:user_id]
+        @transcriptions = user.transcriptions
+        render "index"
+      rescue => e
+        flash[:danger] = e.message
+        redirect_to root_path
+      end
+    end
+  end
+
   # GET /transcriptions/transcription_id
   # GET /transcriptions/transcription_id.json
   def show    
