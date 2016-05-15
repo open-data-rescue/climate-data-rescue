@@ -38,7 +38,9 @@ $(document).ready(function(){
   console.log("test");
   $("#target-image").ready( function() {
     var $canvas = $("#canvas");
-    $canvas.width($(this).width());
+    console.log($(this));
+    $canvas.width($("#target-image").width());
+    $canvas.height($("#target-image").height());
     console.log("annotation boxes");
     if (<%= @transcription.annotations.any? ? true : false %>) {
       <% @transcription.annotations.each do |annotation| %>
@@ -104,6 +106,7 @@ $(document).ready(function(){
         // Using the boxer plugin
         $('#canvas').boxer({
           appendTo: "#canvas",
+          container : "#page-container",
 
           stop: function(event, ui) {    
               
