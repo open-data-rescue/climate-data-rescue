@@ -147,10 +147,10 @@ class FieldsController < ApplicationController
     if current_user && current_user.admin?
       Field.transaction do
         begin
-          @field = Field.find(params[:id])
-          @field.destroy
+          field = Field.find(params[:id])
+          field.destroy
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
       
@@ -167,6 +167,6 @@ class FieldsController < ApplicationController
   
   private
   def field_params
-    params.require(:field).permit(:field_key, :initial_value, :data_type, :html_field_type, :name, :options, :validations, :field_group_id)
+    params.require(:field).permit(:field_key, :initial_value, :data_type, :html_field_type, :name, :options, :validations, :full_name, :help, :field_group_id)
   end
 end
