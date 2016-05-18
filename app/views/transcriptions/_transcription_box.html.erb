@@ -50,10 +50,10 @@
                                         <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input" %>
                                     </div>
                                 <% end %>
-
+                                <%= submit_tag "Submit", class:"submit-btn btn btn-primary btn-md scribe-input-field", style: "margin-top: 10px;" %>
                             </div>
                             
-                            <%= submit_tag "Submit", class:"submit-btn btn btn-primary btn-md", style: "margin-top: 10px;" %>
+                            
                         <% end %>
                     </div>
                 <% end %>
