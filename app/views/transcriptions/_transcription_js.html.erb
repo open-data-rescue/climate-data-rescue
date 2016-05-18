@@ -36,6 +36,14 @@ $(document).ready(function(){
 //Code credited as "sourced from" have been modified little to none. 
 //Code credited as "adapted from" uses ideas and some lines from the credited location while modifying them to work with this project
   console.log("test");
+  $("#page-complete-checkbox").change(function() {
+      if (this.checked) {
+          $("#finish-transcribing-btn").val("Submit Finished Transcription");
+      } else {
+          $("#finish-transcribing-btn").val("Take a Break");
+      }
+  });
+  
   $("#target-image").ready( function() {
     var $canvas = $("#canvas");
     console.log($(this));
