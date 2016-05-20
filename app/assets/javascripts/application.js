@@ -23,7 +23,7 @@
 
 
 $(document).ready(function(){
-	
+	$('[data-toggle="popover"]').popover();
 });
 
 function alertMessageJson(message) {

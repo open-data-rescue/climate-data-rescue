@@ -32,22 +32,22 @@
                             
                             <div class="user-input-container">
                                 <div class="scribe_input_field">
+                                    <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover"} %>
                                     <div class="scribe_input_label">Observation Date</div>
-                                    <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear" %>
                                 </div>
                                 <div class="scribe_input_field">
+                                    <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear", title: "Observation Time", data: { content: "What is the time of this observation?", toggle: "popover", placement: "bottom auto", trigger: "hover"} %>
                                     <div class="scribe_input_label">Observation Time</div>
-                                    <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear" %>
                                 </div>
                                 
                                 <% field_group.fields.each do |field| %>
                                     <div class="scribe_input_field">
-                                        <div class="scribe_input_label"><%= field.name %></div>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]", page.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
-                                        <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input" %>
+                                        <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input", title: (field.full_name && field.full_name.present? ? field.full_name : field.name), data: { content: (field.help && field.help.present? ? field.help : ""), toggle: "popover", placement: "bottom auto", trigger: "hover"} %>
+                                        <div class="scribe_input_label"><%= field.name %></div>
                                     </div>
                                 <% end %>
                                 <%= submit_tag "Submit", class:"submit-btn btn btn-primary btn-md scribe-input-field", style: "margin-top: 10px;" %>
