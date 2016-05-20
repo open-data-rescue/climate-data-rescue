@@ -8,21 +8,19 @@
                 </div>
                 <div class="btn-group" role="group" data-purpose="action buttons">
                     <button id="new-annotation" type="button" class="btn btn-default">New Annotation</button>
-                    <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button>
+                    <!-- <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button> -->
                 </div>
             </div>
             <div id="transcription-form-container">
-                <div class="pull-right">
-                    <%= form_for @transcription, html: {class: "form-inline"} do %>
-                        <div class="checkbox">
+                    <%= form_for @transcription, html: {class: "form-inline", id: "submit-transcription-form"} do %>
+                        <div class="checkbox" style="margin-top: 8px;">
                             <label style="color: white;">
                                 <%= hidden_field_tag "transcription[complete]", false %>
-                                <%= check_box_tag "transcription[complete]", true, @transcription.complete %> Transcription is complete
+                                 Page is complete  <%= check_box_tag "transcription[complete]", true, @transcription.complete, id: "page-complete-checkbox" %>
                             </label>
                         </div>
-                        <%= submit_tag "Stop Transcribing", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-primary" %>
+                        <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-primary pull-right", id: "finish-transcribing-btn" %>
                     <% end %>
-                </div>
             </div>
         </div>
         <div id="transcription-msg-container">

@@ -61,14 +61,29 @@ $.widget("ui.boxer", $.ui.mouse, {
 
 	_mouseDrag: function(event) {
       
-      var self = this;
+        var self = this;
 		this.dragged = true;
 
 		if (this.options.disabled)
 			return;
 
 		var options = this.options;
+        
+        var $container = $(options.container);
+        
+        if (event.pageX > ($container.width() - 50)) {
+            $container.scrollLeft($container.scrollLeft() + 5); 
+        } else if (event.pageX < ($container.offset().left + 50)) {
+            $container.scrollLeft($container.scrollLeft() - 5);
+        };
+        
+        if (event.pageY > ($container.height() - 50)) {
+            $container.scrollTop($container.scrollTop() + 5); 
+        } else if (event.pageY < ($container.offset().top + 50)) {
+            $container.scrollTop($container.scrollTop() - 5);
+        };
 
+        
 		var position = {
 	      x: event.pageX - $(document).scrollLeft() - $(options.appendTo).offset().left,
 	      y : event.pageY - $(document).scrollTop() - $(options.appendTo).offset().top

@@ -14,7 +14,6 @@ table.table.table-striped
       th Complete?
       th
       th
-      th
 
   tbody
     - @transcriptions.each do |transcription|
@@ -24,9 +23,8 @@ table.table.table-striped
         td = (transcription.page ? transcription.page.title : '')
         td = transcription.annotations.count
         td = (transcription.complete ? "Yes" : "No")
-        td = link_to 'Show', transcription
-        td = link_to 'Edit', edit_transcription_path(transcription)
-        td = link_to 'Delete', transcription, data: {:confirm => 'Are you sure?'}, :method => :delete
+        td = link_to 'Transcribe', edit_transcription_path(transcription)
+        td = (current_user && current_user.admin? ? (link_to 'Delete', transcription, data: {:confirm => 'Are you sure?'}, :method => :delete) : "")
 
 
 br

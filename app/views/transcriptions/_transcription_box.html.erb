@@ -1,4 +1,6 @@
 <div id="scribe_annotation_box">
+    <div id="scribe_zoom_box" style="background-image: url('<%= page.image.url(:original) %>'); background-repeat: no-repeat; background-position-y: -200px;"></div>
+    
     <div id="scribe_transcription_area">
         <div id="scribe_top_bar">
             <div id="scribe_prompt">
@@ -7,7 +9,9 @@
             </div>
             <ul id="scribe_tab_bar">
                 <% field_groups.each do |field_group| %>
-                    <li id="scribe_tab_<%= field_group.name.gsub(" ", "_") %>" class="scribe_tab" data-field-group-id="field-group-<%= field_group.id %>"><%= field_group.name %></li>
+                    <% if field_group.fields.any? %>
+                        <li id="scribe_tab_<%= field_group.id %>" class="scribe_tab" data-field-group-id="field-group-<%= field_group.id %>"><%= field_group.presentation_name %></li>
+                    <% end %>
                 <% end %>
             </ul>
         </div>
@@ -15,7 +19,7 @@
             <div id="scribe_input_bar">
                 <p id="formInstructions">Click a tab to begin</p>
                 <% field_groups.each do |field_group| %>
-                    <div id="field-group-<%= field_group.id.to_s %>" class="annotation-form-field-group" style="display:none;">
+                    <div id="field-group-<%= field_group.id %>" class="annotation-form-field-group" style="display:none;">
                         <%= form_tag annotations_path, id: ("field_group_" + field_group.id.to_s), class:"annotation-form", remote: true, format: :json do %>
                             <%= hidden_field_tag "filename", page.image_file_name %>
                             <%= hidden_field_tag "annotation[meta][transcription_id]", transcription.id %>
@@ -27,17 +31,13 @@
                             <%= hidden_field_tag "annotation[meta][height]", nil, id: "height-field" %>
                             
                             <div class="user-input-container">
-                                <!-- <div class="scribe_input_field">
-                                    <div class="scribe_input_label">Day of Week</div>
-                                    <%= select_tag "annotation[week_day]", options_for_select(t('date.day_names')), required: true, prompt: "Select Day" %>
-                                </div> -->
                                 <div class="scribe_input_field">
                                     <div class="scribe_input_label">Observation Date</div>
-                                    <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input" %>
+                                    <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear" %>
                                 </div>
                                 <div class="scribe_input_field">
                                     <div class="scribe_input_label">Observation Time</div>
-                                    <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input" %>
+                                    <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear" %>
                                 </div>
                                 
                                 <% field_group.fields.each do |field| %>
@@ -50,16 +50,12 @@
                                         <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input" %>
                                     </div>
                                 <% end %>
-
+                                <%= submit_tag "Submit", class:"submit-btn btn btn-primary btn-md scribe-input-field", style: "margin-top: 10px;" %>
                             </div>
-                            
-                            <%= submit_tag "Submit", class:"submit-btn btn btn-primary btn-md", style: "margin-top: 10px;" %>
                         <% end %>
                     </div>
                 <% end %>
             </div>
         </div>
     </div>
-    
-    <div id="scribe_zoom_box" style="background-image: url('<%= page.image.url(:original) %>'); background-repeat: no-repeat; background-position-y: -200px;"></div>
 </div>

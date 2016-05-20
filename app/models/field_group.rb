@@ -4,4 +4,12 @@ class FieldGroup < ActiveRecord::Base
   has_many :annotations
   belongs_to :page_type
 
+
+  def presentation_name
+    if display_name && display_name.present?
+      display_name
+    else
+      name
+    end
+  end
 end
