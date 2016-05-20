@@ -9,12 +9,13 @@ table.table.table-striped
     tr
       th Group
       th Name
+      th Full Name
       th Field key
       th HTML Field Type
-      th Initial value
-      th Options
-      th Validations
       th Data Type
+      th Help Text
+      // th Initial value
+      // th Validations
       th
       th
       th
@@ -24,12 +25,13 @@ table.table.table-striped
       tr
         td = field.field_group ? field.field_group.name : ''
         td = field.name
+        td = field.full_name
         td = field.field_key
         td = field.html_field_type
-        td = field.initial_value
-        td = field.options
-        td = field.validations
         td = field.data_type
+        td = field.help
+        // td = field.initial_value
+        // td = field.validations
         td = link_to 'Show', field
         td = link_to 'Edit', edit_field_path(field)
         td = link_to 'Destroy', field, data: {:confirm => 'Are you sure?'}, :method => :delete
