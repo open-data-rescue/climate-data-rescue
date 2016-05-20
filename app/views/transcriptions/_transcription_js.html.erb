@@ -137,7 +137,7 @@ $(document).ready(function(){
 
               $('#canvas').unbind(".boxer");
               $form.submit();
-              $form.find(".observation-input").val('');
+              $form.find(".observation-input").not(".do-not-clear").val('');
           }
         });
 
