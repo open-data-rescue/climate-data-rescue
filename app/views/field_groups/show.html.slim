@@ -1,9 +1,13 @@
 
-h3 #{@field_group.name} Details
+h3 Details of #{@field_group.name}
 /! Show field_group attribute information
 p
   strong Name:
   = @field_group.name
+  
+p
+  strong Display Name:
+  = @field_group.display_name
 p
   strong Description:
   = @field_group.description
@@ -12,13 +16,15 @@ p
   = @field_group.help
 
 /! show all the fields associated with this field_group and their attribute information in a table
-h3 #{@field_group.name} Fields
+h3 Fields for #{@field_group.name}
 
 table.table
   thead
     tr
       th Name
+      th Full Name
       th Field key
+      th Help Text
       th Initial value
       th Options
       th Validations
@@ -27,7 +33,9 @@ table.table
     - @field_group.fields.each do |field|
       tr
         td = link_to field.name, field
+        td = field.full_name
         td = field.field_key
+        td = field.help
         td = field.initial_value
         td = field.options
         td = field.validations

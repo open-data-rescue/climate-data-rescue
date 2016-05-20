@@ -9,7 +9,9 @@
             </div>
             <ul id="scribe_tab_bar">
                 <% field_groups.each do |field_group| %>
-                    <li id="scribe_tab_<%= field_group.name.gsub(" ", "_") %>" class="scribe_tab" data-field-group-id="field-group-<%= field_group.id %>"><%= field_group.name %></li>
+                    <% if field_group.fields.any? %>
+                        <li id="scribe_tab_<%= field_group.id %>" class="scribe_tab" data-field-group-id="field-group-<%= field_group.id %>"><%= field_group.presentation_name %></li>
+                    <% end %>
                 <% end %>
             </ul>
         </div>
@@ -17,7 +19,7 @@
             <div id="scribe_input_bar">
                 <p id="formInstructions">Click a tab to begin</p>
                 <% field_groups.each do |field_group| %>
-                    <div id="field-group-<%= field_group.id.to_s %>" class="annotation-form-field-group" style="display:none;">
+                    <div id="field-group-<%= field_group.id %>" class="annotation-form-field-group" style="display:none;">
                         <%= form_tag annotations_path, id: ("field_group_" + field_group.id.to_s), class:"annotation-form", remote: true, format: :json do %>
                             <%= hidden_field_tag "filename", page.image_file_name %>
                             <%= hidden_field_tag "annotation[meta][transcription_id]", transcription.id %>
