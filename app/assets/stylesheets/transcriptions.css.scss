@@ -19,13 +19,17 @@
  * Scribe Transcription Styles. Most of these come from the original Scribe project and have been modified to fit this project's specifications. Not all styles are used presently, but are included for future additions
  */
 
+#formInstructions {
+    width: 800px;
+    margin: 10px;
+}
 
 #scribe_annotation_box {
     font-family: verdana,tahoma,sans-serif;
     font-size: 13px;
     min-height: 400px; 
     height: auto;
-    width: calc(100% - 50px); 
+    max-width: calc(100% - 50px); 
     position:absolute;
     z-index:200; 
     top:20px; 
