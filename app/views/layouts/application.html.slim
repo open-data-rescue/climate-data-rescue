@@ -43,8 +43,10 @@ html lang="en"
                 - if user_signed_in?
                   h3 Actions
                   ul.nav.nav-list
+                    - current_user && current_user.transcriptions.any?
+                      li = link_to "My Transcriptions", my_transcriptions_path, :class => "sidebar-url"
+                    
                     li = link_to "New Transcription", new_transcription_path, :class => "sidebar-url"
-                    li = link_to "My Transcriptions", my_transcriptions_path(current_user), :class => "sidebar-url"
                     li = link_to "Tutorial", "#", :class => "sidebar-url"
                     li = link_to "Log out", "/logout", :class => "sidebar-url"
                 - else
