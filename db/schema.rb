@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515213104) do
+ActiveRecord::Schema.define(version: 20160523211934) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -46,6 +46,14 @@ ActiveRecord::Schema.define(version: 20160515213104) do
     t.string   "display_name", limit: 255
   end
 
+  create_table "field_groups_fields", id: false, force: :cascade do |t|
+    t.integer "field_group_id", limit: 4, null: false
+    t.integer "field_id",       limit: 4, null: false
+  end
+
+  add_index "field_groups_fields", ["field_group_id"], name: "index_field_groups_fields_on_field_group_id", using: :btree
+  add_index "field_groups_fields", ["field_id"], name: "index_field_groups_fields_on_field_id", using: :btree
+
   create_table "fields", force: :cascade do |t|
     t.string   "name",            limit: 255
     t.string   "field_key",       limit: 255
@@ -59,12 +67,12 @@ ActiveRecord::Schema.define(version: 20160515213104) do
     t.datetime "updated_at"
     t.string   "full_name",       limit: 255
     t.text     "help",            limit: 65535
+    t.integer  "position",        limit: 4,     default: 0, null: false
   end
 
   create_table "ledgers", force: :cascade do |t|
     t.string   "title",       limit: 255
     t.string   "ledger_type", limit: 255
-    t.string   "volume",      limit: 255
     t.date     "start_date"
     t.date     "end_date"
     t.datetime "created_at"
@@ -106,6 +114,7 @@ ActiveRecord::Schema.define(version: 20160515213104) do
     t.integer  "image_file_size",      limit: 4
     t.datetime "image_updated_at"
     t.integer  "transcriber_id",       limit: 4
+    t.string   "volume",               limit: 255
   end
 
   add_index "pages", ["page_type_id"], name: "index_pages_on_page_type_id", using: :btree
