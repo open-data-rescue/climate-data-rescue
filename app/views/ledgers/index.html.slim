@@ -8,7 +8,7 @@ table.table.table-striped
   thead
     tr
       th Title
-      th Pagetypes in group
+      th Pages in Ledger
       th
       th
       th
@@ -17,7 +17,7 @@ table.table.table-striped
     - @ledgers.each do |ledger|
       tr
         td = ledger.title
-        td = ledger.page_types.count
+        td = ledger.pages.count
         td = link_to 'Show', ledger
         td = link_to 'Edit', edit_ledger_path(ledger)
         td = link_to 'Destroy', ledger, data: {:confirm => 'Are you sure?'}, :method => :delete
