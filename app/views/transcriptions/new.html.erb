@@ -1,3 +1,5 @@
+<% provide :title, "New Transcription" %>
+
 <h2>New Transcription</h2>
 <div class="row">
     <div class="col-md-2">
@@ -44,7 +46,7 @@
                     <%= hidden_field_tag "transcription[page_id]", @page.id %>
                     <%= hidden_field_tag "transcription[user_id]", current_user.id %>
                     <div class="form-actions">
-                        <%= f.button :submit, "Start Transcribing" %>
+                        <%= f.button :submit, "Start Transcribing", class: "btn btn-primary" %>
                     </div>
                 <% end %>
             <% else %>
@@ -58,7 +60,7 @@
                                 <% index += 1 %>
                                 <%= hidden_field_tag "days[#{index.to_s}][date]", day %>
                                 <label>Day <%= index %>:</label> <%= day.strftime("%A %b %e, %Y") %><br/>
-                                <div style="margin-bottom: 10px;">Date Incorrect? <%= check_box_tag "toggle_date_override_day_#{index}", 1, false, class: "toggle-date-override" %>
+                                <div style="margin-bottom: 10px;">Wrong Date? <%= check_box_tag "toggle_date_override_day_#{index}", 1, false, class: "toggle-date-override" %>
                                     <div class="date-override" style="display: none; margin-bottom: 10px;">
                                         <%= date_field_tag "days[#{index.to_s}][date]", day %>
                                     </div>
