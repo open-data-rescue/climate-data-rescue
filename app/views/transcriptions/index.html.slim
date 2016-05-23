@@ -1,5 +1,10 @@
-- provide(:transcriptions, "active")
-- provide(:admin, "active")
+- if current_user && current_user.admin?
+  - provide(:transcriptions, "active")
+  - provide(:admin, "active")
+- else
+  - provide(:my_transcriptions, "active")
+  - provide(:user, "active")
+
 - provide(:title, "Transcriptions")
 
 h1 Listing transcriptions
