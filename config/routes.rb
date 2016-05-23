@@ -46,7 +46,8 @@ Weather::Application.routes.draw do
   
   post 'create_page_metadata' => "page_days#create"
 
-  get 'my_transcriptions/:user_id' => 'transcriptions#my_transcriptions', as: "my_transcriptions"
+  get 'my_transcriptions' => 'transcriptions#my_transcriptions', as: "my_transcriptions"
+  get 'weather-logs' => 'pages#public_index', as: "public_pages_index"
 
   resources :static_pages
   constraints(StaticPage) do
