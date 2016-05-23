@@ -24,9 +24,9 @@ class TranscriptionsController < ApplicationController
   end
 
   def my_transcriptions
-    if params[:user_id]
+    if current_user
       begin
-        user = User.find params[:user_id]
+        user = current_user
         @transcriptions = user.transcriptions
         render "index"
       rescue => e
@@ -65,13 +65,18 @@ class TranscriptionsController < ApplicationController
       # and is used to populate the page with information about the transcription instance.
       # "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to 
       # set the attributes of the new transcription instance.
+      
+      @page = get_or_assign_page(params[:current_page_id])
+      
+      if current_user.transcriptions.any? && (current_user.transcriptions.collect(&:page_id).include? @page.id)
+        redirect_to edit_transcription_path(current_user.transcriptions.find_by(:page_id => @page.id))
+      end
       @user = current_user
-      get_or_assign_page(params[:current_page_id])
       @field_groups = @page.page_type.field_groups if @page && @page.page_type
       @transcription = Transcription.new
       
     else
-      flash[:danger] = 'Only users can modify transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      flash[:danger] = 'Only users can transcribe pages. <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
     end
   end
@@ -140,7 +145,7 @@ class TranscriptionsController < ApplicationController
       end
       
       respond_to do |format|
-        format.html { redirect_to transcriptions_url}
+        format.html { redirect_to my_transcriptions_url}
       end
       
     else
@@ -179,10 +184,12 @@ class TranscriptionsController < ApplicationController
   # this function gets a random page for display on the new transcription page 
   # if one has not been set by selecting "Transcribe" on an page's show page
     if page_id
-      @page = Page.find(page_id)
+      page = Page.find(page_id)
     else
-      @page = Page.transcribeable.order("RAND()").first
+      page = Page.transcribeable.order("RAND()").first
     end
+    
+    page
   end
   
   private
