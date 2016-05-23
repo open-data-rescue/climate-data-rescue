@@ -13,25 +13,27 @@ nav.navbar.navbar-default.navbar-static-top
         - if StaticPage.header_links.any?
           - StaticPage.header_links.each do |sp|
             li = link_to sp.title, sp.link
+        li class="#{yield(:weather_logs)}" = link_to "Weather Logs", public_pages_index_path
         - if user_signed_in?
-          li class="#{yield(:user)} dropdown"
+          li id="user-menu" class="#{yield(:user)} dropdown"
             a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button" class="#{yield(:user)}"
               | User
               span.caret
             ul.dropdown-menu
               li class="#{yield(:profile)}" = link_to "Profile", "/users/#{current_user.id}/profile"
-              li class="#{yield(:stats)}" = link_to "Statistics", "/users/#{current_user.id}/stats"
+              li class="#{yield(:my_transcriptions)}" = link_to "My Transcriptions", my_transcriptions_path
+              // li class="#{yield(:stats)}" = link_to "Statistics", "/users/#{current_user.id}/stats"
               li = link_to "Log out", "/logout"
-              li.divider role="separator"
-              li.dropdown-header Community
-              li class="#{yield(:leaderboard)}" = link_to "Leaderboard", "#"
-              li class="#{yield(:rankings)}" = link_to "Rankings", "#"
-              li class="#{yield(:forum)}" = link_to "Forum", "#"
+              // li.divider role="separator"
+              // li.dropdown-header Community
+              // li class="#{yield(:leaderboard)}" = link_to "Leaderboard", "#"
+              // li class="#{yield(:rankings)}" = link_to "Rankings", "#"
+              // li class="#{yield(:forum)}" = link_to "Forum", "#"
         - else
           li class="#{yield(:login)}" = link_to "Log in", "/login"
         - if user_signed_in?
           - if current_user.admin == true
-            li class="#{yield(:admin)} dropdown"
+            li id="admin-menu" class="#{yield(:admin)} dropdown"
               a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
                 | Admin
                 span.caret
@@ -46,43 +48,4 @@ nav.navbar.navbar-default.navbar-static-top
                 li class="#{yield(:fieldgroups)}" = link_to "Field Groups", field_groups_path
                 li class="#{yield(:fields)}" = link_to "Fields", fields_path
                 li class="#{yield(:static_pages)}" = link_to "Content Pages", static_pages_path
-        li class="#{yield(:contact)}" = link_to "Contact us", "/contact"
-
-
-    / OLD NAVBAR CODE
-    / .navbar.navbar-default.navbar-static-top
-    /     .container
-    /       button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
-    /         span.icon-bar
-    /         span.icon-bar
-    /         span.icon-bar
-    /       = link_to "Weather", root_path, :class => "navbar-brand"
-    /       .navbar-collapse.collapse.navbar-responsive-collapse
-    /         ul.nav.navbar-nav
-    /           li = link_to "Home", root_path
-    /           li = link_to "About", "/about"
-    /           /! These elements are only displayed if a user is logged in. Certain are only displayed if not an admin
-    /           - if user_signed_in? && current_user.admin!=true
-    /             li = link_to "Pagetypes", "/pagetypes"
-    /           - if user_signed_in?
-    /             - if current_user.admin != true
-    /               li = link_to "Transcribe", new_transcription_path
-    /             li = link_to "Users", "/users"
-    /             /! Current user profile page. 'show.html.slim' view for user
-    /             li = link_to current_user.name, "/users/#{current_user.id}"
-    /           /! Login/out buttons depending on login status
-    /           - if user_signed_in?
-    /             li = link_to "Logout", logout_path
-    /           - else
-    /             li = link_to "Login", login_path
-    /       - if user_signed_in? && current_user.admin?
-    /         .navbar-collapse.collapse.navbar-responsive-collapse
-    /           ul.nav.navbar-nav
-    /             /! Links to model instances to modify. Takes admin users to the 'index.html.slim' view for each model type. Users can be modified from the main nav bar 'Users' link
-    /             li = link_to "Transcriptions", transcriptions_path
-    /             li = link_to "Annotations", annotations_path
-    /             li = link_to "Field Groups", fieldgroups_path
-    /             li = link_to "Fields", fields_path
-    /             li = link_to "Ledgers", ledgers_path
-    /             li = link_to "Pagetypes", pagetypes_path
-    /             li = link_to "Pages", pages_path
+        // li class="#{yield(:contact)}" = link_to "Contact us", "/contact"
