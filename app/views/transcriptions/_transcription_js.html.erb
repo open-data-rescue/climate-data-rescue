@@ -1,5 +1,15 @@
 <script type="text/javascript">
 
+function editAnnotation(annotation_id) {
+  $.ajax({
+      url : "/annotations/" + annotation_id + "/edit.json",
+      format: "json",
+      success : function(response) {
+          console.log(response);
+      }
+  });
+}
+
 function setMsg(message, fade, style) {
   var $msg = $("#transcription-msg");
 
@@ -53,6 +63,7 @@ $(document).ready(function(){
     if (<%= @transcription.annotations.any? ? true : false %>) {
       <% @transcription.annotations.each do |annotation| %>
         <% if annotation.x_tl.present? && annotation.y_tl.present? && annotation.width.present? && annotation.height.present? %>
+          var annotation_id = <%= annotation.id %>;
           var box = $("<div><div>").css({
             "z-index": 100,
             "position": "absolute",
@@ -63,7 +74,12 @@ $(document).ready(function(){
             "border": '1px solid black',
             "background": '#A95EFF',
             "opacity": '0.3'
-          }).attr("id", "<%= 'annotation' + annotation.id.to_s %>").addClass("annotation-marker");
+          }).attr("id", "<%= 'annotation' + annotation.id.to_s %>").data('annotation-id', annotation_id).addClass("annotation-marker");
+          
+          box.click(function() {
+              console.log("load test");
+              editAnnotation(annotation_id);
+          });
 
           $canvas.append(box);
 
@@ -124,7 +140,10 @@ $(document).ready(function(){
                 y : offset.top - $(document).scrollTop() - $("#canvas").offset().top
               };
               ui.box.css({ border: '1px solid black', background: '#A95EFF', opacity: '0.3' })
-                    .attr('id',('annotation-' + data.id))
+                    .attr('id',('annotation-' + data.id)).data('annotation-id', data.id).click(function() {
+                        console.log("test");
+                        editAnnotation(data.id);
+                    });
 
               // .append('x:' + position.x + ', y:' + position.y)
               // .append('<br>')

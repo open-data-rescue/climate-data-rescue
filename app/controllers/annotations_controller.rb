@@ -43,6 +43,10 @@ class AnnotationsController < ApplicationController
   def edit
     #@annotation is a variable containing an instance of the "annotation.rb" model. It is passed to the annotation view "edit.html.slim" (project_root/annotations/edit) and is used to populate the page with information about the annotation instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent annotation instance.
     @annotation = Annotation.find(params[:id])
+    respond_to do |format|
+      format.html # new.html.slim
+      format.json# { render json: @annotation }
+    end
   end
 
   # POST /annotations
