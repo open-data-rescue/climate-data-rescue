@@ -4,37 +4,34 @@
 h3 Available Fields
 h4 Fields from all groups are listed below, edit carefully please.
 /! List all fields and their attribute information in a table
+
 table.table.table-striped
   thead
     tr
-      th Group
+      th Order
       th Name
       th Full Name
-      th Field key
-      th HTML Field Type
+      th Field Type
       th Data Type
-      th Help Text
-      // th Initial value
-      // th Validations
-      th
+      th Field Key
       th
       th
 
   tbody
     - @fields.each do |field|
       tr
-        td = field.field_group ? field.field_group.name : ''
-        td = field.name
+        td = field.position
+        td = link_to field.name, field
         td = field.full_name
-        td = field.field_key
         td = field.html_field_type
         td = field.data_type
-        td = field.help
-        // td = field.initial_value
-        // td = field.validations
-        td = link_to 'Show', field
+        td = field.field_key
         td = link_to 'Edit', edit_field_path(field)
-        td = link_to 'Destroy', field, data: {:confirm => 'Are you sure?'}, :method => :delete
+        td = link_to 'Delete', field, data: {:confirm => 'Are you sure?'}, :method => :delete
+      tr
+        td
+        td colspan="5"
+          = "Help: " + (field.help ? field.help : "")
 
 br
 
