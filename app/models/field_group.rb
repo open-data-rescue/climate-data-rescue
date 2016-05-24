@@ -3,7 +3,8 @@ class FieldGroup < ActiveRecord::Base
   has_many :fields
   has_many :annotations
   belongs_to :page_type
-
+  
+  default_scope { order('sort_order asc')}
 
   def presentation_name
     if display_name && display_name.present?

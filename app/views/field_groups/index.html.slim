@@ -11,6 +11,7 @@ table.table.table-striped
       th Display Name
       th Description
       th Help
+	  th Sort Order
       th
       th
       th
@@ -22,6 +23,7 @@ table.table.table-striped
         td = field_group.display_name
         td = field_group.description
         td = field_group.help
+		td = field_group.sort_order
         td = link_to 'Show', field_group
         td = link_to 'Edit', edit_field_group_path(field_group)
         td = link_to 'Destroy', field_group, data: {:confirm => 'Are you sure?'}, :method => :delete
