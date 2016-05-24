@@ -3,6 +3,8 @@ class FieldGroup < ActiveRecord::Base
   has_and_belongs_to_many :fields
   has_many :annotations
   belongs_to :page_type
+  
+  default_scope { order(position: :asc) }
 
 
   def presentation_name

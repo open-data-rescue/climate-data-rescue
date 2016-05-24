@@ -7,6 +7,7 @@ h3 Field Groups
 table.table.table-striped
   thead
     tr
+      th Order
       th Name
       th Display Name
       th Description
@@ -18,6 +19,7 @@ table.table.table-striped
   tbody
     - @field_groups.each do |field_group|
       tr
+        td = field_group.position
         td = link_to field_group.name, field_group
         td = field_group.display_name
         td = field_group.description

@@ -1,9 +1,16 @@
+- provide(:field_groups, "active")
+- provide(:admin, "active")
+- provide(:title, @field_group.name)
 
 h3 Details of #{@field_group.name}
 /! Show field_group attribute information
 p
   strong Name:
   = @field_group.name
+
+p
+  strong Order:
+  = @field_group.position
   
 p
   strong Display Name:

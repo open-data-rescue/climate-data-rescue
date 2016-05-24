@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160523211934) do
+ActiveRecord::Schema.define(version: 20160524115800) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20160523211934) do
     t.datetime "updated_at"
     t.integer  "page_type_id", limit: 4
     t.string   "display_name", limit: 255
+    t.integer  "position",     limit: 4,   default: 0, null: false
   end
 
   create_table "field_groups_fields", id: false, force: :cascade do |t|
