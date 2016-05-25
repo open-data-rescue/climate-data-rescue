@@ -12,6 +12,10 @@ function clearAnnotationBox() {
 function updateAnnotation(event, annotation, $form) {
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
     transcription */
+    if (annotation.id == null) {
+      setMsg("Can not update annotation because ID is null", false, "danger");
+      return;
+    }
     
     $form.attr("method", "put");
     $form.attr("action", ("/annotations/" + annotation.id));
@@ -127,6 +131,10 @@ function transcribeData(event, btn) {
 
         $('#scribe_annotation_box').hide();
 
+        if (data.id == null) {
+          setMsg("Annotation could not be saved because the ID returned was null", false, "danger");
+          return;
+        }
         setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "info");
 
         $form.unbind("ajax:success");
