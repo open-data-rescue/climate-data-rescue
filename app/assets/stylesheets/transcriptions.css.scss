@@ -51,11 +51,11 @@
     width: 100%;
 }
 #scribe_tab_bar li {
-    background: none repeat scroll 0 0 #f4f4f4;
+    background: #f4f4f4;
     border-left: 1px solid #e0e0e0;
     border-right: 1px solid #e0e0e0;
     border-top: 1px solid #e0e0e0;
-    color: #afafaf;
+    color: #666;
     cursor: pointer;
     display: inline;
     list-style: outside none none;
@@ -69,7 +69,7 @@
     border-bottom: 1px solid #e0e0e0;
     color: #999999;
     height: 39px;
-    padding: 14px 6px 6px;
+    padding: 6px;
 }
 #scribe_prompt_text {
     display:inline;
@@ -77,22 +77,6 @@
     position: relative;
     top:0px;
     margin-bottom:0px;
-}
-#scribe_annotation_close_button {
-    display:inline;
-    float: right;
-    margin-right: 10px;
-}
-#scribe_annotation_help_button {
-    float: right;
-}
-#scribe_annotation_forum_help_button {
-    float: right;
-    padding-right: 10px;
-}
-#scribe_tab_bar li.scribe_selected_tab {
-    background-color: #eb593e;
-    color: white;
 }
 #scribe_transcription_area {
     background-color: white;
@@ -163,173 +147,6 @@
     // height: 49px;
     padding: 5px;
 }
-#scribe_input_bar {
-    // height:39px;
-}
-.scribe_annotation_input, .scribe_annotation_input form {
-    // height:39px;
-}
-
-.scribe_marker {
-    background: none repeat scroll 0 0 gray;
-    border: 1px solid gray;
-    opacity: 0.4;
-    position: absolute;
-    z-index: 1;
-}
-
-
-
-#scribe_done_button{
-	font-size:12px;
-	padding: 5px 0px 0px 0px;
-	position: relative;
-	float: right;
-}
-
-
-/*
- * Old Weather Styles Most of these come from the Old Weather project and have been modified to fit this project's specifications. Not all styles are used presently, but are included for future additions
- */
-
-input:focus {
-    outline: medium none;
-}
-
-
-.annotationBox {
-    font-family: "Merriweather",tahoma,sans-serif;
-    font-size: 70%;
-    position: absolute;
-}
-
-#topInput {
-    height: 40px;
-    padding: 4px 10px 0;
-}
-#bottom {
-    margin: 0 auto;
-    position: absolute;
-    top: 109px;
-    z-index: 50;
-}
-
-#target {
-    position: relative;
-}
-#target img {
-    position: absolute;
-}
-#tabs {
-    padding-bottom: 3px;
-    padding-top: 3px;
-}
-#tabs ul {
-    border-bottom: 1px solid #e0e0e0;
-    height: 15px;
-    margin-left: 0;
-    margin-top: 5px;
-    padding-left: 5px;
-}
-#tabs li {
-    background: none repeat scroll 0 0 #f4f4f4;
-    border-left: 1px solid #e0e0e0;
-    border-right: 1px solid #e0e0e0;
-    border-top: 1px solid #e0e0e0;
-    color: #afafaf;
-    cursor: pointer;
-    display: inline;
-    list-style: outside none none;
-    margin: 3px 2px 0;
-    padding: 2px 7px;
-}
-#tabs li.current {
-    background: none repeat scroll 0 0 #eb593e;
-    color: #ffffff;
-    cursor: pointer;
-}
-#tabs li:hover {
-    color: #000000;
-}
-
 .ui-draggable-dragging {
     cursor: pointer;
-}
-
-.ok_button:hover {
-    background-position: 0 -26px;
-    cursor: pointer;
-}
-.weather_input th {
-    text-align: center;
-}
-.overlay {
-    height: 30px;
-    position: absolute;
-    width: 30px;
-}
-.helpBox {
-    background-color: white;
-    border-style: solid;
-    border-width: 2px;
-    color: #999;
-    height: 120px;
-    left: 200px;
-    opacity: 0;
-    padding: 5px;
-    position: absolute;
-    top: 0;
-    width: 250px;
-    z-index: 49;
-}
-.helpBox a {
-    color: #eb593e;
-    line-height: 20px;
-    padding-top: 5px;
-    text-decoration: underline;
-}
-.helpBox a:hover {
-    color: #b2432e;
-}
-a#help {
-    float: right;
-}
-
-#wind_input {
-    color: #f60000;
-}
-#force_input {
-    color: #0000f6;
-}
-#code_input {
-    color: #f400bb;
-}
-#heights_input {
-    color: #840046;
-}
-#air_input {
-    color: #27d500;
-}
-#bulb_input {
-    color: #e69e00;
-}
-#sea_input {
-    color: #003800;
-}
-
-.hour_number {
-    bottom: 2px;
-    color: #666666;
-    font-size: 12px;
-    position: absolute;
-    right: 2px;
-    z-index: 1000;
-}
-
-#result {
-    margin: 10px;
-    background: #eee;
-    padding: 10px;
-    height: 40px;
-    overflow: auto;
 }
