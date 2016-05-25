@@ -5,12 +5,12 @@
         <div id="scribe_top_bar">
             <div id="scribe_prompt">
                 <p id="scribe_prompt_text">Enter the values for each field to be transcribed</p>
-                <button id="scribe_annotation_close_button" onClick="$('#scribe_annotation_box').hide();">Close</button>
+                <button class="btn btn-default btn-xs pull-right" onClick="clearAnnotationBox();" style="border: none;"><i class="fa fa-close fa-2x"></i></button>
             </div>
             <ul id="scribe_tab_bar">
                 <% field_groups.each do |field_group| %>
                     <% if field_group.fields.any? %>
-                        <li id="scribe_tab_<%= field_group.id %>" class="scribe_tab" data-field-group-id="field-group-<%= field_group.id %>"><%= field_group.presentation_name %></li>
+                        <li id="scribe_tab_<%= field_group.id %>" class="scribe_tab <%= field_group.colour_class %>" data-field-group-id="<%= field_group.id %>"><%= field_group.presentation_name %></li>
                     <% end %>
                 <% end %>
             </ul>
@@ -20,7 +20,7 @@
                 <div id="formInstructions">Click a tab to begin</div>
                 <% field_groups.each do |field_group| %>
                     <div id="field-group-<%= field_group.id %>" class="annotation-form-field-group" style="display:none;">
-                        <%= form_tag annotations_path, id: ("field_group_" + field_group.id.to_s), class:"annotation-form", remote: true, format: :json do %>
+                        <%= form_tag annotations_path, id: ("field_group_" + field_group.id.to_s), class:"annotation-form", remote: true, format: :json, data: {field_group_id: field_group.id } do %>
                             <%= hidden_field_tag "filename", page.image_file_name %>
                             <%= hidden_field_tag "annotation[meta][transcription_id]", transcription.id %>
                             <%= hidden_field_tag "annotation[meta][page_id]", page.id %>
@@ -32,25 +32,25 @@
                             
                             <div class="user-input-container">
                                 <div class="scribe_input_field">
-                                    <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover"} %>
+                                    <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "date"} %>
                                     <div class="scribe_input_label">Observation Date</div>
                                 </div>
                                 <div class="scribe_input_field">
-                                    <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear", title: "Observation Time", data: { content: "What is the time of this observation?", toggle: "popover", placement: "bottom auto", trigger: "hover"} %>
+                                    <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear", title: "Observation Time", data: { content: "What is the time of this observation?", toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "time"} %>
                                     <div class="scribe_input_label">Observation Time</div>
                                 </div>
                                 
                                 <% field_group.fields.each do |field| %>
-                                    <div class="scribe_input_field">
+                                    <div class="scribe_input_field" data-field-id="<%= field.id %>">
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]", page.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
-                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id %>
+                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id, data: {field_type: "field_id"} %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
-                                        <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input", title: (field.full_name && field.full_name.present? ? field.full_name : field.name), data: { content: (field.help && field.help.present? ? field.help : ""), toggle: "popover", placement: "bottom auto", trigger: "hover"} %>
+                                        <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input", title: (field.full_name && field.full_name.present? ? field.full_name : field.name), data: { content: (field.help && field.help.present? ? field.help : ""), toggle: "popover", placement: "bottom auto", trigger: "hover", field_id: field.id, field_type: "field_value"} %>
                                         <div class="scribe_input_label"><%= field.name %></div>
                                     </div>
                                 <% end %>
-                                <%= submit_tag "Submit", class:"submit-btn btn btn-primary btn-md scribe-input-field", style: "margin-top: 10px;" %>
+                                <%= submit_tag "Save", class:"submit-btn btn btn-primary btn-md scribe-input-field", style: "margin-top: 10px;" %>
                             </div>
                         <% end %>
                     </div>

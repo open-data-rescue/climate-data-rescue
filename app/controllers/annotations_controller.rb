@@ -78,10 +78,8 @@ class AnnotationsController < ApplicationController
       end
     end
     
-    if @annotation && @annotation.id
-      render json: @annotation.to_json, status: :created
-    else
-      render json: (@annotation ? @annotation.errors : error), status: :bad_request 
+    respond_to do |format|
+      format.json# { render json: @annotation }
     end
   end
 
@@ -95,8 +93,21 @@ class AnnotationsController < ApplicationController
 
         @annotation = Annotation.find(params[:id])
         meta = params[:annotation][:meta]
-
+        data = params[:annotation][:data]
+        
         @annotation.update(x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
+        
+        @annotation.date_time_id = annotation_params[:obs_date] + "_" + annotation_params[:obs_time]
+        @annotation.observation_date = DateTime.strptime((annotation_params[:obs_date] + " " + annotation_params[:obs_time]), '%Y-%m-%d %H:%M')
+        
+        if data && data.length > 0
+          data.each do |key, value|
+            datum = @annotation.data_entries.find_or_create_by(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type])
+            datum.value = value[:value]
+            datum.save!
+          end
+        end
+        @annotation.save!
       rescue => e 
         error = e.message
       end
