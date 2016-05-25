@@ -1,9 +1,9 @@
 class Page < ActiveRecord::Base
   belongs_to :page_type
-  has_many :transcriptions
+  has_many :transcriptions, dependent: :destroy
   belongs_to :transcriber, class_name: "User"
   
-  has_many :page_days
+  has_many :page_days, dependent: :destroy
 
   #handles the image upload association
   has_attached_file :image,
