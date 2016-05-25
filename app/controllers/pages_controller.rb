@@ -21,7 +21,7 @@ class PagesController < ApplicationController
   end
   
   def public_index
-    @pages = Page.all
+    @pages = Page.transcribeable
   end
 
   # GET /pages/page_id
