@@ -96,7 +96,7 @@ class FieldsController < ApplicationController
       
       respond_to do |format|
         if @field.save
-          format.html { redirect_to @field, notice: 'Field was successfully created.' }
+          format.html { redirect_to fields_path, notice: 'Field was successfully created.' }
           format.json { render json: @field, status: :created, location: @field }
         else
           format.html { render action: "new" }
@@ -126,7 +126,7 @@ class FieldsController < ApplicationController
 
       respond_to do |format|
         if @field.update_attributes(field_params)
-          format.html { redirect_to @field, notice: 'Field was successfully updated.' }
+          format.html { redirect_to fields_path, notice: 'Field was successfully updated.' }
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
