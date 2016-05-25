@@ -29,14 +29,16 @@
     
     <div class="form-group row">
         <div class="col-md-12"><h3>Fields</h3></div>
-        <% Field.all.each do |field| %>
-            <div class="col-md-3 checkbox">
-                <label>
-                    <%= check_box_tag "field_group[field_ids][]", field.id, @field_group.fields.include?(field) %>
-                    <%= field.name %>
-                </label>
-            </div>
-        <% end %>
+        <div class="col-md-12">
+            <% Field.all.each do |field| %>
+                <div class="checkbox">
+                    <label>
+                        <%= check_box_tag "field_group[field_ids][]", field.id, @field_group.fields.include?(field) %>
+                        <%= field.name %>
+                    </label>
+                </div>
+            <% end %>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12">
