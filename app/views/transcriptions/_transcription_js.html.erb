@@ -174,10 +174,10 @@ function transcribeData(event, btn) {
 
     }).on("ajax:error", function(e, xhr, status, error) {
         // console.log(e);
-        // console.log(error);
-        // console.log(status);
+        console.log(error);
+        console.log(status);
         // console.log(xhr);
-        setMsg("Annotation could not be saved!", true, "danger");
+        setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
     });
     
     $form.submit();
