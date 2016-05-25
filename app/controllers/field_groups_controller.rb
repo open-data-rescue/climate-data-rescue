@@ -163,6 +163,6 @@ class FieldGroupsController < ApplicationController
   
   protected
   def field_group_params
-    params.require(:field_group).permit(:name, :display_name, :description, :help, :page_type_id, :position)
+    params.require(:field_group).permit(:name, :display_name, :description, :help, :page_type_id, :position, :colour_class)
   end
 end

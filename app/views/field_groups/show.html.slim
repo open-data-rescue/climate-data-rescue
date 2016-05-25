@@ -21,6 +21,10 @@ p
 p
   strong Help:
   = @field_group.help
+  
+p
+  strong Colour:
+  = (@field_group.colour_class.present? ? @field_group.colour_class.sub("-group", "").capitalize : "Not Set")
 
 /! show all the fields associated with this field_group and their attribute information in a table
 h3 Fields for #{@field_group.name}

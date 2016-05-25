@@ -4,8 +4,8 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require jquery.fileupload
  *= require jquery.fileupload-ui
- *= require_self
  *= require_tree .
+ *= require_self
 */
 @import "bootstrap-sprockets";
 @import "bootstrap";
@@ -108,6 +108,18 @@
   
 }
 
+.annotation-marker {
+  cursor: pointer;
+  border: 1px solid black;
+  opacity: 0.3;
+  background: hsl(268, 100%, 68%);
+  z-index: 100;
+  position: absolute;
+}
+.annotation-marker.helper {
+  border: 2px dotted black;
+}
+
 #transcription-msg-container {
   position: absolute;
   z-index: 100;
@@ -128,4 +140,104 @@
       margin-right: 15px;
     }
   }
+}
+
+
+// field group colours
+$fg-red: hsl(0, 100%, 68%);
+$fg-pink: hsl(311, 100%, 68%);
+$fg-purple: hsl(268, 100%, 68%);
+$fg-blue: hsl(217, 100%, 68%);
+$fg-cyan: hsl(178, 100%, 68%);
+$fg-green: hsl(126, 100%, 68%);
+$fg-yellow: hsl(62, 100%, 68%);
+$fg-orange: hsl(26, 100%, 68%);
+
+$tab-active-text: white;
+
+@function tabBackground($colour){
+  @return rgba($colour, 0.3)
+}
+@function activeTabBackground($colour){
+  @return rgba(tabBackground($colour), 1)
+}
+.red-group {
+  background: $fg-red;
+}
+#scribe_tab_bar li.scribe_tab.red-group {
+  background: tabBackground($fg-red);
+}
+#scribe_tab_bar li.scribe_tab.red-group.active{
+  background: activeTabBackground($fg-red);
+  color: $tab-active-text;
+}
+.pink-group {
+  background: $fg-pink;
+}
+#scribe_tab_bar li.scribe_tab.pink-group {
+  background: tabBackground($fg-pink);
+}
+#scribe_tab_bar li.scribe_tab.pink-group.active{
+  background: activeTabBackground($fg-pink);
+  color: $tab-active-text;
+}
+.purple-group {
+  background: $fg-purple;
+}
+#scribe_tab_bar li.scribe_tab.purple-group {
+  background: tabBackground($fg-purple);
+}
+#scribe_tab_bar li.scribe_tab.purple-group.active{
+  background: activeTabBackground($fg-purple);
+  color: $tab-active-text;
+}
+.blue-group {
+  background: $fg-blue;
+}
+#scribe_tab_bar li.scribe_tab.blue-group {
+  background: tabBackground($fg-blue);
+}
+#scribe_tab_bar li.scribe_tab.blue-group.active{
+  background: activeTabBackground($fg-blue);
+  color: $tab-active-text;
+}
+.cyan-group {
+  background: $fg-cyan;
+}
+#scribe_tab_bar li.scribe_tab.cyan-group {
+  background: tabBackground($fg-cyan);
+}
+#scribe_tab_bar li.scribe_tab.cyan-group.active{
+  background: activeTabBackground($fg-cyan);
+  color: $tab-active-text;
+}
+.green-group {
+  background: $fg-green;
+}
+#scribe_tab_bar li.scribe_tab.green-group {
+  background: tabBackground($fg-green);
+}
+#scribe_tab_bar li.scribe_tab.green-group.active{
+  background: activeTabBackground($fg-green);
+  color: $tab-active-text;
+}
+.yellow-group {
+  background: $fg-yellow;
+}
+#scribe_tab_bar li.scribe_tab.yellow-group {
+  background: tabBackground($fg-yellow);
+}
+#scribe_tab_bar li.scribe_tab.yellow-group.active{
+  background: activeTabBackground($fg-yellow);
+  color: $tab-active-text;
+}
+.orange-group {
+  background: $fg-orange;
+}
+#scribe_tab_bar li.scribe_tab.orange-group {
+  background: tabBackground($fg-orange);
+}
+#scribe_tab_bar li.scribe_tab.orange-group.active{
+  background: activeTabBackground($fg-orange);
+  color: $tab-active-text;
 }

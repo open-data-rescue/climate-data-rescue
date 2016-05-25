@@ -14,6 +14,17 @@
     <%= f.input :name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
     <%= f.input :display_name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
     <%= f.input :help, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <%= f.label "Colour" %>
+    <%= f.select :colour_class, options_for_select({
+        "Red" => "red-group", 
+        "Pink" => "pink-group",
+        "Purple" => "purple-group",
+        "Blue" => "blue-group",
+        "Cyan" => "cyan-group",
+        "Green" => "green-group",
+        "Yellow" => "yellow-group",
+        "Orange" => "orange-group"
+        }, "purple-group"), required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
     <%= f.input :description, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, required: false %>
     
     <div class="form-group row">
