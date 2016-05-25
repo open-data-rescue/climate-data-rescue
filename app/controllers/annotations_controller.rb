@@ -75,6 +75,8 @@ class AnnotationsController < ApplicationController
         @annotation.save!
       rescue => e
         error = e.message
+        Rails.logger.error error
+        Rails.logger.error e.backtrace
       end
     end
     
@@ -110,6 +112,8 @@ class AnnotationsController < ApplicationController
         @annotation.save!
       rescue => e 
         error = e.message
+        Rails.logger.error error
+        Rails.logger.error e.backtrace
       end
     end
 
