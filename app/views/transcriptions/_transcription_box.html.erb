@@ -36,7 +36,7 @@
                                     <div class="scribe_input_label">Observation Date</div>
                                 </div>
                                 <div class="scribe_input_field">
-                                    <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear", title: "Observation Time", data: { content: "What is the time of this observation?", toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "time"} %>
+                                    <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear", title: "Observation Time", data: { content: "What is the time of this observation?<br /><br /><strong>Safari Users:</strong> Times must be entered in either 12h (4:30 PM) or 24h (16:30) format. Any other format will cause the annotation to fail.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "time"} %>
                                     <div class="scribe_input_label">Observation Time</div>
                                 </div>
                                 
