@@ -9,7 +9,6 @@
 */
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "users";
 
 
 .main-app {
@@ -103,6 +102,13 @@
 
     #canvas {
       position: relative;
+      
+      &.ui-boxer {
+        cursor: crosshair;
+      }
+    }
+    &.kinetic-active #canvas.ui-boxer {
+      cursor: move;
     }
   }
   

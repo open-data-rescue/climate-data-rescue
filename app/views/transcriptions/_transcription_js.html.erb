@@ -136,7 +136,9 @@ function transcribeData(event, btn) {
           return;
         }
         setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "info");
-
+        
+        $("#page-container").kinetic("detach");
+        
         $form.unbind("ajax:success");
         $form.on("ajax:success", function(e, status, data, xhr) {
             // console.log(e);
@@ -175,6 +177,7 @@ function transcribeData(event, btn) {
               $form.find("#height-field").val(ui.box.height());
 
               $('#canvas').unbind(".boxer");
+              $("#page-container").kinetic("attach");
               $form.submit();
               $form.find(".observation-input").not(".do-not-clear").val('');
           }
@@ -232,7 +235,7 @@ $(document).ready(function(){
       console.log("no annotation or fail");  
     };
 
-
+    $("#page-container").kinetic();
   });
   
 

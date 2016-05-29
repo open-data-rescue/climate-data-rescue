@@ -17,6 +17,7 @@
 //= require jquery-fileupload
 //= require page-uploader-plugin
 //= require boxer-plugin
+//= require jquery.kinetic
 // require transcriptions
 // require_tree .
 
