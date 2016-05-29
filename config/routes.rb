@@ -30,8 +30,6 @@ Weather::Application.routes.draw do
 
   root :to => "home#index"
   match 'home' => 'home#index', :via => [:get, :post]
-  match 'about' => 'home#about', :via => [:get, :post]
-  match 'contact' => 'home#contact', :via => [:get, :post]
   get 'transcribe(/:current_page_id)' => 'transcriptions#new', as: "transcribe_page"
   # match 'pagetypes' => 'pagetypes#index', :via => [:get, :post]
   match 'ledgers' => 'ledgers#index', :via => [:get, :post]
