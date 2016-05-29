@@ -3,37 +3,42 @@
 - provide(:home, "active")
 - provide(:title, "Home")
 
-.jumbotron
-    .container
+.row
+    .col-md-12
+      .well
         - if user_signed_in?
 		    
-		        p Welcome #{current_user.display_name}!
+		        h1 Welcome to DRAW #{current_user.display_name}!
 		        p Last login: #{current_user.last_sign_in_at}
 		        - if current_user.admin
 		            p You are an administrator
+		            
+	            p The Data Recovery: Archives and Weather (DRAW) project contributes to the knowledge of past climate conditions and weather observations by recovering historical records and making these accessible online.  Scientists, historians and other researchers will use your work in transcribing the McGill Observatory ledgers to gain better insight and understanding our environment and to tell the stories of how weather impacted lives people in the mid-19th to early 20th centuries.
+	            
 		- else
 		    
 		        h1 Welcome to DRAW!
-				p This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.
-            	p
-            		a.btn.btn-primary.btn-lg.btn-signup href="/users/sign_up" role="button"  Sign up &raquo;
+				p The Data Recovery: Archives and Weather (DRAW) project contributes to the knowledge of past climate conditions and weather observations by recovering historical records and making these accessible online.  Scientists, historians and other researchers will use your work in transcribing the McGill Observatory ledgers to gain better insight and understanding our environment and to tell the stories of how weather impacted lives people in the mid-19th to early 20th centuries.
 
-- if !user_signed_in?
-	.row
-	  .col-md-4
-	    h2 Heading
-	    p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-	    p
-	      a.btn.btn-default href="#" role="button"  View details &raquo;
-	  .col-md-4
-	    h2 Heading
-	    p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-	    p
-	      a.btn.btn-default href="#" role="button"  View details &raquo;
-	  .col-md-4
-	    h2 Heading
-	    p Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-	    p
-	      a.btn.btn-default href="#" role="button"  View details &raquo;
+                p
+            	  a.btn.btn-primary.btn-lg.btn-signup href="/users/sign_up" role="button"  Sign up &raquo;
+.row
+  .col-md-12
+    p The goal of the project is to transcribe and make accessible the meteorological observations of the McGill Observatory historical ledgers.  The collection of logbooks date from 1871 to 1964, and include hundreds of thousands entries on weather and climate.  
+
+    p To transcribe the data and enter the information into a searchable database, DRAW is utilizing the citizen science and crowdsourcing in making the data globally accessible.  People, such as you, can participate in the project by helping to transcribe the handwritten recordings from the historical ledgers.
+
+    p This project will not only further the understanding of weather and climate and its impact on people and the planet, but also engages citizens in science and cultural heritage and develops innovative methods for using archival records to enhance the knowledge and understanding of current issues.
+
+.row
+  .col-md-4
+    h2 Citizen Archivist 
+    p You can become a Citizen Archivist by helping us transcribe the digitized pages of the McGill University Observatory ledgers.  To start, click on the right hand side menu to register.  Once you’re registered, choose new transcriptions and you’re on your way!
+  .col-md-4
+    h2 Learn More about the McGill Observatory and its Records
+    p In 1862, the McGill Observatory was built on the southern part of the campus (where the current Arts building is located) and Dr. Smallwood began recording daily meteorological readings.  Following Dr. Smallwood’s death in 1873, Dr. McLeod took over the observatory, and one year later the McGill Observatory was a chief station in the Meteorological network of observation points.
+  .col-md-4
+    h2 Learn More about the DRAW Project and its Members
+    p The DRAW project is part of the McGill University and Archives innovative fund program.  DRAW is an inter-disciplinary effort with key stakeholders and researchers from the Faculties of Arts, Science and Education, in partnership with the McGill University Archives. 
 
 
