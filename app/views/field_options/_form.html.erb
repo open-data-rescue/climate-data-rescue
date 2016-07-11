@@ -1,9 +1,9 @@
-<%= simple_form_for(@field_option) do |f| %>
-  <% if @field_option.errors.any? %>
+<%= simple_form_for(field_option) do |f| %>
+  <% if field_option.errors.any? %>
     <!-- error_explanation -->
-      <h2> <%= pluralize(@field_option.errors.count, "error") %> prohibited this field_option from being saved:" </h2>
+      <h2> <%= pluralize(field_option.errors.count, "error") %> prohibited this field_option from being saved:" </h2>
       <ul>
-        <% @field_option.errors.full_messages.each do |message| %>
+        <% field_option.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -11,9 +11,9 @@
   <%= f.error_notification %>
   <div class="form-inputs">
     <%= f.input :position, required: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' }, label: "Order" %>
-    <%= f.input :name, required: true, label: "Name", wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-    <%= f.input :help, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-    <%= f.input :image, multipart: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <%= f.input :name, required: true, label: "Name", wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
+    <%= f.input :help, required: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
+    <%= f.input :image, multipart: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
   </div>
   <div class="form-group row">
     <div class="col-md-12"><h3>Fields</h3></div>
@@ -21,7 +21,7 @@
         <% Field.all.each do |field| %>
             <div class="checkbox">
                 <label>
-                    <%= check_box_tag "field_option[field_ids][]", field.id, @field_option.fields.include?(field) %>
+                    <%= check_box_tag "field_option[field_ids][]", field.id, field_option.fields.include?(field) %>
                     <%= field.name %>
                 </label>
             </div>

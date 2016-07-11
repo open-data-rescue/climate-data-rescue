@@ -1,0 +1,61 @@
+<%= simple_form_for(@field, html: {multipart: true}) do |f| %>
+  <% if @field.errors.any? %>
+    <!-- #error_explanation -->
+      <h2> <%= pluralize(@field.errors.count, "error") %> prohibited this field from being saved:</h2>
+      <ul>
+        <% @field.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+  <% end %>
+  <%= f.error_notification %>
+  <div class="form-inputs">
+    <%= f.input :position, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <%= f.input :name, required: true, label: "Display Name", wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <%= f.input :full_name, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <%= f.input :field_key, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <%= f.label :html_field_type, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <%= f.select :html_field_type, options_for_select(%w(text select number time date)), required: true, prompt: "Select One", wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <br/>
+    <%= f.label :data_type, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <%= f.select :data_type, options_for_select(%w(string integer float)), required: true, prompt: "Select One", wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <%= f.input :help, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-12"><h3>Field Options</h3></div>
+    <div class="col-md-12">
+        <% FieldOption.all.each do |field_option| %>
+            <div class="checkbox">
+                <label>
+                    <%= check_box_tag "field[field_option_ids][]", field_option.id, @field.field_options.include?(field_option) %>
+                    <%= field_option.name %>
+                </label>
+            </div>
+        <% end %>
+    </div>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-2">
+          <button type="button" id="new-field-option-btn" class="btn btn-success">New</button>
+        </div>
+        <div id="field-option-forms-container" class="col-md-10 form-inline">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+          <%= submit_tag "Save", class: "btn btn-primary pull-right" %>
+      </div>
+  </div>
+
+<% end %>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#new-field-option-btn").click(function() {
+      $("#field-option-forms-container").append('<%= j (render "field_option_inputs").html_safe %>');
+    });
+  });
+</script>
