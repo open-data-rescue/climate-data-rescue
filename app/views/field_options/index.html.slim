@@ -1,0 +1,35 @@
+- provide(:field_options, "active")
+- provide(:admin, "active")
+- provide(:title, "Field Options")
+
+h3 Field options
+/! List all field_options and their attribute information in a table
+table.table.table-striped
+  thead
+    tr
+      th Order
+      th Name
+      th Image
+      th Fields
+      th
+      th
+      th
+
+  tbody
+    - @field_options.each do |field_option|
+      tr
+        td = field_option.position
+        td = link_to field_option.name, field_option
+        td = image_tag(field_option.image.url(:med))
+        td = field_option.fields.count
+        td = link_to 'Show', field_option
+        td = link_to 'Edit', edit_field_option_path(field_option)
+        td = link_to 'Delete', field_option, data: {:confirm => 'Are you sure?'}, :method => :delete
+      tr
+        td
+        td colspan=6
+          = "Help: " + (field_option.help ? field_option.help : "")
+
+br
+
+= link_to 'New Field Option', new_field_option_path

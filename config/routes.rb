@@ -20,6 +20,8 @@ Weather::Application.routes.draw do
 
   resources :field_groups
 
+  resources :field_options
+
 
   resources :fields
 
