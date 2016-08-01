@@ -37,6 +37,7 @@ group :assets do
     #gem "twitter-bootstrap-rails"
 end
 
+gem "figaro"
 gem 'log4r'
 
 #for user authentication
