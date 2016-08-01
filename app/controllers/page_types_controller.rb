@@ -84,6 +84,10 @@ class PageTypesController < ApplicationController
         begin
           #@page_type is a variable containing an instance of the "pagetype.rb" model created with data passed in the params of the "new.html.slim" form submit action.
           @page_type = PageType.create!(pagetype_params)
+
+          params[:page_type][:field_group_ids] ||= []
+          @page_type.field_group_ids = params[:page_type][:field_group_ids]
+          @page_type.save!
         rescue => e
           flash[:danger] = e.message
         end
@@ -114,9 +118,11 @@ class PageTypesController < ApplicationController
         begin
           #@page_type is a variable containing an instance of the "pagetype.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           @page_type = PageType.find(params[:id])
-          #respond_with @page_type if @page_type.save
+          params[:page_type][:field_group_ids] ||= []
+          @page_type.field_group_ids = params[:page_type][:field_group_ids]
+          @page_type.save!
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
       
