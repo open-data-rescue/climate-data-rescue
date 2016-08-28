@@ -32,22 +32,25 @@
                             
                             <div class="user-input-container">
                                 <div class="scribe_input_field">
-                                    <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "date"} %>
-                                    <div class="scribe_input_label">Observation Date</div>
+                                    <div class="scribe_input_label">Observation Date
+                                        <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear form-control", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "date"} %>
+                                    </div>
                                 </div>
                                 <div class="scribe_input_field">
-                                    <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear", title: "Observation Time", data: { content: "What is the time of this observation?<br /><br /><strong>Safari Users:</strong> Times must be entered in either 12h (4:30 PM) or 24h (16:30) format. Any other format will cause the annotation to fail.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "time"} %>
-                                    <div class="scribe_input_label">Observation Time</div>
+                                    <div class="scribe_input_label">Observation Time
+                                        <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear form-control", title: "Observation Time", data: { content: "What is the time of this observation?<br /><br /><strong>Safari Users:</strong> Times must be entered in either 12h (4:30 PM) or 24h (16:30) format. Any other format will cause the annotation to fail.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "time"} %>
+                                    </div>
                                 </div>
                                 
                                 <% field_group.fields.each do |field| %>
-                                    <div class="scribe_input_field" data-field-id="<%= field.id %>">
+                                    <div class="scribe_input_field" data-field-id="<%= field.id %>" title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" data-toggle="popover" data-trigger="hover" data-placement="top auto" data-content="<%= (field.help && field.help.present? ? field.help : "") %>">
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]", page.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id, data: {field_type: "field_id"} %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
-                                        <%= text_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input", title: (field.full_name && field.full_name.present? ? field.full_name : field.name), data: { content: (field.help && field.help.present? ? field.help : ""), toggle: "popover", placement: "bottom auto", trigger: "hover", field_id: field.id, field_type: "field_value"} %>
-                                        <div class="scribe_input_label"><%= field.name %></div>
+                                        <div class="scribe_input_label"><%= field.name %>
+                                        <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input form-control", data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: field.field_options.any?} %>
+                                        </div>
                                     </div>
                                 <% end %>
                                 <%= submit_tag "Save", class:"submit-btn btn btn-primary btn-md scribe-input-field", style: "margin-top: 10px;" %>

@@ -206,6 +206,98 @@ $(document).ready(function(){
           $("#finish-transcribing-btn").val("Take a Break");
       }
   });
+
+    
+    $("[data-selectable='true'").each(function() {
+        $field = $(this);
+        
+        if ($field.data("field-options")) {
+
+            $field.select2({
+                theme : "bootstrap",
+                multiple: true,
+                tags: true,
+                tokenSeparators: [',', ' '],
+                placeholder: '--',
+                current : function(element,callback) {
+                    // console.log("select2 initialized for " + $field.data("field-id"));
+                    $.ajax({
+                        url : "/field_options_for_field/" + $field.data("field-id"),
+                        dataType : "json",
+                        success : function(data, status) {
+                            var opts = [
+                                { id: "empty", text: "Empty/Blank"},
+                                { id: "illegible", text: "Illegible"}
+                            ]; 
+                            _.each(data, function(val, key, list) {
+                                opts.push({'id' : val.id, 'text' : val.name});
+                            });
+                            callback(opts);
+                        },
+                        error : function(response) {
+                            console.log("failed to get options for " + $field.data("field-id"));
+                        }
+                    });
+                },
+
+                templateResult : function(obj, container) {
+                    result = "";
+                    if (obj.iconUrl){
+                        result = $("<span><img src='" + obj.iconUrl + "' />&nbsp;" + obj.text + "</span>");
+                    } else {
+                        result = obj.text;
+                    };
+                    return result;
+                },
+                ajax : {
+                    url : "/field_options_for_field/" + $field.data("field-id"),
+                    dataType : "json",
+                    data : function(params) {
+                        return { search : params.term };
+                    },
+                    processResults : function(_data, params) {
+                        res = [
+                            { id: "empty", text: "Empty/Blank"},
+                            { id: "Illegible", text: "Illegible"}
+                        ];
+                        _.each(_data, function(option) {
+                            opt = $.extend({}, {'id' : option.id, 'text' : option.name, iconUrl: option.icon_url});
+
+                            res.push(opt);
+                        });
+                        var data = {
+                            results: res
+                        };
+                        return data;
+                    },
+                        error : function(response) {
+                            console.log("failed to get search options for " + $field.data("field-id"));
+                        }
+                }
+            });
+        } else {
+            $field.select2({
+                theme : "bootstrap",
+                multiple: false,
+                tags: true,
+                tokenSeparators: [',', ' '],
+                placeholder: 'Value',
+                data : [
+                    { id: "empty", text: "Empty/Blank"},
+                    { id: "Illegible", text: "Illegible"}
+                ],
+                createSearchChoice:function(term, data) {
+                  if ( $(data).filter( function() {
+                    return this.text.toLowerCase() === term.toLowerCase(); //even if the this.text is undefined it works
+                  }).length===0) {
+                    return {id:term, text:term};
+                  };
+                },
+                selectOnClose : true
+            });
+        };
+    });
+
   
   $("#target-image").ready( function() {
     var $canvas = $("#canvas");
