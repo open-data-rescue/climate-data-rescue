@@ -119,14 +119,8 @@ class FieldsController < ApplicationController
         begin
           #@field is a variable containing an instance of the "field.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           @field = Field.find(params[:id])
-
-          if params[:field_options].present? && params[:field_options].any?
-            params[:field_options].each do |option|
-              @field.field_options.create!(option)
-            end
-          end
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
 
