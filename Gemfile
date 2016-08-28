@@ -57,6 +57,8 @@ gem 'paperclip', '4.3.6' #'~> 4.2'
 # Support for tag inputs
 gem 'select2-rails'
 
+# gem "rails-backbone"
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 
