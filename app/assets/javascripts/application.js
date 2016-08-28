@@ -25,7 +25,6 @@
 //= require backbone/backbone.marionette
 //= require backbone/backbone-model-file-upload
 //= require backbone/backbone.wreqr
-//= require jquery.iframe-transport
 //
 //= require backbone-forms/distribution/backbone-forms
 //= require backbone-forms/distribution/editors/list
