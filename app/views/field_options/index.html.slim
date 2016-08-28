@@ -10,6 +10,7 @@ table.table.table-striped
       th Order
       th Name
       th Image
+      th Value
       th Fields
       th
       th
@@ -21,13 +22,14 @@ table.table.table-striped
         td = field_option.position
         td = link_to field_option.name, field_option
         td = image_tag(field_option.image.url(:med))
+        td = field_option.value
         td = field_option.fields.count
         td = link_to 'Show', field_option
         td = link_to 'Edit', edit_field_option_path(field_option)
         td = link_to 'Delete', field_option, data: {:confirm => 'Are you sure?'}, :method => :delete
       tr
         td
-        td colspan=6
+        td colspan=7
           = "Help: " + (field_option.help ? field_option.help : "")
 
 br

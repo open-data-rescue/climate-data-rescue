@@ -20,22 +20,17 @@ class FieldOptionsController < ApplicationController
         begin
           #@field_option is a variable containing an instance of the "FieldOption.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           @field_option = FieldOption.find(params[:id])
+          @field_option.update_attibutes(field_option_params)
+          if params[:image]
+            @field_option.image = params[:image]
+          end
+
           params[:field_option][:field_ids] ||= []
           @field_option.field_ids = params[:field_option][:field_ids]
           @field_option.save!
           
         rescue => e
           flash[:danger] = e.message
-        end
-      end
-
-      respond_to do |format|
-        if @field_option.update_attributes(field_option_params)
-          format.html { redirect_to @field_option, notice: 'FieldOption was successfully updated.' }
-          format.json { head :no_content }
-        else
-          format.html { render action: "edit" }
-          format.json { render json: @field_option.errors, status: :unprocessable_fieldOption }
         end
       end
       
@@ -52,24 +47,16 @@ class FieldOptionsController < ApplicationController
         begin
           #@field_Option is a variable containing an instance of the "FieldOption.rb" model created with data passed in the params of the "new.html.slim" form submit action.
           @field_option = FieldOption.create!(field_option_params)
+          if params[:image]
+            @field_option.image = params[:image]
+          end
            params[:field_option][:field_ids] ||= []
-          @field_option.field_ids = params[:field_option][:field_ids]
+          @field_option.field_ids = params[:field_option][:field_ids] if params[:field_option][:field_ids].present?
           @field_option.save!
         rescue => e
           flash[:danger] = e.message
         end
       end
-      
-      respond_to do |format|
-        if @field_option && @field_option.id
-          format.html { redirect_to @field_option, notice: 'FieldOption was successfully created.' }
-          format.json { render json: @field_option, status: :created, location: @field_option }
-        else
-          format.html { render action: "new" }
-          format.json { render json: @field_option.errors, status: :unprocessable_fieldOption }
-        end
-      end
-      
     else
       flash[:danger] = 'Only users can modify fieldOptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
@@ -80,8 +67,65 @@ class FieldOptionsController < ApplicationController
     @field_option = FieldOption.new
   end
 
+  def add_to_field
+    if params[:field_option_id].present? && params[:field_id].present?
+      begin
+        @field_option = FieldOption.find params[:field_option_id]
+        @field = Field.find params[:field_id]
+
+        FieldOptionsField.create!(field_option_id: params[:field_option_id], field_id: params[:field_id])
+      rescue => e
+        flash[:danger] = e.message
+      end
+
+      # render json: {}
+    end
+  end
+
+  def remove_from_field
+    if params[:field_option_id].present? && params[:field_id].present?
+      begin
+        @field_option = FieldOption.find params[:field_option_id]
+        @field = Field.find params[:field_id]
+        @fof = FieldOptionsField.find_by(field_option_id: params[:field_option_id], field_id: params[:field_id])
+        @fof.destroy if @fof
+      rescue => e
+        flash[:danger] = e.message
+      end
+
+      # render json: {}
+    end
+  end
+
   def index
-    @field_options = FieldOption.all
+    begin
+      @field_options = FieldOption.all
+      if params[:field_id].present?
+        @field = Field.find params[:field_id]
+        @field_options = @field_options.select{|fo| !fo.fields.include?(@field) }
+      end
+    rescue => e
+      flash[:danger] = e.message
+    end
+  end
+
+  def for_field
+    begin
+      if params[:field_id].present?
+        @field = Field.find params[:field_id]
+        search = params[:search] ? params[:search] : nil
+
+        if search
+          @field_options = @field.field_options.where(["value like :q or name like :q or help like :q", :q => ("%" + search + "%")])
+        else
+          @field_options = @field.field_options
+        end
+      end
+    rescue => e
+      flash[:danger] = e.message
+    end
+
+    render "index"
   end
 
   def destroy
@@ -114,6 +158,6 @@ class FieldOptionsController < ApplicationController
   end
 
   def field_option_params
-    params.require(:field_option).permit(:name, :image, :field_ids, :help, :position)
+    params.require(:field_option).permit(:name, :image, :field_ids, :help, :image, :value)
   end
 end

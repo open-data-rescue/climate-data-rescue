@@ -1,0 +1,10 @@
+<% if @field_option %>
+  <h1><%= @field_option.name.present? ? "Showing: " + @field_option.name : "Showing Field Option" %>
+
+    <ul>
+      <li><%= @field_option.position %></li>
+      <li><%= @field_option.help %></li>
+      <li><%= @field_option.value %></li>
+      <li><%= image_tag(@field_option.image.url(:large), class: "img-responsive") %></li>
+    </ul>
+<% end %>

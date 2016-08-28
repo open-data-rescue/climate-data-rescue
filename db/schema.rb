@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160726034746) do
+ActiveRecord::Schema.define(version: 20160822002059) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -72,15 +72,15 @@ ActiveRecord::Schema.define(version: 20160726034746) do
     t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
     t.text     "help",               limit: 65535
-    t.integer  "position",           limit: 4
     t.string   "value",              limit: 255
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
   end
 
-  create_table "field_options_fields", id: false, force: :cascade do |t|
+  create_table "field_options_fields", force: :cascade do |t|
     t.integer "field_option_id", limit: 4, null: false
     t.integer "field_id",        limit: 4, null: false
+    t.integer "sort_order",      limit: 4
   end
 
   add_index "field_options_fields", ["field_id"], name: "index_field_options_fields_on_field_id", using: :btree

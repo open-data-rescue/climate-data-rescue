@@ -42,6 +42,13 @@ Weather::Application.routes.draw do
   match 'new-user' => 'users#new', :via => [:get, :post]
   match 'fieldGroups' => 'fieldgroups#index', :via => [:get, :post]
   match 'fields' => 'fields#index', :via => [:get, :post]
+  
+  get 'field_options_for_field/:field_id' => "field_options#for_field", as: "field_options_for_field"
+
+  post 'add_field_option_to_field' => "field_options#add_to_field", as: "add_field_option_to_field"
+
+  post 'remove_field_option_from_field' => "field_options#remove_from_field", as: "remove_field_option_from_field"
+
   #match '/avatars/original/missing.png', :via => [:get, :post]
   
   post 'create_page_metadata' => "page_days#create"

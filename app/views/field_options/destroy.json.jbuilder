@@ -1,0 +1,1 @@
+json.partial! 'field_option', field_option: @field_option, field: @field

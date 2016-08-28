@@ -22,44 +22,14 @@
     <%= f.input :help, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
   </div>
 
-  <!-- <div class="form-group row">
-    <div class="col-md-12"><h3>Field Options</h3></div>
-    <div class="col-md-12">
-      <div class="row" id="field-option-forms-container"1>
-        <% FieldOption.all.each do |field_option| %>
-            <div class="checkbox col-md-12">
-                <label>
-                    
-                    <%= field_option.name %>
-                </label>
-            </div>
-            
-            <%= render "field_option_inputs", field_option: field_option %>
-        <% end %>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-md-2">
-          <button type="button" id="new-field-option-btn" class="btn btn-success">New</button>
-        </div>
-        <div class="col-md-10 form-inline">
-
-        </div>
-      </div>
-    </div>
-  </div> -->
   <div class="row">
       <div class="col-md-12">
-          <%= submit_tag "Save", class: "btn btn-primary pull-right" %>
+          <%= submit_tag "Save", class: "btn btn-primary" %>
       </div>
   </div>
 
+  <div id="field-options-app-container" class="row voffset30"></div>
+
 <% end %>
-<script type="text/javascript">
-  $(document).ready(function() {
-    $("#new-field-option-btn").click(function() {
-      $("#field-option-forms-container").append('<%= j (render "field_option_inputs").html_safe %>');
-    });
-  });
-</script>
+
+<%= render "shared/field_options_app", field: @field %>
