@@ -14,17 +14,65 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap-sprockets
+//= require select2-full
 //= require jquery-fileupload
 //= require page-uploader-plugin
 //= require boxer-plugin
 //= require jquery.kinetic
+//
+//= require backbone/underscore
+//= require backbone/backbone
+//= require backbone/backbone.marionette
+//= require backbone/backbone-model-file-upload
+//= require backbone/backbone.wreqr
+//= require jquery.iframe-transport
+//
+//= require backbone-forms/distribution/backbone-forms
+//= require backbone-forms/distribution/editors/list
+//= require backbone-forms/distribution/editors/fileUploadEditor
+//= require backbone-forms/bootstrap-modal
+//= require backbone-forms/distribution/templates/bootstrap3
+//
 // require transcriptions
 // require_tree .
+//= require_self
 
 
 
 $(document).ready(function(){
-	$('[data-toggle="popover"]').popover();
+	_.templateSettings = {
+        interpolate : /\{\{\=(.+?)\}\}/g,
+        evaluate : /\{\{(.+?)\}\}/g
+    };
+
+    // Over-ride the backbone sync so that the rails CSRF token is passed to the backend
+    Backbone._sync = Backbone.sync;
+    Backbone.sync = function(method, model, options) {
+        if (method == 'create' || method == 'update' || method == 'delete') {
+            var auth_options = {};
+            auth_options[$("meta[name='csrf-param']").attr('content')] = $("meta[name='csrf-token']").attr('content');
+            model.set(auth_options, {silent: true});
+        };
+        options.error = function(response) {
+            if (response.status > 0) {
+                if (response.responseText) {
+                    if (options.handle_error) {
+                        options.handle_error(response);
+                    } else {
+                        alertMessage(response.responseText);
+                    }
+                } else {
+                    alertMessage("Error communicating with backend ..."); // TODO - change to translatable string
+                };
+            };
+        };
+        
+        return Backbone._sync(method, model, options);
+    };
+
+
+    $('[data-toggle="popover"]').popover();
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 function alertMessageJson(message) {
