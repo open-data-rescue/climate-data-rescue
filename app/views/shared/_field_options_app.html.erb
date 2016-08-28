@@ -1,0 +1,300 @@
+<script id="field-options-app" type="text/javascript">
+
+    FieldOptionsApp = new Backbone.Marionette.Application();
+
+    FieldOptionsApp.addRegions({
+        main : "#field-options-app-container"
+    });
+
+    FieldOptionsApp.AppManager = (function(Backbone, Marionette){
+        var EventAggregator = new Backbone.Wreqr.EventAggregator();
+
+        FieldOption = Backbone.Model.extend({
+            url : "<%= field_options_path %>",
+            schema : {
+                name : "Text",
+                help : "TextArea",
+                value : "Text",
+                image : {
+                    type : "File",
+                    editorAttrs : {
+                        name : "field_option[image]"
+                    }
+                },
+            },
+            defaults : {
+                icon_url : null,
+                active : false
+            },
+
+            initialize : function(opts){
+                this.options = opts || {};
+            },
+            fileAttribute : "image",
+            paramRoot : "field_option"
+        });
+
+        FieldOptionsCollection = Backbone.Collection.extend({
+            model : FieldOption
+        });
+
+        FieldOptionsLayout = Marionette.LayoutView.extend({
+            template : "#field-options-layout-template",
+            regions : {
+                assigned : "#assigned-options-container",
+                available : "#available-options-container"
+            },
+
+            className : "col-md-12",
+
+            events : {
+                "click #create-field-option-btn" : "createFieldOption"
+            },
+
+            createFieldOption : function() {
+                // console.info("Create field option btn clicked");
+                // console.log(FieldOption);
+                var form = new Backbone.Form({
+                    model: new FieldOption(), //defined elsewhere,
+
+                });
+                
+                var modal = new Backbone.BootstrapModal({ 
+                    content : form,
+                    title : "Create New Field Option",
+                    animate : true,
+                    submitFn : function(){
+                        // console.log("submit fn called");
+                        // console.log(this);
+                        var modal = this;
+
+                        form = this.options.content;
+
+                        this.$el.find('.progress_bar').css('width', '0%');
+                        form.model.on("progress", this.progress, this);
+
+                        var errors = form.commit({ validate: true });
+
+                        // console.log(form.model);
+                        var fileObject = form.$el.find(':input[type="file"]')[0].files[0];
+                        form.model.set("image", fileObject);
+
+                        if (!errors) {
+                            form.model.save(null, { 
+                                success : function(mdl) {
+                                    AvailableOptions.add(mdl);
+                                    // console.log(mdl);
+                                    modal.close();
+                                },
+                                fileAttribute : "image",
+                                paramRoot : "field_option",
+                                formData : true
+                            });
+                        };
+                        return errors;
+                    },
+
+                    progress : function(e, ctx) {
+                        var percent = Math.round(e * 100.0);
+                        this.$el.find('.progress-bar').css('width', percent + '%');
+                    }
+                }).open();
+            }
+        });
+
+        FieldOptionView = Marionette.ItemView.extend({
+            template : "#field-option-template",
+            tagName : "tr",
+
+            initialize : function(options) {
+                this.listenTo(this.model, "change", this.render);
+                this.listenTo(this.model, "close_view", this.close);
+            },
+
+            events : {
+                "click .add-to-field-btn" : "addToField",
+                "click .remove-from-field-btn" : "removeFromField"
+            },
+            addToField : function() {
+                var id = this.model.get("id");
+                var self = this;
+                var mdl = this.model;
+
+                mdl.fetch({
+                    type : "POST",
+                    url : "<%= add_field_option_to_field_path %>",
+                    data : {field_id: <%= field.id %>, field_option_id: id},
+                    dataType: 'json',
+                    success : function(response) {
+                        // console.info("added field option to field");
+                        AvailableOptions.remove(mdl);
+                        AssignedOptions.add(mdl);
+                    }
+                });
+            },
+            removeFromField : function() {
+                var id = this.model.get("id");
+                var self = this;
+                var mdl = this.model;
+
+                mdl.fetch({
+                    type : "POST",
+                    url : "<%= remove_field_option_from_field_path %>",
+                    data : {field_id: <%= field.id %>, field_option_id: id},
+                    dataType: 'json',
+                    success : function(response) {
+                        // console.info("removed field option from field");
+                        AssignedOptions.remove(mdl);
+                        AvailableOptions.add(mdl);
+                    }
+                });
+            },
+
+            onRender : function() {
+                this.$el.find('[data-toggle="tooltip"]').tooltip();
+            }
+        });
+
+
+        FieldOptionsCollectionView = Marionette.CompositeView.extend({
+            template : "#options-collection-template",
+            childView : FieldOptionView,
+            ChildViewContainer : "#option-rows-container",
+            tagName : "table",
+            className : "table table-striped table-responsive field-option-table",
+
+            emptyView : Marionette.ItemView.extend({
+                template : _.template("<td colspan=5>No Field Options</td>"),
+                tagName : "tr",
+
+            }),
+
+            initialize : function(options) {
+                options = options || {};
+                $.extend(this.options, options);
+
+                this.listenTo(this.collection, "change", this.render);
+            },
+
+            onRender : function() {
+                if (this.options.collectionTitle) {
+                    this.$el.find("#collection-title-container").html(this.options.collectionTitle);
+                }
+            }
+        });
+
+        MainLayout = new FieldOptionsLayout();
+
+        AssignedOptions = new FieldOptionsCollection({
+            url : "<%= field_options_for_field_path(field) %>",
+            initialize : function() {
+                EventAggregator.on("refresh_field_options", this.fetch, this);
+            }
+        });
+        AvailableOptions = new FieldOptionsCollection({
+            url : "<%= field_options_path %>",
+            initialize : function() {
+                EventAggregator.on("refresh_field_options", this.fetch, this);
+            }
+        });
+
+        return {
+            init : function() {
+                console.info("Field Options App Started");
+                FieldOptionsApp.main.show(MainLayout);
+
+                AssignedOptions.fetch({
+                    url : "<%= field_options_for_field_path(field) %>",
+                    success : function(collection) {
+                        // console.log(collection);
+                        view = new FieldOptionsCollectionView({
+                            collection : collection,
+                            collectionTitle : "<h4>Assigned Field Options</h4>",
+                            initialize : function() {
+                                this.listenTo(this.collection, "change", this.render);
+                            },
+                            emptyView : Marionette.ItemView.extend({
+                                template : _.template("<td colspan=5>No Field Options Assigned</td>"),
+                                tagName : "tr",
+
+                            })
+                        });
+                        MainLayout.assigned.show(view);
+                        EventAggregator.on("refresh_field_options", this.fetch, this);
+                    }
+                });
+
+                AvailableOptions.fetch({
+                    url : "<%= field_options_path(field_id: field.id) %>",
+                    success : function(collection) {
+                        // console.log(collection);
+                        view = new FieldOptionsCollectionView({
+                            collection : collection,
+                            collectionTitle : "<h4>Available Field Options</h4>",
+                            initialize : function() {
+                                this.listenTo(this.collection, "change", this.render);
+                            },
+                            emptyView : Marionette.ItemView.extend({
+                                template : _.template("<td colspan=5>No Field Options Available</td>"),
+                                tagName : "tr",
+
+                            })
+                        });
+                        MainLayout.available.show(view);
+                        EventAggregator.on("refresh_field_options", this.fetch, this);
+                    }
+                });
+            }
+        }
+    })(Backbone, Marionette);
+
+    $(document).ready(function() {
+        FieldOptionsApp.addInitializer(FieldOptionsApp.AppManager.init);
+        FieldOptionsApp.start();
+    });
+
+</script>
+
+<script type="text/template" id="field-options-layout-template">
+    <h3>Field Options (<i>Optional</i>)  <button class="btn btn-primary btn-xs" id="create-field-option-btn" type="button">New</button></h3>
+    <div id="options-tables-container" class="row">
+        <div id="assigned-options-container" class="col-md-12"></div>
+        <div id="available-options-container" class="col-md-12"></div>
+    </div>
+
+</script>
+
+<script type="text/template" id="field-option-template">
+        <td>{{ if (image != null) { }}<img src="{{= icon_url }}" />{{ } }}</td>
+        <td>{{= name }}</td>
+        <td>{{= value }}</td>
+        <td>{{= help }}</td>
+        <td>
+            {{ if(assigned) { }}
+                    <i class="fa fa-times fa-2x remove-from-field-btn pull-right" data-toggle="tooltip" data-placement="left" title="Remove From Field"></i>
+            {{ } else { }}
+                <i class="fa fa-plus fa-2x add-to-field-btn pull-right" data-toggle="tooltip" data-placement="left" title="Add to Field"></i>
+            {{ } }}
+        </td>
+</script>
+
+
+<script type="text/template" id="options-collection-template">
+        <thead>
+            <tr>
+                <th>Icon</th>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Help</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="title-wrapper"><td id="collection-title-container" colspan=5></td></tr>
+        </tbody>
+        <tbody id="options-row-container"></tbody>
+</script>
+
+<script type="text/template" id="available-options-collection-template">
+
+</script>
