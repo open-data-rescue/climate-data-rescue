@@ -241,13 +241,16 @@ $(document).ready(function(){
                 },
 
                 templateResult : function(obj, container) {
-                    result = "";
+                    result = "<span>";
                     if (obj.iconUrl){
-                        result = $("<span><img src='" + obj.iconUrl + "' />&nbsp;" + obj.text + "</span>");
-                    } else {
-                        result = obj.text;
+                        result += ("<img src='" + obj.iconUrl + "' />" + "&nbsp;");
                     };
-                    return result;
+                    if (obj.textSymbol && obj.textSymbol.length > 0){
+                        result += ("&nbsp;-&nbsp;" + obj.textSymbol + "&nbsp;-&nbsp;");
+                    };
+                    result += (obj.text + "</span>");
+
+                    return $(result);
                 },
                 ajax : {
                     url : "/field_options_for_field/" + $field.data("field-id"),
@@ -261,7 +264,7 @@ $(document).ready(function(){
                             { id: "Illegible", text: "Illegible"}
                         ];
                         _.each(_data, function(option) {
-                            opt = $.extend({}, {'id' : option.id, 'text' : option.name, iconUrl: option.icon_url});
+                            opt = $.extend({}, {'id' : option.id, 'text' : option.name, iconUrl: option.icon_url, textSymbol: option.text_symbol});
 
                             res.push(opt);
                         });

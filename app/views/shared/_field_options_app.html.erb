@@ -12,19 +12,27 @@
         FieldOption = Backbone.Model.extend({
             url : "<%= field_options_path %>",
             schema : {
-                name : "Text",
-                help : "TextArea",
-                value : "Text",
                 image : {
                     type : "File",
+                    title : "Icon",
                     editorAttrs : {
                         name : "field_option[image]"
                     }
                 },
+                name : "Text",
+                text_symbol : {
+                    type : "Text",
+                    title : "Symbol"
+                },
+                value : {
+                    type: "Text",
+                    title : "Stored Value"
+                },
+                help : "TextArea"
             },
             defaults : {
                 icon_url : null,
-                active : false
+                assigned : false
             },
 
             initialize : function(opts){
@@ -77,7 +85,11 @@
 
                         // console.log(form.model);
                         var fileObject = form.$el.find(':input[type="file"]')[0].files[0];
-                        form.model.set("image", fileObject);
+                        
+
+                        if (fileObject != undefined){
+                            form.model.set("image", fileObject);
+                        }
 
                         if (!errors) {
                             form.model.save(null, { 
@@ -105,6 +117,10 @@
         FieldOptionView = Marionette.ItemView.extend({
             template : "#field-option-template",
             tagName : "tr",
+            className : "field-option",
+            attributes : {
+                "data-option-id" : ""
+            },
 
             initialize : function(options) {
                 this.listenTo(this.model, "change", this.render);
@@ -152,6 +168,8 @@
 
             onRender : function() {
                 this.$el.find('[data-toggle="tooltip"]').tooltip();
+
+                this.$el.data("field-option-id", this.model.get("id"));
             }
         });
 
@@ -164,7 +182,7 @@
             className : "table table-striped table-responsive field-option-table",
 
             emptyView : Marionette.ItemView.extend({
-                template : _.template("<td colspan=5>No Field Options</td>"),
+                template : _.template("<td colspan=6>No Field Options</td>"),
                 tagName : "tr",
 
             }),
@@ -179,6 +197,42 @@
             onRender : function() {
                 if (this.options.collectionTitle) {
                     this.$el.find("#collection-title-container").html(this.options.collectionTitle);
+                };
+
+                if (this.collection.length > 0) {
+                    table_width = this.$el.width();
+                    cells = this.$el.find('tr.field-option')[0].cells.length;
+                    desired_width = table_width / cells + 'px';
+                    // this.$el.find("tr.field-option td").css('width', desired_width);
+
+                    this.$el.sortable({
+                        axis: 'y',
+                        items: '.field-option',
+                        cursor: 'move',
+
+                        sort : function(e, ui) {
+                            ui.item.addClass('active-item-shadow');
+                        },
+                        stop : function(e, ui) {
+                            ui.item.removeClass('active-item-shadow');
+                            // # highlight the row on drop to indicate an update
+                            ui.item.children('td').effect('highlight', {}, 1000);
+                        },
+                        update : function(e, ui) {
+                            item_id = ui.item.data('option-id');
+                            console.log(item_id);
+                            position = ui.item.index();
+                            // $.ajax({
+                            //     type: 'POST',
+                            //     url: '<%= update_field_option_sort_order_path %>',
+                            //     dataType: 'json',
+                            //     data: { 
+                            //         field_option_id: item_id, 
+                            //         sort_order_position: position 
+                            //     } 
+                            // });
+                        }
+                    });
                 }
             }
         });
@@ -214,7 +268,7 @@
                                 this.listenTo(this.collection, "change", this.render);
                             },
                             emptyView : Marionette.ItemView.extend({
-                                template : _.template("<td colspan=5>No Field Options Assigned</td>"),
+                                template : _.template("<td colspan=6>No Field Options Assigned</td>"),
                                 tagName : "tr",
 
                             })
@@ -235,7 +289,7 @@
                                 this.listenTo(this.collection, "change", this.render);
                             },
                             emptyView : Marionette.ItemView.extend({
-                                template : _.template("<td colspan=5>No Field Options Available</td>"),
+                                template : _.template("<td colspan=6>No Field Options Available</td>"),
                                 tagName : "tr",
 
                             })
@@ -267,6 +321,7 @@
 <script type="text/template" id="field-option-template">
         <td>{{ if (image != null) { }}<img src="{{= icon_url }}" />{{ } }}</td>
         <td>{{= name }}</td>
+        <td>{{= text_symbol }}</td>
         <td>{{= value }}</td>
         <td>{{= help }}</td>
         <td>
@@ -284,13 +339,14 @@
             <tr>
                 <th>Icon</th>
                 <th>Name</th>
-                <th>Value</th>
+                <th>Symbol</th>
+                <th>Stored Value</th>
                 <th>Help</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="title-wrapper"><td id="collection-title-container" colspan=5></td></tr>
+            <tr class="title-wrapper"><td id="collection-title-container" colspan=6></td></tr>
         </tbody>
         <tbody id="options-row-container"></tbody>
 </script>

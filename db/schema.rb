@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160822002059) do
+ActiveRecord::Schema.define(version: 20160828232558) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20160822002059) do
     t.string   "value",              limit: 255
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.string   "text_symbol",        limit: 255
   end
 
   create_table "field_options_fields", force: :cascade do |t|

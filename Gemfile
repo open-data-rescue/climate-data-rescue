@@ -11,6 +11,8 @@ gem 'mime-types', require: 'mime/types/full'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
+gem "ranked-model"
+
 gem 'uglifier', '~> 2.7.2' #'>= 1.0.3'
 
 #bootstrap stuff

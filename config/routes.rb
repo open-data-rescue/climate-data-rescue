@@ -49,6 +49,8 @@ Weather::Application.routes.draw do
 
   post 'remove_field_option_from_field' => "field_options#remove_from_field", as: "remove_field_option_from_field"
 
+  post 'field_options/update_sort_order' => "field_options#update_sort_order", as: "update_field_option_sort_order"
+
   #match '/avatars/original/missing.png', :via => [:get, :post]
   
   post 'create_page_metadata' => "page_days#create"

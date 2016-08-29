@@ -47,11 +47,10 @@ class FieldOptionsController < ApplicationController
         begin
           #@field_Option is a variable containing an instance of the "FieldOption.rb" model created with data passed in the params of the "new.html.slim" form submit action.
           @field_option = FieldOption.create!(field_option_params)
-          if params[:image]
+          if params[:image].present?
             @field_option.image = params[:image]
           end
-           params[:field_option][:field_ids] ||= []
-          @field_option.field_ids = params[:field_option][:field_ids] if params[:field_option][:field_ids].present?
+          
           @field_option.save!
         rescue => e
           flash[:danger] = e.message
@@ -89,6 +88,24 @@ class FieldOptionsController < ApplicationController
         @field = Field.find params[:field_id]
         @fof = FieldOptionsField.find_by(field_option_id: params[:field_option_id], field_id: params[:field_id])
         @fof.destroy if @fof
+      rescue => e
+        flash[:danger] = e.message
+      end
+
+      # render json: {}
+    end
+  end
+
+  def update_sort_order
+    if params[:field_option_id].present? && params[:field_id].present?
+      begin
+        @field_option = FieldOption.find params[:field_option_id]
+        @field = Field.find params[:field_id]
+        @fof = FieldOptionsField.find_by(field_option_id: params[:field_option_id], field_id: params[:field_id])
+        if @fof
+          @fof.sort_order_position = params[:sort_order_position]
+          @fof.save
+        end
       rescue => e
         flash[:danger] = e.message
       end
@@ -158,6 +175,6 @@ class FieldOptionsController < ApplicationController
   end
 
   def field_option_params
-    params.require(:field_option).permit(:name, :image, :field_ids, :help, :image, :value)
+    params.require(:field_option).permit(:name, :image, :field_ids, :help, :image, :value, :text_symbol)
   end
 end
