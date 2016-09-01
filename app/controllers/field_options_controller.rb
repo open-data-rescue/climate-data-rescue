@@ -20,7 +20,7 @@ class FieldOptionsController < ApplicationController
         begin
           #@field_option is a variable containing an instance of the "FieldOption.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           @field_option = FieldOption.find(params[:id])
-          @field_option.update_attibutes(field_option_params)
+          @field_option.update(field_option_params)
           if params[:image]
             @field_option.image = params[:image]
           end
@@ -31,7 +31,15 @@ class FieldOptionsController < ApplicationController
           
         rescue => e
           flash[:danger] = e.message
+          respond_to do |format|
+            format.json { render json: {message: e.message} }
+            format.html { redirect_to(edit_field_option_path(@field_option)) and return }
+          end
         end
+      end
+      respond_to do |format|
+        format.json
+        format.html { redirect_to field_options_path }
       end
       
     else
@@ -56,6 +64,11 @@ class FieldOptionsController < ApplicationController
           flash[:danger] = e.message
         end
       end
+      respond_to do |format|
+        format.json
+        format.html { redirect_to field_options_path }
+      end
+
     else
       flash[:danger] = 'Only users can modify fieldOptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
@@ -175,6 +188,6 @@ class FieldOptionsController < ApplicationController
   end
 
   def field_option_params
-    params.require(:field_option).permit(:name, :image, :field_ids, :help, :image, :value, :text_symbol)
+    params.require(:field_option).permit(:name, :image, :help, :value, :text_symbol)
   end
 end

@@ -10,7 +10,7 @@ class FieldOption < ActiveRecord::Base
                     large: ["100x100#", :png]
                   },
                   default_style: :icon,
-                  url: "/system/:attachment/:style/:hash.:extension",
+                  url: "/system/:class/:style/:hash.:extension",
                   hash_secret: "SECRET"
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }

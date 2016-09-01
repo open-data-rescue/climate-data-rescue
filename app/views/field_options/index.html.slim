@@ -7,7 +7,6 @@ h3 Field options
 table.table.table-striped
   thead
     tr
-      th Order
       th Name
       th Image
       th Value
@@ -19,9 +18,8 @@ table.table.table-striped
   tbody
     - @field_options.each do |field_option|
       tr
-        td = field_option.position
         td = link_to field_option.name, field_option
-        td = image_tag(field_option.image.url(:med))
+        td = image_tag(field_option.image.url(:icon))
         td = field_option.value
         td = field_option.fields.count
         td = link_to 'Show', field_option

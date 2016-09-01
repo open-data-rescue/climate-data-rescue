@@ -2,9 +2,9 @@
   <h1><%= @field_option.name.present? ? "Showing: " + @field_option.name : "Showing Field Option" %>
 
     <ul>
-      <li><%= @field_option.position %></li>
-      <li><%= @field_option.help %></li>
-      <li><%= @field_option.value %></li>
-      <li><%= image_tag(@field_option.image.url(:large), class: "img-responsive") %></li>
+      <li>Symbol: <%= @field_option.text_symbol %></li>
+      <li>Stored Value: <%= @field_option.value %></li>
+      <li>Help: <%= @field_option.help %></li>
+      <li><%= image_tag(@field_option.image.url(:large), class: "img-responsive") if @field_option.image.present? %></li>
     </ul>
 <% end %>
