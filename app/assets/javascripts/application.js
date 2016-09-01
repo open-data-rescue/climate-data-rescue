@@ -32,6 +32,8 @@
 //= require backbone-forms/bootstrap-modal
 //= require backbone-forms/distribution/templates/bootstrap3
 //
+//= require content_images
+//
 // require transcriptions
 // require_tree .
 //= require_self

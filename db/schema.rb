@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160828232558) do
+ActiveRecord::Schema.define(version: 20160901004242) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -25,6 +25,16 @@ ActiveRecord::Schema.define(version: 20160828232558) do
     t.string   "date_time_id",     limit: 255
     t.integer  "field_group_id",   limit: 4
     t.datetime "observation_date"
+  end
+
+  create_table "content_images", force: :cascade do |t|
+    t.string   "image_file_name",    limit: 255
+    t.string   "image_content_type", limit: 255
+    t.integer  "image_file_size",    limit: 4
+    t.datetime "image_updated_at"
+    t.string   "name",               limit: 255
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "data_entries", force: :cascade do |t|
