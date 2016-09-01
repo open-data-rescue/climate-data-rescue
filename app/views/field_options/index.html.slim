@@ -19,7 +19,7 @@ table.table.table-striped
     - @field_options.each do |field_option|
       tr
         td = link_to field_option.name, field_option
-        td = image_tag(field_option.image.url(:icon))
+        td = image_tag(field_option.image.url(:icon)) if field_option.image.present?
         td = field_option.value
         td = field_option.fields.count
         td = link_to 'Show', field_option
