@@ -1,6 +1,6 @@
 class FieldOption < ActiveRecord::Base
   has_many :fields, through: :field_options_fields
-  has_many :field_options_fields
+  has_many :field_options_fields, dependent: :destroy
   has_many :data_entries
 
   has_attached_file :image,
