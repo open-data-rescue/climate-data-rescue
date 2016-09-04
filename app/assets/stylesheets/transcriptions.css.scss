@@ -124,6 +124,10 @@
         vertical-align: top;
         width: 100px;
 
+        &.datetime {
+            width: 150px;
+        }
+
         .scribe_input_label {
             word-break: break-all;
             width: 100%;

@@ -31,12 +31,12 @@
                             <%= hidden_field_tag "annotation[meta][height]", nil, id: "height-field" %>
                             
                             <div class="user-input-container">
-                                <div class="scribe_input_field">
+                                <div class="scribe_input_field datetime">
                                     <div class="scribe_input_label">Observation Date
                                         <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear form-control", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "date"} %>
                                     </div>
                                 </div>
-                                <div class="scribe_input_field">
+                                <div class="scribe_input_field datetime">
                                     <div class="scribe_input_label">Observation Time
                                         <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear form-control", title: "Observation Time", data: { content: "What is the time of this observation?<br /><br /><strong>Safari Users:</strong> Times must be entered in either 12h (4:30 PM) or 24h (16:30) format. Any other format will cause the annotation to fail.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "time"} %>
                                     </div>
