@@ -95,7 +95,11 @@
         });
     </script>
 <% else %>
-    <p>No page selected.</p>
+    <div class="row voffset20">
+        <div class="col-md-12">
+            <p>No page selected or page is not transcribeable. <%= link_to "Please try another", new_transcription_path, class: "btn btn-info btn-xs"%>.</p>
+        </div>
+    </div>
 <% end %>
 
 <!-- This is a test -->
