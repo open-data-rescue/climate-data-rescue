@@ -32,7 +32,8 @@
             },
             defaults : {
                 icon_url : null,
-                assigned : false
+                assigned : false,
+                delete_image : false
             },
 
             initialize : function(opts){
@@ -126,8 +127,75 @@
 
             events : {
                 "click .add-to-field-btn" : "addToField",
-                "click .remove-from-field-btn" : "removeFromField"
+                "click .remove-from-field-btn" : "removeFromField",
+                "click .model-edit-btn" : "editModel"
             },
+
+            editModel : function() {
+                schema = {};
+
+                schema = $.extend(
+                    {
+                        delete_image : {
+                            type : "Checkbox",
+                            title : "Delete icon?"
+                        }
+                    },
+                    this.model.schema
+                );
+                this.model.schema = schema;
+                this.model.set("delete_image", false);
+                var form = new Backbone.Form({
+                    model: this.model, 
+
+                });
+                
+                var modal = new Backbone.BootstrapModal({ 
+                    content : form,
+                    title : "Edit Field Option",
+                    animate : true,
+                    submitFn : function(){
+                        // console.log("submit fn called");
+                        // console.log(this);
+                        var modal = this;
+
+                        form = this.options.content;
+
+                        this.$el.find('.progress_bar').css('width', '0%');
+                        form.model.on("progress", this.progress, this);
+
+                        var errors = form.commit({ validate: true });
+
+                        // console.log(form.model);
+                        var fileObject = form.$el.find(':input[type="file"]')[0].files[0];
+                        
+
+                        if (fileObject != undefined){
+                            form.model.set("image", fileObject);
+                        }
+
+                        if (!errors) {
+                            form.model.save(null, { 
+                                url : "<%= field_options_path %>" + "/" + form.model.get("id") + "?field_id=" + <%= @field.id %>,
+                                success : function(mdl) {
+                                    // console.log(mdl);
+                                    modal.close();
+                                },
+                                fileAttribute : "image",
+                                paramRoot : "field_option",
+                                formData : true
+                            });
+                        };
+                        return errors;
+                    },
+
+                    progress : function(e, ctx) {
+                        var percent = Math.round(e * 100.0);
+                        this.$el.find('.progress-bar').css('width', percent + '%');
+                    }
+                }).open();
+            },
+
             addToField : function() {
                 var id = this.model.get("id");
                 var self = this;
@@ -145,6 +213,7 @@
                     }
                 });
             },
+
             removeFromField : function() {
                 var id = this.model.get("id");
                 var self = this;
@@ -203,7 +272,7 @@
 
                     if (this.$el.sortable("instance")) {
                         this.$el.sortable("refreshPositions");
-                        console.info("positions refreshed");
+                        // console.info("positions refreshed");
                     } else {
                         this.$el.sortable({
                             axis: 'y',
@@ -330,10 +399,11 @@
         <td>{{= value }}</td>
         <td>{{= help }}</td>
         <td>
+            <i class="fa fa-pencil model-edit-btn pull-left btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
             {{ if(assigned) { }}
-                    <i class="fa fa-times fa-2x remove-from-field-btn pull-right" data-toggle="tooltip" data-placement="left" title="Remove From Field"></i>
+                    <i class="fa fa-times fa-2x remove-from-field-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field"></i>
             {{ } else { }}
-                <i class="fa fa-plus fa-2x add-to-field-btn pull-right" data-toggle="tooltip" data-placement="left" title="Add to Field"></i>
+                <i class="fa fa-plus fa-2x add-to-field-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field"></i>
             {{ } }}
         </td>
 </script>

@@ -21,18 +21,20 @@ class FieldOptionsController < ApplicationController
           #@field_option is a variable containing an instance of the "FieldOption.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           @field_option = FieldOption.find(params[:id])
           @field_option.update(field_option_params)
-          if params[:image]
-            @field_option.image = params[:image]
+          
+          if params[:field_option][:image] && !(params[:field_option][:image].size > 0) && params[:field_option][:delete_image] && params[:field_option][:delete_image] == "true"
+            @field_option.image = nil
+            @field_option.save!
           end
 
-          params[:field_option][:field_ids] ||= []
-          @field_option.field_ids = params[:field_option][:field_ids]
-          @field_option.save!
+          if params[:field_id]
+            @field = Field.find params[:field_id]
+          end
           
         rescue => e
           flash[:danger] = e.message
           respond_to do |format|
-            format.json { render json: {message: e.message} }
+            format.json { render json: {message: e.message} and return}
             format.html { redirect_to(edit_field_option_path(@field_option)) and return }
           end
         end
@@ -55,11 +57,11 @@ class FieldOptionsController < ApplicationController
         begin
           #@field_Option is a variable containing an instance of the "FieldOption.rb" model created with data passed in the params of the "new.html.slim" form submit action.
           @field_option = FieldOption.create!(field_option_params)
-          if params[:image].present?
-            @field_option.image = params[:image]
-          end
+          # if params[:image].present?
+          #   @field_option.image = params[:image]
+          # end
           
-          @field_option.save!
+          # @field_option.save!
         rescue => e
           flash[:danger] = e.message
         end

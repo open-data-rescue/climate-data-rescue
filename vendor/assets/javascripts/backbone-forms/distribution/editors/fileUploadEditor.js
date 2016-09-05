@@ -5,7 +5,6 @@ Form.editors.File = Form.editors.Text.extend({
     uploadFile: function(ev) {
         var i = 0, files = this.files,
         len = files.length;
-        console.log(files);
         ev.data.$the_file = files[0];
         ev.data.$el.find('#file_preview').text(ev.data.$the_file.name);
     }, 
