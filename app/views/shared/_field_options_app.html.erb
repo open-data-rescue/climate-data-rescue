@@ -19,14 +19,20 @@
                         name : "field_option[image]"
                     }
                 },
-                name : "Text",
+                name : {
+                    type : "Text",
+                    title : "Name",
+                    validators : ["required"],
+                    hint : "Enter a name for this option for identification and display"
+                },
                 text_symbol : {
                     type : "Text",
                     title : "Symbol"
                 },
                 value : {
-                    type: "Text",
-                    title : "Stored Value"
+                    type : "Text",
+                    title : "Stored Value",
+                    hint : "Enter the value that you want saved when this option is chosen"
                 },
                 help : "TextArea"
             },
@@ -64,7 +70,7 @@
                 // console.info("Create field option btn clicked");
                 // console.log(FieldOption);
                 var form = new Backbone.Form({
-                    model: new FieldOption(), //defined elsewhere,
+                    model: new FieldOption()
 
                 });
                 
