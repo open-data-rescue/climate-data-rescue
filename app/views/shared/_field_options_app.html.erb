@@ -118,9 +118,6 @@
             template : "#field-option-template",
             tagName : "tr",
             className : "field-option",
-            attributes : {
-                "data-option-id" : ""
-            },
 
             initialize : function(options) {
                 this.listenTo(this.model, "change", this.render);
@@ -190,7 +187,6 @@
             initialize : function(options) {
                 options = options || {};
                 $.extend(this.options, options);
-
                 this.listenTo(this.collection, "change", this.render);
             },
 
@@ -199,40 +195,48 @@
                     this.$el.find("#collection-title-container").html(this.options.collectionTitle);
                 };
 
-                if (this.collection.length > 0) {
-                    table_width = this.$el.width();
-                    cells = this.$el.find('tr.field-option')[0].cells.length;
-                    desired_width = table_width / cells + 'px';
+                if (this.options.sortable) {
+                    // table_width = this.$el.width();
+                    // cells = this.$el.find('tr.field-option')[0].cells.length;
+                    // desired_width = table_width / cells + 'px';
                     // this.$el.find("tr.field-option td").css('width', desired_width);
 
-                    this.$el.sortable({
-                        axis: 'y',
-                        items: '.field-option',
-                        cursor: 'move',
+                    if (this.$el.sortable("instance")) {
+                        this.$el.sortable("refreshPositions");
+                        console.info("positions refreshed");
+                    } else {
+                        this.$el.sortable({
+                            axis: 'y',
+                            items: '.field-option',
+                            cursor: 'move',
 
-                        sort : function(e, ui) {
-                            ui.item.addClass('active-item-shadow');
-                        },
-                        stop : function(e, ui) {
-                            ui.item.removeClass('active-item-shadow');
-                            // # highlight the row on drop to indicate an update
-                            ui.item.children('td').effect('highlight', {}, 1000);
-                        },
-                        update : function(e, ui) {
-                            item_id = ui.item.data('option-id');
-                            console.log(item_id);
-                            position = ui.item.index();
-                            // $.ajax({
-                            //     type: 'POST',
-                            //     url: '<%= update_field_option_sort_order_path %>',
-                            //     dataType: 'json',
-                            //     data: { 
-                            //         field_option_id: item_id, 
-                            //         sort_order_position: position 
-                            //     } 
-                            // });
-                        }
-                    });
+                            sort : function(e, ui) {
+                                ui.item.addClass('active-item-shadow');
+                            },
+                            stop : function(e, ui) {
+                                ui.item.removeClass('active-item-shadow');
+                                // # highlight the row on drop to indicate an update
+                                ui.item.children('td').effect('highlight', {}, 1000);
+                            },
+                            update : function(e, ui) {
+                                item_id = ui.item.data('field-option-id');
+                                position = ui.item.index() - 1;
+                                
+                                console.log(position);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '<%= update_field_option_sort_order_path %>',
+                                    dataType: 'json',
+                                    data: { 
+                                        field_id : <%= @field.id %>,
+                                        field_option_id: item_id, 
+                                        sort_order_position: position 
+                                    } 
+                                });
+                            }
+                        });
+                    }
+                    
                 }
             }
         });
@@ -271,7 +275,8 @@
                                 template : _.template("<td colspan=6>No Field Options Assigned</td>"),
                                 tagName : "tr",
 
-                            })
+                            }),
+                            sortable: true
                         });
                         MainLayout.assigned.show(view);
                         EventAggregator.on("refresh_field_options", this.fetch, this);
