@@ -225,13 +225,14 @@ $(document).ready(function(){
                         url : "/field_options_for_field/" + $field.data("field-id"),
                         dataType : "json",
                         success : function(data, status) {
-                            var opts = [
-                                { id: "empty", text: "Empty/Blank"},
-                                { id: "illegible", text: "Illegible"}
-                            ]; 
+                            var opts = []; 
                             _.each(data, function(val, key, list) {
                                 opts.push({'id' : val.id, 'text' : val.name});
                             });
+                            opts.push(
+                                { id: "empty", text: "Empty/Blank"},
+                                { id: "Illegible", text: "Illegible"}
+                            );
                             callback(opts);
                         },
                         error : function(response) {
@@ -259,15 +260,16 @@ $(document).ready(function(){
                         return { search : params.term };
                     },
                     processResults : function(_data, params) {
-                        res = [
-                            { id: "empty", text: "Empty/Blank"},
-                            { id: "Illegible", text: "Illegible"}
-                        ];
+                        res = [];
                         _.each(_data, function(option) {
                             opt = $.extend({}, {'id' : option.id, 'text' : option.name, iconUrl: option.icon_url, textSymbol: option.text_symbol});
 
                             res.push(opt);
                         });
+                        res.push(
+                            { id: "empty", text: "Empty/Blank"},
+                            { id: "Illegible", text: "Illegible"}
+                        );
                         var data = {
                             results: res
                         };
