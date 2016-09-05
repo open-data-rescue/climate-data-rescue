@@ -24,7 +24,7 @@
         "Green" => "green-group",
         "Yellow" => "yellow-group",
         "Orange" => "orange-group"
-        }, "purple-group"), required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        }, ( @field_group.colour_class.present? ? @field_group.colour_class : "purple-group")), required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
     <%= f.input :description, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, required: false %>
     
     <div class="form-group row">
