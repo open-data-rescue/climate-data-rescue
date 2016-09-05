@@ -15,6 +15,8 @@ gem "ranked-model"
 
 gem 'uglifier', '~> 2.7.2' #'>= 1.0.3'
 
+gem 'trumbowyg_rails'
+
 #bootstrap stuff
 gem 'sass-rails', '~> 5.0'
 #gem 'sprockets-rails'

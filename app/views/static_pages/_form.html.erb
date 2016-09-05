@@ -1,81 +1,97 @@
-<%= form_for (@static_page) do |f| %>
+<%= simple_form_for (@static_page) do |f| %>
   <div class="row" data-hook="admin_page_form_fields">
     <div class="col-md-6" data-hook="admin_page_form_left">
       <div class="form-group">
-        <%= f.label :title %> <span class="required">*</span>
-        <%= f.text_field :title, class: 'form-control' %>
+        <%= f.input :title, required: true, input_html: { class: 'form-control' } %>
       </div>
 
       <div class="form-group">
-        <%= f.label :slug %> <span class="required">*</span>
-        <%= f.text_field :slug, class: 'form-control' %>
+        <%= f.input :slug, required: true, input_html: { class: 'form-control' } %>
       </div>
 
-      <div class="form-group">
-        <%= f.label :body %> <span class="required">*</span>
-        <%= f.text_area :body, rows: 12, class: 'form-control' %>
-      </div>
     </div>
 
     <div class="col-md-6" data-hook="admin_page_form_right">
 
       <div class="form-group">
-        <%= f.label :foreign_link %>
-        <%= f.text_field :foreign_link, class: 'form-control' %>
+        <%= f.input :foreign_link, input_html: { class: 'form-control' } %>
       </div>
 
       <div class="form-group">
-        <%= f.label :position %>
-        <%= f.number_field :position, min: 0, class: 'form-control' %>
+        <%= f.input :position, input_html: { class: 'form-control', min: 0 } %>
       </div>
-
-      <div class="checkbox">
-        <%= f.label :show_in_header do %>
-          <%= f.check_box :show_in_header %>
-          <%= StaticPage.human_attribute_name(:show_in_header) %>
-        <% end %>
-      </div>
-
-      <!-- <div class="checkbox">
-        <%= f.label :show_in_sidebar do %>
-          <%= f.check_box :show_in_sidebar %>
-          <%= StaticPage.human_attribute_name(:show_in_sidebar) %>
-        <% end %>
-      </div> -->
-
-      <div class="checkbox">
-        <%= f.label :visible do %>
-          <%= f.check_box :visible %>
-          <%= StaticPage.human_attribute_name(:visible) %>
-        <% end %>
-      </div>
-
-      
     </div>
   </div>
 
   <div class="row" data-hook="admin_page_form_meta">
-    <div class="col-md-12">
-      <div class="form-group">
-        <%= f.label :meta_title %>
-        <%= f.text_field :meta_title, class: 'form-control' %>
+      <div class="form-group col-md-4">
+        <%= f.input :meta_title, input_html: { class: 'form-control' } %>
       </div>
 
-      <div class="form-group">
-        <%= f.label :meta_keywords %>
-        <%= f.text_field :meta_keywords, class: 'form-control' %>
+      <div class="form-group col-md-4">
+        <%= f.input :meta_keywords, input_html: { class: 'form-control' } %>
       </div>
 
-      <div class="form-group">
-        <%= f.label :meta_description %>
-        <%= f.text_field :meta_description, class: 'form-control' %>
+      <div class="form-group col-md-4">
+        <%= f.input :meta_description, input_html: { class: 'form-control' } %>
       </div>
-    </div>
   </div>
+
+  <div class="row">
+      <div class="col-md-4">
+          <div class="checkbox">
+              <%= f.input :visible %>
+          </div>
+      </div>
+        <div class="col-md-4">
+          <div class="checkbox">
+              <%= f.input :show_in_header %>
+          </div>
+      </div>
+      <div class="col-md-4">
+          <div class="checkbox">
+              <%= f.input :show_in_sidebar %>
+          </div>
+      </div>
+  </div>
+
+
   <div class="row">
     <div class="col-md-12">
-      <%= f.submit "Submit", class: "btn btn-primary" %>
+        <div class="form-group">
+          <button type="button" id="toggle-visual-editor-btn" class="btn btn-xs btn-default pull-right" data-toggle="popover" data-trigger="hover" data-container="body" data-html="true" data-placement="auto top" data-title="Visual Editor" data-content="If you turn on the visual editor, you may lose some fine-grained control over the result of your page. DIV containers are not supported, and things tend to get wrapped in paragraph tags. <b>Do not use the visual editor to modify the custom stylesheet.</b>">Toggle Visual Editor</button>
+            <%= f.input :body, required: true, input_html: { class: 'form-control', id: "page-content", rows: 12 } %>
+        </div>
+    </div>  
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <%= f.button :submit, "Save", class: "btn btn-primary" %>
       <%= link_to "Cancel", static_pages_path, class: "btn btn-default pull-right" %>
     </div>
   </div>
 <% end %>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var editorIsEnabled = false;
+
+        $("#toggle-visual-editor-btn").on("click", function() {
+            if (editorIsEnabled) {
+              $('#page-content').trumbowyg("destroy");
+              editorIsEnabled = false;
+            } else {
+              $('#page-content').trumbowyg({
+                  removeformatPasted: true,
+                  autogrow: true,
+                  svgPath: '<%= image_path("trombowyg/icons.svg")%>'
+              }).on("tbwinit", function() {
+                editorIsEnabled = true;
+              });
+            }
+
+        });
+        
+    });
+</script>

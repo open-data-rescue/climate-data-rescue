@@ -19,6 +19,7 @@
 //= require page-uploader-plugin
 //= require boxer-plugin
 //= require jquery.kinetic
+//= require trumbowyg/trumbowyg
 //
 //= require backbone/underscore
 //= require backbone/backbone

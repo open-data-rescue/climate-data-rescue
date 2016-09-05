@@ -156,7 +156,7 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.2.5)
       sprockets-rails
-    rails-assets-tether (1.3.4)
+    rails-assets-tether (1.3.7)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.7)
@@ -203,7 +203,7 @@ GEM
     sprockets (3.7.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.1.1)
+    sprockets-rails (3.2.0)
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
@@ -221,6 +221,10 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.5)
+    trumbowyg_rails (2.1.0.3)
+      rails (>= 3.1)
+      railties (>= 3.1)
+      sass (>= 3.2)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
@@ -269,6 +273,7 @@ DEPENDENCIES
   slim-rails (~> 3.0.1)
   therubyracer
   thin (~> 1.6.4)
+  trumbowyg_rails
   turbolinks
   uglifier (~> 2.7.2)
   will_paginate (= 3.1.0)

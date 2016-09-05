@@ -66,6 +66,10 @@ module Weather
     config.assets.version = '1.0'
 
     config.assets.initialize_on_precompile = false
+
+    config.assets.paths << Rails.root.join("vendor", "assets", "images")
+
+    config.assets.precompile += %w( trombowyg/icons.svg )
     
     #config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
     #
