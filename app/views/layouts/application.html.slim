@@ -55,7 +55,7 @@ html lang="en"
                     li = link_to "New Transcription", new_transcription_path, :class => "sidebar-url"
                     - if StaticPage.sidebar_links.any?
                       - StaticPage.sidebar_links.each do |sp|
-                        li = link_to(sp.title, sp.link, class: "sidebar-url")
+                        li = link_to(sp.title, sp.link, class: "sidebar-url", target: (sp.is_external? ? "_blank" : "_self"), name: CGI.escape(sp.title.downcase))
                     li = link_to "Log out", "/logout", :class => "sidebar-url"
                 - else
                   h3 Get Started
