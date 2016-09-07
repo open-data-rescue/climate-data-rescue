@@ -85,7 +85,8 @@
               $('#page-content').trumbowyg({
                   removeformatPasted: true,
                   autogrow: true,
-                  svgPath: '<%= image_path("trombowyg/icons.svg")%>'
+                  svgPath: '<%= image_path("trombowyg/icons.svg")%>',
+                  semantic: false
               }).on("tbwinit", function() {
                 editorIsEnabled = true;
               });
