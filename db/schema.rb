@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901004242) do
+ActiveRecord::Schema.define(version: 20160910230147) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -38,13 +38,13 @@ ActiveRecord::Schema.define(version: 20160901004242) do
   end
 
   create_table "data_entries", force: :cascade do |t|
-    t.string  "value",           limit: 255
-    t.string  "data_type",       limit: 255
-    t.integer "user_id",         limit: 4
-    t.integer "page_id",         limit: 4
-    t.integer "annotation_id",   limit: 4
-    t.integer "field_id",        limit: 4
-    t.integer "field_option_id", limit: 4
+    t.string  "value",             limit: 255
+    t.string  "data_type",         limit: 255
+    t.integer "user_id",           limit: 4
+    t.integer "page_id",           limit: 4
+    t.integer "annotation_id",     limit: 4
+    t.integer "field_id",          limit: 4
+    t.string  "field_options_ids", limit: 255
   end
 
   create_table "field_groups", force: :cascade do |t|

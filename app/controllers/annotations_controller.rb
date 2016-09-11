@@ -69,7 +69,14 @@ class AnnotationsController < ApplicationController
         
         if data && data.length > 0
           data.each do |key, value|
-            @annotation.data_entries.build(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type], value: value[:value])
+            entry_value = value[:value]
+
+            if entry_value.class == Array
+              entry_value = value_for_option_ids entry_value
+            end
+
+
+            @annotation.data_entries.build(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type], value: entry_value, field_options_ids: (value[:selected_option_ids].present? ? value[:selected_option_ids] : nil))
           end
         end
         @annotation.save!
@@ -104,8 +111,14 @@ class AnnotationsController < ApplicationController
         
         if data && data.length > 0
           data.each do |key, value|
-            datum = @annotation.data_entries.find_or_create_by(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type])
-            datum.value = value[:value]
+            entry_value = value[:value]
+
+            if entry_value.class == Array
+              entry_value = value_for_option_ids entry_value
+            end
+
+            datum = @annotation.data_entries.find_or_create_by(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type], field_options_ids: (value[:selected_option_ids].present? ? value[:selected_option_ids] : nil))
+            datum.value = entry_value
             datum.save!
           end
         end
@@ -139,6 +152,13 @@ class AnnotationsController < ApplicationController
   end
   
   private
+  def value_for_option_ids ids
+    value = ""
+    value = ids.collect{|id| FieldOption.find(id).value}.join(" ") if ids.any?
+
+    value
+  end
+
   def annotation_params
     params.require(:annotation).permit(:obs_date, :obs_time, :week_day)
   end

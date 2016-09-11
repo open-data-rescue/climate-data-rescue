@@ -1,3 +1,4 @@
+field = field || nil
 if field_option
 
     json.id field_option.id

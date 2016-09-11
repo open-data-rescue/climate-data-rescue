@@ -48,8 +48,9 @@
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id, data: {field_type: "field_id"} %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
+                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", nil, class: "selected-option-ids" %>
                                         <div class="scribe_input_label"><%= field.name %>
-                                        <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input form-control", data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: field.field_options.any?} %>
+                                        <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input form-control", multiple: true, data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: field.field_options.any?} %>
                                         </div>
                                     </div>
                                 <% end %>

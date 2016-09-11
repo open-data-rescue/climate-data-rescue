@@ -9,6 +9,13 @@ function clearAnnotationBox() {
     $box.hide();
 };
 
+function defaultOptions() {
+    return [
+        { id: "empty", text: "Empty/Blank"},
+        { id: "illegible", text: "Illegible"}
+    ];
+};
+
 function updateAnnotation(event, annotation, $form) {
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
     transcription */
@@ -65,8 +72,41 @@ function editAnnotation(annotation_id) {
           
           for (var i = 0; i < fields.length; i++) {
             var field = fields[i];
+
+            console.log(field.value);
+
+            value = field.value;
+            $inputField = $form.find(".scribe_input_field[data-field-id=" + field.id +"]");
+            $select = $inputField.find("select");
+
+            if (field.has_options && field.selected_options) {
+                // value = field.selected_option_ids;
+                console.log(field.selected_options);
+
+                $select.find("option.user-option, option:selected").remove();
+                $select.trigger("change");
+                for (var i = 0; i < field.selected_options.length; i++) {
+                    var option = field.selected_options[i];
+                    var $option = $("<option class='user-option' selected></option>").val(option.id).text(option.name);
+                    
+
+                    $select.append($option);
+
+                    $select.trigger("change");
+                }
+            } else if ($select.length > 0) {
+                $select.find("option.user-option").remove();
+                 if (value == "empty" || value == "illegible") {
+                    $select.val(value).trigger("change");
+                 } else {
+                    var $option = $("<option class='user-option' selected></option>").val(value).text(value);
+                    $select.append($option).trigger("change");
+                 };
+            } else {
+                $inputField.val(value).trigger("change"); 
+            };
             
-            $form.find("[data-field-id=" + field.id +"]").val(field.value);  
+             
           };
           
           
@@ -119,7 +159,7 @@ function setMsg(message, fade, style) {
 function transcribeData(event, btn) {
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
     transcription */
-    var $form = $(btn).parents("form");
+    var $form = $(btn).parents("form").first();
     
 
     $form.unbind("ajax:success");
@@ -147,6 +187,8 @@ function transcribeData(event, btn) {
             // console.log(xhr);
 
             setMsg("Annotated region sucessfully saved!", true, "success");
+
+            $("[data-selectable='true'").val(null).trigger("change");
         });
         $form.attr("method", "put");
         $form.attr("action", ("/annotations/" + data.id));
@@ -214,6 +256,7 @@ $(document).ready(function(){
         if ($field.data("field-options")) {
 
             $field.select2({
+                forceAbove : true,
                 theme : "bootstrap",
                 multiple: true,
                 tags: true,
@@ -229,10 +272,7 @@ $(document).ready(function(){
                             _.each(data, function(val, key, list) {
                                 opts.push({'id' : val.id, 'text' : val.name});
                             });
-                            opts.push(
-                                { id: "empty", text: "Empty/Blank"},
-                                { id: "Illegible", text: "Illegible"}
-                            );
+                            opts = opts.concat(defaultOptions());
                             callback(opts);
                         },
                         error : function(response) {
@@ -266,10 +306,7 @@ $(document).ready(function(){
 
                             res.push(opt);
                         });
-                        res.push(
-                            { id: "empty", text: "Empty/Blank"},
-                            { id: "Illegible", text: "Illegible"}
-                        );
+                        res = res.concat(defaultOptions());
                         var data = {
                             results: res
                         };
@@ -279,6 +316,16 @@ $(document).ready(function(){
                             console.log("failed to get search options for " + $field.data("field-id"));
                         }
                 }
+            }).on("select2:select", function() {
+                optionIds = [];
+                $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
+
+                $(this).find("option:selected").each(function() {
+                    optionIds.push($(this).val());
+                });
+
+                $optionIdsInput.val(optionIds);
+
             });
         } else {
             $field.select2({
