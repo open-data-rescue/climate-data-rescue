@@ -1,0 +1,40 @@
+{
+  "name": "wickedpicker",
+  "version": "0.4.1",
+  "description": "A simple jQuery timepicker plugin.",
+  "main": [
+    "./dist/wickedpicker.min.js",
+    "./dist/wickedpicker.min.css",
+    "./src/wickedpicker.js",
+    "./stylesheets/wickedpicker.css"
+  ],
+  "authors": [
+    "Eric Gagnon"
+  ],
+  "moduleType": "globals",
+  "license": "MIT",
+  "keywords": [
+    "jQuery",
+    "timepicker",
+    "wickedpicker"
+  ],
+  "homepage": "http://ericjgagnon.github.io/wickedpicker/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ericjgagnon/wickedpicker.git"
+  },
+  "dependencies": {
+    "jquery": ">= 1.9.0"
+  },
+  "private": false,
+  "_release": "0.4.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.4.1",
+    "commit": "5080539a750a470cee42207d36dd409fc86bdcfd"
+  },
+  "_source": "https://github.com/ericjgagnon/wickedpicker.git",
+  "_target": "^0.4.1",
+  "_originalSource": "wickedpicker",
+  "_direct": true
+}

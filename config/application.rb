@@ -67,7 +67,7 @@ module Weather
 
     config.assets.initialize_on_precompile = false
 
-    config.assets.paths << Rails.root.join("vendor", "assets", "images")
+    config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
 
     config.assets.precompile += %w( trombowyg/icons.svg )
     

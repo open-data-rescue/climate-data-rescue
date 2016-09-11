@@ -10,20 +10,23 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+// require requirejs/require
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap-sprockets
+//= require bootstrap-switch/dist/js/bootstrap-switch
 //= require select2-full-custom
 //= require jquery-fileupload
 //= require page-uploader-plugin
 //= require boxer-plugin
 //= require jquery.kinetic
-//= require trumbowyg/trumbowyg
+//= require trumbowyg/dist/trumbowyg
 //
 //= require backbone/underscore
 //= require backbone/backbone
-//= require backbone/backbone.marionette
+// require backbone.radio/build/backbone.radio
+//= require backbone/backbone.marionette/
 //= require backbone/backbone-model-file-upload
 //= require backbone/backbone.wreqr
 //
@@ -32,6 +35,9 @@
 //= require backbone-forms/distribution/editors/fileUploadEditor
 //= require backbone-forms/bootstrap-modal
 //= require backbone-forms/distribution/templates/bootstrap3
+//
+// 
+//= require wickedpicker
 //
 //= require content_images
 //

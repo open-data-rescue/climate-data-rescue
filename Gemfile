@@ -9,13 +9,13 @@ gem 'mysql2', '0.4.2' #'~> 0.3.20'
 gem 'mime-types', require: 'mime/types/full'
 
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+# gem 'jquery-ui-rails'
 
 gem "ranked-model"
 
 gem 'uglifier', '~> 2.7.2' #'>= 1.0.3'
 
-gem 'trumbowyg_rails'
+# gem 'trumbowyg_rails'
 
 #bootstrap stuff
 gem 'sass-rails', '~> 5.0'

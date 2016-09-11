@@ -6,7 +6,11 @@
  *= require jquery.fileupload-ui
  *= require select2
  *= require select2-bootstrap
- *= require trumbowyg/trumbowyg
+ *= require trumbowyg/dist/ui/trumbowyg
+ *= require wickedpicker
+ *= require bootstrap-switch/dist/css/bootstrap3/bootstrap-switch
+
+
  *= require_tree .
  *= require_self
 */
