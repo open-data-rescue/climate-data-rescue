@@ -117,8 +117,9 @@ class AnnotationsController < ApplicationController
               entry_value = value_for_option_ids entry_value
             end
 
-            datum = @annotation.data_entries.find_or_create_by(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type], field_options_ids: (value[:selected_option_ids].present? ? value[:selected_option_ids] : nil))
+            datum = @annotation.data_entries.find_or_create_by(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type])
             datum.value = entry_value
+            datum.field_options_ids = (value[:selected_option_ids].present? ? value[:selected_option_ids] : nil)
             datum.save!
           end
         end

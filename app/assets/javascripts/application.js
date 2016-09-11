@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap-sprockets
-//= require select2-full
+//= require select2-full-custom
 //= require jquery-fileupload
 //= require page-uploader-plugin
 //= require boxer-plugin

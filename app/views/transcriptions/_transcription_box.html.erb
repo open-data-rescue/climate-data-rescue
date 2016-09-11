@@ -10,7 +10,7 @@
             <ul id="scribe_tab_bar">
                 <% field_groups.each do |field_group| %>
                     <% if field_group.fields.any? %>
-                        <li id="scribe_tab_<%= field_group.id %>" class="scribe_tab <%= field_group.colour_class %>" data-field-group-id="<%= field_group.id %>"><%= field_group.presentation_name %></li>
+                        <li id="scribe_tab_<%= field_group.id %>" class="scribe_tab <%= field_group.colour_class %>" data-field-group-id="<%= field_group.id %>" data-field-count=<%= field_group.fields.count + 3 %>><%= field_group.presentation_name %></li>
                     <% end %>
                 <% end %>
             </ul>
@@ -20,6 +20,9 @@
                 <div id="formInstructions">Click a tab to begin</div>
                 <% field_groups.each do |field_group| %>
                     <div id="field-group-<%= field_group.id %>" class="annotation-form-field-group" style="display:none;">
+                        <% if field_group.help.present? %>
+                            <p class="field-group-help-text"><%= field_group.help.html_safe %></p>
+                        <% end %>
                         <%= form_tag annotations_path, id: ("field_group_" + field_group.id.to_s), class:"annotation-form", remote: true, format: :json, data: {field_group_id: field_group.id } do %>
                             <%= hidden_field_tag "filename", page.image_file_name %>
                             <%= hidden_field_tag "annotation[meta][transcription_id]", transcription.id %>
@@ -32,25 +35,28 @@
                             
                             <div class="user-input-container">
                                 <div class="scribe_input_field datetime">
-                                    <div class="scribe_input_label">Observation Date
-                                        <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear form-control", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "date"} %>
+                                    <div class="scribe_input_label">
+                                        <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear form-control", title: "Observation Date", data: { field_type: "date"} %>
+                                        <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover"}%>Observation Date
                                     </div>
                                 </div>
                                 <div class="scribe_input_field datetime">
-                                    <div class="scribe_input_label">Observation Time
-                                        <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear form-control", title: "Observation Time", data: { content: "What is the time of this observation?<br /><br /><strong>Safari Users:</strong> Times must be entered in either 12h (4:30 PM) or 24h (16:30) format. Any other format will cause the annotation to fail.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover", field_type: "time"} %>
+                                    <div class="scribe_input_label">
+                                        <%= time_field_tag "annotation[obs_time]", nil, required: true, min: "00:00:00", max: "23:59:00", step: "00:05:00", class: "observation-input do-not-clear form-control", title: "Observation Time", data: {field_type: "time"} %>
+                                        <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date", data: { content: "What is the time of this observation?<br /><br /><strong>Safari Users:</strong> Times must be entered in either 12h (4:30 PM) or 24h (16:30) format. Any other format will cause the annotation to fail.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover"}%>Observation Time
                                     </div>
                                 </div>
                                 
                                 <% field_group.fields.each do |field| %>
-                                    <div class="scribe_input_field" data-field-id="<%= field.id %>" title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" data-toggle="popover" data-trigger="hover" data-placement="top auto" data-content="<%= (field.help && field.help.present? ? field.help : "") %>">
+                                    <div class="scribe_input_field" data-field-id="<%= field.id %>">
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]", page.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id, data: {field_type: "field_id"} %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", nil, class: "selected-option-ids" %>
-                                        <div class="scribe_input_label"><%= field.name %>
+                                        <div class="scribe_input_label">
                                         <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, placeholder:"--", size:15, class: "observation-input form-control", multiple: true, data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: field.field_options.any?} %>
+                                        <i class="fa fa-info-circle" style="cursor: help;" aria-hidden="true" title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" data-toggle="popover" data-trigger="hover" data-placement="left auto" data-content="<%= (field.help && field.help.present? ? field.help : "") %>"></i><%= field.name %>
                                         </div>
                                     </div>
                                 <% end %>
