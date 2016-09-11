@@ -6092,9 +6092,9 @@ S2.define('select2/dropdown/stopPropagation',[
     'touchstart'
     ];
 
-    // this.$dropdown.on(stoppedEvents.join(' '), function (evt) {
-    //   evt.stopPropagation();
-    // });
+    this.$dropdown.on(stoppedEvents.join(' '), function (evt) {
+      evt.stopPropagation();
+    });
   };
 
   return StopPropagation;
@@ -6131,9 +6131,9 @@ S2.define('select2/selection/stopPropagation',[
       'touchstart'
     ];
 
-    // this.$selection.on(stoppedEvents.join(' '), function (evt) {
-    //   evt.stopPropagation();
-    // });
+    this.$selection.on(stoppedEvents.join(' '), function (evt) {
+      evt.stopPropagation();
+    });
   };
 
   return StopPropagation;
