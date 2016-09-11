@@ -16,6 +16,24 @@ function defaultOptions() {
     ];
 };
 
+function annotationBoxContents(annotationId) {
+    $innerWrapper = $('<div class="inner"></div>');
+    $contents = $('<div class="annotation-actions"></div>');
+    $detailBtn = $('<button type="button" class="btn btn-xs btn-default annotation-detail-btn"><i class="fa fa-info-circle"></i></button>');
+    $editBtn = $('<button type="button" class="btn btn-xs btn-default edit-annotation-btn"><i class="fa fa-pencil"></i></button>');
+    $deleteBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-trash"></i></button>');
+    $resizeBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-expand" aria-hidden="true"></i></button>');
+
+    $innerWrapper.click(function() {
+        editAnnotation(annotationId);
+    });
+
+    $msg = $('<div class="annotation-msg">edit</div>');
+    $contents.append($editBtn);
+    $innerWrapper.append($contents, $msg);
+    return $innerWrapper;
+};
+
 function updateAnnotation(event, annotation, $form) {
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
     transcription */
@@ -216,11 +234,7 @@ function transcribeData(event, btn) {
               };
               ui.box.attr('id',('annotation-' + data.id)).attr('data-annotation-id', data.id).attr('data-field-group-id', data.field_group.id)
 
-              ui.box.click(function() {
-                // console.log("test");
-                editAnnotation(data.id);
-              });
-
+              ui.box.html(annotationBoxContents(data.id));
 
               $form.find("#x-field").val(position.x);
               $form.find("#y-field").val(position.y);
@@ -376,9 +390,7 @@ $(document).ready(function(){
             "width": <%= annotation.width %>,
             "height": <%= annotation.height %>
           }).attr("id", "<%= 'annotation' + annotation.id.to_s %>").attr('data-annotation-id', <%= annotation.id %>).attr('data-field-group-id', <%= annotation.field_group.id %>).addClass("annotation-marker").addClass("<%= annotation.field_group.colour_class %>");
-          box.click(function() {
-              editAnnotation($(this).data('annotation-id'));
-          });
+          box.html(annotationBoxContents(<%= annotation.id %>));
 
           $canvas.append(box);
 

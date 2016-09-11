@@ -118,12 +118,47 @@
 }
 
 .annotation-marker {
-  cursor: pointer;
-  border: 1px solid black;
-  opacity: 0.3;
-  background: hsl(268, 100%, 68%);
+  border: 1px solid hsla(0, 100%, 0%, 0.3);
+  background: hsla(268, 100%, 68%, 0.3);
   z-index: 100;
   position: absolute;
+  cursor: context-menu;
+
+  .inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.5s ease;
+
+    .annotation-actions {
+      opacity: 0;
+      -webkit-transition: all 1s ease;
+      transition: all 1s ease;
+    }
+
+    .annotation-msg {
+        transition: all 1s ease;
+        position: absolute;
+        bottom: 0%;
+        text-align: center;
+        padding: 5px;
+        width: 100%;
+        opacity: 0;
+
+        background: rgba(0, 0%, 0%, 0.05);
+    }
+  }
+  &:hover {
+    .annotation-actions {
+      opacity: 1;
+    }
+    .annotation-msg {
+      opacity: 1;
+    }
+    .inner {
+    }
+  }
 }
 .annotation-marker.helper {
   border: 2px dotted black;
@@ -153,14 +188,14 @@
 
 
 // field group colours
-$fg-red: hsl(0, 100%, 68%);
-$fg-pink: hsl(311, 100%, 68%);
-$fg-purple: hsl(268, 100%, 68%);
-$fg-blue: hsl(217, 100%, 68%);
-$fg-cyan: hsl(178, 100%, 68%);
-$fg-green: hsl(126, 100%, 68%);
-$fg-yellow: hsl(62, 100%, 68%);
-$fg-orange: hsl(26, 100%, 68%);
+$fg-red: hsla(0, 100%, 68%, 0.3);
+$fg-pink: hsla(311, 100%, 68%, 0.3);
+$fg-purple: hsla(268, 100%, 68%, 0.3);
+$fg-blue: hsla(217, 100%, 68%, 0.3);
+$fg-cyan: hsla(178, 100%, 68%, 0.3);
+$fg-green: hsla(126, 100%, 68%, 0.3);
+$fg-yellow: hsla(62, 100%, 68%, 0.3);
+$fg-orange: hsla(26, 100%, 68%, 0.3);
 
 $tab-active-text: white;
 
