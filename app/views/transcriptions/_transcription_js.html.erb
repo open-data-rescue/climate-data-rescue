@@ -16,6 +16,28 @@ function defaultOptions() {
     ];
 };
 
+function formatSelection(data, container) {
+    // console.log(data);
+    res = "<span>";
+    $element = $(data.element);
+
+    if ($element && $element.data("display_attribute")) {
+        if ($element.data("display_attribute") == "icon") {
+            res += ("<img src='" + $element.data("icon_url") + "' />");
+        } else if ($element.data("display_attribute") == "symbol") {
+            res += $element.data("text_symbol");
+        } else if ($element.data("display_attribute") == "name") {
+            res += $element.data("name");
+        }
+    } else {
+        res += data.text;
+    };
+    
+    res += "</span>";
+
+    return $(res);
+}
+
 function annotationBoxContents(annotationId) {
     $innerWrapper = $('<div class="inner"></div>');
     $contents = $('<div class="annotation-actions"></div>');
@@ -116,7 +138,14 @@ function editAnnotation(annotation_id) {
                 $select.trigger("change");
                 for (var i = 0; i < field.selected_options.length; i++) {
                     var option = field.selected_options[i];
-                    var $option = $("<option class='user-option' selected></option>").val(option.id).text(option.name);
+                    
+                    var $option = $("<option class='user-option' selected></option>").val(option.id).append(formatSelection(option));
+
+                    // For custom tag template
+                    $option.attr("data-display_attribute", option.display_attribute);
+                    $option.attr("data-icon_url", option.icon_url);
+                    $option.attr("data-text_symbol", option.text_symbol);
+                    $option.attr("data-name", option.name);
                     
                     $select.append($option).trigger("change");
                 }
@@ -135,6 +164,16 @@ function editAnnotation(annotation_id) {
              
           };
           
+           // delegate a click event on the input box
+         $('.select2-input').on('click',function() {
+           // remove select2-disabled class from all li under the dropdown
+           $('.select2-drop .select2-results li').removeClass('select2-disabled');
+            // add select2-result-selectable class to all li which are missing the respective class
+           $('.select2-drop .select2-results li').each(function(){
+             if(!$(this).hasClass('select2-result-selectable'))
+               $(this).addClass('select2-result-selectable');
+           });   
+         });
           
           $form.find('.submit-btn').unbind("click");
           $form.find('.submit-btn').click(function(event) {
@@ -295,9 +334,12 @@ $(document).ready(function(){
                         dataType : "json",
                         success : function(data, status) {
                             var opts = []; 
+                            // console.info("current");
                             // console.log(data);
-                            _.each(data, function(val, key, list) {
-                                opts.push({'id' : val.id, 'text' : val.name});
+
+                            _.each(data, function(option, key, list) {
+                                console.warning(option);
+                                opts.push({'id' : option.id, 'text' : option.name, icon_url: option.icon_url, text_symbol: option.text_symbol, display_attribute: option.display_attribute});
                             });
                             opts = opts.concat(defaultOptions());
                             callback(opts);
@@ -309,17 +351,21 @@ $(document).ready(function(){
                 },
 
                 templateResult : function(obj, container) {
+                    // console.info("template result");
+                    // console.log(obj);
                     result = "<span>";
-                    if (obj.iconUrl && obj.iconUrl.length > 0){
-                        result += ("<img src='" + obj.iconUrl + "' />" + "&nbsp;");
+                    if (obj.icon_url && obj.icon_url.length > 0){
+                        result += ("<img src='" + obj.icon_url + "' />" + "&nbsp;");
                     };
-                    if (obj.textSymbol && obj.textSymbol.length > 0){
-                        result += (obj.textSymbol + "&nbsp;-&nbsp;");
+                    if (obj.text_symbol && obj.text_symbol.length > 0){
+                        result += (obj.text_symbol + "&nbsp;-&nbsp;");
                     };
                     result += (obj.text + "</span>");
 
                     return $(result);
                 },
+
+                templateSelection : formatSelection,
                 ajax : {
                     url : "/field_options_for_field/" + $field.data("field-id"),
                     dataType : "json",
@@ -328,9 +374,10 @@ $(document).ready(function(){
                     },
                     processResults : function(_data, params) {
                         res = [];
+                        // console.info("ajax");
                         // console.log(_data);
                         _.each(_data, function(option) {
-                            opt = $.extend({}, {'id' : option.id, 'text' : option.name, iconUrl: option.icon_url, textSymbol: option.text_symbol});
+                            opt = $.extend({}, {'id' : option.id, 'text' : option.name, icon_url: option.icon_url, text_symbol: option.text_symbol, display_attribute: option.display_attribute});
 
                             res.push(opt);
                         });
@@ -355,13 +402,24 @@ $(document).ready(function(){
                 $optionIdsInput.val(optionIds);
 
             });
+
+              // delegate a click event on the input box
+             $('.select2-input').on('click',function() {
+               // remove select2-disabled class from all li under the dropdown
+               $('.select2-drop .select2-results li').removeClass('select2-disabled');
+                // add select2-result-selectable class to all li which are missing the respective class
+               $('.select2-drop .select2-results li').each(function(){
+                 if(!$(this).hasClass('select2-result-selectable'))
+                   $(this).addClass('select2-result-selectable');
+               });   
+             });
         } else {
             $field.select2({
                 theme : "bootstrap",
                 multiple: false,
                 tags: true,
                 tokenSeparators: [',', ' '],
-                placeholder: 'Value',
+                placeholder: '--',
                 data : defaultOptions(),
                 createSearchChoice:function(term, data) {
                   if ( $(data).filter( function() {

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160910230147) do
+ActiveRecord::Schema.define(version: 20160911092302) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -83,9 +83,10 @@ ActiveRecord::Schema.define(version: 20160910230147) do
     t.datetime "image_updated_at"
     t.text     "help",               limit: 65535
     t.string   "value",              limit: 255
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.string   "text_symbol",        limit: 255
+    t.string   "display_attribute",  limit: 255,   default: "name"
   end
 
   create_table "field_options_fields", force: :cascade do |t|

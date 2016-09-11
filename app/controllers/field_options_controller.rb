@@ -190,6 +190,6 @@ class FieldOptionsController < ApplicationController
   end
 
   def field_option_params
-    params.require(:field_option).permit(:name, :image, :help, :value, :text_symbol)
+    params.require(:field_option).permit(:name, :image, :help, :value, :text_symbol, :display_attribute)
   end
 end
