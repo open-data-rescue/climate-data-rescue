@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160911092302) do
+ActiveRecord::Schema.define(version: 20160911201950) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -111,7 +111,8 @@ ActiveRecord::Schema.define(version: 20160911092302) do
     t.datetime "updated_at"
     t.string   "full_name",       limit: 255
     t.text     "help",            limit: 65535
-    t.integer  "position",        limit: 4,     default: 0, null: false
+    t.integer  "position",        limit: 4,     default: 0,     null: false
+    t.boolean  "multi_select",                  default: false
   end
 
   create_table "ledgers", force: :cascade do |t|

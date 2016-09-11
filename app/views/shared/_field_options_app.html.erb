@@ -1,6 +1,6 @@
 <script id="field-options-app" type="text/javascript">
-
-    FieldOptionsApp = new Backbone.Marionette.Application();
+    
+    FieldOptionsApp = new Marionette.Application();
 
     FieldOptionsApp.addRegions({
         main : "#field-options-app-container"
@@ -9,6 +9,15 @@
     FieldOptionsApp.AppManager = (function(Backbone, Marionette){
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
+        Field = Backbone.Model.extend({
+            url : "<%= fields_path %>",
+            schema : {
+                multi_select : "Checkbox"
+            },
+            defaults : {
+                multi_select : false
+            }
+        });
         FieldOption = Backbone.Model.extend({
             url : "<%= field_options_path %>",
             schema : {
@@ -67,13 +76,30 @@
             template : "#field-options-layout-template",
             regions : {
                 assigned : "#assigned-options-container",
-                available : "#available-options-container"
+                available : "#available-options-container",
+                multiToggle : "#field-multi-toggle-container"
             },
 
             className : "col-md-12",
 
             events : {
                 "click #create-field-option-btn" : "createFieldOption"
+            },
+
+            onRender : function() {
+                layout = this;
+                field = new Field();
+                field.fetch({
+                    url : "<%= field_path(field) %>",
+                    success : function(field){
+                        console.info("got field info");
+                        view = new FieldView({
+                            model : field
+                        });
+
+                        layout.multiToggle.show(view);
+                    }
+                });
             },
 
             createFieldOption : function() {
@@ -128,6 +154,26 @@
                         this.$el.find('.progress-bar').css('width', percent + '%');
                     }
                 }).open();
+            }
+        });
+        
+        FieldView = Marionette.ItemView.extend({
+            template : "#field-template",
+            onRender : function() {
+                self = this;
+                this.$el.find("#field-multi-toggle").bootstrapSwitch({
+                    size : "small",
+                    onText : "Multiple",
+                    offText : "One",
+                    labelText : "Select",
+
+                    onSwitchChange : function(event, state) {
+                        self.model.set("multi_select", state);
+                        self.model.save(self.model.attributes, {
+                            url : "<%= field_path(field) %>"
+                        });
+                    }
+                });;
             }
         });
 
@@ -192,7 +238,7 @@
 
                         if (!errors) {
                             form.model.save(null, { 
-                                url : "<%= field_options_path %>" + "/" + form.model.get("id") + "?field_id=" + <%= @field.id %>,
+                                url : "<%= field_options_path %>" + "/" + form.model.get("id") + "?field_id=" + <%= field.id %>,
                                 success : function(mdl) {
                                     // console.log(mdl);
                                     modal.close();
@@ -313,7 +359,7 @@
                                     url: '<%= update_field_option_sort_order_path %>',
                                     dataType: 'json',
                                     data: { 
-                                        field_id : <%= @field.id %>,
+                                        field_id : <%= field.id %>,
                                         field_option_id: item_id, 
                                         sort_order_position: position 
                                     } 
@@ -401,11 +447,16 @@
 
 <script type="text/template" id="field-options-layout-template">
     <h3>Field Options (<i>Optional</i>)  <button class="btn btn-primary btn-xs" id="create-field-option-btn" type="button">New</button></h3>
+    <div id="field-multi-toggle-container"></div>
     <div id="options-tables-container" class="row">
         <div id="assigned-options-container" class="col-md-12"></div>
         <div id="available-options-container" class="col-md-12"></div>
     </div>
 
+</script>
+
+<script type="text/template" id="field-template">
+    <input type="checkbox" id="field-multi-toggle" value=true {{= (multi_select) ? "checked" : null }} />
 </script>
 
 <script type="text/template" id="field-option-template">

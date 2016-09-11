@@ -127,7 +127,7 @@ class FieldsController < ApplicationController
       respond_to do |format|
         if @field.update_attributes(field_params)
           format.html { redirect_to fields_path, notice: 'Field was successfully updated.' }
-          format.json { head :no_content }
+          format.json
         else
           format.html { render action: "edit" }
           format.json { render json: @field.errors, status: :unprocessable_fieldgroup }
@@ -167,6 +167,6 @@ class FieldsController < ApplicationController
   
   private
   def field_params
-    params.require(:field).permit(:field_key, :initial_value, :data_type, :html_field_type, :name, :options, :validations, :full_name, :help, :field_group_id, :position)
+    params.require(:field).permit(:field_key, :initial_value, :data_type, :html_field_type, :name, :validations, :full_name, :help, :field_group_id, :multi_select)
   end
 end
