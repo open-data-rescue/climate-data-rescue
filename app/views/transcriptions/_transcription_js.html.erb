@@ -164,16 +164,6 @@ function editAnnotation(annotation_id) {
              
           };
           
-           // delegate a click event on the input box
-         $('.select2-input').on('click',function() {
-           // remove select2-disabled class from all li under the dropdown
-           $('.select2-drop .select2-results li').removeClass('select2-disabled');
-            // add select2-result-selectable class to all li which are missing the respective class
-           $('.select2-drop .select2-results li').each(function(){
-             if(!$(this).hasClass('select2-result-selectable'))
-               $(this).addClass('select2-result-selectable');
-           });   
-         });
           
           $form.find('.submit-btn').unbind("click");
           $form.find('.submit-btn').click(function(event) {
@@ -326,7 +316,7 @@ $(document).ready(function(){
                     return undefined;
                 },
                 tokenSeparators: [',', ' '],
-                placeholder: '--',
+                placeholder: 'select',
                 current : function(element,callback) {
                     // console.log("select2 initialized for " + $field.data("field-id"));
                     $.ajax({
@@ -403,23 +393,13 @@ $(document).ready(function(){
 
             });
 
-              // delegate a click event on the input box
-             $('.select2-input').on('click',function() {
-               // remove select2-disabled class from all li under the dropdown
-               $('.select2-drop .select2-results li').removeClass('select2-disabled');
-                // add select2-result-selectable class to all li which are missing the respective class
-               $('.select2-drop .select2-results li').each(function(){
-                 if(!$(this).hasClass('select2-result-selectable'))
-                   $(this).addClass('select2-result-selectable');
-               });   
-             });
         } else {
             $field.select2({
                 theme : "bootstrap",
                 multiple: false,
                 tags: true,
                 tokenSeparators: [',', ' '],
-                placeholder: '--',
+                placeholder: 'type',
                 data : defaultOptions(),
                 createSearchChoice:function(term, data) {
                   if ( $(data).filter( function() {
