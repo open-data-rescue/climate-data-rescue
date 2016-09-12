@@ -1,4 +1,3 @@
-
 <%= simple_form_for (@static_page) do |f| %>
   <div class="row" data-hook="admin_page_form_fields">
     <div class="col-md-6" data-hook="admin_page_form_left">
@@ -60,7 +59,8 @@
   <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <%= f.input :body, required: true, input_html: { class: 'form-control', id: "page-content", rows: 24 } %>
+          <button type="button" id="toggle-visual-editor-btn" class="btn btn-xs btn-default pull-right" data-toggle="popover" data-trigger="hover" data-container="body" data-html="true" data-placement="auto top" data-title="Visual Editor" data-content="If you turn on the visual editor, you may lose some fine-grained control over the result of your page. <b>Do not use the visual editor to modify the custom stylesheet.</b>">Toggle Visual Editor</button>
+            <%= f.input :body, required: true, input_html: { class: 'form-control', id: "page-content", rows: 12 } %>
         </div>
     </div>  
   </div>
@@ -75,11 +75,23 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#page-content').trumbowyg({
-            removeformatPasted: true,
-            autogrow: true,
-            svgPath: '<%= image_path("trombowyg/icons.svg")%>',
-            semantic: false
+        var editorIsEnabled = false;
+
+        $("#toggle-visual-editor-btn").on("click", function() {
+            if (editorIsEnabled) {
+              $('#page-content').trumbowyg("destroy");
+              editorIsEnabled = false;
+            } else {
+              $('#page-content').trumbowyg({
+                  removeformatPasted: true,
+                  autogrow: true,
+                  svgPath: '<%= image_path("trombowyg/icons.svg")%>',
+                  semantic: false
+              }).on("tbwinit", function() {
+                editorIsEnabled = true;
+              });
+            }
+
         });
         
     });
