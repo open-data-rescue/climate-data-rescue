@@ -17,23 +17,49 @@ function defaultOptions() {
 };
 
 function formatSelection(data, container) {
-    // console.log(data);
-    res = "<span>";
-    $element = $(data.element);
-
-    if ($element && $element.data("display_attribute")) {
-        if ($element.data("display_attribute") == "icon") {
-            res += ("<img src='" + $element.data("icon_url") + "' />");
-        } else if ($element.data("display_attribute") == "symbol") {
-            res += $element.data("text_symbol");
-        } else if ($element.data("display_attribute") == "name") {
-            res += $element.data("name");
-        }
-    } else {
-        res += data.text;
-    };
-    
-    res += "</span>";
+    // console.log(data); 
+    var res = "<span>"; 
+    var $element = $(data.element); 
+ 
+    var displayAttribute = data.display_attribute; 
+    if (typeof(displayAttribute) == "undefined" && !(typeof($element.data("display-attribute")) == "undefined") ) { 
+        displayAttribute = $element.data("display-attribute"); 
+        // console.info(displayAttribute); 
+        // console.info("data undefined"); 
+    }; 
+    var iconUrl = data.icon_url; 
+    if (typeof(iconUrl == "undefined") && !(typeof($element.data("icon-url")) == "undefined") ) { 
+        iconUrl = $element.data("icon-url"); 
+        // console.info("data undefined"); 
+    }; 
+    var textSymbol = data.text_symbol; 
+    if (typeof(textSymbol) == "undefined" && !(typeof($element.data("text-symbol")) == "undefined") ) { 
+        textSymbol = $element.data("text-symbol"); 
+        // console.info("data undefined"); 
+    }; 
+    var name = data.text; 
+    if ((typeof(name) == "undefined" || name == "undefined") && !(typeof($element.data("name")) == "undefined") ) { 
+        name = $element.data("name"); 
+        // console.info("data undefined"); 
+    }; 
+ 
+    if (displayAttribute) { 
+        if (displayAttribute == "icon") { 
+            res += ("<img src='" + iconUrl + "' />"); 
+            // console.info("icon"); 
+        } else if (displayAttribute == "symbol") { 
+            res += textSymbol; 
+            // console.info("symbol"); 
+        } else { 
+            res += name; 
+            // console.info("name"); 
+        } 
+    } else { 
+        res += data.text; 
+        // console.info("text"); 
+    }; 
+     
+    res += "</span>"; 
 
     return $(res);
 }
@@ -66,7 +92,6 @@ function updateAnnotation(event, annotation, $form) {
     
     $form.attr("method", "put");
     $form.attr("action", ("/annotations/" + annotation.id));
-    
     $form.unbind("ajax:success");
     $form.on("ajax:success", function(e, status, data, xhr) {
         // console.log(e);
@@ -81,11 +106,11 @@ function updateAnnotation(event, annotation, $form) {
     
         $form.attr("method", "post");
         $form.attr("action", ("/annotations"));
-        
+
         $('#scribe_annotation_box').hide();
         $form.find('.submit-btn').unbind("click")
         $form.find('.submit-btn').click(function(event) {
-          transcribeData(event, this);
+          transcribeData(event, $form);
         });
     });
     
@@ -111,6 +136,8 @@ function editAnnotation(annotation_id) {
           
           // update transcriber width and position
           var fields = annotation.field_group.fields;
+
+            // console.log(fields);
           newWidth = (fields.length + 3) * 110 + 100;
 
           $("#scribe_annotation_box").width(newWidth);
@@ -126,43 +153,53 @@ function editAnnotation(annotation_id) {
           $zoomBox.css("background-position-x", ((-1 * leftPos) + "px"));
           
           // set field values from response
-          for (var i = 0; i < fields.length; i++) {
-            var field = fields[i];
+          _.each(fields, function(field){
+            // console.log(field);
 
             value = field.value;
             $inputField = $form.find(".scribe_input_field[data-field-id=" + field.id +"]");
             $select = $inputField.find("select");
+            // console.log($select);
 
             if (field.has_options && field.selected_options) {
                 $select.find("option.user-option, option:selected").remove();
                 $select.trigger("change");
                 for (var i = 0; i < field.selected_options.length; i++) {
                     var option = field.selected_options[i];
-                    
-                    var $option = $("<option class='user-option' selected></option>").val(option.id).append(formatSelection(option));
+                    var $option = $("<option class='user-option' selected></option>").val(option.id).html(formatSelection(option));
 
                     // For custom tag template
-                    $option.attr("data-display_attribute", option.display_attribute);
-                    $option.attr("data-icon_url", option.icon_url);
-                    $option.attr("data-text_symbol", option.text_symbol);
+                    $option.attr("data-display-attribute", option.display_attribute);
+                    $option.attr("data-icon-url", option.icon_url);
+                    $option.attr("data-text-symbol", option.text_symbol);
                     $option.attr("data-name", option.name);
                     
                     $select.append($option).trigger("change");
                 }
+                optionIds = [];
+                $optionIdsInput = $inputField.find(".selected-option-ids");
+
+                _.each(field.selected_options, function(option) {
+                    optionIds.push(option.id);
+                });
+
+                $optionIdsInput.val(optionIds);
             } else if ($select.length > 0) {
                 $select.find("option.user-option").remove();
                  if (value == "empty" || value == "illegible") {
                     $select.val(value).trigger("change");
                  } else {
                     var $option = $("<option class='user-option' selected></option>").val(value).text(value);
+                    // console.log($option);
                     $select.append($option).trigger("change");
                  };
             } else {
                 $inputField.val(value).trigger("change"); 
+                // console.log(value);
             };
             
              
-          };
+          });
           
           
           $form.find('.submit-btn').unbind("click");
@@ -210,12 +247,10 @@ function setMsg(message, fade, style) {
   }
 };
 
-function transcribeData(event, btn) {
+function transcribeData(event, $form) {
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
     transcription */
-    var $form = $(btn).parents("form").first();
     
-
     $form.unbind("ajax:success");
     $form.on("ajax:success", function(e, data, status, xhr) {
         // console.log(e);
@@ -310,8 +345,6 @@ $(document).ready(function(){
             $field.select2({
                 forceAbove : true,
                 theme : "bootstrap",
-                multiple: true,
-                tags: true,
                 createTag: function(params) {
                     return undefined;
                 },
@@ -329,7 +362,14 @@ $(document).ready(function(){
 
                             _.each(data, function(option, key, list) {
                                 console.warning(option);
-                                opts.push({'id' : option.id, 'text' : option.name, icon_url: option.icon_url, text_symbol: option.text_symbol, display_attribute: option.display_attribute});
+                                opts.push({ 
+                                    id : option.id,  
+                                    text : option.name,  
+                                    title : option.name, 
+                                    icon_url: option.icon_url,  
+                                    text_symbol: option.text_symbol,  
+                                    display_attribute: option.display_attribute 
+                                });
                             });
                             opts = opts.concat(defaultOptions());
                             callback(opts);
@@ -356,6 +396,7 @@ $(document).ready(function(){
                 },
 
                 templateSelection : formatSelection,
+
                 ajax : {
                     url : "/field_options_for_field/" + $field.data("field-id"),
                     dataType : "json",
@@ -367,7 +408,14 @@ $(document).ready(function(){
                         // console.info("ajax");
                         // console.log(_data);
                         _.each(_data, function(option) {
-                            opt = $.extend({}, {'id' : option.id, 'text' : option.name, icon_url: option.icon_url, text_symbol: option.text_symbol, display_attribute: option.display_attribute});
+                            opt = $.extend({}, { 
+                                    id : option.id,  
+                                    text : option.name,  
+                                    title : option.name, 
+                                    icon_url: option.icon_url,  
+                                    text_symbol: option.text_symbol,  
+                                    display_attribute: option.display_attribute 
+                                });
 
                             res.push(opt);
                         });
@@ -391,6 +439,17 @@ $(document).ready(function(){
 
                 $optionIdsInput.val(optionIds);
 
+            }).on("select2:unselect", function(e) {
+                console.log(e);
+                optionIds = [];
+                $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
+
+                $(this).find("option:selected").each(function() {
+                    optionIds.push($(this).val());
+                });
+
+                $optionIdsInput.val(optionIds);
+
             });
 
         } else {
@@ -401,6 +460,7 @@ $(document).ready(function(){
                 tokenSeparators: [',', ' '],
                 placeholder: 'type',
                 data : defaultOptions(),
+                templateSelection : formatSelection,
                 createSearchChoice:function(term, data) {
                   if ( $(data).filter( function() {
                     return this.text.toLowerCase() === term.toLowerCase(); //even if the this.text is undefined it works
@@ -448,10 +508,10 @@ $(document).ready(function(){
     $("#transcription-msg").addClass("out");
   });
 
-  $('.submit-btn').each(function() {
-      var that = this;
-      $(that).click(function(event) {
-        transcribeData(event, that);
+  $('form.annotation-form').each(function() {
+      var $form = $(this);
+      $form.find(".submit-btn").click(function(event) {
+        transcribeData(event, $form);
       });
   });
 
@@ -466,6 +526,8 @@ $(document).ready(function(){
      $tab.siblings().removeClass('active'); //set all siblings of the clicked tab as unselected
      
      var $currentForm = $("#field-group-" + $tab.data('field-group-id'));
+     
+
      $currentForm.show();
 
      newWidth = $tab.data("field-count") * 110 + 100;
@@ -480,11 +542,14 @@ $(document).ready(function(){
   $("#new-annotation").click(function(e){
      var $transcriber = $("#scribe_annotation_box");
      // Clear values and reset form desitantation
-     $(".observation-input").val('');
+     $(".observation-input").val(null);
      $("[data-selectable='true'").val(null).trigger("change");
-     $form = $("form.annotation-form");
-     $form.attr("method", "post");
-     $form.attr("action", ("/annotations"));
+     $forms = $("form.annotation-form");
+     _.each($forms, function(form){
+        $(form).attr("method", "post");
+        $(form).attr("action", "/annotations");
+     });
+     
 
      if ($transcriber.is(":hidden")) {
         // show transcriber
