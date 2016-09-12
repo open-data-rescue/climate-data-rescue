@@ -328,17 +328,27 @@ $(document).ready(function(){
 //All javascript written by the author unless otherwise credited. 
 //Code credited as "sourced from" have been modified little to none. 
 //Code credited as "adapted from" uses ideas and some lines from the credited location while modifying them to work with this project
-  $("#page-complete-checkbox").change(function() {
-      if (this.checked) {
-          $("#finish-transcribing-btn").val("Submit Finished Transcription");
-      } else {
-          $("#finish-transcribing-btn").val("Take a Break");
-      }
-  });
+  $("#page-complete-checkbox").bootstrapSwitch({
+        size : "normal",
+        onText : "complete",
+        offText : "finish",
+        labelText : "transcribing",
+        onColor : "success",
+        offColor : "primary",
+        inverse : true,
+
+        onSwitchChange : function(event, state) {
+            if (state) {
+                $("#finish-transcribing-btn").removeClass("btn-primary").addClass("btn-success").val("Submit Finished Transcription");
+            } else {
+                $("#finish-transcribing-btn").addClass("btn-primary").removeClass("btn-success").val("Take a Break");
+            };
+        }
+    });
 
     
-    $("[data-selectable='true'").each(function() {
-        $field = $(this);
+    _.each($("[data-selectable='true'"), function(field) {
+        $field = $(field);
         
         if ($field.data("field-options")) {
 
@@ -460,7 +470,6 @@ $(document).ready(function(){
                 tokenSeparators: [',', ' '],
                 placeholder: 'type',
                 data : defaultOptions(),
-                templateSelection : formatSelection,
                 createSearchChoice:function(term, data) {
                   if ( $(data).filter( function() {
                     return this.text.toLowerCase() === term.toLowerCase(); //even if the this.text is undefined it works
