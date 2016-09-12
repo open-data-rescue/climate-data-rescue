@@ -345,7 +345,10 @@ $(document).ready(function(){
             };
         }
     });
-
+    $(".date-field").select2({
+        placeholder : "Select Date",
+        theme : "bootstrap"
+    });
     
     _.each($("[data-selectable='true'"), function(field) {
         $field = $(field);

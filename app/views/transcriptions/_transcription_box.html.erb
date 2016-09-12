@@ -36,14 +36,18 @@
                             <div class="user-input-container">
                                 <div class="scribe_input_field datetime">
                                     <div class="scribe_input_label">
-                                        <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, prompt: "Select Date", class: "observation-input do-not-clear form-control", title: "Observation Date", data: { field_type: "date"} %>
-                                        <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover"}%>Observation Date
+                                        <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), required: true, class: "observation-input do-not-clear form-control date-field", title: "Observation Date", data: { field_type: "date"}, style: "width: 100%;" %>
+                                        <div>
+                                            <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover"}%> Observation Date
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="scribe_input_field datetime">
                                     <div class="scribe_input_label">
                                         <%= time_field_tag "annotation[obs_time]", nil, required: true, class: "observation-input do-not-clear form-control time-field", title: "Observation Time", data: {field_type: "time"} %>
-                                        <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date", data: { content: "What is the time of this observation?<br /><br /><strong>Safari Users:</strong> Times must be entered in either 12h (4:30 PM) or 24h (16:30) format. Any other format will cause the annotation to fail.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover"}%>Observation Time
+                                        <div>
+                                            <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date", data: { content: "What is the time of this observation?<br /><br /><strong>Safari Users:</strong> Times must be entered in either 12h (4:30 PM) or 24h (16:30) format. Any other format will cause the annotation to fail.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover"}%> Observation Time
+                                        </div>
                                     </div>
                                 </div>
                                 
