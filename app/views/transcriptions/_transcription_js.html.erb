@@ -339,9 +339,9 @@ $(document).ready(function(){
 
         onSwitchChange : function(event, state) {
             if (state) {
-                $("#finish-transcribing-btn").removeClass("btn-primary").addClass("btn-success").val("Submit Finished Transcription");
+                $("#finish-transcribing-btn").removeClass("btn-default").addClass("btn-success").val("Submit Finished Transcription");
             } else {
-                $("#finish-transcribing-btn").addClass("btn-primary").removeClass("btn-success").val("Take a Break");
+                $("#finish-transcribing-btn").addClass("btn-default").removeClass("btn-success").val("Take a Break");
             };
         }
     });

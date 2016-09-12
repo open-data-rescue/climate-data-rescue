@@ -9,7 +9,7 @@
                     <!-- <button type="button" class="btn btn-default">Help</button> -->
                 </div>
                 <div class="btn-group" role="group" data-purpose="action buttons">
-                    <button id="new-annotation" type="button" class="btn btn-default">New Annotation</button>
+                    <button id="new-annotation" type="button" class="btn btn-primary">New Annotation</button>
                     <!-- <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button> -->
                 </div>
                 <div id="get-started-txt" class="btn-group" role="group" data-purpose="guide and help">
@@ -18,7 +18,7 @@
             </div>
             <div id="transcription-form-container">
                     <%= form_for @transcription, html: {class: "form-inline", id: "submit-transcription-form"} do %>
-                        <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-primary pull-right", id: "finish-transcribing-btn" %>
+                        <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-default pull-right", id: "finish-transcribing-btn" %>
                         
                         <%= hidden_field_tag "transcription[complete]", false %>
                         <%= check_box_tag "transcription[complete]", true, @transcription.complete, id: "page-complete-checkbox" %>
