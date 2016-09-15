@@ -18,7 +18,11 @@
             </div>
             <div id="transcription-form-container">
                     <%= form_for @transcription, html: {class: "form-inline", id: "submit-transcription-form"} do %>
-                        <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-default pull-right", id: "finish-transcribing-btn" %>
+                        <% if @transcription.complete %>
+                            <%= submit_tag "Submit Finished Transcription", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-success pull-right", id: "finish-transcribing-btn" %>
+                        <% else %>
+                            <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-default pull-right", id: "finish-transcribing-btn" %>
+                        <% end %>
                         
                         <%= hidden_field_tag "transcription[complete]", false %>
                         <%= check_box_tag "transcription[complete]", true, @transcription.complete, id: "page-complete-checkbox" %>
