@@ -46,7 +46,7 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
           li id="user-menu" class="#{yield(:user)} dropdown"
             = link_to (current_user.display_name + '&nbsp;<i class="caret"></i>').html_safe, user_profile_path(current_user), class: "dropdown-toggle", data: {toggle: "dropdown", trigger: "hover"}, aria_expanded:"false", aria_haspopup:"true"
             ul.dropdown-menu
-              li = link_to "Profile", user_profile_path(current_user)
+              li class="#{yield(:profile)}"= link_to "Profile", user_profile_path(current_user)
               li = link_to "Log out", "/logout"
         - else
           li = link_to "Log in", "/login", :class => "sidebar-url"
