@@ -52,7 +52,7 @@
       </div>
   </div>
 
-  <div class="row">
+  <div class="row voffset20">
     <div class="col-md-12">
       <%= f.button :submit, "Save", class: "btn btn-primary" %>
       <%= link_to "Cancel", static_pages_path, class: "btn btn-default pull-right" %>
@@ -60,6 +60,16 @@
   </div>
 
   <div class="row voffset20">
+    <% if @static_page && @static_page.id && @static_page.slug == "/custom_stylesheet" %>
+        <div class="col-md-12 boffset20">
+            <p>
+                <strong>You are editing the custom stlyesheet for DRAW. Only edit this if you know what you're doing. Any changes you make here will be reflected automatically across the whole website. Be very careful when editing this page.</strong>
+            </p>
+            <p>
+                <strong>Please validate your css before saving, and be sure that your styles aren't overly general as to unintentionally affect other parts of the website.</strong>
+            </p>
+        </div>
+    <% end %>
     <div class="col-md-12">
         <div class="form-group">
           <button type="button" id="toggle-visual-editor-btn" class="btn btn-xs btn-default pull-right" data-toggle="popover" data-trigger="hover" data-container="body" data-html="true" data-placement="auto top" data-title="Visual Editor" data-content="If you turn on the visual editor, you may lose some fine-grained control over the result of your page. <b>Do not use the visual editor to modify the custom stylesheet.</b>">Toggle Visual Editor</button>
@@ -79,6 +89,18 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var editorIsEnabled = false;
+
+        // Automatically enable the visual editor unless user is editing the custom stylesheet
+        if (<%= @static_page && @static_page.id && @static_page.slug != "/custom_stylesheet" ? true : false %>) {
+            $('#page-content').trumbowyg({
+                removeformatPasted: true,
+                autogrow: true,
+                svgPath: '<%= image_path("trombowyg/icons.svg")%>',
+                semantic: false
+            }).on("tbwinit", function() {
+                editorIsEnabled = true;
+            });
+        };
 
         $("#toggle-visual-editor-btn").on("click", function() {
             if (editorIsEnabled) {
