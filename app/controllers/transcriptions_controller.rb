@@ -5,6 +5,10 @@ class TranscriptionsController < ApplicationController
   #Corresponds to the "transcription" model, transcription.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the transcription model
   #All .html.slim views for "transcription.rb" are located at "project_root\app\views\transcriptions"
   
+  before_action :ensure_login
+
+  before_action :authorize_admin, only: [:destroy]
+
   # GET /transcriptions
   # GET /transcriptions.json
   def index
@@ -68,7 +72,7 @@ class TranscriptionsController < ApplicationController
       
       @page = get_or_assign_page(params[:current_page_id])
       
-      if current_user.transcriptions.any? && (current_user.transcriptions.collect(&:page_id).include? @page.id)
+      if @page && current_user.transcriptions.any? && (current_user.transcriptions.collect(&:page_id).include? @page.id)
         redirect_to edit_transcription_path(current_user.transcriptions.find_by(:page_id => @page.id))
       end
       @user = current_user
@@ -145,7 +149,7 @@ class TranscriptionsController < ApplicationController
       end
       
       respond_to do |format|
-        format.html { redirect_to my_transcriptions_url}
+        format.html { redirect_to user_profile_path(current_user)}
       end
       
     else
@@ -180,6 +184,10 @@ class TranscriptionsController < ApplicationController
     end
   end
   
+  
+  
+  private
+
   def get_or_assign_page(page_id) #TODO: shouldn't this be in the helper - file not the controller?
   # this function gets a random page for display on the new transcription page 
   # if one has not been set by selecting "Transcribe" on an page's show page
@@ -191,8 +199,7 @@ class TranscriptionsController < ApplicationController
     
     page
   end
-  
-  private
+
   def transcription_params
     params.require(:transcription).permit(:user_id, :page_id, :complete)
   end
