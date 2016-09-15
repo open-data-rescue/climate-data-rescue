@@ -81,6 +81,59 @@ $(document).ready(function(){
 
     $('[data-toggle="popover"]').popover();
     $('[data-toggle="tooltip"]').tooltip();
+
+    // $('ul.nav li.dropdown').hover(function() {
+    //   $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeIn();
+    // }, function() {
+    //   $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeOut();
+    // });
+    
+
+    window.setTimeout(function() {
+      $(".alert").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+    }, 2000);
+
+    $(window).on("scroll", function() {
+        $(".body-bg-img").css("top", $(window).scrollTop());
+    });
+
+});
+
+
+// Dynamically sticky footer
+$(window).bind("load", function() { 
+       
+       var footerHeight = 0,
+           footerTop = 0,
+           $footer = $(".footer");
+           
+       positionFooter();
+       
+       function positionFooter() {
+       
+                footerHeight = $footer.height();
+                footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
+       
+               if ( ($(document.body).height()) < $(window).height()) {
+                   $footer.css({
+                        position: "absolute"
+                   }).animate({
+                        top: footerTop
+                   })
+               } else {
+                   $footer.css({
+                        position: "static"
+                   })
+               }
+               
+       }
+
+       $(window)
+               .scroll(positionFooter)
+               .resize(positionFooter)
+               
 });
 
 function alertMessageJson(message) {
