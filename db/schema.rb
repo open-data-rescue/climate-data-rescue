@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160911201950) do
+ActiveRecord::Schema.define(version: 20160915003746) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 20160911201950) do
     t.string   "meta_description", limit: 255
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
+    t.boolean  "title_as_header",                default: true
   end
 
   add_index "static_pages", ["slug"], name: "index_static_pages_on_slug", using: :btree

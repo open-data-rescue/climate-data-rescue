@@ -381,7 +381,18 @@ $tab-active-text: white;
     }
 }
 
+.switches-container {
+  .checkbox {
+    label {
+      display: block;
+      padding-left: 0;
 
+      .bootstrap-switch.bootstrap-switch-wrapper { 
+        display: block;
+      }
+    }
+  }
+}
 
 
 
