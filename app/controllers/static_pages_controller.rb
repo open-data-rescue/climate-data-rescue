@@ -27,7 +27,7 @@ class StaticPagesController < ApplicationController
 
       respond_to do |format|
         if @static_page && @static_page.id
-          flash[:info] = 'Content Page created successfully!'
+          flash[:success] = 'Content Page created successfully!'
           format.html { redirect_to static_pages_path }
         else
           format.html { redirect_to new_static_page_path }
@@ -59,6 +59,21 @@ class StaticPagesController < ApplicationController
           format.html { redirect_to :back }
         end
       end
+    else
+      flash[:danger] = 'Only admins can update pages! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      redirect_to root_path
+    end
+  end
+
+  def destroy
+    if current_user && current_user.admin?
+      begin
+        @static_page = StaticPage.find(params[:id]).destroy
+        flash[:info] = "Page sucessfully deleted"
+      rescue => e
+        flash[:danger] = e.message
+      end
+      redirect_to static_pages_path
     else
       flash[:danger] = 'Only admins can update pages! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
