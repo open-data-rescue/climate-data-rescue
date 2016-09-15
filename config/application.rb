@@ -66,8 +66,32 @@ module Weather
     config.assets.version = '1.0'
 
     config.assets.initialize_on_precompile = false
+
+    config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
+
+    config.assets.precompile += %w( trombowyg/icons.svg )
     
     #config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+    #
+    #
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+        :address        => 'smtp-mail.outlook.com',
+        :port           => '587',
+        :authentication => :login,
+        :user_name      => ENV['SMTP_USERNAME'],
+        :password       => ENV['SMTP_PASSWORD'],
+        :domain         => 'outlook.com',
+        :enable_starttls_auto => true
+    }
+      
+    config.action_mailer.default_options = {
+        :from   => 'draw_mcgill@outlook.com',
+        :reply_to => 'draw_mcgill@outlook.com',
+        :bcc => 'robert@grenadine.co'
+    }
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
     
   end
 end

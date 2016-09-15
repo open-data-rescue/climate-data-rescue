@@ -1,25 +1,31 @@
+<%= provide :title, "Transcribe" %>
+
 <% if @transcription %>
     <div id="transcriber-container">
         <div id="transcriber-toolbar">
             <div id="transcription-buttons" class="btn-toolbar" role="toolbar">
                 <div class="btn-group" role="group" data-purpose="guide and help">
-                    <button type="button" class="btn btn-default">Instructions</button>
-                    <button type="button" class="btn btn-default">Help</button>
+                    <a href="/tutorial" target="_blank" class="btn btn-default">Instructions</a>
+                    <!-- <button type="button" class="btn btn-default">Help</button> -->
                 </div>
                 <div class="btn-group" role="group" data-purpose="action buttons">
-                    <button id="new-annotation" type="button" class="btn btn-default">New Annotation</button>
+                    <button id="new-annotation" type="button" class="btn btn-primary">New Annotation</button>
                     <!-- <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button> -->
+                </div>
+                <div id="get-started-txt" class="btn-group" role="group" data-purpose="guide and help">
+                    <i class="fa fa-arrow-left"></i>  Click on "New Annotation" to transcribe
                 </div>
             </div>
             <div id="transcription-form-container">
                     <%= form_for @transcription, html: {class: "form-inline", id: "submit-transcription-form"} do %>
-                        <div class="checkbox" style="margin-top: 8px;">
-                            <label style="color: white;">
-                                <%= hidden_field_tag "transcription[complete]", false %>
-                                 Page is complete  <%= check_box_tag "transcription[complete]", true, @transcription.complete, id: "page-complete-checkbox" %>
-                            </label>
-                        </div>
-                        <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-primary pull-right", id: "finish-transcribing-btn" %>
+                        <% if @transcription.complete %>
+                            <%= submit_tag "Submit Finished Transcription", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-success pull-right", id: "finish-transcribing-btn" %>
+                        <% else %>
+                            <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-default pull-right", id: "finish-transcribing-btn" %>
+                        <% end %>
+                        
+                        <%= hidden_field_tag "transcription[complete]", false %>
+                        <%= check_box_tag "transcription[complete]", true, @transcription.complete, id: "page-complete-checkbox" %>
                     <% end %>
             </div>
         </div>

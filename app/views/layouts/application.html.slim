@@ -11,58 +11,62 @@ html lang="en"
     = stylesheet_link_tag "application", :media => "all"
     /!= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     
+    - if content_for(:head)
+      = yield(:head)
+
+    - if StaticPage.visible.find_by(slug: "/custom_stylesheet")
+      style#admin-stylesheet type="text/css"
+        = render_snippet("/custom_stylesheet")
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     
     = javascript_include_tag "application"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
     /! Le HTML5 shim, for IE6-8 support of HTML elements
     /[if lt IE 9]
       = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"
 
 
   body
-    .container
-      .row
-        .col-md-12
-          p style="text-align: center; background:#E41E32; color: white; font-weight: bold; font-size: 9px; padding: 1px 0; border-radius: 15px; display: block; margin: 0 auto; width: 125px;" = "Testing Environment"
-    .container.top-nav
-      = render 'application/nav'
-
-    .container.main-app
-      .row
-        #message-container.col-md-12
-          = render partial: 'application/alerts'
-      .row
-        - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index") || (params[:controller] == "pages" && params[:action] == "index")
-            .col-md-12
-                = yield
-        - else
-            .col-sm-9
-              = yield
-            .col-sm-3
-              .well.sidebar-nav
-                - if user_signed_in?
-                  h3 Actions
-                  ul.nav.nav-list
-                    li = link_to "New Transcription", new_transcription_path, :class => "sidebar-url"
-                    li = link_to "My Transcriptions", my_transcriptions_path(current_user), :class => "sidebar-url"
-                    li = link_to "Tutorial", "#", :class => "sidebar-url"
-                    li = link_to "Log out", "/logout", :class => "sidebar-url"
-                - else
-                  h3 Get Started
-                  ul.nav.nav-list
-                    li = link_to "Log in", "/login", :class => "sidebar-url"
-                    li = link_to "Sign up", "/users/sign_up", :class => "sidebar-url"
+    .body-bg-img
+    .container-fluid.main-wrapper
+      .container-fluid.top-nav
+        = render 'application/nav'
+      .container.main-app
+        .row
+          #message-container.col-md-12
+            = render partial: 'application/alerts'
+        .row
+          - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index") || (params[:controller] == "pages" && params[:action] == "index")
+              .col-sm-12.main-content-container.default
+                  = yield
+              - if content_for? :large_page_image
+                .col-sm-12.voffset30.large-page-img-container
+                   = yield :large_page_image
+          - else
+              - if params[:controller] == "home" && params[:action] == "index"
+                .col-sm-10.main-content-container
+                  = yield
+              - else
+                .col-sm-10.main-content-container.default
+                  = yield
     
-    .container.footer
+    .container-fluid.footer
       footer
-        .row
-          .col-sm-5.p-test
-            img.partner-logo.geothink-logo src= "#{image_path 'Geothink_Logo_T2.jpg'}" target="" alt="" align="right"
-          .col-sm-7.p-test
-            img.partner-logo.mcgill-logo src= "#{image_path 'McGill_logoT.gif'}" target="" alt="" align="left"
-        .row
+        .container
+          .row
+            .col-sm-12
+              h1.text-center
+                = "Partners"
+          .row.voffset30.boffset30.partner-imgs-container
+            .col-xs-4
+              = image_tag "partners/Geothink_Logo_T2.jpg", class: "partner-logo geothink-logo img-responsive"
+            .col-xs-4
+              = image_tag "partners/criem.png", class: "partner-logo criem-logo img-responsive"
+            .col-xs-4.p-test
+              = image_tag "partners/McGill_logoT.gif", class: "partner-logo mcgill-logo img-responsive"
+              / img.partner-logo.mcgill-logo src= "#{image_path 'McGill_logoT.gif'}" target="" alt="" align="left"
+        .row.voffset20
           = render 'application/footer'
-        .row
-          p.footer-copyright &copy; DRAW 2016
+          
 
     = render partial: 'shared/templates'

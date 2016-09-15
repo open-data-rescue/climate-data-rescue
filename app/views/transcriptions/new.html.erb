@@ -1,22 +1,16 @@
+<% provide :title, "New Transcription" %>
+
 <h2>New Transcription</h2>
 <div class="row">
     <div class="col-md-2">
-        <%= image_tag current_user.avatar.url(:thumb) %>
+        <%= image_tag (current_user.avatar.present? ? current_user.avatar.url(:thumb) : 'default-person.png'), :class => "img-responsive img-circle" %>
     </div>
     <div class="col-md-10">
         <h4><%= current_user.display_name.present? ? current_user.display_name : current_user.email %></h4>
-        <p><%= current_user.num_contributions %> pages transcribed</p>
+        <p><%= pluralize(@user.num_contributions,"page") %> transcribed</p>
     </div>
 </div>
 <% if @page && @page.page_type && @page.page_type.field_groups.any? %>
-    <!-- <div class="row">
-        <div class="col-md-12">
-            <h3>Transcription Instructions</h3>
-            <p>Click the image below to begin transcribing it. A box will pop up containing tabs of different data types to transcribe. You can drag the box into position, or resize it as need be. When you click on a tab, the form containing fields that you can use to input data for your annotation will appear. Enter the values and click OK. The box will disappear, and your annotation will appear in JSON format in a form field below the image. You can continue to make as many annotations as you wish my clicking the image and repeating the process.</p>
-            <p>When you are finished annotating the image, click the "Create Annotation" button below each annotation. Don't worry if you don't get a confirmation message, your annotation was created and saved. Don't click the button again or you will create a duplicate. This bug is actively being looked into.</p> 
-            <p>When you finish submitting the annotations, navigate back to the top of this page and click the "Create Transcription" button to save and submit the transcription.</p> 
-        </div>
-    </div> -->
     <div class="row">
         <div class="col-md-12">
             <h4>Page Info</h4>
@@ -37,53 +31,66 @@
             </ul>
         </div>
     </div>
+
     <div class="row">
-        <div class="col-md-9">
-            <% if @page.has_metadata? %>
+        <% if @page.has_metadata? %>
+            <div class="col-md-9">
                 <%= simple_form_for @transcription do |f| %>
                     <%= hidden_field_tag "transcription[page_id]", @page.id %>
                     <%= hidden_field_tag "transcription[user_id]", current_user.id %>
                     <div class="form-actions">
-                        <%= f.button :submit, "Start Transcribing" %>
+                        <%= f.button :submit, "Start Transcribing", class: "btn btn-primary" %>
                     </div>
                 <% end %>
-            <% else %>
-                <div class="row">
-                    <div class="col-md-12"><h3>Page Metadata</h3></div>
-                    <%= form_tag "/create_page_metadata", method: "post" do %>
-                        <%= hidden_field_tag "page_id", @page.id %>
-                        <%= hidden_field_tag "user_id", current_user.id %>
-                        <% (@page.start_date..@page.end_date).each_with_index do |day, index| %>
-                            <div class="col-md-4">
-                                <% index += 1 %>
-                                <%= hidden_field_tag "days[#{index.to_s}][date]", day %>
-                                <label>Day <%= index %>:</label> <%= day.strftime("%A %b %e, %Y") %><br/>
-                                <div style="margin-bottom: 10px;">Date Incorrect? <%= check_box_tag "toggle_date_override_day_#{index}", 1, false, class: "toggle-date-override" %>
-                                    <div class="date-override" style="display: none; margin-bottom: 10px;">
-                                        <%= date_field_tag "days[#{index.to_s}][date]", day %>
-                                    </div>
-                                </div>
-                                
-                                <label>Number of Observations:</label> <%= select_tag "days[#{index.to_s}][num_observations]", options_for_select(0..10), required: true, prompt: "Select a number" %>
+            <div class="col-md-3">
+                <%= link_to "Skip and try another", new_transcription_path, class: "btn btn-info pull-right"%>
+            </div>
+            </div>
+        <% else %>
+            <div class="col-md-12">
+                <h3>Page Metadata</h3>
+            </div>
+            <div class="col-md-12 boffset20">
+                <%= render_snippet("/new_transcription_metadata_instructions") %>
+            </div>
+            <%= form_tag "/create_page_metadata", method: "post" do %>
+                <%= hidden_field_tag "page_id", @page.id %>
+                <%= hidden_field_tag "user_id", current_user.id %>
+                <% (@page.start_date..@page.end_date).each_with_index do |day, index| %>
+                    <div class="col-md-4 boffset10">
+                        <% index += 1 %>
+                        <%= hidden_field_tag "days[#{index.to_s}][date]", day %>
+                        <label>Day <%= index %>:</label> <%= day.strftime("%A %b %e, %Y") %><br/>
+                        <div style="margin-bottom: 10px;">Wrong Date? <%= check_box_tag "toggle_date_override_day_#{index}", 1, false, class: "toggle-date-override" %>
+                            <div class="date-override" style="display: none; margin-bottom: 10px;">
+                                <%= date_field_tag "days[#{index.to_s}][date]", day %>
                             </div>
-                        <% end %>
-                        
-                        <div class="form-actions col-md-12" style="margin-top: 15px;">
-                            <%= submit_tag "Submit Metadata and Start Transcribing", class: "btn btn-md btn-primary" %>
                         </div>
-                    <% end %>
+                        
+                        <label>Number of Observations:</label> <%= select_tag "days[#{index.to_s}][num_observations]", options_for_select(0..10), required: true, prompt: "Select a number" %>
+                    </div>
+                <% end %>
+                <div class="col-md-12 voffset20">
+                    <div class="row">
+                        <div class="form-actions col-sm-9">
+                            <%= submit_tag "Submit Metadata and Start Transcribing", class: "btn btn-primary pull-left" %>
+                        </div>
+                        <div class="col-sm-3">
+                            <%= link_to "Skip and try another", new_transcription_path, class: "btn btn-info pull-right"%>
+                        </div>
+                    </div>
                 </div>
             <% end %>
-        </div>
-        <div class="col-md-3">
-            <%= link_to "Skip and try another", new_transcription_path, class: "btn btn-info pull-right"%>
-        </div>
+        <% end %>
     </div>
-    <div class="row" style="margin-top: 20px;">
-        <div class="col-md-12">
-            <%= image_tag @page.image.url(:xlarge), id: "baseImage", draggable: true, class: "transcribeable-img", data: {original: @page.image.url(:original) } %>
-        </div>
-    </div>
+        
+    <!-- <div class="row" style="margin-top: 20px;">
+        <div class="col-md-12"> -->
+            <% content_for :large_page_image do %>
+                <%= image_tag @page.image.url(:xlarge), id: "baseImage", draggable: true, class: "transcribeable-img", data: {original: @page.image.url(:original) } %>
+            <% end %>
+    <!--     </div>
+    </div> -->
     
     <script type="text/javascript">
         $(document).ready(function() {
@@ -93,7 +100,11 @@
         });
     </script>
 <% else %>
-    <p>No page selected.</p>
+    <div class="row voffset20">
+        <div class="col-md-12">
+            <p>No page selected or page is not transcribeable. <%= link_to "Please try another", new_transcription_path, class: "btn btn-info btn-xs"%>.</p>
+        </div>
+    </div>
 <% end %>
 
 <!-- This is a test -->

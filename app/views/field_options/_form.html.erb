@@ -1,0 +1,34 @@
+<%= simple_form_for(field_option) do |f| %>
+  <% if field_option.errors.any? %>
+    <!-- error_explanation -->
+      <h2> <%= pluralize(field_option.errors.count, "error") %> prohibited this field_option from being saved:" </h2>
+      <ul>
+        <% field_option.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+  <% end %>
+  <%= f.error_notification %>
+  <div class="form-inputs">
+    <%= f.input :name, required: true, label: "Name", wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' }, required: true %>
+    <%= f.input :value, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' }, label: "Stored Value", required: true %>
+    <%= f.input :text_symbol, label: "Symbol", wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
+    <%= f.label "Display this when selected" %>
+    <%= f.select :display_attribute, options_for_select({
+        "Icon" => "icon", 
+        "Symbol" => "symbol",
+        "Name" => "name"
+        }, ( @field_option.display_attribute.present? ? @field_option.display_attribute : "name")), required: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
+    <% if field_option.image.present? %>
+      <br><label>Current Image</label> <%= image_tag(field_option.image.url(:icon)) %>
+    <% end %>
+    <%= f.input :image, multipart: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
+    <%= f.input :help, required: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
+  </div>
+  
+  <div class="row">
+      <div class="col-md-12">
+          <%= submit_tag "Save", class: "btn btn-primary" %>
+      </div>
+  </div>
+<% end %>

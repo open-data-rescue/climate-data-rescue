@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515213104) do
+ActiveRecord::Schema.define(version: 20160915003746) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -27,13 +27,24 @@ ActiveRecord::Schema.define(version: 20160515213104) do
     t.datetime "observation_date"
   end
 
+  create_table "content_images", force: :cascade do |t|
+    t.string   "image_file_name",    limit: 255
+    t.string   "image_content_type", limit: 255
+    t.integer  "image_file_size",    limit: 4
+    t.datetime "image_updated_at"
+    t.string   "name",               limit: 255
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
   create_table "data_entries", force: :cascade do |t|
-    t.string  "value",         limit: 255
-    t.string  "data_type",     limit: 255
-    t.integer "user_id",       limit: 4
-    t.integer "page_id",       limit: 4
-    t.integer "annotation_id", limit: 4
-    t.integer "field_id",      limit: 4
+    t.string  "value",             limit: 255
+    t.string  "data_type",         limit: 255
+    t.integer "user_id",           limit: 4
+    t.integer "page_id",           limit: 4
+    t.integer "annotation_id",     limit: 4
+    t.integer "field_id",          limit: 4
+    t.string  "field_options_ids", limit: 255
   end
 
   create_table "field_groups", force: :cascade do |t|
@@ -44,7 +55,48 @@ ActiveRecord::Schema.define(version: 20160515213104) do
     t.datetime "updated_at"
     t.integer  "page_type_id", limit: 4
     t.string   "display_name", limit: 255
+    t.integer  "position",     limit: 4,   default: 0,  null: false
+    t.string   "colour_class", limit: 255, default: "", null: false
   end
+
+  create_table "field_groups_fields", id: false, force: :cascade do |t|
+    t.integer "field_group_id", limit: 4, null: false
+    t.integer "field_id",       limit: 4, null: false
+  end
+
+  add_index "field_groups_fields", ["field_group_id"], name: "index_field_groups_fields_on_field_group_id", using: :btree
+  add_index "field_groups_fields", ["field_id"], name: "index_field_groups_fields_on_field_id", using: :btree
+
+  create_table "field_groups_page_types", id: false, force: :cascade do |t|
+    t.integer "page_type_id",   limit: 4, null: false
+    t.integer "field_group_id", limit: 4, null: false
+  end
+
+  add_index "field_groups_page_types", ["field_group_id"], name: "index_field_groups_page_types_on_field_group_id", using: :btree
+  add_index "field_groups_page_types", ["page_type_id"], name: "index_field_groups_page_types_on_page_type_id", using: :btree
+
+  create_table "field_options", force: :cascade do |t|
+    t.string   "name",               limit: 255
+    t.string   "image_file_name",    limit: 255
+    t.string   "image_content_type", limit: 255
+    t.integer  "image_file_size",    limit: 4
+    t.datetime "image_updated_at"
+    t.text     "help",               limit: 65535
+    t.string   "value",              limit: 255
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.string   "text_symbol",        limit: 255
+    t.string   "display_attribute",  limit: 255,   default: "name"
+  end
+
+  create_table "field_options_fields", force: :cascade do |t|
+    t.integer "field_option_id", limit: 4, null: false
+    t.integer "field_id",        limit: 4, null: false
+    t.integer "sort_order",      limit: 4
+  end
+
+  add_index "field_options_fields", ["field_id"], name: "index_field_options_fields_on_field_id", using: :btree
+  add_index "field_options_fields", ["field_option_id"], name: "index_field_options_fields_on_field_option_id", using: :btree
 
   create_table "fields", force: :cascade do |t|
     t.string   "name",            limit: 255
@@ -59,12 +111,13 @@ ActiveRecord::Schema.define(version: 20160515213104) do
     t.datetime "updated_at"
     t.string   "full_name",       limit: 255
     t.text     "help",            limit: 65535
+    t.integer  "position",        limit: 4,     default: 0,     null: false
+    t.boolean  "multi_select",                  default: false
   end
 
   create_table "ledgers", force: :cascade do |t|
     t.string   "title",       limit: 255
     t.string   "ledger_type", limit: 255
-    t.string   "volume",      limit: 255
     t.date     "start_date"
     t.date     "end_date"
     t.datetime "created_at"
@@ -106,6 +159,7 @@ ActiveRecord::Schema.define(version: 20160515213104) do
     t.integer  "image_file_size",      limit: 4
     t.datetime "image_updated_at"
     t.integer  "transcriber_id",       limit: 4
+    t.string   "volume",               limit: 255
   end
 
   add_index "pages", ["page_type_id"], name: "index_pages_on_page_type_id", using: :btree
@@ -124,6 +178,7 @@ ActiveRecord::Schema.define(version: 20160515213104) do
     t.string   "meta_description", limit: 255
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
+    t.boolean  "title_as_header",                default: true
   end
 
   add_index "static_pages", ["slug"], name: "index_static_pages_on_slug", using: :btree

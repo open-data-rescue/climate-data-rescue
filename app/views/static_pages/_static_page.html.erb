@@ -4,7 +4,7 @@
   <td><%= link_to static_page.link, static_page.link, target: '_blank' %></td>
   <td class="text-center"><%= content_tag(:i, '', class: 'fa fa-check') if static_page.visible %></td>
   <td class="actions text-right" data-hook="admin_pages_index_row_actions">
-    <%= link_to "Edit", edit_static_page_path(static_page) %>
-    <%= link_to 'Destroy', static_page, data: {:confirm => 'Are you sure?'}, :method => :delete %>
+    <%= link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_static_page_path(static_page), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: "Edit", trigger: "hover"} %>
+    <%= link_to ('<i class="fa fa-trash"></i>').html_safe, static_page, class: "btn btn-xs btn-danger", data: {:confirm => 'Are you sure?', toggle: "tooltip", original_title: "Delete", trigger: "hover"}, :method => :delete %>
   </td>
 </tr>

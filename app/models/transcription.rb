@@ -3,7 +3,7 @@ class Transcription < ActiveRecord::Base
   #attr_accessible :page_data
   belongs_to :page
   belongs_to :user
-  has_many :annotations
+  has_many :annotations, dependent: :destroy
   
 
   #increments classification count of its related page. Called from the controller.

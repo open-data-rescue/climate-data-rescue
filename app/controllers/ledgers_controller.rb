@@ -144,6 +144,6 @@ class LedgersController < ApplicationController
   
   private
   def ledger_params
-    params.require(:ledger).permit(:title, :ledger_type, :volume, :start_date, :end_date)
+    params.require(:ledger).permit(:title, :ledger_type, :start_date, :end_date)
   end
 end

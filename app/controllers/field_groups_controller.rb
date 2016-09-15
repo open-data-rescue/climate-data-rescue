@@ -78,6 +78,9 @@ class FieldGroupsController < ApplicationController
         begin
           #@field_group is a variable containing an instance of the "FieldGroup.rb" model created with data passed in the params of the "new.html.slim" form submit action.
           @field_group = FieldGroup.create!(field_group_params)
+           params[:field_group][:field_ids] ||= []
+          @field_group.field_ids = params[:field_group][:field_ids]
+          @field_group.save!
         rescue => e
           flash[:danger] = e.message
         end
@@ -108,8 +111,12 @@ class FieldGroupsController < ApplicationController
         begin
           #@field_group is a variable containing an instance of the "FieldGroup.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           @field_group = FieldGroup.find(params[:id])
+          params[:field_group][:field_ids] ||= []
+          @field_group.field_ids = params[:field_group][:field_ids]
+          @field_group.save!
+          
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
 
@@ -149,13 +156,13 @@ class FieldGroupsController < ApplicationController
         format.json { head :no_content }
       end
     else
-      flash[:danger] = 'Only users can modify fieldgroups! <a href="' + new_user_session_path + '">Log in to continue.</a>'
+      flash[:danger] = 'Only users can modify field groups! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
     end
   end
   
   protected
   def field_group_params
-    params.require(:field_group).permit(:name, :display_name, :description, :help, :page_type_id)
+    params.require(:field_group).permit(:name, :display_name, :description, :help, :page_type_id, :position, :colour_class)
   end
 end

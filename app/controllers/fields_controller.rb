@@ -96,7 +96,7 @@ class FieldsController < ApplicationController
       
       respond_to do |format|
         if @field.save
-          format.html { redirect_to @field, notice: 'Field was successfully created.' }
+          format.html { redirect_to fields_path, notice: 'Field was successfully created.' }
           format.json { render json: @field, status: :created, location: @field }
         else
           format.html { render action: "new" }
@@ -120,14 +120,14 @@ class FieldsController < ApplicationController
           #@field is a variable containing an instance of the "field.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           @field = Field.find(params[:id])
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
 
       respond_to do |format|
         if @field.update_attributes(field_params)
-          format.html { redirect_to @field, notice: 'Field was successfully updated.' }
-          format.json { head :no_content }
+          format.html { redirect_to fields_path, notice: 'Field was successfully updated.' }
+          format.json
         else
           format.html { render action: "edit" }
           format.json { render json: @field.errors, status: :unprocessable_fieldgroup }
@@ -167,6 +167,6 @@ class FieldsController < ApplicationController
   
   private
   def field_params
-    params.require(:field).permit(:field_key, :initial_value, :data_type, :html_field_type, :name, :options, :validations, :full_name, :help, :field_group_id)
+    params.require(:field).permit(:field_key, :initial_value, :data_type, :html_field_type, :name, :validations, :full_name, :help, :field_group_id, :multi_select)
   end
 end

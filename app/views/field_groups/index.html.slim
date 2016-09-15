@@ -7,10 +7,11 @@ h3 Field Groups
 table.table.table-striped
   thead
     tr
+      th Order
       th Name
       th Display Name
-      th Description
-      th Help
+      th Fields
+      th Colour
       th
       th
       th
@@ -18,13 +19,18 @@ table.table.table-striped
   tbody
     - @field_groups.each do |field_group|
       tr
+        td = field_group.position
         td = link_to field_group.name, field_group
         td = field_group.display_name
-        td = field_group.description
-        td = field_group.help
+        td = field_group.fields.count
+        td = (field_group.colour_class.present? ? field_group.colour_class.sub("-group", "").capitalize : "Not Set")
         td = link_to 'Show', field_group
         td = link_to 'Edit', edit_field_group_path(field_group)
-        td = link_to 'Destroy', field_group, data: {:confirm => 'Are you sure?'}, :method => :delete
+        td = link_to 'Delete', field_group, data: {:confirm => 'Are you sure?'}, :method => :delete
+      tr
+        td
+        td colspan=6
+          = "Help: " + (field_group.help ? field_group.help : "")
 
 br
 

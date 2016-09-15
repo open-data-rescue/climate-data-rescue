@@ -1,0 +1,32 @@
+<% provide(:weather_logs, "active") %>
+<% provide(:title, "Weather Logs") %>
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Weather Logs</h1>
+    </div>
+</div>
+
+<div class="row voffset20">
+    <% if @pages && @pages.any? %>
+        <% @pages.each do |page| %>
+            <div class="col-md-4 col-lg-4 col-sm-2 col-xs-12 " style="margin-bottom: 20px; min-height: 300px;">
+                <!-- <div style="display: block; width: 100%; height: 400px; margin-bottom: 20px;"> -->
+                    <%= image_tag(page.image.url(:medium), class: "img-responsive")%>
+                <!-- </div> -->
+                <div class="text-center" style="width: 100%;">
+                    <h5><%= page.title %></h5>
+                    <% if current_user && current_user.transcriptions.any? && page.transcriptions.any? && (current_user.transcriptions.collect(&:page_id).include? page.id) %>
+                        <a href="<%= edit_transcription_path(current_user.transcriptions.find_by(:page_id => page.id)) %>" class="btn btn-success btn-sm">Continue Transcribing</a>
+                    <% else %>
+                        <a href="<%= new_transcription_path(:current_page_id => page.id) %>" class="btn btn-primary btn-sm">Start Transcribing</a>
+                    <% end %>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <div class="col-md-12">
+            No pages available to transcribe at the moment. Please come back later.
+        </div>
+    <% end %>
+</div>

@@ -1,6 +1,8 @@
 <% if flash.to_hash.length > 0 %>
-  <!-- <button class="close" data-dismiss="alert"><span class="glyphicon glyphicon-remove" style="margin-top:14px; margin-right: 14px"></span></button> -->
   <% flash.each do |key, value| %>
-    <div class="alert alert-<%= key %>"><%= value.html_safe %></div>
+    <div class="alert alert-<%= key %> fade in">
+        <button class="close glyphicon glyphicon-remove" data-dismiss="alert" style=""></button>
+        <%= value.html_safe %>
+    </div>
   <% end %>
 <% end %>

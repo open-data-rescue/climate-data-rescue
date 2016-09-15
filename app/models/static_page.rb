@@ -22,6 +22,10 @@ class StaticPage < ActiveRecord::Base
   def link
     foreign_link.blank? ? slug : foreign_link
   end
+  
+  def is_external?
+    foreign_link.present?
+  end
 
 	private
 
@@ -40,6 +44,7 @@ class StaticPage < ActiveRecord::Base
   def not_using_foreign_link?
     foreign_link.blank?
   end
+
 
 	def self.matches?(request)
     return false if request.path =~ %r{\A\/+(admin|account|cart|checkout|content|login|pg\/|orders|products|s\/|session|signup|shipments|states|t\/|tax_categories|user)+}

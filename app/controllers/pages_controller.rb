@@ -19,6 +19,10 @@ class PagesController < ApplicationController
       redirect_to root_path
     end
   end
+  
+  def public_index
+    @pages = Page.transcribeable
+  end
 
   # GET /pages/page_id
   # GET /pages/page_id.json
@@ -170,6 +174,6 @@ class PagesController < ApplicationController
   
   private
   def page_params
-    params.require(:page).permit(:classification_count, :done, :height, :order, :width, :page_type_id, :image, :title, :accession_number, :start_date, :start_date, :page_type)
+    params.require(:page).permit(:classification_count, :done, :height, :order, :width, :page_type_id, :image, :title, :accession_number, :start_date, :start_date, :page_type, :volume)
   end
 end

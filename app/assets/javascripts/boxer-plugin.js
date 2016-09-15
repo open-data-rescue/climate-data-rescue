@@ -5,13 +5,11 @@
 
 $.widget("ui.boxer", $.ui.mouse, {
 	_init: function() {
-  
 		this.element.addClass("ui-boxer");
 		this.dragged = true;
 		this._mouseInit();
 		this.helper = $('<div></div>')
-			.css({border:'2px dotted black', background:"#A95EFF", opacity:"0.3"})
-			.addClass("annotation-marker");
+			.addClass("annotation-marker helper");
       
 	},
 
@@ -30,6 +28,11 @@ $.widget("ui.boxer", $.ui.mouse, {
 		
         var self = this;
         var options = this.options;
+        var groupColour = "";
+        
+        if (!(typeof(options.groupColour) == "undefined")) {
+            groupColour = options.groupColour;
+        };
 
         var offset = $(options.appendTo).offset();
 
@@ -50,13 +53,11 @@ $.widget("ui.boxer", $.ui.mouse, {
 		$(options.appendTo).append(this.helper);
 
 		this.helper.css({
-			"z-index": 100,
-			"position": "absolute",
 			"left": position.x,
 			"top": position.y,
 			"width": 0,
 			"height": 0
-		});
+		}).addClass(groupColour);
 	},
 
 	_mouseDrag: function(event) {
@@ -109,7 +110,7 @@ $.widget("ui.boxer", $.ui.mouse, {
 
 		var clone = this.helper.clone()
       //.removeClass('ui-boxer-helper')
-			.appendTo(this.element);
+			.appendTo(this.element).removeClass("helper");
      
 
 		this._trigger("stop", event, { box: clone });

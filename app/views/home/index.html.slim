@@ -2,38 +2,16 @@
 /!In the future, this page could show the user pages that were created since the user's last login. Pages have a "created_at" datetime attribute and users have a "last_sign_in_at" datetime attribute
 - provide(:home, "active")
 - provide(:title, "Home")
+.container-fluid.homepage-wrapper
+    .row
+        .col-md-12
+            h1.homepage-header.text-center DRAW
+            h2.homepage-subtitle.text-center Data Rescue: Archives and Weather
 
-.jumbotron
-    .container
-        - if user_signed_in?
-		    
-		        p Welcome #{current_user.display_name}!
-		        p Last login: #{current_user.last_sign_in_at}
-		        - if current_user.admin
-		            p You are an administrator
-		- else
-		    
-		        h1 Welcome to DRAW!
-				p This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.
-            	p
-            		a.btn.btn-primary.btn-lg.btn-signup href="/users/sign_up" role="button"  Sign up &raquo;
-
-- if !user_signed_in?
-	.row
-	  .col-md-4
-	    h2 Heading
-	    p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-	    p
-	      a.btn.btn-default href="#" role="button"  View details &raquo;
-	  .col-md-4
-	    h2 Heading
-	    p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-	    p
-	      a.btn.btn-default href="#" role="button"  View details &raquo;
-	  .col-md-4
-	    h2 Heading
-	    p Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-	    p
-	      a.btn.btn-default href="#" role="button"  View details &raquo;
-
-
+    .row.voffset30
+        .col-md-12
+            p.homepage-intro Help us uncover the story of Montreal's evolving climate captured in the McGill Observatory's historical weather logs. Your transcriptions will help scientists and historians gain a better understanding of our environment and its impact on our city and its people.
+    .row.voffset40.boffset20
+        .col-md-12.homepage-actions.text-center
+            = link_to "Start Transcribing", new_transcription_path, class: "btn btn-lg btn-default btn-draw-accented"
+            = link_to "What is DRAW?", "/about", class: "btn btn-lg btn-default btn-draw-transparent"

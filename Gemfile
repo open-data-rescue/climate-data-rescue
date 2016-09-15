@@ -9,9 +9,13 @@ gem 'mysql2', '0.4.2' #'~> 0.3.20'
 gem 'mime-types', require: 'mime/types/full'
 
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+# gem 'jquery-ui-rails'
+
+gem "ranked-model"
 
 gem 'uglifier', '~> 2.7.2' #'>= 1.0.3'
+
+# gem 'trumbowyg_rails'
 
 #bootstrap stuff
 gem 'sass-rails', '~> 5.0'
@@ -37,6 +41,7 @@ group :assets do
     #gem "twitter-bootstrap-rails"
 end
 
+gem "figaro"
 gem 'log4r'
 
 #for user authentication
@@ -55,6 +60,8 @@ gem 'paperclip', '4.3.6' #'~> 4.2'
 
 # Support for tag inputs
 gem 'select2-rails'
+
+# gem "rails-backbone"
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'

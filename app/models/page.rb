@@ -1,9 +1,9 @@
 class Page < ActiveRecord::Base
   belongs_to :page_type
-  has_many :transcriptions
+  has_many :transcriptions, dependent: :destroy
   belongs_to :transcriber, class_name: "User"
   
-  has_many :page_days
+  has_many :page_days, dependent: :destroy
 
   #handles the image upload association
   has_attached_file :image,
@@ -50,21 +50,22 @@ class Page < ActiveRecord::Base
             if components[1].length == 1 && components[2]
               ledger_type = components[1]
               volume = components[2]
-              ledger = Ledger.find_by(volume: volume)
+              ledger = Ledger.find_by(ledger_type: ledger_type)
               unless ledger
-                ledger = Ledger.create!(title: volume, ledger_type: ledger_type, volume: volume)
+                ledger = Ledger.create!(title: ledger_type, ledger_type: ledger_type)
               end
             end
+            self.volume = volume
             self.start_date = Date.parse(components[3])
             self.end_date = Date.parse(components[4])
             
             self.title = components[3] + " to " + components[4]
             
-            #TODO: Check that the heck this part of the filename means.
+            
             if components[5] && components[5].length > 0
               page_type_num = components[5][0]
               page_type = PageType.find_by(number: page_type_num, ledger_id: ledger.id)
-              if !page_type
+              unless page_type
                 page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: (ledger_type + page_type_num + "-" + volume))
               end
               self.page_type_id = page_type.id
@@ -115,7 +116,7 @@ class Page < ActiveRecord::Base
     end
   end
   #sets a scope for all transcribable pages to be those that are not done
-  scope :transcribeable, -> { joins(:page_type).where(done: false, transcriber_id: nil, page_types: {number: 1}) }
+  scope :transcribeable, -> { joins({:page_type => :field_groups}).where(done: false) }
 
   
   #constant that determines the # of transcriptions an page must have to be marked done

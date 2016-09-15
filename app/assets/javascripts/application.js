@@ -10,20 +10,130 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+// require requirejs/require
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap-sprockets
+//= require bootstrap-switch/dist/js/bootstrap-switch
+//= require select2-full-custom
 //= require jquery-fileupload
 //= require page-uploader-plugin
 //= require boxer-plugin
+//= require jquery.kinetic
+//= require trumbowyg/dist/trumbowyg
+//
+//= require backbone/underscore
+//= require backbone/backbone
+// require backbone.radio/build/backbone.radio
+//= require backbone/backbone.marionette/
+//= require backbone/backbone-model-file-upload
+//= require backbone/backbone.wreqr
+//
+//= require backbone-forms/distribution/backbone-forms
+//= require backbone-forms/distribution/editors/list
+//= require backbone-forms/distribution/editors/fileUploadEditor
+//= require backbone-forms/bootstrap-modal
+//= require backbone-forms/distribution/templates/bootstrap3
+//
+// 
+//= require wickedpicker
+//
+//= require content_images
+//
 // require transcriptions
 // require_tree .
+//= require_self
 
 
 
 $(document).ready(function(){
-	$('[data-toggle="popover"]').popover();
+	_.templateSettings = {
+        interpolate : /\{\{\=(.+?)\}\}/g,
+        evaluate : /\{\{(.+?)\}\}/g
+    };
+
+    // Over-ride the backbone sync so that the rails CSRF token is passed to the backend
+    Backbone._sync = Backbone.sync;
+    Backbone.sync = function(method, model, options) {
+        if (method == 'create' || method == 'update' || method == 'delete') {
+            var auth_options = {};
+            auth_options[$("meta[name='csrf-param']").attr('content')] = $("meta[name='csrf-token']").attr('content');
+            model.set(auth_options, {silent: true});
+        };
+        options.error = function(response) {
+            if (response.status > 0) {
+                if (response.responseText) {
+                    if (options.handle_error) {
+                        options.handle_error(response);
+                    } else {
+                        alertMessage(response.responseText);
+                    }
+                } else {
+                    alertMessage("Error communicating with backend ..."); // TODO - change to translatable string
+                };
+            };
+        };
+        
+        return Backbone._sync(method, model, options);
+    };
+
+
+    $('[data-toggle="popover"]').popover();
+    $('[data-toggle="tooltip"]').tooltip();
+
+    // $('ul.nav li.dropdown').hover(function() {
+    //   $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeIn();
+    // }, function() {
+    //   $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeOut();
+    // });
+    
+
+    window.setTimeout(function() {
+      $(".alert").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+    }, 2000);
+
+    $(window).on("scroll", function() {
+        $(".body-bg-img").css("top", $(window).scrollTop());
+    });
+
+});
+
+
+// Dynamically sticky footer
+$(window).bind("load", function() { 
+       
+       var footerHeight = 0,
+           footerTop = 0,
+           $footer = $(".footer");
+           
+       positionFooter();
+       
+       function positionFooter() {
+       
+                footerHeight = $footer.height();
+                footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
+       
+               if ( ($(document.body).height()) < $(window).height()) {
+                   $footer.css({
+                        position: "absolute"
+                   }).animate({
+                        top: footerTop
+                   })
+               } else {
+                   $footer.css({
+                        position: "static"
+                   })
+               }
+               
+       }
+
+       $(window)
+               .scroll(positionFooter)
+               .resize(positionFooter)
+               
 });
 
 function alertMessageJson(message) {

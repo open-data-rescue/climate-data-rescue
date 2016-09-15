@@ -4,23 +4,102 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require jquery.fileupload
  *= require jquery.fileupload-ui
- *= require_self
+ *= require select2
+ *= require select2-bootstrap
+ *= require trumbowyg/dist/ui/trumbowyg
+ *= require wickedpicker
+ *= require bootstrap-switch/dist/css/bootstrap3/bootstrap-switch
+
+
  *= require_tree .
+ *= require_self
 */
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "users";
+@import "draw-variables";
+
+// html, body {
+//   height: 100%;
+//   margin: 0;
+// }
 
 
+#test-msg {
+
+}
+
+a {
+    color: $accent-color;
+    &:not(.btn){
+        &:hover, &:active, &:focus {
+            color: lighten($accent-color, 10%);
+        }
+        &:visited {
+            color: darken($accent-color, 10%);
+        }
+    }
+}
+.body-bg-img {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.8;
+    background-repeat: no-repeat;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-image: url(image_path("mcgill-background"));
+    background-position: left center;
+  }
+.main-wrapper {
+  padding: 0;
+  min-height: 100%;
+  padding-bottom: 100px;
+}
+
+.top-nav {
+  position: fixed;
+  top: 0;
+  max-height: 70px;
+  width: 100%;
+  padding: 0;
+  z-index: 5000;
+}
 .main-app {
-  padding-bottom:200px;
+  padding-top: 70px;
+  padding-bottom: 150px;
+
+  .main-content-container {
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+    float: none;
+    padding: 30px;
+
+    &.default{
+        background-color: rgba(253,253,253,0.8);;
+        min-height: 300px;
+    }
+  }
+}
+
+.large-page-img-container {
+    margin-left: -5%;
+    margin-right: -5%;
+    width: 110%;
 }
 
 .footer {
-  background:#ffffff;
-  height:200px;
-  position:center;
-  bottom:0;
+    background:#ffffff;
+    min-height:200px;
+    width: 100%;
+    bottom: 0;
 }
 
 .btn-signup:link {color:white}
@@ -34,7 +113,7 @@
 .sidebar-url:hover {color:black}
 
 .partner-logo {
-  height: 80px;
+  width: 100%;
 }
 
 .footer-copyright {
@@ -71,7 +150,7 @@
 }
 
 #transcriber-container {
-  background: #444;
+  background: black;
   width: 100%;
   height: 100%;
   position: fixed;
@@ -80,7 +159,7 @@
     width: 100%;
     height: 70px;
     padding: 10px;
-    background: #666;
+    background: black;
     display: table;
     
     > div {
@@ -93,6 +172,19 @@
     > div:last-child:after {
       clear: left;
     }
+
+    .bootstrap-switch {
+      border: transparent;
+    }
+
+    #finish-transcribing-btn {
+      transition: all 0.5s;
+    }
+
+    #get-started-txt {
+      color: white;
+      margin-top: 7px;
+    }
   }
   
   #page-container {
@@ -103,9 +195,63 @@
 
     #canvas {
       position: relative;
+      
+      &.ui-boxer {
+        cursor: crosshair;
+      }
+    }
+    &.kinetic-active #canvas.ui-boxer {
+      cursor: move;
     }
   }
   
+}
+
+.annotation-marker {
+  border: 1px solid hsla(0, 100%, 0%, 0.3);
+  background: hsla(268, 100%, 68%, 0.3);
+  z-index: 100;
+  position: absolute;
+  cursor: context-menu;
+
+  .inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.5s ease;
+
+    .annotation-actions {
+      opacity: 0;
+      -webkit-transition: all 1s ease;
+      transition: all 1s ease;
+    }
+
+    .annotation-msg {
+        transition: all 1s ease;
+        position: absolute;
+        bottom: 0%;
+        text-align: center;
+        padding: 5px;
+        width: 100%;
+        opacity: 0;
+
+        background: rgba(0, 0%, 0%, 0.05);
+    }
+  }
+  &:hover {
+    .annotation-actions {
+      opacity: 1;
+    }
+    .annotation-msg {
+      opacity: 1;
+    }
+    .inner {
+    }
+  }
+}
+.annotation-marker.helper {
+  border: 2px dotted black;
 }
 
 #transcription-msg-container {
@@ -129,3 +275,298 @@
     }
   }
 }
+
+
+// field group colours
+$fg-red: hsla(0, 100%, 68%, 0.3);
+$fg-pink: hsla(311, 100%, 68%, 0.3);
+$fg-purple: hsla(268, 100%, 68%, 0.3);
+$fg-blue: hsla(217, 100%, 68%, 0.3);
+$fg-cyan: hsla(178, 100%, 68%, 0.3);
+$fg-green: hsla(126, 100%, 68%, 0.3);
+$fg-yellow: hsla(62, 100%, 68%, 0.3);
+$fg-orange: hsla(26, 100%, 68%, 0.3);
+
+$tab-active-text: white;
+
+@function tabBackground($colour){
+  @return rgba($colour, 0.3)
+}
+@function activeTabBackground($colour){
+  @return rgba(tabBackground($colour), 1)
+}
+.red-group {
+  background: $fg-red;
+}
+#scribe_tab_bar li.scribe_tab.red-group {
+  background: tabBackground($fg-red);
+}
+#scribe_tab_bar li.scribe_tab.red-group.active{
+  background: activeTabBackground($fg-red);
+  color: $tab-active-text;
+}
+.pink-group {
+  background: $fg-pink;
+}
+#scribe_tab_bar li.scribe_tab.pink-group {
+  background: tabBackground($fg-pink);
+}
+#scribe_tab_bar li.scribe_tab.pink-group.active{
+  background: activeTabBackground($fg-pink);
+  color: $tab-active-text;
+}
+.purple-group {
+  background: $fg-purple;
+}
+#scribe_tab_bar li.scribe_tab.purple-group {
+  background: tabBackground($fg-purple);
+}
+#scribe_tab_bar li.scribe_tab.purple-group.active{
+  background: activeTabBackground($fg-purple);
+  color: $tab-active-text;
+}
+.blue-group {
+  background: $fg-blue;
+}
+#scribe_tab_bar li.scribe_tab.blue-group {
+  background: tabBackground($fg-blue);
+}
+#scribe_tab_bar li.scribe_tab.blue-group.active{
+  background: activeTabBackground($fg-blue);
+  color: $tab-active-text;
+}
+.cyan-group {
+  background: $fg-cyan;
+}
+#scribe_tab_bar li.scribe_tab.cyan-group {
+  background: tabBackground($fg-cyan);
+}
+#scribe_tab_bar li.scribe_tab.cyan-group.active{
+  background: activeTabBackground($fg-cyan);
+  color: $tab-active-text;
+}
+.green-group {
+  background: $fg-green;
+}
+#scribe_tab_bar li.scribe_tab.green-group {
+  background: tabBackground($fg-green);
+}
+#scribe_tab_bar li.scribe_tab.green-group.active{
+  background: activeTabBackground($fg-green);
+  color: $tab-active-text;
+}
+.yellow-group {
+  background: $fg-yellow;
+}
+#scribe_tab_bar li.scribe_tab.yellow-group {
+  background: tabBackground($fg-yellow);
+}
+#scribe_tab_bar li.scribe_tab.yellow-group.active{
+  background: activeTabBackground($fg-yellow);
+  color: $tab-active-text;
+}
+.orange-group {
+  background: $fg-orange;
+}
+#scribe_tab_bar li.scribe_tab.orange-group {
+  background: tabBackground($fg-orange);
+}
+#scribe_tab_bar li.scribe_tab.orange-group.active{
+  background: activeTabBackground($fg-orange);
+  color: $tab-active-text;
+}
+
+.field-option-form-group {
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+}
+
+/* the following are general purpose vertical spacers since Bootstrap does not offer this */
+.voffset0  { margin-bottom: 0px !important; }
+.voffset2  { margin-top: 2px; }
+.voffset5 { margin-top: 5px; }
+.voffset10 { margin-top: 10px; }
+.voffset15 { margin-top: 15px; }
+.voffset20 { margin-top: 20px; }
+.voffset25 { margin-top: 20px; }
+.voffset30 { margin-top: 30px; }
+.voffset40 { margin-top: 40px; }
+.voffset60 { margin-top: 60px; }
+.voffset80 { margin-top: 80px; }
+.voffset100 { margin-top: 100px; }
+.voffset150 { margin-top: 150px; }
+
+.loffset2  { margin-left: 2px; }
+.loffset5 { margin-left: 5px; }
+.loffset10 { margin-left: 10px; }
+.loffset15 { margin-left: 15px; }
+.loffset20 { margin-left: 20px; }
+.loffset30 { margin-left: 30px; }
+.loffset40 { margin-left: 40px; }
+.loffset60 { margin-left: 60px; }
+.loffset80 { margin-left: 80px; }
+.loffset100 { margin-left: 100px; }
+.loffset150 { margin-left: 150px; }
+
+.boffset0  { margin-bottom: 0 !important; }
+.boffset2  { margin-bottom: 2px; }
+.boffset5 { margin-bottom: 5px; }
+.boffset10 { margin-bottom: 10px; }
+.boffset15 { margin-bottom: 15px; }
+.boffset20 { margin-bottom: 20px; }
+.boffset30 { margin-bottom: 30px; }
+.boffset40 { margin-bottom: 40px; }
+.boffset60 { margin-bottom: 60px; }
+.boffset80 { margin-bottom: 80px; }
+.boffset100 { margin-bottom: 100px; }
+.boffset150 { margin-bottom: 150px; }
+
+
+.remove-from-field-btn {
+    color: hsl(2, 64%, 58%);
+
+    &:hover { 
+        color: hsl(2, 64%, 45%);
+        cursor: pointer;
+    }    
+}
+
+.add-to-field-btn {
+    color: hsl(120, 39%, 54%);
+
+    &:hover { 
+        color: hsl(120, 39%, 45%);
+        cursor: pointer;
+    }    
+}
+
+.field-option-table {
+
+    tbody {
+        tr:not(.title-wrapper) {
+
+            &:hover {
+                background-color: hsl(0, 0%, 95%)
+            }
+        }
+    }
+}
+
+.switches-container {
+  .checkbox {
+    label {
+      display: block;
+      padding-left: 0;
+
+      .bootstrap-switch.bootstrap-switch-wrapper { 
+        display: block;
+      }
+    }
+  }
+}
+
+.draw-footer-nav-container {
+    display: block; 
+    width: 100%;
+    margin-bottom: 0;
+    background: rgba(0,0,0,0.8);
+    border-color: transparent;
+    color: white;
+
+    .footer-copyright {
+        margin: 10px 0;
+    }
+
+    > div {
+      display: block;
+      text-align: center;
+    }
+
+    .navbar-nav > li > a, .navbar-header a {
+        color: white;
+    }
+}
+
+.draw-top-nav {
+    background: rgba(0,0,0,0.8);
+    border-color: transparent;
+
+    .navbar-nav > li > a, .navbar-header a {
+        color: white;
+    }
+
+    
+}
+
+.navbar-nav > li > a {
+    transition: all 0.2s;
+}
+
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav> li > a:hover, 
+.navbar-default .navbar-nav > .active > a:focus {
+    color: white;
+    background-color: $accent-color;
+}
+
+.homepage-wrapper {
+    background: rgba(0,0,0,0.7);
+    border-radius: 10px;
+    padding: 30px;
+
+    color: white;
+    .homepage-header {
+      color: $accent-color;
+      font-size: 80px;
+    }
+
+    .homepage-subtitle {
+        margin-top: 0;
+    }
+
+    .homepage-intro {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 30px;
+    }
+
+    .homepage-actions {
+      .btn {
+          margin: 0 10px;
+      }
+    }
+}
+
+.btn-draw-accented {
+  color: white !important;
+  background-color: $accent-color;
+  border-color: darken($accent-color, 10%);
+
+  &:hover {
+    background-color: darken($accent-color, 10%);
+    border-color: darken($accent-color, 20%);
+  }
+}
+
+.btn-draw-transparent {
+  color: white !important;
+  background-color: transparent;
+  border: 2px solid white;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid white;
+  }
+}
+
+ul.dropdown-menu {
+    min-width: 100%;
+}
+
+
+
+
+
+
