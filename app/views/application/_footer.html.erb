@@ -3,7 +3,7 @@
         <div class="footer-nav-wrapper">
             <ul class="nav navbar-nav footer-nav footer-nav-collapse">
                 <% StaticPage.sidebar_links.each do |sp| %>
-                    <li> <%= link_to(sp.title, sp.link, class: "sidebar-url", target: (sp.is_external? ? "_blank" : "_self"), name: CGI.escape(sp.title.downcase)) %></li>
+                    <%= render "static_pages/link", page: sp %>
                 <% end %>
             </ul>
         </div>

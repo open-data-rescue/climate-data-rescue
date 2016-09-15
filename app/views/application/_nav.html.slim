@@ -12,7 +12,7 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
         li class="#{yield(:home)}" = link_to "Home", root_path
         - if StaticPage.header_links.any?
           - StaticPage.header_links.each do |sp|
-            li = link_to sp.title, sp.link, target: (sp.is_external? ? "_blank" : "_self"), name: CGI.escape(sp.title.downcase)
+            = render "static_pages/link", page: sp
         li class="#{yield(:weather_logs)}" = link_to "Weather Logs", public_pages_index_path
         
         - if user_signed_in?
