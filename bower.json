@@ -14,5 +14,8 @@
     "vendor/assets/plugins",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "eonasdan-bootstrap-datetimepicker": "^4.17.42"
+  }
 }
