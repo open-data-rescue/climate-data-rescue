@@ -59,7 +59,11 @@
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", nil, class: "selected-option-ids" %>
                                         <div class="scribe_input_label">
-                                        <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control", multiple: field.multi_select,  data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: field.field_options.any?,multiple: (field.field_options.any? ? field.multi_select : nil), tags: (field.field_options.any? ? field.multi_select : nil) } %>
+                                        <% if field.field_options.any? %>
+                                            <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control", multiple: field.multi_select,  data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: true, multiple: field.multi_select, tags: field.multi_select } %>
+                                        <% else %>
+                                            <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control", data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: false } %>
+                                        <% end %>
                                         <i class="fa fa-info-circle" style="cursor: help;" aria-hidden="true" title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" data-toggle="popover" data-trigger="hover" data-placement="left auto" data-content="<%= (field.help && field.help.present? ? field.help : "") %>"></i><%= field.name %>
                                         </div>
                                     </div>
