@@ -118,16 +118,18 @@
 }
 
 .user-input-container {
-    display: block;
-    height: auto;
-    overflow-x: auto;
+    // display: block;
+    // height: auto;
+    // overflow-x: auto;
 
     .scribe_input_field {
-        float: left;
+        // float: left;
         font-size: 8pt;
         margin: 5px;
         vertical-align: top;
         width: 100px;
+        position: relative;
+        display: inline-block;
 
         &.datetime {
             width: 150px;

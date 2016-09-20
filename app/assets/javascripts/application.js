@@ -14,6 +14,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require moment/min/moment.min
 //= require bootstrap-sprockets
 //= require bootstrap-switch/dist/js/bootstrap-switch
 //= require select2-full-custom
@@ -22,6 +23,7 @@
 //= require boxer-plugin
 //= require jquery.kinetic
 //= require trumbowyg/dist/trumbowyg
+//= require eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker
 //
 //= require backbone/underscore
 //= require backbone/backbone

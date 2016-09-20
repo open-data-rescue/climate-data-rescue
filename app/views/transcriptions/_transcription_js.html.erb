@@ -346,9 +346,21 @@ $(document).ready(function(){
             };
         }
     });
+    
+    // Set up plugins for input fields
+
     $(".date-field").select2({
         placeholder : "Select Date",
         theme : "bootstrap"
+    });
+    _.each($('.time-group'), function(time) {
+        $(time).datetimepicker({
+            format: 'LT',
+            widgetParent : $(time).parents(".scribe_input_field"),
+            widgetPositioning : {
+              vertical : "top"
+            }
+        });
     });
     
     _.each($("[data-selectable='true'"), function(field) {
