@@ -21,7 +21,7 @@ gem 'uglifier', '~> 2.7.2' #'>= 1.0.3'
 gem 'sass-rails', '~> 5.0'
 #gem 'sprockets-rails'
 gem 'bootstrap-sass'
-gem 'autoprefixer-rails', '5.2.1'
+gem 'autoprefixer-rails'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

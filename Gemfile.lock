@@ -46,9 +46,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
-    autoprefixer-rails (5.2.1)
+    autoprefixer-rails (6.4.1.1)
       execjs
-      json
     bcrypt (3.1.11)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
@@ -62,7 +61,7 @@ GEM
     capistrano-bundler (1.1.4)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
-    capistrano-rails (1.1.7)
+    capistrano-rails (1.1.8)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     capistrano-rvm (0.1.2)
@@ -205,7 +204,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sshkit (1.11.2)
+    sshkit (1.11.3)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     temple (0.7.7)
@@ -235,7 +234,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  autoprefixer-rails (= 5.2.1)
+  autoprefixer-rails
   bootstrap-sass
   cancan (~> 1.6.10)
   capistrano (~> 3.4.0)
