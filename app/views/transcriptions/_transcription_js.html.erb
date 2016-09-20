@@ -128,7 +128,7 @@ function editAnnotation(annotation_id) {
           $form = $("form[data-field-group-id=" + annotation.field_group.id + "]");
           // console.log($form);
           
-          $form.find("[data-field-type='date']").val(annotation.date);
+          $form.find("[data-field-type='date']").val(annotation.date).trigger("change");
           $form.find("[data-field-type='time']").val(annotation.time);
           $form.find("#x-field").val(annotation.x_tl);
           $form.find("#y-field").val(annotation.y_tl);
