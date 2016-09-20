@@ -1,4 +1,4 @@
-
+if annotation
     json.id annotation.id
     json.date annotation.date_time_id.split("_")[0]
     json.time annotation.date_time_id.split("_")[1]
@@ -37,3 +37,4 @@
             end
         end
     end
+end

@@ -80,16 +80,20 @@ class AnnotationsController < ApplicationController
           end
         end
         @annotation.save!
+
+        respond_to do |format|
+          format.json# { render json: @annotation }
+        end
       rescue => e
         error = e.message
         Rails.logger.error error
         Rails.logger.error e.backtrace
+
+        render json: {status: :bad_request, text: error}
       end
     end
     
-    respond_to do |format|
-      format.json# { render json: @annotation }
-    end
+    
   end
 
   # PUT /annotations/annotation_id
