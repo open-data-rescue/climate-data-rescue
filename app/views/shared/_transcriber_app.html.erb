@@ -1,0 +1,109 @@
+
+<script type="text/javascript" id="transcriber-app">
+
+    TranscriberApp = new Marionette.Application();
+
+    TranscriberApp.addRegions({
+        main : "#app-container"
+    });
+
+    TranscriberApp.AppManager = (function(Backbone, Marionette) {
+        var EventAggregator = new Backbone.Wreqr.EventAggregator();
+
+        MainLayout = Marionette.LayoutView.extend({
+            template : "#main-layout-template",
+            regions : {
+                toolbar : "#transcriber-toolbar",
+                pageContainer : "#page-container"
+            },
+            attributes : {
+                id : "transcriber-container"
+            }
+        });
+
+        ToolbarLayout = Marionette.ItemView.extend({
+            template : "#transcription-toolbar-template",
+            attributes : {
+                id : "transcriber-toolbar-wrapper"
+            },
+
+            onRender : function() {
+                this.$el.find("#page-complete-checkbox").bootstrapSwitch({
+                      size : "normal",
+                      onText : "complete",
+                      offText : "finish",
+                      labelText : "transcribing",
+                      onColor : "success",
+                      offColor : "primary",
+                      inverse : true,
+
+                      onSwitchChange : function(event, state) {
+                          if (state) {
+                              $("#finish-transcribing-btn").removeClass("btn-default").addClass("btn-success").val("Submit Finished Transcription");
+                          } else {
+                              $("#finish-transcribing-btn").addClass("btn-default").removeClass("btn-success").val("Take a Break");
+                          };
+                      }
+                });
+            }
+        });
+
+        PageCanvas = Marionette.ItemView.extend({
+            template : "#page-canvas-template",
+            attributes : {
+                id: "canvas"
+            }
+        });
+
+        Page = Backbone.Model.extend({
+            url : "/page_for_transcription/<%= transcription.id if transcription.present? %>",
+
+        });
+
+        Annotation = Backbone.Model.extend({
+
+        });
+
+        AnnotationCollection = Backbone.Collection.extend({
+
+        });
+
+        AnnotationBoxView = Marionette.ItemView.extend({
+            className : "annotation-marker",
+
+            onRender : function() {
+                if (this.model) {
+
+                }
+            }
+        });
+
+        AnnotationCollectionView = Marionette.CollectionView.extend({
+            itemView : AnnotationBoxView
+        });
+
+
+
+        return {
+            init : function() {
+                mainLayout = new MainLayout();
+                toolbarLayout = new ToolbarLayout();
+                pageCanvas = new PageCanvas();
+
+                TranscriberApp.main.show(mainLayout);
+
+                mainLayout.toolbar.show(toolbarLayout);
+                mainLayout.pageContainer.show(pageCanvas);
+
+
+
+            }
+        };
+    })(Backbone, Marionette)
+
+    $(document).ready(function() {
+        TranscriberApp.addInitializer(TranscriberApp.AppManager.init);
+        TranscriberApp.start();
+    });
+
+</script>

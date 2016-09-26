@@ -1,8 +1,8 @@
 <%= provide :title, "Transcribe" %>
 
 <% if @transcription %>
-    <div id="transcriber-container">
-        <div id="transcriber-toolbar">
+    <div id="app-container">
+        <!-- <div id="transcriber-toolbar">
             <div id="transcription-buttons" class="btn-toolbar" role="toolbar">
                 <div class="btn-group" role="group" data-purpose="guide and help">
                     <a href="/tutorial" target="tutorial" class="btn btn-default">Instructions</a>
@@ -10,7 +10,6 @@
                 </div>
                 <div class="btn-group" role="group" data-purpose="action buttons">
                     <button id="new-annotation" type="button" class="btn btn-primary">New Annotation</button>
-                    <!-- <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button> -->
                 </div>
                 <div id="get-started-txt" class="btn-group" role="group" data-purpose="guide and help">
                     <i class="fa fa-arrow-left"></i>  Click on "New Annotation" to transcribe
@@ -23,7 +22,7 @@
                         <% else %>
                             <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-default pull-right", id: "finish-transcribing-btn" %>
                         <% end %>
-                        
+
                         <%= hidden_field_tag "transcription[complete]", false %>
                         <%= check_box_tag "transcription[complete]", true, @transcription.complete, id: "page-complete-checkbox" %>
                     <% end %>
@@ -36,6 +35,6 @@
         </div>
         <div id="page-container">
             <div id="canvas"><%= image_tag @transcription.page.image.url(:original), id: "target-image" %></div>
-        </div>
+        </div> -->
     </div>
 <% end %>

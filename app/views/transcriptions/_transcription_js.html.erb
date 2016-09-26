@@ -18,49 +18,49 @@ function defaultOptions() {
 };
 
 function formatSelection(data, container) {
-    // console.log(data); 
-    var res = "<span>"; 
-    var $element = $(data.element); 
- 
-    var displayAttribute = data.display_attribute; 
-    if (typeof(displayAttribute) == "undefined" && !(typeof($element.data("display-attribute")) == "undefined") ) { 
-        displayAttribute = $element.data("display-attribute"); 
-        // console.info(displayAttribute); 
-        // console.info("data undefined"); 
-    }; 
-    var iconUrl = data.icon_url; 
-    if (typeof(iconUrl == "undefined") && !(typeof($element.data("icon-url")) == "undefined") ) { 
-        iconUrl = $element.data("icon-url"); 
-        // console.info("data undefined"); 
-    }; 
-    var textSymbol = data.text_symbol; 
-    if (typeof(textSymbol) == "undefined" && !(typeof($element.data("text-symbol")) == "undefined") ) { 
-        textSymbol = $element.data("text-symbol"); 
-        // console.info("data undefined"); 
-    }; 
-    var name = data.text; 
-    if ((typeof(name) == "undefined" || name == "undefined") && !(typeof($element.data("name")) == "undefined") ) { 
-        name = $element.data("name"); 
-        // console.info("data undefined"); 
-    }; 
- 
-    if (displayAttribute) { 
-        if (displayAttribute == "icon") { 
-            res += ("<img src='" + iconUrl + "' />"); 
-            // console.info("icon"); 
-        } else if (displayAttribute == "symbol") { 
-            res += textSymbol; 
-            // console.info("symbol"); 
-        } else { 
-            res += name; 
-            // console.info("name"); 
-        } 
-    } else { 
-        res += data.text; 
-        // console.info("text"); 
-    }; 
-     
-    res += "</span>"; 
+    // console.log(data);
+    var res = "<span>";
+    var $element = $(data.element);
+
+    var displayAttribute = data.display_attribute;
+    if (typeof(displayAttribute) == "undefined" && !(typeof($element.data("display-attribute")) == "undefined") ) {
+        displayAttribute = $element.data("display-attribute");
+        // console.info(displayAttribute);
+        // console.info("data undefined");
+    };
+    var iconUrl = data.icon_url;
+    if (typeof(iconUrl == "undefined") && !(typeof($element.data("icon-url")) == "undefined") ) {
+        iconUrl = $element.data("icon-url");
+        // console.info("data undefined");
+    };
+    var textSymbol = data.text_symbol;
+    if (typeof(textSymbol) == "undefined" && !(typeof($element.data("text-symbol")) == "undefined") ) {
+        textSymbol = $element.data("text-symbol");
+        // console.info("data undefined");
+    };
+    var name = data.text;
+    if ((typeof(name) == "undefined" || name == "undefined") && !(typeof($element.data("name")) == "undefined") ) {
+        name = $element.data("name");
+        // console.info("data undefined");
+    };
+
+    if (displayAttribute) {
+        if (displayAttribute == "icon") {
+            res += ("<img src='" + iconUrl + "' />");
+            // console.info("icon");
+        } else if (displayAttribute == "symbol") {
+            res += textSymbol;
+            // console.info("symbol");
+        } else {
+            res += name;
+            // console.info("name");
+        }
+    } else {
+        res += data.text;
+        // console.info("text");
+    };
+
+    res += "</span>";
 
     return $(res);
 }
@@ -84,13 +84,13 @@ function annotationBoxContents(annotationId) {
 };
 
 function updateAnnotation(event, annotation, $form) {
-    event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
+    event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the
     transcription */
     if (annotation.id == null) {
       setMsg("Can not update annotation because ID is null", false, "danger");
       return;
     }
-    
+
     $form.attr("method", "put");
     $form.attr("action", ("/annotations/" + annotation.id));
     $form.unbind("ajax:success");
@@ -101,10 +101,10 @@ function updateAnnotation(event, annotation, $form) {
         // console.log(xhr);
 
         setMsg("Annotation sucessfully saved!", true, "success");
-        
+
         $form.find(".observation-input").val('');
         $("[data-selectable='true'").val(null).trigger("change");
-    
+
         $form.attr("method", "post");
         $form.attr("action", ("/annotations"));
 
@@ -114,9 +114,9 @@ function updateAnnotation(event, annotation, $form) {
           transcribeData(event, $form);
         });
     });
-    
+
     $form.submit();
-    
+
 };
 
 function editAnnotation(annotation_id) {
@@ -127,14 +127,14 @@ function editAnnotation(annotation_id) {
           // console.log(annotation);
           $form = $("form[data-field-group-id=" + annotation.field_group.id + "]");
           // console.log($form);
-          
+
           $form.find("[data-field-type='date']").val(annotation.date).trigger("change");
           $form.find("[data-field-type='time']").val(annotation.time);
           $form.find("#x-field").val(annotation.x_tl);
           $form.find("#y-field").val(annotation.y_tl);
           $form.find("#width-field").val(annotation.width);
           $form.find("#height-field").val(annotation.height);
-          
+
           // update transcriber width and position
           var fields = annotation.field_group.fields;
 
@@ -147,12 +147,12 @@ function editAnnotation(annotation_id) {
 
           $("#scribe_annotation_box").css("left", (leftPos + "px"));
           $("#scribe_annotation_box").css("top", "75px");
-          
+
           var $zoomBox = $("#scribe_zoom_box");
           $zoomBox.css("background-position-y", (-400));
 
           $zoomBox.css("background-position-x", ((-1 * leftPos) + "px"));
-          
+
           // set field values from response
           _.each(fields, function(field){
             // console.log(field);
@@ -174,7 +174,7 @@ function editAnnotation(annotation_id) {
                     $option.attr("data-icon-url", option.icon_url);
                     $option.attr("data-text-symbol", option.text_symbol);
                     $option.attr("data-name", option.name);
-                    
+
                     $select.append($option).trigger("change");
                 }
                 optionIds = [];
@@ -195,19 +195,19 @@ function editAnnotation(annotation_id) {
                     $select.append($option).trigger("change");
                  };
             } else {
-                $inputField.val(value).trigger("change"); 
+                $inputField.val(value).trigger("change");
                 // console.log(value);
             };
-            
-             
+
+
           });
-          
-          
+
+
           $form.find('.submit-btn').unbind("click");
           $form.find('.submit-btn').click(function(event) {
               updateAnnotation(event, annotation, $form);
           });
-          
+
           $(".scribe_tab").removeClass("active");
           $("#scribe_tab_" + annotation.field_group.id).addClass("active");
           $("#formInstructions").hide();
@@ -249,9 +249,9 @@ function setMsg(message, fade, style) {
 };
 
 function transcribeData(event, $form) {
-    event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the 
+    event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the
     transcription */
-    
+
     $form.unbind("ajax:success");
     $form.on("ajax:success", function(e, data, status, xhr) {
         // console.log(e);
@@ -266,9 +266,9 @@ function transcribeData(event, $form) {
           return;
         }
         setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "info");
-        
+
         $("#page-container").kinetic("detach");
-        
+
         $form.unbind("ajax:success");
         $form.on("ajax:success", function(e, status, data, xhr) {
             // console.log(e);
@@ -283,15 +283,15 @@ function transcribeData(event, $form) {
         $form.attr("method", "put");
         $form.attr("action", ("/annotations/" + data.id));
 
-        
+
         // Using the boxer plugin
         $('#canvas').boxer({
           appendTo: "#canvas",
           container : "#page-container",
           groupColour : data.field_group.colour_class,
 
-          stop: function(event, ui) {    
-              
+          stop: function(event, ui) {
+
             var offset = ui.box.offset();
               var position = {
                 x: offset.left - $(document).scrollLeft() - $("#canvas").offset().left,
@@ -320,33 +320,17 @@ function transcribeData(event, $form) {
         // console.log(xhr);
         setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
     });
-    
+
     $form.submit();
   }
 
 $(document).ready(function(){
-//Javascript for custom functionality on new transcription page. 
-//All javascript written by the author unless otherwise credited. 
-//Code credited as "sourced from" have been modified little to none. 
+//Javascript for custom functionality on new transcription page.
+//All javascript written by the author unless otherwise credited.
+//Code credited as "sourced from" have been modified little to none.
 //Code credited as "adapted from" uses ideas and some lines from the credited location while modifying them to work with this project
-  $("#page-complete-checkbox").bootstrapSwitch({
-        size : "normal",
-        onText : "complete",
-        offText : "finish",
-        labelText : "transcribing",
-        onColor : "success",
-        offColor : "primary",
-        inverse : true,
 
-        onSwitchChange : function(event, state) {
-            if (state) {
-                $("#finish-transcribing-btn").removeClass("btn-default").addClass("btn-success").val("Submit Finished Transcription");
-            } else {
-                $("#finish-transcribing-btn").addClass("btn-default").removeClass("btn-success").val("Take a Break");
-            };
-        }
-    });
-    
+
     // Set up plugins for input fields
 
     $(".date-field").select2({
@@ -362,10 +346,10 @@ $(document).ready(function(){
             }
         });
     });
-    
+
     _.each($("[data-selectable='true'"), function(field) {
         $field = $(field);
-        
+
         if ($field.data("field-options")) {
 
             $field.select2({
@@ -382,19 +366,19 @@ $(document).ready(function(){
                         url : "/field_options_for_field/" + $field.data("field-id"),
                         dataType : "json",
                         success : function(data, status) {
-                            var opts = []; 
+                            var opts = [];
                             // console.info("current");
                             // console.log(data);
 
                             _.each(data, function(option, key, list) {
                                 console.warning(option);
-                                opts.push({ 
-                                    id : option.id,  
-                                    text : option.name,  
-                                    title : option.name, 
-                                    icon_url: option.icon_url,  
-                                    text_symbol: option.text_symbol,  
-                                    display_attribute: option.display_attribute 
+                                opts.push({
+                                    id : option.id,
+                                    text : option.name,
+                                    title : option.name,
+                                    icon_url: option.icon_url,
+                                    text_symbol: option.text_symbol,
+                                    display_attribute: option.display_attribute
                                 });
                             });
                             opts = opts.concat(defaultOptions());
@@ -434,13 +418,13 @@ $(document).ready(function(){
                         // console.info("ajax");
                         // console.log(_data);
                         _.each(_data, function(option) {
-                            opt = $.extend({}, { 
-                                    id : option.id,  
-                                    text : option.name,  
-                                    title : option.name, 
-                                    icon_url: option.icon_url,  
-                                    text_symbol: option.text_symbol,  
-                                    display_attribute: option.display_attribute 
+                            opt = $.extend({}, {
+                                    id : option.id,
+                                    text : option.name,
+                                    title : option.name,
+                                    icon_url: option.icon_url,
+                                    text_symbol: option.text_symbol,
+                                    display_attribute: option.display_attribute
                                 });
 
                             res.push(opt);
@@ -498,7 +482,7 @@ $(document).ready(function(){
         };
     });
 
-  
+
   $("#target-image").ready( function() {
     var $canvas = $("#canvas");
     $canvas.width($("#target-image").width());
@@ -521,12 +505,12 @@ $(document).ready(function(){
         <% end %>
       <% end %>
     } else {
-      console.log("no annotation or fail");  
+      console.log("no annotation or fail");
     };
 
     $("#page-container").kinetic();
   });
-  
+
 
   $("#transcription-msg button.close").click(function() {
     $("#transcription-msg").removeClass("in");
@@ -541,7 +525,7 @@ $(document).ready(function(){
   });
 
 //function to toggle between field group form layers when you click on their respective tab. Marks current tab as active
-  $(".scribe_tab").click(function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds 
+  $(".scribe_tab").click(function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds
   to Field Group tabs in the transcription box */
      $tab = $(this);
      $(".annotation-form-field-group").hide(); //hide all other instances of the field_group data forms when switching tabs
@@ -549,9 +533,9 @@ $(document).ready(function(){
      $tab.addClass("active"); //mark clicked tab as active by settings its class
 
      $tab.siblings().removeClass('active'); //set all siblings of the clicked tab as unselected
-     
+
      var $currentForm = $("#field-group-" + $tab.data('field-group-id'));
-     
+
 
      $currentForm.show();
 
@@ -559,7 +543,7 @@ $(document).ready(function(){
 
      $("#scribe_annotation_box").width(newWidth);
 
-     //console.log('success'); 
+     //console.log('success');
   });
 //end field toggler
 
@@ -574,11 +558,11 @@ $(document).ready(function(){
         $(form).attr("method", "post");
         $(form).attr("action", "/annotations");
      });
-     
+
 
      if ($transcriber.is(":hidden")) {
         // show transcriber
-       $transcriber.show(250); /*open the box with a delay of half a second. This is what makes the transcription 
+       $transcriber.show(250); /*open the box with a delay of half a second. This is what makes the transcription
        box open with a flourish. Remove the value from the .show() function to make it open instantly */
        $transcriber.offset({left: 25, top: 75}); //set position of the box to open at the click event 'e' position
 
@@ -602,7 +586,7 @@ $(document).ready(function(){
       image_object.src = $("#target-image").attr("src");
 
       //This code is wrapped in the .load function which is important.
-      //width and height of the object would return 0 if accessed before 
+      //width and height of the object would return 0 if accessed before
       //the image gets loaded.
       native_width = image_object.width;
       native_height = image_object.height;
@@ -622,7 +606,7 @@ $(document).ready(function(){
             $box.css("background-position", bgp);
           }
       });
-      
+
       $("#scribe_zoom_box").mousedown(function(e) {
           $("#scribe_annotation_box").draggable("disable");
           var $box = $(this);
@@ -639,7 +623,7 @@ $(document).ready(function(){
           $(window).unbind("mousemove");
           $("#scribe_annotation_box").draggable("enable");
       });
-      
+
   });
 //end image zoom box
 
