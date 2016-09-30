@@ -19,14 +19,16 @@ class ContentImagesController < ApplicationController
   end
 
   def create
-    @content_image = ContentImage.new(content_image_params)
+    begin
+      @content_image = ContentImage.create!(content_image_params)
+    rescue => e
+      flash[:danger] = e.message
+    end
 
-    unless content_image_params[:image].nil?
-        if @content_image.save!
-            redirect_to :content_images
-        else
-            render :new
-        end 
+    if @content_image.present? && @content_image.id
+        redirect_to :content_images
+    else
+        redirect_to :back
     end
 
   end
