@@ -35,11 +35,12 @@ gem 'therubyracer', platforms: :ruby
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  
-    #gem "therubyracer"
-    #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-    #gem "twitter-bootstrap-rails"
+    
+      #gem "therubyracer"
+      #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+      #gem "twitter-bootstrap-rails"
 end
+gem 'modernizr-rails'
 
 gem "figaro"
 gem 'log4r'
@@ -93,6 +94,11 @@ group :development do
   gem 'execjs'
   #web server - better than WEBrick
   gem 'thin', '~>1.6.4' #'~> 1.6.3'
+
+  gem "better_errors"
+  gem "binding_of_caller"
+
+  gem "byebug"
 end
 
 group :production do

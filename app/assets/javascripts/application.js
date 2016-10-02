@@ -14,6 +14,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require modernizr
 //= require moment/min/moment.min
 //= require bootstrap-sprockets
 //= require bootstrap-switch/dist/js/bootstrap-switch
