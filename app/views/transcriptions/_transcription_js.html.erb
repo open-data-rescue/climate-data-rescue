@@ -1,5 +1,11 @@
 <script type="text/javascript">
 
+
+
+var msgRegion = new Marionette.Region({
+  el: "#transcription-msg-container"
+});
+
 function clearAnnotationBox() {
     var $box = $('#scribe_annotation_box');
     var $forms = $box.find("form");
@@ -219,33 +225,66 @@ function editAnnotation(annotation_id) {
 };
 
 function setMsg(message, fade, style) {
-  var $msg = $("#transcription-msg");
+  msgRegion.el = "#transcription-msg-container";
 
-  $msg.find("span#msg").html(message);
+  var MsgView = Marionette.ItemView.extend({
+    template : "#msg-template",
+    attributes : {
+      id : "transcription-msg"
+    },
+    events : {
+      "click button" : function() {
+        msgRegion.$el.removeClass("active");
+        msgRegion.reset();
+      }
+    },
+    onRender : function(){
+      var self = this;
+      self.$el.addClass("fade in");
 
-  $msg.removeClass().addClass("fade in");
+      msgRegion.$el.addClass("active");
 
-  switch (style) {
-    case "success": $msg.addClass("btn-success");
-    break;
+      switch (self.model.get("style")) {
+        case "success": self.$el.addClass("btn-success");
+        break;
 
-    case "info": $msg.addClass("btn-info");
-    break;
+        case "info": self.$el.addClass("btn-info");
+        break;
 
-    case "warning": $msg.addClass("btn-warning");
-    break;
+        case "warning": self.$el.addClass("btn-warning");
+        break;
 
-    case "danger": $msg.addClass("btn-danger");
-    break;
+        case "danger": self.$el.addClass("btn-danger");
+        break;
 
-    default: $msg.addClass("btn-info");
-  }
+        default: self.$el.addClass("btn-info");
+      }
 
-  if (!(typeof fade == "undefined") && fade){
-    setTimeout(function() {
-      $msg.removeClass("in").addClass("out");
-    }, 3000);
-  }
+      if (!(typeof self.model.get("fade") == "undefined") && self.model.get("fade")){
+        setTimeout(function() {
+          self.$el.removeClass("in").addClass("out");
+
+          setTimeout(function() {
+            msgRegion.$el.removeClass("active");
+            msgRegion.reset();
+          }, 500);
+        }, 3000);
+      }
+    }
+  });
+
+  var Message = new Backbone.Model();
+
+  Message.set("text", message);
+  Message.set("fade", fade);
+  Message.set("style", style);
+
+  view = new MsgView({
+    model : Message
+  })
+  
+
+  msgRegion.show(view);
 };
 
 function transcribeData(event, $form) {
@@ -606,24 +645,38 @@ $(document).ready(function(){
             $box.css("background-position", bgp);
           }
       });
-
-      $("#scribe_zoom_box").mousedown(function(e) {
-          $("#scribe_annotation_box").draggable("disable");
-          var $box = $(this);
-          var clickY = e.pageY;
-          var bgp = $box.css("background-position-y");
-          var bY = parseInt(bgp.slice(0,bgp.length - 2));
-          $(window).mousemove(function(e) {
-             var y = e.pageY;
-             var dY = clickY - y;
-             var bgpNew = bY - dY;
-             $box.css("background-position-y", bgpNew);
-          });
-      }).mouseup(function() {
-          $(window).unbind("mousemove");
-          $("#scribe_annotation_box").draggable("enable");
+      
+      $("#scribe_zoom_box").kinetic({
+        x : false,
+        cursor : "row-resize",
+        stopped : function() {
+          console.log(this.settings.scrollTop);
+        }
       });
 
+      $("#scribe_time_box").kinetic({
+        y : false,
+        cursor : "col-resize"
+      });
+
+      // $("#scribe_zoom_box").mousedown(function(e) {
+      //     $("#scribe_annotation_box").draggable("disable");
+      //     var $box = $(this);
+      //     var clickY = e.pageY;
+      //     var bgp = $box.css("background-position-y");
+      //     var bY = parseInt(bgp.slice(0,bgp.length - 2));
+      //     $("#scribe_zoom_box").mousemove(function(e) {
+      //        var y = e.pageY;
+      //        var dY = clickY - y;
+      //        var bgpNew = bY - dY;
+      //        $box.css("background-position-y", bgpNew);
+      //     });
+      //     $(window).mouseup(function() {
+      //         $("#scribe_zoom_box").unbind("mousemove");
+      //         $("#scribe_annotation_box").draggable("enable");
+      //     });
+      // })
+      
   });
 //end image zoom box
 

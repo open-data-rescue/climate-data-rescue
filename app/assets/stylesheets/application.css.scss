@@ -190,9 +190,10 @@ a {
 
   #page-container {
     overflow: scroll;
-    width: 100%;
+    width: calc(100% - 120px);
     height: 100%;
     background: #999;
+    margin-left: 120px;
 
     #canvas {
       position: relative;
@@ -257,11 +258,13 @@ a {
 
 #transcription-msg-container {
   position: absolute;
-  z-index: 100;
   width: 100%;
-  height: 50px;
   font-size: 18px;
   display: table;
+
+  &.active {
+    min-height: 50px;
+  }
 
   #transcription-msg {
     display: table-cell;

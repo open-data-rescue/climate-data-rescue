@@ -28,9 +28,16 @@
                     <% end %>
             </div>
         </div>
-        <div id="transcription-msg-container">
-            <div id="transcription-msg" class="fade">
-                <span id="msg"></span><button type="button" class="close pull-right" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <div id="transcription-msg-container"></div>
+        <div id="scribe_zoom_box">
+            <%= image_tag @transcription.page.image.url(:original) %>
+        </div>
+        <div style="width: 100%; position: relative;">
+            <div id="scribe_time_box">
+                <%= image_tag @transcription.page.image.url(:original) %>
+            </div>
+            <div id="page-container">
+                <div id="canvas"><%= image_tag @transcription.page.image.url(:original), id: "target-image" %></div>
             </div>
         </div>
         <div id="page-container">
