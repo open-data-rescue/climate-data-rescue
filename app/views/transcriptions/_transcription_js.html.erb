@@ -1,7 +1,5 @@
 <script type="text/javascript">
 
-
-
 var msgRegion = new Marionette.Region({
   el: "#transcription-msg-container"
 });
@@ -93,7 +91,7 @@ function updateAnnotation(event, annotation, $form) {
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the
     transcription */
     if (annotation.id == null) {
-      setMsg("Can not update annotation because ID is null", false, "danger");
+      TranscriberApp.AppManager.setMsg("Can not update annotation because ID is null", false, "danger");
       return;
     }
 
@@ -106,7 +104,7 @@ function updateAnnotation(event, annotation, $form) {
         // console.log(status);
         // console.log(xhr);
 
-        setMsg("Annotation sucessfully saved!", true, "success");
+        TranscriberApp.AppManager.setMsg("Annotation sucessfully saved!", true, "success");
 
         $form.find(".observation-input").val('');
         $("[data-selectable='true'").val(null).trigger("change");
@@ -224,68 +222,6 @@ function editAnnotation(annotation_id) {
   });
 };
 
-function setMsg(message, fade, style) {
-  msgRegion.el = "#transcription-msg-container";
-
-  var MsgView = Marionette.ItemView.extend({
-    template : "#msg-template",
-    attributes : {
-      id : "transcription-msg"
-    },
-    events : {
-      "click button" : function() {
-        msgRegion.$el.removeClass("active");
-        msgRegion.reset();
-      }
-    },
-    onRender : function(){
-      var self = this;
-      self.$el.addClass("fade in");
-
-      msgRegion.$el.addClass("active");
-
-      switch (self.model.get("style")) {
-        case "success": self.$el.addClass("btn-success");
-        break;
-
-        case "info": self.$el.addClass("btn-info");
-        break;
-
-        case "warning": self.$el.addClass("btn-warning");
-        break;
-
-        case "danger": self.$el.addClass("btn-danger");
-        break;
-
-        default: self.$el.addClass("btn-info");
-      }
-
-      if (!(typeof self.model.get("fade") == "undefined") && self.model.get("fade")){
-        setTimeout(function() {
-          self.$el.removeClass("in").addClass("out");
-
-          setTimeout(function() {
-            msgRegion.$el.removeClass("active");
-            msgRegion.reset();
-          }, 500);
-        }, 3000);
-      }
-    }
-  });
-
-  var Message = new Backbone.Model();
-
-  Message.set("text", message);
-  Message.set("fade", fade);
-  Message.set("style", style);
-
-  view = new MsgView({
-    model : Message
-  })
-  
-
-  msgRegion.show(view);
-};
 
 function transcribeData(event, $form) {
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the
@@ -301,10 +237,10 @@ function transcribeData(event, $form) {
         $('#scribe_annotation_box').hide();
 
         if (data.id == null) {
-          setMsg("Annotation could not be saved because the ID returned was null", false, "danger");
+          TranscriberApp.AppManager.setMsg("Annotation could not be saved because the ID returned was null", false, "danger");
           return;
         }
-        setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "info");
+        TranscriberApp.AppManager.setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "info");
 
         $("#page-container").kinetic("detach");
 
@@ -315,7 +251,7 @@ function transcribeData(event, $form) {
             // console.log(status);
             // console.log(xhr);
 
-            setMsg("Annotated region sucessfully saved!", true, "success");
+            TranscriberApp.AppManager.setMsg("Annotated region sucessfully saved!", true, "success");
 
             $("[data-selectable='true'").val(null).trigger("change");
         });
@@ -357,7 +293,7 @@ function transcribeData(event, $form) {
         console.log(error);
         console.log(status);
         // console.log(xhr);
-        setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
+        TranscriberApp.AppManager.setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
     });
 
     $form.submit();

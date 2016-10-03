@@ -8,16 +8,85 @@
     });
 
     TranscriberApp.AppManager = (function(Backbone, Marionette) {
-        var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
+        var EventAggregator = new Backbone.Wreqr.EventAggregator();
+        
         MainLayout = Marionette.LayoutView.extend({
             template : "#main-layout-template",
             regions : {
                 toolbar : "#transcriber-toolbar",
+                msgs : "#transcription-msg-container",
+                headerImg : "#header-image-container",
                 pageContainer : "#page-container"
             },
             attributes : {
                 id : "transcriber-container"
+            },
+            setMsg : function (message, fade, style) {
+                console.log(this);
+
+                msgRegion = this.msgs;
+
+                msgRegion.el = "#transcription-msg-container"; 
+
+                var MsgView = Marionette.ItemView.extend({
+                    template : "#msg-template",
+                    attributes : {
+                      id : "transcription-msg"
+                    },
+                    events : {
+                      "click button" : function() {
+                        msgRegion.$el.removeClass("active");
+                        msgRegion.reset();
+                      }
+                    },
+                    onRender : function(){
+                      var self = this;
+                      self.$el.addClass("fade in");
+
+                      msgRegion.$el.addClass("active");
+
+                      switch (self.model.get("style")) {
+                        case "success": self.$el.addClass("btn-success");
+                        break;
+
+                        case "info": self.$el.addClass("btn-info");
+                        break;
+
+                        case "warning": self.$el.addClass("btn-warning");
+                        break;
+
+                        case "danger": self.$el.addClass("btn-danger");
+                        break;
+
+                        default: self.$el.addClass("btn-info");
+                      }
+
+                      if (!(typeof self.model.get("fade") == "undefined") && self.model.get("fade")){
+                        setTimeout(function() {
+                          self.$el.removeClass("in").addClass("out");
+
+                          setTimeout(function() {
+                            msgRegion.$el.removeClass("active");
+                            msgRegion.reset();
+                          }, 500);
+                        }, 3000);
+                      }
+                    }
+                });
+
+                var Message = new Backbone.Model();
+
+                Message.set("text", message);
+                Message.set("fade", fade);
+                Message.set("style", style);
+
+                view = new MsgView({
+                model : Message
+                })
+
+
+                msgRegion.show(view);
             }
         });
 
@@ -55,6 +124,13 @@
             }
         });
 
+        HeaderImage = Marionette.ItemView.extend({
+            template : "#page-image-template",
+            attributes : {
+                id: "scribe_zoom_box"
+            }
+        });
+
         Page = Backbone.Model.extend({
             url : "/page_for_transcription/<%= transcription.id if transcription.present? %>",
 
@@ -83,21 +159,21 @@
         });
 
 
+        mainLayout = new MainLayout();
 
         return {
             init : function() {
-                mainLayout = new MainLayout();
                 toolbarLayout = new ToolbarLayout();
                 pageCanvas = new PageCanvas();
+                headerImg = new HeaderImage();
 
                 TranscriberApp.main.show(mainLayout);
 
                 mainLayout.toolbar.show(toolbarLayout);
+                mainLayout.headerImg.show(headerImg);
                 mainLayout.pageContainer.show(pageCanvas);
-
-
-
-            }
+            },
+            MainLayout : mainLayout
         };
     })(Backbone, Marionette)
 

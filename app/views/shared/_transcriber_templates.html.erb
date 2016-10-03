@@ -3,6 +3,10 @@
     <div id="transcriber-toolbar">
 
     </div>
+    <div id="transcription-msg-container"></div>
+    <div id="header-image-container">
+        
+    </div>
     <div id="page-container">
 
     </div>
@@ -41,6 +45,14 @@
 <script type="text/template" id="page-canvas-template">
     <img src="<%= page.image.url(:original) %>" alt="" id="target-image">
 </script>
+
+<script type="text/template" id="page-image-template">
+    <img src="<%= page.image.url(:original) %>">
+</script>
+
+<script type="text/template" id="msg-template"> 
+        <span id="msg">{{= text }}</span><button type="button" class="close pull-right" aria-label="Close"><span aria-hidden="true"><i class="fa fa-remove"></i></span></button> 
+</script> 
 
 <script id="annotation-box-template" type="text/template">
     <div class="inner">
