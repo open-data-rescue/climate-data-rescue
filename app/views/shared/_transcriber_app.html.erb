@@ -10,13 +10,14 @@
     TranscriberApp.AppManager = (function(Backbone, Marionette) {
 
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
-        
+
         MainLayout = Marionette.LayoutView.extend({
             template : "#main-layout-template",
             regions : {
                 toolbar : "#transcriber-toolbar",
                 msgs : "#transcription-msg-container",
                 headerImg : "#header-image-container",
+                timeImg : "#time-image-container",
                 pageContainer : "#page-container"
             },
             attributes : {
@@ -82,7 +83,7 @@
                 Message.set("style", style);
 
                 view = new MsgView({
-                model : Message
+                    model : Message
                 })
 
 
@@ -124,10 +125,42 @@
             }
         });
 
-        HeaderImage = Marionette.ItemView.extend({
+        PageImage = Marionette.ItemView.extend({
             template : "#page-image-template",
-            attributes : {
-                id: "scribe_zoom_box"
+
+            initialize : function(options) {
+                options = options || {};
+                defaults = {
+                    cursor : "move",
+                    x : true,
+                    y : true
+                };
+                this.options = $.extend(true, {}, this.options, defaults, options);
+
+                if (options.attributes) {
+                    this.attributes = $.extend(true, {}, this.attributes, options.attributes);
+                }
+                console.log("init");
+                console.log(this.options);
+                console.log(this.attributes);
+            },
+
+            onRender : function(options) {
+                console.log("render");
+                console.log(options);
+                console.log(this.options);
+                console.log(this.attributes);
+
+                if (this.attributes && this.attributes.id) {
+                    this.$el.attr("id", this.attributes.id);
+                };
+                this.$el.kinetic({
+                    x : this.options.x,
+                    y : this.options.y,
+                    cursor : this.options.cursor,
+                    stopped : function() {
+                    }
+                  });
             }
         });
 
@@ -165,12 +198,23 @@
             init : function() {
                 toolbarLayout = new ToolbarLayout();
                 pageCanvas = new PageCanvas();
-                headerImg = new HeaderImage();
+                headerImg = new PageImage({
+                    cursor : "row-resize",
+                    x : false,
+                    attributes : {
+                        id : "header-image-kinetic"
+                    }
+                });
+                timeImg = new PageImage({
+                    cursor : "col-resize",
+                    y : false
+                });
 
                 TranscriberApp.main.show(mainLayout);
 
                 mainLayout.toolbar.show(toolbarLayout);
                 mainLayout.headerImg.show(headerImg);
+                mainLayout.headerImg.show(timeImg);
                 mainLayout.pageContainer.show(pageCanvas);
             },
             MainLayout : mainLayout
