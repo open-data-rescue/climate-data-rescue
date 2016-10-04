@@ -69,23 +69,7 @@ function formatSelection(data, container) {
     return $(res);
 }
 
-function annotationBoxContents(annotationId) {
-    $innerWrapper = $('<div class="inner"></div>');
-    $contents = $('<div class="annotation-actions"></div>');
-    $detailBtn = $('<button type="button" class="btn btn-xs btn-default annotation-detail-btn"><i class="fa fa-info-circle"></i></button>');
-    $editBtn = $('<button type="button" class="btn btn-xs btn-default edit-annotation-btn"><i class="fa fa-pencil"></i></button>');
-    $deleteBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-trash"></i></button>');
-    $resizeBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-expand" aria-hidden="true"></i></button>');
 
-    $innerWrapper.click(function() {
-        editAnnotation(annotationId);
-    });
-
-    $msg = $('<div class="annotation-msg">edit</div>');
-    $contents.append($editBtn);
-    $innerWrapper.append($contents, $msg);
-    return $innerWrapper;
-};
 
 function updateAnnotation(event, annotation, $form) {
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the
@@ -482,10 +466,6 @@ $(document).ready(function(){
   });
 
 
-  $("#transcription-msg button.close").click(function() {
-    $("#transcription-msg").removeClass("in");
-    $("#transcription-msg").addClass("out");
-  });
 
   $('form.annotation-form').each(function() {
       var $form = $(this);
@@ -493,69 +473,8 @@ $(document).ready(function(){
         transcribeData(event, $form);
       });
   });
-
-//function to toggle between field group form layers when you click on their respective tab. Marks current tab as active
-  $(".scribe_tab").click(function(){ /* perform function when user click on an element with the "scribe_tab" class. Corresponds
-  to Field Group tabs in the transcription box */
-     $tab = $(this);
-     $(".annotation-form-field-group").hide(); //hide all other instances of the field_group data forms when switching tabs
-     $('#formInstructions').hide();
-     $tab.addClass("active"); //mark clicked tab as active by settings its class
-
-     $tab.siblings().removeClass('active'); //set all siblings of the clicked tab as unselected
-
-     var $currentForm = $("#field-group-" + $tab.data('field-group-id'));
-
-
-     $currentForm.show();
-
-     newWidth = $tab.data("field-count") * 110 + 100;
-
-     $("#scribe_annotation_box").width(newWidth);
-
-     //console.log('success');
-  });
-//end field toggler
-
-//open transcription box at page image mouse click position
-  $("#new-annotation").click(function(e){
-     var $transcriber = $("#scribe_annotation_box");
-     // Clear values and reset form desitantation
-     $(".observation-input").val(null);
-     $("[data-selectable='true'").val(null).trigger("change");
-     $forms = $("form.annotation-form");
-     _.each($forms, function(form){
-        $(form).attr("method", "post");
-        $(form).attr("action", "/annotations");
-     });
-
-
-     if ($transcriber.is(":hidden")) {
-        // show transcriber
-       $transcriber.show(250); /*open the box with a delay of half a second. This is what makes the transcription
-       box open with a flourish. Remove the value from the .show() function to make it open instantly */
-       $transcriber.offset({left: 25, top: 75}); //set position of the box to open at the click event 'e' position
-
-       var position = {
-          x: $transcriber.offset().left - $(document).scrollLeft() - $("#canvas").offset().left,
-          y : $transcriber.offset().top - $(document).scrollTop() - $("#canvas").offset().top
-       };
-    }
-  });
-//end transcription box toggle
 });
-/*function to enable the image zoom box. Adapted from http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3 and http://jsfiddle.net/aasFx/ */
-  $(document).ready(function(){
 
-      $("#scribe_annotation_box").draggable({
-          containment: "#magnify",
-          scroll: false,
-          drag: function(){
-          }
-      });
-      
-  });
-//end image zoom box
 
 
 </script>

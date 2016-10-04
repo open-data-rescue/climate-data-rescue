@@ -1,47 +1,5 @@
 <%= provide :title, "Transcribe" %>
 
 <% if @transcription %>
-    <div id="app-container">
-        <!-- <div id="transcriber-toolbar">
-            <div id="transcription-buttons" class="btn-toolbar" role="toolbar">
-                <div class="btn-group" role="group" data-purpose="guide and help">
-                    <a href="/tutorial" target="tutorial" class="btn btn-default">Instructions</a>
-                    <a href="/feedback" target="feedback" class="btn btn-default">Feedback</a>
-                </div>
-                <div class="btn-group" role="group" data-purpose="action buttons">
-                    <button id="new-annotation" type="button" class="btn btn-primary">New Annotation</button>
-                </div>
-                <div id="get-started-txt" class="btn-group" role="group" data-purpose="guide and help">
-                    <i class="fa fa-arrow-left"></i>  Click on "New Annotation" to transcribe
-                </div>
-            </div>
-            <div id="transcription-form-container">
-                    <%= form_for @transcription, html: {class: "form-inline", id: "submit-transcription-form"} do %>
-                        <% if @transcription.complete %>
-                            <%= submit_tag "Submit Finished Transcription", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-success pull-right", id: "finish-transcribing-btn" %>
-                        <% else %>
-                            <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-default pull-right", id: "finish-transcribing-btn" %>
-                        <% end %>
-
-                        <%= hidden_field_tag "transcription[complete]", false %>
-                        <%= check_box_tag "transcription[complete]", true, @transcription.complete, id: "page-complete-checkbox" %>
-                    <% end %>
-            </div>
-        </div>
-        <div id="transcription-msg-container"></div>
-        <div id="scribe_zoom_box">
-            <%= image_tag @transcription.page.image.url(:original) %>
-        </div>
-        <div style="width: 100%; position: relative;">
-            <div id="scribe_time_box">
-                <%= image_tag @transcription.page.image.url(:original) %>
-            </div>
-            <div id="page-container">
-                <div id="canvas"><%= image_tag @transcription.page.image.url(:original), id: "target-image" %></div>
-            </div>
-        </div>
-        <div id="page-container">
-            <div id="canvas"><%= image_tag @transcription.page.image.url(:original), id: "target-image" %></div>
-        </div> -->
-    </div>
+    <div id="app-container"></div>
 <% end %>
