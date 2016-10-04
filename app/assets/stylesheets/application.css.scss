@@ -189,14 +189,14 @@ a {
   }
 
   #page-container {
-    overflow: scroll;
-    width: calc(100% - 120px);
+    width: calc(100% - 140px);
     height: 100%;
     background: #999;
-    margin-left: 120px;
+    margin-left: 140px;
 
     #canvas {
       position: relative;
+    overflow: scroll;
 
       &.ui-boxer {
         cursor: crosshair;

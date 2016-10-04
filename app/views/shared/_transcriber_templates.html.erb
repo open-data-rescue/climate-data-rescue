@@ -48,7 +48,12 @@
 </script>
 
 <script type="text/template" id="page-image-template">
-    <img src="<%= page.image.url(:original) %>">
+    <div class="control-mask">
+        
+        <div class="action-msg">click and drag to reposition annotation guide</div>
+
+    </div>
+    <img src="<%= page.image.url(:original) %>" id="{{= image_id }}">
 </script>
 
 <script type="text/template" id="msg-template"> 

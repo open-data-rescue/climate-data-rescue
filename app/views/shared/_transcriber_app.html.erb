@@ -133,39 +133,57 @@
                 defaults = {
                     cursor : "move",
                     x : true,
-                    y : true
+                    y : true,
+                    stopFn : null,
+                    scroll : true
                 };
                 this.options = $.extend(true, {}, this.options, defaults, options);
 
-                if (options.attributes) {
-                    this.attributes = $.extend(true, {}, this.attributes, options.attributes);
-                }
-                console.log("init");
-                console.log(this.options);
-                console.log(this.attributes);
             },
 
             onRender : function(options) {
-                console.log("render");
-                console.log(options);
-                console.log(this.options);
-                console.log(this.attributes);
-
-                if (this.attributes && this.attributes.id) {
-                    this.$el.attr("id", this.attributes.id);
+                if (this.options.attributes && this.options.attributes.id) {
+                    this.$el.attr("id", this.options.attributes.id);
                 };
+
+                var self = this;
                 this.$el.kinetic({
                     x : this.options.x,
                     y : this.options.y,
                     cursor : this.options.cursor,
+                    "can scroll" : this.options.scroll,
                     stopped : function() {
+                        // console.log(options);
+                        if (options.options.stopFn) {
+                            options.options.stopFn.call(this);
+                        }
+                    },
+                    moved : function() {
+                        // console.log(options);
+                        if (options.options.moveFn) {
+                            options.options.moveFn.call(this);
+                        }
                     }
-                  });
+                });
+                
+
+                if (this.model.get("resizeContainer")) {
+                    // console.info("resize");
+                    containerHeight = $("#transcriber-container").height();
+                    toolbarHeight = $("#transcriber-toolbar").height();
+                    headerImgHeight = $("#header-image-container").height();
+
+                    this.$el.height(containerHeight - (toolbarHeight + headerImgHeight));
+                }
             }
         });
 
         Page = Backbone.Model.extend({
             url : "/page_for_transcription/<%= transcription.id if transcription.present? %>",
+            defaults : {
+                image_id : "",
+                resizeContainer : false
+            }
 
         });
 
@@ -194,28 +212,60 @@
 
         mainLayout = new MainLayout();
 
+        mainPage = new Page().set("image_id", "target-image").set("resizeContainer", true);
+        headerPage = new Page();
+        timePage = new Page().set("image_id", "time-image").set("resizeContainer", true);
+        pageCanvas = new PageImage({
+            model : mainPage,
+            template : "#page-canvas-template",
+            attributes : {
+                id : "canvas"
+            },
+            moveFn : function() {
+                timeImg.$el.kinetic("scrollTop", this.settings.scrollTop);
+                headerImg.$el.kinetic("scrollLeft", (this.settings.scrollLeft - timeImg.$el.width()));
+            },
+            stopFn : function() {
+                timeImg.$el.kinetic("scrollTop", this.settings.scrollTop);
+                headerImg.$el.kinetic("scrollLeft", (this.settings.scrollLeft - timeImg.$el.width()));
+            }
+        });
+        headerImg = new PageImage({
+            model : headerPage,
+            cursor : "ns-resize",
+            x : false,
+            attributes : {
+                id : "header-image-kinetic"
+            }
+        });
+        timeImg = new PageImage({
+            model : timePage,
+            cursor : "ew-resize",
+            y : false,
+            attributes : {
+                id : "time-image-kinetic"
+            }
+        });
+
         return {
             init : function() {
                 toolbarLayout = new ToolbarLayout();
-                pageCanvas = new PageCanvas();
-                headerImg = new PageImage({
-                    cursor : "row-resize",
-                    x : false,
-                    attributes : {
-                        id : "header-image-kinetic"
-                    }
-                });
-                timeImg = new PageImage({
-                    cursor : "col-resize",
-                    y : false
-                });
+               
 
                 TranscriberApp.main.show(mainLayout);
 
                 mainLayout.toolbar.show(toolbarLayout);
                 mainLayout.headerImg.show(headerImg);
-                mainLayout.headerImg.show(timeImg);
+                mainLayout.timeImg.show(timeImg);
                 mainLayout.pageContainer.show(pageCanvas);
+
+                headerImg.$el.kinetic("scrollTop", 390);
+                timeImg.$el.kinetic("scrollLeft", 315);
+
+                pageCanvas.$el.on("scroll", function() {
+                    timeImg.$el.kinetic("scrollTop", $(this).scrollTop());
+                    headerImg.$el.kinetic("scrollLeft", $(this).scrollLeft());
+                });
             },
             MainLayout : mainLayout
         };

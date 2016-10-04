@@ -151,12 +151,7 @@ function editAnnotation(annotation_id) {
 
           $("#scribe_annotation_box").css("left", (leftPos + "px"));
           $("#scribe_annotation_box").css("top", "75px");
-
-          var $zoomBox = $("#scribe_zoom_box");
-          $zoomBox.css("background-position-y", (-400));
-
-          $zoomBox.css("background-position-x", ((-1 * leftPos) + "px"));
-
+          
           // set field values from response
           _.each(fields, function(field){
             // console.log(field);
@@ -545,73 +540,19 @@ $(document).ready(function(){
           x: $transcriber.offset().left - $(document).scrollLeft() - $("#canvas").offset().left,
           y : $transcriber.offset().top - $(document).scrollTop() - $("#canvas").offset().top
        };
-
-       $("#scribe_zoom_box").css("background-position-x", (-1 * position.x));
-       $("#scribe_zoom_box").css("background-position-y", (-400));
     }
   });
 //end transcription box toggle
 });
 /*function to enable the image zoom box. Adapted from http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3 and http://jsfiddle.net/aasFx/ */
   $(document).ready(function(){
-      var native_width = 0;
-      var native_height = 0;
-
-      var image_object = new Image();
-      image_object.src = $("#target-image").attr("src");
-
-      //This code is wrapped in the .load function which is important.
-      //width and height of the object would return 0 if accessed before
-      //the image gets loaded.
-      native_width = image_object.width;
-      native_height = image_object.height;
-
-      // console.log(image_object);
 
       $("#scribe_annotation_box").draggable({
           containment: "#magnify",
           scroll: false,
           drag: function(){
-            var $this = $(this);
-            var $box = $("#scribe_zoom_box");
-            var bgpY = $box.css("background-position-y");
-            var dX = -1 * ($this.offset().left - $(document).scrollLeft() - $("#canvas").offset().left);
-            var bgp = dX + "px " + bgpY;
-            // //If you move the box over the image now, you should see the zoom box in action
-            $box.css("background-position", bgp);
           }
       });
-      
-      $("#header-image-container").kinetic({
-        x : false,
-        cursor : "row-resize",
-        stopped : function() {
-          console.log(this.settings.scrollTop);
-        }
-      });
-
-      $("#time-image-container").kinetic({
-        y : false,
-        cursor : "col-resize"
-      });
-
-      // $("#scribe_zoom_box").mousedown(function(e) {
-      //     $("#scribe_annotation_box").draggable("disable");
-      //     var $box = $(this);
-      //     var clickY = e.pageY;
-      //     var bgp = $box.css("background-position-y");
-      //     var bY = parseInt(bgp.slice(0,bgp.length - 2));
-      //     $("#scribe_zoom_box").mousemove(function(e) {
-      //        var y = e.pageY;
-      //        var dY = clickY - y;
-      //        var bgpNew = bY - dY;
-      //        $box.css("background-position-y", bgpNew);
-      //     });
-      //     $(window).mouseup(function() {
-      //         $("#scribe_zoom_box").unbind("mousemove");
-      //         $("#scribe_annotation_box").draggable("enable");
-      //     });
-      // })
       
   });
 //end image zoom box
