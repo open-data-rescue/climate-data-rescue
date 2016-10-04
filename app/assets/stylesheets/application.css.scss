@@ -188,6 +188,10 @@ a {
     }
   }
 
+  #page-time-container {
+    border-top: 3px solid $accent-color;
+  }
+
   #page-container {
     width: calc(100% - 140px);
     height: 100%;
