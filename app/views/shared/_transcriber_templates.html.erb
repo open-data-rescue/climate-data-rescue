@@ -50,9 +50,11 @@
 
 <script type="text/template" id="page-image-template">
     <div class="control-mask">
-        
+        <div class="actions-container">
+            <span class="btn btn-xs btn-default default-position-btn">Default Position</span>
+            <span class="btn btn-xs btn-default adjust-position-btn">Reposition Image</span>
+        </div>
         <div class="action-msg">{{= action_msg }}</div>
-
     </div>
     <img src="<%= page.image.url(:original) %>" id="{{= image_id }}">
 </script>
@@ -150,11 +152,9 @@
     </div>
     <div id="transcriber-grid-container">
         <div class="control-mask">
-            Position this box around the row you're transcribing
+            Position this box around the data you're transcribing
         </div>
     </div>
 
 </script>
 
-
-<%= render partial: "transcription_box", locals: {page: @page, field_groups: @page.page_type.field_groups, transcription: @transcription} %>

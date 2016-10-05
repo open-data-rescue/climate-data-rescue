@@ -189,14 +189,52 @@
 
             },
 
+            events : {
+                "click .default-position-btn" : function() {
+                    if (this.options.x && this.options.scrollLeft){
+                        this.$el.kinetic("scrollLeft", this.options.scrollLeft);
+                    };
+
+                    if (this.options.y && this.options.scrollTop){
+                        this.$el.kinetic("scrollTop", this.options.scrollTop);
+                    };
+
+                    if (this.$el.find(".adjust-position-btn.adjusting").length > 0) {
+                        this.stopPositioning();
+                    };
+                },
+                "click .adjust-position-btn" : "positionImage",
+                "click .adjust-position-btn.adjusting" : "stopPositioning"
+            },
+
+            positionImage : function() {
+                $btn = this.$el.find(".adjust-position-btn");
+                $btn.html("Stop Repositioning").addClass("adjusting btn-primary").removeClass("btn-default");
+
+                this.$el.find(".action-msg").addClass("visible");
+
+                this.$el.kinetic("attach");
+            },
+
+            stopPositioning : function() {
+                $btn = this.$el.find(".adjust-position-btn.adjusting");
+                $btn.html("Reposition Image").removeClass("adjusting btn-primary").addClass("btn-default");
+
+                this.$el.find(".action-msg").removeClass("visible");
+
+                this.$el.kinetic("detach");
+            },
+
             onRender : function(options) {
                 if (this.options.attributes && this.options.attributes.id) {
                     this.$el.attr("id", this.options.attributes.id);
                 };
 
+                console.log(this.options);
+
                 var self = this;
                 this.$el.kinetic({
-                    x : this.options.x,
+                    y : this.options.x,
                     y : this.options.y,
                     cursor : this.options.cursor,
                     "can scroll" : this.options.scroll,
@@ -366,7 +404,11 @@
             x : false,
             attributes : {
                 id : "header-image-kinetic"
-            }
+            },
+            postRenderFn : function() {
+                this.$el.kinetic("detach");
+            },
+            scrollTop : 390
         });
         timeImg = new PageImage({
             model : timePage,
@@ -374,7 +416,11 @@
             y : false,
             attributes : {
                 id : "time-image-kinetic"
-            }
+            },
+            postRenderFn : function() {
+                this.$el.kinetic("detach");
+            },
+            scrollLeft : 315
         });
 
         return {
