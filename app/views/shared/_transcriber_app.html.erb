@@ -230,8 +230,6 @@
                     this.$el.attr("id", this.options.attributes.id);
                 };
 
-                console.log(this.options);
-
                 var self = this;
                 this.$el.kinetic({
                     y : this.options.x,
@@ -341,12 +339,231 @@
                 //end field toggler
             },
 
+            defaultFieldOptions : [
+                { id: "empty", text: "Empty/Blank"},
+                { id: "illegible", text: "Illegible"},
+                { id: "retracted", text: "Retracted / Line through"}
+            ],
+
+            formatSelection : function (data, container) {
+                // console.log(data);
+                var res = "<span>";
+                var $element = $(data.element);
+
+                var displayAttribute = data.display_attribute;
+                if (typeof(displayAttribute) == "undefined" && !(typeof($element.data("display-attribute")) == "undefined") ) {
+                    displayAttribute = $element.data("display-attribute");
+                    // console.info(displayAttribute);
+                    // console.info("data undefined");
+                };
+                var iconUrl = data.icon_url;
+                if (typeof(iconUrl == "undefined") && !(typeof($element.data("icon-url")) == "undefined") ) {
+                    iconUrl = $element.data("icon-url");
+                    // console.info("data undefined");
+                };
+                var textSymbol = data.text_symbol;
+                if (typeof(textSymbol) == "undefined" && !(typeof($element.data("text-symbol")) == "undefined") ) {
+                    textSymbol = $element.data("text-symbol");
+                    // console.info("data undefined");
+                };
+                var name = data.text;
+                if ((typeof(name) == "undefined" || name == "undefined") && !(typeof($element.data("name")) == "undefined") ) {
+                    name = $element.data("name");
+                    // console.info("data undefined");
+                };
+
+                if (displayAttribute) {
+                    if (displayAttribute == "icon") {
+                        res += ("<img src='" + iconUrl + "' />");
+                        // console.info("icon");
+                    } else if (displayAttribute == "symbol") {
+                        res += textSymbol;
+                        // console.info("symbol");
+                    } else {
+                        res += name;
+                        // console.info("name");
+                    }
+                } else {
+                    res += data.text;
+                    // console.info("text");
+                };
+
+                res += "</span>";
+
+                return $(res);
+            },
+
+            initializeFields : function() {
+                self = this;
+                // Set up plugins for input fields
+
+                // Date Fields
+                this.$el.find(".date-field").select2({
+                    placeholder : "Select Date",
+                    theme : "bootstrap"
+                });
+
+                // Time Fields
+                _.each(this.$el.find('.time-group'), function(time) {
+                    $(time).datetimepicker({
+                        format: 'LT',
+                        widgetParent : $(time).parents(".scribe_input_field"),
+                        widgetPositioning : {
+                          vertical : "top"
+                        }
+                    });
+                });
+
+                // Selectable Fields
+                _.each(this.$el.find(".observation-input.selectable"), function(field) {
+                    $field = $(field);
+
+                    if ($field.data("field-options")) {
+
+                        $field.select2({
+                            forceAbove : true,
+                            theme : "bootstrap",
+                            createTag: function(params) {
+                                return undefined;
+                            },
+                            tokenSeparators: [',', ' '],
+                            placeholder: 'select',
+                            current : function(element,callback) {
+                                // console.log("select2 initialized for " + $field.data("field-id"));
+                                $.ajax({
+                                    url : "/field_options_for_field/" + $field.data("field-id"),
+                                    dataType : "json",
+                                    success : function(data, status) {
+                                        var opts = [];
+                                        // console.info("current");
+                                        // console.log(data);
+
+                                        _.each(data, function(option, key, list) {
+                                            console.warning(option);
+                                            opts.push({
+                                                id : option.id,
+                                                text : option.name,
+                                                title : option.name,
+                                                icon_url: option.icon_url,
+                                                text_symbol: option.text_symbol,
+                                                display_attribute: option.display_attribute
+                                            });
+                                        });
+                                        opts = opts.concat(self.defaultFieldOptions);
+                                        callback(opts);
+                                    },
+                                    error : function(response) {
+                                        console.log("failed to get options for " + $field.data("field-id"));
+                                    }
+                                });
+                            },
+
+                            templateResult : function(obj, container) {
+                                // console.info("template result");
+                                // console.log(obj);
+                                result = "<span>";
+                                if (obj.icon_url && obj.icon_url.length > 0){
+                                    result += ("<img src='" + obj.icon_url + "' />" + "&nbsp;");
+                                };
+                                if (obj.text_symbol && obj.text_symbol.length > 0){
+                                    result += (obj.text_symbol + "&nbsp;-&nbsp;");
+                                };
+                                result += (obj.text + "</span>");
+
+                                return $(result);
+                            },
+
+                            templateSelection : self.formatSelection,
+
+                            ajax : {
+                                url : "/field_options_for_field/" + $field.data("field-id"),
+                                dataType : "json",
+                                data : function(params) {
+                                    return { search : params.term };
+                                },
+                                processResults : function(_data, params) {
+                                    res = [];
+                                    // console.info("ajax");
+                                    // console.log(_data);
+                                    _.each(_data, function(option) {
+                                        opt = $.extend({}, {
+                                                id : option.id,
+                                                text : option.name,
+                                                title : option.name,
+                                                icon_url: option.icon_url,
+                                                text_symbol: option.text_symbol,
+                                                display_attribute: option.display_attribute
+                                            });
+
+                                        res.push(opt);
+                                    });
+                                    res = res.concat(self.defaultFieldOptions);
+                                    var data = {
+                                        results: res
+                                    };
+                                    return data;
+                                },
+                                    error : function(response) {
+                                        console.log("failed to get search options for " + $field.data("field-id"));
+                                    }
+                            }
+                        }).on("select2:select", function() {
+                            optionIds = [];
+                            $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
+
+                            $(this).find("option:selected").each(function() {
+                                optionIds.push($(this).val());
+                            });
+
+                            $optionIdsInput.val(optionIds);
+
+                        }).on("select2:unselect", function(e) {
+                            console.log(e);
+                            optionIds = [];
+                            $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
+
+                            $(this).find("option:selected").each(function() {
+                                optionIds.push($(this).val());
+                            });
+
+                            $optionIdsInput.val(optionIds);
+
+                        });
+
+                    } else {
+                        $field.select2({
+                            theme : "bootstrap",
+                            multiple: false,
+                            tags: true,
+                            tokenSeparators: [',', ' '],
+                            placeholder: 'type',
+                            data : self.defaultFieldOptions,
+                            createSearchChoice:function(term, data) {
+                              if ( $(data).filter( function() {
+                                return this.text.toLowerCase() === term.toLowerCase(); //even if the this.text is undefined it works
+                              }).length===0) {
+                                return {id:term, text:term};
+                              };
+                            },
+                            selectOnClose : true
+                        });
+                    };
+                });
+
+
+            },
+
             onRender : function() {
                 this.$el.draggable({
                     scroll: false,
                     drag: function(){
                     }
                 });
+
+                this.initializeFields();
+
+                this.$el.find('[data-toggle="popover"]').popover();
+                this.$el.find('[data-toggle="tooltip"]').tooltip();
 
 
             }

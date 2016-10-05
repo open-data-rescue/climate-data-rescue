@@ -13,61 +13,9 @@ function clearAnnotationBox() {
     $box.hide();
 };
 
-function defaultOptions() {
-    return [
-        { id: "empty", text: "Empty/Blank"},
-        { id: "illegible", text: "Illegible"},
-        { id: "retracted", text: "Retracted / Line through"}
-    ];
-};
 
-function formatSelection(data, container) {
-    // console.log(data);
-    var res = "<span>";
-    var $element = $(data.element);
 
-    var displayAttribute = data.display_attribute;
-    if (typeof(displayAttribute) == "undefined" && !(typeof($element.data("display-attribute")) == "undefined") ) {
-        displayAttribute = $element.data("display-attribute");
-        // console.info(displayAttribute);
-        // console.info("data undefined");
-    };
-    var iconUrl = data.icon_url;
-    if (typeof(iconUrl == "undefined") && !(typeof($element.data("icon-url")) == "undefined") ) {
-        iconUrl = $element.data("icon-url");
-        // console.info("data undefined");
-    };
-    var textSymbol = data.text_symbol;
-    if (typeof(textSymbol) == "undefined" && !(typeof($element.data("text-symbol")) == "undefined") ) {
-        textSymbol = $element.data("text-symbol");
-        // console.info("data undefined");
-    };
-    var name = data.text;
-    if ((typeof(name) == "undefined" || name == "undefined") && !(typeof($element.data("name")) == "undefined") ) {
-        name = $element.data("name");
-        // console.info("data undefined");
-    };
 
-    if (displayAttribute) {
-        if (displayAttribute == "icon") {
-            res += ("<img src='" + iconUrl + "' />");
-            // console.info("icon");
-        } else if (displayAttribute == "symbol") {
-            res += textSymbol;
-            // console.info("symbol");
-        } else {
-            res += name;
-            // console.info("name");
-        }
-    } else {
-        res += data.text;
-        // console.info("text");
-    };
-
-    res += "</span>";
-
-    return $(res);
-}
 
 
 
@@ -284,22 +232,6 @@ $(document).ready(function(){
 //Code credited as "sourced from" have been modified little to none.
 //Code credited as "adapted from" uses ideas and some lines from the credited location while modifying them to work with this project
 
-
-    // Set up plugins for input fields
-
-    $(".date-field").select2({
-        placeholder : "Select Date",
-        theme : "bootstrap"
-    });
-    _.each($('.time-group'), function(time) {
-        $(time).datetimepicker({
-            format: 'LT',
-            widgetParent : $(time).parents(".scribe_input_field"),
-            widgetPositioning : {
-              vertical : "top"
-            }
-        });
-    });
 
     _.each($("[data-selectable='true'"), function(field) {
         $field = $(field);
