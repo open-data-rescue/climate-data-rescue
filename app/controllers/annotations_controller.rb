@@ -8,11 +8,15 @@ class AnnotationsController < ApplicationController
   # GET /annotations.json
   def index
     #@annotations is the variable containing all instances of the "annotation.rb" model passed to the annotation view "index.html.slim" (project_root/annotations) and is used to populate the page with information about each annotation using @annotations.each (an iterative loop).
-    @annotations = Annotation.all
+    if params[:transcription_id]
+      @annotations = Transcription.find(params[:transcription_id]).annotations
+    else
+      @annotations = Annotation.all
+    end
 
     respond_to do |format|
       format.html # index.html.slim
-      format.json { render json: @annotations }
+      format.json 
     end
   end
 

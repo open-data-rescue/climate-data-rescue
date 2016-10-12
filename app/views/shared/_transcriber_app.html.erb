@@ -281,16 +281,53 @@
         });
 
         AnnotationCollection = Backbone.Collection.extend({
-
+            model : Annotation
         });
 
         AnnotationBoxView = Marionette.ItemView.extend({
+            template : "#annotation-box-template",
             className : "annotation-marker",
+
+            events : {
+                "click .edit-annotation-btn" : function() {
+                    console.log(this);
+
+                    var self = this;
+
+                    this.model.fetch({
+                          url : "/annotations/" + this.model.get('id') + "/edit.json",
+                          format: "json",
+                          success : function(annotation) {
+                              
+                              transcriptionBox = new TranscriptionBox({
+                                model : annotation
+                              });
+
+                              transcriptionBox.render();
+                          }
+                      });
+
+                    
+                }
+            },
 
             onRender : function() {
                 if (this.model) {
+                    annotation = this.model;
 
-                }
+                    this.$el.css({
+                        "left": annotation.get('x_tl'),
+                        "top": annotation.get('y_tl'),
+                        "width": annotation.get('width'),
+                        "height": annotation.get('height')
+                    }).attr({
+                        "id" : ('annotation' + annotation.get('id')),
+                        'data-annotation-id' : annotation.get('id'),
+                        'data-field-group-id' : annotation.get('field_group').id
+                    }).addClass(annotation.get('field_group').colour_class);
+
+                    $("#canvas").append(this.$el);
+                };
             }
         });
 
@@ -569,7 +606,7 @@
             }
         });
 
-
+        Annotations = new AnnotationCollection();
         mainLayout = new MainLayout();
 
         mainPage = new Page().set("image_id", "target-image").set("resizeContainer", true);
@@ -591,28 +628,23 @@
             },
             postRenderFn : function() {
                 var $canvas = this.$el;
-                // $canvas.width($("#target-image").width());
-                // $canvas.height($("#target-image").height());
-                // console.log("annotation boxes");
-                if (<%= @transcription.annotations.any? ? true : false %>) {
-                  <% @transcription.annotations.each do |annotation| %>
-                    <% if annotation.x_tl.present? && annotation.y_tl.present? && annotation.width.present? && annotation.height.present? %>
-                      var box = $("<div><div>").css({
-                        "left": <%= annotation.x_tl %>,
-                        "top": <%= annotation.y_tl %>,
-                        "width": <%= annotation.width %>,
-                        "height": <%= annotation.height %>
-                      }).attr("id", "<%= 'annotation' + annotation.id.to_s %>").attr('data-annotation-id', <%= annotation.id %>).attr('data-field-group-id', <%= annotation.field_group.id %>).addClass("annotation-marker").addClass("<%= annotation.field_group.colour_class %>");
-                      box.html(annotationBoxContents(<%= annotation.id %>));
 
-                      $canvas.append(box);
+                Annotations.fetch({
+                    url : "/annotations?transcription_id=<%= @transcription.id %>",
+                    success : function(collection) {
+                        console.log(collection);
 
-                      // console.log("<%= annotation.date_time_id %>");
-                    <% end %>
-                  <% end %>
-                } else {
-                  console.log("no annotations");
-                };
+                        _.each(collection.models, function(annotation) {
+                            console.log(annotation);
+
+                            box = new AnnotationBoxView({
+                                model : annotation
+                            });
+
+                            box.render();
+                        });
+                    }
+                });
             }
         });
         headerImg = new PageImage({
