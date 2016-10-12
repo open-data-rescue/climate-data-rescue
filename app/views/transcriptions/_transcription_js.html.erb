@@ -1,24 +1,5 @@
 <script type="text/javascript">
 
-var msgRegion = new Marionette.Region({
-  el: "#transcription-msg-container"
-});
-
-function clearAnnotationBox() {
-    var $box = $('#scribe_annotation_box');
-    var $forms = $box.find("form");
-    $forms.attr("method", "post");
-    $forms.attr("action", ("/annotations"));
-    $forms.find(".observation-input").val('');
-    $box.hide();
-};
-
-
-
-
-
-
-
 function updateAnnotation(event, annotation, $form) {
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the
     transcription */
@@ -54,101 +35,6 @@ function updateAnnotation(event, annotation, $form) {
     $form.submit();
 
 };
-
-function editAnnotation(annotation_id) {
-  $.ajax({
-      url : "/annotations/" + annotation_id + "/edit.json",
-      format: "json",
-      success : function(annotation) {
-          // console.log(annotation);
-          $form = $("form[data-field-group-id=" + annotation.field_group.id + "]");
-          // console.log($form);
-
-          $form.find("[data-field-type='date']").val(annotation.date).trigger("change");
-          $form.find("[data-field-type='time']").val(annotation.time);
-          $form.find("#x-field").val(annotation.x_tl);
-          $form.find("#y-field").val(annotation.y_tl);
-          $form.find("#width-field").val(annotation.width);
-          $form.find("#height-field").val(annotation.height);
-
-          // update transcriber width and position
-          var fields = annotation.field_group.fields;
-
-            // console.log(fields);
-          newWidth = (fields.length + 3) * 110 + 100;
-
-          $("#scribe_annotation_box").width(newWidth);
-
-          leftPos = ($(window).width() - newWidth) / 2;
-
-          $("#scribe_annotation_box").css("left", (leftPos + "px"));
-          $("#scribe_annotation_box").css("top", "75px");
-          
-          // set field values from response
-          _.each(fields, function(field){
-            // console.log(field);
-
-            value = field.value;
-            $inputField = $form.find(".scribe_input_field[data-field-id=" + field.id +"]");
-            $select = $inputField.find("select");
-            // console.log($select);
-
-            if (field.has_options && field.selected_options) {
-                $select.find("option.user-option, option:selected").remove();
-                $select.trigger("change");
-                for (var i = 0; i < field.selected_options.length; i++) {
-                    var option = field.selected_options[i];
-                    var $option = $("<option class='user-option' selected></option>").val(option.id).html(formatSelection(option));
-
-                    // For custom tag template
-                    $option.attr("data-display-attribute", option.display_attribute);
-                    $option.attr("data-icon-url", option.icon_url);
-                    $option.attr("data-text-symbol", option.text_symbol);
-                    $option.attr("data-name", option.name);
-
-                    $select.append($option).trigger("change");
-                }
-                optionIds = [];
-                $optionIdsInput = $inputField.find(".selected-option-ids");
-
-                _.each(field.selected_options, function(option) {
-                    optionIds.push(option.id);
-                });
-
-                $optionIdsInput.val(optionIds);
-            } else if ($select.length > 0) {
-                $select.find("option.user-option").remove();
-                 if (value == "empty" || value == "illegible") {
-                    $select.val(value).trigger("change");
-                 } else {
-                    var $option = $("<option class='user-option' selected></option>").val(value).text(value);
-                    // console.log($option);
-                    $select.append($option).trigger("change");
-                 };
-            } else {
-                $inputField.val(value).trigger("change");
-                // console.log(value);
-            };
-
-
-          });
-
-
-          $form.find('.submit-btn').unbind("click");
-          $form.find('.submit-btn').click(function(event) {
-              updateAnnotation(event, annotation, $form);
-          });
-
-          $(".scribe_tab").removeClass("active");
-          $("#scribe_tab_" + annotation.field_group.id).addClass("active");
-          $("#formInstructions").hide();
-          $(".annotation-form-field-group").hide();
-          $("div#field-group-" + annotation.field_group.id).show();
-          $('#scribe_annotation_box').show();
-      }
-  });
-};
-
 
 function transcribeData(event, $form) {
     event.preventDefault();/*supress default submit action of refreshing the page, so we can add more than one annoation to the
