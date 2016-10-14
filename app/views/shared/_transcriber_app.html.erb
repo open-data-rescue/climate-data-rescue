@@ -739,7 +739,8 @@
                       mainLayout.setMsg("Annotation could not be saved. The ID returned was null.", false, "danger");
                       return;
                     } else {
-                        mainLayout.setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "info");
+                        var fieldGroupName = data.field_group.name || "";
+                        mainLayout.setMsg("Annotation sucessfully saved! Click and drag a box around the " + fieldGroupName + " observations that you just transcribed. Don't include the date or time.", false, "info");
                     };
 
                     annotation = new Annotation(data);
@@ -775,7 +776,7 @@
 
                                 annotationBox.render();
 
-                                mainLayout.setMsg("Annotated region sucessfully saved!", true, "success");
+                                mainLayout.setMsg("Annotation and bounding box sucessfully saved!", true, "success");
 
                                 self.destroy();
 
