@@ -277,7 +277,7 @@
         });
 
         Annotation = Backbone.Model.extend({
-
+            urlRoot : "/annotations"
         });
 
         AnnotationCollection = Backbone.Collection.extend({
@@ -290,10 +290,6 @@
 
             events : {
                 "click .edit-annotation-btn" : function() {
-                    console.log(this);
-
-                    var self = this;
-
                     this.model.fetch({
                           url : "/annotations/" + this.model.get('id') + "/edit.json",
                           format: "json",
@@ -305,9 +301,7 @@
 
                               transcriptionBox.render();
                           }
-                      });
-
-                    
+                    });
                 }
             },
 
@@ -326,7 +320,7 @@
                         'data-field-group-id' : annotation.get('field_group').id
                     }).addClass(annotation.get('field_group').colour_class);
 
-                    $("#canvas").append(this.$el);
+                    pageCanvas.$el.append(this.$el);
                 };
             }
         });
@@ -376,11 +370,13 @@
                 //end field toggler
                 "click .submit-btn" : function(e) {
                     e.preventDefault();
+                    var $form = $(e.target).parents("form.annotation-form");
                     if (this.model) {
                         this.updateAnnotation(this.model);
-                        console.log("update");
+                        // console.log("update");
                     } else {
-                        console.log("new");
+                        // console.log("new");
+                        this.createNewAnnotation($form);
                     };
                 }
             },
@@ -485,7 +481,7 @@
                                         // console.log(data);
 
                                         _.each(data, function(option, key, list) {
-                                            console.warning(option);
+                                            // console.warning(option);
                                             opts.push({
                                                 id : option.id,
                                                 text : option.name,
@@ -564,7 +560,7 @@
                             $optionIdsInput.val(optionIds);
 
                         }).on("select2:unselect", function(e) {
-                            console.log(e);
+                            // console.log(e);
                             optionIds = [];
                             $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
 
@@ -608,9 +604,17 @@
                     // console.log(status);
                     // console.log(xhr);
                     
-                    self.$el.find(".close-btn").trigger("click");
+                    self.destroy();
 
                     mainLayout.setMsg("Annotation sucessfully saved!", true, "success");
+                }).on("ajax:error", function(e, xhr, status, error) {
+                    // console.log(e);
+                    console.log(error);
+                    console.log(status);
+                    // console.log(xhr);
+                    mainLayout.setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
+
+                    self.show();
                 });
 
                 $form.submit();
@@ -720,6 +724,86 @@
                 });
             },
 
+            createNewAnnotation : function($form) {
+                var self = this;
+
+                $form.on("ajax:success", function(e, data, status, xhr) {
+                    // console.log(e);
+                    // console.log(data);
+                    // console.log(status);
+                    // console.log(xhr);
+
+                    self.$el.hide();
+
+                    if (data.id == null) {
+                      mainLayout.setMsg("Annotation could not be saved. The ID returned was null.", false, "danger");
+                      return;
+                    } else {
+                        mainLayout.setMsg("Annotation sucessfully saved! Click and drag a box around the area that you just transcribed", false, "info");
+                    };
+
+                    annotation = new Annotation(data);
+
+                    pageCanvas.$el.kinetic("detach");
+
+                    // Using the boxer plugin
+                    pageCanvas.$el.boxer({
+                      appendTo: "#canvas",
+                      container : "#page-container",
+                      target : "#target-image",
+                      groupColour : data.field_group.colour_class,
+
+                      stop: function(event, ui) {
+                        var offset = ui.box.offset();
+                        var position = {
+                            x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
+                            y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
+                        };
+
+                        annotation.set("x_tl", position.x);
+                        annotation.set("y_tl", position.y);
+                        annotation.set("width", ui.box.width());
+                        annotation.set("height", ui.box.height());
+
+                        annotation.save(annotation.attributes, {
+                            success : function(mdl) {
+                                annotationBox = new AnnotationBoxView({
+                                    model : mdl
+                                });
+
+                                ui.box.remove();
+
+                                annotationBox.render();
+
+                                mainLayout.setMsg("Annotated region sucessfully saved!", true, "success");
+
+                                self.destroy();
+
+                                pageCanvas.$el.unbind("boxer");
+                                pageCanvas.$el.kinetic("attach");
+
+                                Annotations.add(mdl);
+                            },
+                            error : function() {
+                                console.log("error");
+                                pageCanvas.$el.unbind("boxer");
+                                self.show();
+                            }
+                        });
+                      }
+                    });
+
+                }).on("ajax:error", function(e, xhr, status, error) {
+                    // console.log(e);
+                    console.log(error);
+                    console.log(status);
+                    // console.log(xhr);
+                    pageLayout.setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
+                });
+
+                $form.submit();
+            },
+
             onRender : function() {
                 this.$el.draggable({
                     scroll: false,
@@ -775,7 +859,14 @@
 
                             box.render();
                         });
+
+                        console.log(Annotations);
                     }
+                });
+
+                $canvas.on("scroll", function() {
+                    timeImg.$el.kinetic("scrollTop", $(this).scrollTop());
+                    headerImg.$el.kinetic("scrollLeft", $(this).scrollLeft());
                 });
             }
         });
@@ -807,8 +898,6 @@
         return {
             init : function() {
                 toolbarLayout = new ToolbarLayout();
-               
-
                 TranscriberApp.main.show(mainLayout);
 
                 mainLayout.toolbar.show(toolbarLayout);
@@ -816,13 +905,10 @@
                 mainLayout.timeImg.show(timeImg);
                 mainLayout.pageContainer.show(pageCanvas);
 
-                headerImg.$el.kinetic("scrollTop", 390);
-                timeImg.$el.kinetic("scrollLeft", 315);
-
-                pageCanvas.$el.on("scroll", function() {
-                    timeImg.$el.kinetic("scrollTop", $(this).scrollTop());
-                    headerImg.$el.kinetic("scrollLeft", $(this).scrollLeft());
-                });
+                setTimeout(function() {
+                    headerImg.$el.kinetic("scrollTop", 390);
+                    timeImg.$el.kinetic("scrollLeft", 315);
+                }, 1000);
             },
             MainLayout : mainLayout
         };
