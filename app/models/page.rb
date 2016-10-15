@@ -118,6 +118,11 @@ class Page < ActiveRecord::Base
   #sets a scope for all transcribable pages to be those that are not done
   scope :transcribeable, -> { joins({:page_type => :field_groups}).where(done: false).uniq.order("pages.start_date asc, page_types.number asc") }
 
+  scope :unseen, -> (user) {
+    if user
+      where("pages.id not in (?)", user.pages.pluck(:id))
+    end
+  }
   
   #constant that determines the # of transcriptions an page must have to be marked done
   CLASSIFICATION_COUNT = 5

@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_many :transcriptions
-  has_many :pages
   has_many :annotations, through: :transcriptions
+  has_many :pages, through: :transcriptions
   #before_filter :authorize_admin, except [:index, :show]
 
   # Include default devise modules. Others available are:
