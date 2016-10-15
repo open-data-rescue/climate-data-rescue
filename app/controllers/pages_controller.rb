@@ -19,7 +19,7 @@ class PagesController < ApplicationController
       redirect_to root_path
     end
   end
-  
+
   def public_index
     @pages = Page.transcribeable
   end
@@ -50,7 +50,7 @@ class PagesController < ApplicationController
           @page = Page.new
         rescue => e
           # flash[:danger] = e.message
-        end 
+        end
         respond_to do |format|
           format.html # new.html.erb
           format.json { render json: @page }
@@ -68,7 +68,7 @@ class PagesController < ApplicationController
     if current_user && current_user.admin?
       Page.transaction do
         begin
-          
+
             @page = Page.find(params[:id])
         rescue => e
           # flash[:danger] = e.message
@@ -136,7 +136,7 @@ class PagesController < ApplicationController
         rescue => e
           # flash[:danger] = e.message
         end
-        
+
         respond_to do |format|
           if @page.update_attributes(page_params)
             format.html { redirect_to @page, notice: 'Page was successfully updated.' }
@@ -153,15 +153,26 @@ class PagesController < ApplicationController
     end
   end
 
+  def for_transcription
+    if params[:transcription_id].present?
+      begin
+        @transcription = Transcription.find(params[:transcription_id])
+        @page = @transcription.page
+      rescue => e
+
+      end
+    end
+  end
+
   # DELETE /pages/page_id
   # DELETE /pages/page_id.json
   def destroy
     #this function is called to delete the instance of "page.rb" identified by the page_id passed to the destroy function when it was called
     if current_user && current_user.admin?
-      
+
       page = Page.find(params[:id])
       page.destroy
-      
+
       respond_to do |format|
         format.html { redirect_to pages_url }
         format.json { render :json => true }
@@ -171,7 +182,7 @@ class PagesController < ApplicationController
       redirect_to root_path
     end
   end
-  
+
   private
   def page_params
     params.require(:page).permit(:classification_count, :done, :height, :order, :width, :page_type_id, :image, :title, :accession_number, :start_date, :start_date, :page_type, :volume)

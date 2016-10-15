@@ -1,3 +1,12 @@
+
+@import "draw-variables";
+
+#app-container {
+    height: 100%;
+    width: 100%;
+    background: black;
+}
+
 .DisplayNone
 {
     display: none;
@@ -32,12 +41,11 @@
 #scribe_annotation_box {
     font-family: verdana,tahoma,sans-serif;
     font-size: 13px;
-    min-height: 400px; 
     height: auto;
-    max-width: calc(100% - 50px); 
+    max-width: calc(100% - 50px);
     position:absolute;
-    z-index:200; 
-    top:20px; 
+    z-index:200;
+    top:20px;
     left:25%;
     display:none;
 }
@@ -90,18 +98,161 @@
     height: auto;
     width: 100%;
     z-index:200;
-    margin-bottom: 15px;
 }
-#scribe_zoom_box {
+
+#transcriber-grid-container {
+    display: none;
+    height: 55px;
+    width: calc(100% - 320px - 80px);
+    border: 2px solid $accent-color;
+    position: relative;
+    margin-left: 320px;
+    margin-right: 80px;
+
+    .control-mask {
+        display: table-cell;
+        min-width: 100%;
+        height: 100%;
+        background: hsla(0, 0%, 0%, 0.6);
+        opacity: 0;
+        -webkit-transition: 0.5s opacity;
+        transition: 0.5s opacity;
+        vertical-align: middle;
+        color: hsl(0, 0%, 100%);
+        font-size: larger;
+        text-align: center;
+    }
+
+    &:hover {
+        .control-mask {
+            opacity: 1;
+        }
+    }
+
+}
+
+#header-wrapper {
+    height: 170px;
+}
+
+#header-img-spacer {
+    width: 140px;
+    height: 100%;
+    border-right: 3px solid $accent-color;
+    float: left;
+}
+
+#header-image-container {
+    max-width: calc(100% - 140px);
+    height:100%;
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
-    width:100%; 
-    height:170px;
-    overflow:hidden;
     border-color: black;
     border-style: solid;
     border-width: 2px;
-    cursor: row-resize;
+    position: relative;
+    float: left;
+
+    &:after {
+        clear: both;
+    }
 }
+
+#header-image-kinetic, #time-image-kinetic {
+    overflow: scroll;
+    height: 100%;
+    width: 100%;
+    // position: relative;
+
+
+    .control-mask {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        background : rgba(0,0,0, 0.6);
+        opacity: 0;
+        transition: 0.5s opacity;
+
+        color: white;
+
+        .action-msg, .description-msg {
+            margin-top: 5px;
+            font-size: larger;
+            text-align: center;
+            opacity: 0;
+            transition: 0.5s opacity;
+            cursor: default;
+
+            &.visible {
+                opacity: 1;
+            }
+        }
+
+        .actions-container {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            padding: 5px;
+
+        }
+    }
+
+    &:hover {
+        .control-mask {
+            opacity: 1;
+        }
+        .description-msg {
+            opacity: 1;
+        }
+    }
+
+}
+
+#header-image-kinetic {
+    .control-mask {
+        .action-msg {
+        }
+    }
+
+    &.kinetic-active:hover {
+        .action-msg, .description-msg {
+            cursor: ns-resize;
+        }
+    }
+}
+
+#time-image-kinetic {
+    .control-mask {
+        .action-msg {
+        }
+        .actions-container {
+            text-align: center;
+            position: static;
+        }
+    }
+
+    &.kinetic-active:hover {
+        .action-msg, .description-msg {
+            cursor: ew-resize;
+        }
+    }
+}
+
+#time-image-container {
+    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+    width:140px; 
+    min-height:100%;
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
+    position: fixed;
+
+    border-right: 3px solid $accent-color;
+}
+
 #scribe_top_bar {
     height:71px;
     padding:5px;

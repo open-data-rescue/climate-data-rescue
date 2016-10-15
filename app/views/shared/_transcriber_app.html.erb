@@ -1,0 +1,1098 @@
+
+<script type="text/javascript" id="transcriber-app">
+    function annotationBoxContents(annotationId) {
+        $innerWrapper = $('<div class="inner"></div>');
+        $contents = $('<div class="annotation-actions"></div>');
+        $detailBtn = $('<button type="button" class="btn btn-xs btn-default annotation-detail-btn"><i class="fa fa-info-circle"></i></button>');
+        $editBtn = $('<button type="button" class="btn btn-xs btn-default edit-annotation-btn"><i class="fa fa-pencil"></i></button>');
+        $deleteBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-trash"></i></button>');
+        $resizeBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-expand" aria-hidden="true"></i></button>');
+
+        $innerWrapper.click(function() {
+            editAnnotation(annotationId);
+        });
+
+        $msg = $('<div class="annotation-msg">edit</div>');
+        $contents.append($editBtn);
+        $innerWrapper.append($contents, $msg);
+        return $innerWrapper;
+    };
+
+
+    TranscriberApp = new Marionette.Application();
+
+    TranscriberApp.addRegions({
+        main : "#app-container"
+    });
+
+    TranscriberApp.AppManager = (function(Backbone, Marionette) {
+
+        var EventAggregator = new Backbone.Wreqr.EventAggregator();
+        
+        MainLayout = Marionette.LayoutView.extend({
+            template : "#main-layout-template",
+            regions : {
+                toolbar : "#transcriber-toolbar",
+                msgs : "#transcription-msg-container",
+                headerImg : "#header-image-container",
+                timeImg : "#time-image-container",
+                pageContainer : "#page-container"
+            },
+            attributes : {
+                id : "transcriber-container"
+            },
+            setMsg : function (message, fade, style) {
+                // console.log(this);
+
+                msgRegion = this.msgs;
+
+                msgRegion.el = "#transcription-msg-container"; 
+
+                var MsgView = Marionette.ItemView.extend({
+                    template : "#msg-template",
+                    attributes : {
+                      id : "transcription-msg"
+                    },
+                    events : {
+                      "click button" : function() {
+                        msgRegion.$el.removeClass("active");
+                        msgRegion.reset();
+                      }
+                    },
+                    onRender : function(){
+                      var self = this;
+                      self.$el.addClass("fade in");
+
+                      msgRegion.$el.addClass("active");
+
+                      switch (self.model.get("style")) {
+                        case "success": self.$el.addClass("btn-success");
+                        break;
+
+                        case "info": self.$el.addClass("btn-info");
+                        break;
+
+                        case "warning": self.$el.addClass("btn-warning");
+                        break;
+
+                        case "danger": self.$el.addClass("btn-danger");
+                        break;
+
+                        default: self.$el.addClass("btn-info");
+                      }
+
+                      if (!(typeof self.model.get("fade") == "undefined") && self.model.get("fade")){
+                        setTimeout(function() {
+                          self.$el.removeClass("in").addClass("out");
+
+                          setTimeout(function() {
+                            msgRegion.$el.removeClass("active");
+                            msgRegion.reset();
+                          }, 500);
+                        }, 3000);
+                      }
+                    }
+                });
+
+                var Message = new Backbone.Model();
+
+                Message.set("text", message);
+                Message.set("fade", fade);
+                Message.set("style", style);
+
+                view = new MsgView({
+                    model : Message
+                })
+
+
+                msgRegion.show(view);
+            }
+        });
+
+        ToolbarLayout = Marionette.ItemView.extend({
+            template : "#transcription-toolbar-template",
+            attributes : {
+                id : "transcriber-toolbar-wrapper"
+            },
+
+            events : {
+                "click #new-annotation" : function(e) {
+                    $btn = $(e.target);
+
+                    if (!$btn.hasClass("disabled")) {
+                        $btn.addClass("disabled");
+                        transcriptionBox = new TranscriptionBox().render();
+
+                        var $transcriber = transcriptionBox.$el;
+                        $("body").append($transcriber);
+
+                        $forms = $("form.annotation-form");
+                        _.each($forms, function(form){
+                            $(form).attr("method", "post");
+                            $(form).attr("action", "/annotations");
+                        });
+
+                        if ($transcriber.is(":hidden")) {
+                            // show transcriber
+                           $transcriber.show(250); /*open the box with a delay of half a second. This is what makes the transcription
+                           box open with a flourish. Remove the value from the .show() function to make it open instantly */
+                           $transcriber.offset({left: 25, top: 75}); //set position of the box to open at the click event 'e' position
+
+                           var position = {
+                              x: $transcriber.offset().left - $(document).scrollLeft() - $("#canvas").offset().left,
+                              y : $transcriber.offset().top - $(document).scrollTop() - $("#canvas").offset().top
+                           };
+                        };
+                    };
+                }
+            },
+
+            onRender : function() {
+                this.$el.find("#page-complete-checkbox").bootstrapSwitch({
+                      size : "normal",
+                      onText : "complete",
+                      offText : "finish",
+                      labelText : "transcribing",
+                      onColor : "success",
+                      offColor : "primary",
+                      inverse : true,
+
+                      onSwitchChange : function(event, state) {
+                          if (state) {
+                              $("#finish-transcribing-btn").removeClass("btn-default").addClass("btn-success").val("Submit Finished Transcription");
+                          } else {
+                              $("#finish-transcribing-btn").addClass("btn-default").removeClass("btn-success").val("Take a Break");
+                          };
+                      }
+                });
+            }
+        });
+
+        PageCanvas = Marionette.ItemView.extend({
+            template : "#page-canvas-template",
+            attributes : {
+                id: "canvas"
+            }
+        });
+
+        PageImage = Marionette.ItemView.extend({
+            template : "#page-image-template",
+
+            initialize : function(options) {
+                options = options || {};
+                defaults = {
+                    cursor : "move",
+                    x : true,
+                    y : true,
+                    stopFn : null,
+                    scroll : true
+                };
+                this.options = $.extend(true, {}, this.options, defaults, options);
+
+            },
+
+            events : {
+                "click .default-position-btn" : function() {
+                    if (this.options.x && this.options.scrollLeft){
+                        this.$el.kinetic("scrollLeft", this.options.scrollLeft);
+                    };
+
+                    if (this.options.y && this.options.scrollTop){
+                        this.$el.kinetic("scrollTop", this.options.scrollTop);
+                    };
+
+                    if (this.$el.find(".adjust-position-btn.adjusting").length > 0) {
+                        this.stopPositioning();
+                    };
+                },
+                "click .adjust-position-btn" : "positionImage",
+                "click .adjust-position-btn.adjusting" : "stopPositioning"
+            },
+
+            positionImage : function() {
+                $btn = this.$el.find(".adjust-position-btn");
+                $btn.html("Stop Repositioning").addClass("adjusting btn-primary").removeClass("btn-default");
+
+                this.$el.find(".action-msg").addClass("visible");
+
+                this.$el.kinetic("attach");
+            },
+
+            stopPositioning : function() {
+                $btn = this.$el.find(".adjust-position-btn.adjusting");
+                $btn.html("Reposition Image").removeClass("adjusting btn-primary").addClass("btn-default");
+
+                this.$el.find(".action-msg").removeClass("visible");
+
+                this.$el.kinetic("detach");
+            },
+
+            onRender : function(options) {
+                if (this.options.attributes && this.options.attributes.id) {
+                    this.$el.attr("id", this.options.attributes.id);
+                };
+
+                var self = this;
+                this.$el.kinetic({
+                    y : this.options.x,
+                    y : this.options.y,
+                    cursor : this.options.cursor,
+                    "can scroll" : this.options.scroll,
+                    stopped : function() {
+                        // console.log(options);
+                        if (options.options.stopFn) {
+                            options.options.stopFn.call(this);
+                        }
+                    },
+                    moved : function() {
+                        // console.log(options);
+                        if (options.options.moveFn) {
+                            options.options.moveFn.call(this);
+                        }
+                    }
+                });
+                
+
+                if (this.model.get("resizeContainer")) {
+                    // console.info("resize");
+                    containerHeight = $("#transcriber-container").height();
+                    toolbarHeight = $("#transcriber-toolbar").height();
+                    headerImgHeight = $("#header-image-container").height();
+
+                    this.$el.height(containerHeight - (toolbarHeight + headerImgHeight));
+                };
+
+                if (this.options.postRenderFn) {
+                    this.options.postRenderFn.call(this);
+                };
+            }
+        });
+
+        Page = Backbone.Model.extend({
+            url : "/page_for_transcription/<%= transcription.id if transcription.present? %>",
+            defaults : {
+                image_id : "",
+                resizeContainer : false,
+                action_msg : "click and drag to reposition annotation guide",
+                description_msg : ""
+            }
+
+        });
+
+        Annotation = Backbone.Model.extend({
+            urlRoot : "/annotations"
+        });
+
+        AnnotationCollection = Backbone.Collection.extend({
+            model : Annotation
+        });
+
+        AnnotationBoxView = Marionette.ItemView.extend({
+            template : "#annotation-box-template",
+            className : "annotation-marker",
+
+            events : {
+                "click .edit-annotation-btn" : function() {
+                    this.model.fetch({
+                          url : "/annotations/" + this.model.get('id') + "/edit.json",
+                          format: "json",
+                          success : function(annotation) {
+                              
+                              transcriptionBox = new TranscriptionBox({
+                                model : annotation
+                              });
+
+                              transcriptionBox.render();
+                          }
+                    });
+                },
+                "click .resize-annotation-btn" : function() {
+                    self = this;
+                    var annotation = this.model;
+                    var $box = this.$el;
+                    $box.find(".annotation-actions").hide();
+                    self.setMsg("drag from edges to resize").addClass("active");
+
+                    pageCanvas.$el.kinetic("detach")
+                    
+                    $box.resizable({
+                        handles: 'ne, nw, se, sw',
+                        create : function() {
+                            $(document).on("keyup", function(e) {
+                                e.preventDefault();
+                                if( e.which === 27 || e.keyCode === 27 ){
+                                    $box.find(".annotation-actions").show();
+                                    $box.resizable("destroy");
+                                    pageCanvas.$el.kinetic("attach")
+                                    self.clearMsg().removeClass("active");
+                                    $(document).unbind("keyup");
+                                };
+                            });
+                            $box.on("clickoutside", function(e){
+                                e.preventDefault();
+                                $box.find(".annotation-actions").show();
+                                $box.resizable("destroy");
+                                pageCanvas.$el.kinetic("attach")
+                                self.clearMsg().removeClass("active");
+                                $box.unbind("clickoutside");
+                            });
+                        },
+                        stop : function(e, ui) {
+                            var offset = $box.offset();
+                            var position = {
+                                x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
+                                y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
+                            };
+
+                            var width = $box.width();
+                            var height = $box.height();
+
+                            annotation.set("x_tl", position.x);
+                            annotation.set("y_tl", position.y);
+                            annotation.set("width", width);
+                            annotation.set("height", height);
+
+                            annotation.save(annotation.attributes, {
+                                success : function(mdl) {
+                                    $box.find(".annotation-actions").show();
+                                    $box.resizable("destroy");
+                                    pageCanvas.$el.kinetic("attach")
+                                    self.clearMsg().removeClass("active");
+
+                                    mainLayout.setMsg("Annotation box dimensions sucessfully saved!", true, "success");
+                                },
+                                error : function() {
+                                    mainLayout.setMsg("Error saving annotation box dimensions!", true, "danger");
+                                }
+                            });
+                        }
+                    });
+                },
+                "click .move-annotation-btn" : function() {
+                    self = this;
+                    var annotation = this.model;
+                    var $box = this.$el;
+                    $box.find(".annotation-actions").hide();
+                    self.setMsg("click and drag box to move").addClass("active");
+
+                    pageCanvas.$el.kinetic("detach")
+
+                    $box.draggable({
+                        create : function() {
+                            $(document).on("keyup", function(e) {
+                                e.preventDefault();
+                                if( e.which=== 27 || e.keyCode === 27 ){
+                                    console.log("esc key");
+                                    $box.find(".annotation-actions").show();
+                                    $box.draggable("destroy");
+                                    pageCanvas.$el.kinetic("attach")
+                                    self.clearMsg().removeClass("active");
+                                    $(document).unbind("keyup");
+                                };
+                            });
+                            $box.on("clickoutside", function(e){
+                                e.preventDefault();
+                                $box.find(".annotation-actions").show();
+                                $box.draggable("destroy");
+                                pageCanvas.$el.kinetic("attach")
+                                self.clearMsg().removeClass("active");
+                                $box.unbind("clickoutside");
+                            });
+                        },
+                        stop : function(e, ui) {
+                            var offset = $box.offset();
+                            var position = {
+                                x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
+                                y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
+                            };
+
+                            var width = $box.width();
+                            var height = $box.height();
+
+                            annotation.set("x_tl", position.x);
+                            annotation.set("y_tl", position.y);
+                            annotation.set("width", width);
+                            annotation.set("height", height);
+
+                            annotation.save(annotation.attributes, {
+                                success : function(mdl) {
+                                    $box.find(".annotation-actions").show();
+                                    $box.draggable("destroy");
+                                    pageCanvas.$el.kinetic("attach")
+                                    self.clearMsg().removeClass("active");
+
+                                    mainLayout.setMsg("Annotation box position sucessfully saved!", true, "success");
+
+                                    $(document).unbind()
+                                },
+                                error : function() {
+                                    mainLayout.setMsg("Error saving annotation box position!", true, "danger");
+                                }
+                            });
+                        }
+                    });
+                },
+                "click .delete-annotation-btn" : function(e) {
+                    var self = this;
+                    var annotation = this.model;
+
+                    var modal = new Backbone.BootstrapModal({ 
+                        title : "Are you sure you want to delete this annotation?",
+                        animate : true,
+                        okText : "Delete",
+                        submitFn : function(){
+                            annotation.destroy({
+                                success : function(mdl) {
+                                    self.destroy();
+                                    mainLayout.setMsg("Annotation deleted", true, "success");
+                                    $(".tooltip").remove();
+                                    modal.close();
+                                }
+                            });
+                        }
+                    }).open();
+                }
+            },
+
+            setMsg : function(msg) {
+                $msgContainer = this.$el.find(".annotation-msg");
+                $msgContainer.html(msg);
+
+                return $msgContainer;
+            },
+
+            clearMsg : function(msg) {
+                $msgContainer = this.$el.find(".annotation-msg");
+                $msgContainer.html("");
+
+                return $msgContainer;
+            },
+
+            onRender : function() {
+                if (this.model) {
+                    annotation = this.model;
+
+                    this.$el.css({
+                        "left": annotation.get('x_tl'),
+                        "top": annotation.get('y_tl'),
+                        "width": annotation.get('width'),
+                        "height": annotation.get('height')
+                    }).attr({
+                        "id" : ('annotation' + annotation.get('id')),
+                        'data-annotation-id' : annotation.get('id'),
+                        'data-field-group-id' : annotation.get('field_group').id
+                    }).addClass(annotation.get('field_group').colour_class);
+
+                    pageCanvas.$el.append(this.$el);
+
+                    this.$el.find('[data-toggle="popover"]').popover();
+                    this.$el.find('[data-toggle="tooltip"]').tooltip();
+                };
+            }
+        });
+
+        AnnotationCollectionView = Marionette.CollectionView.extend({
+            itemView : AnnotationBoxView
+        });
+
+        TranscriptionBox = Marionette.ItemView.extend({
+            template : "#transcription-box-template",
+            attributes : {
+                id : "scribe_annotation_box"
+            },
+
+            events : {
+                "click .close-btn" : function() {
+                    this.destroy();
+                    toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
+                },
+
+                "click .scribe_tab" : function(e){
+
+                 /* perform function when user click on an element with the "scribe_tab" class. Corresponds
+                  to Field Group tabs in the transcription box */
+                  //function to toggle between field group form layers when you click on their respective tab. Marks current tab as active
+
+
+                    self = this;
+                     $tab = $(e.target);
+                     self.$el.find(".annotation-form-field-group").hide(); //hide all other instances of the field_group data forms when switching tabs
+                     self.$el.find('#formInstructions').hide();
+                     $tab.addClass("active"); //mark clicked tab as active by settings its class
+
+                     $tab.siblings().removeClass('active'); //set all siblings of the clicked tab as unselected
+
+                     var $currentForm = self.$el.find("#field-group-" + $tab.data('field-group-id'));
+
+
+                     $currentForm.show();
+
+                     newWidth = ($tab.data("field-count") * 110) + 100;
+
+                     self.$el.width(newWidth);
+
+                     self.$el.find("#transcriber-grid-container").css("display", "table");
+
+                  },
+                //end field toggler
+                "click .submit-btn" : function(e) {
+                    e.preventDefault();
+                    var $form = $(e.target).parents("form.annotation-form");
+                    if (this.model) {
+                        this.updateAnnotation(this.model);
+                        // console.log("update");
+                    } else {
+                        // console.log("new");
+                        this.createNewAnnotation($form);
+                    };
+                }
+            },
+
+            defaultFieldOptions : [
+                { id: "empty", text: "Empty/Blank"},
+                { id: "illegible", text: "Illegible"},
+                { id: "retracted", text: "Retracted / Line through"}
+            ],
+
+            formatSelection : function (data, container) {
+                // console.log(data);
+                var res = "<span>";
+                var $element = $(data.element);
+
+                var displayAttribute = data.display_attribute;
+                if (typeof(displayAttribute) == "undefined" && !(typeof($element.data("display-attribute")) == "undefined") ) {
+                    displayAttribute = $element.data("display-attribute");
+                    // console.info(displayAttribute);
+                    // console.info("data undefined");
+                };
+                var iconUrl = data.icon_url;
+                if (typeof(iconUrl == "undefined") && !(typeof($element.data("icon-url")) == "undefined") ) {
+                    iconUrl = $element.data("icon-url");
+                    // console.info("data undefined");
+                };
+                var textSymbol = data.text_symbol;
+                if (typeof(textSymbol) == "undefined" && !(typeof($element.data("text-symbol")) == "undefined") ) {
+                    textSymbol = $element.data("text-symbol");
+                    // console.info("data undefined");
+                };
+                var name = data.text;
+                if ((typeof(name) == "undefined" || name == "undefined") && !(typeof($element.data("name")) == "undefined") ) {
+                    name = $element.data("name");
+                    // console.info("data undefined");
+                };
+
+                if (displayAttribute) {
+                    if (displayAttribute == "icon") {
+                        res += ("<img src='" + iconUrl + "' />");
+                        // console.info("icon");
+                    } else if (displayAttribute == "symbol") {
+                        res += textSymbol;
+                        // console.info("symbol");
+                    } else {
+                        res += name;
+                        // console.info("name");
+                    }
+                } else {
+                    res += data.text;
+                    // console.info("text");
+                };
+
+                res += "</span>";
+
+                return $(res);
+            },
+
+            initializeFields : function() {
+                self = this;
+                // Set up plugins for input fields
+
+                // Date Fields
+                this.$el.find(".date-field").select2({
+                    placeholder : "Select Date",
+                    theme : "bootstrap"
+                });
+
+                // Time Fields
+                _.each(this.$el.find('.time-group'), function(time) {
+                    $(time).datetimepicker({
+                        format: 'LT',
+                        widgetParent : $(time).parents(".scribe_input_field"),
+                        widgetPositioning : {
+                          vertical : "top"
+                        }
+                    });
+                });
+
+                // Selectable Fields
+                _.each(this.$el.find(".observation-input.selectable"), function(field) {
+                    $field = $(field);
+
+                    if ($field.data("field-options")) {
+
+                        $field.select2({
+                            forceAbove : true,
+                            theme : "bootstrap",
+                            createTag: function(params) {
+                                return undefined;
+                            },
+                            tokenSeparators: [',', ' '],
+                            placeholder: 'select',
+                            current : function(element,callback) {
+                                // console.log("select2 initialized for " + $field.data("field-id"));
+                                $.ajax({
+                                    url : "/field_options_for_field/" + $field.data("field-id"),
+                                    dataType : "json",
+                                    success : function(data, status) {
+                                        var opts = [];
+                                        // console.info("current");
+                                        // console.log(data);
+
+                                        _.each(data, function(option, key, list) {
+                                            // console.warning(option);
+                                            opts.push({
+                                                id : option.id,
+                                                text : option.name,
+                                                title : option.name,
+                                                icon_url: option.icon_url,
+                                                text_symbol: option.text_symbol,
+                                                display_attribute: option.display_attribute
+                                            });
+                                        });
+                                        opts = opts.concat(self.defaultFieldOptions);
+                                        callback(opts);
+                                    },
+                                    error : function(response) {
+                                        console.log("failed to get options for " + $field.data("field-id"));
+                                    }
+                                });
+                            },
+
+                            templateResult : function(obj, container) {
+                                // console.info("template result");
+                                // console.log(obj);
+                                result = "<span>";
+                                if (obj.icon_url && obj.icon_url.length > 0){
+                                    result += ("<img src='" + obj.icon_url + "' />" + "&nbsp;");
+                                };
+                                if (obj.text_symbol && obj.text_symbol.length > 0){
+                                    result += (obj.text_symbol + "&nbsp;-&nbsp;");
+                                };
+                                result += (obj.text + "</span>");
+
+                                return $(result);
+                            },
+
+                            templateSelection : self.formatSelection,
+
+                            ajax : {
+                                url : "/field_options_for_field/" + $field.data("field-id"),
+                                dataType : "json",
+                                data : function(params) {
+                                    return { search : params.term };
+                                },
+                                processResults : function(_data, params) {
+                                    res = [];
+                                    // console.info("ajax");
+                                    // console.log(_data);
+                                    _.each(_data, function(option) {
+                                        opt = $.extend({}, {
+                                                id : option.id,
+                                                text : option.name,
+                                                title : option.name,
+                                                icon_url: option.icon_url,
+                                                text_symbol: option.text_symbol,
+                                                display_attribute: option.display_attribute
+                                            });
+
+                                        res.push(opt);
+                                    });
+                                    res = res.concat(self.defaultFieldOptions);
+                                    var data = {
+                                        results: res
+                                    };
+                                    return data;
+                                },
+                                    error : function(response) {
+                                        console.log("failed to get search options for " + $field.data("field-id"));
+                                    }
+                            }
+                        }).on("select2:select", function() {
+                            optionIds = [];
+                            $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
+
+                            $(this).find("option:selected").each(function() {
+                                optionIds.push($(this).val());
+                            });
+
+                            $optionIdsInput.val(optionIds);
+
+                        }).on("select2:unselect", function(e) {
+                            // console.log(e);
+                            optionIds = [];
+                            $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
+
+                            $(this).find("option:selected").each(function() {
+                                optionIds.push($(this).val());
+                            });
+
+                            $optionIdsInput.val(optionIds);
+
+                        });
+
+                    } else {
+                        $field.select2({
+                            theme : "bootstrap",
+                            multiple: false,
+                            tags: true,
+                            tokenSeparators: [',', ' '],
+                            placeholder: 'type',
+                            data : self.defaultFieldOptions,
+                            createSearchChoice:function(term, data) {
+                              if ( $(data).filter( function() {
+                                return this.text.toLowerCase() === term.toLowerCase(); //even if the this.text is undefined it works
+                              }).length===0) {
+                                return {id:term, text:term};
+                              };
+                            },
+                            selectOnClose : true
+                        });
+                    };
+                });
+
+
+            },
+
+            updateAnnotation : function(annotation) {
+                self = this;
+                $form = this.$el.find("form");
+                toolbarLayout.$el.find("#new-annotation").addClass("disabled");
+                $form.on("ajax:success", function(e, status, data, xhr) {
+                    // console.log(e);
+                    // console.log(data);
+                    // console.log(status);
+                    // console.log(xhr);
+                    
+                    self.destroy();
+                    toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
+
+                    mainLayout.setMsg("Annotation sucessfully saved!", true, "success");
+                }).on("ajax:error", function(e, xhr, status, error) {
+                    // console.log(e);
+                    console.log(error);
+                    console.log(status);
+                    // console.log(xhr);
+                    mainLayout.setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
+
+                    self.show();
+                });
+
+                $form.submit();
+            },
+
+            editAnnotation : function(annotation) {
+                var $transcriber = this.$el;
+                $("body").append($transcriber);
+
+                var field_group = annotation.get('field_group');
+                // console.log(field_group);
+                 // Clear values and reset form desitantation
+                 $forms = $transcriber.find("form.annotation-form");
+                 _.each($forms, function(form){
+                    $form = $(form);
+                    if ($form.attr('id') == ("field_group_" + field_group.id)) {
+                        $form.attr("method", "PUT");
+                        $form.attr("action", ("/annotations/" + annotation.get("id")));
+                        // $transcriber.find("#formInstructions").hide();
+                        // $form.parents(".annotation-form-field-group").show();
+                        $transcriber.find("li#scribe_tab_" + field_group.id).trigger("click");
+                    } else {
+                      $transcriber.find(".annotation-form-field-group:not(#field-group-" + field_group.id + ")").remove();
+                      $transcriber.find("li:not(#scribe_tab_" + field_group.id + ")").remove();
+                    };
+                 });
+
+
+                 if ($transcriber.is(":hidden")) {
+                    // show transcriber
+                   $transcriber.show(250); /*open the box with a delay of half a second. This is what makes the transcription
+                   box open with a flourish. Remove the value from the .show() function to make it open instantly */
+                   $transcriber.offset({left: 25, top: 75}); //set position of the box to open at the click event 'e' position
+
+                   var position = {
+                      x: $transcriber.offset().left - $(document).scrollLeft() - $("#canvas").offset().left,
+                      y : $transcriber.offset().top - $(document).scrollTop() - $("#canvas").offset().top
+                   };
+                };
+
+
+                // // console.log(annotation);
+                $form = $transcriber.find("form[data-field-group-id=" + annotation.get('field_group').id + "]");
+                // console.log($form);
+
+                $form.find("[data-field-type='date']").val(annotation.get('date')).trigger("change");
+                $form.find("[data-field-type='time']").val(annotation.get('time'));
+                $form.find("#x-field").val(annotation.get('x_tl'));
+                $form.find("#y-field").val(annotation.get('y_tl'));
+                $form.find("#width-field").val(annotation.get('width'));
+                $form.find("#height-field").val(annotation.get('height'));
+
+                // // update transcriber width and position
+                var fields = annotation.get('field_group').fields;
+
+                  // console.log(fields);
+                newWidth = (fields.length + 3) * 110 + 100;
+
+                $transcriber.css("width", newWidth);
+                
+                // // set field values from response
+                _.each(fields, function(field){
+                  // console.log(field);
+
+                  value = field.value;
+                  $inputField = $form.find(".scribe_input_field[data-field-id=" + field.id +"]");
+                  $select = $inputField.find("select");
+                  // console.log($select);
+
+                  if (field.has_options && field.selected_options) {
+                      $select.find("option.user-option, option:selected").remove();
+                      $select.trigger("change");
+                      for (var i = 0; i < field.selected_options.length; i++) {
+                          var option = field.selected_options[i];
+                          var $option = $("<option class='user-option' selected></option>").val(option.id).html(formatSelection(option));
+
+                          // For custom tag template
+                          $option.attr("data-display-attribute", option.display_attribute);
+                          $option.attr("data-icon-url", option.icon_url);
+                          $option.attr("data-text-symbol", option.text_symbol);
+                          $option.attr("data-name", option.name);
+
+                          $select.append($option).trigger("change");
+                      }
+                      optionIds = [];
+                      $optionIdsInput = $inputField.find(".selected-option-ids");
+
+                      _.each(field.selected_options, function(option) {
+                          optionIds.push(option.id);
+                      });
+
+                      $optionIdsInput.val(optionIds);
+                  } else if ($select.length > 0) {
+                      $select.find("option.user-option").remove();
+                       if (value == "empty" || value == "illegible") {
+                          $select.val(value).trigger("change");
+                       } else {
+                          var $option = $("<option class='user-option' selected></option>").val(value).text(value);
+                          // console.log($option);
+                          $select.append($option).trigger("change");
+                       };
+                  } else {
+                      $inputField.val(value).trigger("change");
+                      // console.log(value);
+                  };
+                  
+                });
+            },
+
+            createNewAnnotation : function($form) {
+                var self = this;
+
+                $form.on("ajax:success", function(e, data, status, xhr) {
+                    // console.log(e);
+                    // console.log(data);
+                    // console.log(status);
+                    // console.log(xhr);
+
+                    self.$el.hide();
+
+                    if (data.id == null) {
+                      mainLayout.setMsg("Annotation could not be saved. The ID returned was null.", false, "danger");
+                      return;
+                    } else {
+                        var fieldGroupName = data.field_group.name || "";
+                        mainLayout.setMsg("Annotation sucessfully saved! Click and drag a box around the " + fieldGroupName + " observations that you just transcribed. Don't include the date or time.", false, "info");
+                    };
+
+                    annotation = new Annotation(data);
+
+                    pageCanvas.$el.kinetic("detach");
+
+                    // Using the boxer plugin
+                    pageCanvas.$el.boxer({
+                      appendTo: "#canvas",
+                      container : "#page-container",
+                      target : "#target-image",
+                      groupColour : data.field_group.colour_class,
+
+                      stop: function(event, ui) {
+                        var offset = ui.box.offset();
+                        var position = {
+                            x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
+                            y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
+                        };
+
+                        annotation.set("x_tl", position.x);
+                        annotation.set("y_tl", position.y);
+                        annotation.set("width", ui.box.width());
+                        annotation.set("height", ui.box.height());
+
+                        annotation.save(annotation.attributes, {
+                            success : function(mdl) {
+                                annotationBox = new AnnotationBoxView({
+                                    model : mdl
+                                });
+
+                                ui.box.remove();
+
+                                annotationBox.render();
+
+                                mainLayout.setMsg("Annotation and bounding box sucessfully saved!", true, "success");
+
+                                self.destroy();
+                                toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
+
+                                pageCanvas.$el.unbind("boxer");
+                                pageCanvas.$el.kinetic("attach");
+
+                                Annotations.add(mdl);
+
+                            },
+                            error : function() {
+                                console.log("error");
+                                pageCanvas.$el.unbind("boxer");
+                                self.show();
+                            }
+                        });
+                      }
+                    });
+
+                }).on("ajax:error", function(e, xhr, status, error) {
+                    // console.log(e);
+                    console.log(error);
+                    console.log(status);
+                    // console.log(xhr);
+                    pageLayout.setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
+                });
+
+                $form.submit();
+            },
+
+            onRender : function() {
+                this.$el.draggable({
+                    scroll: false,
+                    drag: function(){
+                    }
+                });
+
+                this.initializeFields();
+
+                this.$el.find('[data-toggle="popover"]').popover();
+                this.$el.find('[data-toggle="tooltip"]').tooltip();
+
+                if (this.model) {
+                    this.editAnnotation(this.model);
+                };
+            }
+        });
+
+        Annotations = new AnnotationCollection();
+        mainLayout = new MainLayout();
+        toolbarLayout = new ToolbarLayout();
+
+        mainPage = new Page().set("image_id", "target-image").set("resizeContainer", true);
+        headerPage = new Page().set({
+            "action_msg" : "Click and drag this image vertically until table header is visible.",
+            "description_msg" : 'Page column labels guide. Click "Reposition Image" button to position column labels within view. This image will automatically scroll horizontally when you scroll the main image.'
+        });
+        timePage = new Page().set({
+            "image_id" : "time-image",
+            "resizeContainer" : true,
+            "action_msg" : "Click and drag this image horizontally until time column is visible.",
+            "description_msg" : 'Time column guide. Click "Reposition Image" button to position time column within view. This image will automatically scroll vertically when you scroll the main image.'
+        });
+        pageCanvas = new PageImage({
+            model : mainPage,
+            template : "#page-canvas-template",
+            attributes : {
+                id : "canvas"
+            },
+            moveFn : function() {
+                timeImg.$el.kinetic("scrollTop", this.settings.scrollTop);
+                headerImg.$el.kinetic("scrollLeft", this.settings.scrollLeft);
+            },
+            postRenderFn : function() {
+                var $canvas = this.$el;
+
+                Annotations.fetch({
+                    url : "/annotations?transcription_id=<%= @transcription.id %>",
+                    success : function(collection) {
+                        // console.log(collection);
+
+                        _.each(collection.models, function(annotation) {
+                            // console.log(annotation);
+
+                            box = new AnnotationBoxView({
+                                model : annotation
+                            });
+
+                            box.render();
+                        });
+
+                        // console.log(Annotations);
+                    }
+                });
+
+                $canvas.on("scroll", function() {
+                    timeImg.$el.kinetic("scrollTop", $(this).scrollTop());
+                    headerImg.$el.kinetic("scrollLeft", $(this).scrollLeft());
+                });
+            }
+        });
+        headerImg = new PageImage({
+            model : headerPage,
+            cursor : "ns-resize",
+            x : false,
+            attributes : {
+                id : "header-image-kinetic"
+            },
+            postRenderFn : function() {
+                this.$el.kinetic("detach");
+            },
+            scrollTop : 390
+        });
+        timeImg = new PageImage({
+            model : timePage,
+            cursor : "ew-resize",
+            y : false,
+            attributes : {
+                id : "time-image-kinetic"
+            },
+            postRenderFn : function() {
+                this.$el.kinetic("detach");
+            },
+            scrollLeft : 315
+        });
+
+        return {
+            init : function() {
+                TranscriberApp.main.show(mainLayout);
+
+                mainLayout.toolbar.show(toolbarLayout);
+                mainLayout.headerImg.show(headerImg);
+                mainLayout.timeImg.show(timeImg);
+                mainLayout.pageContainer.show(pageCanvas);
+
+                setTimeout(function() {
+                    headerImg.$el.kinetic("scrollTop", 390);
+                    timeImg.$el.kinetic("scrollLeft", 315);
+                }, 1000);
+            },
+            MainLayout : mainLayout
+        };
+    })(Backbone, Marionette)
+
+    $(document).ready(function() {
+        TranscriberApp.addInitializer(TranscriberApp.AppManager.init);
+        TranscriberApp.start();
+    });
+
+</script>

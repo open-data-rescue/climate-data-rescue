@@ -4,6 +4,7 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require jquery.fileupload
  *= require jquery.fileupload-ui
+ *= require jquery-ui
  *= require select2
  *= require select2-bootstrap
  *= require trumbowyg/dist/ui/trumbowyg
@@ -48,7 +49,6 @@ a {
     width: 100%;
     height: 100%;
     z-index: -1;
-    opacity: 0.8;
     background-repeat: no-repeat;
     -ms-background-size: cover;
     -o-background-size: cover;
@@ -57,7 +57,7 @@ a {
     background-size: cover;
     background-image: url(image_path("mcgill-background"));
     background-position: left center;
-  }
+}
 .main-wrapper {
   padding: 0;
   min-height: 100%;
@@ -84,7 +84,7 @@ a {
     padding: 30px;
 
     &.default{
-        background-color: rgba(253,253,253,0.8);;
+        background-color: #fafafa;
         min-height: 300px;
     }
   }
@@ -135,7 +135,7 @@ a {
   border-color: #EBCCD1;
   border: 1px solid transparent;
   border-radius: 4px;
-  
+
   small {
     color: #A94442;
   }
@@ -155,21 +155,21 @@ a {
   width: 100%;
   height: 100%;
   position: fixed;
-  
-  #transcriber-toolbar {
+
+  #transcriber-toolbar-wrapper {
     width: 100%;
     height: 70px;
     padding: 10px;
     background: black;
     display: table;
-    
+
     > div {
       display: table-cell;
       vertical-align: middle;
       width: 50%;
       padding: 0 15px;
     }
-    
+
     > div:last-child:after {
       clear: left;
     }
@@ -187,16 +187,21 @@ a {
       margin-top: 7px;
     }
   }
-  
+
+  #page-time-container {
+    border-top: 3px solid $accent-color;
+  }
+
   #page-container {
-    overflow: scroll;
-    width: 100%;
+    width: calc(100% - 140px);
     height: 100%;
     background: #999;
+    margin-left: 140px;
 
     #canvas {
       position: relative;
-      
+    overflow: scroll;
+
       &.ui-boxer {
         cursor: crosshair;
       }
@@ -205,15 +210,19 @@ a {
       cursor: move;
     }
   }
-  
+
 }
 
 .annotation-marker {
   border: 1px solid hsla(0, 100%, 0%, 0.3);
   background: hsla(268, 100%, 68%, 0.3);
-  z-index: 100;
+  z-index: 80;
   position: absolute;
-  cursor: context-menu;
+  cursor: default;
+
+  &.ui-draggable {
+    cursor: move;
+  }
 
   .inner {
     position: relative;
@@ -236,8 +245,14 @@ a {
         padding: 5px;
         width: 100%;
         opacity: 0;
+        color: white;
 
         background: rgba(0, 0%, 0%, 0.05);
+
+        &.active {
+            opacity: 1;
+            background: rgba(0, 0%, 0%, 0.2);
+        }
     }
   }
   &:hover {
@@ -250,6 +265,46 @@ a {
     .inner {
     }
   }
+
+  #nwgrip, #negrip, #swgrip, #segrip, #ngrip, #egrip, #sgrip, #wgrip {
+      width: 10px;
+      height: 10px;
+      background-color: #ffffff;
+      border: 1px solid #000000;
+      position: absolute;
+  }
+  #nwgrip {
+      left: -5px;
+      top: -5px;
+  }
+  #negrip{
+       top: -5px;
+       right: -5px;
+  }
+  #swgrip{
+      bottom: -5px;
+      left: -5px;
+  }
+  #segrip{
+       bottom: -5px;
+      right:-5px;
+  }
+  #ngrip{
+       top: -5px;
+      left:50%;
+  }
+  #sgrip{
+       bottom: -5px;
+      left: 50%;
+  }
+  #wgrip{
+       left:-5px;
+       top:50%;
+  }
+  #egrip{
+       right:-5px;
+       top:50%;
+  }
 }
 .annotation-marker.helper {
   border: 2px dotted black;
@@ -257,11 +312,14 @@ a {
 
 #transcription-msg-container {
   position: absolute;
-  z-index: 100;
   width: 100%;
-  height: 50px;
   font-size: 18px;
   display: table;
+
+  &.active {
+    min-height: 50px;
+    z-index: 1000;
+  }
 
   #transcription-msg {
     display: table-cell;
@@ -428,19 +486,19 @@ $tab-active-text: white;
 .remove-from-field-btn {
     color: hsl(2, 64%, 58%);
 
-    &:hover { 
+    &:hover {
         color: hsl(2, 64%, 45%);
         cursor: pointer;
-    }    
+    }
 }
 
 .add-to-field-btn {
     color: hsl(120, 39%, 54%);
 
-    &:hover { 
+    &:hover {
         color: hsl(120, 39%, 45%);
         cursor: pointer;
-    }    
+    }
 }
 
 .field-option-table {
@@ -461,7 +519,7 @@ $tab-active-text: white;
       display: block;
       padding-left: 0;
 
-      .bootstrap-switch.bootstrap-switch-wrapper { 
+      .bootstrap-switch.bootstrap-switch-wrapper {
         display: block;
       }
     }
@@ -469,7 +527,7 @@ $tab-active-text: white;
 }
 
 .draw-footer-nav-container {
-    display: block; 
+    display: block;
     width: 100%;
     margin-bottom: 0;
     background: rgba(0,0,0,0.8);
@@ -498,15 +556,15 @@ $tab-active-text: white;
         color: white;
     }
 
-    
+
 }
 
 .navbar-nav > li > a {
     transition: all 0.2s;
 }
 
-.navbar-default .navbar-nav > .active > a, 
-.navbar-default .navbar-nav> li > a:hover, 
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav> li > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
     color: white;
     background-color: $accent-color;
@@ -531,6 +589,8 @@ $tab-active-text: white;
       font-weight: 500;
       font-size: 20px;
       line-height: 30px;
+      padding: 0 20px;
+      text-align: center;
     }
 
     .homepage-actions {

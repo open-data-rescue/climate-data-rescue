@@ -1,11 +1,88 @@
-<div id="scribe_annotation_box">
-    <div id="scribe_zoom_box" style="background-image: url('<%= page.image.url(:original) %>'); background-repeat: no-repeat; background-position-y: -200px;"></div>
-    
+
+<script type="text/template" id="main-layout-template">
+    <div id="transcriber-toolbar">
+
+    </div>
+    <div id="transcription-msg-container"></div>
+    <div id="header-wrapper">
+        <div id="header-img-spacer">&nbsp;</div>
+        <div id="header-image-container"></div>
+    </div>
+    <div id="page-time-container">
+        <div id="time-image-container"></div>
+        <div id="page-container"></div>
+    </div>
+
+</script>
+
+<script type="text/template" id="transcription-toolbar-template">
+    <div id="transcription-buttons" class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group" data-purpose="guide and help">
+            <a href="/tutorial" target="tutorial" class="btn btn-default">Instructions</a>
+            <a href="/feedback" target="feedback" class="btn btn-default">Feedback</a>
+        </div>
+        <div class="btn-group" role="group" data-purpose="action buttons">
+            <button id="new-annotation" type="button" class="btn btn-primary">New Annotation</button>
+            <!-- <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button> -->
+        </div>
+        <div id="get-started-txt" class="btn-group" role="group" data-purpose="guide and help">
+            <i class="fa fa-arrow-left"></i>  Click on "New Annotation" to transcribe
+        </div>
+    </div>
+    <div id="transcription-form-container">
+            <%= form_for transcription, html: {class: "form-inline", id: "submit-transcription-form"} do %>
+                <% if transcription.complete %>
+                    <%= submit_tag "Submit Finished Transcription", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-success pull-right", id: "finish-transcribing-btn" %>
+                <% else %>
+                    <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-default pull-right", id: "finish-transcribing-btn" %>
+                <% end %>
+
+                <%= hidden_field_tag "transcription[complete]", false %>
+                <%= check_box_tag "transcription[complete]", true, transcription.complete, id: "page-complete-checkbox" %>
+            <% end %>
+    </div>
+
+</script>
+
+<script type="text/template" id="page-canvas-template">
+    <img src="<%= page.image.url(:original) %>" alt="" id="target-image">
+</script>
+
+<script type="text/template" id="page-image-template">
+    <div class="control-mask">
+        <div class="actions-container">
+            <span class="btn btn-xs btn-default default-position-btn">Default Position</span>
+            <span class="btn btn-xs btn-default adjust-position-btn">Reposition Image</span>
+        </div>
+        <div class="description-msg">{{= description_msg }}</div>
+        <div class="action-msg">{{= action_msg }}</div>
+    </div>
+    <img src="<%= page.image.url(:original) %>" id="{{= image_id }}">
+</script>
+
+<script type="text/template" id="msg-template"> 
+        <span id="msg">{{= text }}</span><button type="button" class="close pull-right" aria-label="Close"><span aria-hidden="true"><i class="fa fa-remove"></i></span></button> 
+</script> 
+
+<script id="annotation-box-template" type="text/template">
+    <div class="inner">
+        <div class="annotation-actions">
+            <button type="button" class="btn btn-xs btn-default edit-annotation-btn" data-toggle="tooltip" data-trigger="hover" data-container="#canvas" title="edit values"><i class="fa fa-pencil"></i></button>
+            <button type="button" class="btn btn-xs btn-default resize-annotation-btn" data-toggle="tooltip" data-trigger="hover" data-container="#canvas" title="resize box"><i class="fa fa-expand" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-xs btn-default move-annotation-btn" data-toggle="tooltip" data-trigger="hover" data-container="#canvas" title="reposition box"><i class="fa fa-arrows" aria-hidden="true"></i></button>
+
+            <button type="button" class="btn btn-xs btn-danger delete-annotation-btn pull-right" data-toggle="tooltip" data-trigger="hover" data-container="#canvas" title="delete annotation"><i class="fa fa-trash"></i></button>
+        </div>
+        <div class="annotation-msg"></div>
+    </div>
+</script>
+
+<script type="text/template" id="transcription-box-template">
     <div id="scribe_transcription_area">
         <div id="scribe_top_bar">
             <div id="scribe_prompt">
                 <p id="scribe_prompt_text">Enter the values for each field to be transcribed</p>
-                <button class="btn btn-default btn-xs pull-right" onClick="clearAnnotationBox();" style="border: none;"><i class="fa fa-close fa-2x"></i></button>
+                <button class="btn btn-default btn-xs pull-right close-btn" style="border: none;"><i class="fa fa-close fa-2x"></i></button>
             </div>
             <ul id="scribe_tab_bar">
                 <% field_groups.each do |field_group| %>
@@ -51,7 +128,7 @@
                                             </span>
                                         </div>
                                         <div>
-                                            <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date", data: { content: "What is the time of this observation?<br /><br /><strong>Safari Users:</strong> Times must be entered in either 12h (4:30 PM) or 24h (16:30) format. Any other format will cause the annotation to fail.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover"}%> Observation Time
+                                            <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date", data: { content: "What is the time of this observation?", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover"}%> Observation Time
                                         </div>
                                     </div>
                                 </div>
@@ -65,9 +142,9 @@
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", nil, class: "selected-option-ids" %>
                                         <div class="scribe_input_label">
                                         <% if field.field_options.any? %>
-                                            <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control", multiple: field.multi_select,  data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: true, multiple: field.multi_select, tags: field.multi_select } %>
+                                            <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control selectable", multiple: field.multi_select,  data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: true, multiple: field.multi_select, tags: field.multi_select } %>
                                         <% else %>
-                                            <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control", data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: false } %>
+                                            <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control selectable", data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: false } %>
                                         <% end %>
                                         <i class="fa fa-info-circle" style="cursor: help;" aria-hidden="true" title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" data-toggle="popover" data-trigger="hover" data-placement="left auto" data-content="<%= (field.help && field.help.present? ? field.help : "") %>"></i><%= field.name %>
                                         </div>
@@ -81,4 +158,11 @@
             </div>
         </div>
     </div>
-</div>
+    <div id="transcriber-grid-container">
+        <div class="control-mask">
+            Position this box around the data you're transcribing
+        </div>
+    </div>
+
+</script>
+
