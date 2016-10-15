@@ -272,6 +272,7 @@
                         // console.info("added field option to field");
                         AvailableOptions.remove(mdl);
                         AssignedOptions.add(mdl);
+                        $(".tooltip").remove();
                     }
                 });
             },
@@ -290,6 +291,7 @@
                         // console.info("removed field option from field");
                         AssignedOptions.remove(mdl);
                         AvailableOptions.add(mdl);
+                        $(".tooltip").remove();
                     }
                 });
             },
