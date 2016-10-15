@@ -28,7 +28,7 @@
     TranscriberApp.AppManager = (function(Backbone, Marionette) {
 
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
-
+        
         MainLayout = Marionette.LayoutView.extend({
             template : "#main-layout-template",
             regions : {
@@ -116,32 +116,34 @@
             },
 
             events : {
-                "click #new-annotation" : function() {
-                    transcriptionBox = new TranscriptionBox().render();
+                "click #new-annotation" : function(e) {
+                    $btn = $(e.target);
 
-                    var $transcriber = transcriptionBox.$el;
-                    $("body").append($transcriber);
-                     // Clear values and reset form desitantation
-                     $(".observation-input").val(null);
-                     $("[data-selectable='true'").val(null).trigger("change");
-                     $forms = $("form.annotation-form");
-                     _.each($forms, function(form){
-                        $(form).attr("method", "post");
-                        $(form).attr("action", "/annotations");
-                     });
+                    if (!$btn.hasClass("disabled")) {
+                        $btn.addClass("disabled");
+                        transcriptionBox = new TranscriptionBox().render();
 
+                        var $transcriber = transcriptionBox.$el;
+                        $("body").append($transcriber);
 
-                     if ($transcriber.is(":hidden")) {
-                        // show transcriber
-                       $transcriber.show(250); /*open the box with a delay of half a second. This is what makes the transcription
-                       box open with a flourish. Remove the value from the .show() function to make it open instantly */
-                       $transcriber.offset({left: 25, top: 75}); //set position of the box to open at the click event 'e' position
+                        $forms = $("form.annotation-form");
+                        _.each($forms, function(form){
+                            $(form).attr("method", "post");
+                            $(form).attr("action", "/annotations");
+                        });
 
-                       var position = {
-                          x: $transcriber.offset().left - $(document).scrollLeft() - $("#canvas").offset().left,
-                          y : $transcriber.offset().top - $(document).scrollTop() - $("#canvas").offset().top
-                       };
-                    }
+                        if ($transcriber.is(":hidden")) {
+                            // show transcriber
+                           $transcriber.show(250); /*open the box with a delay of half a second. This is what makes the transcription
+                           box open with a flourish. Remove the value from the .show() function to make it open instantly */
+                           $transcriber.offset({left: 25, top: 75}); //set position of the box to open at the click event 'e' position
+
+                           var position = {
+                              x: $transcriber.offset().left - $(document).scrollLeft() - $("#canvas").offset().left,
+                              y : $transcriber.offset().top - $(document).scrollTop() - $("#canvas").offset().top
+                           };
+                        };
+                    };
                 }
             },
 
@@ -302,7 +304,147 @@
                               transcriptionBox.render();
                           }
                     });
+                },
+                "click .resize-annotation-btn" : function() {
+                    self = this;
+                    var annotation = this.model;
+                    var $box = this.$el;
+                    $box.find(".annotation-actions").hide();
+                    self.setMsg("drag from edges to resize").addClass("active");
+
+                    pageCanvas.$el.kinetic("detach")
+                    
+                    $box.resizable({
+                        handles: 'ne, nw, se, sw',
+                        create : function() {
+                            $(document).on("keyup", function(e) {
+                                e.preventDefault();
+                                if( e.which === 27 || e.keyCode === 27 ){
+                                    $box.find(".annotation-actions").show();
+                                    $box.resizable("destroy");
+                                    pageCanvas.$el.kinetic("attach")
+                                    self.clearMsg().removeClass("active");
+                                    $(document).unbind("keyup");
+                                };
+                            });
+                            $box.on("clickoutside", function(e){
+                                e.preventDefault();
+                                $box.find(".annotation-actions").show();
+                                $box.resizable("destroy");
+                                pageCanvas.$el.kinetic("attach")
+                                self.clearMsg().removeClass("active");
+                                $box.unbind("clickoutside");
+                            });
+                        },
+                        stop : function(e, ui) {
+                            var offset = $box.offset();
+                            var position = {
+                                x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
+                                y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
+                            };
+
+                            var width = $box.width();
+                            var height = $box.height();
+
+                            annotation.set("x_tl", position.x);
+                            annotation.set("y_tl", position.y);
+                            annotation.set("width", width);
+                            annotation.set("height", height);
+
+                            annotation.save(annotation.attributes, {
+                                success : function(mdl) {
+                                    $box.find(".annotation-actions").show();
+                                    $box.resizable("destroy");
+                                    pageCanvas.$el.kinetic("attach")
+                                    self.clearMsg().removeClass("active");
+
+                                    mainLayout.setMsg("Annotation box dimensions sucessfully saved!", true, "success");
+                                },
+                                error : function() {
+                                    mainLayout.setMsg("Error saving annotation box dimensions!", true, "danger");
+                                }
+                            });
+                        }
+                    });
+                },
+                "click .move-annotation-btn" : function() {
+                    self = this;
+                    var annotation = this.model;
+                    var $box = this.$el;
+                    $box.find(".annotation-actions").hide();
+                    self.setMsg("click and drag box to move").addClass("active");
+
+                    pageCanvas.$el.kinetic("detach")
+
+                    $box.draggable({
+                        create : function() {
+                            $(document).on("keyup", function(e) {
+                                e.preventDefault();
+                                if( e.which=== 27 || e.keyCode === 27 ){
+                                    console.log("esc key");
+                                    $box.find(".annotation-actions").show();
+                                    $box.draggable("destroy");
+                                    pageCanvas.$el.kinetic("attach")
+                                    self.clearMsg().removeClass("active");
+                                    $(document).unbind("keyup");
+                                };
+                            });
+                            $box.on("clickoutside", function(e){
+                                e.preventDefault();
+                                $box.find(".annotation-actions").show();
+                                $box.draggable("destroy");
+                                pageCanvas.$el.kinetic("attach")
+                                self.clearMsg().removeClass("active");
+                                $box.unbind("clickoutside");
+                            });
+                        },
+                        stop : function(e, ui) {
+                            var offset = $box.offset();
+                            var position = {
+                                x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
+                                y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
+                            };
+
+                            var width = $box.width();
+                            var height = $box.height();
+
+                            annotation.set("x_tl", position.x);
+                            annotation.set("y_tl", position.y);
+                            annotation.set("width", width);
+                            annotation.set("height", height);
+
+                            annotation.save(annotation.attributes, {
+                                success : function(mdl) {
+                                    $box.find(".annotation-actions").show();
+                                    $box.draggable("destroy");
+                                    pageCanvas.$el.kinetic("attach")
+                                    self.clearMsg().removeClass("active");
+
+                                    mainLayout.setMsg("Annotation box position sucessfully saved!", true, "success");
+
+                                    $(document).unbind()
+                                },
+                                error : function() {
+                                    mainLayout.setMsg("Error saving annotation box position!", true, "danger");
+                                }
+                            });
+                        }
+                    });
                 }
+            },
+
+            setMsg : function(msg) {
+                $msgContainer = this.$el.find(".annotation-msg");
+                $msgContainer.html(msg);
+
+                return $msgContainer;
+            },
+
+            clearMsg : function(msg) {
+                $msgContainer = this.$el.find(".annotation-msg");
+                $msgContainer.html("");
+
+                return $msgContainer;
             },
 
             onRender : function() {
@@ -321,6 +463,9 @@
                     }).addClass(annotation.get('field_group').colour_class);
 
                     pageCanvas.$el.append(this.$el);
+
+                    this.$el.find('[data-toggle="popover"]').popover();
+                    this.$el.find('[data-toggle="tooltip"]').tooltip();
                 };
             }
         });
@@ -830,6 +975,7 @@
 
         Annotations = new AnnotationCollection();
         mainLayout = new MainLayout();
+        toolbarLayout = new ToolbarLayout();
 
         mainPage = new Page().set("image_id", "target-image").set("resizeContainer", true);
         headerPage = new Page().set("action_msg", "click and drag this image vertically until table header is visible");
@@ -903,7 +1049,6 @@
 
         return {
             init : function() {
-                toolbarLayout = new ToolbarLayout();
                 TranscriberApp.main.show(mainLayout);
 
                 mainLayout.toolbar.show(toolbarLayout);
