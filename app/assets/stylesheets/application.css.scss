@@ -626,7 +626,19 @@ ul.dropdown-menu {
     min-width: 100%;
 }
 
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+  background-color: $accent-color;
 
+  &:visited {
+    color: white;
+  }
+}
+
+.edit-page-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
 
 
 
