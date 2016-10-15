@@ -273,7 +273,8 @@
             defaults : {
                 image_id : "",
                 resizeContainer : false,
-                action_msg : "click and drag to reposition annotation guide"
+                action_msg : "click and drag to reposition annotation guide",
+                description_msg : ""
             }
 
         });
@@ -998,11 +999,15 @@
         toolbarLayout = new ToolbarLayout();
 
         mainPage = new Page().set("image_id", "target-image").set("resizeContainer", true);
-        headerPage = new Page().set("action_msg", "click and drag this image vertically until table header is visible");
+        headerPage = new Page().set({
+            "action_msg" : "Click and drag this image vertically until table header is visible.",
+            "description_msg" : 'Page column labels guide. Click "Reposition Image" button to position column labels within view. This image will automatically scroll horizontally when you scroll the main image.'
+        });
         timePage = new Page().set({
             "image_id" : "time-image",
             "resizeContainer" : true,
-            "action_msg" : "click and drag this image horizontally until time column is visible"
+            "action_msg" : "Click and drag this image horizontally until time column is visible.",
+            "description_msg" : 'Time column guide. Click "Reposition Image" button to position time column within view. This image will automatically scroll vertically when you scroll the main image.'
         });
         pageCanvas = new PageImage({
             model : mainPage,
