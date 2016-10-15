@@ -1,6 +1,8 @@
 <% provide :title, "New Transcription" %>
+<% provide :transcribe, "active" %>
+<% provide :new_transcription, "active" %>
 
-<h2>New Transcription</h2>
+<h2>Start a New Transcription</h2>
 <div class="row">
     <div class="col-md-2">
         <%= image_tag (current_user.avatar.present? ? current_user.avatar.url(:thumb) : 'default-person.png'), :class => "img-responsive img-circle" %>

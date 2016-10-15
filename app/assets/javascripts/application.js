@@ -14,6 +14,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery.ba-outside-events.min
+//= require modernizr
+//= require moment/min/moment.min
 //= require bootstrap-sprockets
 //= require bootstrap-switch/dist/js/bootstrap-switch
 //= require select2-full-custom
@@ -22,6 +25,7 @@
 //= require boxer-plugin
 //= require jquery.kinetic
 //= require trumbowyg/dist/trumbowyg
+//= require eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker
 //
 //= require backbone/underscore
 //= require backbone/backbone
@@ -95,9 +99,9 @@ $(document).ready(function(){
       });
     }, 2000);
 
-    $(window).on("scroll", function() {
-        $(".body-bg-img").css("top", $(window).scrollTop());
-    });
+    // $(window).on("scroll", function() {
+    //     $(".body-bg-img").css("top", $(window).scrollTop());
+    // });
 
 });
 

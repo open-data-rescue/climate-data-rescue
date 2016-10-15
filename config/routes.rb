@@ -1,5 +1,5 @@
 Weather::Application.routes.draw do
-  
+
 
 
   resources :content_images
@@ -46,7 +46,7 @@ Weather::Application.routes.draw do
   match 'new-user' => 'users#new', :via => [:get, :post]
   match 'fieldGroups' => 'fieldgroups#index', :via => [:get, :post]
   match 'fields' => 'fields#index', :via => [:get, :post]
-  
+
   get 'field_options_for_field/:field_id' => "field_options#for_field", as: "field_options_for_field"
 
   post 'add_field_option_to_field' => "field_options#add_to_field", as: "add_field_option_to_field"
@@ -56,11 +56,13 @@ Weather::Application.routes.draw do
   post 'field_options/update_sort_order' => "field_options#update_sort_order", as: "update_field_option_sort_order"
 
   #match '/avatars/original/missing.png', :via => [:get, :post]
-  
+
   post 'create_page_metadata' => "page_days#create"
 
   get 'my_transcriptions' => 'transcriptions#my_transcriptions', as: "my_transcriptions"
   get 'weather-logs' => 'pages#public_index', as: "public_pages_index"
+
+  get "page_for_transcription/:transcription_id" => "pages#for_transcription"
 
   resources :static_pages
   constraints(StaticPage) do

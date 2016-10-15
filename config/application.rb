@@ -69,8 +69,8 @@ module Weather
 
     config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
 
-    config.assets.precompile += %w( trombowyg/icons.svg )
-    
+    config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js )
+
     #config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
     #
     #
@@ -84,7 +84,7 @@ module Weather
         :domain         => 'outlook.com',
         :enable_starttls_auto => true
     }
-      
+
     config.action_mailer.default_options = {
         :from   => 'draw_mcgill@outlook.com',
         :reply_to => 'draw_mcgill@outlook.com',
@@ -92,6 +92,6 @@ module Weather
     }
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
-    
+
   end
 end

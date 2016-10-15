@@ -67,7 +67,7 @@
       'click .ok': function(event) {
         event.preventDefault();
          if (this.form) {
-          console.log(this.form);
+          // console.log(this.form);
          }
 
         this.trigger('ok');
@@ -102,7 +102,8 @@
         allowCancel: true,
         escape: true,
         animate: false,
-        template: template
+        template: template,
+        content: ""
       }, options);
     },
 

@@ -1,4 +1,5 @@
 <% provide(:weather_logs, "active") %>
+<% provide(:transcribe, "active") %>
 <% provide(:title, "Weather Logs") %>
 
 <div class="row">
@@ -10,12 +11,10 @@
 <div class="row voffset20">
     <% if @pages && @pages.any? %>
         <% @pages.each do |page| %>
-            <div class="col-md-4 col-lg-4 col-sm-2 col-xs-12 " style="margin-bottom: 20px; min-height: 300px;">
-                <!-- <div style="display: block; width: 100%; height: 400px; margin-bottom: 20px;"> -->
-                    <%= image_tag(page.image.url(:medium), class: "img-responsive")%>
-                <!-- </div> -->
+            <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12 " style="margin-bottom: 20px; min-height: 300px;">
+                <%= image_tag(page.image.url(:medium), class: "img-responsive center-block")%>
                 <div class="text-center" style="width: 100%;">
-                    <h5><%= page.title %></h5>
+                    <h5><%= page.title %> Pg. <%= page.page_type.number%></h5>
                     <% if current_user && current_user.transcriptions.any? && page.transcriptions.any? && (current_user.transcriptions.collect(&:page_id).include? page.id) %>
                         <a href="<%= edit_transcription_path(current_user.transcriptions.find_by(:page_id => page.id)) %>" class="btn btn-success btn-sm">Continue Transcribing</a>
                     <% else %>

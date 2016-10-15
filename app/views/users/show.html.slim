@@ -8,7 +8,8 @@
     h1 #{@user.display_name}
     p 
       strong = @user.email
-    p #{pluralize(@user.num_contributions,"page")} transcribed
+    p = pluralize(@user.num_contributions,"page") + " finished"
+    p = pluralize(@user.transcriptions.count,"transcription") + " in total"
     p = @user.bio
     - if @user == current_user || current_user.admin?
       /! if current user is admin or this is their user page, show links to edit the user information
@@ -22,7 +23,7 @@
       = image_tag "default-person.png", :class => "img-responsive img-circle"
   .col-md-1
     = link_to "Log out", "/logout", class:"btn btn-xs btn-danger pull-right"
-- if @user == current_user
+- if @user == current_user || (current_user && current_user.admin?)
   .row.voffset20
     .col-md-12
       h2 My Transcriptions

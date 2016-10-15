@@ -9,7 +9,7 @@ gem 'mysql2', '0.4.2' #'~> 0.3.20'
 gem 'mime-types', require: 'mime/types/full'
 
 gem 'jquery-rails'
-# gem 'jquery-ui-rails'
+gem 'jquery-ui-rails'
 
 gem "ranked-model"
 
@@ -21,7 +21,7 @@ gem 'uglifier', '~> 2.7.2' #'>= 1.0.3'
 gem 'sass-rails', '~> 5.0'
 #gem 'sprockets-rails'
 gem 'bootstrap-sass'
-gem 'autoprefixer-rails', '5.2.1'
+gem 'autoprefixer-rails'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
@@ -35,11 +35,12 @@ gem 'therubyracer', platforms: :ruby
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  
-    #gem "therubyracer"
-    #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-    #gem "twitter-bootstrap-rails"
+    
+      #gem "therubyracer"
+      #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+      #gem "twitter-bootstrap-rails"
 end
+gem 'modernizr-rails'
 
 gem "figaro"
 gem 'log4r'
@@ -93,6 +94,11 @@ group :development do
   gem 'execjs'
   #web server - better than WEBrick
   gem 'thin', '~>1.6.4' #'~> 1.6.3'
+
+  gem "better_errors"
+  gem "binding_of_caller"
+
+  gem "byebug"
 end
 
 group :production do
