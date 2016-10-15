@@ -13,8 +13,16 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
         - if StaticPage.header_links.any?
           - StaticPage.header_links.each do |sp|
             = render "static_pages/link", page: sp
-        li class="#{yield(:weather_logs)}" = link_to "Weather Logs", public_pages_index_path
-        
+          
+        li class="#{yield(:transcribe)} dropdown"
+          a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
+            | Transcribe&nbsp;
+            span.caret
+          ul.dropdown-menu
+            - if current_user
+              li class="#{yield(:profile)}" = link_to "My Transcriptions", user_profile_path(current_user)
+            li class="#{yield(:weather_logs)}" = link_to "View All Pages", public_pages_index_path
+            li class="#{yield(:new_transcription)}" = link_to "Transcribe a Random Page", "/transcribe"
         - if user_signed_in?
           
         // li class="#{yield(:contact)}" = link_to "Contact us", "/contact"
@@ -25,7 +33,7 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
             span.label.label-danger
               = "Testing"
         - if user_signed_in?
-          - if current_user.admin == true
+          - if current_user.admin?
             li id="admin-menu" class="#{yield(:admin)} dropdown"
               a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
                 | Admin&nbsp;
