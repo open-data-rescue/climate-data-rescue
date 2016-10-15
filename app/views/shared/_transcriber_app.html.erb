@@ -338,6 +338,7 @@
             events : {
                 "click .close-btn" : function() {
                     this.destroy();
+                    toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
                 },
 
                 "click .scribe_tab" : function(e){
@@ -597,7 +598,8 @@
 
             updateAnnotation : function(annotation) {
                 self = this;
-                $form = this.$el.find("form")
+                $form = this.$el.find("form");
+                toolbarlayout.$el.find("#new-annotation").addClass("disabled");
                 $form.on("ajax:success", function(e, status, data, xhr) {
                     // console.log(e);
                     // console.log(data);
@@ -605,6 +607,7 @@
                     // console.log(xhr);
                     
                     self.destroy();
+                    toolbarlayout.$el.find("#new-annotation").removeClass("disabled");
 
                     mainLayout.setMsg("Annotation sucessfully saved!", true, "success");
                 }).on("ajax:error", function(e, xhr, status, error) {
@@ -779,11 +782,13 @@
                                 mainLayout.setMsg("Annotation and bounding box sucessfully saved!", true, "success");
 
                                 self.destroy();
+                                toolbarlayout.$el.find("#new-annotation").removeClass("disabled");
 
                                 pageCanvas.$el.unbind("boxer");
                                 pageCanvas.$el.kinetic("attach");
 
                                 Annotations.add(mdl);
+
                             },
                             error : function() {
                                 console.log("error");
@@ -861,7 +866,7 @@
                             box.render();
                         });
 
-                        console.log(Annotations);
+                        // console.log(Annotations);
                     }
                 });
 
