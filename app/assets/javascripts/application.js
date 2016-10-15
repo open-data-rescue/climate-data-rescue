@@ -99,9 +99,9 @@ $(document).ready(function(){
       });
     }, 2000);
 
-    $(window).on("scroll", function() {
-        $(".body-bg-img").css("top", $(window).scrollTop());
-    });
+    // $(window).on("scroll", function() {
+    //     $(".body-bg-img").css("top", $(window).scrollTop());
+    // });
 
 });
 
