@@ -950,7 +950,8 @@
                                 self.destroy();
                                 toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
 
-                                pageCanvas.$el.unbind("boxer");
+                                pageCanvas.$el.boxer('destroy');
+                                
                                 pageCanvas.$el.kinetic("attach");
 
                                 Annotations.add(mdl);
@@ -958,7 +959,7 @@
                             },
                             error : function() {
                                 console.log("error");
-                                pageCanvas.$el.unbind("boxer");
+                                pageCanvas.$el.boxer('destroy');
                                 self.show();
                             }
                         });
@@ -970,6 +971,8 @@
                     console.log(error);
                     console.log(status);
                     // console.log(xhr);
+                    pageCanvas.$el.boxer('destroy');
+                    self.show();
                     pageLayout.setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
                 });
 
