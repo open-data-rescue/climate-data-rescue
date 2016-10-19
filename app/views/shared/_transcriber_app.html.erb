@@ -259,7 +259,15 @@
                     toolbarHeight = $("#transcriber-toolbar").height();
                     headerImgHeight = $("#header-image-container").height();
 
-                    this.$el.height(containerHeight - (toolbarHeight + headerImgHeight));
+                    self.$el.height(containerHeight - (toolbarHeight + headerImgHeight));
+
+                    $(window).on('resize', function() {
+                        containerHeight = $("#transcriber-container").height();
+                        toolbarHeight = $("#transcriber-toolbar").height();
+                        headerImgHeight = $("#header-image-container").height();
+
+                        self.$el.height(containerHeight - (toolbarHeight + headerImgHeight));
+                    });
                 };
 
                 if (this.options.postRenderFn) {
