@@ -283,7 +283,15 @@
         display: inline-block;
 
         &.datetime {
-            width: 150px;
+            width: 240px;
+
+            .day:not(.disabled):not(.active) {
+                background: rgba(173,216,230,0.3) none repeat scroll 0 0;
+            }
+
+            .input-group-addon:hover {
+                cursor: pointer;
+            }
         }
 
         .scribe_input_label {
