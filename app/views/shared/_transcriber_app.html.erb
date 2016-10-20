@@ -120,7 +120,6 @@
                     $btn = $(e.target);
 
                     if (!$btn.hasClass("disabled")) {
-                        $btn.addClass("disabled");
                         transcriptionBox = new TranscriptionBox().render();
 
                         var $transcriber = transcriptionBox.$el;
@@ -508,11 +507,11 @@
             attributes : {
                 id : "scribe_annotation_box"
             },
+            className : 'transcriber-interface',
 
             events : {
                 "click .close-btn" : function() {
                     this.destroy();
-                    toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
                 },
 
                 "click .scribe_tab" : function(e){
@@ -778,7 +777,6 @@
             updateAnnotation : function(annotation) {
                 self = this;
                 $form = this.$el.find("form");
-                toolbarLayout.$el.find("#new-annotation").addClass("disabled");
                 $form.on("ajax:success", function(e, status, data, xhr) {
                     // console.log(e);
                     // console.log(data);
@@ -786,7 +784,6 @@
                     // console.log(xhr);
                     
                     self.destroy();
-                    toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
 
                     mainLayout.setMsg("Annotation sucessfully saved!", true, "success");
                 }).on("ajax:error", function(e, xhr, status, error) {
@@ -815,8 +812,6 @@
                     if ($form.attr('id') == ("field_group_" + field_group.id)) {
                         $form.attr("method", "PUT");
                         $form.attr("action", ("/annotations/" + annotation.get("id")));
-                        // $transcriber.find("#formInstructions").hide();
-                        // $form.parents(".annotation-form-field-group").show();
                         $transcriber.find("li#scribe_tab_" + field_group.id).trigger("click");
                     } else {
                       $transcriber.find(".annotation-form-field-group:not(#field-group-" + field_group.id + ")").remove();
@@ -914,7 +909,7 @@
                     // console.log(status);
                     // console.log(xhr);
 
-                    self.$el.hide();
+                    self.hide();
 
                     if (data.id == null) {
                       mainLayout.setMsg("Annotation could not be saved. The ID returned was null.", false, "danger");
@@ -960,7 +955,6 @@
                                 mainLayout.setMsg("Annotation and bounding box sucessfully saved!", true, "success");
 
                                 self.destroy();
-                                toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
 
                                 pageCanvas.$el.boxer('destroy');
                                 
@@ -989,6 +983,22 @@
                 });
 
                 $form.submit();
+            },
+
+            hide : function() {
+                this.$el.hide();
+                if (!(toolbarLayout.$("#new-annotation").hasClass('disabled'))) {
+                    toolbarLayout.$("#new-annotation").addClass("disabled");
+                };
+            },
+
+            onBeforeRender : function() {
+                $('.transcriber-interface').remove();
+                toolbarLayout.$("#new-annotation").addClass("disabled");
+            },
+
+            onDestroy : function() {
+                toolbarLayout.$("#new-annotation").removeClass("disabled");
             },
 
             onRender : function() {
