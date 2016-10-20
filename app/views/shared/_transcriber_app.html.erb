@@ -332,7 +332,8 @@
                                     $box.resizable("destroy");
                                     pageCanvas.$el.kinetic("attach")
                                     self.clearMsg().removeClass("active");
-                                    $(document).unbind("keyup");
+                                    $(document).off("keyup");
+                                    $box.off("clickoutside");
                                 };
                             });
                             $box.on("clickoutside", function(e){
@@ -341,7 +342,8 @@
                                 $box.resizable("destroy");
                                 pageCanvas.$el.kinetic("attach")
                                 self.clearMsg().removeClass("active");
-                                $box.unbind("clickoutside");
+                                $(document).off("keyup");
+                                $box.off("clickoutside");
                             });
                         },
                         stop : function(e, ui) {
@@ -394,7 +396,8 @@
                                     $box.draggable("destroy");
                                     pageCanvas.$el.kinetic("attach")
                                     self.clearMsg().removeClass("active");
-                                    $(document).unbind("keyup");
+                                    $(document).off("keyup");
+                                    $box.off("clickoutside");
                                 };
                             });
                             $box.on("clickoutside", function(e){
@@ -403,7 +406,8 @@
                                 $box.draggable("destroy");
                                 pageCanvas.$el.kinetic("attach")
                                 self.clearMsg().removeClass("active");
-                                $box.unbind("clickoutside");
+                                $(document).off("keyup");
+                                $box.off("clickoutside");
                             });
                         },
                         stop : function(e, ui) {
