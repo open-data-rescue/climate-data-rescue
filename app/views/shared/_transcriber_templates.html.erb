@@ -113,22 +113,14 @@
                             <div class="user-input-container">
                                 <div class="scribe_input_field datetime">
                                     <div class="scribe_input_label">
-                                        <%= select_tag "annotation[obs_date]", options_for_select( page.has_metadata? ? page.page_days.collect(&:date) : (transcription.page.start_date..transcription.page.end_date)), include_blank: true, required: true, placeholder: "select date", id: ("date-" + field_group.id.to_s), class: "observation-input do-not-clear form-control date-field", title: "Observation Date", data: { field_type: "date"}, style: "width: 100%;" %>
-                                        <div>
-                                            <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date", data: { content: "For which day are you transcribing data?", toggle: "popover", placement: "bottom auto", trigger: "hover"}%> Observation Date
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="scribe_input_field datetime">
-                                    <div class="scribe_input_label">
-                                        <div class="input-group time-group" id="time-<%= field_group.id.to_s %>">
-                                            <%= text_field_tag "annotation[obs_time]", nil, required: true, class: "observation-input do-not-clear form-control time-field", title: "Observation Time", data: {field_type: "time"} %>
+                                        <div class="input-group datetime-group" id="time-<%= field_group.id.to_s %>">
+                                            <%= text_field_tag "annotation[observation_date]", nil, required: true, class: "observation-input do-not-clear form-control datetime-field", title: "Observation Date and Time" %>
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-time"></span>
                                             </span>
                                         </div>
                                         <div>
-                                            <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date", data: { content: "What is the time of this observation?", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover"}%> Observation Time
+                                            <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date and Time", data: { content: "What is the date and time of this observation? <b>You can select the date and time by clicking on the clock icon.</b><br>Should follow the format <nobr><code>04 Aug 1874, 01:48 AM</code></nobr>.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover"}%> Observation Date and Time
                                         </div>
                                     </div>
                                 </div>
