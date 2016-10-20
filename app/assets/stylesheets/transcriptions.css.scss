@@ -70,7 +70,7 @@
     border-top: 1px solid #e0e0e0;
     color: #666;
     cursor: pointer;
-    display: inline;
+    display: inline-block;
     list-style: outside none none;
     margin: 3px 2px 0;
     padding: 2px 7px;
@@ -254,7 +254,6 @@
 }
 
 #scribe_top_bar {
-    height:71px;
     padding:5px;
 }
 
@@ -283,7 +282,15 @@
         display: inline-block;
 
         &.datetime {
-            width: 150px;
+            width: 240px;
+
+            .day:not(.disabled):not(.active) {
+                background: rgba(173,216,230,0.3) none repeat scroll 0 0;
+            }
+
+            .input-group-addon:hover {
+                cursor: pointer;
+            }
         }
 
         .scribe_input_label {

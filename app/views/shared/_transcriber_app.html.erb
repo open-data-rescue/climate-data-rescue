@@ -120,7 +120,6 @@
                     $btn = $(e.target);
 
                     if (!$btn.hasClass("disabled")) {
-                        $btn.addClass("disabled");
                         transcriptionBox = new TranscriptionBox().render();
 
                         var $transcriber = transcriptionBox.$el;
@@ -259,7 +258,15 @@
                     toolbarHeight = $("#transcriber-toolbar").height();
                     headerImgHeight = $("#header-image-container").height();
 
-                    this.$el.height(containerHeight - (toolbarHeight + headerImgHeight));
+                    self.$el.height(containerHeight - (toolbarHeight + headerImgHeight));
+
+                    $(window).on('resize', function() {
+                        containerHeight = $("#transcriber-container").height();
+                        toolbarHeight = $("#transcriber-toolbar").height();
+                        headerImgHeight = $("#header-image-container").height();
+
+                        self.$el.height(containerHeight - (toolbarHeight + headerImgHeight));
+                    });
                 };
 
                 if (this.options.postRenderFn) {
@@ -500,11 +507,11 @@
             attributes : {
                 id : "scribe_annotation_box"
             },
+            className : 'transcriber-interface',
 
             events : {
                 "click .close-btn" : function() {
                     this.destroy();
-                    toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
                 },
 
                 "click .scribe_tab" : function(e){
@@ -613,13 +620,18 @@
                 });
 
                 // Time Fields
-                _.each(this.$el.find('.time-group'), function(time) {
-                    $(time).datetimepicker({
-                        format: 'LT',
-                        widgetParent : $(time).parents(".scribe_input_field"),
+                _.each(this.$el.find('.datetime-group'), function(datetime) {
+                    $(datetime).datetimepicker({
+                        widgetParent : $(datetime).parents(".scribe_input_field"),
                         widgetPositioning : {
                           vertical : "top"
-                        }
+                        },
+                        format : "DD MMM YYYY, hh:mm A",
+                        useCurrent: false,
+                        sideBySide : true,
+                        defaultDate : '<%= ( page.has_metadata? ? (page.page_days.first.date.beginning_of_day + 108.minutes).to_s : (transcription.page.start_date.beginning_of_day + 108.minutes).to_s) %>',
+                        minDate : '<%= ( page.has_metadata? ? page.page_days.first.date.to_s : (transcription.page.start_date.to_s)) %>',
+                        maxDate : '<%= ( page.has_metadata? ? page.page_days.last.date.to_s : (transcription.page.end_date.to_s)) %>',
                     });
                 });
 
@@ -765,7 +777,6 @@
             updateAnnotation : function(annotation) {
                 self = this;
                 $form = this.$el.find("form");
-                toolbarLayout.$el.find("#new-annotation").addClass("disabled");
                 $form.on("ajax:success", function(e, status, data, xhr) {
                     // console.log(e);
                     // console.log(data);
@@ -773,7 +784,6 @@
                     // console.log(xhr);
                     
                     self.destroy();
-                    toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
 
                     mainLayout.setMsg("Annotation sucessfully saved!", true, "success");
                 }).on("ajax:error", function(e, xhr, status, error) {
@@ -802,8 +812,6 @@
                     if ($form.attr('id') == ("field_group_" + field_group.id)) {
                         $form.attr("method", "PUT");
                         $form.attr("action", ("/annotations/" + annotation.get("id")));
-                        // $transcriber.find("#formInstructions").hide();
-                        // $form.parents(".annotation-form-field-group").show();
                         $transcriber.find("li#scribe_tab_" + field_group.id).trigger("click");
                     } else {
                       $transcriber.find(".annotation-form-field-group:not(#field-group-" + field_group.id + ")").remove();
@@ -829,8 +837,7 @@
                 $form = $transcriber.find("form[data-field-group-id=" + annotation.get('field_group').id + "]");
                 // console.log($form);
 
-                $form.find("[data-field-type='date']").val(annotation.get('date')).trigger("change");
-                $form.find("[data-field-type='time']").val(annotation.get('time'));
+                $form.find("[name='annotation[observation_date]']").val(annotation.get('observation_date'));
                 $form.find("#x-field").val(annotation.get('x_tl'));
                 $form.find("#y-field").val(annotation.get('y_tl'));
                 $form.find("#width-field").val(annotation.get('width'));
@@ -902,7 +909,7 @@
                     // console.log(status);
                     // console.log(xhr);
 
-                    self.$el.hide();
+                    self.hide();
 
                     if (data.id == null) {
                       mainLayout.setMsg("Annotation could not be saved. The ID returned was null.", false, "danger");
@@ -948,9 +955,9 @@
                                 mainLayout.setMsg("Annotation and bounding box sucessfully saved!", true, "success");
 
                                 self.destroy();
-                                toolbarLayout.$el.find("#new-annotation").removeClass("disabled");
 
-                                pageCanvas.$el.unbind("boxer");
+                                pageCanvas.$el.boxer('destroy');
+                                
                                 pageCanvas.$el.kinetic("attach");
 
                                 Annotations.add(mdl);
@@ -958,7 +965,7 @@
                             },
                             error : function() {
                                 console.log("error");
-                                pageCanvas.$el.unbind("boxer");
+                                pageCanvas.$el.boxer('destroy');
                                 self.show();
                             }
                         });
@@ -970,10 +977,28 @@
                     console.log(error);
                     console.log(status);
                     // console.log(xhr);
+                    pageCanvas.$el.boxer('destroy');
+                    self.show();
                     pageLayout.setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
                 });
 
                 $form.submit();
+            },
+
+            hide : function() {
+                this.$el.hide();
+                if (!(toolbarLayout.$("#new-annotation").hasClass('disabled'))) {
+                    toolbarLayout.$("#new-annotation").addClass("disabled");
+                };
+            },
+
+            onBeforeRender : function() {
+                $('.transcriber-interface').remove();
+                toolbarLayout.$("#new-annotation").addClass("disabled");
+            },
+
+            onDestroy : function() {
+                toolbarLayout.$("#new-annotation").removeClass("disabled");
             },
 
             onRender : function() {

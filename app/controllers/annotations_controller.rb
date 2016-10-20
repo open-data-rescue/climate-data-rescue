@@ -68,9 +68,9 @@ class AnnotationsController < ApplicationController
         logger.debug "data: " + data.to_s
         
         @annotation = Annotation.new(transcription_id: meta[:transcription_id], page_id: meta[:page_id], field_group_id: meta[:field_group_id], x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
-        @annotation.date_time_id = annotation_params[:obs_date] + "_" + annotation_params[:obs_time]
-        @annotation.observation_date = DateTime.strptime((annotation_params[:obs_date] + " " + annotation_params[:obs_time]), '%Y-%m-%d %H:%M')
-        
+        @annotation.date_time_id = annotation_params[:observation_date]
+        @annotation.observation_date = DateTime.parse(annotation_params[:observation_date])
+
         if data && data.length > 0
           data.each do |key, value|
             entry_value = value[:value]
@@ -115,8 +115,8 @@ class AnnotationsController < ApplicationController
         if meta && data
           @annotation.update(x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
           
-          @annotation.date_time_id = annotation_params[:obs_date] + "_" + annotation_params[:obs_time]
-          @annotation.observation_date = DateTime.strptime((annotation_params[:obs_date] + " " + annotation_params[:obs_time]), '%Y-%m-%d %H:%M')
+          @annotation.date_time_id = annotation_params[:observation_date]
+          @annotation.observation_date = DateTime.parse(annotation_params[:observation_date])
           
           if data && data.length > 0
             data.each do |key, value|
@@ -172,7 +172,7 @@ class AnnotationsController < ApplicationController
   end
 
   def annotation_params
-    params.require(:annotation).permit(:obs_date, :obs_time, :week_day)
+    params.require(:annotation).permit(:observation_date)
   end
   def backbone_annotation_params
     params.require(:annotation).permit(:x_tl, :y_tl, :width, :height, :page_id, :transcription_id, :date_time_id, :field_group_id, :observation_date)
