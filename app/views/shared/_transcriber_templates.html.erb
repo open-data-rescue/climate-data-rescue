@@ -131,14 +131,14 @@
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id, data: {field_type: "field_id"} %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
-                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", nil, class: "selected-option-ids" %>
+                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", nil, class: "selected-option-ids" if field.multi_select %>
                                         <div class="scribe_input_label">
                                         <% if field.field_options.any? %>
                                             <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control selectable", multiple: field.multi_select,  data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: true, multiple: field.multi_select, tags: field.multi_select } %>
                                         <% else %>
                                             <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control selectable", data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: false } %>
                                         <% end %>
-                                        <i class="fa fa-info-circle" style="cursor: help;" aria-hidden="true" title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" data-toggle="popover" data-trigger="hover" data-placement="left auto" data-content="<%= (field.help && field.help.present? ? field.help : "") %>"></i><%= field.name %>
+                                        <i class="fa fa-info-circle" style="cursor: help;" aria-hidden="true" title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" data-toggle="popover" data-trigger="hover" data-content="<%= (field.help && field.help.present? ? field.help : "") %>"></i> <%= field.name %>
                                         </div>
                                     </div>
                                 <% end %>
@@ -150,11 +150,11 @@
             </div>
         </div>
     </div>
-    <div id="transcriber-grid-container">
+    <!-- <div id="transcriber-grid-container">
         <div class="control-mask">
             Position this box around the data you're transcribing
         </div>
-    </div>
+    </div> -->
 
 </script>
 

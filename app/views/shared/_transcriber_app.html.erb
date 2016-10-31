@@ -732,28 +732,32 @@
                                         console.log("failed to get search options for " + $field.data("field-id"));
                                     }
                             }
-                        }).on("select2:select", function() {
-                            optionIds = [];
-                            $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
-
-                            $(this).find("option:selected").each(function() {
-                                optionIds.push($(this).val());
-                            });
-
-                            $optionIdsInput.val(optionIds);
-
-                        }).on("select2:unselect", function(e) {
-                            // console.log(e);
-                            optionIds = [];
-                            $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
-
-                            $(this).find("option:selected").each(function() {
-                                optionIds.push($(this).val());
-                            });
-
-                            $optionIdsInput.val(optionIds);
-
                         });
+                        
+                        if ($field.data('multiple')){
+                            $field.on("select2:select", function() {
+                                optionIds = [];
+                                $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
+
+                                $(this).find("option:selected").each(function() {
+                                    optionIds.push($(this).val());
+                                });
+
+                                $optionIdsInput.val(optionIds);
+
+                            }).on("select2:unselect", function(e) {
+                                // console.log(e);
+                                optionIds = [];
+                                $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
+
+                                $(this).find("option:selected").each(function() {
+                                    optionIds.push($(this).val());
+                                });
+
+                                $optionIdsInput.val(optionIds);
+
+                            });
+                        };
 
                     } else {
                         $field.select2({
@@ -917,6 +921,10 @@
 
                     if (data.id == null) {
                       mainLayout.setMsg("Annotation could not be saved. The ID returned was null.", false, "danger");
+                      toolbarLayout.$("#new-annotation").removeClass("disabled");
+                      self.show();
+                      console.error(data);
+
                       return;
                     } else {
                         var fieldGroupName = data.field_group.name || "";
