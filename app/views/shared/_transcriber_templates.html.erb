@@ -87,7 +87,7 @@
             <ul id="scribe_tab_bar">
                 <% field_groups.each do |field_group| %>
                     <% if field_group.fields.any? %>
-                        <li id="scribe_tab_<%= field_group.id %>" class="scribe_tab <%= field_group.colour_class %>" data-field-group-id="<%= field_group.id %>" data-field-count=<%= field_group.fields.count + 3 %>><%= field_group.presentation_name %></li>
+                        <li id="scribe_tab_<%= field_group.id %>" class="btn btn-default btn-sm scribe_tab" data-classname=" <%= field_group.colour_class %>" data-field-group-id="<%= field_group.id %>" data-field-count=<%= field_group.fields.count %>><%= field_group.presentation_name %></li>
                     <% end %>
                 <% end %>
             </ul>

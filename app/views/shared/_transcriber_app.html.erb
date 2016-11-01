@@ -529,20 +529,22 @@
                      $tab = $(e.target);
                      self.$el.find(".annotation-form-field-group").hide(); //hide all other instances of the field_group data forms when switching tabs
                      self.$el.find('#formInstructions').hide();
-                     $tab.addClass("active"); //mark clicked tab as active by settings its class
+                     $tab.addClass($tab.data('classname')); //mark clicked tab as active by settings its class
 
-                     $tab.siblings().removeClass('active'); //set all siblings of the clicked tab as unselected
+                     $tab.siblings().removeClass(function (index, css) {
+                        return (css.match (/\S+-group/g) || []).join(' ');
+                    }); //set all siblings of the clicked tab as unselected
 
                      var $currentForm = self.$el.find("#field-group-" + $tab.data('field-group-id'));
 
 
                      $currentForm.show();
 
-                     newWidth = ($tab.data("field-count") * 110) + 100;
+                     newWidth = ($tab.data("field-count") * 100) + 270 + 100;
 
                      self.$el.width(newWidth);
 
-                     self.$el.find("#transcriber-grid-container").css("display", "table");
+                     // self.$el.find("#transcriber-grid-container").css("display", "table");
 
                   },
                 //end field toggler
