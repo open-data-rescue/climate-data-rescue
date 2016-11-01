@@ -28,6 +28,8 @@
     TranscriberApp.AppManager = (function(Backbone, Marionette) {
 
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
+
+        var transcriberOffset = {left: 25, top: 250};
         
         MainLayout = Marionette.LayoutView.extend({
             template : "#main-layout-template",
@@ -135,12 +137,7 @@
                             // show transcriber
                            $transcriber.show(250); /*open the box with a delay of half a second. This is what makes the transcription
                            box open with a flourish. Remove the value from the .show() function to make it open instantly */
-                           $transcriber.offset({left: 25, top: 75}); //set position of the box to open at the click event 'e' position
-
-                           var position = {
-                              x: $transcriber.offset().left - $(document).scrollLeft() - $("#canvas").offset().left,
-                              y : $transcriber.offset().top - $(document).scrollTop() - $("#canvas").offset().top
-                           };
+                           $transcriber.offset(transcriberOffset);
                         };
                     };
                 }
@@ -834,12 +831,7 @@
                     // show transcriber
                    $transcriber.show(250); /*open the box with a delay of half a second. This is what makes the transcription
                    box open with a flourish. Remove the value from the .show() function to make it open instantly */
-                   $transcriber.offset({left: 25, top: 75}); //set position of the box to open at the click event 'e' position
-
-                   var position = {
-                      x: $transcriber.offset().left - $(document).scrollLeft() - $("#canvas").offset().left,
-                      y : $transcriber.offset().top - $(document).scrollTop() - $("#canvas").offset().top
-                   };
+                   $transcriber.offset(transcriberOffset); //set position of the box to open at the click event 'e' position
                 };
 
 
@@ -1018,7 +1010,8 @@
             onRender : function() {
                 this.$el.draggable({
                     scroll: false,
-                    drag: function(){
+                    stop : function() {
+                        transcriberOffset = $(this).offset();
                     }
                 });
 
