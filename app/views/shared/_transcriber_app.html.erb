@@ -140,27 +140,21 @@
                            $transcriber.offset(transcriberOffset);
                         };
                     };
+                },
+                "click #stop-transcribing" : function(e) {
+                    $btn = $(e.target);
+
+                    var modal = new Backbone.BootstrapModal({ 
+                        title : "Stop transcribing?",
+                        animate : true,
+                        content : $('#stop-transcribing-template').html(),
+                        showFooter : false
+                    }).open();
                 }
             },
 
             onRender : function() {
-                this.$el.find("#page-complete-checkbox").bootstrapSwitch({
-                      size : "normal",
-                      onText : "complete",
-                      offText : "finish",
-                      labelText : "transcribing",
-                      onColor : "success",
-                      offColor : "primary",
-                      inverse : true,
-
-                      onSwitchChange : function(event, state) {
-                          if (state) {
-                              $("#finish-transcribing-btn").removeClass("btn-default").addClass("btn-success").val("Submit Finished Transcription");
-                          } else {
-                              $("#finish-transcribing-btn").addClass("btn-default").removeClass("btn-success").val("Take a Break");
-                          };
-                      }
-                });
+                
             }
         });
 

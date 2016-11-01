@@ -17,29 +17,20 @@
 
 <script type="text/template" id="transcription-toolbar-template">
     <div id="transcription-buttons" class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group" data-purpose="action buttons">
+            <button id="new-annotation" type="button" class="btn btn-primary">Transcribe</button>
+            <!-- <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button> -->
+        </div>
         <div class="btn-group" role="group" data-purpose="guide and help">
             <a href="/tutorial" target="tutorial" class="btn btn-default">Instructions</a>
             <a href="/feedback" target="feedback" class="btn btn-default">Feedback</a>
         </div>
-        <div class="btn-group" role="group" data-purpose="action buttons">
-            <button id="new-annotation" type="button" class="btn btn-primary">New Annotation</button>
-            <!-- <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button> -->
-        </div>
-        <div id="get-started-txt" class="btn-group" role="group" data-purpose="guide and help">
+        <!-- <div id="get-started-txt" class="btn-group" role="group" data-purpose="guide and help">
             <i class="fa fa-arrow-left"></i>  Click on "New Annotation" to transcribe
-        </div>
+        </div> -->
     </div>
     <div id="transcription-form-container">
-            <%= form_for transcription, html: {class: "form-inline", id: "submit-transcription-form"} do %>
-                <% if transcription.complete %>
-                    <%= submit_tag "Submit Finished Transcription", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-success pull-right", id: "finish-transcribing-btn" %>
-                <% else %>
-                    <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-default pull-right", id: "finish-transcribing-btn" %>
-                <% end %>
-
-                <%= hidden_field_tag "transcription[complete]", false %>
-                <%= check_box_tag "transcription[complete]", true, transcription.complete, id: "page-complete-checkbox" %>
-            <% end %>
+        <button id="stop-transcribing" class="btn btn-default pull-right">Stop Transcribing</button>
     </div>
 
 </script>
@@ -155,5 +146,20 @@
         </div>
     </div> -->
 
+</script>
+
+
+<script type="text/template" id="stop-transcribing-template">
+    <p class="boffset20">If the page still has data that has not yet been transcribed, click on the blue "Take a break" button below. If the page is completely finished, and there is no longer any data left to transcribe, click on the green "Page is complete" button.</p>
+    <%= form_for transcription, html: {class: "", id: "submit-transcription-form", style: "overflow: hidden;"} do %>
+        <a href="<%= user_profile_path(current_user) %>" class="btn btn-lg btn-primary pull-left">Take a break</a>
+        <%= hidden_field_tag "transcription[complete]", true %>
+        <%= submit_tag "Page is complete", style: "margin-left: 20px;", class: "btn btn-lg btn-success pull-right", id: "finish-transcribing-btn" %>
+    <% end %>
+</script>
+
+<script type="text/template" id="draw-box-modal-contents">
+    <p class="boffset40">Click and drag a box around the observations that you just transcribed. Don't include the date or time.</p>
+    <img src="http://test.citsci.geog.mcgill.ca/system/content_images/large/775d3dd38deab22f40fb1952448c7766a3a1fea8.gif" alt="" class="img-responsive center-block">
 </script>
 
