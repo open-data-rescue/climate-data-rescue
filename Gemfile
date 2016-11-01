@@ -99,6 +99,7 @@ group :development do
   gem "binding_of_caller"
 
   gem "byebug"
+  gem "rails-erd"
 end
 
 group :production do

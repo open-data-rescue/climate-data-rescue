@@ -17,29 +17,20 @@
 
 <script type="text/template" id="transcription-toolbar-template">
     <div id="transcription-buttons" class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group" data-purpose="action buttons">
+            <button id="new-annotation" type="button" class="btn btn-primary">Transcribe</button>
+            <!-- <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button> -->
+        </div>
         <div class="btn-group" role="group" data-purpose="guide and help">
             <a href="/tutorial" target="tutorial" class="btn btn-default">Instructions</a>
             <a href="/feedback" target="feedback" class="btn btn-default">Feedback</a>
         </div>
-        <div class="btn-group" role="group" data-purpose="action buttons">
-            <button id="new-annotation" type="button" class="btn btn-primary">New Annotation</button>
-            <!-- <button id="toggle-annoation-display" type="button" class="btn btn-default">Toggle annotation boxes</button> -->
-        </div>
-        <div id="get-started-txt" class="btn-group" role="group" data-purpose="guide and help">
+        <!-- <div id="get-started-txt" class="btn-group" role="group" data-purpose="guide and help">
             <i class="fa fa-arrow-left"></i>  Click on "New Annotation" to transcribe
-        </div>
+        </div> -->
     </div>
     <div id="transcription-form-container">
-            <%= form_for transcription, html: {class: "form-inline", id: "submit-transcription-form"} do %>
-                <% if transcription.complete %>
-                    <%= submit_tag "Submit Finished Transcription", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-success pull-right", id: "finish-transcribing-btn" %>
-                <% else %>
-                    <%= submit_tag "Take a Break", data: { confirm: "Are you sure?" }, style: "margin-left: 20px;", class: "btn btn-default pull-right", id: "finish-transcribing-btn" %>
-                <% end %>
-
-                <%= hidden_field_tag "transcription[complete]", false %>
-                <%= check_box_tag "transcription[complete]", true, transcription.complete, id: "page-complete-checkbox" %>
-            <% end %>
+        <button id="stop-transcribing" class="btn btn-default pull-right">Stop Transcribing</button>
     </div>
 
 </script>
@@ -87,7 +78,7 @@
             <ul id="scribe_tab_bar">
                 <% field_groups.each do |field_group| %>
                     <% if field_group.fields.any? %>
-                        <li id="scribe_tab_<%= field_group.id %>" class="scribe_tab <%= field_group.colour_class %>" data-field-group-id="<%= field_group.id %>" data-field-count=<%= field_group.fields.count + 3 %>><%= field_group.presentation_name %></li>
+                        <li id="scribe_tab_<%= field_group.id %>" class="btn btn-default btn-sm scribe_tab" data-classname=" <%= field_group.colour_class %>" data-field-group-id="<%= field_group.id %>" data-field-count=<%= field_group.fields.count %>><%= field_group.presentation_name %></li>
                     <% end %>
                 <% end %>
             </ul>
@@ -112,16 +103,14 @@
                             
                             <div class="user-input-container">
                                 <div class="scribe_input_field datetime">
+                                    <div class="input-group datetime-group" id="time-<%= field_group.id.to_s %>">
+                                        <%= text_field_tag "annotation[observation_date]", nil, required: true, class: "observation-input do-not-clear form-control datetime-field", title: "Observation Date and Time" %>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-time"></span>
+                                        </span>
+                                    </div>
                                     <div class="scribe_input_label">
-                                        <div class="input-group datetime-group" id="time-<%= field_group.id.to_s %>">
-                                            <%= text_field_tag "annotation[observation_date]", nil, required: true, class: "observation-input do-not-clear form-control datetime-field", title: "Observation Date and Time" %>
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-time"></span>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date and Time", data: { content: "What is the date and time of this observation? <b>You can select the date and time by clicking on the clock icon.</b><br>Should follow the format <nobr><code>04 Aug 1874, 01:48 AM</code></nobr>.", html: true, toggle: "popover", placement: "bottom auto", trigger: "hover"}%> Observation Date and Time
-                                        </div>
+                                        <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date and Time", data: { content: "What is the date and time of this observation? <b>You can select the date and time by clicking on the clock icon.</b><br>Should follow the format <nobr><code>04 Aug 1874, 01:48 AM</code></nobr>.", html: true, toggle: "popover", placement: "auto", trigger: "hover", container: "body"}%> Observation Date and Time
                                     </div>
                                 </div>
                                 
@@ -131,18 +120,19 @@
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id, data: {field_type: "field_id"} %>
                                         <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
-                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", nil, class: "selected-option-ids" %>
-                                        <div class="scribe_input_label">
+                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", nil, class: "selected-option-ids" if field.multi_select %>
+                                        
                                         <% if field.field_options.any? %>
                                             <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control selectable", multiple: field.multi_select,  data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: true, multiple: field.multi_select, tags: field.multi_select } %>
                                         <% else %>
                                             <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control selectable", data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: false } %>
                                         <% end %>
-                                        <i class="fa fa-info-circle" style="cursor: help;" aria-hidden="true" title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" data-toggle="popover" data-trigger="hover" data-placement="left auto" data-content="<%= (field.help && field.help.present? ? field.help : "") %>"></i><%= field.name %>
+                                        <div class="scribe_input_label">
+                                            <i class="fa fa-info-circle" style="cursor: help;" aria-hidden="true" title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" data-toggle="popover" data-trigger="hover" data-content="<%= (field.help && field.help.present? ? field.help : "") %>" data-container="body" data-placement="auto"></i> <%= field.name %>
                                         </div>
                                     </div>
                                 <% end %>
-                                <%= button_tag "Save", class:"submit-btn btn btn-primary btn-md scribe-input-field", style: "margin-top: 10px;" %>
+                                <%= button_tag "Save", class:"submit-btn btn btn-primary btn-md pull-right" %>
                             </div>
                         <% end %>
                     </div>
@@ -150,11 +140,26 @@
             </div>
         </div>
     </div>
-    <div id="transcriber-grid-container">
+    <!-- <div id="transcriber-grid-container">
         <div class="control-mask">
             Position this box around the data you're transcribing
         </div>
-    </div>
+    </div> -->
 
+</script>
+
+
+<script type="text/template" id="stop-transcribing-template">
+    <p class="boffset20">If the page still has data that has not yet been transcribed, click on the blue "Take a break" button below. If the page is completely finished, and there is no longer any data left to transcribe, click on the green "Page is complete" button.</p>
+    <%= form_for transcription, html: {class: "", id: "submit-transcription-form", style: "overflow: hidden;"} do %>
+        <a href="<%= user_profile_path(current_user) %>" class="btn btn-lg btn-primary pull-left">Take a break</a>
+        <%= hidden_field_tag "transcription[complete]", true %>
+        <%= submit_tag "Page is complete", style: "margin-left: 20px;", class: "btn btn-lg btn-success pull-right", id: "finish-transcribing-btn" %>
+    <% end %>
+</script>
+
+<script type="text/template" id="draw-box-modal-contents">
+    <p class="boffset40">Click and drag the main image to draw a box around the observations that you just transcribed. Don't include the date or time.</p>
+    <img src="http://test.citsci.geog.mcgill.ca/system/content_images/large/775d3dd38deab22f40fb1952448c7766a3a1fea8.gif" alt="" class="img-responsive center-block">
 </script>
 
