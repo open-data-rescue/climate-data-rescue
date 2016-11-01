@@ -274,8 +274,8 @@
 
     .scribe_input_field {
         // float: left;
-        font-size: 8pt;
-        margin: 5px;
+        // font-size: 8pt;
+        // margin: 5px;
         vertical-align: top;
         width: 100px;
         position: relative;
@@ -283,6 +283,7 @@
 
         &.datetime {
             width: 240px;
+            margin-right: 20px;
 
             .day:not(.disabled):not(.active) {
                 background: rgba(173,216,230,0.3) none repeat scroll 0 0;
@@ -294,10 +295,7 @@
         }
 
         .scribe_input_label {
-            word-break: break-all;
-            width: 100%;
-            overflow: hidden;
-            white-space: nowrap;
+            padding: 0 5px;
         }
 
         input, select {
