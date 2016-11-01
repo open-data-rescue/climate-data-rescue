@@ -81,7 +81,7 @@ gem 'i18n-active_record',
 # gem 'aws-sdk'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
-
+gem 'newrelic_rpm'
 
 # Deploy with Capistrano
 group :development do
