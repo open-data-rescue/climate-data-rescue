@@ -33,14 +33,16 @@
               </div>\
             <% } %>\
           <div class="modal-body">{{content}}</div>\
-          <div class="modal-footer">\
-              <% if (allowCancel) { %>\
-                <% if (cancelText) { %>\
-                    <button type="button" class="btn cancel btn-default" data-dismiss="modal">{{cancelText}}</button>\
+          <% if (showFooter) { %>\
+            <div class="modal-footer">\
+                <% if (allowCancel) { %>\
+                  <% if (cancelText) { %>\
+                      <button type="button" class="btn cancel btn-default" data-dismiss="modal">{{cancelText}}</button>\
+                  <% } %>\
                 <% } %>\
-              <% } %>\
-              <button type="button" class="btn ok btn-primary">{{okText}}</button>\
-          </div>\
+                <button type="button" class="btn ok btn-primary">{{okText}}</button>\
+            </div>\
+          <% } %>\
         </div>\
       </div>\
   ');
@@ -100,6 +102,7 @@
         okText: 'OK',
         cancelText: 'Cancel',
         allowCancel: true,
+        showFooter: true,
         escape: true,
         animate: false,
         template: template,
