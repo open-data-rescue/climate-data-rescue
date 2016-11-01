@@ -30,6 +30,8 @@
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
         var transcriberOffset = {left: 25, top: 250};
+
+        var lastDate = null;
         
         MainLayout = Marionette.LayoutView.extend({
             template : "#main-layout-template",
@@ -528,6 +530,12 @@
 
                      var $currentForm = self.$el.find("#field-group-" + $tab.data('field-group-id'));
 
+                     $dateField = $currentForm.find('.datetime-group');
+
+                     if ($dateField.length > 0 && lastDate != null) {
+                        $dateField.first().data("DateTimePicker").date(lastDate);
+                     };
+
 
                      $currentForm.show();
 
@@ -630,6 +638,14 @@
                         minDate : '<%= ( page.has_metadata? ? page.page_days.first.date.to_s : (transcription.page.start_date.to_s)) %>',
                         maxDate : '<%= ( page.has_metadata? ? page.page_days.last.date.to_s : (transcription.page.end_date.to_s)) %>',
                     });
+
+                    $(datetime).on('dp.change', function(e) {
+                        lastDate = e.date;
+                    });
+
+                    if (lastDate != null) {
+                        $(datetime).data("DateTimePicker").date(lastDate);
+                    };
                 });
 
                 // Selectable Fields
