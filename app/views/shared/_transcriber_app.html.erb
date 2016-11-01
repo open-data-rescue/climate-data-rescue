@@ -721,9 +721,9 @@
                                     };
                                     return data;
                                 },
-                                    error : function(response) {
-                                        console.log("failed to get search options for " + $field.data("field-id"));
-                                    }
+                                error : function(response) {
+                                    console.log("failed to get search options for " + $field.data("field-id"));
+                                }
                             }
                         });
                         
@@ -801,6 +801,7 @@
             },
 
             editAnnotation : function(annotation) {
+                var self = this;
                 var $transcriber = this.$el;
                 $("body").append($transcriber);
 
@@ -861,7 +862,7 @@
                       $select.trigger("change");
                       for (var i = 0; i < field.selected_options.length; i++) {
                           var option = field.selected_options[i];
-                          var $option = $("<option class='user-option' selected></option>").val(option.id).html(formatSelection(option));
+                          var $option = $("<option class='user-option' selected></option>").val(option.id).html(self.formatSelection(option));
 
                           // For custom tag template
                           $option.attr("data-display-attribute", option.display_attribute);
