@@ -931,63 +931,72 @@
                       console.error(data);
 
                       return;
-                    } else {
-                        var fieldGroupName = data.field_group.name || "";
-                        mainLayout.setMsg("Annotation sucessfully saved! Click and drag a box around the " + fieldGroupName + " observations that you just transcribed. Don't include the date or time.", false, "info");
                     };
 
-                    annotation = new Annotation(data);
+                    var fieldGroupName = data.field_group.name || "";
+                    var modal = new Backbone.BootstrapModal({ 
+                        title : (fieldGroupName + " annotation sucessfully saved!"),
+                        animate : true,
+                        allowCancel : false,
+                        content : $('#draw-box-modal-contents').html(),
+                        okText : "Mark Transcribed Area",
+                        submitFn : function() {
+                            this.close();
+                            annotation = new Annotation(data);
 
-                    pageCanvas.$el.kinetic("detach");
+                            pageCanvas.$el.kinetic("detach");
 
-                    // Using the boxer plugin
-                    pageCanvas.$el.boxer({
-                      appendTo: "#canvas",
-                      container : "#page-container",
-                      target : "#target-image",
-                      groupColour : data.field_group.colour_class,
+                            // Using the boxer plugin
+                            pageCanvas.$el.boxer({
+                              appendTo: "#canvas",
+                              container : "#page-container",
+                              target : "#target-image",
+                              groupColour : data.field_group.colour_class,
 
-                      stop: function(event, ui) {
-                        var offset = ui.box.offset();
-                        var position = {
-                            x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-                            y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-                        };
+                              stop: function(event, ui) {
+                                var offset = ui.box.offset();
+                                var position = {
+                                    x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
+                                    y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
+                                };
 
-                        annotation.set("x_tl", position.x);
-                        annotation.set("y_tl", position.y);
-                        annotation.set("width", ui.box.width());
-                        annotation.set("height", ui.box.height());
+                                annotation.set("x_tl", position.x);
+                                annotation.set("y_tl", position.y);
+                                annotation.set("width", ui.box.width());
+                                annotation.set("height", ui.box.height());
 
-                        annotation.save(annotation.attributes, {
-                            success : function(mdl) {
-                                annotationBox = new AnnotationBoxView({
-                                    model : mdl
+                                annotation.save(annotation.attributes, {
+                                    success : function(mdl) {
+                                        annotationBox = new AnnotationBoxView({
+                                            model : mdl
+                                        });
+
+                                        ui.box.remove();
+
+                                        annotationBox.render();
+
+                                        mainLayout.setMsg("Annotation and bounding box sucessfully saved!", true, "success");
+
+
+                                        pageCanvas.$el.boxer('destroy');
+                                        
+                                        pageCanvas.$el.kinetic("attach");
+
+                                        Annotations.add(mdl);
+
+                                        self.show();
+                                    },
+                                    error : function() {
+                                        console.log("error");
+                                        pageCanvas.$el.boxer('destroy');
+                                        self.show();
+                                    }
                                 });
-
-                                ui.box.remove();
-
-                                annotationBox.render();
-
-                                mainLayout.setMsg("Annotation and bounding box sucessfully saved!", true, "success");
-
-                                self.destroy();
-
-                                pageCanvas.$el.boxer('destroy');
-                                
-                                pageCanvas.$el.kinetic("attach");
-
-                                Annotations.add(mdl);
-
-                            },
-                            error : function() {
-                                console.log("error");
-                                pageCanvas.$el.boxer('destroy');
-                                self.show();
-                            }
-                        });
-                      }
-                    });
+                              }
+                            });
+                        }
+                        // showFooter : false
+                    }).open();
 
                 }).on("ajax:error", function(e, xhr, status, error) {
                     // console.log(e);
@@ -1004,6 +1013,13 @@
 
             hide : function() {
                 this.$el.hide();
+                if (!(toolbarLayout.$("#new-annotation").hasClass('disabled'))) {
+                    toolbarLayout.$("#new-annotation").addClass("disabled");
+                };
+            },
+
+            show : function() {
+                this.$el.show(250);
                 if (!(toolbarLayout.$("#new-annotation").hasClass('disabled'))) {
                     toolbarLayout.$("#new-annotation").addClass("disabled");
                 };
