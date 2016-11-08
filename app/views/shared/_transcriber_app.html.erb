@@ -226,7 +226,7 @@
 
                 var self = this;
                 this.$el.kinetic({
-                    y : this.options.x,
+                    x : this.options.x,
                     y : this.options.y,
                     cursor : this.options.cursor,
                     "can scroll" : this.options.scroll,
@@ -240,6 +240,11 @@
                         // console.log(options);
                         if (options.options.moveFn) {
                             options.options.moveFn.call(this);
+                        }
+                    },
+                    filterTarget: function(target, e){
+                        if (!/down|start/.test(e.type)){
+                            return !(/area|a|button|input/i.test(target.tagName));
                         }
                     }
                 });
