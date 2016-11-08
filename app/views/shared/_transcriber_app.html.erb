@@ -855,7 +855,7 @@
                 $form = $transcriber.find("form[data-field-group-id=" + annotation.get('field_group').id + "]");
                 // console.log($form);
 
-                $form.find("[name='annotation[observation_date]']").val(annotation.get('observation_date'));
+                $form.find("[name='annotation[observation_date]']").val(annotation.get('date_time_id'));
                 $form.find("#x-field").val(annotation.get('x_tl'));
                 $form.find("#y-field").val(annotation.get('y_tl'));
                 $form.find("#width-field").val(annotation.get('width'));
