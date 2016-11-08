@@ -71,17 +71,18 @@
 <script type="text/template" id="transcription-box-template">
     <div id="scribe_transcription_area">
         <div id="scribe_top_bar">
-            <div id="scribe_prompt">
+            <!-- <div id="scribe_prompt">
                 <p id="scribe_prompt_text">Enter the values for each field to be transcribed</p>
                 <button class="btn btn-default btn-xs pull-right close-btn" style="border: none;"><i class="fa fa-close fa-2x"></i></button>
-            </div>
-            <ul id="scribe_tab_bar">
+            </div> -->
+            <div id="scribe_tab_bar">
                 <% field_groups.each do |field_group| %>
                     <% if field_group.fields.any? %>
-                        <li id="scribe_tab_<%= field_group.id %>" class="btn btn-default btn-sm scribe_tab" data-classname=" <%= field_group.colour_class %>" data-field-group-id="<%= field_group.id %>" data-field-count=<%= field_group.fields.count %>><%= field_group.presentation_name %></li>
+                        <button id="scribe_tab_<%= field_group.id %>" class="btn btn-default btn-sm scribe_tab" data-classname=" <%= field_group.colour_class %>" data-field-group-id="<%= field_group.id %>" data-field-count=<%= field_group.fields.count %>><%= field_group.presentation_name %></button>
                     <% end %>
                 <% end %>
-            </ul>
+                <button class="btn btn-default btn-xs close-btn" style="border: none;"><i class="fa fa-close fa-2x"></i></button>
+            </div>
         </div>
         <div id="scribe_bottom_area">
             <div id="scribe_input_bar">
@@ -102,37 +103,42 @@
                             <%= hidden_field_tag "annotation[meta][height]", nil, id: "height-field" %>
                             
                             <div class="user-input-container">
-                                <div class="scribe_input_field datetime">
-                                    <div class="input-group datetime-group" id="time-<%= field_group.id.to_s %>">
-                                        <%= text_field_tag "annotation[observation_date]", nil, required: true, class: "observation-input do-not-clear form-control datetime-field", title: "Observation Date and Time" %>
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-time"></span>
-                                        </span>
-                                    </div>
-                                    <div class="scribe_input_label">
+                                <div class="labels-container">
+                                    <div class="scribe_input_label date-label">
                                         <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: "Observation Date and Time", data: { content: "What is the date and time of this observation? <b>You can select the date and time by clicking on the clock icon.</b><br>Should follow the format <nobr><code>04 Aug 1874, 01:48 AM</code></nobr>.", html: true, toggle: "popover", placement: "auto", trigger: "hover", container: "body"}%> Observation Date and Time
                                     </div>
-                                </div>
-                                
-                                <% field_group.fields.each do |field| %>
-                                    <div class="scribe_input_field" data-field-id="<%= field.id %>">
-                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]", page.id %>
-                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
-                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id, data: {field_type: "field_id"} %>
-                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
-                                        <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", nil, class: "selected-option-ids" if field.multi_select %>
-                                        
-                                        <% if field.field_options.any? %>
-                                            <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control selectable", multiple: field.multi_select,  data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: true, multiple: field.multi_select, tags: field.multi_select } %>
-                                        <% else %>
-                                            <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control selectable", data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: false } %>
-                                        <% end %>
+                                    <% field_group.fields.each do |field| %>
                                         <div class="scribe_input_label">
                                             <i class="fa fa-info-circle" style="cursor: help;" aria-hidden="true" title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" data-toggle="popover" data-trigger="hover" data-content="<%= (field.help && field.help.present? ? field.help : "") %>" data-container="body" data-placement="auto"></i> <%= field.name %>
                                         </div>
+                                    <% end %>
+                                </div>
+                                <div class="fields-container">
+                                    <div class="scribe_input_field datetime">
+                                        <div class="input-group datetime-group" id="time-<%= field_group.id.to_s %>">
+                                            <%= text_field_tag "annotation[observation_date]", nil, required: true, class: "observation-input do-not-clear form-control datetime-field", title: "Observation Date and Time" %>
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+                                            </span>
+                                        </div>
                                     </div>
-                                <% end %>
-                                <%= button_tag "Save", class:"submit-btn btn btn-primary btn-md pull-right" %>
+                                    <% field_group.fields.each do |field| %>
+                                        <div class="scribe_input_field" data-field-id="<%= field.id %>">
+                                            <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]", page.id %>
+                                            <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", current_user.id %>
+                                            <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", field.id, data: {field_type: "field_id"} %>
+                                            <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", field.data_type %>
+                                            <%= hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", nil, class: "selected-option-ids" if field.multi_select %>
+                                            
+                                            <% if field.field_options.any? %>
+                                                <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control selectable", multiple: field.multi_select,  data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: true, multiple: field.multi_select, tags: field.multi_select } %>
+                                            <% else %>
+                                                <%= select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", nil, class: "observation-input form-control selectable", data: { field_id: field.id, field_type: "field_value", selectable: true, field_options: false } %>
+                                            <% end %>
+                                        </div>
+                                    <% end %>
+                                <%= button_tag "Save", class:"submit-btn btn btn-primary btn-md" %>
+                                </div>
                             </div>
                         <% end %>
                     </div>
