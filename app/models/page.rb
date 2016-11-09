@@ -119,7 +119,7 @@ class Page < ActiveRecord::Base
   scope :transcribeable, -> { joins({:page_type => :field_groups}).where(done: false).uniq.order("pages.start_date asc, page_types.number asc") }
 
   scope :unseen, -> (user) {
-    if user
+    if user && user.pages.any?
       where("pages.id not in (?)", user.pages.pluck(:id))
     end
   }
