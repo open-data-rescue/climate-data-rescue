@@ -39,6 +39,7 @@ Weather::Application.routes.draw do
   get 'transcribe(/:current_page_id)' => 'transcriptions#new', as: "transcribe_page"
   # match 'pagetypes' => 'pagetypes#index', :via => [:get, :post]
   match 'ledgers' => 'ledgers#index', :via => [:get, :post]
+  match 'users/dismiss_box_tutorial' => 'users#dismiss_box_tutorial', :via => [:post]
   match 'users' => 'users#index', :via => [:get]
   match 'users/:id/profile' => 'users#show', :via => [:get], as: "user_profile"
   match 'users/:id/edit' => 'users#edit', :via => [:get, :post]

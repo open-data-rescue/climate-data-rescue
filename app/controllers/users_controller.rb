@@ -68,6 +68,18 @@ class UsersController < ApplicationController
       end
   end
 
+  def dismiss_box_tutorial
+    if current_user
+      begin
+        current_user.dismissed_box_tutorial = true
+        current_user.save!
+        render status: :ok, text: {}.to_json
+      rescue => e
+        render status: :bad_request, text: e.message
+      end
+    end
+  end
+
   def destroy
     #this function is called to delete the instance of "user.rb" identified by the user_id passed to the destroy function when it was called
     if current_user && current_user.admin?

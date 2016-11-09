@@ -357,80 +357,80 @@ $tab-active-text: white;
 .red-group {
   background: $fg-red;
 }
-#scribe_tab_bar li.scribe_tab.red-group {
+#scribe_tab_bar .scribe_tab.red-group {
   background: tabBackground($fg-red);
 }
-#scribe_tab_bar li.scribe_tab.red-group.active{
+#scribe_tab_bar .scribe_tab.red-group.active{
   background: activeTabBackground($fg-red);
   color: $tab-active-text;
 }
 .pink-group {
   background: $fg-pink;
 }
-#scribe_tab_bar li.scribe_tab.pink-group {
+#scribe_tab_bar .scribe_tab.pink-group {
   background: tabBackground($fg-pink);
 }
-#scribe_tab_bar li.scribe_tab.pink-group.active{
+#scribe_tab_bar .scribe_tab.pink-group.active{
   background: activeTabBackground($fg-pink);
   color: $tab-active-text;
 }
 .purple-group {
   background: $fg-purple;
 }
-#scribe_tab_bar li.scribe_tab.purple-group {
+#scribe_tab_bar .scribe_tab.purple-group {
   background: tabBackground($fg-purple);
 }
-#scribe_tab_bar li.scribe_tab.purple-group.active{
+#scribe_tab_bar .scribe_tab.purple-group.active{
   background: activeTabBackground($fg-purple);
   color: $tab-active-text;
 }
 .blue-group {
   background: $fg-blue;
 }
-#scribe_tab_bar li.scribe_tab.blue-group {
+#scribe_tab_bar .scribe_tab.blue-group {
   background: tabBackground($fg-blue);
 }
-#scribe_tab_bar li.scribe_tab.blue-group.active{
+#scribe_tab_bar .scribe_tab.blue-group.active{
   background: activeTabBackground($fg-blue);
   color: $tab-active-text;
 }
 .cyan-group {
   background: $fg-cyan;
 }
-#scribe_tab_bar li.scribe_tab.cyan-group {
+#scribe_tab_bar .scribe_tab.cyan-group {
   background: tabBackground($fg-cyan);
 }
-#scribe_tab_bar li.scribe_tab.cyan-group.active{
+#scribe_tab_bar .scribe_tab.cyan-group.active{
   background: activeTabBackground($fg-cyan);
   color: $tab-active-text;
 }
 .green-group {
   background: $fg-green;
 }
-#scribe_tab_bar li.scribe_tab.green-group {
+#scribe_tab_bar .scribe_tab.green-group {
   background: tabBackground($fg-green);
 }
-#scribe_tab_bar li.scribe_tab.green-group.active{
+#scribe_tab_bar .scribe_tab.green-group.active{
   background: activeTabBackground($fg-green);
   color: $tab-active-text;
 }
 .yellow-group {
   background: $fg-yellow;
 }
-#scribe_tab_bar li.scribe_tab.yellow-group {
+#scribe_tab_bar .scribe_tab.yellow-group {
   background: tabBackground($fg-yellow);
 }
-#scribe_tab_bar li.scribe_tab.yellow-group.active{
+#scribe_tab_bar .scribe_tab.yellow-group.active{
   background: activeTabBackground($fg-yellow);
   color: $tab-active-text;
 }
 .orange-group {
   background: $fg-orange;
 }
-#scribe_tab_bar li.scribe_tab.orange-group {
+#scribe_tab_bar .scribe_tab.orange-group {
   background: tabBackground($fg-orange);
 }
-#scribe_tab_bar li.scribe_tab.orange-group.active{
+#scribe_tab_bar .scribe_tab.orange-group.active{
   background: activeTabBackground($fg-orange);
   color: $tab-active-text;
 }
@@ -640,6 +640,8 @@ ul.dropdown-menu {
   right: 5px;
 }
 
-
+.box-modal-btn-container {
+  overflow: hidden;
+}
 
 
