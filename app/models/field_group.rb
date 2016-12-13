@@ -1,8 +1,9 @@
 class FieldGroup < ActiveRecord::Base
   #attr_accessible :bounds, :description, :height, :help, :name, :resizable, :width, :zoom
-  has_and_belongs_to_many :fields
+  has_many :fields, -> { order("field_groups_fields.sort_order asc") }, through: :field_groups_fields
+  has_many :field_groups_fields, dependent: :destroy
   has_many :annotations
-  belongs_to :page_type
+  has_many :page_types
   
   default_scope { order(position: :asc) }
 

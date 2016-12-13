@@ -1,0 +1,444 @@
+<script id="fields-app" type="text/javascript">
+    
+    FieldsApp = new Marionette.Application();
+
+    FieldsApp.addRegions({
+        main : "#fields-app-container"
+    });
+
+    FieldsApp.AppManager = (function(Backbone, Marionette){
+        var EventAggregator = new Backbone.Wreqr.EventAggregator();
+
+        FieldGroup = Backbone.Model.extend({
+            url : "<%= field_groups_path %>",
+        });
+        Field = Backbone.Model.extend({
+            url : "<%= fields_path %>",
+            schema : {
+                // image : {
+                //     type : "File",
+                //     title : "Icon",
+                //     editorAttrs : {
+                //         name : "field_option[image]"
+                //     }
+                // },
+                // name : {
+                //     type : "Text",
+                //     title : "Name",
+                //     validators : ["required"],
+                //     hint : "Enter a name for this option for identification and display"
+                // },
+                // text_symbol : {
+                //     type : "Text",
+                //     title : "Symbol"
+                // },
+                // value : {
+                //     type : "Text",
+                //     title : "Stored Value",
+                //     hint : "Enter the value that you want saved when this option is chosen"
+                // },
+                // display_attribute : {
+                //     type : "Select",
+                //     options : [
+                //         {label : "Icon", val: "icon"},
+                //         {label : "Symbol", val: "symbol"},
+                //         {label : "Name", val: "name"}
+                //     ],
+                //     title : "Display this when selected",
+                //     hint : "Select the value that you want shown when the user selects this option"
+                // },
+                // help : "TextArea"
+            },
+            defaults : {
+                // icon_url : null,
+                // assigned : false,
+                // delete_image : false
+            },
+
+            initialize : function(opts){
+                this.options = opts || {};
+            },
+            paramRoot : "field"
+        });
+
+        FieldsCollection = Backbone.Collection.extend({
+            model : Field
+        });
+
+        FieldsLayout = Marionette.LayoutView.extend({
+            template : "#fields-layout-template",
+            regions : {
+                assigned : "#assigned-fields-container",
+                available : "#available-fields-container",
+                // multiToggle : "#field-multi-toggle-container"
+            },
+
+            className : "col-md-12",
+
+            events : {
+                "click #create-field-btn" : "createField"
+            },
+
+            onRender : function() {
+                // layout = this;
+                // field_group = new FieldGroup();
+                // field_group.fetch({
+                //     url : "<%= field_groups_path(field_group) %>",
+                //     success : function(field){
+                //         console.info("got field group info");
+                //         view = new FieldGroupView({
+                //             model : field_group
+                //         });
+
+                //         layout.multiToggle.show(view);
+                //     }
+                // });
+            },
+
+            createField : function() {
+                // console.info("Create field option btn clicked");
+                // console.log(Field);
+                var form = new Backbone.Form({
+                    model: new Field()
+
+                });
+                
+                var modal = new Backbone.BootstrapModal({ 
+                    content : form,
+                    title : "Create New Field",
+                    animate : true,
+                    submitFn : function(){
+                        // console.log("submit fn called");
+                        // console.log(this);
+                        var modal = this;
+
+                        form = this.options.content;
+
+                        var errors = form.commit({ validate: true });
+
+                        // console.log(form.model);
+                        
+
+                        if (!errors) {
+                            form.model.save(null, { 
+                                success : function(mdl) {
+                                    AvailableFields.add(mdl);
+                                    // console.log(mdl);
+                                    modal.close();
+                                },
+                                paramRoot : "field",
+                                formData : true
+                            });
+                        };
+                        return errors;
+                    },
+                }).open();
+            }
+        });
+        
+        // FieldGroupView = Marionette.ItemView.extend({
+        //     template : "#field-group-template",
+        //     onRender : function() {
+        //         self = this;
+        //         this.$el.find("#field-multi-toggle").bootstrapSwitch({
+        //             size : "small",
+        //             onText : "Multiple",
+        //             offText : "One",
+        //             labelText : "Select",
+
+        //             onSwitchChange : function(event, state) {
+        //                 self.model.set("multi_select", state);
+        //                 self.model.save(self.model.attributes, {
+        //                     url : "<%# field_path(field) %>"
+        //                 });
+        //             }
+        //         });
+        //     }
+        // });
+
+        FieldView = Marionette.ItemView.extend({
+            template : "#field-template",
+            tagName : "tr",
+            className : "field",
+
+            initialize : function(options) {
+                this.listenTo(this.model, "change", this.render);
+                this.listenTo(this.model, "close_view", this.close);
+            },
+
+            events : {
+                "click .add-to-field-group-btn" : "addToFieldGroup",
+                "click .remove-from-field-group-btn" : "removeFromFieldGroup",
+                "click .model-edit-btn" : "editModel"
+            },
+
+            editModel : function() {
+                
+                var form = new Backbone.Form({
+                    model: this.model, 
+
+                });
+                
+                var modal = new Backbone.BootstrapModal({ 
+                    content : form,
+                    title : "Edit Field",
+                    animate : true,
+                    submitFn : function(){
+                        // console.log("submit fn called");
+                        // console.log(this);
+                        var modal = this;
+                        form = this.options.content;
+                        var errors = form.commit({ validate: true });
+
+                        if (!errors) {
+                            form.model.save(null, { 
+                                url : "<%= fields_path %>" + "/" + form.model.get("id") + "?field_group_id=" + <%= field_group.id %>,
+                                success : function(mdl) {
+                                    // console.log(mdl);
+                                    modal.close();
+                                },
+                                paramRoot : "field",
+                                formData : true
+                            });
+                        };
+                        return errors;
+                    },
+                }).open();
+            },
+
+            addToFieldGroup : function() {
+                var id = this.model.get("id");
+                var self = this;
+                var mdl = this.model;
+
+                mdl.fetch({
+                    type : "POST",
+                    url : "<%= add_field_to_field_group_path %>",
+                    data : {field_group_id: <%= field_group.id %>, field_id: id},
+                    dataType: 'json',
+                    success : function(response) {
+                        // console.info("added field option to field");
+                        AvailableFields.remove(mdl);
+                        AssignedFields.add(mdl);
+                        $(".tooltip").remove();
+                    }
+                });
+            },
+
+            removeFromFieldGroup : function() {
+                var id = this.model.get("id");
+                var self = this;
+                var mdl = this.model;
+
+                mdl.fetch({
+                    type : "POST",
+                    url : "<%= remove_field_from_field_group_path %>",
+                    data : {field_group_id: <%= field_group.id %>, field_id: id},
+                    dataType: 'json',
+                    success : function(response) {
+                        // console.info("removed field option from field");
+                        AssignedFields.remove(mdl);
+                        AvailableFields.add(mdl);
+                        $(".tooltip").remove();
+                    }
+                });
+            },
+
+            onRender : function() {
+                this.$el.find('[data-toggle="tooltip"]').tooltip();
+
+                this.$el.data("field-id", this.model.get("id"));
+            }
+        });
+
+
+        FieldsCollectionView = Marionette.CompositeView.extend({
+            template : "#fields-collection-template",
+            childView : FieldView,
+            ChildViewContainer : "#field-rows-container",
+            tagName : "table",
+            className : "table table-striped table-responsive fields-table",
+
+            emptyView : Marionette.ItemView.extend({
+                template : _.template("<td colspan=6>No Fields</td>"),
+                tagName : "tr",
+
+            }),
+
+            initialize : function(options) {
+                options = options || {};
+                $.extend(this.options, options);
+                this.listenTo(this.collection, "change", this.render);
+            },
+
+            onRender : function() {
+                if (this.options.collectionTitle) {
+                    this.$el.find("#collection-title-container").html(this.options.collectionTitle);
+                };
+
+                if (this.options.sortable) {
+
+                    if (this.$el.sortable("instance")) {
+                        this.$el.sortable("refreshPositions");
+                        // console.info("positions refreshed");
+                    } else {
+                        this.$el.sortable({
+                            axis: 'y',
+                            items: '.field',
+                            cursor: 'move',
+
+                            sort : function(e, ui) {
+                                ui.item.addClass('active-item-shadow');
+                            },
+                            stop : function(e, ui) {
+                                ui.item.removeClass('active-item-shadow');
+                                // # highlight the row on drop to indicate an update
+                                ui.item.children('td').effect('highlight', {}, 1000);
+                            },
+                            update : function(e, ui) {
+                                item_id = ui.item.data('field-id');
+                                position = ui.item.index() - 1;
+                                
+                                console.log(position);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '<%= update_field_sort_order_path %>',
+                                    dataType: 'json',
+                                    data: { 
+                                        field_group_id : <%= field_group.id %>,
+                                        field_id: item_id, 
+                                        sort_order_position: position 
+                                    } 
+                                });
+                            }
+                        });
+                    }
+                    
+                }
+            }
+        });
+
+        MainLayout = new FieldsLayout();
+
+        AssignedFields = new FieldsCollection({
+            url : "<%= fields_for_field_group_path(field_group) %>",
+            initialize : function() {
+                EventAggregator.on("refresh_fields", this.fetch, this);
+            }
+        });
+        AvailableFields = new FieldsCollection({
+            url : "<%= fields_path %>",
+            initialize : function() {
+                EventAggregator.on("refresh_fields", this.fetch, this);
+            }
+        });
+
+        return {
+            init : function() {
+                console.info("Fields App Started");
+                FieldsApp.main.show(MainLayout);
+
+                AssignedFields.fetch({
+                    url : "<%= fields_for_field_group_path(field_group) %>",
+                    success : function(collection) {
+                        // console.log(collection);
+                        view = new FieldsCollectionView({
+                            collection : collection,
+                            collectionTitle : "<h4>Assigned Fields</h4>",
+                            initialize : function() {
+                                this.listenTo(this.collection, "change", this.render);
+                            },
+                            emptyView : Marionette.ItemView.extend({
+                                template : _.template("<td colspan=6>No Fields Assigned</td>"),
+                                tagName : "tr",
+
+                            }),
+                            sortable: true
+                        });
+                        MainLayout.assigned.show(view);
+                        EventAggregator.on("refresh_fields", this.fetch, this);
+                    }
+                });
+
+                AvailableFields.fetch({
+                    url : "<%= fields_path(field_group_id: field_group.id) %>",
+                    success : function(collection) {
+                        // console.log(collection);
+                        view = new FieldsCollectionView({
+                            collection : collection,
+                            collectionTitle : "<h4>Available Fields</h4>",
+                            initialize : function() {
+                                this.listenTo(this.collection, "change", this.render);
+                            },
+                            emptyView : Marionette.ItemView.extend({
+                                template : _.template("<td colspan=6>No Fields Available</td>"),
+                                tagName : "tr",
+
+                            })
+                        });
+                        MainLayout.available.show(view);
+                        EventAggregator.on("refresh_fields", this.fetch, this);
+                    }
+                });
+            }
+        }
+    })(Backbone, Marionette);
+
+    $(document).ready(function() {
+        FieldsApp.addInitializer(FieldsApp.AppManager.init);
+        FieldsApp.start();
+    });
+
+</script>
+
+<script type="text/template" id="fields-layout-template">
+    <h3>Fields  <button class="btn btn-primary btn-xs" id="create-field-btn" type="button">New</button></h3>
+    <div id="field-multi-toggle-container"></div>
+    <div id="fields-tables-container" class="row">
+        <div id="assigned-fields-container" class="col-md-12"></div>
+        <div id="available-fields-container" class="col-md-12"></div>
+    </div>
+
+</script>
+
+<script type="text/template" id="field-group-template">
+    <input type="checkbox" id="field-multi-toggle" value=true {{= (multi_select) ? "checked" : null }} />
+</script>
+
+<script type="text/template" id="field-template">
+        <td></td>
+        <td>{{= name }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <i class="fa fa-pencil model-edit-btn pull-left btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
+            {{ if(assigned) { }}
+                    <i class="fa fa-times fa-2x remove-from-field-group-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field Group"></i>
+            {{ } else { }}
+                <i class="fa fa-plus fa-2x add-to-field-group-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field Group"></i>
+            {{ } }}
+        </td>
+</script>
+
+
+<script type="text/template" id="fields-collection-template">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="title-wrapper"><td id="collection-title-container" colspan=6></td></tr>
+        </tbody>
+        <tbody id="fields-row-container"></tbody>
+</script>
+
+<script type="text/template" id="available-fields-collection-template">
+
+</script>
