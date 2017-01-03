@@ -6,5 +6,4 @@ class Field < ActiveRecord::Base
   has_many :field_options_fields, dependent: :destroy
   has_many :data_entries
   
-  default_scope { order(position: :asc) }
 end

@@ -15,39 +15,37 @@
         Field = Backbone.Model.extend({
             url : "<%= fields_path %>",
             schema : {
-                // image : {
-                //     type : "File",
-                //     title : "Icon",
-                //     editorAttrs : {
-                //         name : "field_option[image]"
-                //     }
-                // },
-                // name : {
-                //     type : "Text",
-                //     title : "Name",
-                //     validators : ["required"],
-                //     hint : "Enter a name for this option for identification and display"
-                // },
-                // text_symbol : {
-                //     type : "Text",
-                //     title : "Symbol"
-                // },
-                // value : {
-                //     type : "Text",
-                //     title : "Stored Value",
-                //     hint : "Enter the value that you want saved when this option is chosen"
-                // },
-                // display_attribute : {
-                //     type : "Select",
-                //     options : [
-                //         {label : "Icon", val: "icon"},
-                //         {label : "Symbol", val: "symbol"},
-                //         {label : "Name", val: "name"}
-                //     ],
-                //     title : "Display this when selected",
-                //     hint : "Select the value that you want shown when the user selects this option"
-                // },
-                // help : "TextArea"
+                name : {
+                    type : "Text",
+                    title : "Display Name",
+                    validators : ["required"],
+                    hint : "Enter a name for this field. This name will be displayed in the transcriber tab."
+                },
+                full_name : {
+                    type : "Text",
+                    title : "Full Name",
+                    // validators : ["required"],
+                    hint : "Enter the full name for this field. This will be displayed in the help popover if present."
+                },
+                help : {
+                    type : "TextArea",
+                    hint : "Enter a help text that will be shown to the user in the help popover."
+                },
+                field_key : {
+                    type : "Text",
+                    title : "Unique Field Key",
+                    hint : "Enter a unique identifier for this field. No spaces, use underscores to separate words."
+                },
+                data_type : {
+                    type : "Select",
+                    title : "Data Type",
+                    hint : "Select the type of data that will be entered. This will be used to convert the text data to the proper format on export.",
+                    options : [
+                        {label : "Text/String", val: "string"},
+                        {label : "Integer", val: "integer"},
+                        {label : "Decimal/Float", val: "float"}
+                    ]
+                },
             },
             defaults : {
                 // icon_url : null,
@@ -255,12 +253,12 @@
         FieldsCollectionView = Marionette.CompositeView.extend({
             template : "#fields-collection-template",
             childView : FieldView,
-            ChildViewContainer : "#field-rows-container",
+            childViewContainer : ".field-rows-container",
             tagName : "table",
             className : "table table-striped table-responsive fields-table",
 
             emptyView : Marionette.ItemView.extend({
-                template : _.template("<td colspan=6>No Fields</td>"),
+                template : _.template("<td colspan=5>No Fields</td>"),
                 tagName : "tr",
 
             }),
@@ -349,7 +347,7 @@
                                 this.listenTo(this.collection, "change", this.render);
                             },
                             emptyView : Marionette.ItemView.extend({
-                                template : _.template("<td colspan=6>No Fields Assigned</td>"),
+                                template : _.template("<td colspan=5>No Fields Assigned</td>"),
                                 tagName : "tr",
 
                             }),
@@ -371,7 +369,7 @@
                                 this.listenTo(this.collection, "change", this.render);
                             },
                             emptyView : Marionette.ItemView.extend({
-                                template : _.template("<td colspan=6>No Fields Available</td>"),
+                                template : _.template("<td colspan=5>No Fields Available</td>"),
                                 tagName : "tr",
 
                             })
@@ -393,7 +391,6 @@
 
 <script type="text/template" id="fields-layout-template">
     <h3>Fields  <button class="btn btn-primary btn-xs" id="create-field-btn" type="button">New</button></h3>
-    <div id="field-multi-toggle-container"></div>
     <div id="fields-tables-container" class="row">
         <div id="assigned-fields-container" class="col-md-12"></div>
         <div id="available-fields-container" class="col-md-12"></div>
@@ -406,18 +403,22 @@
 </script>
 
 <script type="text/template" id="field-template">
-        <td></td>
-        <td>{{= name }}</td>
-        <td></td>
-        <td></td>
-        <td></td>
         <td>
-            <i class="fa fa-pencil model-edit-btn pull-left btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
+            {{= name }}
+            {{ if (typeof full_name != "undefined" && full_name.length > 1) { }}
+                <br />({{= full_name}})
+            {{ } }}
+        </td>
+        <td>{{= help }}</td>
+        <td>{{= field_key }}</td>
+        <td>{{= data_type }}</td>
+        <td>
             {{ if(assigned) { }}
                     <i class="fa fa-times fa-2x remove-from-field-group-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field Group"></i>
             {{ } else { }}
                 <i class="fa fa-plus fa-2x add-to-field-group-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field Group"></i>
             {{ } }}
+            <i class="fa fa-pencil model-edit-btn pull-right btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
         </td>
 </script>
 
@@ -425,20 +426,15 @@
 <script type="text/template" id="fields-collection-template">
         <thead>
             <tr>
-                <th></th>
-                <th>Name</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th style="width: 30%;">Name</th>
+                <th style="width: 30%;">Help</th>
+                <th style="width: 10%;">Field Key</th>
+                <th style="width: 10%;">Data Type</th>
+                <th style="width: 20%;"></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="title-wrapper"><td id="collection-title-container" colspan=6></td></tr>
+            <tr class="title-wrapper"><td id="collection-title-container" colspan=5></td></tr>
         </tbody>
-        <tbody id="fields-row-container"></tbody>
-</script>
-
-<script type="text/template" id="available-fields-collection-template">
-
+        <tbody class="field-rows-container"></tbody>
 </script>

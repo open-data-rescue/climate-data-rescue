@@ -60,18 +60,18 @@ ActiveRecord::Schema.define(version: 20161213013650) do
   end
 
   create_table "field_groups_fields", force: :cascade do |t|
-    t.integer "field_group_id", limit: 4, null: false
-    t.integer "field_id",       limit: 4, null: false
-    t.integer "sort_order",     limit: 4
+    t.integer "field_group_id", limit: 4,             null: false
+    t.integer "field_id",       limit: 4,             null: false
+    t.integer "sort_order",     limit: 4, default: 0
   end
 
   add_index "field_groups_fields", ["field_group_id"], name: "index_field_groups_fields_on_field_group_id", using: :btree
   add_index "field_groups_fields", ["field_id"], name: "index_field_groups_fields_on_field_id", using: :btree
 
   create_table "field_groups_page_types", force: :cascade do |t|
-    t.integer "page_type_id",   limit: 4, null: false
-    t.integer "field_group_id", limit: 4, null: false
-    t.integer "sort_order",     limit: 4
+    t.integer "page_type_id",   limit: 4,             null: false
+    t.integer "field_group_id", limit: 4,             null: false
+    t.integer "sort_order",     limit: 4, default: 0
   end
 
   add_index "field_groups_page_types", ["field_group_id"], name: "index_field_groups_page_types_on_field_group_id", using: :btree
