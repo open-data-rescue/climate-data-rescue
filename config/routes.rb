@@ -48,13 +48,17 @@ Weather::Application.routes.draw do
   match 'fieldGroups' => 'fieldgroups#index', :via => [:get, :post]
   match 'fields' => 'fields#index', :via => [:get, :post]
 
+  # for field options app
   get 'field_options_for_field/:field_id' => "field_options#for_field", as: "field_options_for_field"
-
   post 'add_field_option_to_field' => "field_options#add_to_field", as: "add_field_option_to_field"
-
   post 'remove_field_option_from_field' => "field_options#remove_from_field", as: "remove_field_option_from_field"
-
   post 'field_options/update_sort_order' => "field_options#update_sort_order", as: "update_field_option_sort_order"
+
+  # for fields app
+  get 'fields_for_field_group/:field_group_id' => "fields#for_field_group", as: "fields_for_field_group"
+  post 'add_fields_to_field_group' => "fields#add_to_field_group", as: "add_field_to_field_group"
+  post 'remove_fields_from_field_group' => "fields#remove_from_field_group", as: "remove_field_from_field_group"
+  post 'fields/update_sort_order' => "fields#update_sort_order", as: "update_field_sort_order"
 
   #match '/avatars/original/missing.png', :via => [:get, :post]
 

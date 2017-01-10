@@ -1,4 +1,4 @@
-
+field_group = field_group || nil
 if field
     json.id field.id
     json.name field.name
@@ -8,6 +8,11 @@ if field
     json.data_type field.data_type
     json.help field.help
     json.multi_select field.multi_select
-    json.position field.position
     json.has_options field.field_options.any?
+
+    json.assigned (field_group && field_group.fields.include?(field) ? true : false)
+
+    if @fgf
+        json.position = @fgf.sort_order
+    end
 end

@@ -10,10 +10,10 @@
     
     <%= f.error_notification %>
     
-    <%= f.input :position, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, label: "Order" %>
     <%= f.input :name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
     <%= f.input :display_name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
     <%= f.input :help, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+    <%# f.input :description, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, required: false %>
     <%= f.label "Colour" %>
     <%= f.select :colour_class, options_for_select({
         "Red" => "red-group", 
@@ -25,21 +25,7 @@
         "Yellow" => "yellow-group",
         "Orange" => "orange-group"
         }, ( @field_group.colour_class.present? ? @field_group.colour_class : "purple-group")), required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-    <%= f.input :description, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, required: false %>
-    
-    <div class="form-group row">
-        <div class="col-md-12"><h3>Fields</h3></div>
-        <div class="col-md-12">
-            <% Field.all.each do |field| %>
-                <div class="checkbox">
-                    <label>
-                        <%= check_box_tag "field_group[field_ids][]", field.id, @field_group.fields.include?(field) %>
-                        <%= field.name %>
-                    </label>
-                </div>
-            <% end %>
-        </div>
-    </div>
+
     <div class="row">
         <div class="col-md-12">
             <%= submit_tag "Save", class: "btn btn-primary" %>

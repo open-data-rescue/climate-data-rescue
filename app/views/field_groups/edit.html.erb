@@ -5,7 +5,11 @@
     <div class="col-md-12">
         <%= render 'form' %>
     </div>
-    <div class="col-md-12" style=" margin-top: 20px;">
+</div>
+<div id="fields-app-container" class="row voffset30"></div>
+<%= render "shared/fields_app", field_group: @field_group %>
+<div class="row voffset20">
+    <div class="col-md-12">
         <%= link_to 'Show', @field_group %> | <%= link_to 'Back', field_groups_path %>
     </div>
 </div>
