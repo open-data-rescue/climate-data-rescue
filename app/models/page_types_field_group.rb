@@ -1,4 +1,4 @@
-class FieldGroupsPageType < ActiveRecord::Base
+class PageTypesFieldGroup < ActiveRecord::Base
     belongs_to :page_type
     belongs_to :field_group
 

@@ -22,12 +22,14 @@ Weather::Application.routes.draw do
   # post 'pages' => 'pages#create', as: "pages_create"
 
 
-  resources :field_groups
+  resources :page_types
 
   resources :field_options
 
 
   resources :fields
+
+  resources :field_groups
 
   devise_for :users, :controllers => {:registrations => "registrations"}
   resources :users, except: [:create, :new]
@@ -59,6 +61,12 @@ Weather::Application.routes.draw do
   post 'add_fields_to_field_group' => "fields#add_to_field_group", as: "add_field_to_field_group"
   post 'remove_fields_from_field_group' => "fields#remove_from_field_group", as: "remove_field_from_field_group"
   post 'fields/update_sort_order' => "fields#update_sort_order", as: "update_field_sort_order"
+  
+  # for fields app
+  get 'field_groups_for_page_type/:page_type_id' => "field_groups#for_page_type", as: "field_groups_for_page_type"
+  post 'add_field_groups_to_page_type' => "field_groups#add_to_page_type", as: "add_field_group_to_page_type"
+  post 'remove_field_groups_from_page_type' => "field_groups#remove_from_page_type", as: "remove_field_group_from_page_type"
+  post 'field_groups/update_sort_order' => "field_groups#update_sort_order", as: "update_field_group_sort_order"
 
   #match '/avatars/original/missing.png', :via => [:get, :post]
 

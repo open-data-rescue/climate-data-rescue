@@ -1,6 +1,10 @@
+<% provide(:field_groups, "active") %>
+<% provide(:admin, "active") %>
+<% provide(:title, ("Editing " + @field_group.name + " | Field Groups")) %>
+
 <div class="row">
     <div class="col-md-12">
-        <h1>Editing Field Group</h1>
+        <h1>Editing <%= @field_group.name %></h1>
     </div>
     <div class="col-md-12">
         <%= render 'form' %>

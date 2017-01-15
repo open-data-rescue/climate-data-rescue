@@ -1,15 +1,15 @@
-- provide(:pagetypes, "active")
+- provide(:page_types, "active")
 - provide(:admin, "active")
-- provide(:title, "Pagetypes")
+- provide(:title, "Page Types")
 
-h3 Available Pagetypes
+h3 Available Page Types
 /! List all pagetypes and their info
 table.table.table-striped
   thead
     tr
       th Title
-      th Num Pages
-      th
+      th Pages
+      th Field Groups
       - if current_user.admin?
         th
         th
@@ -19,12 +19,12 @@ table.table.table-striped
       tr
         td = link_to page_type.title, page_type
         td = page_type.pages.count
-        td = link_to 'Show', page_type
+        td = page_type.field_groups.count
         - if current_user.admin?
-          td = link_to 'Edit', edit_page_type_path(page_type)
-          td = link_to 'Delete', page_type, data: {:confirm => 'Are you sure?'}, :method => :delete
+          td = link_to 'Edit details or change field groups', edit_page_type_path(page_type)
+          td = link_to 'Delete', page_type, data: {:confirm => 'Are you sure? User transcriptions will be lost.'}, :method => :delete
 
 br 
 
-- if current_user.admin?
-  = link_to 'New Pagetype', new_page_type_path
+//- if current_user.admin?
+  = link_to 'New Page Type', new_page_type_path

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213013650) do
+ActiveRecord::Schema.define(version: 20170115205322) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -60,22 +60,13 @@ ActiveRecord::Schema.define(version: 20161213013650) do
   end
 
   create_table "field_groups_fields", force: :cascade do |t|
-    t.integer "field_group_id", limit: 4,             null: false
-    t.integer "field_id",       limit: 4,             null: false
-    t.integer "sort_order",     limit: 4, default: 0
+    t.integer "field_group_id", limit: 4, null: false
+    t.integer "field_id",       limit: 4, null: false
+    t.integer "sort_order",     limit: 4, null: false
   end
 
   add_index "field_groups_fields", ["field_group_id"], name: "index_field_groups_fields_on_field_group_id", using: :btree
   add_index "field_groups_fields", ["field_id"], name: "index_field_groups_fields_on_field_id", using: :btree
-
-  create_table "field_groups_page_types", force: :cascade do |t|
-    t.integer "page_type_id",   limit: 4,             null: false
-    t.integer "field_group_id", limit: 4,             null: false
-    t.integer "sort_order",     limit: 4, default: 0
-  end
-
-  add_index "field_groups_page_types", ["field_group_id"], name: "index_field_groups_page_types_on_field_group_id", using: :btree
-  add_index "field_groups_page_types", ["page_type_id"], name: "index_field_groups_page_types_on_page_type_id", using: :btree
 
   create_table "field_options", force: :cascade do |t|
     t.string   "name",               limit: 255
@@ -142,6 +133,15 @@ ActiveRecord::Schema.define(version: 20161213013650) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "page_types_field_groups", force: :cascade do |t|
+    t.integer "page_type_id",   limit: 4, null: false
+    t.integer "field_group_id", limit: 4, null: false
+    t.integer "sort_order",     limit: 4, null: false
+  end
+
+  add_index "page_types_field_groups", ["field_group_id"], name: "index_page_types_field_groups_on_field_group_id", using: :btree
+  add_index "page_types_field_groups", ["page_type_id"], name: "index_page_types_field_groups_on_page_type_id", using: :btree
 
   create_table "pages", force: :cascade do |t|
     t.string   "title",                limit: 255
