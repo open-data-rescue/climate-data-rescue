@@ -483,7 +483,7 @@ $tab-active-text: white;
 .boffset150 { margin-bottom: 150px; }
 
 
-.remove-from-field-btn, .remove-from-field-group-btn {
+.remove-from-field-btn, .remove-from-field-group-btn, .remove-from-page-type-btn {
     color: hsl(2, 64%, 58%);
 
     &:hover {
@@ -492,7 +492,7 @@ $tab-active-text: white;
     }
 }
 
-.add-to-field-btn, .add-to-field-group-btn {
+.add-to-field-btn, .add-to-field-group-btn, .add-to-page-type-btn {
     color: hsl(120, 39%, 54%);
 
     &:hover {
@@ -501,7 +501,7 @@ $tab-active-text: white;
     }
 }
 
-.field-option-table, .fields-table {
+.field-option-table, .fields-table, .field-groups-table {
 
     tbody {
         tr:not(.title-wrapper) {

@@ -14,19 +14,6 @@
     <%= f.input :title %>
     <%= f.input :description %>
   </div>
-  <div class="form-group row">
-      <div class="col-md-12"><h3>Field Groups</h3></div>
-      <div class="col-md-12">
-          <% FieldGroup.all.each do |field_group| %>
-              <div class="checkbox">
-                  <label>
-                      <%= check_box_tag "page_type[field_group_ids][]", field_group.id, @page_type.field_groups.include?(field_group) %>
-                      <%= field_group.name %>
-                  </label>
-              </div>
-          <% end %>
-      </div>
-  </div>
   <div class="form-actions">
     <%= f.button :submit %>
   </div>

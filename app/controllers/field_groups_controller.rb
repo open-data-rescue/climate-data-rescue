@@ -11,10 +11,14 @@ class FieldGroupsController < ApplicationController
     if current_user && current_user.admin?
       #@field_groups is the variable containing all instances of the "FieldGroup.rb" model passed to the fieldgroup view "index.html.slim" (project_root/fieldgroups) and is used to populate the page with information about each fieldgroup using @field_groups.each (an iterative loop).
       @field_groups = FieldGroup.all
+      if params[:page_type_id].present?
+        @page_type = PageType.find params[:page_type_id]
+        @field_groups = @field_groups.select{|field_group| !field_group.page_types.include?(@page_type) }
+      end
       
       respond_to do |format|
         format.html # index.html.erb
-        format.json { render json: @field_groups }
+        format.json 
       end
     else
       flash[:danger] = 'Only administrators can modify fieldgroups! <a href="' + new_user_session_path + '">Log in to continue.</a>'
@@ -78,9 +82,10 @@ class FieldGroupsController < ApplicationController
         begin
           #@field_group is a variable containing an instance of the "FieldGroup.rb" model created with data passed in the params of the "new.html.slim" form submit action.
           @field_group = FieldGroup.create!(field_group_params)
-           params[:field_group][:field_ids] ||= []
-          @field_group.field_ids = params[:field_group][:field_ids]
-          @field_group.save!
+          
+          if params[:page_type_id]
+            @page_type = PageType.find params[:page_type_id]
+          end
         rescue => e
           flash[:danger] = e.message
         end
@@ -89,7 +94,7 @@ class FieldGroupsController < ApplicationController
       respond_to do |format|
         if @field_group.id
           format.html { redirect_to @field_group, notice: 'Fieldgroup was successfully created.' }
-          format.json { render json: @field_group, status: :created, location: @field_group }
+          format.json 
         else
           format.html { render action: "new" }
           format.json { render json: @field_group.errors, status: :unprocessable_fieldgroup }
@@ -111,9 +116,6 @@ class FieldGroupsController < ApplicationController
         begin
           #@field_group is a variable containing an instance of the "FieldGroup.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           @field_group = FieldGroup.find(params[:id])
-          params[:field_group][:field_ids] ||= []
-          @field_group.field_ids = params[:field_group][:field_ids]
-          @field_group.save!
           
         rescue => e
           flash[:danger] = e.message
@@ -123,7 +125,7 @@ class FieldGroupsController < ApplicationController
       respond_to do |format|
         if @field_group.update_attributes(field_group_params)
           format.html { redirect_to @field_group, notice: 'Fieldgroup was successfully updated.' }
-          format.json { head :no_content }
+          format.json 
         else
           format.html { render action: "edit" }
           format.json { render json: @field_group.errors, status: :unprocessable_fieldgroup }
@@ -159,6 +161,75 @@ class FieldGroupsController < ApplicationController
       flash[:danger] = 'Only users can modify field groups! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
     end
+  end
+
+
+
+  def add_to_page_type
+    if params[:page_type_id].present? && params[:field_group_id].present?
+      begin
+        @page_type = PageType.find params[:page_type_id]
+        @field_group = FieldGroup.find params[:field_group_id]
+
+        PageTypesFieldGroup.create!(page_type_id: params[:page_type_id], field_group_id: params[:field_group_id])
+      rescue => e
+        flash[:danger] = e.message
+      end
+
+      # render json: {}
+    end
+  end
+
+  def remove_from_page_type
+    if params[:page_type_id].present? && params[:field_group_id].present?
+      begin
+        @page_type = PageType.find params[:page_type_id]
+        @field_group = FieldGroup.find params[:field_group_id]
+        @ptfg = PageTypesFieldGroup.find_by(page_type_id: params[:page_type_id], field_group_id: params[:field_group_id])
+        @ptfg.destroy if @ptfg
+      rescue => e
+        flash[:danger] = e.message
+      end
+
+      # render json: {}
+    end
+  end
+
+  def update_sort_order
+    if params[:page_type_id].present? && params[:field_group_id].present?
+      begin
+        @page_type = PageType.find params[:page_type_id]
+        @field_group = FieldGroup.find params[:field_group_id]
+        @ptfg = PageTypesFieldGroup.find_by(page_type_id: params[:page_type_id], field_group_id: params[:field_group_id])
+        if @ptfg
+          @ptfg.sort_order_position = params[:sort_order_position]
+          @ptfg.save
+        end
+      rescue => e
+        flash[:danger] = e.message
+      end
+
+      # render json: {}
+    end
+  end
+
+  def for_page_type
+    begin
+      if params[:page_type_id].present?
+        @page_type = PageType.find params[:page_type_id]
+        search = params[:search] ? params[:search] : nil
+
+        if search
+          @field_groups = @page_type.field_groups.where(["name like :q or name like :q or help like :q", :q => ("%" + search + "%")])
+        else
+          @field_groups = @page_type.field_groups
+        end
+      end
+    rescue => e
+      flash[:danger] = e.message
+    end
+
+    render "index"
   end
   
   protected

@@ -1,7 +1,7 @@
 class PageType < ActiveRecord::Base
   has_many :pages
-  has_many :field_groups, -> { order("field_groups_page_types.sort_order asc") }, through: :field_groups_page_types
-  has_many :field_groups_page_types, dependent: :destroy
+  has_many :field_groups, -> { order("page_types_field_groups.sort_order asc") }, through: :page_types_field_groups
+  has_many :page_types_field_groups, dependent: :destroy
 
   belongs_to :ledger #, foreign_key: "ledger_id"
 
