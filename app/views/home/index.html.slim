@@ -9,8 +9,14 @@
             h2.homepage-subtitle.text-center Data Rescue: Archives and Weather
 
     .row.voffset30
-        .col-md-12
-            p.homepage-intro Help us uncover the story of Montreal's evolving climate captured in the McGill Observatory's historical weather logs. Your transcriptions will help scientists and historians gain a better understanding of our environment and its impact on our city and its people.
+        .col-md-12.homepage-intro
+            
+            - if StaticPage.find_by(slug: "/homepage-intro").present?
+                = render_snippet("/homepage-intro")
+            - else
+                
+                = "Help us uncover the story of Montreal's evolving climate captured in the McGill Observatory's historical weather logs. Your transcriptions will help scientists and historians gain a better understanding of our environment and its impact on our city and its people."
+
     .row.voffset40.boffset20
         .col-md-12.homepage-actions.text-center
             = link_to "Start Transcribing", new_transcription_path, class: "btn btn-lg btn-default btn-draw-accented"
