@@ -1,6 +1,6 @@
 Weather::Application.routes.draw do
 
-
+  filter :locale
 
   resources :content_images
 
@@ -80,6 +80,15 @@ Weather::Application.routes.draw do
   resources :static_pages
   constraints(StaticPage) do
     get '/(*path)', to: 'static_pages#show', as: 'static'
+  end
+
+  authenticate :user, lambda { |u| u.admin? } do
+    # mount Sidekiq::Web => '/sidekiq'
+
+    # We should only do this in staging and dev
+    if Rails.env.development? || Rails.env.staging?
+      mount Interpret::Engine => "/translator"
+    end
   end
 
   devise_scope :user do

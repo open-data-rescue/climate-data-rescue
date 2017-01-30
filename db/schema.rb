@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170115205322) do
+ActiveRecord::Schema.define(version: 20170130003321) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -201,6 +201,7 @@ ActiveRecord::Schema.define(version: 20170115205322) do
     t.boolean  "is_proc",                      default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "stale",                        default: false
   end
 
   create_table "users", force: :cascade do |t|
