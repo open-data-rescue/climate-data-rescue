@@ -12,7 +12,7 @@ if field_option
     json.assigned (field && field.field_options.include?(field_option) ? true : false)
 
     if @fof
-        json.position = @fof.sort_order
+        json.position @fof.sort_order
     end
 
 end
