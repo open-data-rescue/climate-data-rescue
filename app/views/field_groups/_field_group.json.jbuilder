@@ -11,6 +11,6 @@ if field_group
     json.num_fields field_group.fields.count
 
     if @ptfg
-        json.position = @ptfg.sort_order
+        json.position @ptfg.sort_order
     end
 end

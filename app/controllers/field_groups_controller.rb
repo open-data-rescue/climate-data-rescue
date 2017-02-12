@@ -203,7 +203,7 @@ class FieldGroupsController < ApplicationController
         @ptfg = PageTypesFieldGroup.find_by(page_type_id: params[:page_type_id], field_group_id: params[:field_group_id])
         if @ptfg
           @ptfg.sort_order_position = params[:sort_order_position]
-          @ptfg.save
+          @ptfg.save!
         end
       rescue => e
         flash[:danger] = e.message

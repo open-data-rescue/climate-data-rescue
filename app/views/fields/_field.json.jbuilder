@@ -13,6 +13,6 @@ if field
     json.assigned (field_group && field_group.fields.include?(field) ? true : false)
 
     if @fgf
-        json.position = @fgf.sort_order
+        json.position @fgf.sort_order
     end
 end
