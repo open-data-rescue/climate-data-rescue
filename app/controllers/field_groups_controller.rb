@@ -149,7 +149,7 @@ class FieldGroupsController < ApplicationController
           @field_group = FieldGroup.find(params[:id])
           @field_group.destroy
         rescue => e
-          # flash[:danger] = e.message
+          flash[:danger] = e.message
         end
       end
 

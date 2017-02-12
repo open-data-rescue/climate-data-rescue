@@ -7,6 +7,14 @@ class FieldGroup < ActiveRecord::Base
   has_many :page_types, through: :page_types_field_groups
   has_many :page_types_field_groups, dependent: :destroy
 
+  before_destroy :check_for_annotations
+
+  def check_for_annotations
+    if annotations.any?
+      raise "Can't delete a field group that has user annotations"
+    end
+  end
+
   def presentation_name
     if display_name && display_name.present?
       display_name
