@@ -1,0 +1,19 @@
+<% provide(:field_groups, "active") %>
+<% provide(:admin, "active") %>
+<% provide(:title, ("Editing " + @field_group.name + " | Field Groups")) %>
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Editing <%= @field_group.name %></h1>
+    </div>
+    <div class="col-md-12">
+        <%= render 'form' %>
+    </div>
+</div>
+<div id="fields-app-container" class="row voffset30"></div>
+<%= render "shared/fields_app", field_group: @field_group %>
+<div class="row voffset20">
+    <div class="col-md-12">
+        <%= link_to t('cancel'), admin_field_group_path(@field_group) %> | <%= link_to t('view-all-field-groups'), admin_field_groups_path %>
+    </div>
+</div>

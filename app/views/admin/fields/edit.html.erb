@@ -1,0 +1,8 @@
+<h1> Editing field </h1>
+
+<%= render 'form' %>
+<div id="field-options-app-container" class="row voffset30"></div>
+<%= render "shared/field_options_app", field: @field %>
+
+<%= link_to t('back'), admin_field_path(@field) %> | <%= link_to t('view-all-fields'), admin_fields_path %>
+

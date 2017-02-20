@@ -1,0 +1,51 @@
+
+- provide(:admin, "active")
+- provide(:users, "active")
+- provide(:title, "#{@user.display_name}'s profile")
+
+.row
+  .col-md-8
+    /! Show user information. Pulled dynamically from the user model instance
+    h1 #{@user.display_name}
+    p 
+      strong = @user.email
+    p = pluralize(@user.transcriptions.count,"transcription") + " in total"
+    p = @user.bio
+    
+      /! if current user is admin or this is their user page, show links to edit the user information
+      = link_to 'Edit', edit_admin_user_url(@user)
+      '&nbsp|
+      = link_to 'Back', admin_users_url
+  .col-md-4
+    - if @user.avatar.present?
+      = image_tag @user.avatar.url(:thumb), :class => "img-circle pull-right"
+    - else
+      = image_tag "default-person.png", :class => "img-circle pull-right", style: 'max-width: 100px;'
+- if @user == current_user || (current_user && current_user.admin?)
+  .row.voffset20
+    .col-md-12
+      h2 Transcriptions
+    .col-md-12
+      - if @user.transcriptions.any?
+        table.table
+          thead
+            tr
+              th Page
+              th Page Name
+              th Annotations
+              th
+
+          tbody
+            - @user.transcriptions.each do |transcription|
+              tr
+                td = (transcription.page ? image_tag(transcription.page.image.url(:thumb), ) : '')
+                td = (transcription.page ? transcription.page.title : '')
+                td = transcription.annotations.count
+                td 
+                  = link_to t('transcribe'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
+                  = link_to t('view-details'), admin_transcription_path(transcription), class: "btn btn-xs btn-primary"
+                  /= link_to ('<i class="fa fa-trash"></i>').html_safe, admin_transcriptions_path(transcription), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+      - else
+        p = t('no-pages-transcribed-yet')
+
+

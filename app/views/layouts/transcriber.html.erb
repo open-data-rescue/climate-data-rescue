@@ -21,7 +21,7 @@
         <%= yield %>
 
         <% #render partial: "transcription_js" %>
-        <%= render "shared/transcriber_templates", page: @page, field_groups: @page.page_type.field_groups, transcription: @transcription %>
-        <%= render "shared/transcriber_app", page: @page, field_groups: @page.page_type.field_groups, transcription: @transcription %>
+        <%= render "shared/transcriber_templates", page: @page, field_groups: @transcription.field_groups, transcription: @transcription %>
+        <%= render "shared/transcriber_app", page: @page, field_groups: @transcription.field_groups, transcription: @transcription %>
     </body>
 </html>

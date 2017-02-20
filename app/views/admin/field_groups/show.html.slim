@@ -1,0 +1,53 @@
+- provide(:field_groups, "active")
+- provide(:admin, "active")
+- provide(:title, @field_group.name)
+
+h3 Details of #{@field_group.name}
+/! Show field_group attribute information
+p
+  strong Name:
+  = @field_group.name
+  
+p
+  strong Display Name:
+  = @field_group.display_name
+p
+  strong Description:
+  = @field_group.description
+p
+  strong Help:
+  = @field_group.help
+  
+p
+  strong Colour:
+  = (@field_group.colour_class.present? ? @field_group.colour_class.sub("-group", "").capitalize : "Not Set")
+
+/! show all the fields associated with this field_group and their attribute information in a table
+h3 Fields for #{@field_group.name}
+
+table.table.table-striped
+  thead
+    tr
+      th Name
+      th Full Name
+      th Field Type
+      th Data Type
+      th 
+
+  tbody
+    - @field_group.fields.each do |field|
+      tr
+        td = link_to field.name, admin_field_path(field)
+        td = field.full_name
+        td = field.html_field_type
+        td = field.data_type
+        td = link_to t('edit'), edit_admin_field_path(field)
+      tr
+        td colspan="5"
+          = "Help: " + (field.help ? field.help : "")
+
+= link_to t('edit'), edit_admin_field_group_path(@field_group)
+'&nbsp|
+= link_to t('delete'), admin_field_group_path(@field_group), data: {:confirm => strip_tags(t('are-you-sure'))}, :method => :delete
+'&nbsp|
+= link_to t('view-all-field-groups'), admin_field_groups_path

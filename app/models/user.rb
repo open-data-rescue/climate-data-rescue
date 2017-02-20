@@ -43,4 +43,9 @@ class User < ActiveRecord::Base
   def num_contributions
     transcriptions.where(complete: true).count
   end
+
+  def name
+    display_name.present? ? display_name : email
+  end
+
 end
