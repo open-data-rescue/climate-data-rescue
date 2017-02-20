@@ -1,0 +1,33 @@
+- provide(:field_options, "active")
+- provide(:admin, "active")
+- provide(:title, strip_tags(t('field-values')))
+
+h3 = t('field-values')
+/! List all field_options and their attribute information in a table
+table.table.table-striped
+  thead
+    tr
+      th = t('name')
+      th = t('image')
+      th = t('stored-value')
+      th = t('in-use')
+      th
+
+  tbody
+    - @field_options.each do |field_option|
+      tr
+        td = link_to field_option.name, admin_field_option_path(field_option)
+        td = image_tag(field_option.image.url(:icon)) if field_option.image.present?
+        td = field_option.value
+        td = field_option.fields.any? ? ('<i class="fa fa-check"></i>').html_safe : nil
+        td 
+          = link_to t('view-details'), admin_field_option_path(field_option), class: "btn btn-xs btn-primary"
+          = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_field_option_path(field_option), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
+          = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_field_option_path(field_option), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+      tr
+        td colspan=5
+          = (field_option.help.present? ? t('help') + ": " + field_option.help : nil)
+
+br
+
+= link_to t('new-field-value'), new_admin_field_option_path

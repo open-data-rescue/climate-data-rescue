@@ -1,0 +1,34 @@
+- provide :admin, 'active'
+- provide :pages, 'active'
+
+h3 = @page.title
+/!show the page image
+p = image_tag @page.image.url(:medium)
+= link_to t('transcribe-this-page'), new_transcription_path(@transcription, :current_page_id => @page)
+<br />
+<hr />
+/! list its info in a table
+div.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th = t('page-type')
+        th = t('name')
+        th = t('height')
+        th = t('width')
+        th = t('accession-number')
+
+    tbody
+      
+      tr
+        td = @page.page_type ? link_to(@page.page_type.title, admin_page_type_path(@page.page_type)) : ''
+        td = @page.title
+        td = @page.height
+        td = @page.width
+        td = @page.accession_number
+
+= link_to t('edit'), edit_admin_page_path(@page)
+'&nbsp|
+= link_to t('delete'), admin_page_path(@page), data: {:confirm => strip_tags(t('are-you-sure'))}, :method => :delete
+'&nbsp|
+= link_to t('view-all-pages'), admin_pages_path

@@ -1,0 +1,59 @@
+- provide :admin, 'active'
+- provide :transcriptions, 'active'
+
+.row
+  .col-md-8
+    h1 Transcription #{@transcription.id}
+    /!Get the name and load the image of the page associated with the transcription
+    h4 = @transcription.page.title + ' Pg. ' + @transcription.page_type.number.to_s
+    ul
+      li = link_to @transcription.user.name, admin_user_path(@transcription.user)
+      li 
+        = @transcription.annotations.count.to_s + " "
+        = t('user-observations').html_safe
+      li 
+        = @transcription.page.page_days.sum(:num_observations).to_s + " "
+        = t('observations-expected').html_safe
+  .col-md-4
+    = image_tag @transcription.page.image.url(:small)
+/! Display the information of all the annotations associated with this transcription in table format
+h3 = t('annotations')
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th
+        - @transcription.field_groups.each do |group|
+          th.text-center colspan=group.fields.count style="border-left: 1px solid #333; border-right: 1px solid #333;"
+            = group.name
+      tr
+        th.text-center = t('observation-date')
+        - @transcription.field_groups.each do |group|
+          - group.fields.each do |field|
+            td.text-center = field.name
+        th
+    tbody
+      / - @transcription.page.page_days.each do |day|
+      /   tr
+      /     td = l(day.date, format: :long)
+      - @transcription.annotations.order_by_date.group_by{|a| a.observation_date.to_date}.each do |date, annotations|
+        tr
+          td colspan=(@transcription.fields.count + 1)
+            strong = l(date, format: :long)
+        tr
+          - annotations.each do |annotation|
+            td = l(annotation.observation_date, format: :long)
+            - @transcription.field_groups.each do |group|
+              - group.fields.each do |field|
+                - entry = annotation.data_entries.find_by(field: field)
+                td.text-center = entry.value if entry.present?
+            td 
+              / = link_to t('view-details'), admin_annotation_path(annotation), class: "btn btn-xs btn-primary"
+              / = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_annotation_path(annotation), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
+              /= link_to ('<i class="fa fa-trash"></i>').html_safe, admin_annotation_path(annotation), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+
+
+
+= link_to t('transcribe'), edit_transcription_path(@transcription)
+'&nbsp|
+= link_to t('back'), admin_transcriptions_path

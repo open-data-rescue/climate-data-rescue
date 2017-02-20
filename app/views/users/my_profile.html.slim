@@ -1,0 +1,50 @@
+- provide(:user, "active")
+- provide(:profile, "active")
+- provide(:title, "#{@user.display_name}'s profile")
+
+.row
+  .col-md-8
+    /! Show user information. Pulled dynamically from the user model instance
+    h1 #{@user.display_name}
+    p 
+      strong = @user.email
+    p = pluralize(@user.transcriptions.count,"transcription") + " in total"
+    p = @user.bio
+    - if @user == current_user || current_user.admin?
+      /! if current user is admin or this is their user page, show links to edit the user information
+      = link_to 'Edit', edit_user_url(@user)
+  .col-md-3
+    - if @user.avatar.present?
+      = image_tag @user.avatar.url(:medium), :class => "img-responsive img-circle"
+    - else
+      = image_tag "default-person.png", :class => "img-responsive img-circle"
+  .col-md-1
+    = link_to "Log out", "/logout", class:"btn btn-xs btn-danger pull-right"
+- if @user == current_user || (current_user && current_user.admin?)
+  .row.voffset20
+    .col-md-12
+      h2 My Transcriptions
+    .col-md-12
+      - if @user.transcriptions.any?
+        table.table
+          thead
+            tr
+              th Page
+              th Page Name
+              th Annotations
+              th
+
+          tbody
+            - @user.transcriptions.each do |transcription|
+              tr
+                td = (transcription.page ? image_tag(transcription.page.image.url(:small)) : '')
+                td = (transcription.page ? transcription.page.title : '')
+                td = transcription.annotations.count
+                td = link_to 'Transcribe', edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
+      - else
+        p None yet
+      div.voffset20 
+        = link_to ("Transcribe a random page"), new_transcription_path, class: "btn btn-lg btn-draw-accented pull-left"
+        = link_to "View list of available pages", public_pages_index_path, class: "btn btn-lg btn-primary pull-right"
+
+

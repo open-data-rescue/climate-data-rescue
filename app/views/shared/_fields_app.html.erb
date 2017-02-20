@@ -10,10 +10,10 @@
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
         FieldGroup = Backbone.Model.extend({
-            url : "<%= field_groups_path %>",
+            url : "<%= admin_field_groups_path %>",
         });
         Field = Backbone.Model.extend({
-            url : "<%= fields_path %>",
+            url : "<%= admin_fields_path %>",
             schema : {
                 name : {
                     type : "Text",
@@ -81,7 +81,7 @@
                 // layout = this;
                 // field_group = new FieldGroup();
                 // field_group.fetch({
-                //     url : "<%= field_groups_path(field_group) %>",
+                //     url : "<%= admin_field_groups_path(field_group) %>",
                 //     success : function(field){
                 //         console.info("got field group info");
                 //         view = new FieldGroupView({
@@ -147,7 +147,7 @@
         //             onSwitchChange : function(event, state) {
         //                 self.model.set("multi_select", state);
         //                 self.model.save(self.model.attributes, {
-        //                     url : "<%# field_path(field) %>"
+        //                     url : "<%# admin_field_path(field) %>"
         //                 });
         //             }
         //         });
@@ -190,7 +190,7 @@
 
                         if (!errors) {
                             form.model.save(null, { 
-                                url : "<%= fields_path %>" + "/" + form.model.get("id") + "?field_group_id=" + <%= field_group.id %>,
+                                url : "<%= admin_fields_path %>" + "/" + form.model.get("id") + "?field_group_id=" + <%= field_group.id %>,
                                 success : function(mdl) {
                                     // console.log(mdl);
                                     modal.close();
@@ -211,7 +211,7 @@
 
                 mdl.fetch({
                     type : "POST",
-                    url : "<%= add_field_to_field_group_path %>",
+                    url : "<%= admin_add_field_to_field_group_path %>",
                     data : {field_group_id: <%= field_group.id %>, field_id: id},
                     dataType: 'json',
                     success : function(response) {
@@ -230,7 +230,7 @@
 
                 mdl.fetch({
                     type : "POST",
-                    url : "<%= remove_field_from_field_group_path %>",
+                    url : "<%= admin_remove_field_from_field_group_path %>",
                     data : {field_group_id: <%= field_group.id %>, field_id: id},
                     dataType: 'json',
                     success : function(response) {
@@ -300,7 +300,7 @@
                                 console.log(position);
                                 $.ajax({
                                     type: 'POST',
-                                    url: '<%= update_field_sort_order_path %>',
+                                    url: '<%= admin_update_field_sort_order_path %>',
                                     dataType: 'json',
                                     data: { 
                                         field_group_id : <%= field_group.id %>,
@@ -319,13 +319,13 @@
         MainLayout = new FieldsLayout();
 
         AssignedFields = new FieldsCollection({
-            url : "<%= fields_for_field_group_path(field_group) %>",
+            url : "<%= admin_fields_for_field_group_path(field_group) %>",
             initialize : function() {
                 EventAggregator.on("refresh_fields", this.fetch, this);
             }
         });
         AvailableFields = new FieldsCollection({
-            url : "<%= fields_path %>",
+            url : "<%= admin_fields_path %>",
             initialize : function() {
                 EventAggregator.on("refresh_fields", this.fetch, this);
             }
@@ -337,7 +337,7 @@
                 FieldsApp.main.show(MainLayout);
 
                 AssignedFields.fetch({
-                    url : "<%= fields_for_field_group_path(field_group) %>",
+                    url : "<%= admin_fields_for_field_group_path(field_group) %>",
                     success : function(collection) {
                         // console.log(collection);
                         view = new FieldsCollectionView({
@@ -359,7 +359,7 @@
                 });
 
                 AvailableFields.fetch({
-                    url : "<%= fields_path(field_group_id: field_group.id) %>",
+                    url : "<%= admin_fields_path(field_group_id: field_group.id) %>",
                     success : function(collection) {
                         // console.log(collection);
                         view = new FieldsCollectionView({

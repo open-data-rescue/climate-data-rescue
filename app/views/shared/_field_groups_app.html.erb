@@ -10,10 +10,10 @@
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
         PageType = Backbone.Model.extend({
-            url : "<%= page_types_path %>",
+            url : "<%= admin_page_types_path %>",
         });
         FieldGroup = Backbone.Model.extend({
-            url : "<%= field_groups_path %>",
+            url : "<%= admin_field_groups_path %>",
             schema : {
                 name : {
                     type : "Text",
@@ -80,7 +80,7 @@
                 // layout = this;
                 // page_type = new PageType();
                 // page_type.fetch({
-                //     url : "<%= page_types_path(page_type) %>",
+                //     url : "<%= admin_page_types_path(page_type) %>",
                 //     success : function(field){
                 //         console.info("got field group info");
                 //         view = new PageTypeView({
@@ -169,7 +169,7 @@
 
                         if (!errors) {
                             form.model.save(null, { 
-                                url : "<%= field_groups_path %>" + "/" + form.model.get("id") + "?page_type_id=" + <%= page_type.id %>,
+                                url : "<%= admin_field_groups_path %>" + "/" + form.model.get("id") + "?page_type_id=" + <%= page_type.id %>,
                                 success : function(mdl) {
                                     // console.log(mdl);
                                     modal.close();
@@ -190,7 +190,7 @@
 
                 mdl.fetch({
                     type : "POST",
-                    url : "<%= add_field_group_to_page_type_path %>",
+                    url : "<%= admin_add_field_group_to_page_type_path %>",
                     data : {page_type_id: <%= page_type.id %>, field_group_id: id},
                     dataType: 'json',
                     success : function(response) {
@@ -209,7 +209,7 @@
 
                 mdl.fetch({
                     type : "POST",
-                    url : "<%= remove_field_group_from_page_type_path %>",
+                    url : "<%= admin_remove_field_group_from_page_type_path %>",
                     data : {page_type_id: <%= page_type.id %>, field_group_id: id},
                     dataType: 'json',
                     success : function(response) {
@@ -279,7 +279,7 @@
                                 console.log(position);
                                 $.ajax({
                                     type: 'POST',
-                                    url: '<%= update_field_group_sort_order_path %>',
+                                    url: '<%= admin_update_field_group_sort_order_path %>',
                                     dataType: 'json',
                                     data: { 
                                         page_type_id : <%= page_type.id %>,
@@ -298,13 +298,13 @@
         MainLayout = new FieldGroupsLayout();
 
         AssignedFieldGroups = new FieldGroupsCollection({
-            url : "<%= field_groups_for_page_type_path(page_type) %>",
+            url : "<%= admin_field_groups_for_page_type_path(page_type) %>",
             initialize : function() {
                 EventAggregator.on("refresh_field_groups", this.fetch, this);
             }
         });
         AvailableFieldGroups = new FieldGroupsCollection({
-            url : "<%= field_groups_path %>",
+            url : "<%= admin_field_groups_path %>",
             initialize : function() {
                 EventAggregator.on("refresh_field_groups", this.fetch, this);
             }
@@ -316,7 +316,7 @@
                 FieldGroupsApp.main.show(MainLayout);
 
                 AssignedFieldGroups.fetch({
-                    url : "<%= field_groups_for_page_type_path(page_type) %>",
+                    url : "<%= admin_field_groups_for_page_type_path(page_type) %>",
                     success : function(collection) {
                         // console.log(collection);
                         view = new FieldGroupsCollectionView({
@@ -338,7 +338,7 @@
                 });
 
                 AvailableFieldGroups.fetch({
-                    url : "<%= field_groups_path(page_type_id: page_type.id) %>",
+                    url : "<%= admin_field_groups_path(page_type_id: page_type.id) %>",
                     success : function(collection) {
                         // console.log(collection);
                         view = new FieldGroupsCollectionView({
@@ -369,7 +369,7 @@
 </script>
 
 <script type="text/template" id="field-groups-layout-template">
-    <h3>Field Groups  <button class="btn btn-primary btn-xs" id="create-field-group-btn" type="button">New</button></h3>
+    <h3><%= t('field-groups') %>  <button class="btn btn-primary btn-xs" id="create-field-group-btn" type="button"><%= t('new') %></button></h3>
     <div id="field-groups-tables-container" class="row">
         <div id="assigned-field-groups-container" class="col-md-12"></div>
         <div id="available-field-groups-container" class="col-md-12"></div>
@@ -386,7 +386,7 @@
         </td>
         <td>{{= help }}</td>
         <td>{{= colour_class }}</td>
-        <td>{{= num_fields }}<br /><a href="<%= field_groups_path %>/{{= id }}/edit" target="fg_{{= id }}">Add/Remove Fields <i class="fa fa-external-link"></i></a></td>
+        <td>{{= num_fields }}<br /><a href="<%= admin_field_groups_path %>/{{= id }}/edit" target="fg_{{= id }}">Add/Remove Fields <i class="fa fa-external-link"></i></a></td>
         <td>
             {{ if(assigned) { }}
                     <i class="fa fa-times fa-2x remove-from-page-type-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Page Type"></i>

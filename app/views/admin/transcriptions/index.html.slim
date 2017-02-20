@@ -1,0 +1,33 @@
+
+- provide(:transcriptions, "active")
+- provide(:admin, "active")
+
+- provide(:title, strip_tags(t('transcriptions')))
+
+h1 = t('transcriptions')
+/! Load a list of all transcriptions into a table with their attribute info, including which page they relate to. Table rows are each transcription, table columns are self explanitory.
+table.table.table-striped
+  thead
+    tr
+      th
+      th = t('page-title')
+      th = t('annotations')
+      th = t('page-type')
+      th
+
+  tbody
+    - @transcriptions.each do |transcription|
+      tr
+        td = (transcription.page ? image_tag(transcription.page.image.url(:thumb)) : '')
+        td = (transcription.page ? transcription.page.title : '')
+        td = transcription.annotations.count
+        td = link_to transcription.page_type.title, admin_page_type_path(transcription.page_type)
+        td 
+          = link_to t('transcribe'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
+          = link_to t('view-details'), admin_transcription_path(transcription), class: "btn btn-xs btn-primary"
+          /= link_to ('<i class="fa fa-trash"></i>').html_safe, admin_transcriptions_path(transcription), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+
+
+br
+
+= link_to t('new-transcription'), new_transcription_path

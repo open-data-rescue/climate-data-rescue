@@ -1,21 +1,18 @@
 h3 = @page.title
 /!show the page image
 p = image_tag @page.image.url(:medium)
-= link_to 'Transcribe', new_transcription_path(@transcription, :current_page_id => @page)
+= link_to t('transcribe-this-page'), new_transcription_path(@transcription, :current_page_id => @page)
 <br />
 <hr />
 /! list its info in a table
-table
+table.table.table-striped
   thead
     tr
-      th Group
-      th Name
-      th Height
-      th Width
-      th Ascession #
-      th Order
-      th Done
-      th Transcriptions Completed
+      th = t('page-type')
+      th = t('name')
+      th = t('height')
+      th = t('width')
+      th = t('accession-number')
 
   tbody
     
@@ -25,14 +22,5 @@ table
       td = @page.height
       td = @page.width
       td = @page.accession_number
-      td = @page.order
-      td = @page.done
-      td = @page.classification_count
 
-/! modification controls for admins
-- if current_user.admin?
-  = link_to 'Edit', edit_page_path(@page)
-  '&nbsp|
-  = link_to 'Delete', @page, data: {:confirm => 'Are you sure?'}, :method => :delete
-  '&nbsp|
-= link_to 'Back', pages_path
+= link_to t('view-all-pages'), pages_path
