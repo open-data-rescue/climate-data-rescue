@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Weather::Application.load_tasks
+DataRescueAtHome::Application.load_tasks

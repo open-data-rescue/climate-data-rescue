@@ -1,4 +1,4 @@
-Weather::Application.routes.draw do
+DataRescueAtHome::Application.routes.draw do
 
   filter :locale
 

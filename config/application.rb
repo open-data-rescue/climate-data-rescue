@@ -14,7 +14,7 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
-module Weather
+module DataRescueAtHome
   class Application < Rails::Application
     # Configuration for log4j
     log4r_config= YAML.load_file(File.join(File.dirname(__FILE__),"log4r.yml"))
