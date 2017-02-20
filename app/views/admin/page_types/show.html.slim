@@ -12,9 +12,9 @@ p
 /! show image grid of all pages in this pagetype
 ul class="small-block-grid-4"
   - @page_type.pages.each do |page|
-    li = link_to(image_tag(page.image.url(:thumb)), page_path(page)) + " " + page.title
+    li = link_to(image_tag(page.image.url(:thumb)), admin_page_path(page)) + " " + page.title
 /! admin controls
 - if current_user.admin?
-  = link_to 'Edit', edit_page_type_path(@page_type)
+  = link_to 'Edit', edit_admin_page_type_path(@page_type)
   '&nbsp|
-= link_to 'Back', page_types_path
+= link_to 'Back', admin_page_types_path
