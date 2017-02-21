@@ -838,7 +838,7 @@
                         $transcriber.find("button#scribe_tab_" + field_group.id).trigger("click");
                     } else {
                       $transcriber.find(".annotation-form-field-group:not(#field-group-" + field_group.id + ")").remove();
-                      $transcriber.find("button:not(.close-btn, #scribe_tab_" + field_group.id + ")").remove();
+                      $transcriber.find("button:not(.submit-btn, .close-btn, #scribe_tab_" + field_group.id + ")").remove();
                     };
                  });
 
