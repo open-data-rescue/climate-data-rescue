@@ -7,15 +7,12 @@ module Admin
     # GET /transcriptions
     # GET /transcriptions.json
     def index
-      @transcriptions = Transcription.all
+      @transcriptions = Transcription.order(:created_at => :asc)
     end
 
     # GET /transcriptions/transcription_id
     # GET /transcriptions/transcription_id.json
     def show
-      # @transcription is a variable containing an instance of the "transcription.rb" model. 
-      # It is passed to the transcription view "show.html.slim" (project_root/transcriptions/transcription_id)
-      # and is used to populate the page with information about the transcription instance.
       @transcription = Transcription.find(params[:id])
     
       respond_to do |format|
@@ -34,8 +31,6 @@ module Admin
     def update
       Transcription.transaction do
         begin
-          # @transcription is a variable containing an instance of the "transcription.rb" model 
-          # with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
           transcription = Transcription.find(params[:id])
          
           transcription.update(transcription_params)
@@ -72,7 +67,7 @@ module Admin
     
     private
 
-    def get_or_assign_page(page_id) #TODO: shouldn't this be in the helper - file not the controller?
+    def get_or_assign_page(page_id)
     # this function gets a random page for display on the new transcription page 
     # if one has not been set by selecting "Transcribe" on an page's show page
       if page_id

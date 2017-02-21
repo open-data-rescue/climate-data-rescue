@@ -7,26 +7,6 @@ class TranscriptionsController < ApplicationController
   
   before_action :ensure_login
 
-  before_action :authorize_admin, only: [:destroy]
-
-  # GET /transcriptions
-  # GET /transcriptions.json
-  def index
-    if current_user
-      if current_user.admin?
-        #@transcriptions is the variable containing all instances of the "transcription.rb" model passed to 
-        #the transcription view "index.html.slim" (project_root/transcriptions) and is used to populate the 
-        #page with information about each transcription using @transcriptions.each (an iterative loop).
-        @transcriptions = Transcription.all
-      else
-        @transcriptions = current_user.transcriptions
-      end
-    else
-      flash[:danger] = 'Only users can modify transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
-      redirect_to root_path
-    end
-  end
-
   def my_transcriptions
     if current_user
       begin
@@ -133,54 +113,10 @@ class TranscriptionsController < ApplicationController
   # PUT /transcriptions/transcription_id
   # PUT /transcriptions/transcription_id.json
   def update
-    if current_user
-      
-      Transcription.transaction do
-        begin
-          # @transcription is a variable containing an instance of the "transcription.rb" model 
-          # with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
-          transcription = Transcription.find(params[:id])
-         
-          transcription.update(transcription_params)
-          flash[:success] = "Transcription sucessfully updated!"
-        rescue => e
-          flash[:danger] = e.message
-        end
-      end
-      
-      respond_to do |format|
-        format.html { redirect_to user_profile_path(current_user)}
-      end
-      
-    else
-      flash[:danger] = 'Only users can modify transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
-      redirect_to root_path
-    end
-  end
-
-  # DELETE /transcriptions/transcription_id
-  # DELETE /transcriptions/transcription_id.json
-  def destroy
-    # this function is called to delete the instance of "transcription.rb" identified by 
-    # the transcription_id passed to the destroy function when it was called
-    if current_user && current_user.admin?
-      
-      Transcription.transaction do
-        begin
-          @transcription = Transcription.find(params[:id])
-          @transcription.destroy
-        rescue => e
-          # flash[:danger] = e.message
-        end
-      end
-      
-      respond_to do |format|
-        format.html { redirect_to transcriptions_url }
-        format.json { head :no_content }
-      end
-      
-    else
-      redirect_to transcription_path(params[:id]), alert: 'Only administrators can delete transcriptions!'
+    transcription = Transcription.find(params[:id])
+    flash[:success] = I18n.t('transcription-saved-msg')
+    respond_to do |format|
+      format.html { redirect_to user_path(transcription.user)}
     end
   end
   
