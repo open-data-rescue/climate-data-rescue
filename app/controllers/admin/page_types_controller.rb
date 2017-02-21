@@ -119,9 +119,6 @@ module Admin
           begin
             #@page_type is a variable containing an instance of the "pagetype.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
             @page_type = PageType.find(params[:id])
-            params[:page_type][:field_group_ids] ||= []
-            @page_type.field_group_ids = params[:page_type][:field_group_ids]
-            @page_type.save!
           rescue => e
             flash[:danger] = e.message
           end
