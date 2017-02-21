@@ -9,7 +9,9 @@
         i.fa.fa-arrow-left
       = t('schema') + ": " + @page_type.title
       = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_page_type_path(@page_type), class: "btn btn-xs btn-draw-accented pull-right", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
-
+= render 'shared/sample_image', page: @page_type.pages.where("RAND()").first
+.row.voffset20
+  .col-md-12
     h3 = t('fields')
     .table-responsive
       table.table.table-striped#fields-table
@@ -30,7 +32,6 @@
             - @page_type.field_groups.each do |group|
               - group.fields.each do |field|
                 td = field.data_type
-= render 'sample_image', page_type: @page_type
 
 .row.voffset20  
   .col-md-12
@@ -38,4 +39,3 @@
     = (' | ').html_safe
     = link_to t('back'), admin_page_types_path
 
-= render 'javascript'

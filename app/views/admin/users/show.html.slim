@@ -27,20 +27,30 @@
       h2 Transcriptions
     .col-md-12
       - if @user.transcriptions.any?
+        md-12
+      - if @user.transcriptions.any?
         table.table
           thead
             tr
-              th Page
-              th Page Name
-              th Annotations
+              th
+              th = t('page-title')
+              th = t('user-observations')
+              th = t('unique-rows')
+              th = t('unique-rows-expected')
+              th = t('started-at')
+              th = t('last-updated')
               th
 
           tbody
             - @user.transcriptions.each do |transcription|
               tr
-                td = (transcription.page ? image_tag(transcription.page.image.url(:thumb), ) : '')
+                td = (transcription.page ? image_tag(transcription.page.image.url(:thumb)) : '')
                 td = (transcription.page ? transcription.page.title : '')
                 td = transcription.annotations.count
+                td = transcription.unique_observation_dates.count
+                td = transcription.num_rows_expected
+                td = l(transcription.created_at, format: :short)
+                td = l(transcription.updated_at, format: :short)
                 td 
                   = link_to t('transcribe'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
                   = link_to t('view-details'), admin_transcription_path(transcription), class: "btn btn-xs btn-primary"

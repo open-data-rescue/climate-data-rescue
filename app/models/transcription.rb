@@ -9,9 +9,12 @@ class Transcription < ActiveRecord::Base
   has_many :annotations, dependent: :destroy
   
 
-  #increments classification count of its related page. Called from the controller.
-  def update_classification_count
-    @page.increment_classification_count
+  def unique_observation_dates
+    annotations.collect{|a| a.observation_date}.uniq
+  end
+
+  def num_rows_expected
+    page.num_rows_expected
   end
   
 end

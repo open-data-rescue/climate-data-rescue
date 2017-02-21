@@ -11,8 +11,13 @@ table.table.table-striped
     tr
       th
       th = t('page-title')
-      th = t('annotations')
+      th = t('user-observations')
+      th = t('unique-rows')
+      th = t('unique-rows-expected')
       th = t('page-type')
+      th = t('started-at')
+      th = t('last-updated')
+      th = t('user')
       th
 
   tbody
@@ -21,7 +26,12 @@ table.table.table-striped
         td = (transcription.page ? image_tag(transcription.page.image.url(:thumb)) : '')
         td = (transcription.page ? transcription.page.title : '')
         td = transcription.annotations.count
+        td = transcription.unique_observation_dates.count
+        td = transcription.num_rows_expected
         td = link_to transcription.page_type.title, admin_page_type_path(transcription.page_type)
+        td = l(transcription.created_at, format: :short)
+        td = l(transcription.updated_at, format: :short)
+        td = link_to(transcription.user.name, user_path(transcription.user))
         td 
           = link_to t('transcribe'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
           = link_to t('view-details'), admin_transcription_path(transcription), class: "btn btn-xs btn-primary"

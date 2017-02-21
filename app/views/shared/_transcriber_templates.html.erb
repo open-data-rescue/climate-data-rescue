@@ -154,9 +154,8 @@
 <script type="text/template" id="stop-transcribing-template">
     <p class="boffset20">If the page still has data that has not yet been transcribed, click on the blue "Take a break" button below. <!--If the page is completely finished, and there is no longer any data left to transcribe, click on the green "Page is complete" button. --></p>
     <%= form_for transcription, html: {class: "", id: "submit-transcription-form", style: "overflow: hidden;"} do %>
-        <a href="<%= my_profile_path %>" class="btn btn-lg btn-primary pull-left">Take a break</a>
-        <%# hidden_field_tag "transcription[complete]", true %>
-        <%# submit_tag "Page is complete", style: "margin-left: 20px;", class: "btn btn-lg btn-success pull-right", id: "finish-transcribing-btn" %>
+        <%= hidden_field_tag "transcription[complete]", false %>
+        <%= submit_tag strip_tags(t('take-a-break')), style: "margin-left: 20px;", class: "btn btn-lg btn-primary pull-right", id: "finish-transcribing-btn" %>
     <% end %>
 </script>
 

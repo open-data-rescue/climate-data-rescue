@@ -16,7 +16,7 @@
       tbody
         - @users.each do |user|
           tr
-            td = link_to(image_tag((user.avatar.present? ? user.avatar.url(:thumb) : 'default-person.png'), :class => "center-block img-circle", style: 'max-width:20px;'), user_path(user))
+            td = link_to(image_tag((user.avatar.present? ? user.avatar.url(:thumb) : 'default-person.png'), :class => "center-block img-circle", style: 'max-width:50px;'), user_path(user))
             td = link_to(user.email, "mailto:#{user.email}")
             td = user.display_name
             td = (user.admin? ? ('<i class="fa fa-star admin-star"></i>').html_safe : nil)
