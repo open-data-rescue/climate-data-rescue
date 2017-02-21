@@ -16,11 +16,11 @@
               - group.fields.each do |field|
                 th.text-center = field.name
         tbody
-          - transcription.annotations.order_by_date.group_by{|a| a.observation_date.to_date}.each do |date, date_group|
+          - transcription.annotations.order_by_date.group_by{|a| a.observation_date.utc.to_date}.each do |date, date_group|
             tr
               td colspan=(transcription.fields.count + 1)
                 strong = l(date, format: :long)
-            - date_group.group_by{|a| a.observation_date}.each do |time, annotations|
+            - date_group.group_by{|a| a.observation_date.utc}.each do |time, annotations|
               tr
                 td = l(time, format: :short)
                 - transcription.field_groups.each do |group|
