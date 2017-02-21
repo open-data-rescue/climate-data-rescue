@@ -1,0 +1,5 @@
+.row.voffset20
+  .col-md-12
+    h3 = t('sample-image')
+    .table-responsive#preview-image style="height: 400px;"
+      = image_tag(page_type.pages.where("RAND()").first.image.url(:original), class: 'image-responsive')

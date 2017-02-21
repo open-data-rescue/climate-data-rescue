@@ -1,20 +1,41 @@
 - provide(:page_types, "active")
 - provide(:admin, "active")
-- provide(:title, (@page_type.title + " | Page Types"))
+- provide(:title, strip_tags(@page_type.title + " | " + t('schema')))
 
 .row
   .col-md-12
-    h1 Pagetype: #{@page_type.title}
+    h1 
+      a.btn.btn-default href=admin_page_types_path style="margin-right: 20px;" data-toggle="tooltip" data-trigger="hover" title="Back to all page types"
+        i.fa.fa-arrow-left
+      = t('schema') + ": " + @page_type.title
+      = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_page_type_path(@page_type), class: "btn btn-xs btn-draw-accented pull-right", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
 
-p
-  strong Pagetype Title:&nbsp
-  = @page_type.title
-/! show image grid of all pages in this pagetype
-ul class="small-block-grid-4"
-  - @page_type.pages.each do |page|
-    li = link_to(image_tag(page.image.url(:thumb)), admin_page_path(page)) + " " + page.title
-/! admin controls
-- if current_user.admin?
-  = link_to 'Edit', edit_admin_page_type_path(@page_type)
-  '&nbsp|
-= link_to 'Back', admin_page_types_path
+    h3 = t('fields')
+    .table-responsive
+      table.table.table-striped#fields-table
+        thead
+          tr
+            th
+            - @page_type.field_groups.each do |group|
+              th.text-center colspan=group.fields.count style="border-left: 2px solid hsl(0, 0%, 87%); border-right: 2px solid hsl(0, 0%, 87%);"
+                = group.name
+          tr
+            th.text-center = t('observation-date')
+            - @page_type.field_groups.each do |group|
+              - group.fields.each do |field|
+                th = field.name
+        tbody
+          tr
+            td = t('date-time')
+            - @page_type.field_groups.each do |group|
+              - group.fields.each do |field|
+                td = field.data_type
+= render 'sample_image', page_type: @page_type
+
+.row.voffset20  
+  .col-md-12
+    = link_to t('edit'), edit_admin_page_type_path(@page_type)
+    = (' | ').html_safe
+    = link_to t('back'), admin_page_types_path
+
+= render 'javascript'

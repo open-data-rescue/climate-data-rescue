@@ -39,17 +39,16 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
               a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
                 = t('admin') + ' '
                 span.caret
-              ul.dropdown-menu 
-                / li = link_to "Mailbox", "#"
+              ul.dropdown-menu
                 / li class="#{yield(:ledgers)}" = link_to t('ledgers'), ledgers_path
                 / li class="#{yield(:annotations)}" = link_to t('annotations'), annotations_path
                 li class="#{yield(:pages)}" = link_to t('pages'), admin_pages_path
                 li class="#{yield(:transcriptions)}" = link_to t('transcriptions'), admin_transcriptions_path
                 li role="separator" class="divider"
-                li class="#{yield(:page_types)}" = link_to t('page-types'), admin_page_types_path
+                li class="#{yield(:page_types)}" = link_to t('page-schemas'), admin_page_types_path
                 li class="#{yield(:field_groups)}" = link_to t('field-groups'), admin_field_groups_path
                 li class="#{yield(:fields)}" = link_to t('fields'), admin_fields_path
-                li class="#{yield(:field_options)}" = link_to t('field-options'), admin_field_options_path
+                li class="#{yield(:field_options)}" = link_to t('field-values'), admin_field_options_path
                 li role="separator" class="divider"
                 li class="#{yield(:static_pages)}" = link_to t('content-pages'), admin_static_pages_path
                 li class="#{yield(:content_images)}" = link_to t('content-images'), admin_content_images_path
