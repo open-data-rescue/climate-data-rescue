@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170130003321) do
+ActiveRecord::Schema.define(version: 20170304173943) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -48,13 +48,14 @@ ActiveRecord::Schema.define(version: 20170130003321) do
   end
 
   create_table "field_groups", force: :cascade do |t|
-    t.string   "name",         limit: 255
-    t.string   "description",  limit: 255
-    t.string   "help",         limit: 255
+    t.string   "name",          limit: 255
+    t.string   "description",   limit: 255
+    t.string   "help",          limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "display_name", limit: 255
-    t.string   "colour_class", limit: 255, default: "", null: false
+    t.string   "display_name",  limit: 255
+    t.string   "colour_class",  limit: 255, default: "", null: false
+    t.string   "internal_name", limit: 255
   end
 
   create_table "field_groups_fields", force: :cascade do |t|
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 20170130003321) do
     t.datetime "updated_at",                                        null: false
     t.string   "text_symbol",        limit: 255
     t.string   "display_attribute",  limit: 255,   default: "name"
+    t.string   "internal_name",      limit: 255
   end
 
   create_table "field_options_fields", force: :cascade do |t|
@@ -99,6 +101,7 @@ ActiveRecord::Schema.define(version: 20170130003321) do
     t.string   "full_name",       limit: 255
     t.text     "help",            limit: 65535
     t.boolean  "multi_select",                  default: false
+    t.string   "internal_name",   limit: 255
   end
 
   create_table "ledgers", force: :cascade do |t|

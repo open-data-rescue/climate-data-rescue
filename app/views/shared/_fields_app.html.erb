@@ -15,6 +15,11 @@
         Field = Backbone.Model.extend({
             url : "<%= admin_fields_path %>",
             schema : {
+                internal_name : {
+                    type : "Text",
+                    title : "Internal Name",
+                    hint : "Name for internal organization"
+                },
                 name : {
                     type : "Text",
                     title : "Display Name",
@@ -403,6 +408,7 @@
 </script>
 
 <script type="text/template" id="field-template">
+        <td>{{= internal_name }}</td>
         <td>
             {{= name }}
             {{ if (typeof full_name != "undefined" && full_name != null && full_name.length > 1) { }}
@@ -412,6 +418,7 @@
         <td>{{= help }}</td>
         <td>{{= field_key }}</td>
         <td>{{= data_type }}</td>
+        <td>{{= num_field_values }}<br /><a href="<%= admin_fields_path %>/{{= id }}/edit" target="field_{{= id }}">Add/Remove Values <i class="fa fa-external-link"></i></a></td>
         <td>
             {{ if(assigned) { }}
                     <i class="fa fa-times fa-2x remove-from-field-group-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field Group"></i>
@@ -426,11 +433,13 @@
 <script type="text/template" id="fields-collection-template">
         <thead>
             <tr>
-                <th style="width: 30%;">Name</th>
-                <th style="width: 30%;">Help</th>
-                <th style="width: 10%;">Field Key</th>
-                <th style="width: 10%;">Data Type</th>
-                <th style="width: 20%;"></th>
+                <th>Internal Name</th>
+                <th>Name</th>
+                <th>Help</th>
+                <th>Field Key</th>
+                <th>Data Type</th>
+                <th>Field Values</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>

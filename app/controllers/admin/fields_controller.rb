@@ -239,7 +239,7 @@ module Admin
     
     private
     def field_params
-      params.require(:field).permit(:field_key, :initial_value, :data_type, :html_field_type, :name, :validations, :full_name, :help, :field_group_id, :multi_select)
+      params.require(:field).permit(:internal_name, :field_key, :initial_value, :data_type, :html_field_type, :name, :validations, :full_name, :help, :field_group_id, :multi_select)
     end
   end
 end

@@ -28,6 +28,11 @@
                         name : "field_option[image]"
                     }
                 },
+                internal_name : {
+                    type : "Text",
+                    title : "Internal Name",
+                    hint : "Name for internal organization"
+                },
                 name : {
                     type : "Text",
                     title : "Name",
@@ -462,10 +467,12 @@
 </script>
 
 <script type="text/template" id="field-option-template">
+        <td>{{= internal_name}}</td>
         <td>{{ if (image != null) { }}<img src="{{= icon_url }}" />{{ } }}</td>
         <td>{{= name }}</td>
         <td>{{= text_symbol }}</td>
         <td>{{= value }}</td>
+        <td>{{= display_attribute }}</td>
         <td>{{= help }}</td>
         <td>
             <i class="fa fa-pencil model-edit-btn pull-left btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
@@ -481,11 +488,13 @@
 <script type="text/template" id="options-collection-template">
         <thead>
             <tr>
-                <th>Icon</th>
-                <th>Name</th>
-                <th>Symbol</th>
-                <th>Stored Value</th>
-                <th>Help</th>
+                <th><%= t('internal-name') %></th>
+                <th><%= t('icon-image') %></th>
+                <th><%= t('name') %></th>
+                <th><%= t('text-symbol') %></th>
+                <th><%= t('stored-value') %></th>
+                <th><%= t('displayed-when-selected') %></th>
+                <th><%= t('help-text') %></th>
                 <th></th>
             </tr>
         </thead>

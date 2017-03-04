@@ -8,6 +8,7 @@ h4 Fields from all groups are listed below, edit carefully please.
 table.table.table-striped
   thead
     tr
+      th Internal Name
       th Name
       th Full Name
       th Field Type
@@ -18,6 +19,7 @@ table.table.table-striped
   tbody
     - @fields.each do |field|
       tr
+        td = field.internal_name
         td = link_to field.name, admin_field_path(field)
         td = field.full_name
         td = field.html_field_type

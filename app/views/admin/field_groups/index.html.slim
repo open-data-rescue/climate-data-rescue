@@ -10,6 +10,7 @@ h1
 table.table.table-striped
   thead
     tr
+      th Internal Name
       th Name
       th Display Name
       th Fields
@@ -20,6 +21,7 @@ table.table.table-striped
   tbody
     - @field_groups.each do |field_group|
       tr
+        td = field_group.internal_name
         td = link_to field_group.name, admin_field_group_path(field_group)
         td = field_group.display_name
         td = field_group.fields.count

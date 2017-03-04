@@ -184,7 +184,7 @@ module Admin
     end
 
     def field_option_params
-      params.require(:field_option).permit(:name, :image, :help, :value, :text_symbol, :display_attribute)
+      params.require(:field_option).permit(:internal_name, :name, :image, :help, :value, :text_symbol, :display_attribute)
     end
   end
 end

@@ -10,7 +10,8 @@
   <% end %>
   <%= f.error_notification %>
   <div class="form-inputs">
-    <%= f.input :name, required: true, label: "Name", wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' }, required: true %>
+    <%= f.input :internal_name, label: "Internal Name", wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
+    <%= f.input :name, label: "Name", wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' }, required: true %>
     <%= f.input :value, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' }, label: "Stored Value", required: true %>
     <%= f.input :text_symbol, label: "Symbol", wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
     <%= f.label "Display this when selected" %>

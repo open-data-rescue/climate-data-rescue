@@ -15,6 +15,11 @@
         FieldGroup = Backbone.Model.extend({
             url : "<%= admin_field_groups_path %>",
             schema : {
+                internal_name : {
+                    type : "Text",
+                    title : "Internal Name",
+                    hint : "Name for internal organization"
+                },
                 name : {
                     type : "Text",
                     title : "Name",
@@ -378,6 +383,7 @@
 </script>
 
 <script type="text/template" id="field-group-template">
+        <td>{{= internal_name }}</td>
         <td>
             {{= name }}
             {{ if (typeof display_name != "undefined" && display_name != null && display_name.length > 1) { }}
@@ -401,11 +407,12 @@
 <script type="text/template" id="field-groups-collection-template">
         <thead>
             <tr>
-                <th style="width: 30%;">Name</th>
-                <th style="width: 30%;">Help</th>
-                <th style="width: 10%;">Colour</th>
-                <th style="width: 10%;">Fields</th>
-                <th style="width: 20%;"></th>
+                <th>Internal Name</th>
+                <th>Name</th>
+                <th>Help</th>
+                <th>Colour</th>
+                <th>Fields</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>

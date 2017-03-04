@@ -1,6 +1,7 @@
 page_type = page_type || nil
 if field_group
     json.id field_group.id
+    json.internal_name field_group.internal_name
     json.name field_group.name
     json.display_name field_group.display_name
     json.help field_group.help

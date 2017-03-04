@@ -2,6 +2,7 @@ field = field || nil
 if field_option
 
     json.id field_option.id
+    json.internal_name field_option.internal_name
     json.name field_option.name
     json.help field_option.help
     json.value field_option.value
