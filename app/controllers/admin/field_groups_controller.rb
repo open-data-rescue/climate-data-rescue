@@ -94,7 +94,7 @@ module Admin
         
         respond_to do |format|
           if @field_group.id
-            format.html { redirect_to @field_group, notice: 'Fieldgroup was successfully created.' }
+            format.html { redirect_to admin_field_group_path(@field_group), notice: 'Fieldgroup was successfully created.' }
             format.json 
           else
             format.html { render action: "new" }
@@ -125,7 +125,7 @@ module Admin
 
         respond_to do |format|
           if @field_group.update_attributes(field_group_params)
-            format.html { redirect_to @field_group, notice: 'Fieldgroup was successfully updated.' }
+            format.html { redirect_to admin_field_group_path(@field_group), notice: 'Fieldgroup was successfully updated.' }
             format.json 
           else
             format.html { render action: "edit" }
