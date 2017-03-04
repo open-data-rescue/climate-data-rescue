@@ -70,5 +70,7 @@ DataRescueAtHome::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   # 
 
+  Rails.application.routes.default_url_options[:host] = ENV["BASE_URL"]
+  config.action_mailer.default_url_options = { :host => ENV["BASE_URL"] }
 
 end
