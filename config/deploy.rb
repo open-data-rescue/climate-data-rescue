@@ -26,7 +26,7 @@ set :log_level,     :debug
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w{config/database.yml config/newrelic.yml config/initializers/secret_token.rb}
+set :linked_files, %w{config/database.yml config/application.yml config/newrelic.yml config/initializers/secret_token.rb}
 set :linked_dirs,  %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 
