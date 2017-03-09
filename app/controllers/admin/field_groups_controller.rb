@@ -149,13 +149,14 @@ module Admin
             #this function is called to delete the instance of "FieldGroup.rb" identified by the fieldgroup_id passed to the destroy function when it was called
             @field_group = FieldGroup.find(params[:id])
             @field_group.destroy
+            flash[:info] = I18n.t('field-group-successfully-deleted')
           rescue => e
             flash[:danger] = e.message
           end
         end
 
         respond_to do |format|
-          format.html { redirect_to field_groups_url }
+          format.html { redirect_to admin_field_groups_path }
           format.json { head :no_content }
         end
       else
