@@ -5,14 +5,14 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<%= form_tag(pages_url+ ".json", method: :post, multipart: true, id: "fileupload-form", remote: true) do %>
+		<%= form_tag(admin_pages_url+ ".json", method: :post, multipart: true, id: "fileupload-form", remote: true) do %>
                 <p><%= t('upload-pages-help-text') %></p>
                 <span class="btn btn-primary fileinput-button" style="margin-right: 15px;">
                     <i class="fa fa-upload" style="top: 2px;"></i>&nbsp;
                     Upload Pages
                     <%= file_field :page, :image, :multiple => true %>
                 </span>
-                <%= link_to t('continue'), pages_url, class: "continue-btn btn btn-success btn-lg pull-right", disabled: false %>
+                <%= link_to t('continue'), admin_pages_url, class: "continue-btn btn btn-success btn-lg pull-right", disabled: false %>
                 
                 
                 <table class="table table-striped" style="margin-top: 20px;">
@@ -25,7 +25,7 @@
 </div>
 <div class="row">
     <div class="col-md-6 col-md-offset-6">
-        <%= link_to t('continue'), pages_url, class: "continue-btn btn btn-success btn-lg pull-right", disabled: false %>
+        <%= link_to t('continue'), admin_pages_url, class: "continue-btn btn btn-success btn-lg pull-right", disabled: false %>
     </div>
 </div>
 
