@@ -27,6 +27,8 @@
 
     TranscriberApp.AppManager = (function(Backbone, Marionette) {
 
+        var dismissedBoxTutorial = <%= current_user.dismissed_box_tutorial ? true : false %>;
+
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
         var transcriberOffset = {left: 25, top: 250};
@@ -936,7 +938,7 @@
 
                     var fieldGroupName = data.field_group.name || "";
 
-                    if (<%= current_user.dismissed_box_tutorial ? true : false %>) {
+                    if (dismissedBoxTutorial) {
                         new DrawBoxes({
                             data : data,
                             transcriber : self,
@@ -1027,6 +1029,7 @@
                         method : 'POST',
                         url : '/users/dismiss_box_tutorial',
                         success : function(response) {
+                            dismissedBoxTutorial = true;
                             self.enableBoxer();
                         },
                         error : function(response) {
