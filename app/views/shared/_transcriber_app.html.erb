@@ -745,30 +745,35 @@
                             }
                         });
                         
-                        if ($field.data('multiple')){
-                            $field.on("select2:select", function() {
-                                optionIds = [];
-                                $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
+                        // if ($field.data('field-options')){
+                        $field.on("select2:select", function() {
+                            var $this = $(this);
+                            var value = '';
+                            if ($field.data('multiple')) {
+                                value = $this.val().join(',');
+                            } else {
+                                value = $this.val();
+                            };
+                            $optionIdsInput = $this.siblings(".selected-option-ids");
+                            $optionIdsInput.val(value);
+                            // console.log($this.val());
+                            // console.log($optionIdsInput);
 
-                                $(this).find("option:selected").each(function() {
-                                    optionIds.push($(this).val());
-                                });
-
-                                $optionIdsInput.val(optionIds);
-
-                            }).on("select2:unselect", function(e) {
-                                // console.log(e);
-                                optionIds = [];
-                                $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
-
-                                $(this).find("option:selected").each(function() {
-                                    optionIds.push($(this).val());
-                                });
-
-                                $optionIdsInput.val(optionIds);
-
-                            });
-                        };
+                        }).on("select2:unselect", function(e) {
+                            // console.log(e);
+                            var $this = $(this);
+                            var value = '';
+                            if ($field.data('multiple')) {
+                                value = $this.val().join(',');
+                            } else {
+                                value = $this.val();
+                            };
+                            $optionIdsInput = $this.siblings(".selected-option-ids");
+                            $optionIdsInput.val(value);
+                            // console.log($this.val());
+                            // console.log($optionIdsInput);
+                        });
+                        // };
 
                     } else {
                         $field.select2({
