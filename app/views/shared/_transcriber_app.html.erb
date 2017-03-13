@@ -623,12 +623,6 @@
                 self = this;
                 // Set up plugins for input fields
 
-                // Date Fields
-                this.$el.find(".date-field").select2({
-                    placeholder : "Select Date",
-                    theme : "bootstrap"
-                });
-
                 // Time Fields
                 _.each(this.$el.find('.datetime-group'), function(datetime) {
                     $(datetime).datetimepicker({
@@ -660,6 +654,7 @@
                     if ($field.data("field-options")) {
 
                         $field.select2({
+                            dropdownCssClass : 'wide-select2-dropdown',
                             forceAbove : true,
                             theme : "bootstrap",
                             createTag: function(params) {
@@ -775,6 +770,7 @@
 
                     } else {
                         $field.select2({
+                            dropdownCssClass : 'wide-select2-dropdown',
                             theme : "bootstrap",
                             multiple: false,
                             tags: true,
