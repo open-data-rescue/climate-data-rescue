@@ -27,6 +27,8 @@
 
     TranscriberApp.AppManager = (function(Backbone, Marionette) {
 
+        var dismissedBoxTutorial = <%= current_user.dismissed_box_tutorial ? true : false %>;
+
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
         var transcriberOffset = {left: 25, top: 250};
@@ -623,12 +625,6 @@
                 self = this;
                 // Set up plugins for input fields
 
-                // Date Fields
-                this.$el.find(".date-field").select2({
-                    placeholder : "Select Date",
-                    theme : "bootstrap"
-                });
-
                 // Time Fields
                 _.each(this.$el.find('.datetime-group'), function(datetime) {
                     $(datetime).datetimepicker({
@@ -660,6 +656,7 @@
                     if ($field.data("field-options")) {
 
                         $field.select2({
+                            dropdownCssClass : 'wide-select2-dropdown',
                             forceAbove : true,
                             theme : "bootstrap",
                             createTag: function(params) {
@@ -748,33 +745,39 @@
                             }
                         });
                         
-                        if ($field.data('multiple')){
-                            $field.on("select2:select", function() {
-                                optionIds = [];
-                                $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
+                        // if ($field.data('field-options')){
+                        $field.on("select2:select", function() {
+                            var $this = $(this);
+                            var value = '';
+                            if ($field.data('multiple')) {
+                                value = $this.val().join(',');
+                            } else {
+                                value = $this.val();
+                            };
+                            $optionIdsInput = $this.siblings(".selected-option-ids");
+                            $optionIdsInput.val(value);
+                            // console.log($this.val());
+                            // console.log($optionIdsInput);
 
-                                $(this).find("option:selected").each(function() {
-                                    optionIds.push($(this).val());
-                                });
-
-                                $optionIdsInput.val(optionIds);
-
-                            }).on("select2:unselect", function(e) {
-                                // console.log(e);
-                                optionIds = [];
-                                $optionIdsInput = $(this).parent().siblings(".selected-option-ids");
-
-                                $(this).find("option:selected").each(function() {
-                                    optionIds.push($(this).val());
-                                });
-
-                                $optionIdsInput.val(optionIds);
-
-                            });
-                        };
+                        }).on("select2:unselect", function(e) {
+                            // console.log(e);
+                            var $this = $(this);
+                            var value = '';
+                            if ($field.data('multiple')) {
+                                value = $this.val().join(',');
+                            } else {
+                                value = $this.val();
+                            };
+                            $optionIdsInput = $this.siblings(".selected-option-ids");
+                            $optionIdsInput.val(value);
+                            // console.log($this.val());
+                            // console.log($optionIdsInput);
+                        });
+                        // };
 
                     } else {
                         $field.select2({
+                            dropdownCssClass : 'wide-select2-dropdown',
                             theme : "bootstrap",
                             multiple: false,
                             tags: true,
@@ -940,7 +943,7 @@
 
                     var fieldGroupName = data.field_group.name || "";
 
-                    if (<%= current_user.dismissed_box_tutorial ? true : false %>) {
+                    if (dismissedBoxTutorial) {
                         new DrawBoxes({
                             data : data,
                             transcriber : self,
@@ -1031,6 +1034,7 @@
                         method : 'POST',
                         url : '/users/dismiss_box_tutorial',
                         success : function(response) {
+                            dismissedBoxTutorial = true;
                             self.enableBoxer();
                         },
                         error : function(response) {
