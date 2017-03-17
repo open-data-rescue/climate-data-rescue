@@ -84,7 +84,7 @@ class Page < ActiveRecord::Base
               page_type_num = components[5][0]
               page_type = PageType.find_by(number: page_type_num, ledger_id: ledger.id)
               unless page_type
-                page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: ('Page ' + page_type_num + ' of register ' + ledger_type))
+                page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: ('Register ' + ledger_type + ', page ' + page_type_num))
               end
               self.page_type_id = page_type.id
             end
