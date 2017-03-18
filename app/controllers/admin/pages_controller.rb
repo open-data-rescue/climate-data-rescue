@@ -51,20 +51,23 @@ module Admin
     def create
       Page.transaction do
         if params[:page][:image]
-          image = params[:page][:image]
-          page = nil
+          upload = params[:page][:image]
+          Rails.logger.debug upload
           begin
-            if image.is_a? Array
-              page = Page.create!(:image => image[0])
+            if upload.is_a? Array
+              image = upload[0]
             else
-              page = Page.create!(params.require(:page).permit(:image))
+              image = upload
             end
-          rescue => e
-            # flash[:danger] = e.message
-            render :json => [{:error => e.message }], :status => :bad_request
-          end
-          if page && page.id
-            flash[:success] = (t 'pages-uploaded') if page.image.present?
+
+            filename = image.original_filename
+            page = Page.find_by(image_file_name: filename)
+            if page.present?
+              page.image = image
+              page.save!
+            else
+              page = Page.create!(:image => image)
+            end
             respond_to do |format|
               format.html { #(html response is for browsers using iframe solution)
                 render :json => [page.to_jq_upload].to_json,
@@ -75,8 +78,11 @@ module Admin
                 render :json => {files: [page.to_jq_upload] }.to_json
               }
             end
-          # else
-            # render :json => [{:error => page.errors.full_messages }], :status => :bad_request
+
+          rescue => ex
+            Rails.logger.error ex.message
+            Rails.logger.error ex.backtrace.join("\n\t")
+            render status: :bad_request, text: ex.message
           end
         end
       end
@@ -88,13 +94,13 @@ module Admin
       Page.transaction do
         begin
           @page = Page.find(params[:id])
-          if @page.width==nil
+          if @page.width.nil?
             @page.extract_dimensions
           end
-          @page.set_name_to_filename
-          #respond_with @page if @page.save
-        rescue => e
-          # flash[:danger] = e.message
+        rescue => ex
+          Rails.logger.error ex.message
+          Rails.logger.error ex.backtrace.join("\n\t")
+          flash[:danger] = ex.message
         end
 
         respond_to do |format|
@@ -136,7 +142,7 @@ module Admin
 
     private
     def page_params
-      params.require(:page).permit(:classification_count, :done, :height, :order, :width, :page_type_id, :image, :title, :accession_number, :start_date, :start_date, :page_type, :volume)
+      params.require(:page).permit(:height, :order, :width, :page_type_id, :image, :title, :accession_number, :start_date, :start_date, :page_type, :volume)
     end
   end
 end
