@@ -67,9 +67,18 @@ class AnnotationsController < ApplicationController
         logger.debug "meta: " + meta.to_s
         logger.debug "data: " + data.to_s
         
-        @annotation = Annotation.new(transcription_id: meta[:transcription_id], page_id: meta[:page_id], field_group_id: meta[:field_group_id], x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
-        @annotation.date_time_id = annotation_params[:observation_date]
-        @annotation.observation_date = DateTime.parse(annotation_params[:observation_date])
+        @annotation = Annotation.create!(
+          transcription_id: meta[:transcription_id], 
+          page_id: meta[:page_id], 
+          field_group_id: meta[:field_group_id], 
+          x_tl: meta[:x_tl], 
+          y_tl: meta[:y_tl], 
+          width: meta[:width], 
+          height: meta[:height],
+          date_time_id: annotation_params[:observation_date],
+          observation_date: DateTime.parse(annotation_params[:observation_date])
+        )
+        Rails.logger.info DateTime.parse(annotation_params[:observation_date])
 
         if data && data.length > 0
           data.each do |key, value|
@@ -79,14 +88,13 @@ class AnnotationsController < ApplicationController
               entry_value = value_for_option_ids entry_value
             end
 
-
             @annotation.data_entries.build(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type], value: entry_value, field_options_ids: (value[:selected_option_ids].present? ? value[:selected_option_ids] : nil))
           end
+          @annotation.save!
         end
-        @annotation.save!
 
         respond_to do |format|
-          format.json# { render json: @annotation }
+          format.json
         end
       rescue => e
         error = e.message
@@ -113,10 +121,16 @@ class AnnotationsController < ApplicationController
         data = params[:annotation][:data]
         
         if meta && data
-          @annotation.update(x_tl: meta[:x_tl], y_tl: meta[:y_tl], width: meta[:width], height: meta[:height])
+          Rails.logger.info "Updating with meta and data"
           
-          @annotation.date_time_id = annotation_params[:observation_date]
-          @annotation.observation_date = DateTime.parse(annotation_params[:observation_date])
+          @annotation.update(
+            x_tl: meta[:x_tl], 
+            y_tl: meta[:y_tl], 
+            width: meta[:width], 
+            height: meta[:height],
+            date_time_id: annotation_params[:observation_date],
+            observation_date: DateTime.parse(annotation_params[:observation_date])
+          )
           
           if data && data.length > 0
             data.each do |key, value|
@@ -133,7 +147,8 @@ class AnnotationsController < ApplicationController
             end
           end
         else
-          @annotation.update(backbone_annotation_params)
+          Rails.logger.info "Updating with backbone attributes"
+          @annotation.update(backbone_annotation_params.merge(observation_date: DateTime.parse(annotation_params[:observation_date])))
         end
 
         @annotation.save!
