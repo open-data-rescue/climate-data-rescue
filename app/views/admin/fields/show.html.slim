@@ -1,0 +1,51 @@
+- provide :admin, 'active'
+- provide :fields, 'active'
+
+h1 =  t('details-for-field') + ": " + @field.name
+/! show the attributes for the current field in a table
+table.table
+  thead
+    tr
+      th = t('internal-name')
+      th = t('name')
+      th = t('unique-key')
+      th = t('data-type')
+      th = t('help')
+
+  tbody
+    
+    tr
+      td = @field.internal_name
+      td = link_to @field.name, admin_field_path(@field)
+      td = @field.field_key
+      td = @field.data_type
+      td = @field.help
+
+h3 Data Entered
+
+table.table.table-striped
+  thead
+    tr
+      th = t('observation-date')
+      th = t('value')
+      th = t('page')
+      th = t('transcription')
+      th = t('annotation')
+      th = t('field_group')
+  tbody
+    - @field.data_entries.sort_by{|d| d.page.start_date}.each do |entry|
+      tr
+        td = l(entry.annotation.observation_date, format: :long)
+        td = entry.value
+        td = entry.page.title
+        td = entry.annotation.transcription.id
+        td = entry.annotation.id
+        td = entry.annotation.field_group.name
+
+= link_to t('edit'), edit_admin_field_path(@field)
+'&nbsp|
+= link_to t('delete'), admin_field_path(@field), data: {:confirm => strip_tags(t('are-you-sure'))}, :method => :delete
+'&nbsp|
+= link_to t('view-all-fields'), admin_fields_path
+'&nbsp|
+= link_to t('new-field'), new_admin_field_path

@@ -1,0 +1,9 @@
+h1 = t('editing-page')
+
+== render 'form'
+
+div.voffset20
+    = link_to t('cancel'), admin_page_path(@page)
+    '&nbsp;|
+    = link_to t('view-all-pages'), admin_pages_path
+

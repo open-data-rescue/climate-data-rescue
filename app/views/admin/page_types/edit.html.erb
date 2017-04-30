@@ -1,0 +1,13 @@
+<% provide(:page_types, "active") %>
+<% provide(:admin, "active") %>
+<% provide(:title, ("Editing " + @page_type.title + " | Page Types")) %>
+
+<h1><a href="<%= admin_page_type_path(@page_type) %>" class="btn btn-default" style="margin-right: 20px;" data-toggle="tooltip" data-trigger="hover" title="<%= strip_tags(t('back')) %>"><i class="fa fa-arrow-left"></i></a>Editing <%= @page_type.title %></h1>
+
+<%= render 'form' %>
+
+<%= render 'shared/sample_image', page: @page_type.pages.where("RAND()").first %>
+
+<div id="field-groups-app-container" class="row voffset30"></div>
+<%= render "shared/field_groups_app", page_type: @page_type %>
+

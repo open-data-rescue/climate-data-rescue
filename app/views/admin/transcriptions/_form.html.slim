@@ -1,0 +1,9 @@
+/! This form currently serves no purpose until functionality is later added to edit associations from the top-down
+= simple_form_for(@transcription) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :page_data
+
+  .form-actions
+    = f.button :submit

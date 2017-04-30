@@ -1,4 +1,4 @@
-Weather::Application.configure do
+DataRescueAtHome::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
   
   config.log_level = :debug
@@ -69,8 +69,8 @@ Weather::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   # 
-  
-  Rails.application.routes.default_url_options[:host] = 'test.citsci.geog.mcgill.ca/'
 
+  Rails.application.routes.default_url_options[:host] = ENV["BASE_URL"]
+  config.action_mailer.default_url_options = { :host => ENV["BASE_URL"] }
 
 end

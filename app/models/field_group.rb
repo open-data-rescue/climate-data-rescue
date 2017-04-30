@@ -1,11 +1,19 @@
 class FieldGroup < ActiveRecord::Base
-  #attr_accessible :bounds, :description, :height, :help, :name, :resizable, :width, :zoom
-  has_and_belongs_to_many :fields
-  has_many :annotations
-  belongs_to :page_type
   
-  default_scope { order(position: :asc) }
+  has_many :fields, -> { order("field_groups_fields.sort_order asc") }, through: :field_groups_fields
+  has_many :field_groups_fields, dependent: :destroy
+  has_many :annotations
 
+  has_many :page_types, through: :page_types_field_groups
+  has_many :page_types_field_groups, dependent: :destroy
+
+  before_destroy :check_for_annotations
+
+  def check_for_annotations
+    if annotations.any?
+      raise "Can't delete a field group that has user annotations"
+    end
+  end
 
   def presentation_name
     if display_name && display_name.present?

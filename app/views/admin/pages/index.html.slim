@@ -1,0 +1,44 @@
+- provide(:pages, "active")
+- provide(:admin, "active")
+- provide(:title, "Pages")
+
+h3 
+  = t('uploaded-pages')
+  = link_to t('upload-pages'), new_admin_page_path, class: "btn btn-primary btn-sm pull-right"
+/! List all pages and their info in a table
+table.table.table-striped
+  thead
+    tr
+      th Thumbnail
+      th Pagetype
+      th Filename
+      th Height
+      th Width
+      th Transcriptions
+      / th Done
+      / th 
+      th
+
+  tbody
+    - if @pages && @pages.any?
+      - @pages.each do |page|
+        tr
+          td = link_to image_tag(page.image.url(:thumb)), admin_page_path(page)
+          td = page.page_type ? link_to(page.page_type.title, admin_page_type_path(page.page_type)) : ''
+          td = page.title
+          td = page.height
+          td = page.width
+          td = page.transcriptions.count
+          / td = page.done
+          / td = page.classification_count
+          td 
+            = link_to t('view-details'), admin_page_path(page), class: "btn btn-xs btn-primary"
+            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_page_path(page), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
+            = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_page_path(page), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+    - else
+      tr
+        td colspan=8 No Pages Present. Upload some by clicking on the button below.
+
+br
+
+= link_to t('upload-pages'), new_admin_page_path, class: "btn btn-primary btn-lg"

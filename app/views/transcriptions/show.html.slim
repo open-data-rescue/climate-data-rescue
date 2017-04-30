@@ -1,31 +1,29 @@
-h3 Transcription #{@transcription.id}
-/!Get the name and load the image of the page associated with the transcription
-h5 Page: #{@transcription.page.name}
-= image_tag @transcription.page.upload.url
-/! Display the information of all the annotations associated with this transcription in table format
-h4 Annotations
-table
-  thead
-    tr
-      th Page Name
-      th Field Group
-      th Content (Page Name, Field Group, Field Names:Values)
-      th
-      th
-      th
+- provide(:user, "active")
+- provide(:profile, "active")
 
-  tbody
-    - @transcription.annotations.each do |a|
-      tr
-        td = a.page.name
-        td = a.fieldgroup.name
-        td = a.data
-        td = link_to 'Show', a
-        td = link_to 'Edit', edit_annotation_path(a)
-        td = link_to 'Destroy', a, data: {:confirm => 'Are you sure?'}, :method => :delete
+.row
+  .col-md-8
+    h1 Transcription #{@transcription.id}
+    /!Get the name and load the image of the page associated with the transcription
+    h4 = @transcription.page.title + ' Pg. ' + @transcription.page_type.number.to_s
+    ul
+      li = link_to @transcription.user.name, user_path(@transcription.user)
+      li 
+        = @transcription.annotations.count.to_s + " "
+        = t('user-observations').html_safe
+      li 
+        = @transcription.unique_observation_dates.count.to_s + " "
+        = t('unique-rows').html_safe
+      li 
+        = @transcription.page.num_rows_expected.to_s + " "
+        = t('unique-rows-expected').html_safe
+  .col-md-4
+
+= render 'shared/sample_image', page: @transcription.page, title: t('page')
+= render "shared/transcription_data_table", transcription: @transcription
 
 
 
-= link_to 'Edit', edit_transcription_path(@transcription)
+= link_to t('transcribe'), edit_transcription_path(@transcription)
 '&nbsp|
-= link_to 'Back', transcriptions_path
+= link_to t('back'), user_path(@transcription.user)

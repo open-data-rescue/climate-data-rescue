@@ -1,0 +1,1 @@
+json.partial! 'field_group', field_group: @field_group

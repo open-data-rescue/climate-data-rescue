@@ -1,0 +1,31 @@
+<% provide(:static_pages, "active") %>
+<% provide(:admin, "active") %>
+<% provide(:title, "Content pages") %>
+
+<h1>Content Pages</h1>
+<% if @static_pages %>
+
+  <table class="table table-striped">
+    <colgroup>
+      <col style="width: 10%">
+      <col style="width: 30%">
+      <col style="width: 35%">
+      <col style="width: 10%">
+      <col style="width: 15%">
+    </colgroup>
+    <thead>
+      <th></th>
+      <th>Title</th>
+      <th>Link</th>
+      <th><%= StaticPage.human_attribute_name(:visible) %></th>
+      <th></th>
+    </thead>
+    <tbody>
+      <%= render @static_pages %>
+    </tbody>
+  </table>
+  
+<% else %>
+<% end %>
+
+<%= link_to "New Content Page", new_admin_static_page_path %>

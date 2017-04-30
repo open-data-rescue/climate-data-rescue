@@ -3,6 +3,15 @@ class Annotation < ActiveRecord::Base
   belongs_to :transcription
   has_many :data_entries, dependent: :destroy
   belongs_to :field_group
+
+  after_save :touch_associations
+  def touch_associations
+    transcription.touch
+    transcription.save!
+  end
+
+  def self.order_by_date direction='asc'
+    order('observation_date #{direction}')
+  end
   
-  #TODO: make another data type to hold the join and the data, AnnotationData or something
 end

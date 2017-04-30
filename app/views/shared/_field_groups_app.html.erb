@@ -1,0 +1,422 @@
+<script id="field-groups-app" type="text/javascript">
+    
+    FieldGroupsApp = new Marionette.Application();
+
+    FieldGroupsApp.addRegions({
+        main : "#field-groups-app-container"
+    });
+
+    FieldGroupsApp.AppManager = (function(Backbone, Marionette){
+        var EventAggregator = new Backbone.Wreqr.EventAggregator();
+
+        PageType = Backbone.Model.extend({
+            url : "<%= admin_page_types_path %>",
+        });
+        FieldGroup = Backbone.Model.extend({
+            url : "<%= admin_field_groups_path %>",
+            schema : {
+                internal_name : {
+                    type : "Text",
+                    title : "Internal Name",
+                    hint : "Name for internal organization"
+                },
+                name : {
+                    type : "Text",
+                    title : "Name",
+                    validators : ["required"],
+                    hint : "Enter a name for this group. Will be shown in the transcriber tab unless you set a separate display name below."
+                },
+                display_name : {
+                    type : "Text",
+                    title : "Display Name",
+                    // validators : ["required"],
+                    hint : "Enter the display name for this group.  This display name will be shown in the transcriber tab instead of the name, if you set it."
+                },
+                help : {
+                    type : "TextArea",
+                    hint : "Enter a help text that will be shown to the user in the help area."
+                },
+                colour_class : {
+                    type : "Select",
+                    title : "Colour",
+                    hint : "Select the colour for the group. This will be its colour of its transcriber tab, and anntoation boxes.",
+                    options : [
+                        {label : "Purple" , val: "purple-group"},
+                        {label : "Red" , val: "red-group"}, 
+                        {label : "Pink" , val: "pink-group"},
+                        {label : "Blue" , val: "blue-group"},
+                        {label : "Cyan" , val: "cyan-group"},
+                        {label : "Green" , val: "green-group"},
+                        {label : "Yellow" , val: "yellow-group"},
+                        {label : "Orange" , val: "orange-group"}
+                    ]
+                },
+            },
+            defaults : {
+                colour_class : 'purple-group',
+                // num_fields : 0
+            },
+
+            initialize : function(opts){
+                this.options = opts || {};
+            },
+            paramRoot : "field_group"
+        });
+
+        FieldGroupsCollection = Backbone.Collection.extend({
+            model : FieldGroup
+        });
+
+        FieldGroupsLayout = Marionette.LayoutView.extend({
+            template : "#field-groups-layout-template",
+            regions : {
+                assigned : "#assigned-field-groups-container",
+                available : "#available-field-groups-container",
+                // multiToggle : "#field-multi-toggle-container"
+            },
+
+            className : "col-md-12",
+
+            events : {
+                "click #create-field-group-btn" : "createFieldGroup"
+            },
+
+            onRender : function() {
+                // layout = this;
+                // page_type = new PageType();
+                // page_type.fetch({
+                //     url : "<%= admin_page_types_path(page_type) %>",
+                //     success : function(field){
+                //         console.info("got field group info");
+                //         view = new PageTypeView({
+                //             model : page_type
+                //         });
+
+                //         layout.multiToggle.show(view);
+                //     }
+                // });
+            },
+
+            createFieldGroup : function() {
+                // console.info("Create field option btn clicked");
+                // console.log(Field);
+                var form = new Backbone.Form({
+                    model: new FieldGroup()
+
+                });
+                
+                var modal = new Backbone.BootstrapModal({ 
+                    content : form,
+                    title : "Create New Field Group",
+                    animate : true,
+                    submitFn : function(){
+                        // console.log("submit fn called");
+                        // console.log(this);
+                        var modal = this;
+
+                        form = this.options.content;
+
+                        var errors = form.commit({ validate: true });
+
+                        // console.log(form.model);
+                        
+
+                        if (!errors) {
+                            form.model.save(null, { 
+                                success : function(mdl) {
+                                    AvailableFieldGroups.add(mdl);
+                                    // console.log(mdl);
+                                    modal.close();
+                                },
+                                paramRoot : "field_group",
+                                formData : true
+                            });
+                        };
+                        return errors;
+                    },
+                }).open();
+            }
+        });
+
+        FieldGroupView = Marionette.ItemView.extend({
+            template : "#field-group-template",
+            tagName : "tr",
+            className : "field-group",
+
+            initialize : function(options) {
+                this.listenTo(this.model, "change", this.render);
+                this.listenTo(this.model, "close_view", this.close);
+            },
+
+            events : {
+                "click .add-to-page-type-btn" : "addToPageType",
+                "click .remove-from-page-type-btn" : "removeFromPageType",
+                "click .model-edit-btn" : "editModel"
+            },
+
+            editModel : function() {
+                
+                var form = new Backbone.Form({
+                    model: this.model, 
+
+                });
+                
+                var modal = new Backbone.BootstrapModal({ 
+                    content : form,
+                    title : "Edit Field Group",
+                    animate : true,
+                    submitFn : function(){
+                        // console.log("submit fn called");
+                        // console.log(this);
+                        var modal = this;
+                        form = this.options.content;
+                        var errors = form.commit({ validate: true });
+
+                        if (!errors) {
+                            form.model.save(null, { 
+                                url : "<%= admin_field_groups_path %>" + "/" + form.model.get("id") + "?page_type_id=" + <%= page_type.id %>,
+                                success : function(mdl) {
+                                    // console.log(mdl);
+                                    modal.close();
+                                },
+                                paramRoot : "field_group",
+                                formData : true
+                            });
+                        };
+                        return errors;
+                    },
+                }).open();
+            },
+
+            addToPageType : function() {
+                var id = this.model.get("id");
+                var self = this;
+                var mdl = this.model;
+
+                mdl.fetch({
+                    type : "POST",
+                    url : "<%= admin_add_field_group_to_page_type_path %>",
+                    data : {page_type_id: <%= page_type.id %>, field_group_id: id},
+                    dataType: 'json',
+                    success : function(response) {
+                        // console.info("added field option to field");
+                        AvailableFieldGroups.remove(mdl);
+                        AssignedFieldGroups.add(mdl);
+                        $(".tooltip").remove();
+                    }
+                });
+            },
+
+            removeFromPageType : function() {
+                var id = this.model.get("id");
+                var self = this;
+                var mdl = this.model;
+
+                mdl.fetch({
+                    type : "POST",
+                    url : "<%= admin_remove_field_group_from_page_type_path %>",
+                    data : {page_type_id: <%= page_type.id %>, field_group_id: id},
+                    dataType: 'json',
+                    success : function(response) {
+                        // console.info("removed field option from field");
+                        AssignedFieldGroups.remove(mdl);
+                        AvailableFieldGroups.add(mdl);
+                        $(".tooltip").remove();
+                    }
+                });
+            },
+
+            onRender : function() {
+                this.$el.find('[data-toggle="tooltip"]').tooltip();
+
+                this.$el.data("field-group-id", this.model.get("id"));
+            }
+        });
+
+
+        FieldGroupsCollectionView = Marionette.CompositeView.extend({
+            template : "#field-groups-collection-template",
+            childView : FieldGroupView,
+            childViewContainer : ".field-group-rows-container",
+            tagName : "table",
+            className : "table table-striped table-responsive field-groups-table",
+
+            emptyView : Marionette.ItemView.extend({
+                template : _.template("<td colspan=5>No Field Groups</td>"),
+                tagName : "tr",
+
+            }),
+
+            initialize : function(options) {
+                options = options || {};
+                $.extend(this.options, options);
+                this.listenTo(this.collection, "change", this.render);
+            },
+
+            onRender : function() {
+                if (this.options.collectionTitle) {
+                    this.$el.find("#collection-title-container").html(this.options.collectionTitle);
+                };
+
+                if (this.options.sortable) {
+
+                    if (this.$el.sortable("instance")) {
+                        this.$el.sortable("refreshPositions");
+                        // console.info("positions refreshed");
+                    } else {
+                        this.$el.sortable({
+                            axis: 'y',
+                            items: '.field-group',
+                            cursor: 'move',
+
+                            sort : function(e, ui) {
+                                ui.item.addClass('active-item-shadow');
+                            },
+                            stop : function(e, ui) {
+                                ui.item.removeClass('active-item-shadow');
+                                // # highlight the row on drop to indicate an update
+                                ui.item.children('td').effect('highlight', {}, 1000);
+                            },
+                            update : function(e, ui) {
+                                item_id = ui.item.data('field-group-id');
+                                position = ui.item.index();
+                                
+                                console.log(position);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '<%= admin_update_field_group_sort_order_path %>',
+                                    dataType: 'json',
+                                    data: { 
+                                        page_type_id : <%= page_type.id %>,
+                                        field_group_id: item_id, 
+                                        sort_order_position: position 
+                                    } 
+                                });
+                            }
+                        });
+                    }
+                    
+                }
+            }
+        });
+
+        MainLayout = new FieldGroupsLayout();
+
+        AssignedFieldGroups = new FieldGroupsCollection({
+            url : "<%= admin_field_groups_for_page_type_path(page_type) %>",
+            initialize : function() {
+                EventAggregator.on("refresh_field_groups", this.fetch, this);
+            }
+        });
+        AvailableFieldGroups = new FieldGroupsCollection({
+            url : "<%= admin_field_groups_path %>",
+            initialize : function() {
+                EventAggregator.on("refresh_field_groups", this.fetch, this);
+            }
+        });
+
+        return {
+            init : function() {
+                console.info("Field Groups App Started");
+                FieldGroupsApp.main.show(MainLayout);
+
+                AssignedFieldGroups.fetch({
+                    url : "<%= admin_field_groups_for_page_type_path(page_type) %>",
+                    success : function(collection) {
+                        // console.log(collection);
+                        view = new FieldGroupsCollectionView({
+                            collection : collection,
+                            collectionTitle : "<h4>Assigned Field Groups</h4>",
+                            initialize : function() {
+                                this.listenTo(this.collection, "change", this.render);
+                            },
+                            emptyView : Marionette.ItemView.extend({
+                                template : _.template("<td colspan=5>No Field Groups Assigned</td>"),
+                                tagName : "tr",
+
+                            }),
+                            sortable: true
+                        });
+                        MainLayout.assigned.show(view);
+                        EventAggregator.on("refresh_field_groups", this.fetch, this);
+                    }
+                });
+
+                AvailableFieldGroups.fetch({
+                    url : "<%= admin_field_groups_path(page_type_id: page_type.id) %>",
+                    success : function(collection) {
+                        // console.log(collection);
+                        view = new FieldGroupsCollectionView({
+                            collection : collection,
+                            collectionTitle : "<h4>Available Field Groups</h4>",
+                            initialize : function() {
+                                this.listenTo(this.collection, "change", this.render);
+                            },
+                            emptyView : Marionette.ItemView.extend({
+                                template : _.template("<td colspan=5>No Field Groups Available</td>"),
+                                tagName : "tr",
+
+                            })
+                        });
+                        MainLayout.available.show(view);
+                        EventAggregator.on("refresh_field_groups", this.fetch, this);
+                    }
+                });
+            }
+        }
+    })(Backbone, Marionette);
+
+    $(document).ready(function() {
+        FieldGroupsApp.addInitializer(FieldGroupsApp.AppManager.init);
+        FieldGroupsApp.start();
+    });
+
+</script>
+
+<script type="text/template" id="field-groups-layout-template">
+    <h3><%= t('field-groups') %>  <button class="btn btn-primary btn-xs" id="create-field-group-btn" type="button"><%= t('new') %></button></h3>
+    <div id="field-groups-tables-container" class="row">
+        <div id="assigned-field-groups-container" class="col-md-12"></div>
+        <div id="available-field-groups-container" class="col-md-12"></div>
+    </div>
+
+</script>
+
+<script type="text/template" id="field-group-template">
+        <td>{{= internal_name }}</td>
+        <td>
+            {{= name }}
+            {{ if (typeof display_name != "undefined" && display_name != null && display_name.length > 1) { }}
+                <br />({{= display_name}})
+            {{ } }}
+        </td>
+        <td>{{= help }}</td>
+        <td>{{= colour_class }}</td>
+        <td>{{= num_fields }}<br /><a href="<%= admin_field_groups_path %>/{{= id }}/edit" target="fg_{{= id }}">Add/Remove Fields <i class="fa fa-external-link"></i></a></td>
+        <td>
+            {{ if(assigned) { }}
+                    <i class="fa fa-times fa-2x remove-from-page-type-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Page Type"></i>
+            {{ } else { }}
+                <i class="fa fa-plus fa-2x add-to-page-type-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Page Type"></i>
+            {{ } }}
+            <i class="fa fa-pencil model-edit-btn pull-right btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
+        </td>
+</script>
+
+
+<script type="text/template" id="field-groups-collection-template">
+        <thead>
+            <tr>
+                <th>Internal Name</th>
+                <th>Name</th>
+                <th>Help</th>
+                <th>Colour</th>
+                <th>Fields</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="title-wrapper"><td id="collection-title-container" colspan=5></td></tr>
+        </tbody>
+        <tbody class="field-group-rows-container"></tbody>
+</script>

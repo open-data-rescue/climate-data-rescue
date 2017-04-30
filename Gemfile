@@ -72,16 +72,22 @@ gem "jquery-fileupload-rails"
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
-gem 'rails-i18n' # translations
-gem 'i18n-active_record',
-      :git => 'git://github.com/svenfuchs/i18n-active_record.git',
-      :tag => 'v0.1.0',
-      :require => 'i18n/active_record'
+gem 'routing-filter'
 
-# gem 'aws-sdk'
+gem 'http_accept_language'
+
+gem 'rails-i18n', '~> 4.0.0' # translations
+gem 'i18n-active_record', :require => 'i18n/active_record'
+
+gem 'rails-observers'
+
+gem 'globalize'
+
+gem 'interpret', :git => 'git://github.com/balen/interpret.git', :branch => 'upgrade/rails4'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
-
+gem 'newrelic_rpm'
 
 # Deploy with Capistrano
 group :development do

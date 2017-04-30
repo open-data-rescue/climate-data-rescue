@@ -14,7 +14,7 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
-module Weather
+module DataRescueAtHome
   class Application < Rails::Application
     # Configuration for log4j
     log4r_config= YAML.load_file(File.join(File.dirname(__FILE__),"log4r.yml"))
@@ -76,7 +76,7 @@ module Weather
     #
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-        :address        => 'smtp-mail.outlook.com',
+        :address        => 'smtp.office365.com',
         :port           => '587',
         :authentication => :login,
         :user_name      => ENV['SMTP_USERNAME'],
@@ -92,6 +92,10 @@ module Weather
     }
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
+
+    Rails.application.routes.default_url_options[:host] = ENV["BASE_URL"]
+
+    config.action_mailer.default_url_options = { :host => ENV["BASE_URL"] }
 
   end
 end

@@ -1,0 +1,34 @@
+.row
+  .col-md-12
+    /! Display the information of all the annotations associated with this transcription in table format
+    h3 = t('data-collected')
+    .table-responsive
+      table.table.table-striped
+        thead
+          tr
+            th
+            - transcription.field_groups.each do |group|
+              th.text-center colspan=group.fields.count style="border-left: 2px solid hsl(0, 0%, 87%); border-right: 2px solid hsl(0, 0%, 87%);"
+                = group.name
+          tr
+            th.text-center = t('observation-date')
+            - transcription.field_groups.each do |group|
+              - group.fields.each do |field|
+                th.text-center = field.name
+        tbody
+          - transcription.annotations.order_by_date.group_by{|a| a.observation_date.utc.to_date}.each do |date, date_group|
+            tr
+              td colspan=(transcription.fields.count + 1)
+                strong = l(date, format: :long)
+            - date_group.group_by{|a| a.observation_date.utc}.each do |time, annotations|
+              tr
+                td = l(time, format: :short)
+                - transcription.field_groups.each do |group|
+                  - annotation = annotations.select{|a| a.field_group == group}.first
+                  - group.fields.each do |field|
+                    - annotations.each do |annotation|
+                    - if annotation
+                      - entry = annotation.data_entries.find_by(field: field)
+                      td.text-center = (entry.present? ? entry.value : nil)
+                    - else
+                      td

@@ -1,0 +1,29 @@
+- provide :admin, 'active'
+- provide :transcriptions, 'active'
+
+.row
+  .col-md-8
+    h1 = t('transcription') + " #{@transcription.id}"
+    /!Get the name and load the image of the page associated with the transcription
+    h4 = @transcription.page.title + ' Pg. ' + @transcription.page_type.number.to_s
+    ul
+      li = link_to @transcription.user.name, admin_user_path(@transcription.user)
+      li 
+        = @transcription.annotations.count.to_s + " "
+        = t('user-observations').html_safe
+      li 
+        = @transcription.unique_observation_dates.count.to_s + " "
+        = t('unique-rows').html_safe
+      li 
+        = @transcription.num_rows_expected.to_s + " "
+        = t('unique-rows-expected').html_safe
+  .col-md-4
+    = image_tag @transcription.page.image.url(:small)
+= render 'shared/sample_image', page: @transcription.page, title: t('page')
+= render "shared/transcription_data_table", transcription: @transcription
+
+
+
+= link_to t('transcribe'), edit_transcription_path(@transcription)
+'&nbsp|
+= link_to t('back'), admin_transcriptions_path

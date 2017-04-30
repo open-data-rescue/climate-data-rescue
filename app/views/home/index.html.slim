@@ -1,17 +1,24 @@
 /! main site index page. This is the front page of the site and content adjusts depending on if a user is logged in or not and can display different things for admins too! Add whatever content you want here!
 /!In the future, this page could show the user pages that were created since the user's last login. Pages have a "created_at" datetime attribute and users have a "last_sign_in_at" datetime attribute
 - provide(:home, "active")
-- provide(:title, "Home")
+- provide(:title, t('home'))
 .container-fluid.homepage-wrapper
     .row
         .col-md-12
-            h1.homepage-header.text-center DRAW
+            h1.homepage-header.text-center
+                = t('draw-acronym')
             h2.homepage-subtitle.text-center Data Rescue: Archives and Weather
 
     .row.voffset30
-        .col-md-12
-            p.homepage-intro Help us uncover the story of Montreal's evolving climate captured in the McGill Observatory's historical weather logs. Your transcriptions will help scientists and historians gain a better understanding of our environment and its impact on our city and its people.
+        .col-md-12.homepage-intro
+            
+            - if StaticPage.find_by(slug: "/homepage-intro").present?
+                = render_snippet("/homepage-intro")
+            - else
+                
+                = t('draw-homepage-intro')
+
     .row.voffset40.boffset20
         .col-md-12.homepage-actions.text-center
-            = link_to "Start Transcribing", new_transcription_path, class: "btn btn-lg btn-default btn-draw-accented"
-            = link_to "What is DRAW?", "/about", class: "btn btn-lg btn-default btn-draw-transparent"
+            = link_to t('start-transcribing'), new_transcription_path, class: "btn btn-lg btn-default btn-draw-accented"
+            = link_to t('what-is-draw'), "/about", class: "btn btn-lg btn-default btn-draw-transparent"

@@ -4,6 +4,7 @@ class Page < ActiveRecord::Base
   belongs_to :transcriber, class_name: "User"
   
   has_many :page_days, dependent: :destroy
+  has_many :data_entries, dependent: :destroy
 
   #handles the image upload association
   has_attached_file :image,
@@ -21,9 +22,26 @@ class Page < ActiveRecord::Base
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
   before_save :extract_upload_dimensions
   # after_create :parse_filename
+
+  before_destroy :check_for_delete
+
+  def check_for_delete
+    if data_entries.any? 
+      raise I18n.t('cant-delete-page-that-has-been-transcribed')
+    end
+  end
   
   def has_metadata?
     self.page_days.any? && self.page_days.count == ((self.end_date - self.start_date).to_i + 1)
+  end
+
+  def num_rows_expected
+    if self.page_days.any?
+      total = self.page_days.sum(:num_observations)
+      total
+    else
+      nil
+    end
   end
   
   def to_jq_upload
@@ -47,7 +65,7 @@ class Page < ActiveRecord::Base
           components = filename.split("_")
           if components.count == 6
             self.accession_number = components[0]
-            if components[1].length == 1 && components[2]
+            if components[1] && components[2]
               ledger_type = components[1]
               volume = components[2]
               ledger = Ledger.find_by(ledger_type: ledger_type)
@@ -66,7 +84,7 @@ class Page < ActiveRecord::Base
               page_type_num = components[5][0]
               page_type = PageType.find_by(number: page_type_num, ledger_id: ledger.id)
               unless page_type
-                page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: (ledger_type + page_type_num + "-" + volume))
+                page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: ('Register ' + ledger_type + ', page ' + page_type_num))
               end
               self.page_type_id = page_type.id
             end
@@ -119,26 +137,9 @@ class Page < ActiveRecord::Base
   scope :transcribeable, -> { joins({:page_type => :field_groups}).where(done: false).uniq.order("pages.start_date asc, page_types.number asc") }
 
   scope :unseen, -> (user) {
-    if user
+    if user && user.pages.any?
       where("pages.id not in (?)", user.pages.pluck(:id))
     end
   }
-  
-  #constant that determines the # of transcriptions an page must have to be marked done
-  CLASSIFICATION_COUNT = 5
-
-  # def classification_limit
-    # 5
-  # end
-
-  
-  #on new transcription creation, increment the classification count of its associated page
-  def increment_classification_count
-    self.classification_count += 1
-    if self.classification_count == CLASSIFICATION_COUNT
-      self.done = true
-    end
-    self.save
-  end
 
 end

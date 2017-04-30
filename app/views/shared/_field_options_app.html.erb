@@ -10,7 +10,7 @@
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
         Field = Backbone.Model.extend({
-            url : "<%= fields_path %>",
+            url : "<%= admin_fields_path %>",
             schema : {
                 multi_select : "Checkbox"
             },
@@ -19,7 +19,7 @@
             }
         });
         FieldOption = Backbone.Model.extend({
-            url : "<%= field_options_path %>",
+            url : "<%= admin_field_options_path %>",
             schema : {
                 image : {
                     type : "File",
@@ -27,6 +27,11 @@
                     editorAttrs : {
                         name : "field_option[image]"
                     }
+                },
+                internal_name : {
+                    type : "Text",
+                    title : "Internal Name",
+                    hint : "Name for internal organization"
                 },
                 name : {
                     type : "Text",
@@ -90,7 +95,7 @@
                 layout = this;
                 field = new Field();
                 field.fetch({
-                    url : "<%= field_path(field) %>",
+                    url : "<%= admin_field_path(field) %>",
                     success : function(field){
                         console.info("got field info");
                         view = new FieldView({
@@ -170,7 +175,7 @@
                     onSwitchChange : function(event, state) {
                         self.model.set("multi_select", state);
                         self.model.save(self.model.attributes, {
-                            url : "<%= field_path(field) %>"
+                            url : "<%= admin_field_path(field) %>"
                         });
                     }
                 });
@@ -238,7 +243,7 @@
 
                         if (!errors) {
                             form.model.save(null, { 
-                                url : "<%= field_options_path %>" + "/" + form.model.get("id") + "?field_id=" + <%= field.id %>,
+                                url : "<%= admin_field_options_path %>" + "/" + form.model.get("id") + "?field_id=" + <%= field.id %>,
                                 success : function(mdl) {
                                     // console.log(mdl);
                                     modal.close();
@@ -265,7 +270,7 @@
 
                 mdl.fetch({
                     type : "POST",
-                    url : "<%= add_field_option_to_field_path %>",
+                    url : "<%= admin_add_field_option_to_field_path %>",
                     data : {field_id: <%= field.id %>, field_option_id: id},
                     dataType: 'json',
                     success : function(response) {
@@ -284,7 +289,7 @@
 
                 mdl.fetch({
                     type : "POST",
-                    url : "<%= remove_field_option_from_field_path %>",
+                    url : "<%= admin_remove_field_option_from_field_path %>",
                     data : {field_id: <%= field.id %>, field_option_id: id},
                     dataType: 'json',
                     success : function(response) {
@@ -358,7 +363,7 @@
                                 console.log(position);
                                 $.ajax({
                                     type: 'POST',
-                                    url: '<%= update_field_option_sort_order_path %>',
+                                    url: '<%= admin_update_field_option_sort_order_path %>',
                                     dataType: 'json',
                                     data: { 
                                         field_id : <%= field.id %>,
@@ -377,13 +382,13 @@
         MainLayout = new FieldOptionsLayout();
 
         AssignedOptions = new FieldOptionsCollection({
-            url : "<%= field_options_for_field_path(field) %>",
+            url : "<%= admin_field_options_for_field_path(field) %>",
             initialize : function() {
                 EventAggregator.on("refresh_field_options", this.fetch, this);
             }
         });
         AvailableOptions = new FieldOptionsCollection({
-            url : "<%= field_options_path %>",
+            url : "<%= admin_field_options_path %>",
             initialize : function() {
                 EventAggregator.on("refresh_field_options", this.fetch, this);
             }
@@ -395,7 +400,7 @@
                 FieldOptionsApp.main.show(MainLayout);
 
                 AssignedOptions.fetch({
-                    url : "<%= field_options_for_field_path(field) %>",
+                    url : "<%= admin_field_options_for_field_path(field) %>",
                     success : function(collection) {
                         // console.log(collection);
                         view = new FieldOptionsCollectionView({
@@ -417,7 +422,7 @@
                 });
 
                 AvailableOptions.fetch({
-                    url : "<%= field_options_path(field_id: field.id) %>",
+                    url : "<%= admin_field_options_path(field_id: field.id) %>",
                     success : function(collection) {
                         // console.log(collection);
                         view = new FieldOptionsCollectionView({
@@ -462,10 +467,12 @@
 </script>
 
 <script type="text/template" id="field-option-template">
+        <td>{{= internal_name}}</td>
         <td>{{ if (image != null) { }}<img src="{{= icon_url }}" />{{ } }}</td>
         <td>{{= name }}</td>
         <td>{{= text_symbol }}</td>
         <td>{{= value }}</td>
+        <td>{{= display_attribute }}</td>
         <td>{{= help }}</td>
         <td>
             <i class="fa fa-pencil model-edit-btn pull-left btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
@@ -481,11 +488,13 @@
 <script type="text/template" id="options-collection-template">
         <thead>
             <tr>
-                <th>Icon</th>
-                <th>Name</th>
-                <th>Symbol</th>
-                <th>Stored Value</th>
-                <th>Help</th>
+                <th><%= t('internal-name') %></th>
+                <th><%= t('icon-image') %></th>
+                <th><%= t('name') %></th>
+                <th><%= t('text-symbol') %></th>
+                <th><%= t('stored-value') %></th>
+                <th><%= t('displayed-when-selected') %></th>
+                <th><%= t('help-text') %></th>
                 <th></th>
             </tr>
         </thead>

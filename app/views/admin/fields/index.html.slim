@@ -1,0 +1,39 @@
+- provide(:fields, "active")
+- provide(:admin, "active")
+- provide(:title, "Fields")
+h3 Available Fields
+h4 Fields from all groups are listed below, edit carefully please.
+/! List all fields and their attribute information in a table
+
+table.table.table-striped
+  thead
+    tr
+      th Internal Name
+      th Name
+      th Full Name
+      th Field Type
+      th Data Type
+      th Field Key
+      th
+
+  tbody
+    - @fields.each do |field|
+      tr
+        td = field.internal_name
+        td = link_to field.name, admin_field_path(field)
+        td = field.full_name
+        td = field.html_field_type
+        td = field.data_type
+        td = field.field_key
+        td 
+          = link_to t('view-details'), admin_field_path(field), class: "btn btn-xs btn-primary"
+          = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_field_path(field), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
+          = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_field_path(field), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+      tr
+        td colspan="6"
+          strong Help:
+          = field.help
+
+br
+
+= link_to t('new-field'), new_admin_field_path
