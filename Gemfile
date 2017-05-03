@@ -82,6 +82,7 @@ gem 'i18n-active_record', :require => 'i18n/active_record'
 gem 'rails-observers'
 
 gem 'globalize'
+gem 'globalize-accessors'
 
 gem 'interpret', :git => 'git://github.com/balen/interpret.git', :branch => 'upgrade/rails4'
 

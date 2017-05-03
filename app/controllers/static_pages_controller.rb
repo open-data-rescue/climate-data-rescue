@@ -4,8 +4,8 @@ class StaticPagesController < ApplicationController
 
   def show
     slug = request.path
-    slug.gsub!('/' + I18n.locale.to_s + '/', '')
-    @page = StaticPage.visible.find_by(slug: slug)
+    @slug = slug.gsub('/' + I18n.locale.to_s + '/', '/')
+    @page = StaticPage.visible.find_by(slug: @slug)
   end
 
   private

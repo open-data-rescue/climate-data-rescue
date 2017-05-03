@@ -15,6 +15,8 @@ class StaticPage < ActiveRecord::Base
   translates :title, :body, :slug, :meta_keywords, :meta_title,
              :meta_description, fallbacks_for_empty_translations: true
 
+  globalize_accessors
+
   def initialize(*args)
     super(*args)
     last_page = StaticPage.last
@@ -22,7 +24,7 @@ class StaticPage < ActiveRecord::Base
   end
 
   def link
-    foreign_link.blank? ? slug : foreign_link
+    foreign_link.blank? ? ('/' + I18n.locale.to_s + slug) : foreign_link
   end
   
   def is_external?
@@ -37,10 +39,6 @@ class StaticPage < ActiveRecord::Base
     end
     # return false if slug =~ %r{\A\/+(admin|account|cart|checkout|content|login|pg\/|orders|products|s\/|session|signup|shipments|states|t\/|tax_categories|user)+}
     StaticPage.visible.find_by(slug: slug).present?
-  end
-
-  def in_locale locale
-    self.translations.find_by(locale: locale) || self
   end
 
   private

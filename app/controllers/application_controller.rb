@@ -53,9 +53,9 @@ class ApplicationController < ActionController::Base
 
   def url_for_locale_switcher locale, static_page: nil
     if static_page.present? && static_page.is_a?(StaticPage)
-      static_page.in_locale(locale).slug
+      '/' + locale.to_s + static_page.send('slug_' + locale.to_s)
     else
-      baseUri_with_lang(locale) + request_path
+      baseUri_with_lang(locale) + request_path.sub(baseUri, '')
     end
   end
 
