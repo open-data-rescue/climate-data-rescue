@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170304173943) do
+ActiveRecord::Schema.define(version: 20170502020626) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -157,24 +157,32 @@ ActiveRecord::Schema.define(version: 20170304173943) do
 
   add_index "pages", ["page_type_id"], name: "index_pages_on_page_type_id", using: :btree
 
-  create_table "static_pages", force: :cascade do |t|
+  create_table "static_page_translations", force: :cascade do |t|
+    t.integer  "static_page_id",   limit: 4,     null: false
+    t.string   "locale",           limit: 255,   null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "title",            limit: 255
     t.text     "body",             limit: 65535
     t.string   "slug",             limit: 255
-    t.boolean  "show_in_header",                 default: false, null: false
-    t.boolean  "show_in_sidebar",                default: false, null: false
-    t.boolean  "visible",                        default: true,  null: false
-    t.string   "foreign_link",     limit: 255
-    t.integer  "position",         limit: 4,     default: 1,     null: false
     t.string   "meta_keywords",    limit: 255
     t.string   "meta_title",       limit: 255
     t.string   "meta_description", limit: 255
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-    t.boolean  "title_as_header",                default: true
   end
 
-  add_index "static_pages", ["slug"], name: "index_static_pages_on_slug", using: :btree
+  add_index "static_page_translations", ["locale"], name: "index_static_page_translations_on_locale", using: :btree
+  add_index "static_page_translations", ["static_page_id"], name: "index_static_page_translations_on_static_page_id", using: :btree
+
+  create_table "static_pages", force: :cascade do |t|
+    t.boolean  "show_in_header",              default: false, null: false
+    t.boolean  "show_in_sidebar",             default: false, null: false
+    t.boolean  "visible",                     default: true,  null: false
+    t.string   "foreign_link",    limit: 255
+    t.integer  "position",        limit: 4,   default: 1,     null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.boolean  "title_as_header",             default: true
+  end
 
   create_table "transcriptions", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
