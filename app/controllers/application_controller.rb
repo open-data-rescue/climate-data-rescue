@@ -6,10 +6,10 @@ class ApplicationController < ActionController::Base
 
   before_action :set_locale
 
-  helper_method :baseUri, :baseUri_no_lang, :baseUri_with_lang, :request_path
+  helper_method :baseUri, :baseUri_no_lang, :baseUri_with_lang, :request_path, :url_for_locale_switcher
 
   def baseUri
-      '/' + I18n.locale.to_s
+      '/' + I18n.locale.to_s + '/'
   end
 
   def baseUri_no_lang
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def baseUri_with_lang lang
-    '/' + lang.to_s
+    '/' + lang.to_s + '/'
   end
   
   def ensure_login
@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
         def_locale = I18n.default_locale
       end
       
-      I18n.locale = (params[:locale] && params[:locale].size > 0)? params[:locale] : def_locale
+      I18n.locale = params[:locale].present? ? params[:locale] : def_locale
 
       session[:locale] = I18n.locale
   end
@@ -49,6 +49,14 @@ class ApplicationController < ActionController::Base
         basepath = basepath.slice(baseUri.length(), basepath.length())
       end
       basepath
+  end
+
+  def url_for_locale_switcher locale, static_page: nil
+    if static_page.present? && static_page.is_a?(StaticPage)
+      static_page.in_locale(locale).slug
+    else
+      baseUri_with_lang(locale) + request_path
+    end
   end
 
 

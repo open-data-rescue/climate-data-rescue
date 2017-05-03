@@ -69,9 +69,11 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
             i.caret
           ul.dropdown-menu
             - ['en','fr'].each do |lang|
+              = debug I18n.locale
+              = debug lang
               - if lang != I18n.locale.to_s
                 li
-                  a href="#{baseUri_with_lang(lang) + request_path}"
+                  a href="#{url_for_locale_switcher(lang, static_page: @page)}"
                    = t(lang)
 
 
