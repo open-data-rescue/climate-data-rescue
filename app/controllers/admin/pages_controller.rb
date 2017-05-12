@@ -142,7 +142,9 @@ module Admin
 
     private
     def page_params
-      params.require(:page).permit(:height, :order, :width, :page_type_id, :image, :title, :accession_number, :start_date, :start_date, :page_type, :volume)
+      params.require(:page).permit(:height, :order, :width, :page_type_id, :image, 
+        :title, :accession_number, :start_date, :start_date, :page_type, :volume,
+        :visible)
     end
   end
 end

@@ -134,7 +134,11 @@ class Page < ActiveRecord::Base
     end
   end
   #sets a scope for all transcribable pages to be those that are not done
-  scope :transcribeable, -> { joins({:page_type => :field_groups}).where(done: false).uniq.order("pages.start_date asc, page_types.number asc") }
+  scope :transcribeable, -> { 
+    joins({:page_type => :field_groups}).
+    where(done: false, visible: true, 
+      page_types: { visible: true }
+    ).uniq.order("pages.start_date asc, page_types.number asc") }
 
   scope :unseen, -> (user) {
     if user && user.pages.any?
