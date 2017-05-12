@@ -119,7 +119,7 @@ module Admin
     
     private
     def pagetype_params
-      params.require(:page_type).permit(:title, :type, :description, :ledger_id)
+      params.require(:page_type).permit(:title, :type, :description, :ledger_id, :visible)
     end
   end
 end
