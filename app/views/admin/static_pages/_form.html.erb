@@ -73,7 +73,7 @@
     <div class="col-md-12">
         <div class="form-group">
           <button type="button" id="toggle-visual-editor-btn" class="btn btn-xs btn-default pull-right" data-toggle="popover" data-trigger="hover" data-container="body" data-html="true" data-placement="auto top" data-title="Visual Editor" data-content="If you turn on the visual editor, you may lose some fine-grained control over the result of your page. <b>Do not use the visual editor to modify the custom stylesheet.</b>">Toggle Visual Editor</button>
-            <%= f.input :body, required: true, input_html: { class: 'form-control', id: "page-content", rows: 30 }, label: t('page-body') %>
+            <%= f.input :body, as: :text, required: true, input_html: { id: "page-content", rows: 30 }, label: t('page-body') %>
         </div>
     </div>  
   </div>
