@@ -1,5 +1,7 @@
 class Page < ActiveRecord::Base
   belongs_to :page_type
+  has_many :field_groups, through: :page_type
+  has_many :fields, through: :field_groups
   has_many :transcriptions, dependent: :destroy
   belongs_to :transcriber, class_name: "User"
   
