@@ -1,9 +1,0 @@
-
-= simple_form_for(content_image, html: { multipart: true }) do |f|
-    = f.input :name
-    - if content_image.image.present?
-        label style="margin-right: 15px;"
-            = "Current Image"
-        = image_tag(content_image.image.url(:thumb))
-    = f.input :image, as: :file
-    = f.button :submit, "Save"
