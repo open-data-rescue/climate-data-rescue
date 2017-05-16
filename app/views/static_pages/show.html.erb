@@ -12,7 +12,7 @@
 	    <meta name="description" content="<%= @page.meta_description %>">
   	<% end -%>
   	<% if current_user && current_user.admin? %>
-        <%= link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_static_page_path(@page), class: "btn btn-xs btn-draw-accented edit-page-btn", data: {toggle: "tooltip", original_title: "Edit", trigger: "hover", placement: "left"} %>
+        <%= link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_static_page_path(@page), class: "btn btn-xs btn-draw-accented edit-page-btn", data: {toggle: "tooltip", original_title: "Edit", trigger: "hover", placement: "left"} %>
     <% end %>
     <% if @page.title_as_header %>
   		<h1><%= @page.title %></h1>
