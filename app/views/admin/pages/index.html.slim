@@ -28,7 +28,7 @@ table.table.table-striped
           td = page.height
           td = page.width
           td = page.transcriptions.count
-          td = page.visible ? t('yes') : t('no')
+          td = content_tag(:i, '', class: 'fa fa-check') if page.visible
           td 
             = link_to t('view-details'), admin_page_path(page), class: "btn btn-xs btn-primary"
             = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_page_path(page), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
