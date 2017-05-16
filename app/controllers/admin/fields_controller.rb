@@ -9,7 +9,7 @@ module Admin
     def index
       #@fields is the variable containing all instances of the "field.rb" model passed to the field view "index.html.slim" (project_root/fields) and is used to populate the page with information about each field using @fields.each (an iterative loop).
       if current_user && current_user.admin?
-        @fields = Field.all
+        @fields = Field.includes(:page_types, :field_groups).all
         if params[:field_group_id].present?
           @field_group = FieldGroup.find params[:field_group_id]
           @fields = @fields.select{|field| !field.field_groups.include?(@field_group) }

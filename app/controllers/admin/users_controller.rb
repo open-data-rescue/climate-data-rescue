@@ -2,7 +2,7 @@ module Admin
   class UsersController < AdminController
     
     def index
-      @users = User.all
+      @users = User.includes(:transcriptions).order('admin desc, created_at asc')
     end
 
     def show

@@ -1,7 +1,12 @@
 - provide :admin, 'active'
 - provide :pages, 'active'
 
-h3 = @page.title
+h3 
+  = @page.title
+  - if @page.visible
+    span.label.label-success.pull-right style="font-size: 60%;" = t('visible')
+  - else
+    span.label.label-danger.pull-right style="font-size: 60%;" = t('hidden')
 /!show the page image
 p = image_tag @page.image.url(:medium)
 = link_to t('transcribe-this-page'), new_transcription_path(@transcription, :current_page_id => @page)

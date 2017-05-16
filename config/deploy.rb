@@ -1,7 +1,7 @@
 # Change these
 
 
-server '132.216.28.226', port: 22, roles: [:web, :app, :db], primary: true
+server 'citsci.geog.mcgill.ca', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:rsmithlal/ClimateDataRescue.git'
 set :user,            'deployer'
@@ -13,7 +13,7 @@ set :pty,             true
 set :use_sudo,        false
 set :deploy_via,      :remote_cache
 
-set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
+set :ssh_options,     { forward_agent: false, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
 set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord

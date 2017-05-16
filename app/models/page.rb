@@ -1,5 +1,7 @@
 class Page < ActiveRecord::Base
   belongs_to :page_type
+  has_many :field_groups, through: :page_type
+  has_many :fields, through: :field_groups
   has_many :transcriptions, dependent: :destroy
   belongs_to :transcriber, class_name: "User"
   
@@ -134,7 +136,11 @@ class Page < ActiveRecord::Base
     end
   end
   #sets a scope for all transcribable pages to be those that are not done
-  scope :transcribeable, -> { joins({:page_type => :field_groups}).where(done: false).uniq.order("pages.start_date asc, page_types.number asc") }
+  scope :transcribeable, -> { 
+    joins({:page_type => :field_groups}).
+    where(done: false, visible: true, 
+      page_types: { visible: true }
+    ).uniq.order("pages.start_date asc, page_types.number asc") }
 
   scope :unseen, -> (user) {
     if user && user.pages.any?

@@ -7,21 +7,23 @@
       thead
         tr
           th = t('image')
-          th = t('email')
           th = t('user-name')
+          th = t('email')
           th = t('admin')
-          th = t('sign-in-count')
+          th = t('transcriptions')
           th = t('signed-up-on')
+          th = t('sign-in-count')
           td
       tbody
         - @users.each do |user|
           tr
             td = link_to(image_tag((user.avatar.present? ? user.avatar.url(:thumb) : 'default-person.png'), :class => "center-block img-circle", style: 'max-width:50px;'), user_path(user))
-            td = link_to(user.email, "mailto:#{user.email}")
             td = user.display_name
+            td = link_to(user.email, "mailto:#{user.email}")
             td = (user.admin? ? ('<i class="fa fa-star admin-star"></i>').html_safe : nil)
-            td = user.sign_in_count
+            td = user.transcriptions.count
             td = l(user.created_at, format: :long)
+            td = user.sign_in_count
             td 
               = link_to t('view-details'), admin_user_path(user), class: "btn btn-xs btn-primary"
               = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_user_path(user), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
