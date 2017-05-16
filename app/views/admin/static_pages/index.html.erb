@@ -1,8 +1,8 @@
 <% provide(:static_pages, "active") %>
 <% provide(:admin, "active") %>
-<% provide(:title, "Content pages") %>
+<% provide(:title, strip_tags(t('custom-pages'))) %>
 
-<h1>Content Pages</h1>
+<h1><%= t('custom-pages') %></h1>
 <% if @static_pages %>
 
   <table class="table table-striped">
@@ -15,17 +15,15 @@
     </colgroup>
     <thead>
       <th></th>
-      <th>Title</th>
-      <th>Link</th>
-      <th><%= StaticPage.human_attribute_name(:visible) %></th>
+      <th><%= t('page-title') %></th>
+      <th><%= t('path') %></th>
+      <th><%= t('visible') %></th>
       <th></th>
     </thead>
     <tbody>
       <%= render @static_pages %>
     </tbody>
   </table>
-  
-<% else %>
 <% end %>
 
-<%= link_to "New Content Page", new_admin_static_page_path %>
+<%= link_to t('new-custom-page'), new_admin_static_page_path %>
