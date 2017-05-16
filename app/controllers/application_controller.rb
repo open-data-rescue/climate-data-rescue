@@ -17,7 +17,11 @@ class ApplicationController < ActionController::Base
   end
 
   def baseUri_with_lang lang
-    '/' + lang.to_s + '/'
+    if lang
+      '/' + lang.to_s + '/'
+    else
+      baseUri_no_lang
+    end
   end
   
   def ensure_login
@@ -51,12 +55,19 @@ class ApplicationController < ActionController::Base
       basepath
   end
 
-  def url_for_locale_switcher locale, static_page: nil
+  def url_for_locale_switcher lang, static_page: nil
+    url = baseUri_with_lang(lang)
     if static_page.present? && static_page.is_a?(StaticPage)
-      '/' + locale.to_s + static_page.send('slug_' + locale.to_s)
+       unless lang.nil?
+        url += (static_page.send('slug_' + lang.to_s) || static_page.slug)
+       else
+        url += static_page.slug
+       end
     else
-      baseUri_with_lang(locale) + request_path.sub(baseUri, '')
+      url += request_path.sub(baseUri, '')
     end
+
+    url
   end
 
 

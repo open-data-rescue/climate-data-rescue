@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502020626) do
+ActiveRecord::Schema.define(version: 20170512054051) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 20170502020626) do
     t.integer  "ledger_id",   limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "visible",                   default: false
   end
 
   create_table "page_types_field_groups", force: :cascade do |t|
@@ -153,6 +154,7 @@ ActiveRecord::Schema.define(version: 20170502020626) do
     t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
     t.string   "volume",             limit: 255
+    t.boolean  "visible",                        default: true
   end
 
   add_index "pages", ["page_type_id"], name: "index_pages_on_page_type_id", using: :btree
