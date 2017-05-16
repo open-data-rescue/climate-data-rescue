@@ -2,6 +2,8 @@
 require 'i18n/backend/active_record'
 I18n.backend = I18n::Backend::ActiveRecord.new
 
+I18n.available_locales = [:en, :fr]
+
 #
 I18n::Backend::ActiveRecord.send(:include, I18n::Backend::Memoize)
 I18n::Backend::ActiveRecord.send(:include, I18n::Backend::Flatten)

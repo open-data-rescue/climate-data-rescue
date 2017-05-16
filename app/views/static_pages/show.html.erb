@@ -1,25 +1,22 @@
 
-
 <% if @page %>
-	<%= provide :title, @page.title %>
-	<% content_for :head do -%>
-	    <%- if @page.meta_title.present? -%>
-	      <meta name="title" content="<%= @page.meta_title %>">
-	    <%- else -%>
-	      <meta name="title" content="<%= @page.title %>">
-	    <%- end -%>
-	    <meta name="keywords" content="<%= @page.meta_keywords %>">
-	    <meta name="description" content="<%= @page.meta_description %>">
-  	<% end -%>
-  	<% if current_user && current_user.admin? %>
-        <%= link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_static_page_path(@page), class: "btn btn-xs btn-draw-accented edit-page-btn", data: {toggle: "tooltip", original_title: "Edit", trigger: "hover", placement: "left"} %>
-    <% end %>
-    <% if @page.title_as_header %>
-  		<h1><%= @page.title %></h1>
-  	<% end %>
-	<div id="page_content">
-	  <%= @page.body.html_safe %>
-	</div>
-<% else %>
-
+  <%= provide :title, @page.title %>
+  <% content_for :head do -%>
+    <%- if @page.meta_title.present? -%>
+      <meta name="title" content="<%= @page.meta_title %>">
+    <%- else -%>
+      <meta name="title" content="<%= @page.title %>">
+    <%- end -%>
+    <meta name="keywords" content="<%= @page.meta_keywords %>">
+    <meta name="description" content="<%= @page.meta_description %>">
+  <% end -%>
+  <% if current_user && current_user.admin? %>
+      <%= link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_static_page_path(@page), class: "btn btn-xs btn-draw-accented edit-page-btn", data: {toggle: "tooltip", original_title: "Edit", trigger: "hover", placement: "left"} %>
+  <% end %>
+  <% if @page.title_as_header %>
+    <h1><%= @page.title %></h1>
+  <% end %>
+  <div id="page_content">
+    <%= @page.body.html_safe %>
+  </div>
 <% end %>
