@@ -9,9 +9,10 @@
   = f.error_notification
   = f.association :page_type, include_blank: false
   .form-inputs
+    = f.input :visible
     = f.input :title
     = f.input :accession_number
     = f.input :image, as: :file
 
   .form-actions
-    = f.button :submit, strip_tags(t('save').html_safe)
+    = f.button :submit, strip_tags(t('save').html_safe), class: 'btn btn-primary'

@@ -31,7 +31,7 @@ html lang="en"
     .container-fluid.main-wrapper
       .container-fluid.top-nav
         = render 'application/nav'
-      .container.main-app
+      .container-fluid.main-app
         .row
           #message-container.col-md-12
             = render partial: 'application/alerts'
@@ -44,10 +44,10 @@ html lang="en"
                    = yield :large_page_image
           - else
               - if params[:controller] == "home" && params[:action] == "index"
-                .col-sm-10.main-content-container
+                .col-sm-8.col-md-6.main-content-container
                   = yield
               - else
-                .col-sm-10.main-content-container.default
+                .col-sm-10.col-md-8.col-lg-6.main-content-container.default
                   = yield
     
     .container-fluid.footer
@@ -59,12 +59,11 @@ html lang="en"
                 = "Partners"
           .row.voffset30.boffset30.partner-imgs-container
             .col-xs-4
+              = image_tag "partners/McGill_logoT.gif", class: "partner-logo mcgill-logo img-responsive"
+            .col-xs-4
               = image_tag "partners/Geothink_Logo_T2.jpg", class: "partner-logo geothink-logo img-responsive"
             .col-xs-4
               = image_tag "partners/criem.png", class: "partner-logo criem-logo img-responsive"
-            .col-xs-4.p-test
-              = image_tag "partners/McGill_logoT.gif", class: "partner-logo mcgill-logo img-responsive"
-              / img.partner-logo.mcgill-logo src= "#{image_path 'McGill_logoT.gif'}" target="" alt="" align="left"
         .row.voffset20
           = render 'application/footer'
           

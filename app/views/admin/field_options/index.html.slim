@@ -4,35 +4,37 @@
 
 h3 = t('field-values')
 /! List all field_options and their attribute information in a table
-table.table.table-striped
-  thead
-    tr
-      th = t('internal-name')
-      th = t('name')
-      th = t('image')
-      th = t('text-symbol')
-      th = t('display-when-selected')
-      th = t('stored-value')
-      th = t('in-use')
-      th
 
-  tbody
-    - @field_options.each do |field_option|
+.table-responsive
+  table.table.table-striped
+    thead
       tr
-        td = field_option.internal_name
-        td = link_to field_option.name, admin_field_option_path(field_option)
-        td = image_tag(field_option.image.url(:icon)) if field_option.image.present?
-        td = field_option.text_symbol
-        td = field_option.display_attribute
-        td = field_option.value
-        td = field_option.fields.any? ? ('<i class="fa fa-check"></i>').html_safe : nil
-        td 
-          = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_field_option_path(field_option), class: "btn btn-xs btn-danger pull-right", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
-          = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_field_option_path(field_option), class: "btn btn-xs btn-draw-accented pull-right", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
-          = link_to t('view-details'), admin_field_option_path(field_option), class: "btn btn-xs btn-primary pull-right"
-      tr
-        td colspan=5
-          = (field_option.help.present? ? t('help') + ": " + field_option.help : nil)
+        th = t('internal-name')
+        th = t('name')
+        th = t('image')
+        th = t('text-symbol')
+        th = t('display-when-selected')
+        th = t('stored-value')
+        th = t('in-use')
+        th
+
+    tbody
+      - @field_options.each do |field_option|
+        tr
+          td = field_option.internal_name
+          td = link_to field_option.name, admin_field_option_path(field_option)
+          td = image_tag(field_option.image.url(:icon)) if field_option.image.present?
+          td = field_option.text_symbol
+          td = field_option.display_attribute
+          td = field_option.value
+          td = field_option.fields.any? ? ('<i class="fa fa-check"></i>').html_safe : nil
+          td 
+            = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_field_option_path(field_option), class: "btn btn-xs btn-danger pull-right", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_field_option_path(field_option), class: "btn btn-xs btn-draw-accented pull-right", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
+            = link_to t('view-details'), admin_field_option_path(field_option), class: "btn btn-xs btn-primary pull-right"
+        tr
+          td colspan=8
+            = (field_option.help.present? ? t('help') + ": " + field_option.help : nil)
 
 br
 
