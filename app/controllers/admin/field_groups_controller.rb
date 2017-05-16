@@ -11,7 +11,7 @@ module Admin
       
       if current_user && current_user.admin?
         #@field_groups is the variable containing all instances of the "FieldGroup.rb" model passed to the fieldgroup view "index.html.slim" (project_root/fieldgroups) and is used to populate the page with information about each fieldgroup using @field_groups.each (an iterative loop).
-        @field_groups = FieldGroup.all
+        @field_groups = FieldGroup.includes(:page_types).all
         if params[:page_type_id].present?
           @page_type = PageType.find params[:page_type_id]
           @field_groups = @field_groups.select{|field_group| !field_group.page_types.include?(@page_type) }

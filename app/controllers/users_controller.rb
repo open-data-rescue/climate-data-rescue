@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   #All .html.slim views for "user.rb" are located at "project_root\app\views\users"
 
   def my_profile
-    @user = current_user
+    @user = current_user.includes(:transcriptions)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   
   def show
     #@user is a variable containing an instance of the "user.rb" model. It is passed to the user view "show.html.slim" (project_root/users/user_id) and is used to populate the page with information about the user instance.
-    @user = User.find(params[:id])
+    @user = User.find(params[:id]).includes(:transcriptions)
 
     render "my_profile"
   end
