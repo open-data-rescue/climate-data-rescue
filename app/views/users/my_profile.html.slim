@@ -3,12 +3,12 @@
 - provide(:title, "#{@user.display_name}'s profile")
 
 .row
-  .col-md-3
+  .col-md-3.col-lg-2
     - if @user.avatar.present?
       = image_tag @user.avatar.url(:medium), :class => "img-responsive img-circle"
     - else
       = image_tag "default-person.png", :class => "img-responsive img-circle"
-  .col-md-9
+  .col-md-9.col-lg-10
     /! Show user information. Pulled dynamically from the user model instance
     h1 #{@user.display_name}
     p 
