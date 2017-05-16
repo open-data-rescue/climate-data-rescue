@@ -59,12 +59,11 @@ html lang="en"
                 = "Partners"
           .row.voffset30.boffset30.partner-imgs-container
             .col-xs-4
+              = image_tag "partners/McGill_logoT.gif", class: "partner-logo mcgill-logo img-responsive"
+            .col-xs-4
               = image_tag "partners/Geothink_Logo_T2.jpg", class: "partner-logo geothink-logo img-responsive"
             .col-xs-4
               = image_tag "partners/criem.png", class: "partner-logo criem-logo img-responsive"
-            .col-xs-4.p-test
-              = image_tag "partners/McGill_logoT.gif", class: "partner-logo mcgill-logo img-responsive"
-              / img.partner-logo.mcgill-logo src= "#{image_path 'McGill_logoT.gif'}" target="" alt="" align="left"
         .row.voffset20
           = render 'application/footer'
           
