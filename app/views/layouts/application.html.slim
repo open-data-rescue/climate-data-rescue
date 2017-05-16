@@ -44,7 +44,7 @@ html lang="en"
                    = yield :large_page_image
           - else
               - if params[:controller] == "home" && params[:action] == "index"
-                .col-sm-10.main-content-container
+                .col-sm-6.main-content-container
                   = yield
               - else
                 .col-sm-10.main-content-container.default
