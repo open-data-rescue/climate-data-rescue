@@ -8,7 +8,7 @@
       = image_tag @user.avatar.url(:medium), :class => "img-responsive img-circle"
     - else
       = image_tag "default-person.png", :class => "img-responsive img-circle"
-  .col-md-8
+  .col-md-9
     /! Show user information. Pulled dynamically from the user model instance
     h1 #{@user.display_name}
     p 
@@ -21,10 +21,11 @@
     - if @user == current_user || current_user.admin?
       /! if current user is admin or this is their user page, show links to edit the user information
       = link_to t('edit'), edit_user_url(@user)
-  .col-md-1
-    - if @user == current_user
-      = link_to t('logout'), "/logout", class:"btn btn-xs btn-danger pull-right"
+
 - if @user == current_user || (current_user && current_user.admin?)
+  .row.voffset40
+    .col-md-12 
+      = link_to t('transcribe-random-page'), new_transcription_path, class: "btn btn-lg btn-draw-accented pull-left"
   .row.voffset20
     .col-md-12
       h2 = t('my-transcriptions')
@@ -57,8 +58,8 @@
                   = link_to t('view-details'), transcription_path(transcription), class: "btn btn-xs btn-primary"
       - else
         p = t('no-pages-transcribed-yet')
-      div.voffset20 
-        = link_to t('transcribe-random-page'), new_transcription_path, class: "btn btn-lg btn-draw-accented pull-left"
-        = link_to t('view-list-of-pages-to-transcribe'), public_pages_index_path, class: "btn btn-lg btn-primary pull-right"
+  .row.voffset20
+    .col-md-12
+      = link_to t('view-list-of-pages-to-transcribe'), public_pages_index_path, class: "btn btn-primary"
 
 
