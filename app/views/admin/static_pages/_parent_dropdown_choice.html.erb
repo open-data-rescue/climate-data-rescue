@@ -1,0 +1,11 @@
+
+<% level = level || 0 %>
+
+<option value="<%= page.id %>"<%= parent_id && parent_id == page.id ? 'selected' : '' %>>
+  <%= level > 0 ? (('&nbsp;&nbsp;' * level) + '&nbsp;-&nbsp;').html_safe : '' %><%= page.title %>
+</option>
+<% if page.children.any? %>
+  <% page.children.each do |child| %>
+    <%= render 'parent_dropdown_choice', page: child, parent_id: parent_id, level: level + 1 %>
+  <% end %>
+<% end %>

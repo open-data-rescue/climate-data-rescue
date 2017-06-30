@@ -1,7 +1,16 @@
 
-- if @page.present? && @page == page
-  li.active
-    = link_to page.title, page.link, target: (page.is_external? ? "_blank" : "_self"), name: CGI.escape(page.title.downcase)
-- else
-  li
-    = link_to page.title, page.link, target: (page.is_external? ? "_blank" : "_self"), name: CGI.escape(page.title.downcase)
+- top_level = top_level || false
+- nav_class =  top_level ? 'top-level-nav' : ''
+- link_opts = { target: (page.is_external? ? "_blank" : "_self"), name: CGI.escape(page.title.downcase) }
+- if @page == page
+  - nav_class += ' active'
+- if page && page.children.any?
+  - nav_class += ' dropdown-submenu'
+  / - link_opts[:data] = { toggle: 'dropdown' }
+
+li class = nav_class
+  = link_to (page.children.any? && top_level ? (page.title + ' <span class="caret"></span>').html_safe : page.title), page.link, link_opts
+  - if page.children.any?
+    ul.dropdown-menu
+      - page.children.each do |child|
+        = render 'static_pages/link', page: child

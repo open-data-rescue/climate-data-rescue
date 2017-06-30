@@ -51,6 +51,19 @@
             <%= f.input :show_in_sidebar, label: false %>
       </div>
   </div>
+  <div class="row">
+    <div class="col-md-6">
+      <label class="select optional control-label" for="static_page_parent_id">
+        <%= t('parent-page') %>
+      </label>
+      <select name="static_page[parent_id]" id="parent_id_field" class="form-control">
+        <option value=""><%= t('none') %></option>
+        <% StaticPage.top_level.each do |p| %>
+          <%= render 'parent_dropdown_choice', page: p, parent_id: @static_page.parent_id, level: 0 %>
+        <% end %>
+      </select>
+    </div>
+  </div>
 
   <div class="row voffset20">
     <div class="col-md-12">
