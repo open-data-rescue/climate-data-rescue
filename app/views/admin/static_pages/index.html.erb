@@ -5,25 +5,7 @@
 <h1><%= t('custom-pages') %></h1>
 <% if @static_pages %>
 
-  <table class="table table-striped">
-    <colgroup>
-      <col style="width: 10%">
-      <col style="width: 30%">
-      <col style="width: 35%">
-      <col style="width: 10%">
-      <col style="width: 15%">
-    </colgroup>
-    <thead>
-      <th></th>
-      <th><%= t('page-title') %></th>
-      <th><%= t('path') %></th>
-      <th><%= t('visible') %></th>
-      <th></th>
-    </thead>
-    <tbody>
-      <%= render @static_pages %>
-    </tbody>
-  </table>
+  <%= render 'static_page_table', pages: @static_pages %>
 <% end %>
 
 <%= link_to t('new-custom-page'), new_admin_static_page_path %>

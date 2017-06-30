@@ -8,3 +8,11 @@
     <%= link_to ('<i class="fa fa-trash"></i>').html_safe, admin_static_page_path(static_page), class: "btn btn-xs btn-danger", data: {:confirm => 'Are you sure?', toggle: "tooltip", original_title: "Delete", trigger: "hover"}, :method => :delete %>
   </td>
 </tr>
+<% if static_page.children.any? %>
+  <tr>
+    <td><i class="fa fa-arrow-right"></i></td>
+    <td colspan="5" style="padding: 0;">
+      <%= render 'static_page_table', pages: static_page.children %>
+    </td>
+  </tr>
+<% end %>
