@@ -1,0 +1,21 @@
+<table class="table table-striped">
+    <colgroup>
+      <col style="width: 10%">
+      <col style="width: 30%">
+      <col style="width: 35%">
+      <col style="width: 10%">
+      <col style="width: 15%">
+    </colgroup>
+    <% unless pages.first.parent %>
+      <thead>
+        <th></th>
+        <th><%= t('page-title') %></th>
+        <th><%= t('path') %></th>
+        <th><%= t('visible') %></th>
+        <th></th>
+      </thead>
+    <% end %>
+    <tbody>
+      <%= render pages %>
+    </tbody>
+  </table>

@@ -7,8 +7,9 @@ class StaticPage < ActiveRecord::Base
   validates :foreign_link, uniqueness: true, allow_blank: true
 
   scope :visible, -> { where(visible: true) }
-  scope :header_links, -> { where(show_in_header: true).visible }
-  scope :sidebar_links, -> { where(show_in_sidebar: true).visible }
+  scope :top_level, -> { where(parent_id: nil) }
+  scope :header_links, -> { where(show_in_header: true).visible.top_level }
+  scope :sidebar_links, -> { where(show_in_sidebar: true).visible.top_level }
 
   before_save :update_positions_and_slug
 
@@ -16,6 +17,9 @@ class StaticPage < ActiveRecord::Base
              :meta_description, fallbacks_for_empty_translations: true
 
   globalize_accessors
+
+  has_many :children, class_name: 'StaticPage', :dependent => :destroy, foreign_key: :parent_id
+  belongs_to :parent, class_name: 'StaticPage'
 
   def initialize(*args)
     super(*args)
