@@ -57,6 +57,7 @@
         <%= t('parent-page') %>
       </label>
       <select name="static_page[parent_id]" id="parent_id_field" class="form-control">
+        <option value=""><%= t('none') %></option>
         <% StaticPage.top_level.each do |p| %>
           <%= render 'parent_dropdown_choice', page: p, parent_id: @static_page.parent_id, level: 0 %>
         <% end %>
