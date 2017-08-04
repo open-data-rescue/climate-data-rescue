@@ -3,19 +3,15 @@
 - provide(:home, "active")
 - provide(:title, t('home'))
 .container-fluid.homepage-wrapper
-    .row
-        .col-md-12
-            h1.homepage-header.text-center
-                = t('draw-acronym')
-            h2.homepage-subtitle.text-center Data Rescue: Archives and Weather
-
     .row.voffset30
         .col-md-12.homepage-intro
             
             - if StaticPage.find_by(slug: "/homepage-intro").present?
                 = render_snippet("/homepage-intro")
             - else
-                
+                h1.homepage-header.text-center
+                    = t('draw-acronym')
+                h2.homepage-subtitle.text-center Data Rescue: Archives and Weather
                 = t('draw-homepage-intro')
 
     .row.voffset40.boffset20
