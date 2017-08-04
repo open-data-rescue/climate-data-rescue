@@ -16,6 +16,7 @@ h3 = t('field-values')
         th = t('display-when-selected')
         th = t('stored-value')
         th = t('in-use')
+        th = t('admin.percent-translated')
         th
 
     tbody
@@ -28,13 +29,15 @@ h3 = t('field-values')
           td = field_option.display_attribute
           td = field_option.value
           td = field_option.fields.any? ? ('<i class="fa fa-check"></i>').html_safe : nil
-          td 
-            = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_field_option_path(field_option), class: "btn btn-xs btn-danger pull-right", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
-            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_field_option_path(field_option), class: "btn btn-xs btn-draw-accented pull-right", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
-            = link_to t('view-details'), admin_field_option_path(field_option), class: "btn btn-xs btn-primary pull-right"
-        tr
-          td colspan=8
-            = (field_option.help.present? ? t('help') + ": " + field_option.help : nil)
+          td = number_with_precision(field_option.translation_score, precision: 2).to_s + '%'
+          td  
+            = link_to t('view-details'), admin_field_option_path(field_option), class: "btn btn-xs btn-primary"
+            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_field_option_path(field_option), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"}
+            = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_field_option_path(field_option), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+        - if field_option.help.present?
+          tr
+            td colspan=9
+              = t('help') + ": " + field_option.help
 
 br
 

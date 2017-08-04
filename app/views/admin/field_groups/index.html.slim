@@ -11,13 +11,13 @@ h1
   table.table.table-striped
     thead
       tr
-        th Internal Name
-        th Name
-        th Display Name
-        th Colour
-        th Linked Schemas
-        th Linked Fields
-        th
+        th = Field.human_attribute_name(:internal_name)
+        th = Field.human_attribute_name(:name)
+        th = Field.human_attribute_name(:display_name)
+        th = Field.human_attribute_name(:colour_class)
+        th = t('admin.linked-schemas')
+        th = t('admin.linked-fields')
+        th = t('admin.percent-translated')
         th
 
     tbody
@@ -29,12 +29,20 @@ h1
           td = (field_group.colour_class.present? ? field_group.colour_class.sub("-group", "").capitalize : "Not Set")
           td = field_group.page_types.count
           td = field_group.fields.count
-          td = link_to 'Edit', edit_admin_field_group_path(field_group)
-          td = link_to 'Delete', admin_field_group_path(field_group), data: {:confirm => 'Are you sure? User transcriptions for this group will be permanently deleted.'}, :method => :delete
-        tr
-          td colspan=8
-            = "Help: " + (field_group.help ? field_group.help : "")
+          td = number_with_precision(field_group.translation_score, precision: 2).to_s + '%'
+          td 
+            = link_to t('view-details'), admin_field_group_path(field_group), class: "btn btn-xs btn-primary"
+            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_field_group_path(field_group), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
+            = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_field_group_path(field_group), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+
+
+          / td = link_to 'Edit', edit_admin_field_group_path(field_group)
+          / td = link_to 'Delete', admin_field_group_path(field_group), data: {:confirm => 'Are you sure? User transcriptions for this group will be permanently deleted.'}, :method => :delete
+        - if field_group.help.present?
+          tr
+            td colspan=9
+              = "Help: " + field_group.help
 
 br
 
-= link_to 'New Group', new_admin_field_group_path
+= link_to t('admin.new-field-group'), new_admin_field_group_path

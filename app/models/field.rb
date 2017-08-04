@@ -10,9 +10,9 @@ class Field < ActiveRecord::Base
 
   before_destroy :check_for_data_entries
 
-  alias_attribute :full_name, :display_name
+  # alias_attribute :full_name, :display_name
 
-  translates :name, :full_name, :help, fallbacks_for_empty_translations: true
+  translates :name, :full_name, :help, fallbacks_for_empty_translations: true, touch: true
   globalize_accessors
 
   def check_for_data_entries

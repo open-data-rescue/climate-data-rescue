@@ -9,7 +9,7 @@ class FieldGroup < ActiveRecord::Base
 
   before_destroy :check_for_annotations
 
-  translates :name, :display_name, :help, fallbacks_for_empty_translations: true
+  translates :name, :display_name, :help, fallbacks_for_empty_translations: true, touch: true
   globalize_accessors
 
   def check_for_annotations

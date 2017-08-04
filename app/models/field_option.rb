@@ -15,7 +15,7 @@ class FieldOption < ActiveRecord::Base
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
 
-  translates :name, :help, fallbacks_for_empty_translations: true
+  translates :name, :help, fallbacks_for_empty_translations: true, touch: true
   globalize_accessors
 
 end
