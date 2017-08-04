@@ -99,5 +99,11 @@ module DataRescueAtHome
 
     config.action_mailer.default_url_options = { :host => ENV["BASE_URL"] }
 
+    config.after_initialize do
+      Field.send(:include, TranslationHelpers)
+      FieldGroup.send(:include, TranslationHelpers)
+      FieldOption.send(:include, TranslationHelpers)
+    end
+
   end
 end

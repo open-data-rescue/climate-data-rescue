@@ -216,6 +216,9 @@ a {
 }
 
 .annotation-marker {
+  min-width: 110px;
+  min-height: 30px;
+
   border: 1px solid hsla(0, 100%, 0%, 0.3);
   background: hsla(268, 100%, 68%, 0.3);
   z-index: 80;

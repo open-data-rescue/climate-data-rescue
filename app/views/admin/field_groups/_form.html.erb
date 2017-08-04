@@ -1,35 +1,37 @@
-<%= simple_form_for([:admin, @field_group]) do |f| %>
-    <% if @field_group.errors.any? %>
-        <h2><%= pluralize(@field_group.errors.count, "error") %> prohibited this field group from being saved:</h2>
-        <ul>
-            <% @field_group.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-            <% end %>
-        </ul>
-    <% end %>
-    
-    <%= f.error_notification %>
-    
-    <%= f.input :internal_name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-    <%= f.input :name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-    <%= f.input :display_name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-    <%= f.input :help, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-    <%# f.input :description, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, required: false %>
-    <%= f.label "Colour" %>
-    <%= f.select :colour_class, options_for_select({
-        "Red" => "red-group", 
-        "Pink" => "pink-group",
-        "Purple" => "purple-group",
-        "Blue" => "blue-group",
-        "Cyan" => "cyan-group",
-        "Green" => "green-group",
-        "Yellow" => "yellow-group",
-        "Orange" => "orange-group"
-        }, ( @field_group.colour_class.present? ? @field_group.colour_class : "purple-group")), required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+<% Globalize.with_locale(I18n.locale) do %>
+    <%= simple_form_for([:admin, @field_group]) do |f| %>
+        <% if @field_group.errors.any? %>
+            <h2><%= pluralize(@field_group.errors.count, "error") %> prohibited this field group from being saved:</h2>
+            <ul>
+                <% @field_group.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        <% end %>
+        
+        <%= f.error_notification %>
+        
+        <%= f.input :internal_name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        <%= f.input :name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        <%= f.input :display_name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        <%= f.input :help, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        <%# f.input :description, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, required: false %>
+        <%= f.label "Colour" %>
+        <%= f.select :colour_class, options_for_select({
+            "Red" => "red-group", 
+            "Pink" => "pink-group",
+            "Purple" => "purple-group",
+            "Blue" => "blue-group",
+            "Cyan" => "cyan-group",
+            "Green" => "green-group",
+            "Yellow" => "yellow-group",
+            "Orange" => "orange-group"
+            }, ( @field_group.colour_class.present? ? @field_group.colour_class : "purple-group")), required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
 
-    <div class="row">
-        <div class="col-md-12">
-            <%= submit_tag "Save", class: "btn btn-primary" %>
+        <div class="row">
+            <div class="col-md-12">
+                <%= submit_tag "Save", class: "btn btn-primary" %>
+            </div>
         </div>
-    </div>
+    <% end %>
 <% end %>

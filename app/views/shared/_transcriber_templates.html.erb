@@ -18,15 +18,18 @@
 <script type="text/template" id="transcription-toolbar-template">
     <div id="transcription-buttons" class="btn-toolbar" role="toolbar">
         <div class="btn-group" role="group" data-purpose="action buttons">
-            <button id="new-annotation" type="button" class="btn btn-primary">Transcribe</button>
+            <button id="new-annotation" type="button" class="btn btn-primary"><%= t('transcriber.toolbar.open-transcriber') %></button>
         </div>
         <div class="btn-group" role="group" data-purpose="guide and help">
-            <a href="/tutorial" target="tutorial" class="btn btn-default">Instructions</a>
-            <a href="/feedback" target="feedback" class="btn btn-default">Feedback</a>
+            <a href="/<%= I18n.locale.to_s %>/tutorial" target="tutorial" class="btn btn-default"><%= t('transcriber.toolbar.tutorial') %></a>
+            <a href="/<%= I18n.locale.to_s %>/feedback" target="feedback" class="btn btn-default"><%= t('transcriber.toolbar.feedback') %></a>
         </div>
     </div>
+    <div class="text-right">
+        <button id="view-data-btn" class="btn btn-default"><%= t('transcriber.toolbar.view-data') %></button>
+    </div>
     <div id="transcription-form-container">
-        <button id="stop-transcribing" class="btn btn-default pull-right">Stop Transcribing</button>
+        <button id="stop-transcribing" class="btn btn-default pull-right"><%= t('transcriber.toolbar.stop-transcribing') %></button>
     </div>
 
 </script>

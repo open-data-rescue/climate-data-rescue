@@ -358,8 +358,8 @@
 
                             annotation.set("x_tl", position.x);
                             annotation.set("y_tl", position.y);
-                            annotation.set("width", width);
-                            annotation.set("height", height);
+                            annotation.set("width", (width >= 110 ? width : 110));
+                            annotation.set("height", (height >= 30 ? height : 30));
 
                             annotation.save(annotation.attributes, {
                                 success : function(mdl) {
