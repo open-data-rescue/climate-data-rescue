@@ -14,4 +14,8 @@ class FieldOption < ActiveRecord::Base
                   hash_secret: "SECRET"
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
+
+  translates :name, :help, fallbacks_for_empty_translations: true
+  globalize_accessors
+
 end
