@@ -290,9 +290,7 @@
             urlRoot : "/annotations"
         });
 
-        AnnotationCollection = Backbone.Collection.extend({
-            model : Annotation
-        });
+        AnnotationCollection = Backbone.Collection.extend({ model : Annotation });
 
         AnnotationBoxView = Marionette.ItemView.extend({
             template : "#annotation-box-template",
@@ -636,8 +634,8 @@
                         useCurrent: false,
                         sideBySide : true,
                         defaultDate : '<%= ( page.has_metadata? ? (page.page_days.first.date.beginning_of_day + 108.minutes).to_s : (transcription.page.start_date.beginning_of_day + 108.minutes).to_s) %>',
-                        minDate : '<%= ( page.has_metadata? ? page.page_days.first.date.to_s : (transcription.page.start_date.to_s)) %>',
-                        maxDate : '<%= ( page.has_metadata? ? page.page_days.last.date.to_s : (transcription.page.end_date.to_s)) %>',
+                        minDate : '<%= ( page.has_metadata? ? page.page_days.first.date.beginning_of_day.to_s : (transcription.page.start_date.beginning_of_day.to_s)) %>',
+                        maxDate : '<%= ( page.has_metadata? ? page.page_days.last.date.end_of_day.to_s : (transcription.page.end_date.end_of_day.to_s)) %>',
                     });
 
                     $(datetime).on('dp.change', function(e) {
