@@ -20,7 +20,9 @@ class FieldOptionsController < ApplicationController
         search = params[:search] ? params[:search] : nil
 
         if search
-          @field_options = @field.field_options.where(["value like :q or name like :q or help like :q", :q => ("%" + search + "%")])
+          @field_options = @field.field_options.
+          includes(:translations).references(:translations).
+          where(["value like :q or field_option_translations.name like :q or field_option_translations.help like :q", :q => ("%" + search + "%")])
         else
           @field_options = @field.field_options
         end
