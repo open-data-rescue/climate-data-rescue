@@ -698,3 +698,18 @@ ul.dropdown-menu {
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+
+
+a.dropdown-toggle.nav-user-flair {
+  padding-left: 45px;
+  position: relative;
+
+  img.nav-user-photo {
+    width: 30px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    display: block;
+  }
+
+}
