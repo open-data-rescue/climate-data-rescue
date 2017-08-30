@@ -76,9 +76,6 @@
         <% end %>
     </div>
     <% content_for :large_page_image do %>
-        <div class="btn-toolbar">
-            <button class="btn btn default toggle-magnifier-btn"><i class="fa fa-search-plus"></i> Toggle Magnifier</button>
-        </div>
         <%= image_tag @page.image.url(:xlarge), id: "target-img", draggable: true, class: "transcribeable-img", data: { 'magnify-src' => @page.image.url(:original) } %>
     <% end %>
     
@@ -103,9 +100,9 @@
 
             let magnify = toggleMagnifier();
 
-            $('.toggle-magnifier-btn').click(() => {
-                magnify = toggleMagnifier(magnify);
-            });
+            // $('.toggle-magnifier-btn').click(() => {
+            //     magnify = toggleMagnifier(magnify);
+            // });
 
         });
     </script>
