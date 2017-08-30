@@ -75,37 +75,16 @@
             <% end %>
         <% end %>
     </div>
-    <% content_for :large_page_image do %>
-        <%= image_tag @page.image.url(:xlarge), id: "target-img", draggable: true, class: "transcribeable-img", data: { 'magnify-src' => @page.image.url(:original) } %>
-    <% end %>
     
     <script type="text/javascript">
-        const toggleMagnifier = (magnify) => {
-            const $targetImg = $('#target-img');
-            let result = null;
-            if(magnify != void 0) {
-                magnify.destroy();
-            }
-            else {
-                result = $targetImg.magnify();
-            }
-
-            return result;
-        }
-
         $(document).ready(function() {
             $(".toggle-date-override").change(function() {
                 $(this).siblings(".date-override").toggle();
             });
-
-            let magnify = toggleMagnifier();
-
-            // $('.toggle-magnifier-btn').click(() => {
-            //     magnify = toggleMagnifier(magnify);
-            // });
-
         });
     </script>
+
+    <%= render 'pages/large_page_image', page: @page %>
 <% else %>
     <div class="row voffset20">
         <div class="col-md-12">
