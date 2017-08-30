@@ -2,20 +2,20 @@
 <% provide :transcribe, "active" %>
 <% provide :new_transcription, "active" %>
 
-<h2>Start a New Transcription</h2>
+<h2><%= t('new-transcription.header') %></h2>
 <% if @page && @page.page_type && @page.page_type.field_groups.any? %>
     <div class="row">
         <div class="col-md-12">
-            <h4>Page Info</h4>
+            <h4><%= t('new-transcription.page-info') %></h4>
             <ul>
-                <li><%= t('first-day') %>: <%= @page.start_date %></li>
-                <li><%= t('last-day') %>: <%= @page.end_date %></li>
+                <li><%= t('page.first-day') %>: <%= @page.start_date.strftime("%A %b %e, %Y") %></li>
+                <li><%= t('page.last-day') %>: <%= @page.end_date.strftime("%A %b %e, %Y") %></li>
                 <% if @page.has_metadata? %>
                     <li>
                         <ul>
                             <li><strong>Observations per day</strong></li>
                             <% @page.page_days.order("date asc").each do |day| %>
-                                <li>Date: <%= day.date %>, <%= day.num_observations %> observations</li>
+                                <li>Date: <%= day.date.strftime("%A %b %e, %Y") %>, <%= day.num_observations %> observations</li>
                             <% end %>
                         </ul>
                     </li>
