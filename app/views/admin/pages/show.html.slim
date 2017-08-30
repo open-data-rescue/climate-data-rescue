@@ -7,8 +7,7 @@ h3
     span.label.label-success.pull-right style="font-size: 60%;" = t('visible')
   - else
     span.label.label-danger.pull-right style="font-size: 60%;" = t('hidden')
-/!show the page image
-p = image_tag @page.image.url(:medium)
+    
 = link_to t('transcribe-this-page'), new_transcription_path(@transcription, :current_page_id => @page)
 <br />
 <hr />
@@ -37,3 +36,5 @@ div.table-responsive
 = link_to t('delete'), admin_page_path(@page), data: {:confirm => strip_tags(t('are-you-sure'))}, :method => :delete
 '&nbsp|
 = link_to t('view-all-pages'), admin_pages_path
+
+= render 'pages/large_page_image', page: @page

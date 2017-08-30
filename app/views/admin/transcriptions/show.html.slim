@@ -19,7 +19,6 @@
         = t('unique-rows-expected').html_safe
   .col-md-4
     = image_tag @transcription.page.image.url(:small)
-= render 'shared/sample_image', page: @transcription.page, title: t('page')
 = render "shared/transcription_data_table", transcription: @transcription
 
 
@@ -27,3 +26,5 @@
 = link_to t('transcribe'), edit_transcription_path(@transcription)
 '&nbsp|
 = link_to t('back'), admin_transcriptions_path
+
+= render 'pages/large_page_image', page: @transcription.page
