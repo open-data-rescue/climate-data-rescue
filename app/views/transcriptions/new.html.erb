@@ -1,25 +1,15 @@
-<% provide :title, "New Transcription" %>
+<% provide :title, strip_tags(t('new-transcription')) %>
 <% provide :transcribe, "active" %>
 <% provide :new_transcription, "active" %>
 
 <h2>Start a New Transcription</h2>
-<div class="row">
-    <div class="col-xs-2">
-        <%= image_tag (current_user.avatar.present? ? current_user.avatar.url(:thumb) : 'default-person.png'), :class => "img-responsive img-circle" %>
-    </div>
-    <div class="col-xs-10">
-        <h4><%= current_user.display_name.present? ? current_user.display_name : current_user.email %></h4>
-        <p><%= pluralize(@user.num_contributions,"page") %> transcribed</p>
-    </div>
-</div>
 <% if @page && @page.page_type && @page.page_type.field_groups.any? %>
     <div class="row">
         <div class="col-md-12">
             <h4>Page Info</h4>
             <ul>
-                <li>Collection: <%= @page.page_type.title %></li>
-                <li>Start Date: <%= @page.start_date %></li>
-                <li>End Date: <%= @page.end_date %></li>
+                <li><%= t('first-day') %>: <%= @page.start_date %></li>
+                <li><%= t('last-day') %>: <%= @page.end_date %></li>
                 <% if @page.has_metadata? %>
                     <li>
                         <ul>
@@ -44,9 +34,9 @@
                         <%= f.button :submit, "Start Transcribing", class: "btn btn-primary" %>
                     </div>
                 <% end %>
+            </div>
             <div class="col-sm-3">
                 <%= link_to "Skip and try another", new_transcription_path, class: "btn btn-info pull-right"%>
-            </div>
             </div>
         <% else %>
             <div class="col-md-12">
@@ -85,14 +75,9 @@
             <% end %>
         <% end %>
     </div>
-        
-    <!-- <div class="row" style="margin-top: 20px;">
-        <div class="col-md-12"> -->
-            <% content_for :large_page_image do %>
-                <%= image_tag @page.image.url(:xlarge), id: "baseImage", draggable: true, class: "transcribeable-img", data: {original: @page.image.url(:original) } %>
-            <% end %>
-    <!--     </div>
-    </div> -->
+    <% content_for :large_page_image do %>
+        <%= image_tag @page.image.url(:xlarge), id: "target-img", draggable: true, class: "transcribeable-img", data: { 'magnify-src' => @page.image.url(:original) } %>
+    <% end %>
     
     <script type="text/javascript">
         $(document).ready(function() {
