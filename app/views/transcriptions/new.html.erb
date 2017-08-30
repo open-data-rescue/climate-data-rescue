@@ -76,14 +76,37 @@
         <% end %>
     </div>
     <% content_for :large_page_image do %>
+        <div class="btn-toolbar">
+            <button class="btn btn default toggle-magnifier-btn"><i class="fa fa-search-plus"></i> Toggle Magnifier</button>
+        </div>
         <%= image_tag @page.image.url(:xlarge), id: "target-img", draggable: true, class: "transcribeable-img", data: { 'magnify-src' => @page.image.url(:original) } %>
     <% end %>
     
     <script type="text/javascript">
+        const toggleMagnifier = (magnify) => {
+            const $targetImg = $('#target-img');
+            let result = null;
+            if(magnify != void 0) {
+                magnify.destroy();
+            }
+            else {
+                result = $targetImg.magnify();
+            }
+
+            return result;
+        }
+
         $(document).ready(function() {
             $(".toggle-date-override").change(function() {
                 $(this).siblings(".date-override").toggle();
             });
+
+            let magnify = toggleMagnifier();
+
+            $('.toggle-magnifier-btn').click(() => {
+                magnify = toggleMagnifier(magnify);
+            });
+
         });
     </script>
 <% else %>
