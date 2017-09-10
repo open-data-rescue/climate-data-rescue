@@ -42,6 +42,8 @@
 //
 // 
 //= require wickedpicker
+//= require magnify/jquery.magnify
+//= require magnify/jquery.magnify-mobile
 //
 //= require content_images
 //

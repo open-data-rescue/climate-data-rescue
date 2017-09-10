@@ -39,9 +39,6 @@ html lang="en"
           - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index") || (params[:controller] == "pages" && params[:action] == "index")
               .col-sm-12.main-content-container.default
                   = yield
-              - if content_for? :large_page_image
-                .col-sm-12.voffset30.large-page-img-container
-                   = yield :large_page_image
           - else
               - if params[:controller] == "home" && params[:action] == "index"
                 .col-sm-8.col-md-6.main-content-container
@@ -49,6 +46,9 @@ html lang="en"
               - else
                 .col-sm-10.col-md-8.main-content-container.default
                   = yield
+          - if content_for? :large_page_image
+            .col-sm-12.voffset30.large-page-img-container
+               = yield :large_page_image
     
     .container-fluid.footer
       footer

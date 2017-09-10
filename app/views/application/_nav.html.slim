@@ -54,7 +54,11 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
                 - unless Rails.env.production?
                   li target="translator" = link_to t('edit-site-translations'), '/translator'
           li id="user-menu" class="#{yield(:user)} top-level-nav dropdown-submenu"
-            = link_to (current_user.display_name + '&nbsp;<i class="caret"></i>').html_safe, my_profile_path, class: "dropdown-toggle", data: {toggle: "dropdown", trigger: "hover"}, aria_expanded:"false", aria_haspopup:"true"
+            a href=my_profile_path class="nav-user-flair dropdown-toggle" data-toggle="dropdown" data-trigger="hover"
+              = image_tag (current_user.avatar.present? ? current_user.avatar.url(:thumb) : 'default-person.png'), :class => "img-responsive img-circle nav-user-photo"
+              = current_user.display_name
+              i.caret
+            / = link_to (current_user.display_name + '&nbsp;<i class="caret"></i>').html_safe, my_profile_path, class: "dropdown-toggle", data: {toggle: "dropdown", trigger: "hover"}, aria_expanded:"false", aria_haspopup:"true"
             ul.dropdown-menu
               li class="#{yield(:profile)}"= link_to t('my-profile'), my_profile_path
               li = link_to t('log-out'), "/logout"

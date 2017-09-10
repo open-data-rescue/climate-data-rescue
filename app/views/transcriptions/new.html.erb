@@ -1,31 +1,21 @@
-<% provide :title, "New Transcription" %>
+<% provide :title, strip_tags(t('new-transcription')) %>
 <% provide :transcribe, "active" %>
 <% provide :new_transcription, "active" %>
 
-<h2>Start a New Transcription</h2>
-<div class="row">
-    <div class="col-xs-2">
-        <%= image_tag (current_user.avatar.present? ? current_user.avatar.url(:thumb) : 'default-person.png'), :class => "img-responsive img-circle" %>
-    </div>
-    <div class="col-xs-10">
-        <h4><%= current_user.display_name.present? ? current_user.display_name : current_user.email %></h4>
-        <p><%= pluralize(@user.num_contributions,"page") %> transcribed</p>
-    </div>
-</div>
+<h2><%= t('new-transcription.header') %></h2>
 <% if @page && @page.page_type && @page.page_type.field_groups.any? %>
     <div class="row">
         <div class="col-md-12">
-            <h4>Page Info</h4>
+            <h4><%= t('new-transcription.page-info') %></h4>
             <ul>
-                <li>Collection: <%= @page.page_type.title %></li>
-                <li>Start Date: <%= @page.start_date %></li>
-                <li>End Date: <%= @page.end_date %></li>
+                <li><%= t('page.first-day') %>: <%= @page.start_date.strftime("%A %b %e, %Y") %></li>
+                <li><%= t('page.last-day') %>: <%= @page.end_date.strftime("%A %b %e, %Y") %></li>
                 <% if @page.has_metadata? %>
                     <li>
                         <ul>
                             <li><strong>Observations per day</strong></li>
                             <% @page.page_days.order("date asc").each do |day| %>
-                                <li>Date: <%= day.date %>, <%= day.num_observations %> observations</li>
+                                <li>Date: <%= day.date.strftime("%A %b %e, %Y") %>, <%= day.num_observations %> observations</li>
                             <% end %>
                         </ul>
                     </li>
@@ -44,9 +34,9 @@
                         <%= f.button :submit, "Start Transcribing", class: "btn btn-primary" %>
                     </div>
                 <% end %>
+            </div>
             <div class="col-sm-3">
                 <%= link_to "Skip and try another", new_transcription_path, class: "btn btn-info pull-right"%>
-            </div>
             </div>
         <% else %>
             <div class="col-md-12">
@@ -85,14 +75,6 @@
             <% end %>
         <% end %>
     </div>
-        
-    <!-- <div class="row" style="margin-top: 20px;">
-        <div class="col-md-12"> -->
-            <% content_for :large_page_image do %>
-                <%= image_tag @page.image.url(:xlarge), id: "baseImage", draggable: true, class: "transcribeable-img", data: {original: @page.image.url(:original) } %>
-            <% end %>
-    <!--     </div>
-    </div> -->
     
     <script type="text/javascript">
         $(document).ready(function() {
@@ -101,6 +83,8 @@
             });
         });
     </script>
+
+    <%= render 'pages/large_page_image', page: @page %>
 <% else %>
     <div class="row voffset20">
         <div class="col-md-12">
