@@ -34,7 +34,7 @@ class Page < ActiveRecord::Base
   end
   
   def has_metadata?
-    self.page_days.any? && self.page_days.count == ((self.end_date - self.start_date).to_i + 1)
+    self.page_days.any?
   end
 
   def num_rows_expected
