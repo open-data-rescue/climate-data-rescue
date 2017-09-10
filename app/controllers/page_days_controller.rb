@@ -6,7 +6,7 @@ class PageDaysController < ApplicationController
           @page = Page.find params[:page_id]
           user_id = params[:user_id]
           
-          if @page
+          if @page && !@page.has_metadata?
             days = params[:days]
             
             days.each do |key, value|
@@ -15,10 +15,8 @@ class PageDaysController < ApplicationController
           end
           
           @transcription = nil
-          if @page.has_metadata?
+          if @page && @page.has_metadata?
             @transcription = Transcription.create!(page_id: @page.id, user_id: user_id)
-            @page.transcriber_id = user_id
-            @page.save!
           end
           
         rescue => e
@@ -26,11 +24,13 @@ class PageDaysController < ApplicationController
         end
       end
           
-      if @transcription && @transcription.id
+      if @transcription
         redirect_to edit_transcription_path(@transcription)
-      else
-        flash[:danger] = "Transcription could not be started. Please try starting it on your own."
+      elsif @page
+        flash[:danger] = I18n.t('errors.something-went-wrong')
         redirect_to transcribe_page_url(:current_page_id => @page.id)
+      else
+        redirect_to :back
       end
     end
   end
