@@ -34,7 +34,7 @@ h1 = t('transcriptions')
           td = l(transcription.updated_at, format: :short)
           td = link_to(transcription.user.name, user_path(transcription.user))
           td 
-            = link_to t('transcribe'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
+            = link_to t('edit-transcription'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
             = link_to t('view-details'), admin_transcription_path(transcription), class: "btn btn-xs btn-primary"
             /= link_to ('<i class="fa fa-trash"></i>').html_safe, admin_transcriptions_path(transcription), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
 
