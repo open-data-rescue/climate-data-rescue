@@ -1,6 +1,7 @@
 class AnnotationsController < ApplicationController
   #load_and_authorize_resource
   respond_to :json
+  before_action :ensure_current_user
   
   #Corresponds to the "Annotation" model, Annotation.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the Annotation model
   # All .html.slim views for "annotation.rb" are located at "project_root\app\views\annotations"

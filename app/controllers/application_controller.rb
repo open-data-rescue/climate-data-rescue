@@ -23,15 +23,6 @@ class ApplicationController < ActionController::Base
       baseUri_no_lang
     end
   end
-  
-  def ensure_login
-      redirect_to "/login", alert: 'Login required' unless current_user
-  end
-  
-  #function to restrict access of a page to admins only
-  def authorize_admin
-    redirect_to root_path, alert: 'Access Denied' unless current_user && current_user.admin?
-  end
 
   def set_locale
       def_locale = http_accept_language.compatible_language_from(I18n.available_locales)
@@ -88,5 +79,11 @@ class ApplicationController < ActionController::Base
   #   end
   # end
 
-  
+  protected
+  def ensure_current_user
+    unless current_user
+      flash[:alert] = I18n.t('login-required-error-msg')
+      redirect_to new_user_session_path
+    end
+  end
 end

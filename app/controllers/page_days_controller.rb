@@ -1,4 +1,6 @@
 class PageDaysController < ApplicationController
+  before_action :ensure_current_user
+  
   def create
     if params[:page_id]
       Page.transaction do

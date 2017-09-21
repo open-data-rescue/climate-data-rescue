@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   #load_and_authorize_resource
   respond_to :html, :json, :js
+  before_action :ensure_current_user
   #Corresponds to the "user" model, user.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the user model
   #All .html.slim views for "user.rb" are located at "project_root\app\views\users"
 
@@ -24,27 +25,26 @@ class UsersController < ApplicationController
   end
 
   def update
+    User.transaction do
+      begin
+        #@user is a variable containing an instance of the "user.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
+        @user = User.find(params[:id])
+        @user.update_attributes(users_params)
+        
+      rescue => e
+        flash[:danger] = e.message
+      end
+    end
     
-      User.transaction do
-        begin
-          #@user is a variable containing an instance of the "user.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
-          @user = User.find(params[:id])
-          @user.update_attributes(users_params)
-          
-        rescue => e
-          flash[:danger] = e.message
-        end
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, success: 'User was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
-      
-      respond_to do |format|
-        if @user.save
-          format.html { redirect_to @user, success: 'User was successfully updated.' }
-          format.json { head :no_content }
-        else
-          format.html { render action: "edit" }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
-      end
+    end
   end
 
   def dismiss_box_tutorial

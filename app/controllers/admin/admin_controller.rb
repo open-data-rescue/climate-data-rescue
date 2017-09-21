@@ -2,11 +2,6 @@ module Admin
   class AdminController < ApplicationController
     before_action :ensure_admin
 
-
-
-
-
-
     protected
     def ensure_admin
       unless current_user && current_user.admin?

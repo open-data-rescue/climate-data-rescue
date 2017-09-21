@@ -1,5 +1,6 @@
 class FieldOptionsController < ApplicationController
   respond_to :json
+  before_action :ensure_current_user
 
   def index
     begin

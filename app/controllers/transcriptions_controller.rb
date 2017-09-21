@@ -1,6 +1,7 @@
 class TranscriptionsController < ApplicationController
   #load_and_authorize_resource
   respond_to :html, :json, :js
+  before_action :ensure_current_user
   layout 'layouts/transcriber', :only => [:edit]
   #Corresponds to the "transcription" model, transcription.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the transcription model
   #All .html.slim views for "transcription.rb" are located at "project_root\app\views\transcriptions"
@@ -88,7 +89,6 @@ class TranscriptionsController < ApplicationController
           # created with data passed in the params of the "new.html.slim" form submit action.
           @transcription = nil
           @transcription = Transcription.create!(transcription_params)
-          @transcription.page.transcriber_id = transcription_params[:user_id]
           @transcription.page.save!
         rescue => e
           flash[:danger] = e.message
