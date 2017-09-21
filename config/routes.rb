@@ -33,8 +33,6 @@ DataRescueAtHome::Application.routes.draw do
     post 'add_field_groups_to_page_type' => "field_groups#add_to_page_type", as: "add_field_group_to_page_type"
     post 'remove_field_groups_from_page_type' => "field_groups#remove_from_page_type", as: "remove_field_group_from_page_type"
     post 'field_groups/update_sort_order' => "field_groups#update_sort_order", as: "update_field_group_sort_order"
-
-
   end
 
   root :to => "home#index"
