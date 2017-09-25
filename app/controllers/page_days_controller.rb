@@ -6,19 +6,18 @@ class PageDaysController < ApplicationController
       Page.transaction do
         begin
           @page = Page.find params[:page_id]
-          user_id = params[:user_id]
           
           if @page && !@page.has_metadata?
             days = params[:days]
             
             days.each do |key, value|
-              @page.page_days.create!(date: value["date"], num_observations: value["num_observations"], user_id: user_id)
+              @page.page_days.create!(date: value["date"], num_observations: value["num_observations"], user_id: current_user.id)
             end
           end
           
           @transcription = nil
           if @page && @page.has_metadata?
-            @transcription = Transcription.create!(page_id: @page.id, user_id: user_id)
+            @transcription = Transcription.create!(page_id: @page.id, user_id: current_user.id)
           end
           
         rescue => e
