@@ -5,8 +5,6 @@ class TranscriptionsController < ApplicationController
   layout 'layouts/transcriber', :only => [:edit]
   #Corresponds to the "transcription" model, transcription.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the transcription model
   #All .html.slim views for "transcription.rb" are located at "project_root\app\views\transcriptions"
-  
-  before_action :ensure_login
 
   def my_transcriptions
     if current_user
