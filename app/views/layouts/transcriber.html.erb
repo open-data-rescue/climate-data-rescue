@@ -34,6 +34,11 @@
 
     </head>
     <body>
+        <div class="container">
+            <div class="row col-md-12" id="message-container">
+                <%= render partial: 'application/alerts' %>
+            </div>
+        </div>
         <%= yield %>
 
         <% #render partial: "transcription_js" %>

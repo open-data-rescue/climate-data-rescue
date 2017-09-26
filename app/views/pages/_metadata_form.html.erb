@@ -1,0 +1,60 @@
+
+<% create_transcription = create_transcription || nil %>
+<% submit_btn_text = submit_btn_text || t('page-metadata.form.labels.submit-btn') %>
+
+<% days = page.has_metadata? ? page.page_days.order(:date) : (page.start_date..page.end_date) %>
+
+<%= form_tag baseUri + (page.has_metadata? ? '/page-metadata/update' : "/page-metadata/create"), method: "post" do %>
+  <%= hidden_field_tag "create_transcription", create_transcription %>
+  <%= hidden_field_tag "page_id", page.id %>
+  <div class="row">
+    <% days.each_with_index do |day, index| %>
+      <% index += 1 %>
+      <div class="col-md-4">
+        <% if day.is_a?(PageDay) %>
+          <%= hidden_field_tag "days[#{index}][id]", day.id %>
+        <% end %>
+        <h4><%= t('page-metadata.headers.day-number', number: index) %></h4>
+        <div class="date-container">
+          <div><label for="days[#{index}][date]"><%= t('page-metadata.form.labels.date') %></label></div>
+          <div class="datetime-group">
+              <%= text_field_tag "days[#{index}][date]", (day.is_a?(PageDay) ? day.date : day).strftime("%Y-%m-%d"), required: true, class: "form-control page-date" %>
+          </div>
+        </div>
+        <div class="observations-container voffset20">
+          <div><label for="days[#{index}][num_observations]"><%= t('page-metadata.form.labels.num-observations') %></label></div>
+          <div>
+            <%= select_tag "days[#{index}][num_observations]", options_for_select(0..10, (day.is_a?(PageDay) ? day.num_observations : nil)), required: true, prompt: strip_tags(t('page-metadata.form.placeholders.num-observations')), class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="row voffset20">
+    <div class="form-actions col-sm-12">
+      <%= button_tag submit_btn_text.html_safe, class: "btn btn-primary pull-right", type:"submit" %>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+
+      // TODO: Make sure the picker loads with the field date as the viewDate
+      $('input.page-date').datetimepicker({
+        widgetPositioning : {
+          vertical : "top"
+        },
+        format : "MMMM DD YYYY",
+        extraFormats: [ 'YYYY-MM-DD', 'MMMM DD YYYY', 'MM-DD-YYYY' ],
+        useStrict: true,
+      });
+    });
+
+    // $('input.page-date').each(function (idx) { 
+    //   console.log($(this));
+    //   if (!($(this).data("DateTimePicker") === void 0)) {
+    //     $(this).data("DateTimePicker").viewDate($(this).val());
+    //   }
+    // });
+</script>

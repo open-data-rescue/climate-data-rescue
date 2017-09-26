@@ -26,10 +26,15 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
             / li class="#{yield(:weather_logs)}" = link_to t('all-pages'), public_pages_index_path
 
       ul.nav.navbar-nav.navbar-right
-        / li#test-msg
-          a
+       li#test-msg
+        a
+          - if Rails.env.production? || Rails.env.development?
+            span.label.label-warning
+            i.fa.fa-exclamation-triangle
+              = t('app.messages.under-construction')
+          - else
             span.label.label-danger
-              = "Testing"
+              = "Test Environment"
         - if user_signed_in?
           - if current_user.admin?
             li id="admin-menu" class="#{yield(:admin)} top-level-nav dropdown-submenu"
@@ -37,8 +42,6 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
                 = t('admin') + ' '
                 span.caret
               ul.dropdown-menu
-                / li class="#{yield(:ledgers)}" = link_to t('ledgers'), ledgers_path
-                / li class="#{yield(:annotations)}" = link_to t('annotations'), annotations_path
                 li class="#{yield(:pages)}" = link_to t('pages'), admin_pages_path
                 li class="#{yield(:transcriptions)}" = link_to t('transcriptions'), admin_transcriptions_path
                 li role="separator" class="divider"
@@ -51,7 +54,7 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
                 li class="#{yield(:content_images)}" = link_to t('content-images'), admin_content_images_path
                 li role="separator" class="divider"
                 li class="#{yield(:users)}" = link_to t('users'), admin_users_path
-                - unless Rails.env.production?
+                - unless current_user && current_user.admin?
                   li target="translator" = link_to t('edit-site-translations'), '/translator'
           li id="user-menu" class="#{yield(:user)} top-level-nav dropdown-submenu"
             a href=my_profile_path class="nav-user-flair dropdown-toggle" data-toggle="dropdown" data-trigger="hover"

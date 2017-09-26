@@ -63,6 +63,11 @@ DataRescueAtHome::Application.routes.draw do
 
   post 'create_page_metadata' => "page_days#create"
 
+  scope path: 'page-metadata' do
+    post 'create' => 'page_days#create'
+    post 'update' => 'page_days#update'
+  end
+
   resources :static_pages
   constraints(StaticPage) do
     get ':locale/(*path)', to: 'static_pages#show', as: 'static'
