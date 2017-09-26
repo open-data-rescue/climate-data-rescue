@@ -8,6 +8,15 @@ html lang="en"
       = content_for?(:title) ? yield(:title) + " | " : ''
       = "DRAW - Data Rescue: Archives and Weather"
     = csrf_meta_tags
+    - if Rails.env.production?
+      <!-- Global Site Tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106824244-1"></script>
+      javascript:
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)};
+        gtag('js', new Date());
+        gtag('config', 'UA-106824244-1');
+
     = stylesheet_link_tag "application", :media => "all"
     /!= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     

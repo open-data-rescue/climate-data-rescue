@@ -31,6 +31,10 @@ div.table-responsive
         td = @page.width
         td = @page.accession_number
 
+
+.voffset20
+  = render 'pages/metadata_form', page: @page, submit_btn_text: t('page-metadata.form.labels.update-btn')
+
 = link_to t('edit'), edit_admin_page_path(@page)
 '&nbsp|
 = link_to t('delete'), admin_page_path(@page), data: {:confirm => strip_tags(t('are-you-sure'))}, :method => :delete
