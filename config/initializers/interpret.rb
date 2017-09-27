@@ -10,6 +10,6 @@ if (Object.const_get(:Interpret).is_a?(Class) rescue false)
     # config.admin = "interpret_admin?" # Add interpret_admin? to user object to say whether they can admin the translations
     # Also have roles of Editor and Admin ...???
     # Interpret.live_edit = true
-    config.registered_envs = [:development, :staging]
+    config.registered_envs = [:development, :staging, :production]
   end
 end
