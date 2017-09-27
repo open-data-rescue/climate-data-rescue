@@ -76,10 +76,7 @@ DataRescueAtHome::Application.routes.draw do
   authenticate :user, lambda { |u| u.admin? } do
     # mount Sidekiq::Web => '/sidekiq'
 
-    # We should only do this in staging and dev
-    if Rails.env.development? || Rails.env.staging?
-      mount Interpret::Engine => "/translator"
-    end
+    mount Interpret::Engine => "/translator"
   end
 
   devise_scope :user do
