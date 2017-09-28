@@ -4,7 +4,7 @@ module Admin
     respond_to :html, :json
 
     def index
-      @static_pages = StaticPage.all
+      @static_pages = StaticPage.top_level
     end
 
     def new
