@@ -1,8 +1,8 @@
 <div class="nav navbar navbar-default draw-footer-nav-container">
-    <% if StaticPage.sidebar_links.any? %>
+    <% if StaticPage.footer_links.any? %>
         <div class="footer-nav-wrapper">
             <ul class="nav navbar-nav footer-nav footer-nav-collapse">
-                <% StaticPage.sidebar_links.each do |sp| %>
+                <% StaticPage.footer_links.each do |sp| %>
                     <%= render "static_pages/link", page: sp, top_level: true %>
                 <% end %>
             </ul>

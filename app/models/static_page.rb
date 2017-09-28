@@ -9,7 +9,8 @@ class StaticPage < ActiveRecord::Base
   scope :visible, -> { where(visible: true) }
   scope :top_level, -> { where(parent_id: nil) }
   scope :header_links, -> { where(show_in_header: true).visible.top_level }
-  scope :sidebar_links, -> { where(show_in_sidebar: true).visible.top_level }
+  scope :footer_links, -> { where(show_in_footer: true).visible.top_level }
+  scope :transcriber_links, -> { where(show_in_transcriber: true).visible.top_level }
 
   before_save :update_positions_and_slug
 

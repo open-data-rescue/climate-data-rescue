@@ -339,4 +339,13 @@
     width: 205px !important;
 }
 
+#transcriber-toolbar {
+  li.transcriber-btn-li {
+    margin-right: 15px;
+  }
 
+  .navbar-nav > li > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}

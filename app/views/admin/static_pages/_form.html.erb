@@ -37,22 +37,26 @@
       </div>
   </div> -->
 
-  <div class="row switches-container">
-      <div class="col-md-3">
-            <%= f.input :visible, label: false %>
-      </div>
-      <div class="col-md-3">
-            <%= f.input :title_as_header, label: false %>
-      </div>
-        <div class="col-md-3">
-            <%= f.input :show_in_header, label: false %>
-      </div>
-      <div class="col-md-3">
-            <%= f.input :show_in_sidebar, label: false %>
-      </div>
-  </div>
   <div class="row">
-    <div class="col-md-6">
+      <div class="col-sm-4">
+      <%= f.input :show_in_header %>
+    </div>
+    <div class="col-sm-4">
+      <%= f.input :show_in_footer %>
+    </div>
+    <div class="col-sm-4">
+      <%= f.input :show_in_transcriber %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <%= f.input :visible %>
+    </div>
+    <div class="col-sm-4">
+      <%= f.input :title_as_header %>
+    </div>
+    <div class="col-sm-4">
       <label class="select optional control-label" for="static_page_parent_id">
         <%= t('parent-page') %>
       </label>
@@ -131,40 +135,40 @@
             };
         });
 
-        $("#static_page_visible").bootstrapSwitch({
-            size : "small",
-            onText : "is visible",
-            offText : "Hidden",
-            labelText : "<b>Page</b>",
-            onColor : "success",
-            offColor : "danger",
-            inverse : true
-        });
-        $("#static_page_title_as_header").bootstrapSwitch({
-            size : "small",
-            onText : "is Title",
-            offText : "Title is not",
-            labelText : "<b>Page Header</b>",
-            onColor : "success",
-            offColor : "danger",
-            inverse : true
-        });
-        $("#static_page_show_in_header").bootstrapSwitch({
-            size : "small",
-            onText : "Show in",
-            offText : "hidden",
-            labelText : "<b>Top Nav</b>",
-            onColor : "success",
-            offColor : "danger"
-        });
-        $("#static_page_show_in_sidebar").bootstrapSwitch({
-            size : "small",
-            onText : "Show in",
-            offText : "hidden",
-            labelText : "<b>Footer</b>",
-            onColor : "success",
-            offColor : "danger"
-        });
+        // $("#static_page_visible").bootstrapSwitch({
+        //     size : "small",
+        //     onText : "is visible",
+        //     offText : "Hidden",
+        //     labelText : "<b>Page</b>",
+        //     onColor : "success",
+        //     offColor : "danger",
+        //     inverse : true
+        // });
+        // $("#static_page_title_as_header").bootstrapSwitch({
+        //     size : "small",
+        //     onText : "is Title",
+        //     offText : "Title is not",
+        //     labelText : "<b>Page Header</b>",
+        //     onColor : "success",
+        //     offColor : "danger",
+        //     inverse : true
+        // });
+        // $("#static_page_show_in_header").bootstrapSwitch({
+        //     size : "small",
+        //     onText : "Show in",
+        //     offText : "hidden",
+        //     labelText : "<b>Top Nav</b>",
+        //     onColor : "success",
+        //     offColor : "danger"
+        // });
+        // $("#static_page_show_in_sidebar").bootstrapSwitch({
+        //     size : "small",
+        //     onText : "Show in",
+        //     offText : "hidden",
+        //     labelText : "<b>Footer</b>",
+        //     onColor : "success",
+        //     offColor : "danger"
+        // });
         
     });
 </script>

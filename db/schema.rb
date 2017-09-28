@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170512054051) do
+ActiveRecord::Schema.define(version: 20170928031559) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -26,6 +26,19 @@ ActiveRecord::Schema.define(version: 20170512054051) do
     t.integer  "field_group_id",   limit: 4
     t.datetime "observation_date"
   end
+
+  create_table "blogit_posts", force: :cascade do |t|
+    t.string   "title",          limit: 255,                     null: false
+    t.text     "body",           limit: 65535,                   null: false
+    t.string   "state",          limit: 255,   default: "draft", null: false
+    t.integer  "comments_count", limit: 4,     default: 0,       null: false
+    t.integer  "blogger_id",     limit: 4
+    t.string   "blogger_type",   limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "blogit_posts", ["blogger_type", "blogger_id"], name: "index_blogit_posts_on_blogger_type_and_blogger_id", using: :btree
 
   create_table "content_images", force: :cascade do |t|
     t.string   "image_file_name",    limit: 255
@@ -47,13 +60,23 @@ ActiveRecord::Schema.define(version: 20170512054051) do
     t.string  "field_options_ids", limit: 255
   end
 
+  create_table "field_group_translations", force: :cascade do |t|
+    t.integer  "field_group_id", limit: 4,     null: false
+    t.string   "locale",         limit: 255,   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "name",           limit: 255
+    t.string   "display_name",   limit: 255
+    t.text     "help",           limit: 65535
+  end
+
+  add_index "field_group_translations", ["field_group_id"], name: "index_field_group_translations_on_field_group_id", using: :btree
+  add_index "field_group_translations", ["locale"], name: "index_field_group_translations_on_locale", using: :btree
+
   create_table "field_groups", force: :cascade do |t|
-    t.string   "name",          limit: 255
     t.string   "description",   limit: 255
-    t.string   "help",          limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "display_name",  limit: 255
     t.string   "colour_class",  limit: 255, default: "", null: false
     t.string   "internal_name", limit: 255
   end
@@ -67,18 +90,28 @@ ActiveRecord::Schema.define(version: 20170512054051) do
   add_index "field_groups_fields", ["field_group_id"], name: "index_field_groups_fields_on_field_group_id", using: :btree
   add_index "field_groups_fields", ["field_id"], name: "index_field_groups_fields_on_field_id", using: :btree
 
+  create_table "field_option_translations", force: :cascade do |t|
+    t.integer  "field_option_id", limit: 4,     null: false
+    t.string   "locale",          limit: 255,   null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "name",            limit: 255
+    t.text     "help",            limit: 65535
+  end
+
+  add_index "field_option_translations", ["field_option_id"], name: "index_field_option_translations_on_field_option_id", using: :btree
+  add_index "field_option_translations", ["locale"], name: "index_field_option_translations_on_locale", using: :btree
+
   create_table "field_options", force: :cascade do |t|
-    t.string   "name",               limit: 255
     t.string   "image_file_name",    limit: 255
     t.string   "image_content_type", limit: 255
     t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
-    t.text     "help",               limit: 65535
     t.string   "value",              limit: 255
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.string   "text_symbol",        limit: 255
-    t.string   "display_attribute",  limit: 255,   default: "name"
+    t.string   "display_attribute",  limit: 255, default: "name"
     t.string   "internal_name",      limit: 255
   end
 
@@ -91,16 +124,26 @@ ActiveRecord::Schema.define(version: 20170512054051) do
   add_index "field_options_fields", ["field_id"], name: "index_field_options_fields_on_field_id", using: :btree
   add_index "field_options_fields", ["field_option_id"], name: "index_field_options_fields_on_field_option_id", using: :btree
 
+  create_table "field_translations", force: :cascade do |t|
+    t.integer  "field_id",   limit: 4,     null: false
+    t.string   "locale",     limit: 255,   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "name",       limit: 255
+    t.string   "full_name",  limit: 255
+    t.text     "help",       limit: 65535
+  end
+
+  add_index "field_translations", ["field_id"], name: "index_field_translations_on_field_id", using: :btree
+  add_index "field_translations", ["locale"], name: "index_field_translations_on_locale", using: :btree
+
   create_table "fields", force: :cascade do |t|
-    t.string   "name",            limit: 255
     t.string   "field_key",       limit: 255
     t.string   "html_field_type", limit: 255
     t.string   "data_type",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "full_name",       limit: 255
-    t.text     "help",            limit: 65535
-    t.boolean  "multi_select",                  default: false
+    t.boolean  "multi_select",                default: false
     t.string   "internal_name",   limit: 255
   end
 
@@ -176,14 +219,16 @@ ActiveRecord::Schema.define(version: 20170512054051) do
   add_index "static_page_translations", ["static_page_id"], name: "index_static_page_translations_on_static_page_id", using: :btree
 
   create_table "static_pages", force: :cascade do |t|
-    t.boolean  "show_in_header",              default: false, null: false
-    t.boolean  "show_in_sidebar",             default: false, null: false
-    t.boolean  "visible",                     default: true,  null: false
-    t.string   "foreign_link",    limit: 255
-    t.integer  "position",        limit: 4,   default: 1,     null: false
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.boolean  "title_as_header",             default: true
+    t.boolean  "show_in_header",                  default: false, null: false
+    t.boolean  "show_in_footer",                  default: false, null: false
+    t.boolean  "visible",                         default: true,  null: false
+    t.string   "foreign_link",        limit: 255
+    t.integer  "position",            limit: 4,   default: 1,     null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.boolean  "title_as_header",                 default: true
+    t.integer  "parent_id",           limit: 4
+    t.boolean  "show_in_transcriber",             default: false
   end
 
   create_table "transcriptions", force: :cascade do |t|

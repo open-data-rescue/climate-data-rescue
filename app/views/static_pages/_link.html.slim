@@ -1,7 +1,8 @@
 
 - top_level = top_level || false
 - nav_class =  top_level ? 'top-level-nav' : ''
-- link_opts = { target: (page.is_external? ? "_blank" : "_self"), name: CGI.escape(page.title.downcase) }
+- opens_new_tab = opens_new_tab || false
+- link_opts = { target: (page.is_external? || opens_new_tab ? "_blank" : "_self"), name: CGI.escape(page.title.downcase) }
 - if @page == page
   - nav_class += ' active'
 - if page && page.children.any?
@@ -13,4 +14,4 @@ li class = nav_class
   - if page.children.any?
     ul.dropdown-menu
       - page.children.each do |child|
-        = render 'static_pages/link', page: child
+        = render 'static_pages/link', page: child, opens_new_tab: opens_new_tab
