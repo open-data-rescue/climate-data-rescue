@@ -10,7 +10,10 @@ class FieldOptionsController < ApplicationController
         @field_options = @field_options.select{|fo| !fo.fields.include?(@field) }
       end
     rescue => e
-      flash[:danger] = e.message
+      Rails.logger.error e.message
+      Rails.logger.error e.backtrace.join('\n\t')
+
+      render json: { status: :bad_request, text: e.message}
     end
   end
 
@@ -28,10 +31,14 @@ class FieldOptionsController < ApplicationController
           @field_options = @field.field_options
         end
       end
+      render "index"
+      
     rescue => e
-      flash[:danger] = e.message
+      Rails.logger.error e.message
+      Rails.logger.error e.backtrace.join('\n\t')
+
+      render json: { status: :bad_request, text: e.message}
     end
 
-    render "index"
   end
 end

@@ -195,7 +195,7 @@
                         this.$el.kinetic("scrollTop", this.options.scrollTop);
                     };
 
-                    if (this.$el.find(".adjust-position-btn.adjusting").length > 0) {
+                    if (this.$(".adjust-position-btn.adjusting").length > 0) {
                         this.stopPositioning();
                     };
                 },
@@ -204,19 +204,19 @@
             },
 
             positionImage : function() {
-                $btn = this.$el.find(".adjust-position-btn");
+                $btn = this.$(".adjust-position-btn");
                 $btn.html("Stop Repositioning").addClass("adjusting btn-primary").removeClass("btn-default");
 
-                this.$el.find(".action-msg").addClass("visible");
+                this.$(".action-msg").addClass("visible");
 
                 this.$el.kinetic("attach");
             },
 
             stopPositioning : function() {
-                $btn = this.$el.find(".adjust-position-btn.adjusting");
+                $btn = this.$(".adjust-position-btn.adjusting");
                 $btn.html("Reposition Image").removeClass("adjusting btn-primary").addClass("btn-default");
 
-                this.$el.find(".action-msg").removeClass("visible");
+                this.$(".action-msg").removeClass("visible");
 
                 this.$el.kinetic("detach");
             },
@@ -464,14 +464,14 @@
             },
 
             setMsg : function(msg) {
-                $msgContainer = this.$el.find(".annotation-msg");
+                $msgContainer = this.$(".annotation-msg");
                 $msgContainer.html(msg);
 
                 return $msgContainer;
             },
 
             clearMsg : function(msg) {
-                $msgContainer = this.$el.find(".annotation-msg");
+                $msgContainer = this.$(".annotation-msg");
                 $msgContainer.html("");
 
                 return $msgContainer;
@@ -494,8 +494,8 @@
 
                     pageCanvas.$el.append(this.$el);
 
-                    this.$el.find('[data-toggle="popover"]').popover();
-                    this.$el.find('[data-toggle="tooltip"]').tooltip();
+                    this.$('[data-toggle="popover"]').popover();
+                    this.$('[data-toggle="tooltip"]').tooltip();
                 };
             }
         });
@@ -565,58 +565,58 @@
                 }
             },
 
-            defaultFieldOptions : [
-                { id: "empty", text: "Empty/Blank"},
-                { id: "illegible", text: "Illegible"},
-                { id: "retracted", text: "Retracted / Line through"}
-            ],
+            defaultFieldOptions : <%= render_default_field_options_select2 %>,
 
             formatSelection : function (data, container) {
                 // console.log(data);
-                var res = "<span>";
+                var res = "<div>";
                 var $element = $(data.element);
 
                 var displayAttribute = data.display_attribute;
-                if (typeof(displayAttribute) == "undefined" && !(typeof($element.data("display-attribute")) == "undefined") ) {
+                if (displayAttribute === void 0 && !($element.data("display-attribute") === void 0) ) {
                     displayAttribute = $element.data("display-attribute");
                     // console.info(displayAttribute);
                     // console.info("data undefined");
                 };
-                var iconUrl = data.icon_url;
-                if (typeof(iconUrl == "undefined") && !(typeof($element.data("icon-url")) == "undefined") ) {
-                    iconUrl = $element.data("icon-url");
-                    // console.info("data undefined");
-                };
-                var textSymbol = data.text_symbol;
-                if (typeof(textSymbol) == "undefined" && !(typeof($element.data("text-symbol")) == "undefined") ) {
-                    textSymbol = $element.data("text-symbol");
-                    // console.info("data undefined");
-                };
-                var name = data.text;
-                if ((typeof(name) == "undefined" || name == "undefined") && !(typeof($element.data("name")) == "undefined") ) {
-                    name = $element.data("name");
-                    // console.info("data undefined");
-                };
 
-                if (displayAttribute) {
-                    if (displayAttribute == "icon") {
-                        res += ("<img src='" + iconUrl + "' />");
-                        // console.info("icon");
-                    } else if (displayAttribute == "symbol") {
-                        res += textSymbol;
-                        // console.info("symbol");
-                    } else {
-                        res += name;
-                        // console.info("name");
-                    }
-                } else {
+                if (displayAttribute === void 0) {
                     res += data.text;
-                    // console.info("text");
-                };
+                }
+                else {
+                    var iconUrl = data.icon_url;
+                    if (typeof(iconUrl == "undefined") && !(typeof($element.data("icon-url")) == "undefined") ) {
+                        iconUrl = $element.data("icon-url");
+                        // console.info("data undefined");
+                    };
+                    var textSymbol = data.text_symbol;
+                    if (typeof(textSymbol) == "undefined" && !(typeof($element.data("text-symbol")) == "undefined") ) {
+                        textSymbol = $element.data("text-symbol");
+                        // console.info("data undefined");
+                    };
+                    var name = data.text;
+                    if ((typeof(name) == "undefined" || name == "undefined") && !(typeof($element.data("name")) == "undefined") ) {
+                        name = $element.data("name");
+                        // console.info("data undefined");
+                    };
 
-                res += "</span>";
+                    if (displayAttribute) {
+                        if (displayAttribute == "icon") {
+                            res += ("<img src='" + iconUrl + "' />");
+                            // console.info("icon");
+                        } else if (displayAttribute == "symbol") {
+                            res += textSymbol;
+                            // console.info("symbol");
+                        } else {
+                            res += name;
+                            // console.info("name");
+                        }
+                    }
+                }
 
-                return $(res);
+                res += "</div>";
+                // console.log(data, container, res)
+
+                return res;
             },
 
             initializeFields : function() {
@@ -624,7 +624,7 @@
                 // Set up plugins for input fields
 
                 // Time Fields
-                _.each(this.$el.find('.datetime-group'), function(datetime) {
+                _.each(this.$('.datetime-group'), function(datetime) {
                     $(datetime).datetimepicker({
                         widgetParent : $(datetime).parents(".scribe_input_field"),
                         widgetPositioning : {
@@ -647,151 +647,160 @@
                     };
                 });
 
+                var commonSelect2Configs = {
+                    dropdownCssClass : 'wide-select2-dropdown',
+                    forceAbove : true,
+                    theme : "bootstrap",
+                    templateResult : function(obj, container) {
+                        // console.info("template result");
+                        // console.log(obj);
+                        result = "<span>";
+                        if (obj.icon_url && obj.icon_url.length > 0){
+                            result += ("<img src='" + obj.icon_url + "' />" + "&nbsp;");
+                        };
+                        if (obj.text_symbol && obj.text_symbol.length > 0){
+                            result += (obj.text_symbol + "&nbsp;-&nbsp;");
+                        };
+                        result += (obj.text + "</span>");
+
+                        return $(result);
+                    },
+                    templateSelection : self.formatSelection,
+                    // allowClear: true,
+                    tags: true,
+                    escapeMarkup: function (markup) { return markup; },
+                };
+
+                function processFieldOptionResults(_data, params) {
+                    res = [];
+                    // console.info("ajax");
+                    // console.log(_data);
+                    _.each(_data, function(option) {
+                        // console.log(option);
+                        opt = $.extend({}, {
+                                id : option.id,
+                                text : option.name,
+                                title : option.name,
+                                icon_url: option.icon_url,
+                                text_symbol: option.text_symbol,
+                                display_attribute: option.display_attribute,
+                                is_field_option: true,
+                            });
+
+                        res.push(opt);
+                    });
+                    res = self.defaultFieldOptions.concat(res);
+                    var data = {
+                        results: res
+                    };
+                    return data;
+                }
+
+                function updateFieldOptionIds() {
+                    var $this = $(this);
+                    var $optionIdsInput = $this.siblings(".selected-option-ids");
+                    $optionIdsInput.val('');
+
+                    var value = '';
+                    var data = $this.select2('data');
+
+                    _.each(data, function(option, idx) {
+                        if (option.is_field_option === true) {
+                            if (idx != 0) {
+                                value += ',';
+                            }
+                            value += option.id;
+                        }
+                    });
+
+                    $optionIdsInput.val(value);
+                    // console.log(value);
+
+                };
+
                 // Selectable Fields
-                _.each(this.$el.find(".observation-input.selectable"), function(field) {
+                _.each(this.$(".observation-input.selectable"), function(field) {
                     $field = $(field);
+                    // console.log($field);
 
-                    if ($field.data("field-options")) {
+                    var select2Config = {};
 
-                        $field.select2({
-                            dropdownCssClass : 'wide-select2-dropdown',
-                            forceAbove : true,
-                            theme : "bootstrap",
-                            createTag: function(params) {
-                                return undefined;
+                    if ($field.data("multiple") === true) {
+                        select2Config = _.extend(
+                            select2Config,
+                            commonSelect2Configs,
+                            {
+                                createTag: function(params) {
+                                    return undefined;
+                                },
+                                tokenSeparators: [','],
+                                placeholder: 'select',
                             },
-                            tokenSeparators: [','],
-                            placeholder: 'select',
-                            current : function(element,callback) {
-                                // console.log("select2 initialized for " + $field.data("field-id"));
-                                $.ajax({
+                        );
+                    } else {
+                        select2Config = _.extend(
+                            select2Config,
+                            commonSelect2Configs,
+                            {
+                                placeholder: 'type',
+                                data : self.defaultFieldOptions,
+                                selectOnClose : true,
+                            }
+                        );
+
+                        // if ($field.data('fieldOptions') === false) {
+                        //     select2Config = _.extend(
+                        //         select2Config,
+                        //         {
+                        //             // createSearchChoice: function(term, data) {
+                        //             //     console.log(term, data);
+                        //             //   if ( $(data).filter( function() {
+                        //             //     return this.text.toLowerCase() === term.toLowerCase(); //even if the this.text is undefined it works
+                        //             //   }).length===0) {
+                        //             //     return {id:term, text:term};
+                        //             //   };
+                        //             // },
+                        //         }
+                        //     );
+                        // }
+
+                    };
+
+                    if ($field.data('fieldOptions') === true) {
+                        select2Config = _.extend(
+                            select2Config,
+                            {
+                                current : function(element,callback) {
+                                    // console.log('current ajax callback initiated')
+                                    // console.log("select2 initialized for " + $field.data("field-id"));
+                                    $.ajax({
+                                        url : "/field_options_for_field/" + $field.data("field-id"),
+                                        dataType : "json",
+                                        success : processFieldOptionResults,
+                                        error : function(response) {
+                                            console.log(response, "failed to get options for " + $field.data("field-id"));
+                                        }
+                                    });
+                                },
+                                ajax : {
                                     url : "/field_options_for_field/" + $field.data("field-id"),
                                     dataType : "json",
-                                    success : function(data, status) {
-                                        var opts = [];
-                                        // console.info("current");
-                                        // console.log(data);
-
-                                        _.each(data, function(option, key, list) {
-                                            // console.warning(option);
-                                            opts.push({
-                                                id : option.id,
-                                                text : option.name,
-                                                title : option.name,
-                                                icon_url: option.icon_url,
-                                                text_symbol: option.text_symbol,
-                                                display_attribute: option.display_attribute
-                                            });
-                                        });
-                                        opts = opts.concat(self.defaultFieldOptions);
-                                        callback(opts);
+                                    data : function(params) {
+                                        return { search : params.term };
                                     },
+                                    processResults : processFieldOptionResults,
                                     error : function(response) {
-                                        console.log("failed to get options for " + $field.data("field-id"));
+                                        console.log(response, "failed to get search options for " + $field.data("field-id"));
                                     }
-                                });
-                            },
-
-                            templateResult : function(obj, container) {
-                                // console.info("template result");
-                                // console.log(obj);
-                                result = "<span>";
-                                if (obj.icon_url && obj.icon_url.length > 0){
-                                    result += ("<img src='" + obj.icon_url + "' />" + "&nbsp;");
-                                };
-                                if (obj.text_symbol && obj.text_symbol.length > 0){
-                                    result += (obj.text_symbol + "&nbsp;-&nbsp;");
-                                };
-                                result += (obj.text + "</span>");
-
-                                return $(result);
-                            },
-
-                            templateSelection : self.formatSelection,
-
-                            ajax : {
-                                url : "/field_options_for_field/" + $field.data("field-id"),
-                                dataType : "json",
-                                data : function(params) {
-                                    return { search : params.term };
-                                },
-                                processResults : function(_data, params) {
-                                    res = [];
-                                    // console.info("ajax");
-                                    // console.log(_data);
-                                    _.each(_data, function(option) {
-                                        opt = $.extend({}, {
-                                                id : option.id,
-                                                text : option.name,
-                                                title : option.name,
-                                                icon_url: option.icon_url,
-                                                text_symbol: option.text_symbol,
-                                                display_attribute: option.display_attribute
-                                            });
-
-                                        res.push(opt);
-                                    });
-                                    res = res.concat(self.defaultFieldOptions);
-                                    var data = {
-                                        results: res
-                                    };
-                                    return data;
-                                },
-                                error : function(response) {
-                                    console.log("failed to get search options for " + $field.data("field-id"));
                                 }
                             }
-                        });
-                        
-                        // if ($field.data('field-options')){
-                        $field.on("select2:select", function() {
-                            var $this = $(this);
-                            var value = '';
-                            if ($field.data('multiple')) {
-                                value = $this.val().join(',');
-                            } else {
-                                value = $this.val();
-                            };
-                            $optionIdsInput = $this.siblings(".selected-option-ids");
-                            $optionIdsInput.val(value);
-                            // console.log($this.val());
-                            // console.log($optionIdsInput);
+                        );
+                    }
+                    
+                    $field.select2(select2Config);
+                    updateFieldOptionIds.call($field);
 
-                        }).on("select2:unselect", function(e) {
-                            // console.log(e);
-                            var $this = $(this);
-                            var value = '';
-                            if ($field.data('multiple')) {
-                                value = $this.val().join(',');
-                            } else {
-                                value = $this.val();
-                            };
-                            $optionIdsInput = $this.siblings(".selected-option-ids");
-                            $optionIdsInput.val(value);
-                            // console.log($this.val());
-                            // console.log($optionIdsInput);
-                        });
-                        // };
-
-                    } else {
-                        $field.select2({
-                            dropdownCssClass : 'wide-select2-dropdown',
-                            theme : "bootstrap",
-                            multiple: false,
-                            tags: true,
-                            tokenSeparators: [','],
-                            placeholder: 'type',
-                            data : self.defaultFieldOptions,
-                            createSearchChoice:function(term, data) {
-                              if ( $(data).filter( function() {
-                                return this.text.toLowerCase() === term.toLowerCase(); //even if the this.text is undefined it works
-                              }).length===0) {
-                                return {id:term, text:term};
-                              };
-                            },
-                            selectOnClose : true
-                        });
-                    };
+                    $field.on("select2:select select2:unselect", updateFieldOptionIds);
                 });
 
 
@@ -799,7 +808,7 @@
 
             updateAnnotation : function(annotation) {
                 self = this;
-                $form = this.$el.find("form");
+                $form = this.$("form");
                 $form.on("ajax:success", function(e, status, data, xhr) {
                     // console.log(e);
                     // console.log(data);
@@ -873,17 +882,17 @@
                 // // set field values from response
                 _.each(fields, function(field){
                   // console.log(field);
-
-                  value = field.value;
-                  $inputField = $form.find(".scribe_input_field[data-field-id=" + field.id +"]");
-                  $select = $inputField.find("select");
+                  var value = field.value;
+                  var $inputField = $form.find(".scribe_input_field[data-field-id=" + field.id +"]");
+                  var $select = $inputField.find("select");
                   // console.log($select);
 
-                  if (field.has_options && field.selected_options) {
-                      $select.find("option.user-option, option:selected").remove();
+                  if (field.selected_options) {
+                      $select.find("option.user-option").remove();
                       $select.trigger("change");
                       for (var i = 0; i < field.selected_options.length; i++) {
                           var option = field.selected_options[i];
+                          // console.log(option);
                           var $option = $("<option class='user-option' selected></option>").val(option.id).html(self.formatSelection(option));
 
                           // For custom tag template
@@ -891,26 +900,29 @@
                           $option.attr("data-icon-url", option.icon_url);
                           $option.attr("data-text-symbol", option.text_symbol);
                           $option.attr("data-name", option.name);
-
                           $select.append($option).trigger("change");
                       }
-                      optionIds = [];
-                      $optionIdsInput = $inputField.find(".selected-option-ids");
+                      var optionIds = [];
+                      var $optionIdsInput = $inputField.find(".selected-option-ids");
 
                       _.each(field.selected_options, function(option) {
-                          optionIds.push(option.id);
+                          var $existing = $select.find('option[value="' + option.id + '"]');
+                          if ($existing.length == 0) {
+                              optionIds.push(option.id);
+                          } else {
+                            $existing.prop('selected', true)
+                          }
                       });
-
                       $optionIdsInput.val(optionIds);
                   } else if ($select.length > 0) {
                       $select.find("option.user-option").remove();
-                       if (value == "empty" || value == "illegible") {
-                          $select.val(value).trigger("change");
-                       } else {
+                       // if (value == "empty" || value == "illegible") {
+                          // $select.val(value).trigger("change");
+                       // } else {
                           var $option = $("<option class='user-option' selected></option>").val(value).text(value);
                           // console.log($option);
                           $select.append($option).trigger("change");
-                       };
+                       // };
                   } else {
                       $inputField.val(value).trigger("change");
                       // console.log(value);
@@ -1008,8 +1020,8 @@
 
                 this.initializeFields();
 
-                this.$el.find('[data-toggle="popover"]').popover();
-                this.$el.find('[data-toggle="tooltip"]').tooltip();
+                this.$('[data-toggle="popover"]').popover();
+                this.$('[data-toggle="tooltip"]').tooltip();
 
                 if (this.model) {
                     this.editAnnotation(this.model);

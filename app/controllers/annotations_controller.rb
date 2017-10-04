@@ -9,23 +9,71 @@ class AnnotationsController < ApplicationController
   # GET /annotations.json
   def index
     #@annotations is the variable containing all instances of the "annotation.rb" model passed to the annotation view "index.html.slim" (project_root/annotations) and is used to populate the page with information about each annotation using @annotations.each (an iterative loop).
+    begin
     if params[:transcription_id]
-      @annotations = Transcription.find(params[:transcription_id]).annotations
+      @annotations = Transcription.find(params[:transcription_id]).annotations.includes(
+          { :field_group => [
+              { :fields => [:translations, :field_options] },
+              :translations 
+            ] },
+          
+          :data_entries
+        ).references(
+          { :field_group => [
+              { :fields => [:translations, :field_options] },
+              :translations 
+            ] },
+          
+          :data_entries
+        )
     else
-      @annotations = Annotation.all
+      @annotations = Annotation.includes(
+        { :field_group => [
+            { :fields => [:translations, :field_options] },
+            :translations 
+          ] },
+        
+        :data_entries
+      ).references(
+          { :field_group => [
+              { :fields => [:translations, :field_options] },
+              :translations 
+            ] },
+          
+          :data_entries
+        ).all
     end
 
     respond_to do |format|
       format.html # index.html.slim
       format.json 
     end
+  rescue => ex
+    Rails.logger.error ex.message
+    Rails.logger.error ex.backtrace.join('\n\t')
+    render json: {status: :bad_request, text: ex.message}
+  end
   end
 
   # GET /annotations/annotation_id
   # GET /annotations/annotation_id.json
   def show
     #@annotation is a variable containing an instance of the "annotation.rb" model. It is passed to the annotation view "show.html.slim" (project_root/annotations/annotation_id) and is used to populate the page with information about the annotation instance.
-    @annotation = Annotation.find(params[:id])
+    @annotation = Annotation.includes(
+      { :field_group => [
+          { :fields => [:translations, :field_options] },
+          :translations 
+        ] },
+      
+      :data_entries
+    ).references(
+      { :field_group => [
+          { :fields => [:translations, :field_options] },
+          :translations 
+        ] },
+      
+      :data_entries
+    ).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.slim
@@ -47,7 +95,22 @@ class AnnotationsController < ApplicationController
   # GET /annotations/annotation_id/edit
   def edit
     #@annotation is a variable containing an instance of the "annotation.rb" model. It is passed to the annotation view "edit.html.slim" (project_root/annotations/edit) and is used to populate the page with information about the annotation instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent annotation instance.
-    @annotation = Annotation.find(params[:id])
+    @annotation = Annotation.includes(
+      { :field_group => [
+          { :fields => [:translations, :field_options] },
+          :translations 
+        ] },
+      
+      :data_entries
+    ).references(
+      { :field_group => [
+          { :fields => [:translations, :field_options] },
+          :translations 
+        ] },
+      
+      :data_entries
+    ).find(params[:id])
+
     respond_to do |format|
       format.html # new.html.slim
       format.json# { render json: @annotation }

@@ -18,4 +18,7 @@ class FieldOption < ActiveRecord::Base
   translates :name, :help, fallbacks_for_empty_translations: true, touch: true
   globalize_accessors
 
+  def self.only_defaults
+    where(is_default: true)
+  end
 end

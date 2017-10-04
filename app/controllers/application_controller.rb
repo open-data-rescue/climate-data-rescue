@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
         url += static_page.slug
        end
     else
-      url += request_path.sub(baseUri, '')
+      url = request_path.sub(baseUri, '') + url
     end
 
     url

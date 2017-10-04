@@ -45,29 +45,22 @@ module Admin
     end
 
     def create
-      if current_user && current_user.admin?
-        
-        FieldOption.transaction do
-          begin
-            #@field_Option is a variable containing an instance of the "FieldOption.rb" model created with data passed in the params of the "new.html.slim" form submit action.
-            @field_option = FieldOption.create!(field_option_params)
-            # if params[:image].present?
-            #   @field_option.image = params[:image]
-            # end
-            
-            # @field_option.save!
-          rescue => e
-            flash[:danger] = e.message
-          end
+      FieldOption.transaction do
+        begin
+          #@field_Option is a variable containing an instance of the "FieldOption.rb" model created with data passed in the params of the "new.html.slim" form submit action.
+          @field_option = FieldOption.create!(field_option_params)
+          # if params[:image].present?
+          #   @field_option.image = params[:image]
+          # end
+          
+          # @field_option.save!
+        rescue => e
+          flash[:danger] = e.message
         end
-        respond_to do |format|
-          format.json
-          format.html { redirect_to admin_field_options_path }
-        end
-
-      else
-        flash[:danger] = 'Only users can modify fieldOptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
-        redirect_to root_path
+      end
+      respond_to do |format|
+        format.json
+        format.html { redirect_to admin_field_options_path }
       end
     end
 
@@ -83,7 +76,10 @@ module Admin
 
           FieldOptionsField.create!(field_option_id: params[:field_option_id], field_id: params[:field_id])
         rescue => e
-          flash[:danger] = e.message
+          Rails.logger.error e.message
+          Rails.logger.error e.backtrace.join('\n\t')
+
+          render json: { status: :bad_request, text: e.message}
         end
 
         # render json: {}
@@ -98,7 +94,10 @@ module Admin
           @fof = FieldOptionsField.find_by(field_option_id: params[:field_option_id], field_id: params[:field_id])
           @fof.destroy if @fof
         rescue => e
-          flash[:danger] = e.message
+          Rails.logger.error e.message
+          Rails.logger.error e.backtrace.join('\n\t')
+
+          render json: { status: :bad_request, text: e.message}
         end
 
         # render json: {}
@@ -116,7 +115,10 @@ module Admin
             @fof.save
           end
         rescue => e
-          flash[:danger] = e.message
+          Rails.logger.error e.message
+          Rails.logger.error e.backtrace.join('\n\t')
+
+          render json: { status: :bad_request, text: e.message}
         end
 
         # render json: {}
@@ -128,10 +130,13 @@ module Admin
         @field_options = FieldOption.all
         if params[:field_id].present?
           @field = Field.find params[:field_id]
-          @field_options = @field_options.select{|fo| !fo.fields.include?(@field) }
+          @field_options = @field_options.where(is_default: false).select{|fo| !fo.fields.include?(@field) }
         end
       rescue => e
-        flash[:danger] = e.message
+        Rails.logger.error e.message
+        Rails.logger.error e.backtrace.join('\n\t')
+
+        render json: { status: :bad_request, text: e.message}
       end
     end
 
@@ -148,7 +153,10 @@ module Admin
           end
         end
       rescue => e
-        flash[:danger] = e.message
+        Rails.logger.error e.message
+        Rails.logger.error e.backtrace.join('\n\t')
+
+        render json: { status: :bad_request, text: e.message}
       end
 
       render "index"
