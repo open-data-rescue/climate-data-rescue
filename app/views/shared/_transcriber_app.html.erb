@@ -18,6 +18,32 @@
         return $innerWrapper;
     };
 
+    function updateFieldOptionIds(e) {
+        var $this = $(this);
+        // console.log($this.attr('id'));
+        var $optionIdsInput = $this.siblings(".selected-option-ids");
+        $optionIdsInput.val('');
+
+        var value = '';
+        var data = $this.select2('data');
+        // console.log(data);
+
+        _.each(data, function(option, idx) {
+            var $element = $(option.element);
+            // console.log(option);
+            if (option.is_field_option === true || $element.data('isFieldOption') === true) {
+                if (idx != 0) {
+                    value += ',';
+                }
+                value += option.id;
+            }
+        });
+
+        $optionIdsInput.val(value);
+        // console.log('updated field option ids:', value);
+
+    };
+
 
     TranscriberApp = new Marionette.Application();
 
@@ -696,31 +722,11 @@
                     return data;
                 }
 
-                function updateFieldOptionIds() {
-                    var $this = $(this);
-                    var $optionIdsInput = $this.siblings(".selected-option-ids");
-                    $optionIdsInput.val('');
-
-                    var value = '';
-                    var data = $this.select2('data');
-
-                    _.each(data, function(option, idx) {
-                        if (option.is_field_option === true) {
-                            if (idx != 0) {
-                                value += ',';
-                            }
-                            value += option.id;
-                        }
-                    });
-
-                    $optionIdsInput.val(value);
-                    // console.log(value);
-
-                };
-
                 // Selectable Fields
                 _.each(this.$(".observation-input.selectable"), function(field) {
                     $field = $(field);
+
+                    $field.on("change", updateFieldOptionIds);
                     // console.log($field);
 
                     var select2Config = {};
@@ -798,9 +804,6 @@
                     }
                     
                     $field.select2(select2Config);
-                    updateFieldOptionIds.call($field);
-
-                    $field.on("select2:select select2:unselect", updateFieldOptionIds);
                 });
 
 
@@ -883,8 +886,8 @@
                 _.each(fields, function(field){
                   // console.log(field);
                   var value = field.value;
-                  var $inputField = $form.find(".scribe_input_field[data-field-id=" + field.id +"]");
-                  var $select = $inputField.find("select");
+                  var $fieldContainer = $form.find(".scribe_input_field[data-field-id=" + field.id +"]");
+                  var $select = $fieldContainer.find("select");
                   // console.log($select);
 
                   if (field.selected_options) {
@@ -900,31 +903,28 @@
                           $option.attr("data-icon-url", option.icon_url);
                           $option.attr("data-text-symbol", option.text_symbol);
                           $option.attr("data-name", option.name);
+                          $option.attr("data-is-field-option", true);
                           $select.append($option).trigger("change");
                       }
-                      var optionIds = [];
-                      var $optionIdsInput = $inputField.find(".selected-option-ids");
+                      // var optionIds = [];
+                      // var $optionIdsInput = $fieldContainer.find(".selected-option-ids");
 
-                      _.each(field.selected_options, function(option) {
-                          var $existing = $select.find('option[value="' + option.id + '"]');
-                          if ($existing.length == 0) {
-                              optionIds.push(option.id);
-                          } else {
-                            $existing.prop('selected', true)
-                          }
-                      });
-                      $optionIdsInput.val(optionIds);
+                      // _.each(field.selected_options, function(option) {
+                      //     var $existing = $select.find('option[value="' + option.id + '"]');
+                      //     if ($existing.length == 0) {
+                      //         optionIds.push(option.id);
+                      //     } else {
+                      //       $existing.prop('selected', true)
+                      //     }
+                      // });
+                      // $optionIdsInput.val(optionIds);
                   } else if ($select.length > 0) {
+                      console.log('field has no selected options', $select);
                       $select.find("option.user-option").remove();
-                       // if (value == "empty" || value == "illegible") {
-                          // $select.val(value).trigger("change");
-                       // } else {
-                          var $option = $("<option class='user-option' selected></option>").val(value).text(value);
-                          // console.log($option);
-                          $select.append($option).trigger("change");
-                       // };
+                      var $option = $("<option class='user-option' selected></option>").val(value).text(value);
+                      $select.append($option).trigger("change");
                   } else {
-                      $inputField.val(value).trigger("change");
+                      $select.val(value).trigger("change");
                       // console.log(value);
                   };
                   

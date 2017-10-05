@@ -25,15 +25,20 @@ if annotation
                 json.name field.name
                 json.value (entry ? entry.value : nil )
                 json.has_options field.field_options.any?
-                if entry && entry.field_options_ids
-                    selected_options = []
-                    selected_options = entry.field_options_ids.split(",").collect{|id| FieldOption.find(id)}
+                if entry
+                    if entry.field_options_ids.present?
+                        selected_options = []
+                        selected_options = FieldOption.where(id: entry.field_options_ids.split(','))
+                        Rails.logger.info selected_options.to_a.to_s
 
-                    json.selected_options do
-                        json.array! selected_options do |option|
-                            json.partial! "field_options/field_option", field_option: option
+                        json.selected_options do
+                            json.array! selected_options do |option|
+                                json.partial! "field_options/field_option", field_option: option
+                            end
                         end
                     end
+
+                    json.data_entry entry
                 end
             end
         end

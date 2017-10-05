@@ -142,14 +142,14 @@ class AnnotationsController < ApplicationController
           date_time_id: annotation_params[:observation_date],
           observation_date: DateTime.parse(annotation_params[:observation_date])
         )
-        Rails.logger.info DateTime.parse(annotation_params[:observation_date])
+        # Rails.logger.info DateTime.parse(annotation_params[:observation_date])
 
         if data && data.length > 0
           data.each do |key, value|
             entry_value = value[:value]
 
-            if entry_value.class == Array
-              entry_value = value_for_option_ids entry_value
+            if value[:selected_option_ids].present?
+              entry_value = value_for_option_ids value[:selected_option_ids]
             end
 
             @annotation.data_entries.build(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type], value: entry_value, field_options_ids: (value[:selected_option_ids].present? ? value[:selected_option_ids] : nil))
@@ -180,12 +180,12 @@ class AnnotationsController < ApplicationController
     Annotation.transaction do
       begin
 
-        @annotation = Annotation.find(params[:id])
+        @annotation = Annotation.includes(:data_entries).references(:data_entries).find(params[:id])
         meta = params[:annotation][:meta]
         data = params[:annotation][:data]
         
         if meta && data
-          Rails.logger.info "Updating with meta and data"
+          # Rails.logger.info "Updating with meta and data"
           
           @annotation.update(
             x_tl: meta[:x_tl], 
@@ -200,8 +200,8 @@ class AnnotationsController < ApplicationController
             data.each do |key, value|
               entry_value = value[:value]
 
-              if entry_value.class == Array
-                entry_value = value_for_option_ids entry_value
+              if value[:selected_option_ids].present?
+                entry_value = value_for_option_ids value[:selected_option_ids]
               end
 
               datum = @annotation.data_entries.find_or_create_by(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type])
@@ -211,7 +211,7 @@ class AnnotationsController < ApplicationController
             end
           end
         else
-          Rails.logger.info "Updating with backbone attributes"
+          # Rails.logger.info "Updating with backbone attributes"
           @annotation.update(backbone_annotation_params.merge(observation_date: DateTime.parse(annotation_params[:observation_date])))
         end
 
@@ -245,7 +245,11 @@ class AnnotationsController < ApplicationController
   private
   def value_for_option_ids ids
     value = ""
-    value = ids.collect{|id| FieldOption.find(id).value}.join(" ") if ids.any?
+    if ids.is_a?(String)
+      ids = ids.split(',')
+    end
+    options = FieldOption.where(id: ids)
+    value = options.map{|option| option.value}.join(" ") if options.any?
 
     value
   end
