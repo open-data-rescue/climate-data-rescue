@@ -1,7 +1,12 @@
 module FieldOptionsHelper
   def render_default_field_options_select2
+    render_field_options_select2(FieldOption.only_defaults)
+  end
+
+  def render_field_options_select2(options = [], select_all: false, default_value: 'empty')
     res = []
-    FieldOption.only_defaults.each_with_index do |option, idx|
+    options.each_with_index do |option, idx|
+      selected = select_all || (option.value == default_value)
       res << {
         'id' => option.id,
         'text' => option.name,

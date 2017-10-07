@@ -65,14 +65,14 @@
         var defaultFieldOptions = [
             {
                 id: null,
-                text: 'Statuses',
+                text: '<%= t('transcriber.field-options.group-labels.statuses').html_safe %>',
                 children: <%= render_default_field_options_select2 %>,
             }
         ];
 
         var commonSelect2Configs = {
             placeholder: 'type',
-            dropdownCssClass : 'wide-select2-dropdown',
+            dropdownCssClass : 'field-options-dropdown',
             forceAbove : true,
             theme : "bootstrap",
             templateResult : function(obj, container) {
@@ -93,6 +93,7 @@
             // allowClear: true,
             tags: true,
             escapeMarkup: function (markup) { return markup; },
+            data: defaultFieldOptions,
         };
 
 
@@ -101,17 +102,22 @@
             opts = opts.concat(defaultFieldOptions);
             var res = {
                 id: null,
-                text: 'Values',
+                text: '<%= t('transcriber.field-options.group-labels.values') %>',
                 children: [],
             };
             // console.info("ajax");
             // console.log(_data);
             _.each(_data, function(option) {
                 // console.log(option);
-                opt = $.extend({}, {
+                var title = option.name;
+                if (option.help && option.help.length > 0) {
+                    title = option.help;
+                }
+
+                var opt = $.extend({}, {
                         id : option.id,
                         text : option.name,
-                        title : option.name,
+                        title : title,
                         icon_url: option.icon_url,
                         text_symbol: option.text_symbol,
                         display_attribute: option.display_attribute,
@@ -120,6 +126,14 @@
 
                 res.children.push(opt);
             });
+
+            if (res.children.length === 0) {
+                res.children.push({
+                    id: null,
+                    text: '<%= t('transcriber.field-options.no-matches').html_safe %>',
+                });
+            }
+
             opts.push(res);
             var data = {
                 results: opts
@@ -763,7 +777,6 @@
                             commonSelect2Configs,
                             {
                                 // placeholder: 'type',
-                                data : defaultFieldOptions,
                                 selectOnClose : true,
                             }
                         );
@@ -802,6 +815,11 @@
                     }
                     
                     $field.select2(select2Config).trigger('change');
+
+                    // if ($field.data("multiple") === true && defaultFieldOptions.length > 0 && defaultFieldOptions[0].id) {
+                    //     console.log('set initial value for ', $field.attr('name'));
+                    //     $field.val(defaultFieldOptions[0].id).trigger('change');
+                    // }
                 });
 
 
@@ -842,7 +860,7 @@
                  // Clear values and reset form desitantation
                  $forms = $transcriber.find("form.annotation-form");
                  _.each($forms, function(form){
-                    $form = $(form);
+                   var  $form = $(form);
                     if ($form.attr('id') == ("field_group_" + field_group.id)) {
                         $form.attr("method", "PUT");
                         $form.attr("action", ("/annotations/" + annotation.get("id")));
@@ -876,7 +894,7 @@
                 var fields = annotation.get('field_group').fields;
 
                   // console.log(fields);
-                newWidth = (fields.length + 3) * 110 + 100;
+                var newWidth = (fields.length + 3) * 110 + 100;
 
                 $transcriber.css("width", newWidth);
                 
@@ -889,7 +907,7 @@
                   // console.log($select);
 
                   if (field.selected_options) {
-                      $select.find("option.user-option").remove();
+                      $select.find("option.user-option option:selected").remove();
                       $select.trigger("change");
                       for (var i = 0; i < field.selected_options.length; i++) {
                           var option = field.selected_options[i];
@@ -897,11 +915,13 @@
                           var $option = $("<option class='user-option' selected></option>").val(option.id).html(self.formatSelection(option));
 
                           // For custom tag template
-                          $option.attr("data-display-attribute", option.display_attribute);
-                          $option.attr("data-icon-url", option.icon_url);
-                          $option.attr("data-text-symbol", option.text_symbol);
-                          $option.attr("data-name", option.name);
-                          $option.attr("data-is-field-option", true);
+                          $option.attr({
+                            "data-display-attribute": option.display_attribute,
+                            "data-icon-url": option.icon_url,
+                            "data-text-symbol": option.text_symbol,
+                            "data-name": option.name,
+                            "data-is-field-option": true,
+                          });
                           $select.append($option).trigger("change");
                       }
                   } else if ($select.length > 0) {
