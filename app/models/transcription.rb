@@ -10,7 +10,7 @@ class Transcription < ActiveRecord::Base
   
 
   def unique_observation_dates
-    annotations.collect{|a| a.observation_date}.uniq
+    annotations.select(:observation_date).uniq
   end
 
   def num_rows_expected

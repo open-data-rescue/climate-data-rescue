@@ -4,7 +4,7 @@
 - provide(:title, "#{@user.display_name}'s profile")
 
 .row
-  .col-md-8
+  .col-xs-8
     /! Show user information. Pulled dynamically from the user model instance
     h1 
       a.btn.btn-default href=admin_users_path style="margin-right: 20px;" data-toggle="tooltip" data-trigger="hover" title="Back to all users"
@@ -20,7 +20,7 @@
       = link_to 'Edit', edit_admin_user_url(@user)
       '&nbsp|
       = link_to 'Back', admin_users_url
-  .col-md-4
+  .col-xs-4
     - if @user.avatar.present?
       = image_tag @user.avatar.url(:thumb), :class => "img-circle pull-right"
     - else
@@ -39,7 +39,7 @@
                 th = t('page-title')
                 th = t('user-observations')
                 th = t('unique-rows')
-                th = t('unique-rows-expected')
+                / th = t('unique-rows-expected')
                 th = t('started-at')
                 th = t('last-updated')
                 th
@@ -49,9 +49,9 @@
                 tr
                   td = (transcription.page ? image_tag(transcription.page.image.url(:thumb)) : '')
                   td = (transcription.page ? transcription.page.title : '')
-                  td = transcription.annotations.count
-                  td = transcription.unique_observation_dates.count
-                  td = transcription.num_rows_expected
+                  td = transcription.annotations.size
+                  td = transcription.unique_observation_dates.size
+                  / td = transcription.num_rows_expected
                   td = l(transcription.created_at, format: :short)
                   td = l(transcription.updated_at, format: :short)
                   td 

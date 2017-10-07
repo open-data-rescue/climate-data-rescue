@@ -6,7 +6,19 @@ module Admin
     end
 
     def show
-      @user = User.find params[:id]
+      @user = User.includes(
+        {
+          transcriptions: [
+            { 
+              page: [
+                :page_days
+              ] 
+            },
+            :annotations
+          ]
+        },
+        :data_entries
+      ).find params[:id]
     end
 
     def edit

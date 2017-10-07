@@ -11,7 +11,7 @@ class AnnotationsController < ApplicationController
     #@annotations is the variable containing all instances of the "annotation.rb" model passed to the annotation view "index.html.slim" (project_root/annotations) and is used to populate the page with information about each annotation using @annotations.each (an iterative loop).
     begin
     if params[:transcription_id]
-      @annotations = Transcription.find(params[:transcription_id]).annotations.includes(
+      @annotations = Annotation.where(transcription_id: params[:transcription_id]).includes(
           { :field_group => [
               { :fields => [:translations, :field_options] },
               :translations 
@@ -41,7 +41,7 @@ class AnnotationsController < ApplicationController
             ] },
           
           :data_entries
-        ).all
+      )
     end
 
     respond_to do |format|
@@ -99,14 +99,16 @@ class AnnotationsController < ApplicationController
       { :field_group => [
           { :fields => [:translations, :field_options] },
           :translations 
-        ] },
+        ] 
+      },
       
       :data_entries
     ).references(
       { :field_group => [
           { :fields => [:translations, :field_options] },
           :translations 
-        ] },
+        ] 
+      },
       
       :data_entries
     ).find(params[:id])

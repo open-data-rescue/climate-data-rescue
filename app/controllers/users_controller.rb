@@ -15,7 +15,19 @@ class UsersController < ApplicationController
   
   def show
     #@user is a variable containing an instance of the "user.rb" model. It is passed to the user view "show.html.slim" (project_root/users/user_id) and is used to populate the page with information about the user instance.
-    @user = User.includes(:transcriptions).find(params[:id])
+    @user = User.includes(
+      {
+        transcriptions: [
+          { 
+            page: [
+              :page_days
+            ] 
+          },
+          :annotations
+        ]
+      },
+      :data_entries
+    ).find(params[:id])
 
     render "my_profile"
   end

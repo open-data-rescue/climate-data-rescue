@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :transcriptions
   has_many :annotations, through: :transcriptions
+  has_many :data_entries
   has_many :pages, through: :transcriptions
 
   # Include default devise modules. Others available are:
