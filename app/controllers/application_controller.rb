@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_action :set_locale
 
-  helper_method :baseUri, :baseUri_no_lang, :baseUri_with_lang, :request_path, :url_for_locale_switcher
+  helper_method :baseUri, :baseUri_no_lang, :baseUri_with_lang, :request_path
 
   def baseUri
       '/' + I18n.locale.to_s + '/'
@@ -45,22 +45,6 @@ class ApplicationController < ActionController::Base
       end
       basepath
   end
-
-  def url_for_locale_switcher lang, static_page: nil
-    url = baseUri_with_lang(lang)
-    if static_page.present? && static_page.is_a?(StaticPage)
-       unless lang.nil?
-        url += (static_page.send('slug_' + lang.to_s) || static_page.slug)
-       else
-        url += static_page.slug
-       end
-    else
-      url = url + request_path.chomp('/').sub(baseUri.chomp('/'), '')
-    end
-
-    url.gsub!('//', '/')
-  end
-
 
   # helper_method :page_dates_hash
   # def page_dates_hash
