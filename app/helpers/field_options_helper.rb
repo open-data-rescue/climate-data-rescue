@@ -7,7 +7,7 @@ module FieldOptionsHelper
         'text' => option.name,
         'is_default' => true,
         'is_field_option' => true,
-        'selected' => (idx === 0)
+        'selected' => (option.value == 'empty')
       }
     end
 
