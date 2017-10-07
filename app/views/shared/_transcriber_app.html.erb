@@ -60,6 +60,72 @@
         var transcriberOffset = {left: 25, top: 250};
 
         var lastDate = null;
+
+        var defaultFieldOptions = <%= render_default_field_options_select2 %>;
+        var defaultFieldOptions = [
+            {
+                id: null,
+                text: 'Statuses',
+                children: <%= render_default_field_options_select2 %>,
+            }
+        ];
+
+        var commonSelect2Configs = {
+            placeholder: 'type',
+            dropdownCssClass : 'wide-select2-dropdown',
+            forceAbove : true,
+            theme : "bootstrap",
+            templateResult : function(obj, container) {
+                // console.info("template result");
+                // console.log(obj);
+                result = "<div>";
+                if (obj.icon_url && obj.icon_url.length > 0){
+                    result += ("<img src='" + obj.icon_url + "' />" + "&nbsp;");
+                };
+                if (obj.text_symbol && obj.text_symbol.length > 0){
+                    result += (obj.text_symbol + "&nbsp;-&nbsp;");
+                };
+                result += (obj.text + "</div>");
+
+                return $(result);
+            },
+            templateSelection : self.formatSelection,
+            // allowClear: true,
+            tags: true,
+            escapeMarkup: function (markup) { return markup; },
+        };
+
+
+        function processFieldOptionResults(_data, params) {
+            var opts = [];
+            opts = opts.concat(defaultFieldOptions);
+            var res = {
+                id: null,
+                text: 'Values',
+                children: [],
+            };
+            // console.info("ajax");
+            // console.log(_data);
+            _.each(_data, function(option) {
+                // console.log(option);
+                opt = $.extend({}, {
+                        id : option.id,
+                        text : option.name,
+                        title : option.name,
+                        icon_url: option.icon_url,
+                        text_symbol: option.text_symbol,
+                        display_attribute: option.display_attribute,
+                        is_field_option: true,
+                    });
+
+                res.children.push(opt);
+            });
+            opts.push(res);
+            var data = {
+                results: opts
+            };
+            return data;
+        }
         
         MainLayout = Marionette.LayoutView.extend({
             template : "#main-layout-template",
@@ -309,7 +375,6 @@
                 action_msg : "click and drag to reposition annotation guide",
                 description_msg : ""
             }
-
         });
 
         Annotation = Backbone.Model.extend({
@@ -591,8 +656,6 @@
                 }
             },
 
-            defaultFieldOptions : <%= render_default_field_options_select2 %>,
-
             formatSelection : function (data, container) {
                 // console.log(data);
                 var res = "<div>";
@@ -646,7 +709,7 @@
             },
 
             initializeFields : function() {
-                self = this;
+                var self = this;
                 // Set up plugins for input fields
 
                 // Time Fields
@@ -673,58 +736,9 @@
                     };
                 });
 
-                var commonSelect2Configs = {
-                    dropdownCssClass : 'wide-select2-dropdown',
-                    forceAbove : true,
-                    theme : "bootstrap",
-                    templateResult : function(obj, container) {
-                        // console.info("template result");
-                        // console.log(obj);
-                        result = "<span>";
-                        if (obj.icon_url && obj.icon_url.length > 0){
-                            result += ("<img src='" + obj.icon_url + "' />" + "&nbsp;");
-                        };
-                        if (obj.text_symbol && obj.text_symbol.length > 0){
-                            result += (obj.text_symbol + "&nbsp;-&nbsp;");
-                        };
-                        result += (obj.text + "</span>");
-
-                        return $(result);
-                    },
-                    templateSelection : self.formatSelection,
-                    // allowClear: true,
-                    tags: true,
-                    escapeMarkup: function (markup) { return markup; },
-                };
-
-                function processFieldOptionResults(_data, params) {
-                    res = [];
-                    // console.info("ajax");
-                    // console.log(_data);
-                    _.each(_data, function(option) {
-                        // console.log(option);
-                        opt = $.extend({}, {
-                                id : option.id,
-                                text : option.name,
-                                title : option.name,
-                                icon_url: option.icon_url,
-                                text_symbol: option.text_symbol,
-                                display_attribute: option.display_attribute,
-                                is_field_option: true,
-                            });
-
-                        res.push(opt);
-                    });
-                    res = self.defaultFieldOptions.concat(res);
-                    var data = {
-                        results: res
-                    };
-                    return data;
-                }
-
                 // Selectable Fields
                 _.each(this.$(".observation-input.selectable"), function(field) {
-                    $field = $(field);
+                    var $field = $(field);
 
                     $field.on("change", updateFieldOptionIds);
                     // console.log($field);
@@ -748,27 +762,11 @@
                             select2Config,
                             commonSelect2Configs,
                             {
-                                placeholder: 'type',
-                                data : self.defaultFieldOptions,
+                                // placeholder: 'type',
+                                data : defaultFieldOptions,
                                 selectOnClose : true,
                             }
                         );
-
-                        // if ($field.data('fieldOptions') === false) {
-                        //     select2Config = _.extend(
-                        //         select2Config,
-                        //         {
-                        //             // createSearchChoice: function(term, data) {
-                        //             //     console.log(term, data);
-                        //             //   if ( $(data).filter( function() {
-                        //             //     return this.text.toLowerCase() === term.toLowerCase(); //even if the this.text is undefined it works
-                        //             //   }).length===0) {
-                        //             //     return {id:term, text:term};
-                        //             //   };
-                        //             // },
-                        //         }
-                        //     );
-                        // }
 
                     };
 
@@ -803,7 +801,7 @@
                         );
                     }
                     
-                    $field.select2(select2Config);
+                    $field.select2(select2Config).trigger('change');
                 });
 
 
@@ -906,18 +904,6 @@
                           $option.attr("data-is-field-option", true);
                           $select.append($option).trigger("change");
                       }
-                      // var optionIds = [];
-                      // var $optionIdsInput = $fieldContainer.find(".selected-option-ids");
-
-                      // _.each(field.selected_options, function(option) {
-                      //     var $existing = $select.find('option[value="' + option.id + '"]');
-                      //     if ($existing.length == 0) {
-                      //         optionIds.push(option.id);
-                      //     } else {
-                      //       $existing.prop('selected', true)
-                      //     }
-                      // });
-                      // $optionIdsInput.val(optionIds);
                   } else if ($select.length > 0) {
                       console.log('field has no selected options', $select);
                       $select.find("option.user-option").remove();
