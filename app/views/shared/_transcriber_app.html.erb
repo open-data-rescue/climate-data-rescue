@@ -19,28 +19,28 @@
     };
 
     function updateFieldOptionIds(e) {
-        var $this = $(this);
-        // console.log($this.attr('id'));
-        var $optionIdsInput = $this.siblings(".selected-option-ids");
-        $optionIdsInput.val('');
+      var $this = $(this);
+      var $optionIdsInput = $this.siblings(".selected-option-ids");
+      $optionIdsInput.val('');
 
-        var value = '';
-        var data = $this.select2('data');
-        // console.log(data);
+      var value = '';
+      var data = $this.select2('data');
+      // console.log(data);
 
-        _.each(data, function(option, idx) {
-            var $element = $(option.element);
-            // console.log(option);
-            if (option.is_field_option === true || $element.data('isFieldOption') === true) {
-                if (idx != 0) {
-                    value += ',';
-                }
-                value += option.id;
-            }
-        });
+      _.each(data, function(option, idx) {
+        var $element = $(option.element);
+        // console.log(option);
+        if (option.is_field_option === true || $element.data('isFieldOption') === true) {
+          if (idx != 0) {
+              value += ',';
+          }
+          value += option.id;
+        }
+      });
 
-        $optionIdsInput.val(value);
-        // console.log('updated field option ids:', value);
+      $optionIdsInput.val(value);
+      // console.log($this.attr('id'));
+      // console.log('updated field option ids:', value);
 
     };
 
@@ -428,55 +428,52 @@
                     $box.resizable({
                         handles: 'ne, nw, se, sw',
                         create : function() {
-                            $(document).on("keyup", function(e) {
-                                e.preventDefault();
-                                if( e.which === 27 || e.keyCode === 27 ){
-                                    $box.find(".annotation-actions").show();
-                                    $box.resizable("destroy");
-                                    pageCanvas.$el.kinetic("attach")
-                                    self.clearMsg().removeClass("active");
-                                    $(document).off("keyup");
-                                    $box.off("clickoutside");
-                                };
-                            });
-                            $box.on("clickoutside", function(e){
-                                e.preventDefault();
-                                $box.find(".annotation-actions").show();
-                                $box.resizable("destroy");
-                                pageCanvas.$el.kinetic("attach")
-                                self.clearMsg().removeClass("active");
-                                $(document).off("keyup");
-                                $box.off("clickoutside");
-                            });
+                          $(document).on("keyup", function(e) {
+                            e.preventDefault();
+                            if( e.which === 27 || e.keyCode === 27 ){
+                              $box.find(".annotation-actions").show();
+                              pageCanvas.$el.kinetic("attach")
+                              self.clearMsg().removeClass("active");
+                              $box.off("clickoutside");
+                            };
+                          });
+                          $box.on("clickoutside", function(e){
+                            e.preventDefault();
+                            $box.find(".annotation-actions").show();
+                            pageCanvas.$el.kinetic("attach")
+                            self.clearMsg().removeClass("active");
+                          });
                         },
                         stop : function(e, ui) {
-                            var offset = $box.offset();
-                            var position = {
-                                x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-                                y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-                            };
+                          $(document).off("keyup");
+                          $box.off("clickoutside");
+                          var offset = $box.offset();
+                          var position = {
+                            x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
+                            y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
+                          };
 
-                            var width = $box.width();
-                            var height = $box.height();
+                          var width = $box.width();
+                          var height = $box.height();
 
-                            annotation.set("x_tl", position.x);
-                            annotation.set("y_tl", position.y);
-                            annotation.set("width", (width >= 110 ? width : 110));
-                            annotation.set("height", (height >= 30 ? height : 30));
+                          annotation.set("x_tl", position.x);
+                          annotation.set("y_tl", position.y);
+                          annotation.set("width", (width >= 110 ? width : 110));
+                          annotation.set("height", (height >= 30 ? height : 30));
 
-                            annotation.save(annotation.attributes, {
-                                success : function(mdl) {
-                                    $box.find(".annotation-actions").show();
-                                    $box.resizable("destroy");
-                                    pageCanvas.$el.kinetic("attach")
-                                    self.clearMsg().removeClass("active");
+                          annotation.save(annotation.attributes, {
+                            success : function(mdl) {
+                              $box.find(".annotation-actions").show();
+                              $box.resizable("destroy");
+                              pageCanvas.$el.kinetic("attach")
+                              self.clearMsg().removeClass("active");
 
-                                    mainLayout.setMsg("Annotation box dimensions sucessfully saved!", true, "success");
-                                },
-                                error : function() {
-                                    mainLayout.setMsg("Error saving annotation box dimensions!", true, "danger");
-                                }
-                            });
+                              mainLayout.setMsg("Annotation box dimensions sucessfully saved!", true, "success");
+                            },
+                            error : function() {
+                              mainLayout.setMsg("Error saving annotation box dimensions!", true, "danger");
+                            }
+                          });
                         }
                     });
                 },
@@ -860,7 +857,7 @@
                  // Clear values and reset form desitantation
                  $forms = $transcriber.find("form.annotation-form");
                  _.each($forms, function(form){
-                   var  $form = $(form);
+                    $form = $(form);
                     if ($form.attr('id') == ("field_group_" + field_group.id)) {
                         $form.attr("method", "PUT");
                         $form.attr("action", ("/annotations/" + annotation.get("id")));
@@ -894,7 +891,7 @@
                 var fields = annotation.get('field_group').fields;
 
                   // console.log(fields);
-                var newWidth = (fields.length + 3) * 110 + 100;
+                newWidth = (fields.length + 3) * 110 + 100;
 
                 $transcriber.css("width", newWidth);
                 
@@ -905,25 +902,26 @@
                   var $fieldContainer = $form.find(".scribe_input_field[data-field-id=" + field.id +"]");
                   var $select = $fieldContainer.find("select");
                   // console.log($select);
+                  
+                  if ($select.children().length > 0) {
+                    $select.children().remove();
+                    $select.trigger('change');
+                  }
 
                   if (field.selected_options) {
-                      $select.find("option.user-option option:selected").remove();
                       $select.trigger("change");
-                      for (var i = 0; i < field.selected_options.length; i++) {
-                          var option = field.selected_options[i];
+                      _.each(field.selected_options, function setSelectedOptions(option) {
                           // console.log(option);
                           var $option = $("<option class='user-option' selected></option>").val(option.id).html(self.formatSelection(option));
 
                           // For custom tag template
-                          $option.attr({
-                            "data-display-attribute": option.display_attribute,
-                            "data-icon-url": option.icon_url,
-                            "data-text-symbol": option.text_symbol,
-                            "data-name": option.name,
-                            "data-is-field-option": true,
-                          });
+                          $option.attr("data-display-attribute", option.display_attribute);
+                          $option.attr("data-icon-url", option.icon_url);
+                          $option.attr("data-text-symbol", option.text_symbol);
+                          $option.attr("data-name", option.name);
+                          $option.attr("data-is-field-option", true);
                           $select.append($option).trigger("change");
-                      }
+                      });
                   } else if ($select.length > 0) {
                       console.log('field has no selected options', $select);
                       $select.find("option.user-option").remove();
@@ -933,7 +931,6 @@
                       $select.val(value).trigger("change");
                       // console.log(value);
                   };
-                  
                 });
             },
 
