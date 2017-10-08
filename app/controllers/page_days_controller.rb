@@ -18,7 +18,7 @@ class PageDaysController < ApplicationController
 
           @transcription = nil
           if @page && @page.has_metadata? && create_transcription?
-            @transcription = create_transcription(@page)
+            @transcription = find_transcription(@page, current_user) || create_transcription(@page, current_user)
           end
 
           if create_transcription? && @transcription
@@ -67,7 +67,7 @@ class PageDaysController < ApplicationController
 
           @transcription = nil
           if @page && @page.has_metadata? && create_transcription?
-            @transcription = create_transcription(@page)
+            @transcription = find_transcription(@page, current_user) || create_transcription(@page, current_user)
           end
 
           if create_transcription? && @transcription
@@ -94,9 +94,11 @@ class PageDaysController < ApplicationController
 
 
   private
-  def create_transcription page
-    transcription = Transcription.create!(page_id: page.id, user_id: current_user.id) if page && page.id && current_user.present?
-    transcription
+  def create_transcription page, user
+    Transcription.create!(page_id: page.id, user_id: user.id) if page.present? && user.present?
+  end
+  def find_transcription page, user
+    user.transcriptions.find_by(page_id: page.id) if page.present? && user.present?
   end
 
   def create_transcription?
