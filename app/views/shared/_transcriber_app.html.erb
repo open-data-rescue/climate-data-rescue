@@ -1,49 +1,5 @@
 
 <script type="text/javascript" id="transcriber-app">
-    function annotationBoxContents(annotationId) {
-        $innerWrapper = $('<div class="inner"></div>');
-        $contents = $('<div class="annotation-actions"></div>');
-        $detailBtn = $('<button type="button" class="btn btn-xs btn-default annotation-detail-btn"><i class="fa fa-info-circle"></i></button>');
-        $editBtn = $('<button type="button" class="btn btn-xs btn-default edit-annotation-btn"><i class="fa fa-pencil"></i></button>');
-        $deleteBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-trash"></i></button>');
-        $resizeBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-expand" aria-hidden="true"></i></button>');
-
-        $innerWrapper.click(function() {
-            editAnnotation(annotationId);
-        });
-
-        $msg = $('<div class="annotation-msg">edit</div>');
-        $contents.append($editBtn);
-        $innerWrapper.append($contents, $msg);
-        return $innerWrapper;
-    };
-
-    function updateFieldOptionIds(e) {
-      var $this = $(this);
-      var $optionIdsInput = $this.siblings(".selected-option-ids");
-      $optionIdsInput.val('');
-
-      var value = '';
-      var data = $this.select2('data');
-      // console.log(data);
-
-      _.each(data, function(option, idx) {
-        var $element = $(option.element);
-        // console.log(option);
-        if (option.is_field_option === true || $element.data('isFieldOption') === true) {
-          if (idx != 0) {
-              value += ',';
-          }
-          value += option.id;
-        }
-      });
-
-      $optionIdsInput.val(value);
-      // console.log($this.attr('id'));
-      // console.log('updated field option ids:', value);
-
-    };
-
 
     TranscriberApp = new Marionette.Application();
 
@@ -96,6 +52,48 @@
             data: defaultFieldOptions,
         };
 
+        function annotationBoxContents(annotationId) {
+            $innerWrapper = $('<div class="inner"></div>');
+            $contents = $('<div class="annotation-actions"></div>');
+            $detailBtn = $('<button type="button" class="btn btn-xs btn-default annotation-detail-btn"><i class="fa fa-info-circle"></i></button>');
+            $editBtn = $('<button type="button" class="btn btn-xs btn-default edit-annotation-btn"><i class="fa fa-pencil"></i></button>');
+            $deleteBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-trash"></i></button>');
+            $resizeBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-expand" aria-hidden="true"></i></button>');
+
+            $innerWrapper.click(function() {
+                editAnnotation(annotationId);
+            });
+
+            $msg = $('<div class="annotation-msg">edit</div>');
+            $contents.append($editBtn);
+            $innerWrapper.append($contents, $msg);
+            return $innerWrapper;
+        };
+
+        function updateFieldOptionIds(e) {
+          var $this = $(this);
+          var $optionIdsInput = $this.siblings(".selected-option-ids");
+          $optionIdsInput.val('');
+
+          var value = '';
+          var data = $this.select2('data');
+          // console.log(data);
+
+          _.each(data, function(option, idx) {
+            var $element = $(option.element);
+            // console.log(option);
+            if (option.is_field_option === true || $element.data('isFieldOption') === true) {
+              if (idx != 0) {
+                  value += ',';
+              }
+              value += option.id;
+            }
+          });
+
+          $optionIdsInput.val(value);
+          // console.log($this.attr('id'));
+          // console.log('updated field option ids:', value);
+        };
 
         function processFieldOptionResults(_data, params) {
             var opts = [];
@@ -146,8 +144,8 @@
             regions : {
                 toolbar : "#transcriber-toolbar",
                 msgs : "#transcription-msg-container",
-                headerImg : "#header-image-container",
-                timeImg : "#time-image-container",
+                fieldGuideImg : "#header-image-container",
+                timeGuideImg : "#time-image-container",
                 pageContainer : "#page-container"
             },
             attributes : {
@@ -292,7 +290,7 @@
             },
 
             events : {
-                "click .default-position-btn" : function() {
+                "click .reset-position-btn" : function() {
                     if (this.options.x && this.options.scrollLeft){
                         this.$el.kinetic("scrollLeft", this.options.scrollLeft);
                     };
@@ -300,31 +298,7 @@
                     if (this.options.y && this.options.scrollTop){
                         this.$el.kinetic("scrollTop", this.options.scrollTop);
                     };
-
-                    if (this.$(".adjust-position-btn.adjusting").length > 0) {
-                        this.stopPositioning();
-                    };
                 },
-                "click .adjust-position-btn" : "positionImage",
-                "click .adjust-position-btn.adjusting" : "stopPositioning"
-            },
-
-            positionImage : function() {
-                $btn = this.$(".adjust-position-btn");
-                $btn.html("Stop Repositioning").addClass("adjusting btn-primary").removeClass("btn-default");
-
-                this.$(".action-msg").addClass("visible");
-
-                this.$el.kinetic("attach");
-            },
-
-            stopPositioning : function() {
-                $btn = this.$(".adjust-position-btn.adjusting");
-                $btn.html("Reposition Image").removeClass("adjusting btn-primary").addClass("btn-default");
-
-                this.$(".action-msg").removeClass("visible");
-
-                this.$el.kinetic("detach");
             },
 
             onRender : function(options) {
@@ -356,28 +330,42 @@
                         }
                     }
                 });
-                
 
                 if (this.model.get("resizeContainer")) {
                     // console.info("resize");
                     containerHeight = $("#transcriber-container").height();
                     toolbarHeight = $("#transcriber-toolbar").height();
-                    headerImgHeight = $("#header-image-container").height();
+                    fieldGuideImgHeight = $("#header-image-container").height();
 
-                    self.$el.height(containerHeight - (toolbarHeight + headerImgHeight));
+                    self.$el.height(containerHeight - (toolbarHeight + fieldGuideImgHeight));
 
                     $(window).on('resize', function() {
                         containerHeight = $("#transcriber-container").height();
                         toolbarHeight = $("#transcriber-toolbar").height();
-                        headerImgHeight = $("#header-image-container").height();
+                        fieldGuideImgHeight = $("#header-image-container").height();
 
-                        self.$el.height(containerHeight - (toolbarHeight + headerImgHeight));
+                        self.$el.height(containerHeight - (toolbarHeight + fieldGuideImgHeight));
                     });
                 };
 
                 if (this.options.postRenderFn) {
                     this.options.postRenderFn.call(this);
                 };
+
+                var title = this.model.get('title');
+                var description = this.model.get('description');
+
+                if (title != void 0 && description != void 0) {
+                    this.$el.popover({
+                      container: 'body',
+                      placement: this.model.get('popover-placement') || 'auto',
+                      title: title,
+                      content: description,
+                      trigger: 'hover',
+                      html: true,
+                    });
+                }
+
             }
         });
 
@@ -386,8 +374,6 @@
             defaults : {
                 image_id : "",
                 resizeContainer : false,
-                action_msg : "click and drag to reposition annotation guide",
-                description_msg : ""
             }
         });
 
@@ -1124,16 +1110,21 @@
         mainLayout = new MainLayout();
         toolbarLayout = new ToolbarLayout();
 
-        mainPage = new Page().set("image_id", "target-image").set("resizeContainer", true);
-        headerPage = new Page().set({
-            "action_msg" : "Click and drag this image vertically until table header is visible.",
-            "description_msg" : 'Page column labels guide. Click "Reposition Image" button to position column labels within view. This image will automatically scroll horizontally when you scroll the main image.'
+        mainPage = new Page({
+            image_id: 'target-image',
+            resizeContainer: true,
         });
-        timePage = new Page().set({
-            "image_id" : "time-image",
-            "resizeContainer" : true,
-            "action_msg" : "Click and drag this image horizontally until time column is visible.",
-            "description_msg" : 'Time column guide. Click "Reposition Image" button to position time column within view. This image will automatically scroll vertically when you scroll the main image.'
+        fieldGuidePage = new Page({
+            title: '<%= t('transcriber.guide-images.title.fields').html_safe %>',
+            description : '<%= t('transcriber.guide-images.help-text.fields').html_safe %>',
+            'popover-placement': 'bottom',
+        });
+        timeGuidePage = new Page({
+            image_id : 'time-image',
+            resizeContainer : true,
+            title: '<%= t('transcriber.guide-images.title.time').html_safe %>',            
+            description : '<%= t('transcriber.guide-images.help-text.time').html_safe %>',
+            'popover-placement': 'right',
         });
         pageCanvas = new PageImage({
             model : mainPage,
@@ -1142,12 +1133,10 @@
                 id : "canvas"
             },
             moveFn : function() {
-                timeImg.$el.kinetic("scrollTop", this.settings.scrollTop);
-                headerImg.$el.kinetic("scrollLeft", this.settings.scrollLeft);
+                timeGuideImg.$el.kinetic("scrollTop", this.settings.scrollTop);
+                fieldGuideImg.$el.kinetic("scrollLeft", this.settings.scrollLeft);
             },
             postRenderFn : function() {
-                var $canvas = this.$el;
-
                 Annotations.fetch({
                     url : "/annotations?transcription_id=<%= @transcription.id %>",
                     success : function(collection) {
@@ -1167,34 +1156,34 @@
                     }
                 });
 
-                $canvas.on("scroll", function() {
-                    timeImg.$el.kinetic("scrollTop", $(this).scrollTop());
-                    headerImg.$el.kinetic("scrollLeft", $(this).scrollLeft());
+                this.$el.on("scroll", function() {
+                    timeGuideImg.$el.kinetic("scrollTop", $(this).scrollTop());
+                    fieldGuideImg.$el.kinetic("scrollLeft", $(this).scrollLeft());
                 });
             }
         });
-        headerImg = new PageImage({
-            model : headerPage,
+        fieldGuideImg = new PageImage({
+            model : fieldGuidePage,
             cursor : "ns-resize",
             x : false,
             attributes : {
                 id : "header-image-kinetic"
             },
-            postRenderFn : function() {
-                this.$el.kinetic("detach");
-            },
+            // postRenderFn : function() {
+            //     // this.$el.kinetic("detach");
+            // },
             scrollTop : 390
         });
-        timeImg = new PageImage({
-            model : timePage,
+        timeGuideImg = new PageImage({
+            model : timeGuidePage,
             cursor : "ew-resize",
             y : false,
             attributes : {
                 id : "time-image-kinetic"
             },
-            postRenderFn : function() {
-                this.$el.kinetic("detach");
-            },
+            // postRenderFn : function() {
+            //     // this.$el.kinetic("detach");
+            // },
             scrollLeft : 315
         });
 
@@ -1203,13 +1192,13 @@
                 TranscriberApp.main.show(mainLayout);
 
                 mainLayout.toolbar.show(toolbarLayout);
-                mainLayout.headerImg.show(headerImg);
-                mainLayout.timeImg.show(timeImg);
+                mainLayout.fieldGuideImg.show(fieldGuideImg);
+                mainLayout.timeGuideImg.show(timeGuideImg);
                 mainLayout.pageContainer.show(pageCanvas);
 
                 setTimeout(function() {
-                    headerImg.$el.kinetic("scrollTop", 390);
-                    timeImg.$el.kinetic("scrollLeft", 315);
+                    fieldGuideImg.$el.kinetic("scrollTop", 390);
+                    timeGuideImg.$el.kinetic("scrollLeft", 315);
                 }, 1000);
             },
             MainLayout : mainLayout

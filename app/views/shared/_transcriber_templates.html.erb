@@ -1,9 +1,6 @@
 
 <script type="text/template" id="main-layout-template">
-    <div id="transcriber-toolbar">
-
-    </div>
-    <div id="transcription-msg-container"></div>
+    <div id="transcriber-toolbar"></div>
     <div id="header-wrapper">
         <div id="header-img-spacer">&nbsp;</div>
         <div id="header-image-container"></div>
@@ -20,7 +17,7 @@
       <div id="transcriber-nav" class="draw-top-nav navbar-default">
         <ul class="nav navbar-nav dropdown">
           <li class="transcriber-btn-li">
-            <button id="new-annotation" type="button" class="btn btn-sm btn-primary"><%= t('transcriber.toolbar.open-transcriber') %></button>
+            <button id="new-annotation" type="button" class="btn btn-sm btn-draw-accented"><%= t('transcriber.toolbar.open-transcriber') %></button>
           </li>
           <% if StaticPage.transcriber_links.any? %>
             <% StaticPage.transcriber_links.each do |sp| %>
@@ -44,11 +41,8 @@
 <script type="text/template" id="page-image-template">
     <div class="control-mask">
         <div class="actions-container">
-            <span class="btn btn-xs btn-default default-position-btn">Default Position</span>
-            <span class="btn btn-xs btn-default adjust-position-btn">Reposition Image</span>
+            <span class="btn btn-xs btn-primary reset-position-btn"><%= t('transcriber.templates.page-image.actions.reset-position-btn-label') %></span>
         </div>
-        <div class="description-msg">{{= description_msg }}</div>
-        <div class="action-msg">{{= action_msg }}</div>
     </div>
     <img src="<%= page.image.url(:original) %>" id="{{= image_id }}">
 </script>
