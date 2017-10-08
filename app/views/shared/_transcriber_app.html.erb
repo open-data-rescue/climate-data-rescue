@@ -140,82 +140,83 @@
         }
         
         MainLayout = Marionette.LayoutView.extend({
-            template : "#main-layout-template",
-            regions : {
-                toolbar : "#transcriber-toolbar",
-                fieldGuideImg : "#field-guide-container",
-                timeGuideImg : "#time-guide-container",
-                pageContainer : "#page-container"
-            },
-            attributes : {
-                id : "transcriber-container"
-            },
-            setMsg : function (message, fade, style) {
-                // console.log(this);
+          template : "#main-layout-template",
+          regions : {
+            toolbar : "#transcriber-toolbar",
+            fieldGuideImg : "#field-guide-container",
+            timeGuideImg : "#time-guide-container",
+            pageContainer : "#page-container",
+          },
+          attributes : {
+            id : "transcriber-container"
+          },
+          setMsg : function (message, fade, style) {
+              // console.log(this);
 
-                // msgRegion = this.msgs;
+              // msgRegion = this.msgs;
 
-                // msgRegion.el = "#transcription-msg-container"; 
-                console.log(message)
-                // var MsgView = Marionette.ItemView.extend({
-                //     template : "#msg-template",
-                //     attributes : {
-                //       id : "transcription-msg"
-                //     },
-                //     events : {
-                //       "click button" : function() {
-                //         msgRegion.$el.removeClass("active");
-                //         msgRegion.reset();
-                //       }
-                //     },
-                //     onRender : function(){
-                //       var self = this;
-                //       self.$el.addClass("fade in");
+              // msgRegion.el = "#transcription-msg-container"; 
+              console.log(message)
+              // var MsgView = Marionette.ItemView.extend({
+              //     template : "#msg-template",
+              //     attributes : {
+              //       id : "transcription-msg"
+              //     },
+              //     events : {
+              //       "click button" : function() {
+              //         msgRegion.$el.removeClass("active");
+              //         msgRegion.reset();
+              //       }
+              //     },
+              //     onRender : function(){
+              //       var self = this;
+              //       self.$el.addClass("fade in");
 
-                //       msgRegion.$el.addClass("active");
+              //       msgRegion.$el.addClass("active");
 
-                //       switch (self.model.get("style")) {
-                //         case "success": self.$el.addClass("btn-success");
-                //         break;
+              //       switch (self.model.get("style")) {
+              //         case "success": self.$el.addClass("btn-success");
+              //         break;
 
-                //         case "info": self.$el.addClass("btn-info");
-                //         break;
+              //         case "info": self.$el.addClass("btn-info");
+              //         break;
 
-                //         case "warning": self.$el.addClass("btn-warning");
-                //         break;
+              //         case "warning": self.$el.addClass("btn-warning");
+              //         break;
 
-                //         case "danger": self.$el.addClass("btn-danger");
-                //         break;
+              //         case "danger": self.$el.addClass("btn-danger");
+              //         break;
 
-                //         default: self.$el.addClass("btn-info");
-                //       }
+              //         default: self.$el.addClass("btn-info");
+              //       }
 
-                //       if (!(typeof self.model.get("fade") == "undefined") && self.model.get("fade")){
-                //         setTimeout(function() {
-                //           self.$el.removeClass("in").addClass("out");
+              //       if (!(typeof self.model.get("fade") == "undefined") && self.model.get("fade")){
+              //         setTimeout(function() {
+              //           self.$el.removeClass("in").addClass("out");
 
-                //           setTimeout(function() {
-                //             msgRegion.$el.removeClass("active");
-                //             msgRegion.reset();
-                //           }, 500);
-                //         }, 3000);
-                //       }
-                //     }
-                // });
+              //           setTimeout(function() {
+              //             msgRegion.$el.removeClass("active");
+              //             msgRegion.reset();
+              //           }, 500);
+              //         }, 3000);
+              //       }
+              //     }
+              // });
 
-                // var Message = new Backbone.Model();
+              // var Message = new Backbone.Model();
 
-                // Message.set("text", message);
-                // Message.set("fade", fade);
-                // Message.set("style", style);
+              // Message.set("text", message);
+              // Message.set("fade", fade);
+              // Message.set("style", style);
 
-                // view = new MsgView({
-                //     model : Message
-                // })
+              // view = new MsgView({
+              //     model : Message
+              // })
 
 
-                // msgRegion.show(view);
-            }
+              // msgRegion.show(view);
+          },
+          guideImages: [],
         });
 
         ToolbarLayout = Marionette.ItemView.extend({
@@ -257,19 +258,64 @@
                         content : $('#stop-transcribing-template').html(),
                         showFooter : false
                     }).open();
-                }
-            },
+                }, 
+                'click .btn-zoom-in:not(.disabled)': 'zoomIn', 
+                'click .btn-zoom-out:not(.disabled)': 'zoomOut', 
+                'click .btn-zoom-level [data-zoom-level]' : function(e) { 
+                  var zoom = $(e.target).data('zoom-level'); 
+                  this.zoomPage(zoom, true); 
+                }, 
+            }, 
+ 
+            initialize : function(opts) { 
+              this.options = opts || {}; 
+              this.currentZoom = 1; 
+              this.zoomContainer = $(); 
+            }, 
+ 
+            zoomIn : function() { 
+              this.zoomPage((this.currentZoom + 0.1)); 
+            }, 
+ 
+            zoomOut : function() { 
+              this.zoomPage((this.currentZoom - 0.1)); 
+            }, 
 
-            onRender : function() {
-                
-            }
+            zoomPage : function(value, percent = false) { 
+              var zoom = (percent ? (value / 100) : value); 
+              if (zoom > 0.1) {
+                this.zoomContainer.css({ 
+                  zoom : zoom, 
+                  // handle zoom css for firefox 
+                  '-moz-transform' : ('scale(' + zoom + ')'), 
+                  '-moz-transform-origin' : 'left top' 
+                });
+                this.currentZoom = zoom; 
+                this.updateZoomLevel(); 
+
+                _.each(mainLayout.guideImages, function updatePopovers(guide) {
+                  guide.refreshPopover();
+                });
+              }; 
+            }, 
+
+            updateZoomLevel : function(zoomPage) { 
+              // Update zoom level value displayed to the user in the indicator. 
+              // Optionally, zoom the results to the current page 
+              this.$('.current-zoom').html(Math.round(this.currentZoom * 100)); 
+              if (zoomPage) this.zoomPage(this.currentZoom); 
+            }, 
+
+            setZoomContainer : function () { 
+              this.zoomContainer = this.zoomContainer.add(arguments);
+            },
         });
 
         PageCanvas = Marionette.ItemView.extend({
-            template : "#page-canvas-template",
-            attributes : {
-                id: "canvas"
-            }
+          template : "#page-canvas-template",
+          attributes : {
+            id: "canvas"
+          }
         });
 
         PageImage = Marionette.ItemView.extend({
@@ -330,49 +376,48 @@
                     }
                 });
 
-                // if (this.model.get("resizeContainer")) {
-                //     // console.info("resize");
-                //     containerHeight = $("#transcriber-container").height();
-                //     toolbarHeight = $("#transcriber-toolbar").height();
-                //     fieldGuideImgHeight = $("#field-guide-container").height();
-
-                //     self.$el.height(containerHeight - (toolbarHeight + fieldGuideImgHeight));
-
-                //     $(window).on('resize', function() {
-                //         containerHeight = $("#transcriber-container").height();
-                //         toolbarHeight = $("#transcriber-toolbar").height();
-                //         fieldGuideImgHeight = $("#field-guide-container").height();
-
-                //         self.$el.height(containerHeight - (toolbarHeight + fieldGuideImgHeight));
-                //     });
-                // };
-
                 if (this.options.postRenderFn) {
                     this.options.postRenderFn.call(this);
                 };
 
-                var title = this.model.get('title');
-                var description = this.model.get('description');
+                this.popoverInit();
+            },
 
-                if (title != void 0 && description != void 0) {
-                    this.$el.popover({
-                      container: 'body',
-                      placement: this.model.get('popover-placement') || 'auto',
-                      title: title,
-                      content: description,
-                      trigger: 'hover',
-                      html: true,
-                    });
-                }
+            popoverInit: function popoverInit() {
+              var title = this.model.get('title');
+              var description = this.model.get('description');
 
-            }
+              if (title != void 0 && description != void 0) {
+                this.$el.popover({
+                  container: '#transcriber-image-container',
+                  placement: this.model.options.popoverPlacement || 'auto',
+                  title: title,
+                  content: description,
+                  trigger: 'hover',
+                  html: true,
+                });
+              }
+            },
+
+            popoverDestroy: function popoverDestroy() {
+              if (this.$el.data('bs.popover') != void 0) {
+                this.$el.popover('destroy');
+              }
+            },
+
+            refreshPopover: function refreshPopover() {
+              this.popoverDestroy();
+              this.popoverInit();
+            },
         });
 
         Page = Backbone.Model.extend({
             url : "/page_for_transcription/<%= transcription.id if transcription.present? %>",
             defaults : {
                 image_id : "",
-                resizeContainer : false,
+            },
+            initialize: function initialize(opts) {
+              this.options = opts;
             }
         });
 
@@ -797,11 +842,6 @@
                     }
                     
                     $field.select2(select2Config).trigger('change');
-
-                    // if ($field.data("multiple") === true && defaultFieldOptions.length > 0 && defaultFieldOptions[0].id) {
-                    //     console.log('set initial value for ', $field.attr('name'));
-                    //     $field.val(defaultFieldOptions[0].id).trigger('change');
-                    // }
                 });
 
 
@@ -1111,19 +1151,37 @@
 
         mainPage = new Page({
             image_id: 'target-image',
-            resizeContainer: true,
         });
         fieldGuidePage = new Page({
             title: '<%= t('transcriber.guide-images.title.fields').html_safe %>',
             description : '<%= t('transcriber.guide-images.help-text.fields').html_safe %>',
-            'popover-placement': 'bottom',
+            popoverPlacement: function(context, source) {
+              var self = this;
+              setTimeout(function() { 
+                self.$arrow.css('left', (self.$tip.outerWidth() / 2));
+                self.$tip.css({
+                  left: ($('#field-guide-container').offset().left + ($('#field-guide-container').width() / 2)),
+                  top: ($('#page-time-container').offset().top - $('#transcriber-toolbar').outerHeight()),
+                });
+              }, 0);
+              return 'bottom';
+            },
         });
         timeGuidePage = new Page({
             image_id : 'time-guide',
-            resizeContainer : true,
             title: '<%= t('transcriber.guide-images.title.time').html_safe %>',            
             description : '<%= t('transcriber.guide-images.help-text.time').html_safe %>',
-            'popover-placement': 'right',
+            popoverPlacement: function(context, source) {
+              var self = this;
+              setTimeout(function() {
+                self.$arrow.css('top', (self.$tip.outerHeight() / 2));
+                self.$tip.css({
+                  top: ($('#time-guide-container').offset().top + ($('#time-guide-container').outerHeight() / 2)),
+                  left: $('#time-guide-container').outerWidth(),
+                });
+              }, 0);
+              return 'right';
+            },
         });
         pageCanvas = new PageImage({
             model : mainPage,
@@ -1168,9 +1226,6 @@
             attributes : {
                 id : "field-guide-kinetic"
             },
-            // postRenderFn : function() {
-            //     // this.$el.kinetic("detach");
-            // },
             scrollTop : 390
         });
         timeGuideImg = new PageImage({
@@ -1180,9 +1235,6 @@
             attributes : {
                 id : "time-guide-kinetic"
             },
-            // postRenderFn : function() {
-            //     // this.$el.kinetic("detach");
-            // },
             scrollLeft : 315
         });
 
@@ -1194,6 +1246,10 @@
                 mainLayout.fieldGuideImg.show(fieldGuideImg);
                 mainLayout.timeGuideImg.show(timeGuideImg);
                 mainLayout.pageContainer.show(pageCanvas);
+
+                mainLayout.guideImages.concat([ fieldGuideImg, timeGuideImg]);
+
+                toolbarLayout.setZoomContainer(pageCanvas.el, fieldGuideImg.el, timeGuideImg.el); 
 
                 setTimeout(function() {
                     fieldGuideImg.$el.kinetic("scrollTop", 390);

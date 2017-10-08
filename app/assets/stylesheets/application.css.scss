@@ -36,10 +36,6 @@
   }
 }
 
-#test-msg {
-
-}
-
 a {
     color: $accent-color;
     &:not(.btn){
@@ -212,16 +208,16 @@ a {
     }
 }
 
-.field-option-table, .fields-table, .field-groups-table {
-
-    tbody {
-        tr:not(.title-wrapper) {
-
-            &:hover {
-                background-color: hsl(0, 0%, 95%)
-            }
-        }
+.field-option-table, 
+.fields-table, 
+.field-groups-table {
+  tbody {
+    tr:not(.title-wrapper) {
+      &:hover {
+        background-color: hsl(0, 0%, 95%)
+      }
     }
+  }
 }
 
 .switches-container {

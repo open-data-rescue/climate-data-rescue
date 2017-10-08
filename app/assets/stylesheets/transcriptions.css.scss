@@ -1,20 +1,6 @@
 
 @import "draw-variables";
 
-.DisplayNone
-{
-    display: none;
-}
-.DisplayBlock
-{
-    display: block;
-}
-
-.transcribeable-img {
-  width: 100%;
-}
-
-
 // Place all the styles related to the Transcriptions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
@@ -290,23 +276,6 @@
         }
       }
       
-        // #field-guide-container {
-        //   height:100%;
-        //   box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
-        //   border-color: black;
-        //   border-style: solid;
-        //   border-width: 2px;
-        //   position: relative;
-        //   float: left;
-
-        //   &:after {
-        //       clear: both;
-        //   }
-        // }
-        
-        // &:after {
-        //   clear: both;
-        // }
       #field-guide-container {
         border-bottom: 3px solid $accent-color;
         height: 20%;
@@ -339,10 +308,6 @@
           position: absolute;
           overflow: hidden;
           box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
-          // width: 140px; 
-          // border-color: black;
-          // border-style: solid;
-          // border-width: 2px;
           border-right: 3px solid $accent-color;
 
           #time-guide-kinetic {

@@ -26,6 +26,33 @@
     </div>
   </div>
   <div class="text-right">
+    <div class="btn-group"> 
+      <button class="btn btn-sm btn-default zoom-btn btn-zoom-out" style="border-right: none;"> 
+          <i class="fa fa-search-minus"></i> 
+      </button> 
+      <div class="dropdown btn-zoom-level" style="float: left;"> 
+        <button type="button" class="btn btn-sm dropdown-toggle btn-default"  style="border-radius: 0px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+          <strong><span class="current-zoom">100</span>%</strong>&nbsp;<span class="caret"></span> 
+        </button> 
+        <ul class="dropdown-menu"> 
+          <li><a data-zoom-level="25">25%</a></li> 
+          <li><a data-zoom-level="50">50%</a></li> 
+          <li><a data-zoom-level="75">75%</a></li> 
+          <li><a data-zoom-level="100">100%</a></li> 
+          <li><a data-zoom-level="125">125%</a></li> 
+          <li><a data-zoom-level="150">150%</a></li> 
+          <li><a data-zoom-level="175">175%</a></li> 
+          <li><a data-zoom-level="200">200%</a></li> 
+          <li><a data-zoom-level="225">225%</a></li> 
+          <li><a data-zoom-level="250">250%</a></li> 
+          <li><a data-zoom-level="275">275%</a></li> 
+          <li><a data-zoom-level="300">300%</a></li> 
+        </ul> 
+      </div> 
+       <button class="btn btn-sm btn-default zoom-btn btn-zoom-in" style="border-left: none;"> 
+          <i class="fa fa-search-plus"></i> 
+      </button> 
+    </div> 
     <button id="view-data-btn" class="btn btn-sm btn-default"><%= t('transcriber.toolbar.view-data') %></button>
     <button id="stop-transcribing" class="btn btn-sm btn-default"><%= t('transcriber.toolbar.stop-transcribing') %></button>
   </div>
@@ -36,11 +63,11 @@
 </script>
 
 <script type="text/template" id="page-image-template">
-  <div class="control-mask">
+  <!-- <div class="control-mask">
     <div class="actions-container">
       <span class="btn btn-xs btn-primary reset-position-btn"><%= t('transcriber.templates.page-image.actions.reset-position-btn-label') %></span>
     </div>
-  </div>
+  </div> -->
   <img src="<%= page.image.url(:original) %>" id="{{= image_id }}">
 </script>
 
