@@ -1,54 +1,51 @@
 
 <script type="text/template" id="main-layout-template">
-    <div id="transcriber-toolbar"></div>
-    <div id="header-wrapper">
-        <div id="header-img-spacer">&nbsp;</div>
-        <div id="header-image-container"></div>
-    </div>
-    <div id="page-time-container">
-        <div id="time-image-container"></div>
-        <div id="page-container"></div>
-    </div>
-
+  <div id="transcriber-toolbar"></div>
+  <div id="transcriber-image-container">
+    <header id="field-guide-container"></header>
+    <section id="page-time-container">
+      <aside id="time-guide-container"></aside>
+      <main id="page-container"></main>
+    </section>
+  </div>
 </script>
 
 <script type="text/template" id="transcription-toolbar-template">
-    <div>
-      <div id="transcriber-nav" class="draw-top-nav navbar-default">
-        <ul class="nav navbar-nav dropdown">
-          <li class="transcriber-btn-li">
-            <button id="new-annotation" type="button" class="btn btn-sm btn-draw-accented"><%= t('transcriber.toolbar.open-transcriber') %></button>
-          </li>
-          <% if StaticPage.transcriber_links.any? %>
-            <% StaticPage.transcriber_links.each do |sp| %>
-              <%= render "static_pages/link", page: sp, top_level: true, opens_new_tab: true %>
-            <% end %>
+  <div>
+    <div id="transcriber-nav" class="draw-top-nav navbar-default">
+      <ul class="nav navbar-nav dropdown">
+        <li class="transcriber-btn-li">
+          <button id="new-annotation" type="button" class="btn btn-sm btn-draw-accented"><%= t('transcriber.toolbar.open-transcriber') %></button>
+        </li>
+        <% if StaticPage.transcriber_links.any? %>
+          <% StaticPage.transcriber_links.each do |sp| %>
+            <%= render "static_pages/link", page: sp, top_level: true, opens_new_tab: true %>
           <% end %>
-        </ul>
-      </div>
+        <% end %>
+      </ul>
     </div>
-    <div class="text-right">
-      <button id="view-data-btn" class="btn btn-sm btn-default"><%= t('transcriber.toolbar.view-data') %></button>
-      <button id="stop-transcribing" class="btn btn-sm btn-default"><%= t('transcriber.toolbar.stop-transcribing') %></button>
   </div>
-
+  <div class="text-right">
+    <button id="view-data-btn" class="btn btn-sm btn-default"><%= t('transcriber.toolbar.view-data') %></button>
+    <button id="stop-transcribing" class="btn btn-sm btn-default"><%= t('transcriber.toolbar.stop-transcribing') %></button>
+  </div>
 </script>
 
 <script type="text/template" id="page-canvas-template">
-    <img src="<%= page.image.url(:original) %>" alt="" id="target-image">
+  <img src="<%= page.image.url(:original) %>" alt="" id="target-image">
 </script>
 
 <script type="text/template" id="page-image-template">
-    <div class="control-mask">
-        <div class="actions-container">
-            <span class="btn btn-xs btn-primary reset-position-btn"><%= t('transcriber.templates.page-image.actions.reset-position-btn-label') %></span>
-        </div>
+  <div class="control-mask">
+    <div class="actions-container">
+      <span class="btn btn-xs btn-primary reset-position-btn"><%= t('transcriber.templates.page-image.actions.reset-position-btn-label') %></span>
     </div>
-    <img src="<%= page.image.url(:original) %>" id="{{= image_id }}">
+  </div>
+  <img src="<%= page.image.url(:original) %>" id="{{= image_id }}">
 </script>
 
 <script type="text/template" id="msg-template"> 
-        <span id="msg">{{= text }}</span><button type="button" class="close pull-right" aria-label="Close"><span aria-hidden="true"><i class="fa fa-remove"></i></span></button> 
+  <span id="msg">{{= text }}</span><button type="button" class="close pull-right" aria-label="Close"><span aria-hidden="true"><i class="fa fa-remove"></i></span></button> 
 </script> 
 
 <script id="annotation-box-template" type="text/template">
@@ -67,10 +64,6 @@
 <script type="text/template" id="transcription-box-template">
     <div id="scribe_transcription_area">
         <div id="scribe_top_bar">
-            <!-- <div id="scribe_prompt">
-                <p id="scribe_prompt_text">Enter the values for each field to be transcribed</p>
-                <button class="btn btn-default btn-xs pull-right close-btn" style="border: none;"><i class="fa fa-close fa-2x"></i></button>
-            </div> -->
             <div id="scribe_tab_bar">
                 <% field_groups.each do |field_group| %>
                     <% if field_group.fields.any? %>
@@ -139,14 +132,7 @@
             </div>
         </div>
     </div>
-    <!-- <div id="transcriber-grid-container">
-        <div class="control-mask">
-            Position this box around the data youre transcribing
-        </div>
-    </div> -->
-
 </script>
-
 
 <script type="text/template" id="stop-transcribing-template">
     <p class="boffset20">If the page still has data that has not yet been transcribed, click on the blue "Take a break" button below. <!--If the page is completely finished, and there is no longer any data left to transcribe, click on the green "Page is complete" button. --></p>

@@ -143,9 +143,8 @@
             template : "#main-layout-template",
             regions : {
                 toolbar : "#transcriber-toolbar",
-                msgs : "#transcription-msg-container",
-                fieldGuideImg : "#header-image-container",
-                timeGuideImg : "#time-image-container",
+                fieldGuideImg : "#field-guide-container",
+                timeGuideImg : "#time-guide-container",
                 pageContainer : "#page-container"
             },
             attributes : {
@@ -154,68 +153,68 @@
             setMsg : function (message, fade, style) {
                 // console.log(this);
 
-                msgRegion = this.msgs;
+                // msgRegion = this.msgs;
 
-                msgRegion.el = "#transcription-msg-container"; 
+                // msgRegion.el = "#transcription-msg-container"; 
+                console.log(message)
+                // var MsgView = Marionette.ItemView.extend({
+                //     template : "#msg-template",
+                //     attributes : {
+                //       id : "transcription-msg"
+                //     },
+                //     events : {
+                //       "click button" : function() {
+                //         msgRegion.$el.removeClass("active");
+                //         msgRegion.reset();
+                //       }
+                //     },
+                //     onRender : function(){
+                //       var self = this;
+                //       self.$el.addClass("fade in");
 
-                var MsgView = Marionette.ItemView.extend({
-                    template : "#msg-template",
-                    attributes : {
-                      id : "transcription-msg"
-                    },
-                    events : {
-                      "click button" : function() {
-                        msgRegion.$el.removeClass("active");
-                        msgRegion.reset();
-                      }
-                    },
-                    onRender : function(){
-                      var self = this;
-                      self.$el.addClass("fade in");
+                //       msgRegion.$el.addClass("active");
 
-                      msgRegion.$el.addClass("active");
+                //       switch (self.model.get("style")) {
+                //         case "success": self.$el.addClass("btn-success");
+                //         break;
 
-                      switch (self.model.get("style")) {
-                        case "success": self.$el.addClass("btn-success");
-                        break;
+                //         case "info": self.$el.addClass("btn-info");
+                //         break;
 
-                        case "info": self.$el.addClass("btn-info");
-                        break;
+                //         case "warning": self.$el.addClass("btn-warning");
+                //         break;
 
-                        case "warning": self.$el.addClass("btn-warning");
-                        break;
+                //         case "danger": self.$el.addClass("btn-danger");
+                //         break;
 
-                        case "danger": self.$el.addClass("btn-danger");
-                        break;
+                //         default: self.$el.addClass("btn-info");
+                //       }
 
-                        default: self.$el.addClass("btn-info");
-                      }
+                //       if (!(typeof self.model.get("fade") == "undefined") && self.model.get("fade")){
+                //         setTimeout(function() {
+                //           self.$el.removeClass("in").addClass("out");
 
-                      if (!(typeof self.model.get("fade") == "undefined") && self.model.get("fade")){
-                        setTimeout(function() {
-                          self.$el.removeClass("in").addClass("out");
+                //           setTimeout(function() {
+                //             msgRegion.$el.removeClass("active");
+                //             msgRegion.reset();
+                //           }, 500);
+                //         }, 3000);
+                //       }
+                //     }
+                // });
 
-                          setTimeout(function() {
-                            msgRegion.$el.removeClass("active");
-                            msgRegion.reset();
-                          }, 500);
-                        }, 3000);
-                      }
-                    }
-                });
+                // var Message = new Backbone.Model();
 
-                var Message = new Backbone.Model();
+                // Message.set("text", message);
+                // Message.set("fade", fade);
+                // Message.set("style", style);
 
-                Message.set("text", message);
-                Message.set("fade", fade);
-                Message.set("style", style);
-
-                view = new MsgView({
-                    model : Message
-                })
+                // view = new MsgView({
+                //     model : Message
+                // })
 
 
-                msgRegion.show(view);
+                // msgRegion.show(view);
             }
         });
 
@@ -319,7 +318,7 @@
                         }
                     },
                     moved : function() {
-                        // console.log(options);
+                        // field-guide.log(options);
                         if (options.options.moveFn) {
                             options.options.moveFn.call(this);
                         }
@@ -331,22 +330,22 @@
                     }
                 });
 
-                if (this.model.get("resizeContainer")) {
-                    // console.info("resize");
-                    containerHeight = $("#transcriber-container").height();
-                    toolbarHeight = $("#transcriber-toolbar").height();
-                    fieldGuideImgHeight = $("#header-image-container").height();
+                // if (this.model.get("resizeContainer")) {
+                //     // console.info("resize");
+                //     containerHeight = $("#transcriber-container").height();
+                //     toolbarHeight = $("#transcriber-toolbar").height();
+                //     fieldGuideImgHeight = $("#field-guide-container").height();
 
-                    self.$el.height(containerHeight - (toolbarHeight + fieldGuideImgHeight));
+                //     self.$el.height(containerHeight - (toolbarHeight + fieldGuideImgHeight));
 
-                    $(window).on('resize', function() {
-                        containerHeight = $("#transcriber-container").height();
-                        toolbarHeight = $("#transcriber-toolbar").height();
-                        fieldGuideImgHeight = $("#header-image-container").height();
+                //     $(window).on('resize', function() {
+                //         containerHeight = $("#transcriber-container").height();
+                //         toolbarHeight = $("#transcriber-toolbar").height();
+                //         fieldGuideImgHeight = $("#field-guide-container").height();
 
-                        self.$el.height(containerHeight - (toolbarHeight + fieldGuideImgHeight));
-                    });
-                };
+                //         self.$el.height(containerHeight - (toolbarHeight + fieldGuideImgHeight));
+                //     });
+                // };
 
                 if (this.options.postRenderFn) {
                     this.options.postRenderFn.call(this);
@@ -1120,7 +1119,7 @@
             'popover-placement': 'bottom',
         });
         timeGuidePage = new Page({
-            image_id : 'time-image',
+            image_id : 'time-guide',
             resizeContainer : true,
             title: '<%= t('transcriber.guide-images.title.time').html_safe %>',            
             description : '<%= t('transcriber.guide-images.help-text.time').html_safe %>',
@@ -1167,7 +1166,7 @@
             cursor : "ns-resize",
             x : false,
             attributes : {
-                id : "header-image-kinetic"
+                id : "field-guide-kinetic"
             },
             // postRenderFn : function() {
             //     // this.$el.kinetic("detach");
@@ -1179,7 +1178,7 @@
             cursor : "ew-resize",
             y : false,
             attributes : {
-                id : "time-image-kinetic"
+                id : "time-guide-kinetic"
             },
             // postRenderFn : function() {
             //     // this.$el.kinetic("detach");

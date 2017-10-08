@@ -1,12 +1,6 @@
 
 @import "draw-variables";
 
-#app-container {
-    height: 100%;
-    width: 100%;
-    background: black;
-}
-
 .DisplayNone
 {
     display: none;
@@ -116,144 +110,6 @@
     z-index:200;
 }
 
-#transcriber-grid-container {
-    display: none;
-    height: 55px;
-    width: calc(100% - 320px - 80px);
-    border: 2px solid $accent-color;
-    position: relative;
-    margin-left: 255px;
-    margin-right: 80px;
-
-    .control-mask {
-        display: table-cell;
-        min-width: 100%;
-        height: 100%;
-        background: hsla(0, 0%, 0%, 0.6);
-        opacity: 0;
-        -webkit-transition: 0.5s opacity;
-        transition: 0.5s opacity;
-        vertical-align: middle;
-        color: hsl(0, 0%, 100%);
-        font-size: larger;
-        text-align: center;
-    }
-
-    &:hover {
-        .control-mask {
-            opacity: 1;
-        }
-    }
-
-}
-
-#header-wrapper {
-    height: 170px;
-}
-
-#header-img-spacer {
-    width: 140px;
-    height: 100%;
-    border-right: 3px solid $accent-color;
-    float: left;
-}
-
-#header-image-container {
-    max-width: calc(100% - 140px);
-    height:100%;
-    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
-    border-color: black;
-    border-style: solid;
-    border-width: 2px;
-    position: relative;
-    float: left;
-
-    &:after {
-        clear: both;
-    }
-}
-
-#header-image-kinetic, #time-image-kinetic {
-    overflow: scroll;
-    height: 100%;
-    width: 100%;
-    // position: relative;
-
-
-    .control-mask {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 100%;
-        height: 100%;
-        padding: 5px;
-        padding-right: 15px;
-        // background : rgba(0,0,0, 0.6);
-        opacity: 0;
-        transition: 0.5s opacity;
-
-        color: white;
-
-        .actions-container {
-            .reset-position-btn {
-                white-space: normal;
-            }
-        }
-    }
-
-    &:hover {
-        .control-mask {
-            opacity: 1;
-        }
-        .description-msg {
-            opacity: 1;
-        }
-    }
-
-}
-
-#header-image-kinetic {
-    .control-mask {
-        .action-msg {
-        }
-    }
-
-    &.kinetic-active:hover {
-        .action-msg, .description-msg {
-            cursor: ns-resize;
-        }
-    }
-}
-
-#time-image-kinetic {
-    .control-mask {
-        .action-msg {
-        }
-        .actions-container {
-            text-align: center;
-            position: static;
-        }
-    }
-
-    &.kinetic-active:hover {
-        .action-msg, .description-msg {
-            cursor: ew-resize;
-        }
-    }
-}
-
-#time-image-container {
-    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
-    width:140px; 
-    min-height:100%;
-    border-color: black;
-    border-style: solid;
-    border-width: 2px;
-    position: fixed;
-
-    border-right: 3px solid $accent-color;
-}
-
 #scribe_top_bar {
     padding:5px;
 }
@@ -343,5 +199,396 @@
   .navbar-nav > li > a {
     padding-top: 5px;
     padding-bottom: 5px;
+  }
+}
+
+#app-container {
+  height: 100%;
+  width: 100%;
+  background: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  #transcriber-container {
+    // background: black;
+    // width: 100vw;
+    // height: 100vh;
+    // position: absolute;
+
+    #transcriber-toolbar-wrapper {
+      width: 100%;
+      height: 50px;
+      padding: 0 10px;
+      background: black;
+      display: table;
+
+      > div {
+        display: table-cell;
+        vertical-align: middle;
+        width: 50%;
+        // padding: 0 15px;
+      }
+
+      > div:last-child:after {
+        clear: left;
+      }
+
+      .bootstrap-switch {
+        border: transparent;
+      }
+
+      #finish-transcribing-btn {
+        transition: all 0.5s;
+      }
+
+      #get-started-txt {
+        color: white;
+        margin-top: 7px;
+      }
+    }
+
+    #transcriber-image-container {
+      height: calc(100vh - 50px);
+      width: 100%;
+      position: relative;
+
+      #field-guide-kinetic, #time-guide-kinetic {
+        overflow: scroll;
+        height: 100%;
+        width: 100%;
+
+        .control-mask {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          padding: 5px;
+          padding-right: 15px;
+          // background : rgba(0,0,0, 0.6);
+          opacity: 0;
+          transition: 0.5s opacity;
+          color: white;
+
+          .actions-container {
+            .reset-position-btn {
+              white-space: normal;
+            }
+          }
+        }
+
+        &:hover {
+          .control-mask {
+            opacity: 1;
+          }
+          .description-msg {
+            opacity: 1;
+          }
+        }
+      }
+      
+        // #field-guide-container {
+        //   height:100%;
+        //   box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+        //   border-color: black;
+        //   border-style: solid;
+        //   border-width: 2px;
+        //   position: relative;
+        //   float: left;
+
+        //   &:after {
+        //       clear: both;
+        //   }
+        // }
+        
+        // &:after {
+        //   clear: both;
+        // }
+      #field-guide-container {
+        border-bottom: 3px solid $accent-color;
+        height: 20%;
+        margin-left: 15%;
+        position: relative;
+        box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+
+        #field-guide-kinetic {
+          .control-mask {
+            .action-msg {
+            }
+          }
+
+          &.kinetic-active:hover {
+            .action-msg, .description-msg {
+              cursor: ns-resize;
+            }
+          }
+        }
+      }
+
+      #page-time-container {        
+        height: 80%;
+        width: 100%;
+        position: relative;
+
+        #time-guide-container {
+          width: 15%;
+          height: 100%;
+          position: absolute;
+          overflow: hidden;
+          box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+          // width: 140px; 
+          // border-color: black;
+          // border-style: solid;
+          // border-width: 2px;
+          border-right: 3px solid $accent-color;
+
+          #time-guide-kinetic {
+            &.kinetic-active:hover {
+              .action-msg, .description-msg {
+                cursor: ew-resize;
+              }
+            }
+          }
+        }
+
+        #page-container {
+          width: 85%;
+          height: 100%;
+          top: 0;
+          left: 15%;
+          position: absolute;
+          overflow: hidden;
+
+          #canvas {
+            position: relative;
+            overflow: scroll;
+            width: 100%;
+            height: 100%;
+
+            &.ui-boxer {
+              cursor: crosshair;
+            }
+          }
+          &.kinetic-active #canvas.ui-boxer {
+            cursor: move;
+          }
+        }
+      }
+    }
+  }
+}
+
+.annotation-marker {
+  min-width: 110px;
+  min-height: 30px;
+
+  border: 1px solid hsla(0, 100%, 0%, 0.3);
+  background: hsla(268, 100%, 68%, 0.3);
+  z-index: 80;
+  position: absolute;
+  cursor: default;
+
+  &.helper {
+    border: 2px dotted black;
+  }
+
+  &.ui-draggable {
+    cursor: move;
+  }
+
+  .inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.5s ease;
+
+    .annotation-actions {
+      opacity: 0;
+      -webkit-transition: all 1s ease;
+      transition: all 1s ease;
+    }
+
+    .annotation-msg {
+        transition: all 1s ease;
+        position: absolute;
+        bottom: 0%;
+        text-align: center;
+        padding: 5px;
+        width: 100%;
+        opacity: 0;
+        color: white;
+
+        background: rgba(0, 0%, 0%, 0.05);
+
+        &.active {
+            opacity: 1;
+            background: rgba(0, 0%, 0%, 0.2);
+        }
+    }
+  }
+  &:hover {
+    .annotation-actions {
+      opacity: 1;
+    }
+    .annotation-msg {
+      opacity: 1;
+    }
+    .inner {
+    }
+  }
+
+  #nwgrip, #negrip, #swgrip, #segrip, #ngrip, #egrip, #sgrip, #wgrip {
+      width: 10px;
+      height: 10px;
+      background-color: #ffffff;
+      border: 1px solid #000000;
+      position: absolute;
+  }
+  #nwgrip {
+      left: -5px;
+      top: -5px;
+  }
+  #negrip{
+       top: -5px;
+       right: -5px;
+  }
+  #swgrip{
+      bottom: -5px;
+      left: -5px;
+  }
+  #segrip{
+       bottom: -5px;
+      right:-5px;
+  }
+  #ngrip{
+       top: -5px;
+      left:50%;
+  }
+  #sgrip{
+       bottom: -5px;
+      left: 50%;
+  }
+  #wgrip{
+       left:-5px;
+       top:50%;
+  }
+  #egrip{
+       right:-5px;
+       top:50%;
+  }
+}
+
+// field group colours
+$fg-red: hsla(0, 100%, 68%, 0.3);
+$fg-pink: hsla(311, 100%, 68%, 0.3);
+$fg-purple: hsla(268, 100%, 68%, 0.3);
+$fg-blue: hsla(217, 100%, 68%, 0.3);
+$fg-cyan: hsla(178, 100%, 68%, 0.3);
+$fg-green: hsla(126, 100%, 68%, 0.3);
+$fg-yellow: hsla(62, 100%, 68%, 0.3);
+$fg-orange: hsla(26, 100%, 68%, 0.3);
+
+$tab-active-text: white;
+
+@function tabBackground($colour){
+  @return rgba($colour, 0.3)
+}
+@function activeTabBackground($colour){
+  @return rgba(tabBackground($colour), 1)
+}
+.red-group {
+  background: $fg-red;
+}
+.pink-group {
+  background: $fg-pink;
+}
+.purple-group {
+  background: $fg-purple;
+}
+.blue-group {
+  background: $fg-blue;
+}
+.cyan-group {
+  background: $fg-cyan;
+}
+.green-group {
+  background: $fg-green;
+}
+.yellow-group {
+  background: $fg-yellow;
+}
+.orange-group {
+  background: $fg-orange;
+}
+
+
+#scribe_tab_bar {
+  .scribe_tab.red-group {
+    background: tabBackground($fg-red);
+
+    &.active{
+      background: activeTabBackground($fg-red);
+      color: $tab-active-text;
+    }
+  }
+  .scribe_tab.pink-group {
+    background: tabBackground($fg-pink);
+    
+    &.active{
+      background: activeTabBackground($fg-pink);
+      color: $tab-active-text;
+    }
+  }
+  .scribe_tab.purple-group {
+    background: tabBackground($fg-purple);
+    
+    &.active{
+      background: activeTabBackground($fg-purple);
+      color: $tab-active-text;
+    }
+  }
+  .scribe_tab.blue-group {
+    background: tabBackground($fg-blue);
+    
+    &.active{
+      background: activeTabBackground($fg-blue);
+      color: $tab-active-text;
+    }
+  }
+  .scribe_tab.cyan-group {
+    background: tabBackground($fg-cyan);
+    
+    &.active{
+      background: activeTabBackground($fg-cyan);
+      color: $tab-active-text;
+    }
+  }
+  .scribe_tab.green-group {
+    background: tabBackground($fg-green);
+  
+    &.active{
+      background: activeTabBackground($fg-green);
+      color: $tab-active-text;
+    }
+  }
+  .scribe_tab.yellow-group {
+    background: tabBackground($fg-yellow);
+  
+    &.active{
+      background: activeTabBackground($fg-yellow);
+      color: $tab-active-text;
+    }
+  }
+  .scribe_tab.orange-group {
+    background: tabBackground($fg-orange);
+  
+    &.active{
+      background: activeTabBackground($fg-orange);
+      color: $tab-active-text;
+    }
   }
 }
