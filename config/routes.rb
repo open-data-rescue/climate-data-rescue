@@ -36,11 +36,9 @@ DataRescueAtHome::Application.routes.draw do
   end
 
   root :to => "home#index"
-  match 'home' => 'home#index', :via => [:get, :post]
 
   resources :transcriptions
   get 'transcribe(/:current_page_id)' => 'transcriptions#new', as: "transcribe_page"
-  get 'my-transcriptions' => 'transcriptions#my_transcriptions', as: "my_transcriptions"
   resources :annotations, defaults: { format: :json }
 
 

@@ -32,32 +32,7 @@
         h2 = t('my-transcriptions')
       .col-md-12
         - if @user.transcriptions.any?
-          .table-responsive
-            table.table.table-striped
-              thead
-                tr
-                  th
-                  th = t('page-title')
-                  th = t('user-observations')
-                  th = t('unique-rows')
-                  th = t('unique-rows-expected')
-                  th = t('started-at')
-                  th = t('last-updated')
-                  th
-
-              tbody
-                - @user.transcriptions.each do |transcription|
-                  tr
-                    td = (transcription.page ? image_tag(transcription.page.image.url(:thumb)) : '')
-                    td = (transcription.page ? transcription.page.title : '')
-                    td = transcription.annotations.count
-                    td = transcription.unique_observation_dates.count
-                    td = transcription.num_rows_expected
-                    td = l(transcription.created_at, format: :short)
-                    td = l(transcription.updated_at, format: :short)
-                    td 
-                      = link_to t('edit-transcription'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
-                      = link_to t('view-details'), transcription_path(transcription), class: "btn btn-xs btn-primary"
+          = render 'transcriptions/transcriptions_table', transcriptions: @user.transcriptions
         - else
           p = t('no-pages-transcribed-yet')
     .row.voffset20

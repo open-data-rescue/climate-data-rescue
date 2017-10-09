@@ -29,6 +29,9 @@
                     - annotations.each do |annotation|
                     - if annotation
                       - entry = annotation.data_entries.find_by(field: field)
-                      td.text-center = (entry.present? ? entry.value : nil)
+                      - if entry.present?
+                        td class="text-center #{group.colour_class}" = entry.value
+                      - else
+                        td
                     - else
                       td
