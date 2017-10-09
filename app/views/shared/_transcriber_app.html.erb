@@ -52,24 +52,6 @@
             data: defaultFieldOptions,
         };
 
-        function annotationBoxContents(annotationId) {
-            $innerWrapper = $('<div class="inner"></div>');
-            $contents = $('<div class="annotation-actions"></div>');
-            $detailBtn = $('<button type="button" class="btn btn-xs btn-default annotation-detail-btn"><i class="fa fa-info-circle"></i></button>');
-            $editBtn = $('<button type="button" class="btn btn-xs btn-default edit-annotation-btn"><i class="fa fa-pencil"></i></button>');
-            $deleteBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-trash"></i></button>');
-            $resizeBtn = $('<button type="button" class="btn btn-xs btn-default"><i class="fa fa-expand" aria-hidden="true"></i></button>');
-
-            $innerWrapper.click(function() {
-                editAnnotation(annotationId);
-            });
-
-            $msg = $('<div class="annotation-msg">edit</div>');
-            $contents.append($editBtn);
-            $innerWrapper.append($contents, $msg);
-            return $innerWrapper;
-        };
-
         function updateFieldOptionIds(e) {
           var $this = $(this);
           var $optionIdsInput = $this.siblings(".selected-option-ids");
@@ -289,11 +271,7 @@
                   '-moz-transform-origin' : 'left top' 
                 });
                 this.currentZoom = zoom; 
-                this.updateZoomLevel(); 
-
-                _.each(mainLayout.guideImages, function updatePopovers(guide) {
-                  guide.refreshPopover();
-                });
+                this.updateZoomLevel();
               }; 
             }, 
 
@@ -332,17 +310,17 @@
 
             },
 
-            events : {
-                "click .reset-position-btn" : function() {
-                    if (this.options.x && this.options.scrollLeft){
-                        this.$el.kinetic("scrollLeft", this.options.scrollLeft);
-                    };
+            // events : {
+            //     "click .reset-position-btn" : function() {
+            //         if (this.options.x && this.options.scrollLeft){
+            //             this.$el.kinetic("scrollLeft", this.options.scrollLeft);
+            //         };
 
-                    if (this.options.y && this.options.scrollTop){
-                        this.$el.kinetic("scrollTop", this.options.scrollTop);
-                    };
-                },
-            },
+            //         if (this.options.y && this.options.scrollTop){
+            //             this.$el.kinetic("scrollTop", this.options.scrollTop);
+            //         };
+            //     },
+            // },
 
             onRender : function(options) {
                 if (this.options.attributes && this.options.attributes.id) {
@@ -395,17 +373,6 @@
                   html: true,
                 });
               }
-            },
-
-            popoverDestroy: function popoverDestroy() {
-              if (this.$el.data('bs.popover') != void 0) {
-                this.$el.popover('destroy');
-              }
-            },
-
-            refreshPopover: function refreshPopover() {
-              this.popoverDestroy();
-              this.popoverInit();
             },
         });
 
