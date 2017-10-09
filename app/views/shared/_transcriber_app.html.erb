@@ -250,10 +250,8 @@
                     };
                 },
                 "click #stop-transcribing" : function(e) {
-                    $btn = $(e.target);
-
                     var modal = new Backbone.BootstrapModal({ 
-                        title : "Stop transcribing?",
+                        title : '<%= t('transcriber.stop-transcribing-modal.title') %>',
                         animate : true,
                         content : $('#stop-transcribing-template').html(),
                         showFooter : false
