@@ -337,6 +337,25 @@
           }
         }
       }
+
+      .transcription-data-panel {
+        transition: width 0.1s, height 0.1s, top 0.1s;
+        width: 0vw;
+        position: absolute;
+        height: 50%;
+        top: 0;
+        right: 0;
+        background-color: white;
+        z-index: 500;
+        overflow-y: scroll;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        padding: 0;
+        
+        &.showing-panel {
+          width: 100vw;
+          padding: 15px;
+        }
+      }
     }
   }
 }

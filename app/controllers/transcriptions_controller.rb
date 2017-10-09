@@ -18,11 +18,9 @@ class TranscriptionsController < ApplicationController
       # It is passed to the transcription view "show.html.slim" (project_root/transcriptions/transcription_id)
       # and is used to populate the page with information about the transcription instance.
       @transcription = Transcription.find(params[:id])
-      # @page = @transcription.page
-    
-      respond_to do |format|
-        format.html # show.html.erb
-        format.json { render json: @transcription }
+      
+      if params['only_data_table'].present? && params['only_data_table'] == true || params['only_data_table'] == 'true'
+        render 'data_view', layout: 'raw'
       end
     else
       flash[:danger] = 'Only users can view transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'

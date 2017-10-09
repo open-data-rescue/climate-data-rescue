@@ -128,6 +128,7 @@
             fieldGuideImg : "#field-guide-container",
             timeGuideImg : "#time-guide-container",
             pageContainer : "#page-container",
+            dataPanel: '#data-panel',
           },
           attributes : {
             id : "transcriber-container"
@@ -245,6 +246,7 @@
                   var zoom = $(e.target).data('zoom-level'); 
                   this.zoomPage(zoom, true); 
                 }, 
+                'click #toggle-data-btn': 'toggleDataPanel',
             }, 
  
             initialize : function(opts) { 
@@ -285,6 +287,56 @@
             setZoomContainer : function () { 
               this.zoomContainer = this.zoomContainer.add(arguments);
             },
+
+            toggleDataPanel: function toggleDataPanel(e) {
+              var $btn = this.$('#toggle-data-btn');
+              if ($btn.data('panel') === 'closed') {
+                this.showDataPanel();
+              }
+              else {
+                this.closeDataPanel();
+              }
+            },
+
+            closeDataPanel: function closeDataPanel() {
+              var $btn = this.$('#toggle-data-btn');
+              $btn.html('<%= t('transcriber.toolbar.view-data') %>');
+              mainLayout.$('.transcription-data-panel').removeClass('showing-panel');
+              mainLayout.dataPanel.empty();
+              $btn.data('panel', 'closed');
+            },
+
+            showDataPanel: function showDataPanel() {
+              var self = this;
+              var $btn = this.$('#toggle-data-btn');
+              $btn.data('panel', 'open');
+              $btn.html('<%= t('transcriber.toolbar.hide-data') %>');
+
+              view = new DataTableView();
+              mainLayout.dataPanel.show(view);
+            },
+        });
+
+        var DataTableView = Marionette.ItemView.extend({
+          template: '#transcription-data-panel-template',
+          events: {
+            'click .close': function closeDataPanel() {
+              toolbarLayout.closeDataPanel();
+            },
+          },
+          onShow: function onRender() {
+            var self = this;
+            $.ajax({
+              url: '<%= baseUri + '/transcriptions/' + @transcription.id.to_s %>.html',
+              data: {
+                only_data_table: true
+              },
+              success: function success(response) {
+                self.$('#data-table-container').html(response);
+                mainLayout.$('.transcription-data-panel').addClass('showing-panel');
+              }
+            });
+          }
         });
 
         PageCanvas = Marionette.ItemView.extend({
@@ -309,18 +361,6 @@
                 this.options = $.extend(true, {}, this.options, defaults, options);
 
             },
-
-            // events : {
-            //     "click .reset-position-btn" : function() {
-            //         if (this.options.x && this.options.scrollLeft){
-            //             this.$el.kinetic("scrollLeft", this.options.scrollLeft);
-            //         };
-
-            //         if (this.options.y && this.options.scrollTop){
-            //             this.$el.kinetic("scrollTop", this.options.scrollTop);
-            //         };
-            //     },
-            // },
 
             onRender : function(options) {
                 if (this.options.attributes && this.options.attributes.id) {

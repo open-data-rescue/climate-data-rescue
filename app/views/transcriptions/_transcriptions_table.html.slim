@@ -1,5 +1,6 @@
 
 - detail_links = true unless detail_links === false
+- render_btns = true unless render_btns === false
 
 .table-responsive
   table.table.table-striped
@@ -20,7 +21,8 @@
         - if current_user.admin?
           th = t('transcriptions.table.header-labels.page-type')
           th = t('transcriptions.table.header-labels.user')
-        th
+        - if render_btns
+          th
 
     tbody
       - transcriptions.each do |transcription|
@@ -47,7 +49,8 @@
           - if current_user.admin?
             td = link_to transcription.page_type.title, admin_page_type_path(transcription.page_type)
             td = link_to(transcription.user.name, user_path(transcription.user))
-          td 
-            = link_to t('edit-transcription'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
-            = link_to t('view-details'), (current_user.admin? ?  admin_transcription_path(transcription) :  transcription_path(transcription)), class: "btn btn-xs btn-primary" if detail_links
-            /= link_to ('<i class="fa fa-trash"></i>').html_safe, admin_transcriptions_path(transcription), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+          - if render_btns
+            td 
+              = link_to t('edit-transcription'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
+              = link_to t('view-details'), (current_user.admin? ?  admin_transcription_path(transcription) :  transcription_path(transcription)), class: "btn btn-xs btn-primary" if detail_links
+              /= link_to ('<i class="fa fa-trash"></i>').html_safe, admin_transcriptions_path(transcription), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 

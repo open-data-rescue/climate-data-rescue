@@ -7,6 +7,7 @@
       <aside id="time-guide-container"></aside>
       <main id="page-container"></main>
     </section>
+    <section id="data-panel" class="transcription-data-panel"></section>
   </div>
 </script>
 
@@ -53,8 +54,15 @@
           <i class="fa fa-search-plus"></i> 
       </button> 
     </div> 
-    <button id="view-data-btn" class="btn btn-sm btn-default"><%= t('transcriber.toolbar.view-data') %></button>
+    <button id="toggle-data-btn" class="btn btn-sm btn-default" data-panel="closed"><%= t('transcriber.toolbar.view-data') %></button>
     <button id="stop-transcribing" class="btn btn-sm btn-default"><%= t('transcriber.toolbar.stop-transcribing') %></button>
+  </div>
+</script>
+
+<script id="transcription-data-panel-template" type="text/template">
+  <i class="close fa fa-close btn btn-default btn-xs pull-right"></i>
+  <div id="data-table-container">
+    <i class="fa fa-refresh fa-spin center-block"></i>
   </div>
 </script>
 
