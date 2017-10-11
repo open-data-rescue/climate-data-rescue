@@ -362,11 +362,12 @@
 
             },
 
-            onRender : function(options) {
+            onRender : function() {
+                var self = this;
                 if (this.options.attributes && this.options.attributes.id) {
                     this.$el.attr("id", this.options.attributes.id);
                 };
-
+                console.log(this.options);
                 var self = this;
                 this.$el.kinetic({
                     x : this.options.x,
@@ -375,14 +376,14 @@
                     "can scroll" : this.options.scroll,
                     stopped : function() {
                         // console.log(options);
-                        if (options.options.stopFn) {
-                            options.options.stopFn.call(this);
+                        if (self.options.stopFn) {
+                            self.options.stopFn.call(this);
                         }
                     },
                     moved : function() {
                         // field-guide.log(options);
-                        if (options.options.moveFn) {
-                            options.options.moveFn.call(this);
+                        if (self.options.moveFn) {
+                            self.options.moveFn.call(this);
                         }
                     },
                     filterTarget: function(target, e){
@@ -1190,40 +1191,32 @@
             },
         });
         pageCanvas = new PageImage({
-            model : mainPage,
-            template : "#page-canvas-template",
-            attributes : {
-                id : "canvas"
-            },
-            moveFn : function() {
-                timeGuideImg.$el.kinetic("scrollTop", this.settings.scrollTop);
-                fieldGuideImg.$el.kinetic("scrollLeft", this.settings.scrollLeft);
-            },
-            postRenderFn : function() {
-                Annotations.fetch({
-                    url : "/annotations?transcription_id=<%= @transcription.id %>",
-                    success : function(collection) {
-                        // console.log(collection);
+          model : mainPage,
+          template : "#page-canvas-template",
+          attributes : {
+              id : "canvas"
+          },
+          postRenderFn : function() {
+            Annotations.fetch({
+                url : "/annotations?transcription_id=<%= @transcription.id %>",
+                success : function(collection) {
+                  // console.log(collection);
+                  _.each(collection.models, function(annotation) {
+                    box = new AnnotationBoxView({
+                        model : annotation
+                    });
 
-                        _.each(collection.models, function(annotation) {
-                            // console.log(annotation);
+                    box.render();
+                  });
+                  // console.log(Annotations);
+                }
+            });
 
-                            box = new AnnotationBoxView({
-                                model : annotation
-                            });
-
-                            box.render();
-                        });
-
-                        // console.log(Annotations);
-                    }
-                });
-
-                this.$el.on("scroll", function() {
-                    timeGuideImg.$el.kinetic("scrollTop", $(this).scrollTop());
-                    fieldGuideImg.$el.kinetic("scrollLeft", $(this).scrollLeft());
-                });
-            }
+            this.$el.on("scroll", function() {
+              timeGuideImg.$el.scrollTop($(this).scrollTop());
+              fieldGuideImg.$el.scrollLeft($(this).scrollLeft());
+            });
+          }
         });
         fieldGuideImg = new PageImage({
             model : fieldGuidePage,
