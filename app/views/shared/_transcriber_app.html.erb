@@ -120,6 +120,31 @@
             };
             return data;
         }
+
+        var latestMsg = null;
+
+        function setMsg(message, fade, style) {
+          var delay = 5000;
+          if (!fade) {
+            delay = 0;
+          }
+          $.notify(
+            {
+              message: message
+            },
+            {
+              type: style,
+              newest_on_top: true,
+              placement: {
+                from: "top",
+                align: "center",
+              },
+              mouse_over: 'pause',
+              offset: 50,
+              delay: 0,
+            }
+          );
+      }
         
         MainLayout = Marionette.LayoutView.extend({
           template : "#main-layout-template",
@@ -132,72 +157,6 @@
           },
           attributes : {
             id : "transcriber-container"
-          },
-          setMsg : function (message, fade, style) {
-              // console.log(this);
-
-              // msgRegion = this.msgs;
-
-              // msgRegion.el = "#transcription-msg-container"; 
-              console.log(message)
-              // var MsgView = Marionette.ItemView.extend({
-              //     template : "#msg-template",
-              //     attributes : {
-              //       id : "transcription-msg"
-              //     },
-              //     events : {
-              //       "click button" : function() {
-              //         msgRegion.$el.removeClass("active");
-              //         msgRegion.reset();
-              //       }
-              //     },
-              //     onRender : function(){
-              //       var self = this;
-              //       self.$el.addClass("fade in");
-
-              //       msgRegion.$el.addClass("active");
-
-              //       switch (self.model.get("style")) {
-              //         case "success": self.$el.addClass("btn-success");
-              //         break;
-
-              //         case "info": self.$el.addClass("btn-info");
-              //         break;
-
-              //         case "warning": self.$el.addClass("btn-warning");
-              //         break;
-
-              //         case "danger": self.$el.addClass("btn-danger");
-              //         break;
-
-              //         default: self.$el.addClass("btn-info");
-              //       }
-
-              //       if (!(typeof self.model.get("fade") == "undefined") && self.model.get("fade")){
-              //         setTimeout(function() {
-              //           self.$el.removeClass("in").addClass("out");
-
-              //           setTimeout(function() {
-              //             msgRegion.$el.removeClass("active");
-              //             msgRegion.reset();
-              //           }, 500);
-              //         }, 3000);
-              //       }
-              //     }
-              // });
-
-              // var Message = new Backbone.Model();
-
-              // Message.set("text", message);
-              // Message.set("fade", fade);
-              // Message.set("style", style);
-
-              // view = new MsgView({
-              //     model : Message
-              // })
-
-
-              // msgRegion.show(view);
           },
           guideImages: [],
         });
@@ -499,10 +458,10 @@
 
                           annotation.save(annotation.attributes, {
                             success : function(mdl) {
-                              mainLayout.setMsg("Annotation box dimensions sucessfully saved!", true, "success");
+                              setMsg("Annotation box dimensions sucessfully saved!", true, "success");
                             },
                             error : function() {
-                              mainLayout.setMsg("Error saving annotation box dimensions!", true, "danger");
+                              setMsg("Error saving annotation box dimensions!", true, "danger");
                             }
                           }).always(function() {
                             $box.find(".annotation-actions").show();
@@ -561,10 +520,10 @@
 
                           annotation.save(annotation.attributes, {
                             success : function(mdl) {
-                              mainLayout.setMsg("Annotation box position sucessfully saved!", true, "success");
+                              setMsg("Annotation box position sucessfully saved!", true, "success");
                             },
                             error : function() {
-                              mainLayout.setMsg("Error saving annotation box position!", true, "danger");
+                              setMsg("Error saving annotation box position!", true, "danger");
                             }
                           }).always(function() {
                             $box.find(".annotation-actions").show();
@@ -588,7 +547,7 @@
                             annotation.destroy({
                                 success : function(mdl) {
                                     self.destroy();
-                                    mainLayout.setMsg("Annotation deleted", true, "success");
+                                    setMsg("Annotation deleted", true, "success");
                                     $(".tooltip").remove();
                                     modal.close();
                                 }
@@ -661,7 +620,7 @@
                     self = this;
                      $tab = $(e.target);
                      self.$el.find(".annotation-form-field-group").hide(); //hide all other instances of the field_group data forms when switching tabs
-                     self.$el.find('#formInstructions').hide();
+                     self.$el.find('#initial-prompt').hide();
                      $tab.addClass($tab.data('classname')); //mark clicked tab as active by settings its class
 
                      $tab.siblings().removeClass(function (index, css) {
@@ -861,13 +820,13 @@
                     
                     self.destroy();
 
-                    mainLayout.setMsg("Annotation sucessfully saved!", true, "success");
+                    setMsg("Annotation sucessfully saved!", true, "success");
                 }).on("ajax:error", function(e, xhr, status, error) {
                     // console.log(e);
                     console.error(error);
                     console.error(status);
                     // console.log(xhr);
-                    mainLayout.setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
+                    setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
 
                     self.show();
                 });
@@ -973,7 +932,7 @@
                     self.hide();
 
                     if (data.id == null) {
-                      mainLayout.setMsg("Annotation could not be saved. The ID returned was null.", false, "danger");
+                      setMsg("Annotation could not be saved. The ID returned was null.", false, "danger");
                       toolbarLayout.$("#new-annotation").removeClass("disabled");
                       self.show();
                       console.error(data);
@@ -1005,12 +964,12 @@
 
                 }).on("ajax:error", function(e, xhr, status, error) {
                     // console.log(e);
-                    console.log(error);
-                    console.log(status);
+                    console.error(error);
+                    console.error(status);
                     // console.log(xhr);
                     pageCanvas.$el.boxer('destroy');
                     self.show();
-                    pageLayout.setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
+                    setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
                 });
 
                 $form.submit();
@@ -1078,7 +1037,7 @@
                             self.enableBoxer();
                         },
                         error : function(response) {
-                            mainLayout.setMsg(("Message preference could not be saved. Reason: " + response), true, "warning");
+                            setMsg(("Message preference could not be saved. Reason: " + response), true, "warning");
                         }
                     });
                 },
@@ -1090,7 +1049,7 @@
                 $('.modal, .modal-backdrop').remove();
                 $('body').removeClass("modal-open");
 
-                mainLayout.setMsg("Click and drag the main image to draw a box around the " + fieldGroupName + " observations that you just transcribed. Don't include the date or time.", false, "info");
+                setMsg("Click and drag the main image to draw a box around the " + fieldGroupName + " observations that you just transcribed. Don't include the date or time.", false, "info");
                 annotation = new Annotation(this.options.data);
 
                 pageCanvas.$el.kinetic("detach");
@@ -1125,7 +1084,7 @@
 
                             annotationBox.render();
 
-                            mainLayout.setMsg("Annotation and bounding box sucessfully saved!", true, "success");
+                            setMsg("Annotation and bounding box sucessfully saved!", true, "success");
 
                             pageCanvas.$el.boxer('destroy');
                             
@@ -1251,7 +1210,8 @@
                     timeGuideImg.$el.kinetic("scrollLeft", 315);
                 }, 1000);
             },
-            MainLayout : mainLayout
+            MainLayout : mainLayout,
+            setMsg: setMsg,
         };
     })(Backbone, Marionette)
 
