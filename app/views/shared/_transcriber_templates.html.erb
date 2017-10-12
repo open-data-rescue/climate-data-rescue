@@ -121,7 +121,7 @@
                                 <div class="labels-container">
                                   <!-- "What is the date and time of this observation? <b>You can select the date and time by clicking on the clock icon.</b><br>Should follow the format <nobr><code>04 Aug 1874, 01:48 AM</code></nobr>." -->
                                     <div class="scribe_input_label date-label">
-                                        <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: t('transcriber.transcription-box-template.form.labels.fields.datetime'), data: { content: t('transcriber.transcription-box-template.form.help.fields.datetime').html_safe, html: true, toggle: "popover", placement: "auto", trigger: "hover", container: "body"}%> <%= t('transcriber.transcription-box-template.form.fields.labels.datetime') %>
+                                        <%= content_tag "i", "", class: "fa fa-info-circle", style: "cursor: help;", title: strip_tags(t('transcriber.transcription-box-template.form.fields.labels.datetime')), data: { content: t('transcriber.transcription-box-template.form.fields.help.datetime').html_safe, html: true, toggle: "popover", placement: "auto", trigger: "hover", container: "body"}%> <%= t('transcriber.transcription-box-template.form.fields.labels.datetime') %>
                                     </div>
                                     <% field_group.fields.each do |field| %>
                                         <div class="scribe_input_label">
