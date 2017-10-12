@@ -367,7 +367,6 @@
                 if (this.options.attributes && this.options.attributes.id) {
                     this.$el.attr("id", this.options.attributes.id);
                 };
-                console.log(this.options);
                 var self = this;
                 this.$el.kinetic({
                     x : this.options.x,
@@ -468,21 +467,22 @@
                             e.preventDefault();
                             if( e.which === 27 || e.keyCode === 27 ){
                               $box.find(".annotation-actions").show();
+                              $box.resizable("destroy");
                               pageCanvas.$el.kinetic("attach")
-                              self.clearMsg().removeClass("active");
+                              $(document).off("keyup");
                               $box.off("clickoutside");
                             };
                           });
                           $box.on("clickoutside", function(e){
                             e.preventDefault();
                             $box.find(".annotation-actions").show();
+                            $box.resizable("destroy");
                             pageCanvas.$el.kinetic("attach")
-                            self.clearMsg().removeClass("active");
+                            $(document).off("keyup");
+                            $box.off("clickoutside");
                           });
                         },
                         stop : function(e, ui) {
-                          $(document).off("keyup");
-                          $box.off("clickoutside");
                           var offset = $box.offset();
                           var position = {
                             x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
@@ -499,16 +499,17 @@
 
                           annotation.save(annotation.attributes, {
                             success : function(mdl) {
-                              $box.find(".annotation-actions").show();
-                              $box.resizable("destroy");
-                              pageCanvas.$el.kinetic("attach")
-                              self.clearMsg().removeClass("active");
-
                               mainLayout.setMsg("Annotation box dimensions sucessfully saved!", true, "success");
                             },
                             error : function() {
                               mainLayout.setMsg("Error saving annotation box dimensions!", true, "danger");
                             }
+                          }).always(function() {
+                            $box.find(".annotation-actions").show();
+                            $box.resizable("destroy");
+                            pageCanvas.$el.kinetic("attach")
+                            $(document).off("keyup");
+                            $box.off("clickoutside");
                           });
                         }
                     });
@@ -524,58 +525,54 @@
 
                     $box.draggable({
                         create : function() {
-                            $(document).on("keyup", function(e) {
-                                e.preventDefault();
-                                if( e.which=== 27 || e.keyCode === 27 ){
-                                    console.log("esc key");
-                                    $box.find(".annotation-actions").show();
-                                    $box.draggable("destroy");
-                                    pageCanvas.$el.kinetic("attach")
-                                    self.clearMsg().removeClass("active");
-                                    $(document).off("keyup");
-                                    $box.off("clickoutside");
-                                };
-                            });
-                            $box.on("clickoutside", function(e){
-                                e.preventDefault();
-                                $box.find(".annotation-actions").show();
-                                $box.draggable("destroy");
-                                pageCanvas.$el.kinetic("attach")
-                                self.clearMsg().removeClass("active");
-                                $(document).off("keyup");
-                                $box.off("clickoutside");
-                            });
+                          $(document).on("keyup", function(e) {
+                            e.preventDefault();
+                            if( e.which === 27 || e.keyCode === 27 ){
+                              $box.find(".annotation-actions").show();
+                              $box.draggable("destroy");
+                              pageCanvas.$el.kinetic("attach")
+                              $(document).off("keyup");
+                              $box.off("clickoutside");
+                            };
+                          });
+                          $box.on("clickoutside", function(e){
+                            e.preventDefault();
+                            $box.find(".annotation-actions").show();
+                            $box.draggable("destroy");
+                            pageCanvas.$el.kinetic("attach")
+                            $(document).off("keyup");
+                            $box.off("clickoutside");
+                          });
                         },
                         stop : function(e, ui) {
-                            var offset = $box.offset();
-                            var position = {
-                                x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-                                y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-                            };
+                          var offset = $box.offset();
+                          var position = {
+                              x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
+                              y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
+                          };
 
-                            var width = $box.width();
-                            var height = $box.height();
+                          var width = $box.width();
+                          var height = $box.height();
 
-                            annotation.set("x_tl", position.x);
-                            annotation.set("y_tl", position.y);
-                            annotation.set("width", width);
-                            annotation.set("height", height);
+                          annotation.set("x_tl", position.x);
+                          annotation.set("y_tl", position.y);
+                          annotation.set("width", width);
+                          annotation.set("height", height);
 
-                            annotation.save(annotation.attributes, {
-                                success : function(mdl) {
-                                    $box.find(".annotation-actions").show();
-                                    $box.draggable("destroy");
-                                    pageCanvas.$el.kinetic("attach")
-                                    self.clearMsg().removeClass("active");
-
-                                    mainLayout.setMsg("Annotation box position sucessfully saved!", true, "success");
-
-                                    $(document).unbind()
-                                },
-                                error : function() {
-                                    mainLayout.setMsg("Error saving annotation box position!", true, "danger");
-                                }
-                            });
+                          annotation.save(annotation.attributes, {
+                            success : function(mdl) {
+                              mainLayout.setMsg("Annotation box position sucessfully saved!", true, "success");
+                            },
+                            error : function() {
+                              mainLayout.setMsg("Error saving annotation box position!", true, "danger");
+                            }
+                          }).always(function() {
+                            $box.find(".annotation-actions").show();
+                            $box.draggable("destroy");
+                            pageCanvas.$el.kinetic("attach")
+                            $(document).off("keyup");
+                            $box.off("clickoutside");
+                          });
                         }
                     });
                 },
@@ -867,8 +864,8 @@
                     mainLayout.setMsg("Annotation sucessfully saved!", true, "success");
                 }).on("ajax:error", function(e, xhr, status, error) {
                     // console.log(e);
-                    console.log(error);
-                    console.log(status);
+                    console.error(error);
+                    console.error(status);
                     // console.log(xhr);
                     mainLayout.setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
 
@@ -954,7 +951,6 @@
                           $select.append($option).trigger("change");
                       });
                   } else if ($select.length > 0) {
-                      console.log('field has no selected options', $select);
                       $select.find("option.user-option").remove();
                       var $option = $("<option class='user-option' selected></option>").val(value).text(value);
                       $select.append($option).trigger("change");
