@@ -90,12 +90,12 @@
                 // console.log(option);
                 var title = option.name;
                 if (option.help && option.help.length > 0) {
-                    title = option.help;
+                    title += ': ' + option.help;
                 }
 
                 var opt = $.extend({}, {
                         id : option.id,
-                        text : option.name,
+                        text : option.name_en,
                         title : title,
                         icon_url: option.icon_url,
                         text_symbol: option.text_symbol,
