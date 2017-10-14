@@ -17,11 +17,10 @@
 
         var lastDate = null;
 
-        var defaultFieldOptions = <%= render_default_field_options_select2 %>;
         var defaultFieldOptions = [
             {
                 id: null,
-                text: '<%= t('transcriber.field-options.group-labels.status').html_safe %>',
+                text: '<%= t('transcriber.field-options.group-labels.statuses').html_safe %>',
                 children: <%= render_default_field_options_select2 %>,
             }
         ];
