@@ -6,17 +6,8 @@ class TranscriptionsController < ApplicationController
   #Corresponds to the "transcription" model, transcription.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the transcription model
   #All .html.slim views for "transcription.rb" are located at "project_root\app\views\transcriptions"
 
-  def my_transcriptions
-    if current_user
-      begin
-        user = current_user
-        @transcriptions = user.transcriptions
-        render "index"
-      rescue => e
-        flash[:danger] = e.message
-        redirect_to root_path
-      end
-    end
+  def index
+    redirect_to my_profile_path
   end
 
   # GET /transcriptions/transcription_id
@@ -27,11 +18,9 @@ class TranscriptionsController < ApplicationController
       # It is passed to the transcription view "show.html.slim" (project_root/transcriptions/transcription_id)
       # and is used to populate the page with information about the transcription instance.
       @transcription = Transcription.find(params[:id])
-      # @page = @transcription.page
-    
-      respond_to do |format|
-        format.html # show.html.erb
-        format.json { render json: @transcription }
+      
+      if params['only_data_table'].present? && params['only_data_table'] == true || params['only_data_table'] == 'true'
+        render 'data_view', layout: 'raw'
       end
     else
       flash[:danger] = 'Only users can view transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
@@ -112,9 +101,10 @@ class TranscriptionsController < ApplicationController
   # PUT /transcriptions/transcription_id.json
   def update
     transcription = Transcription.find(params[:id])
+    transcription.update(transcription_params)
     flash[:success] = I18n.t('transcription-saved-msg')
     respond_to do |format|
-      format.html { redirect_to user_path(transcription.user)}
+      format.html { redirect_to transcription}
     end
   end
   

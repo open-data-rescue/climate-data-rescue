@@ -1,7 +1,8 @@
+
 .row
   .col-md-12
     /! Display the information of all the annotations associated with this transcription in table format
-    h3 = t('data-collected')
+    h3 = t('transcriptions.data-table.header.data-collected')
     .table-responsive
       table.table.table-striped
         thead
@@ -14,7 +15,7 @@
             th.text-center = t('observation-date')
             - transcription.field_groups.each do |group|
               - group.fields.each do |field|
-                th.text-center = field.name
+                th.text-center = field.name_en
         tbody
           - transcription.annotations.order_by_date.group_by{|a| a.observation_date.utc.to_date}.each do |date, date_group|
             tr
@@ -29,6 +30,9 @@
                     - annotations.each do |annotation|
                     - if annotation
                       - entry = annotation.data_entries.find_by(field: field)
-                      td.text-center = (entry.present? ? entry.value : nil)
+                      - if entry.present?
+                        td class="text-center #{group.colour_class}" = entry.value
+                      - else
+                        td
                     - else
                       td

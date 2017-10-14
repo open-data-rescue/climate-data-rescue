@@ -4,6 +4,7 @@ if field_option
     json.id field_option.id
     json.text field_option.name
     json.name field_option.name
+    json.name_en field_option.name_en
     json.help field_option.help
     json.value field_option.value
     json.image (field_option.image.present? ? field_option.image : nil)

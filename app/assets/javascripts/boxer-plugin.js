@@ -10,11 +10,9 @@ $.widget("ui.boxer", $.ui.mouse, {
         this._mouseInit();
         this.helper = $('<div></div>')
             .addClass("annotation-marker helper");
-      
     },
 
     destroy: function() {
-       
         this.element
             .removeClass("ui-boxer ui-boxer-disabled")
             .removeData("boxer")
@@ -29,39 +27,35 @@ $.widget("ui.boxer", $.ui.mouse, {
         var options = this.options;
         var target = options.target || options.appendTo;
         var groupColour = "";
+        this.zoomLevel = options.zoomLevel || 1;
         
-        if (!(typeof(options.groupColour) == "undefined")) {
+        if (options.groupColour) {
             groupColour = options.groupColour;
         };
 
         var offset = $(target).offset();
 
-        var position = {
-          x: event.pageX - $(document).scrollLeft() - offset.left,
-          y : event.pageY - $(document).scrollTop() - offset.top
+        this.startPosition = {
+          x: (event.pageX / this.zoomLevel) - $(document).scrollLeft() - offset.left,
+          y: (event.pageY / this.zoomLevel) - $(document).scrollTop() - offset.top
         };
-
-        this.opos = [position.x, position.y];
 
         if (this.options.disabled)
             return;
-
-        
 
         this._trigger("start", event);
 
         $(options.appendTo).append(this.helper);
 
         this.helper.css({
-            "left": position.x,
-            "top": position.y,
+            "left": this.startPosition.x,
+            "top": this.startPosition.y,
             "width": 0,
             "height": 0
         }).addClass(groupColour);
     },
 
     _mouseDrag: function(event) {
-      
         var self = this;
         this.dragged = true;
 
@@ -72,26 +66,32 @@ $.widget("ui.boxer", $.ui.mouse, {
         var target = options.target || options.appendTo;
         
         var $container = $(options.container);
+
+        // Adjust page co-ordinates to account for zoom level
+        var pageX = (event.pageX / this.zoomLevel);
+        var pageY = (event.pageY / this.zoomLevel);
         
-        if (event.pageX > ($container.width() - 50)) {
+        // Scroll the container when dragging near the edges
+        if (pageX > ($container.width() - 50)) {
             $container.scrollLeft($container.scrollLeft() + 5); 
-        } else if (event.pageX < ($container.offset().left + 50)) {
+        } else if (pageX < ($container.offset().left + 50)) {
             $container.scrollLeft($container.scrollLeft() - 5);
         };
         
-        if (event.pageY > ($container.height() - 50)) {
+        if (pageY > ($container.height() - 50)) {
             $container.scrollTop($container.scrollTop() + 5); 
-        } else if (event.pageY < ($container.offset().top + 50)) {
+        } else if (pageY < ($container.offset().top + 50)) {
             $container.scrollTop($container.scrollTop() - 5);
         };
 
-        
-        var position = {
-          x: event.pageX - $(document).scrollLeft() - $(target).offset().left,
-          y : event.pageY - $(document).scrollTop() - $(target).offset().top
+        var currentPosition = {
+          x: pageX - $(document).scrollLeft() - $(target).offset().left,
+          y: pageY - $(document).scrollTop() - $(target).offset().top
         };
 
-        var x1 = this.opos[0], y1 = this.opos[1], x2 = position.x, y2 = position.y;
+        var x1 = this.startPosition.x, y1 = this.startPosition.y, x2 = currentPosition.x, y2 = currentPosition.y;
+
+        // Support dragging in both directions
         if (x1 > x2) { var tmp = x2; x2 = x1; x1 = tmp; }
         if (y1 > y2) { var tmp = y2; y2 = y1; y1 = tmp; }
 

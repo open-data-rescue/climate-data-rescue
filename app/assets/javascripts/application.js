@@ -44,6 +44,7 @@
 //= require wickedpicker
 //= require magnify/jquery.magnify
 //= require magnify/jquery.magnify-mobile
+//= require bootstrap-notify/bootstrap-notify
 //
 //= require content_images
 //

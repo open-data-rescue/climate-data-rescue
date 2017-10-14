@@ -6,7 +6,7 @@ html lang="en"
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     title
       = content_for?(:title) ? yield(:title) + " | " : ''
-      = "DRAW - Data Rescue: Archives and Weather"
+      = strip_tags(t('app.meta-info.title').html_safe)
     = csrf_meta_tags
     - if Rails.env.production?
       <!-- Global Site Tag (gtag.js) - Google Analytics -->
@@ -65,7 +65,7 @@ html lang="en"
           .row
             .col-sm-12
               h1.text-center
-                = "Partners"
+                = t('app.layout.footer.partners')
           .row.voffset30.boffset30.partner-imgs-container
             .col-xs-4
               = image_tag "partners/McGill_logoT.gif", class: "partner-logo mcgill-logo img-responsive"
