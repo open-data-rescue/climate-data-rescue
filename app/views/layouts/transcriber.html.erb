@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>
           <%= content_for?(:title) ? yield(:title) + " | " : '' %>
-          <%= "DRAW - Data Rescue: Archives and Weather" %>
+          <%= t('app.meta-info.title').html_safe %>
         </title>
         <%= csrf_meta_tags %>
 

@@ -21,7 +21,7 @@
         var defaultFieldOptions = [
             {
                 id: null,
-                text: '<%= t('transcriber.field-options.group-labels.statuses').html_safe %>',
+                text: '<%= t('transcriber.field-options.group-labels.status').html_safe %>',
                 children: <%= render_default_field_options_select2 %>,
             }
         ];
@@ -415,7 +415,7 @@
                     var annotation = this.model;
                     var $box = this.$el;
                     $box.find(".annotation-actions").hide();
-                    self.setMsg("drag from edges to resize").addClass("active");
+                    self.setMsg('<%= j t('transcriber.messages.annotation-actions.resize-instructions').html_safe %>').addClass("active");
 
                     pageCanvas.$el.kinetic("detach")
                     
@@ -458,10 +458,10 @@
 
                           annotation.save(annotation.attributes, {
                             success : function(mdl) {
-                              setMsg("Annotation box dimensions sucessfully saved!", true, "success");
+                              setMsg('<%= j t('transcriber.messages.annotation-saved').html_safe %>', true, "success");
                             },
                             error : function() {
-                              setMsg("Error saving annotation box dimensions!", true, "danger");
+                              setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %>', true, "danger");
                             }
                           }).always(function() {
                             $box.find(".annotation-actions").show();
@@ -478,7 +478,7 @@
                     var annotation = this.model;
                     var $box = this.$el;
                     $box.find(".annotation-actions").hide();
-                    self.setMsg("click and drag box to move").addClass("active");
+                    self.setMsg('<%= j t('transcriber.messages.annotation-actions.reposition-instructions').html_safe %>').addClass("active");
 
                     pageCanvas.$el.kinetic("detach")
 
@@ -520,10 +520,10 @@
 
                           annotation.save(annotation.attributes, {
                             success : function(mdl) {
-                              setMsg("Annotation box position sucessfully saved!", true, "success");
+                              setMsg('<%= j t('transcriber.messages.annotation-saved').html_safe %>', true, "success");
                             },
                             error : function() {
-                              setMsg("Error saving annotation box position!", true, "danger");
+                              setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %>', true, "danger");
                             }
                           }).always(function() {
                             $box.find(".annotation-actions").show();
@@ -540,14 +540,14 @@
                     var annotation = this.model;
 
                     var modal = new Backbone.BootstrapModal({ 
-                        title : "Are you sure you want to delete this annotation?",
+                        title : '<%= j t('transcriber.delete-annotation-confirmation-modal.title').html_safe %>',
                         animate : true,
-                        okText : "Delete",
+                        okText : '<%= j t('transcriber.delete-annotation-confirmation-modal.ok-btn-text').html_safe %>',
                         submitFn : function(){
                             annotation.destroy({
                                 success : function(mdl) {
                                     self.destroy();
-                                    setMsg("Annotation deleted", true, "success");
+                                    setMsg('<%= j t('transcriber.messages.annotation-deleted').html_safe %>', true, "success");
                                     $(".tooltip").remove();
                                     modal.close();
                                 }
@@ -820,13 +820,13 @@
                     
                     self.destroy();
 
-                    setMsg("Annotation sucessfully saved!", true, "success");
+                    setMsg('<%= j t('transcriber.messages.annotation-saved').html_safe %>', true, "success");
                 }).on("ajax:error", function(e, xhr, status, error) {
                     // console.log(e);
                     console.error(error);
                     console.error(status);
                     // console.log(xhr);
-                    setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
+                    setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %><br>' + error + " | " + status, true, "danger");
 
                     self.show();
                 });
@@ -932,7 +932,7 @@
                     self.hide();
 
                     if (data.id == null) {
-                      setMsg("Annotation could not be saved. The ID returned was null.", false, "danger");
+                      setMsg(('<%= j t('transcriber.messages.annotation-save-failed').html_safe %>' + data), false, "danger");
                       toolbarLayout.$("#new-annotation").removeClass("disabled");
                       self.show();
                       console.error(data);
@@ -950,7 +950,7 @@
                         }).enableBoxer();
                     } else {
                         var modal = new Backbone.BootstrapModal({ 
-                            title : (fieldGroupName + " annotation sucessfully saved!"),
+                            title : ('<%= j t('transcriber.messages.annotation-saved-with-field-group').html_safe %>').replace('%{field_group}', fieldGroupName),
                             animate : true,
                             allowCancel : false,
                             content : new DrawBoxes({
@@ -969,7 +969,7 @@
                     // console.log(xhr);
                     pageCanvas.$el.boxer('destroy');
                     self.show();
-                    setMsg("Annotation could not be saved because: " + error + " | " + status, true, "danger");
+                    setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %><br>' + error + " | " + status, true, "danger");
                 });
 
                 $form.submit();
@@ -1037,7 +1037,7 @@
                             self.enableBoxer();
                         },
                         error : function(response) {
-                            setMsg(("Message preference could not be saved. Reason: " + response), true, "warning");
+                            setMsg(('<%= j t('transcriber.messages.boxer-message-preference-save-failed').html_safe %><br>' + response), true, "warning");
                         }
                     });
                 },
@@ -1049,7 +1049,7 @@
                 $('.modal, .modal-backdrop').remove();
                 $('body').removeClass("modal-open");
 
-                setMsg("Click and drag the main image to draw a box around the " + fieldGroupName + " observations that you just transcribed. Don't include the date or time.", false, "info");
+                setMsg(('<%= j t('transcriber.messages.draw-annotation-box-instructions-with-field-group').html_safe %>').replace('%{field_group}', fieldGroupName), false, "info");
                 annotation = new Annotation(this.options.data);
 
                 pageCanvas.$el.kinetic("detach");
@@ -1084,7 +1084,7 @@
 
                             annotationBox.render();
 
-                            setMsg("Annotation and bounding box sucessfully saved!", true, "success");
+                            setMsg('<%= j t('transcriber.messages.annotation-saved').html_safe %>', true, "success");
 
                             pageCanvas.$el.boxer('destroy');
                             

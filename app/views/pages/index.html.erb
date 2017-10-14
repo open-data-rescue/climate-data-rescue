@@ -1,38 +1,34 @@
 <% provide(:weather_logs, "active") %>
 <% provide(:transcribe, "active") %>
-<% provide(:title, "Weather Logs") %>
+<% provide(:title, strip_tags(t('pages.weather-logs.page-title'))) %>
 
-<div class="row">
-    <div class="col-md-12">
-        <h1>Weather Logs</h1>
-    </div>
-</div>
+<h1><%= t('pages.weather-logs.page-title') %></h1>
 
-<div class="row voffset20">
-    <% if @pages && @pages.any? %>
-        <% @pages.group_by{|p|[p.start_date, p.end_date]}.each do |dates, pages| %>
-            <div class="col-md-12">
-              <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 boffset20">
-                <h4><%= l(dates.first, format: :long) %> <%= t('to') %> <%= l(dates.last, format: :long) %></h4>
-              </div>
-              <% pages.each do |page| %>
-                <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6" style="min-height: 300px;">
-                    <%= image_tag(page.image.url(:medium), class: "img-responsive center-block")%>
-                    <div class="text-center" style="width: 100%;">
-                        <h5><%= t('page') %> <%= page.page_type.number%></h5>
-                        <% if current_user && current_user.transcriptions.any? && page.transcriptions.any? && (current_user.transcriptions.collect(&:page_id).include? page.id) %>
-                            <a href="<%= edit_transcription_path(current_user.transcriptions.find_by(:page_id => page.id)) %>" class="btn btn-success btn-sm">Continue Transcribing</a>
-                        <% else %>
-                            <a href="<%= new_transcription_path(:current_page_id => page.id) %>" class="btn btn-primary btn-sm">Start Transcribing</a>
-                        <% end %>
-                    </div>
-                </div>
-              <% end %>
+<% if @pages && @pages.any? %>
+  <% @pages.group_by{|p|[p.start_date, p.end_date]}.each do |dates, pages| %>
+    <div class="row voffset30">
+      <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 boffset20">
+        <h4><%= l(dates.first, format: :long) %> <%= t('to') %> <%= l(dates.last, format: :long) %></h4>
+      </div>
+      <% pages.each do |page| %>
+        <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6" style="min-height: 300px;">
+            <%= image_tag(page.image.url(:medium), class: "img-responsive center-block")%>
+            <div class="text-center" style="width: 100%;">
+                <h5><%= t('page') %> <%= page.page_type.number %></h5>
+                <% if current_user && current_user.transcriptions.any? && page.transcriptions.any? && (current_user.transcriptions.collect(&:page_id).include? page.id) %>
+                    <a href="<%= edit_transcription_path(current_user.transcriptions.find_by(:page_id => page.id)) %>" class="btn btn-success btn-sm"><%= t('edit-transcription') %></a>
+                <% else %>
+                    <a href="<%= new_transcription_path(:current_page_id => page.id) %>" class="btn btn-primary btn-sm"><%= t('pages.weather-logs.start-transcribing') %></a>
+                <% end %>
             </div>
-        <% end %>
-    <% else %>
-        <div class="col-md-12">
-            No pages available to transcribe at the moment. Please come back later.
         </div>
-    <% end %>
-</div>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <div class="row">
+    <div class="col-md-12">
+        <%= t('pages.weather-logs.no-pages-available') %>
+    </div>
+  </div>
+<% end %>
