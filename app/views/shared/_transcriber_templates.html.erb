@@ -279,9 +279,9 @@
 </script>
 <!-- If the page still has data that has not yet been transcribed, click on the blue "Take a break" button below. If the page is completely finished, and there is no longer any data left to transcribe, click on the green "Page is complete" button.  -->
 <script type="text/template" id="stop-transcribing-template">
-    <p class="boffset40">
-      <%= t('transcriber.stop-transcribing-modal.instructions') %>
-    </p>
+    <div class="boffset40">
+      <%= t('transcriber.stop-transcribing-modal.instructions').html_safe %>
+    </div>
     <%= form_for transcription, html: {
       class: "", id: "submit-transcription-form", style: "overflow: hidden;"
       } do 
@@ -301,9 +301,9 @@
 <!-- Click and drag the main image to draw a box around the observations that you just transcribed. Don't include the date or time. -->
 <!-- http://test.citsci.geog.mcgill.ca/system/content_images/large/775d3dd38deab22f40fb1952448c7766a3a1fea8.gif -->
 <script type="text/template" id="draw-box-modal-contents">
-    <p class="boffset40">
+    <div class="boffset40">
       <%= t('transcriber.annotation-box-instructions-modal.instructions').html_safe %>
-    </p>
+    </div>
     <img src="<%= strip_tags(t('transcriber.annotation-box-instructions-modal.tutorial-img-src')) %>" alt="" class="img-responsive center-block" />
     <div class="box-modal-btn-container voffset20">
         <button class="draw-box-btn dont-ask-again btn btn-lg btn-info pull-left">

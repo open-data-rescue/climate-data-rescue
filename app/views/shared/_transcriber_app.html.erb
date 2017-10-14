@@ -20,7 +20,7 @@
         var defaultFieldOptions = [
             {
                 id: null,
-                text: '<%= t('transcriber.field-options.group-labels.statuses').html_safe %>',
+                text: '<%= j t('transcriber.field-options.group-labels.statuses').html_safe %>',
                 children: <%= render_default_field_options_select2 %>,
             }
         ];
@@ -81,7 +81,7 @@
             opts = opts.concat(defaultFieldOptions);
             var res = {
                 id: null,
-                text: '<%= t('transcriber.field-options.group-labels.values') %>',
+                text: '<%= j t('transcriber.field-options.group-labels.values') %>',
                 children: [],
             };
             // console.info("ajax");
@@ -109,7 +109,7 @@
             if (res.children.length === 0) {
                 res.children.push({
                     id: null,
-                    text: '<%= t('transcriber.field-options.no-matches').html_safe %>',
+                    text: '<%= j t('transcriber.field-options.no-matches').html_safe %>',
                 });
             }
 
@@ -192,7 +192,7 @@
                 },
                 "click #stop-transcribing" : function(e) {
                     var modal = new Backbone.BootstrapModal({ 
-                        title : '<%= t('transcriber.stop-transcribing-modal.title') %>',
+                        title : '<%= j t('transcriber.stop-transcribing-modal.title') %>',
                         animate : true,
                         content : $('#stop-transcribing-template').html(),
                         showFooter : false
@@ -258,7 +258,7 @@
 
             closeDataPanel: function closeDataPanel() {
               var $btn = this.$('#toggle-data-btn');
-              $btn.html('<%= t('transcriber.toolbar.view-data') %>');
+              $btn.html('<%= j t('transcriber.toolbar.view-data') %>');
               mainLayout.$('.transcription-data-panel').removeClass('showing-panel');
               mainLayout.dataPanel.empty();
               $btn.data('panel', 'closed');
@@ -268,7 +268,7 @@
               var self = this;
               var $btn = this.$('#toggle-data-btn');
               $btn.data('panel', 'open');
-              $btn.html('<%= t('transcriber.toolbar.hide-data') %>');
+              $btn.html('<%= j t('transcriber.toolbar.hide-data') %>');
 
               view = new DataTableView();
               mainLayout.dataPanel.show(view);
@@ -637,7 +637,7 @@
 
                      $currentForm.show();
 
-                     newWidth = ($tab.data("field-count") * 100) + 270 + 100;
+                     newWidth = ($tab.data("field-count") * 100) + 270 + 150;
 
                      self.$el.width(newWidth);
 
@@ -1114,8 +1114,8 @@
             image_id: 'target-image',
         });
         fieldGuidePage = new Page({
-            title: '<%= t('transcriber.guide-images.title.fields').html_safe %>',
-            description : '<%= t('transcriber.guide-images.help-text.fields').html_safe %>',
+            title: '<%= j t('transcriber.guide-images.title.fields').html_safe %>',
+            description : '<%= j t('transcriber.guide-images.help-text.fields').html_safe %>',
             popoverPlacement: function(context, source) {
               var self = this;
               setTimeout(function() { 
@@ -1130,8 +1130,8 @@
         });
         timeGuidePage = new Page({
             image_id : 'time-guide',
-            title: '<%= t('transcriber.guide-images.title.time').html_safe %>',            
-            description : '<%= t('transcriber.guide-images.help-text.time').html_safe %>',
+            title: '<%= j t('transcriber.guide-images.title.time').html_safe %>',            
+            description : '<%= j t('transcriber.guide-images.help-text.time').html_safe %>',
             popoverPlacement: function(context, source) {
               var self = this;
               setTimeout(function() {
