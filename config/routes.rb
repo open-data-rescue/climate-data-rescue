@@ -13,8 +13,15 @@ DataRescueAtHome::Application.routes.draw do
     resources :page_types
     resources :pages
     resources :static_pages
-    resources :transcriptions
     resources :users
+
+    match 'transcriptions/export' => 'transcriptions#export',
+          via: %i[get post],
+          defaults: {
+            format: :json
+          },
+          as: 'export_transcriptions'
+    resources :transcriptions
 
     # for field options app
     get 'field_options_for_field/:field_id' => "field_options#for_field", as: "field_options_for_field"

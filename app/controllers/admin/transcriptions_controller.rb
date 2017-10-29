@@ -32,14 +32,14 @@ module Admin
       Transcription.transaction do
         begin
           transcription = Transcription.find(params[:id])
-         
+
           transcription.update(transcription_params)
           flash[:success] = I18n.t('transcription-sucessfully-updated')
         rescue => e
           flash[:danger] = e.message
         end
       end
-      
+
       respond_to do |format|
         format.html { redirect_to admin_transcriptions_path}
       end
@@ -56,15 +56,37 @@ module Admin
           flash[:danger] = e.message
         end
       end
-      
+
       respond_to do |format|
         format.html { redirect_to admin_transcriptions_path }
         format.json { head :no_content }
       end
     end
-    
-    
-    
+
+    def export
+      limit = params['limit'] || nil
+      offset = params['offset'] || nil
+
+      @transcriptions = Transcription.joins(
+        :data_entries,
+        :page
+      ).limit(limit).offset(offset).order('pages.start_date ASC').uniq
+
+      respond_to do |format|
+        # format.csv do
+        #   response.headers['Content-Disposition'] =
+        #     "attachment; \
+        #     filename='DRAW_transcriptions_#{Datetime.current}.csv'"
+        # end
+        format.json
+        # format.xlsx do
+        #   response.headers['Content-Disposition'] =
+        #     "attachment; \
+        #     filename='DRAW_transcriptions_#{Datetime.current}.xlsx'"
+        # end
+      end
+    end
+
     private
 
     def get_or_assign_page(page_id)
