@@ -1,6 +1,4 @@
 class Transcription < ActiveRecord::Base
-  #attributes that can be called on the model object
-  #attr_accessible :page_data
   belongs_to :page
   belongs_to :user
   has_one :page_type, through: :page
@@ -12,7 +10,6 @@ class Transcription < ActiveRecord::Base
 
   validates :page_id, uniqueness: { scope: :user_id }, presence: true
   validates :user_id, presence: true
-  
 
   def num_rows_started
     annotations.pluck(:observation_date).uniq.size
@@ -33,5 +30,4 @@ class Transcription < ActiveRecord::Base
   def percent_complete
     ((num_data_entries.to_f / num_data_entries_expected.to_f) * 100) || 0
   end
-  
 end
