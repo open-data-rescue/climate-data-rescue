@@ -17,9 +17,6 @@ DataRescueAtHome::Application.routes.draw do
 
     match 'transcriptions/export' => 'transcriptions#export',
           via: %i[get post],
-          defaults: {
-            format: :json
-          },
           as: 'export_transcriptions'
     resources :transcriptions
 

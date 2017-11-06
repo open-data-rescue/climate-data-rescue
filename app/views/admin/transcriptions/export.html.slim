@@ -1,0 +1,16 @@
+
+h1 = t('admin.transcriptions.export.header')
+
+ul
+  - if @page_types.present? && @page_types.any?
+    - @page_types.each do |schema|
+      li 
+        = 'id: ' + schema.id.to_s
+        br
+        = schema.title
+        br
+        = schema.transcriptions.count
+        = ' transcriptions'
+        br
+        = schema.transcriptions.pluck('distinct page_id').count
+        = ' pages'

@@ -64,20 +64,46 @@ module Admin
     end
 
     def export
-      limit = params['limit'] || nil
-      offset = params['offset'] || nil
+      Rails.logger.info params
+      if request.format.html?
+        @page_types = PageType.joins(:transcriptions).order(:title).uniq
+      else
+        limit = params['limit'] || nil
+        offset = params['offset'] || nil
 
-      @transcriptions = Transcription.joins(
-        :data_entries,
-        :page
-      ).limit(limit).offset(offset).order('pages.start_date ASC').uniq
+        if params['page_type_id'].present?
+          @page_type = PageType.joins(:transcriptions)
+                               .find(params['page_type_id'])
+
+          if @page_type.present?
+            # @data_entries = DataEntry.joins(:annotation, :field).where(
+            #   field_id: @page_type.fields.pluck(:id),
+            #   annotation_id: @page_type.annotations.pluck(:id)
+            # )
+            @transcriptions = @page_type.transcriptions
+                                        .joins(
+                                          :data_entries,
+                                          :annotations
+                                        ).limit(limit).offset(offset)
+                                        .order('pages.start_date ASC').uniq
+          end
+        else
+          @transcriptions = Transcription.joins(
+            :data_entries,
+            :page
+          ).limit(limit).offset(offset).order('pages.start_date ASC').uniq
+        end
+      end
 
       respond_to do |format|
-        # format.csv do
-        #   response.headers['Content-Disposition'] =
-        #     "attachment; \
-        #     filename='DRAW_transcriptions_#{Datetime.current}.csv'"
-        # end
+        format.html
+        format.csv do
+          require 'csv'
+          response.headers['Content-Disposition'] =
+            "attachment; \
+            filename=DRAW_transcriptions_#{DateTime.current}.csv"
+          # response.headers['Content-Type'] = 'text/plain'
+        end
         format.json
         # format.xlsx do
         #   response.headers['Content-Disposition'] =

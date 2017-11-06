@@ -5,6 +5,10 @@ class PageType < ActiveRecord::Base
 
   has_many :fields, through: :field_groups
 
+  has_many :transcriptions, through: :pages
+
+  has_many :annotations, through: :transcriptions
+
   belongs_to :ledger #, foreign_key: "ledger_id"
 
 #TODO: Figure out what the hell this is for, and change it.
