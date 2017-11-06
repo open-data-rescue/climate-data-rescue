@@ -41,7 +41,7 @@ if @transcriptions.present?
               value = nil
               value = entry.value if entry.present?
 
-              json.set! field.name, value
+              json.set! field.field_key, value
             end
           end
         end
