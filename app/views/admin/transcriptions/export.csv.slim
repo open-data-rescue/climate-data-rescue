@@ -5,7 +5,8 @@
     - headers = headers.concat(group.fields.map(&:field_key))
   - headers = headers.concat(%w[transcription_id page_id user_id first_started last_updated])
   / = CSV.generate_line(headers, encoding: 'UTF-8')
-  - csv_string = CSV.generate(encoding: 'UTF-8', headers: headers) do |csv|
+  - csv_string = CSV.generate(encoding: 'UTF-8') do |csv|
+    - csv << headers
     - @transcriptions.each do |transcription|
       - dates = transcription.annotations.order_by_date.group_by do |a|
         - a.observation_date.utc.to_date
