@@ -5,8 +5,8 @@ class Annotation < ActiveRecord::Base
   belongs_to :field_group
   belongs_to :user
 
-  def self.order_by_date direction='asc'
-    order('observation_date #{direction}')
+  def self.order_by_date(direction='asc')
+    order("observation_date #{direction}")
   end
   
 end

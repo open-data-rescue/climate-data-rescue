@@ -72,8 +72,16 @@ module Admin
         offset = params['offset'] || nil
 
         if params['page_type_id'].present?
-          @page_type = PageType.joins(:transcriptions)
-                               .find(params['page_type_id'])
+          @page_type = PageType.includes(
+            { 
+              page_types_field_groups: { 
+                field_group: {
+                  field_groups_fields: :field
+                }
+              }
+            }
+          )
+          .find(params['page_type_id'])
 
           if @page_type.present?
             # @data_entries = DataEntry.joins(:annotation, :field).where(
@@ -82,9 +90,11 @@ module Admin
             # )
             @transcriptions = @page_type.transcriptions
                                         .joins(
-                                          :data_entries,
-                                          :annotations
-                                        ).limit(limit).offset(offset)
+                                          :annotations,
+                                          :page
+                                        )
+                                        .preload(:data_entries)
+                                        .limit(limit).offset(offset)
                                         .order('pages.start_date ASC').uniq
           end
         else
