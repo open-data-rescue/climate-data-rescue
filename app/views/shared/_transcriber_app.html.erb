@@ -221,7 +221,8 @@
               this.zoomPage((this.currentZoom - 0.1)); 
             }, 
 
-            zoomPage : function(value, percent = false) { 
+            zoomPage : function(value, _percent) { 
+              var percent = _percent || false;
               var zoom = (percent ? (value / 100) : value); 
               if (zoom > 0.1) {
                 this.zoomContainer.css({ 
@@ -976,9 +977,10 @@
 
             hide : function() {
                 this.$el.hide();
-                if (!(toolbarLayout.$("#new-annotation").hasClass('disabled'))) {
-                    toolbarLayout.$("#new-annotation").addClass("disabled");
-                };
+                // if (!(toolbarLayout.$("#new-annotation").hasClass('disabled'))) {
+                //     toolbarLayout.$("#new-annotation").addClass("disabled");
+                // };
+                toolbarLayout.$("#new-annotation").removeClass("disabled");
             },
 
             show : function() {
