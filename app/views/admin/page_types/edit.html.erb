@@ -6,7 +6,9 @@
 
 <%= render 'form' %>
 
-<%= render 'shared/sample_image', page: @page_type.pages.where("RAND()").first %>
+<% if @page_type.pages.any? %>
+  <%= render 'shared/sample_image', page: @page_type.pages.where("RAND()").first %>
+<% end %>
 
 <div id="field-groups-app-container" class="row voffset30"></div>
 <%= render "shared/field_groups_app", page_type: @page_type %>
