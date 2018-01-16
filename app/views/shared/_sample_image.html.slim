@@ -1,9 +1,9 @@
 - title = title || t('sample-page')
-
-.row.voffset20
-  .col-md-12
-    h3 = title
-    .table-responsive#preview-image style="height: 400px;"
-      = image_tag(page.image.url(:original), class: 'image-responsive')
+- if page.present? && page.image.present?
+  .row.voffset20
+    .col-md-12
+      h3 = title
+      .table-responsive#preview-image style="height: 400px;"
+        = image_tag(page.image.url(:original), class: 'image-responsive')
 
 = render 'shared/sample_image_javascript'
