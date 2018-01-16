@@ -1,15 +1,16 @@
 class ApplicationController < ActionController::Base
   # protect_from_forgery
-  # rescue_from CanCan::AccessDenied do |exception|
-    # redirect_to root_url, :alert => exception.message
-  # end
 
   before_action :set_locale
 
   helper_method :baseUri, :baseUri_no_lang, :baseUri_with_lang, :request_path
 
+  def default_url_options(options = {})
+    options.merge(protocol: 'https')
+  end
+
   def baseUri
-      '/' + I18n.locale.to_s + '/'
+    '/' + I18n.locale.to_s + '/'
   end
 
   def baseUri_no_lang
@@ -25,25 +26,25 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-      def_locale = http_accept_language.compatible_language_from(I18n.available_locales)
+    def_locale = http_accept_language.compatible_language_from(I18n.available_locales)
 
-      if session[:locale]
-        def_locale = session[:locale]
-      else
-        def_locale = I18n.default_locale
-      end
-      
-      I18n.locale = params[:locale].present? ? params[:locale] : def_locale
+    if session[:locale]
+      def_locale = session[:locale]
+    else
+      def_locale = I18n.default_locale
+    end
 
-      session[:locale] = I18n.locale
+    I18n.locale = params[:locale].present? ? params[:locale] : def_locale
+
+    session[:locale] = I18n.locale
   end
 
   def request_path
-      basepath = request.fullpath 
-      if basepath.include? baseUri
-        basepath = basepath.slice(baseUri.length(), basepath.length())
-      end
-      basepath
+    basepath = request.fullpath
+    if basepath.include? baseUri
+      basepath = basepath.slice(baseUri.length, basepath.length)
+    end
+    basepath
   end
 
   # helper_method :page_dates_hash
@@ -64,10 +65,11 @@ class ApplicationController < ActionController::Base
   # end
 
   protected
+
   def ensure_current_user
-    unless current_user
-      flash[:alert] = I18n.t('login-required-error-msg')
-      redirect_to new_user_session_path
-    end
+    return if current_user
+
+    flash[:alert] = I18n.t('login-required-error-msg')
+    redirect_to new_user_session_path
   end
 end
