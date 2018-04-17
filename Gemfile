@@ -64,7 +64,7 @@ gem 'http_accept_language'
 gem 'rails-i18n', '~> 4.0.0' # translations
 gem 'i18n-active_record', :require => 'i18n/active_record'
 
-# gem 'rails-observers'
+gem 'rails-observers'
 
 gem 'globalize'
 gem 'globalize-accessors'
