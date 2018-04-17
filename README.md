@@ -5,10 +5,6 @@
 [![Code Climate][CC img]][Code Climate]
 [![Coverage Status][CS img]][Coverage Status]
 
-## Description
-
-TODO: Your gem description
-
 [Build Status]: https://travis-ci.org/rsmithlal/ClimateDataRescue
 [travis pull requests]: https://travis-ci.org/rsmithlal/ClimateDataRescue/pull_requests
 [Dependency Status]: https://gemnasium.com/rsmithlal/ClimateDataRescue
