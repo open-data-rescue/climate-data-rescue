@@ -1,5 +1,26 @@
 # DRAW - Data Rescue: Archives and Weather
 
+[![Build Status][BS img]][Build Status]
+[![Dependency Status][DS img]][Dependency Status]
+[![Code Climate][CC img]][Code Climate]
+[![Coverage Status][CS img]][Coverage Status]
+
+## Description
+
+TODO: Your gem description
+
+[Build Status]: https://travis-ci.org/rsmithlal/ClimateDataRescue
+[travis pull requests]: https://travis-ci.org/rsmithlal/ClimateDataRescue/pull_requests
+[Dependency Status]: https://gemnasium.com/rsmithlal/ClimateDataRescue
+[Code Climate]: https://codeclimate.com/github/rsmithlal/ClimateDataRescue
+[Coverage Status]: https://coveralls.io/r/rsmithlal/ClimateDataRescue
+
+[GV img]: https://badge.fury.io/rb/ClimateDataRescue.png
+[BS img]: https://travis-ci.org/rsmithlal/ClimateDataRescue.png
+[DS img]: https://gemnasium.com/rsmithlal/ClimateDataRescue.png
+[CC img]: https://codeclimate.com/github/rsmithlal/ClimateDataRescue.png
+[CS img]: https://coveralls.io/repos/rsmithlal/ClimateDataRescue/badge.png?branch=master
+
 ## Contents
 - Introduction
 - Development Setup
