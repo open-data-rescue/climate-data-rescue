@@ -11,7 +11,6 @@
 [Code Climate]: https://codeclimate.com/github/rsmithlal/ClimateDataRescue
 [Coverage Status]: https://coveralls.io/r/rsmithlal/ClimateDataRescue
 
-[GV img]: https://badge.fury.io/rb/ClimateDataRescue.png
 [BS img]: https://travis-ci.org/rsmithlal/ClimateDataRescue.png
 [DS img]: https://gemnasium.com/rsmithlal/ClimateDataRescue.png
 [CC img]: https://codeclimate.com/github/rsmithlal/ClimateDataRescue.png
