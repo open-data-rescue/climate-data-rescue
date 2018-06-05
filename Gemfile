@@ -1,10 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5' #'3.2.16'
+gem 'rails', '~> 4.2.7.1'
 
-#gem 'railties', '~> 4.2.0' #'3.2.16'
-
-gem 'mysql2', '0.4.2' #'~> 0.3.20'
+gem 'mysql2', '0.4.2'
 
 gem 'mime-types', require: 'mime/types/full'
 
@@ -13,9 +11,7 @@ gem 'jquery-ui-rails'
 
 gem "ranked-model"
 
-gem 'uglifier', '~> 2.7.2' #'>= 1.0.3'
-
-# gem 'trumbowyg_rails'
+gem 'uglifier', '~> 2.7.2'
 
 #bootstrap stuff
 gem 'sass-rails', '~> 5.0'
@@ -32,14 +28,6 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-    
-      #gem "therubyracer"
-      #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-      #gem "twitter-bootstrap-rails"
-end
 gem 'modernizr-rails'
 
 gem "figaro"
@@ -57,7 +45,7 @@ gem 'simple_form', '~> 3.2.1' #'2.1.3'
 gem 'will_paginate', '3.1.0' #'~> 3.0.6'
 
 #for attachments
-gem 'paperclip', '4.3.6' #'~> 4.2'
+gem 'paperclip', '~> 5.2.0'
 
 # Support for tag inputs
 gem 'select2-rails'
@@ -68,9 +56,6 @@ gem 'select2-rails'
 gem 'jbuilder', '~> 2.0'
 
 gem "jquery-fileupload-rails"
-
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
 
 gem 'routing-filter'
 
@@ -107,6 +92,26 @@ group :development do
 
   gem "byebug"
   gem "rails-erd"
+  gem 'rb-readline'
+  gem 'rubocop'
+  gem 'rack-mini-profiler'
+  gem 'rbtrace'
+end
+
+group :development, :test do
+  gem 'fuubar'
+  gem 'rspec-rails'
+  gem 'pry'
+  gem 'listen'
+  gem 'faker'
+  gem 'factory_bot_rails'
+  gem 'shoulda-matchers'
+  gem 'shoulda-callback-matchers'
+end
+
+group :test do
+  gem 'simplecov', require: false
+  gem 'coveralls'
 end
 
 group :production do

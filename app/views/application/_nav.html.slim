@@ -28,12 +28,7 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
       ul.nav.navbar-nav.navbar-right
        li#test-msg
         a
-          - if Rails.env.production? || Rails.env.development?
-            span.label.label-warning style="color: black;"
-              i.fa.fa-exclamation-triangle
-              = '&nbsp;'.html_safe
-              = t('app.messages.under-construction')
-          - else
+          - if Rails.env.staging?
             span.label.label-danger
               = "Test Environment"
         - if user_signed_in?

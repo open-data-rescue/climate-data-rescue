@@ -16,7 +16,8 @@ html lang="en"
         function gtag(){dataLayer.push(arguments)};
         gtag('js', new Date());
         gtag('config', 'UA-106824244-1');
-
+    - else
+      meta name="robots" content="noindex,nofollow"
     = stylesheet_link_tag "application", :media => "all"
     /!= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     
@@ -72,7 +73,7 @@ html lang="en"
             .col-xs-4
               = image_tag "partners/Geothink_Logo_T2.jpg", class: "partner-logo geothink-logo img-responsive"
             .col-xs-4
-              = image_tag "partners/criem.png", class: "partner-logo criem-logo img-responsive"
+              = image_tag "partners/cirm.jpg", class: "partner-logo criem-logo img-responsive"
         .row.voffset20
           = render 'application/footer'
           
