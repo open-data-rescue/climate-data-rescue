@@ -1,8 +1,8 @@
-
+- title = page.title ? page.title : page.id.to_s
 - top_level = top_level || false
 - nav_class =  top_level ? 'top-level-nav' : ''
 - opens_new_tab = opens_new_tab || false
-- link_opts = { target: (page.is_external? || opens_new_tab ? "_blank" : "_self"), name: CGI.escape(page.title.downcase) }
+- link_opts = { target: (page.is_external? || opens_new_tab ? "_blank" : "_self"), name: CGI.escape(title.downcase) }
 - if @page == page
   - nav_class += ' active'
 - if page && page.children.any?
@@ -10,7 +10,7 @@
   / - link_opts[:data] = { toggle: 'dropdown' }
 
 li class = nav_class
-  = link_to (page.children.any? && top_level ? (page.title + ' <span class="caret"></span>').html_safe : page.title), page.link, link_opts
+  = link_to (page.children.any? && top_level ? (title + ' <span class="caret"></span>').html_safe : title), page.link, link_opts
   - if page.children.any?
     ul.dropdown-menu
       - page.children.each do |child|
