@@ -18,7 +18,7 @@ services:
     links:
       - db
     env_file:
-      - './docker/.env.app'
+      - './docker/.env.app.conf'
   db:
     container_name: draw-db
     image: mysql:5.7
@@ -27,7 +27,7 @@ services:
     ports:
       - "3308:3306"
     env_file:
-      - './docker/.env.db'
+      - './docker/.env.db.conf'
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s
