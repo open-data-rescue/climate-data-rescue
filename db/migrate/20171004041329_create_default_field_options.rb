@@ -2,6 +2,8 @@ require 'field_option'
 
 class CreateDefaultFieldOptions < ActiveRecord::Migration
   def up
+    FieldOption.reset_column_information
+
     FieldOption.create!(
       {
         name: 'Empty / Blank',
@@ -29,6 +31,8 @@ class CreateDefaultFieldOptions < ActiveRecord::Migration
   end
 
   def down
+    FieldOption.reset_column_information
+    
     FieldOption.where(is_default: true).destroy_all
   end
 end

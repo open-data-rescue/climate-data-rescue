@@ -23,12 +23,6 @@
     - Installation
     - Configuration
     - Running the application
-- Production Setup
-    - Requirements
-    - Installation
-    - Configuration
-    - Running the application
-    - Deploying changes
 - User Guide
 - Data Model
 - Attribution and Acknowlegements
@@ -41,155 +35,79 @@ Administrators are given an interface with which to define their data collection
 ## Development Setup
 
 ### Software Requirements
-- Operating System: Linux / MacOS
-- Ruby (2.3.0) (Recommended to install using RVM)
-- Ruby Bundler gem
-- MySql
-- libjpeg62, libjpeg62-dev
-- ImageMagick
+- docker
+- docker-compose
 
 ### Project Installation
 #### Installing required software
-##### ruby-2.3.0, using RVM
-[RVM Installation Guide](http://www.webupd8.org/2014/11/how-to-install-rvm-ruby-version-manager.html) or follow instructions below.
-If RVM is not currently installed, from the terminal, add the repository for RVM: 
-```
-sudo apt-add-repository ppa:rael-gc/rvm
-```
-Update package references and install:
-```
-sudo apt-get update
-sudo apt-get install rvm
-```
-Install ruby and create new default gemset
-```
-rvm install ruby-2.3.0
-rvm use 2.3.0@datarescue --create --default
-```
-Install bundler gem. Bundler is used to manage a Rails project's dependencies.
-```
-gem install bundler
-```
-##### MySql Server, Client
-MySql is a free database server that is scalable and secure. Install from terminal:
-```
-sudo apt-get install mysql-server mysql-client libmysqlclient-dev
-```
-During installation, the script will ask you to set a password for the `root` user. This is the main administrative user for your database server. It's not essential to be secure with this password in the development environment because it will only be working locally, but for a production setup you must set a secure password and follow additional steps that will be detailed in the production version of this setup guide.
+##### docker
+##### docker-compose
 
-Next, we need to tell MySql to set up its database structure. We can do this by typing:
-```
-sudo mysql_install_db
-```
-##### LibJPEG
-Required library for working with images. Install from terminal:
-```
-sudo apt-get install libjpeg62, libjpeg62-dev
-```
-##### ImageMagick
-ImageMagick is an image processor and is required for the app to be able to transform the image files uploaded for each ledger page.
 
-Install from terminal:
+### Setup
+
+#### Docker Containers
+Navigate to the project directory in the terminal. 
+
+Ensure you are at the application folder and run the following script to extract the initial files and build the docker containers:
+
 ```
-sudo apt-get install imagemagick
+docker/build.sh
 ```
 
-#### Installing project gems
-Navigate to this project's directory in the terminal. Run `bundle install` to install project dependencies listed in the `Gemfile.lock` file.
+Start the database container (detached):
 
-### Configuration
+```
+docker-compose up -d db
+```
+
+Wait 30s and check if the db container has finished initializing:
+It will read `(healthy)` when it is finished. You may need to run the following command a couple more times until you see it read healthy.
+```
+docker ps
+```
+
+Create the databases, load the application schema, and initialize with the seed data:
+
+```
+docker-compose run app rake db:setup
+```
+
+Start the app container
+
+```
+docker-compose up app
+
+```
+
+Open another terminal and verify that the docker containers have started and that the local host's ports are mapped to the containers' ports:
+
+```
+docker ps
+
+```
+
+ You should be able to verify that two containers `draw-app` and `draw-db` have started, and their ports are being mapped to the host machine.
+
 #### Environment Variables
-The environment configuration file can be found in `application.rb`. A sample `application.yml` file can be found in `<rails_app_directory>\config\application.sample.yml`. Once you enter in all the required values, you can rename it to `application.yml`.
+The environment configuration file can be found in `application.rb`. A sample `application.yml` file can be found in `<rails_app_directory>\config\application-sample.yml`. Once you enter in all the required values, you can rename it to `application.yml`.
 
-Requried values:
 
-#### Database
-A sample database configuration file can be found in `<rails_app_directory>\config\database.sample.yml`. Once you finish entering the required info, you must rename it to `database.yml`. You must specify the rails adapter for the database you are using. MySql is the default and is straightforward to set up.
+### Starting and Stopping the application
+By now, the app server should already be running and accessible at `localhost:3000` in your browser.
 
-An administrator user was defined in the seeds.db file. Use the login information identified in the seeds file to login to the app as an administrator. If you would like to set a personalized admin user, either modify the information in the `<rails_app_directory>\db\seeds.rb` file, or modify the user's info from the command line or application after the database has been seeded.
-
-Once you are ready to initialize the database with the app's structure and seed data, enter the following command from the app directory.
-
+To stop the app when running in current terminal window:
 ```
-rake db:setup
+CTRL/CMD + C
 ```
 
-### Running the application
-Once the required software is installed and the settings have been configured, you are now ready to start the application. Simply navigate to the project directory and run the following command:
-```
-rails s
-```
-The command will start up a rails server in that terminal instance on port `3000` by default. You can pass it various options to configure the server if required. See Rails documentation for more details.
+To start the app:
 
-Your application is now running! You can view it by navigating to `localhost:3000` in your browser.
+```
+docker-compose up app
+```
 
 You should be able to log into the application as the admin user with the information defined in the `seeds.rb` file.
-
-For more information on the `rails` command please visit the guide by [Team Treehouse] (http://blog.teamtreehouse.com/introduction-rails-command)
-
-## Production Setup
-
-### Software Requirements
-- Operating System: Linux / MacOS
-- Ruby (2.3.0) (Recommended to install using RVM)
-- Ruby Bundler gem
-- MySql
-- libjpeg62, libjpeg62-dev
-- ImageMagick
-
-### Project Installation
-#### Installing required software
-##### ruby-2.3.0, using RVM
-[RVM Installation Guide](http://www.webupd8.org/2014/11/how-to-install-rvm-ruby-version-manager.html) or follow instructions below.
-If RVM is not currently installed, from the terminal, add the repository for RVM: 
-```
-sudo apt-add-repository ppa:rael-gc/rvm
-```
-Update package references and install:
-```
-sudo apt-get update
-sudo apt-get install rvm
-```
-Install ruby and create new default gemset
-```
-rvm install ruby-2.3.0
-rvm use 2.3.0@datarescue --create --default
-```
-Install bundler gem. Bundler is used to manage a Rails project's dependencies.
-```
-gem install bundler
-```
-##### MySql Server, Client
-MySql is a free database server that is scalable and secure. Install from terminal:
-```
-sudo apt-get install mysql-server mysql-client libmysqlclient-dev
-```
-During installation, the script will ask you to set a password for the `root` user. This is the main administrative user for your database server. 
-
-Next, we need to tell MySql to set up its database structure. We can do this by typing:
-```
-sudo mysql_install_db
-```
-After that completes, we need to begin to secure our production database system. This interactive script will guide you through the steps required:
-```
-sudo mysql_secure_installation
-```
-The script will ask you to set a password for the root user, and ask you questions to determine which security rules to add and action to take. Normally you can just press enter at each step to accept the default values to the questions. The script will remove sample users and databases, disable remote logins with the root user, and load the new security rules.
-
-MySql Setup guide adapted from [DigitalOcean] (https://www.digitalocean.com/community/tutorials/how-to-use-mysql-with-your-ruby-on-rails-application-on-ubuntu-14-04)
-##### LibJPEG
-Required library for working with images. Install from terminal:
-```
-sudo apt-get install libjpeg62, libjpeg62-dev
-```
-##### ImageMagick
-ImageMagick is an image processor and is required for the app to be able to transform the image files uploaded for each ledger page.
-
-Install from terminal:
-```
-sudo apt-get install imagemagick
-```
-### Production setup guide to be continued
 
 
 ## User Guide
