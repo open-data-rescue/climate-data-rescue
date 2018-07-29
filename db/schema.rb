@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170928031559) do
+ActiveRecord::Schema.define(version: 20171107024341) do
 
   create_table "annotations", force: :cascade do |t|
     t.integer  "x_tl",             limit: 4
@@ -27,18 +27,10 @@ ActiveRecord::Schema.define(version: 20170928031559) do
     t.datetime "observation_date"
   end
 
-  create_table "blogit_posts", force: :cascade do |t|
-    t.string   "title",          limit: 255,                     null: false
-    t.text     "body",           limit: 65535,                   null: false
-    t.string   "state",          limit: 255,   default: "draft", null: false
-    t.integer  "comments_count", limit: 4,     default: 0,       null: false
-    t.integer  "blogger_id",     limit: 4
-    t.string   "blogger_type",   limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "blogit_posts", ["blogger_type", "blogger_id"], name: "index_blogit_posts_on_blogger_type_and_blogger_id", using: :btree
+  add_index "annotations", ["date_time_id"], name: "by_date_time", using: :btree
+  add_index "annotations", ["field_group_id"], name: "by_field_group", using: :btree
+  add_index "annotations", ["page_id"], name: "by_page", using: :btree
+  add_index "annotations", ["transcription_id"], name: "by_transcription", using: :btree
 
   create_table "content_images", force: :cascade do |t|
     t.string   "image_file_name",    limit: 255
@@ -59,6 +51,8 @@ ActiveRecord::Schema.define(version: 20170928031559) do
     t.integer "field_id",          limit: 4
     t.string  "field_options_ids", limit: 255
   end
+
+  add_index "data_entries", ["annotation_id", "field_id"], name: "annotation_field", unique: true, using: :btree
 
   create_table "field_group_translations", force: :cascade do |t|
     t.integer  "field_group_id", limit: 4,     null: false
@@ -113,6 +107,7 @@ ActiveRecord::Schema.define(version: 20170928031559) do
     t.string   "text_symbol",        limit: 255
     t.string   "display_attribute",  limit: 255, default: "name"
     t.string   "internal_name",      limit: 255
+    t.boolean  "is_default",                     default: false
   end
 
   create_table "field_options_fields", force: :cascade do |t|
@@ -160,6 +155,9 @@ ActiveRecord::Schema.define(version: 20170928031559) do
     t.integer "page_id",          limit: 4
     t.integer "user_id",          limit: 4
   end
+
+  add_index "page_days", ["page_id"], name: "by_page", using: :btree
+  add_index "page_days", ["user_id"], name: "by_user", using: :btree
 
   create_table "page_types", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -238,6 +236,8 @@ ActiveRecord::Schema.define(version: 20170928031559) do
     t.datetime "updated_at"
     t.boolean  "complete",             default: false, null: false
   end
+
+  add_index "transcriptions", ["user_id", "page_id"], name: "user_page", unique: true, using: :btree
 
   create_table "translations", force: :cascade do |t|
     t.string   "locale",         limit: 255
