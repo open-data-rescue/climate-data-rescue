@@ -1,5 +1,7 @@
 class FieldGroup < ActiveRecord::Base
-  translates :name, :display_name, :help, fallbacks_for_empty_translations: true, touch: true
+  translates :name, :display_name, :help,
+             fallbacks_for_empty_translations: true,
+             touch: true
   globalize_accessors
   
   has_many :fields, -> { order("field_groups_fields.sort_order asc") }, through: :field_groups_fields
