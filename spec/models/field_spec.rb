@@ -23,6 +23,8 @@ describe Field do
       is_expected.to validate_inclusion_of(:data_type).in_array(%w(string integer decimal))
     end
     it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:full_name) }
+    it { is_expected.to validate_presence_of(:help) }
   end
 
   describe 'callbacks' do

@@ -12,10 +12,9 @@
         <%= f.error_notification %>
         
         <%= f.input :internal_name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-        <%= f.input :name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-        <%= f.input :display_name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-        <%= f.input :help, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-        <%# f.input :description, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, required: false %>
+        <%= f.input :name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, required: true %>
+        <%= f.input :display_name, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, required: true %>
+        <%= f.input :help, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, required: true %>
         <%= f.label "Colour" %>
         <%= f.select :colour_class, options_for_select({
             "Red" => "red-group", 
