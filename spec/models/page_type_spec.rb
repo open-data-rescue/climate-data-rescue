@@ -21,6 +21,8 @@ describe PageType do
 
   describe 'ActiveModel validations' do
     it { is_expected.to validate_presence_of(:title) }
+    it { is_expected.to validate_presence_of(:ledger_type) }
+    it { is_expected.to validate_presence_of(:number) }
   end
 
   describe 'callbacks' do

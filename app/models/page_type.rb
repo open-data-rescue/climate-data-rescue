@@ -12,4 +12,8 @@ class PageType < ActiveRecord::Base
 
   validates :title,
             presence: true
+  validates :ledger_type,
+            presence: true
+  validates :number,
+            presence: true
 end
