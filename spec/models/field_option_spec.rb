@@ -23,7 +23,9 @@ describe FieldOption do
   # end
   
   describe 'paperclip attachment' do
-
+    it { is_expected.to have_attached_file(:image) }
+    it { is_expected.to validate_attachment_content_type(:image).
+                  allowing("image/jpg","image/jpeg", "image/png") }
   end
   
   describe '.only_defaults' do
