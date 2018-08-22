@@ -39,7 +39,11 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
                 span.caret
               ul.dropdown-menu
                 li class="#{yield(:pages)}" = link_to t('pages'), admin_pages_path
-                li class="#{yield(:transcriptions)}" = link_to t('transcriptions'), admin_transcriptions_path
+                li class="#{yield(:transcriptions)}"
+                  = link_to t('transcriptions'), admin_transcriptions_path
+                  ul.dowpdown-menu
+                    li class="#{yield(:transcriptions)}" = link_to t('transcriptions'), admin_transcriptions_path
+                    li class="#{yield(:transcriptions)}" = link_to t('export-transcriptions'), admin_transcriptions_path + '/export'
                 li role="separator" class="divider"
                 li class="#{yield(:page_types)}" = link_to t('page-schemas'), admin_page_types_path
                 li class="#{yield(:field_groups)}" = link_to t('field-groups'), admin_field_groups_path

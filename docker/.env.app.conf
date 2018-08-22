@@ -1,0 +1,2 @@
+MYSQL_ROOT_PASSWORD=root
+BASE_URL=localhost:3000

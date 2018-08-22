@@ -66,7 +66,7 @@ module Admin
     def export
       Rails.logger.info params
       if request.format.html?
-        @page_types = PageType.joins(:transcriptions).order(:title).uniq
+        @page_types = PageType.order(:title).uniq
       else
         limit = params['limit'] || nil
         offset = params['offset'] || nil
