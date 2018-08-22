@@ -1,4 +1,4 @@
-set :branch, ENV['BRANCH'] || "production"
+set :branch, "production"
 set :stage,           :production
 
 set :deploy_to,       "/opt/www/ClimateDataRescue"
