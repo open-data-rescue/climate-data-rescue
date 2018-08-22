@@ -1,4 +1,4 @@
-set :branch, ENV['BRANCH'] || "master"
+set :branch, "master"
 set :stage,           :staging
 
 set :deploy_to,       "/opt/www/climate_test"
