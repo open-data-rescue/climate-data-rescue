@@ -25,7 +25,7 @@ if !zeus_running?
     add_filter '/log/'
     add_filter '/public/'
     add_filter '/deploy/'
-    add_filter '/spec/' # for rspec
+    add_filter 'spec/' # for rspec
   end
 end
 

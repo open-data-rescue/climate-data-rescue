@@ -1,4 +1,11 @@
 class StaticPage < ActiveRecord::Base
+  translates :title, :body, :slug, :meta_keywords, :meta_title,
+             :meta_description, fallbacks_for_empty_translations: true
+  globalize_accessors
+
+  has_many :children, class_name: 'StaticPage', :dependent => :destroy, foreign_key: :parent_id
+  belongs_to :parent, class_name: 'StaticPage'
+
   default_scope { order(position: :asc) }
 
   validates :title, presence: true
@@ -14,26 +21,10 @@ class StaticPage < ActiveRecord::Base
 
   before_save :update_positions_and_slug
 
-  translates :title, :body, :slug, :meta_keywords, :meta_title,
-             :meta_description, fallbacks_for_empty_translations: true
-
-  globalize_accessors
-
-  has_many :children, class_name: 'StaticPage', :dependent => :destroy, foreign_key: :parent_id
-  belongs_to :parent, class_name: 'StaticPage'
-
   def initialize(*args)
     super(*args)
     last_page = StaticPage.last
     self.position = last_page ? last_page.position + 1 : 0
-  end
-
-  def link
-    foreign_link.blank? ? ('/' + I18n.locale.to_s + slug) : foreign_link
-  end
-  
-  def is_external?
-    foreign_link.present?
   end
 
   def self.matches?(request)
@@ -44,6 +35,14 @@ class StaticPage < ActiveRecord::Base
     end
     # return false if slug =~ %r{\A\/+(admin|account|cart|checkout|content|login|pg\/|orders|products|s\/|session|signup|shipments|states|t\/|tax_categories|user)+}
     StaticPage.visible.find_by(slug: slug).present?
+  end
+
+  def link
+    foreign_link.blank? ? ('/' + I18n.locale.to_s + slug) : foreign_link
+  end
+  
+  def is_external?
+    foreign_link.present?
   end
 
   private
