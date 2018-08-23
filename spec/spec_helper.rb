@@ -18,6 +18,13 @@ if !zeus_running?
   SimpleCov.start 'rails' do
     add_filter '/bin/'
     add_filter '/db/'
+    add_filter '/vendor/'
+    add_filter '/tmp/'
+    add_filter '/docker/'
+    add_filter '/script/'
+    add_filter '/log/'
+    add_filter '/public/'
+    add_filter '/deploy/'
     add_filter '/spec/' # for rspec
   end
 end
