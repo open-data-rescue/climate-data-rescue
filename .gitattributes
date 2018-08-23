@@ -1,0 +1,40 @@
+#
+* text=auto
+
+#
+*.axlsx    text eol=lf
+*.css      text eol=lf
+*.builder  text eol=lf
+*.erb      text eol=lf
+*.htm      text eol=lf
+*.html     text eol=lf
+*.inc      text eol=lf
+*.ini      text eol=lf
+*.jbuilder text eol=lf
+*.js       text eol=lf
+*.json     text eol=lf
+*.lock     text eol=lf
+*.md       text eol=lf
+*.prawn    text eol=lf
+*.py       text eol=lf
+*.rb       text eol=lf
+*.scss     text eol=lf
+*.sh       text eol=lf
+*.sql      text eol=lf
+*.yml      text eol=lf
+*.xml      text eol=lf
+Gemfile    text eol=lf
+Rakefile   text eol=lf
+
+# Ensure those won't be messed up with
+*.jpg   binary
+*.jpeg  binary
+*.png   binary
+*.tiff  binary
+*.ico   binary
+*.data  binary
+*.gz    binary
+*.gzip  binary
+*.ttf   binary
+*.woff  binary
+*.woff2	binary
