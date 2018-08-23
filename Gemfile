@@ -103,7 +103,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pry'
   gem 'listen'
-  gem 'faker'
+  gem 'faker', '~> 1.9.1'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'shoulda-callback-matchers'

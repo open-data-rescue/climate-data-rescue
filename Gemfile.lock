@@ -389,7 +389,7 @@ DEPENDENCIES
   devise (~> 3.5.4)
   execjs
   factory_bot_rails
-  faker
+  faker (~> 1.9.1)
   figaro
   fuubar
   globalize
