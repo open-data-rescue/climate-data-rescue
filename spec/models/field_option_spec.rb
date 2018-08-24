@@ -18,9 +18,6 @@ describe FieldOption do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:help) }
   end
-
-  # describe 'callbacks' do
-  # end
   
   describe 'paperclip attachment' do
     it { is_expected.to have_attached_file(:image) }
