@@ -102,6 +102,7 @@ group :development, :test do
   gem 'fuubar'
   gem 'rspec-rails'
   gem 'pry'
+  gem 'rubocop-rspec'
   gem 'listen'
   gem 'faker', '~> 1.9.1'
   gem 'factory_bot_rails'
