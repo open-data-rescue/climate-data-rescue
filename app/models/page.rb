@@ -30,9 +30,11 @@ class Page < ActiveRecord::Base
   #sets a scope for all transcribable pages to be those that are not done
   scope :transcribeable, -> { 
     joins({:page_type => :field_groups}).
-    where(done: false, visible: true, 
+    where(
+      done: false, visible: true, 
       page_types: { visible: true }
-    ).uniq.order("pages.start_date asc, page_types.number asc") }
+    ).uniq.order("pages.start_date asc, page_types.number asc")
+  }
 
   scope :unseen, -> (user) {
     if user && user.pages.any?
@@ -46,23 +48,22 @@ class Page < ActiveRecord::Base
 
   def num_rows_expected
     if page_days.any?
-      total = page_days.sum(:num_observations)
-      total
+      page_days.sum(:num_observations)
     else
       nil
     end
   end
   
   def to_jq_upload
-      {
-        "name" => read_attribute(:image_file_name),
-        "size" => image.size,
-        "url" => image.url,
-        "thumbnailUrl" => image.url(:thumb),
-        "deleteUrl" => "/pages/#{self.id}",
-        "deleteType" => "DELETE",
-        "pageId" => "page-#{self.id}"
-      }
+    {
+      "name" => read_attribute(:image_file_name),
+      "size" => image.size,
+      "url" => image.url,
+      "thumbnailUrl" => image.url(:thumb),
+      "deleteUrl" => "/pages/#{self.id}",
+      "deleteType" => "DELETE",
+      "pageId" => "page-#{self.id}"
+    }
   end
   
   #sets the height and width attributes of the page to those of its attachment dimensions on update
@@ -93,60 +94,53 @@ class Page < ActiveRecord::Base
   end
   
   def parse_filename
+    return unless image.present?
     Page.transaction do
-      # begin
-        if image.present?
-          filename = image_file_name
-          components = filename.split("_")
-          if components.count == 6
-            self.accession_number = components[0]
-            if components[1] && components[2]
-              ledger_type = components[1]
-              volume = components[2]
-              ledger = Ledger.find_by(ledger_type: ledger_type)
-              unless ledger
-                ledger = Ledger.create!(title: ledger_type, ledger_type: ledger_type)
-              end
-            end
-            self.volume = volume
-            self.start_date = Date.parse(components[3])
-            self.end_date = Date.parse(components[4])
-            
-            self.title = components[3] + " to " + components[4]
-            
-            
-            if components[5] && components[5].length > 0
-              page_type_num = components[5][0]
-              page_type = PageType.find_by(number: page_type_num, ledger_id: ledger.id)
-              unless page_type
-                page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: ('Register ' + ledger_type + ', page ' + page_type_num))
-              end
-              self.page_type_id = page_type.id
-            end
-          else
-            raise "invalid filename"
+      filename = image_file_name
+      components = filename.split("_")
+      if components.count == 6
+        self.accession_number = components[0]
+        if components[1] && components[2]
+          ledger_type = components[1]
+          volume = components[2]
+          ledger = Ledger.find_by(ledger_type: ledger_type)
+          unless ledger
+            ledger = Ledger.create!(title: ledger_type, ledger_type: ledger_type)
           end
-          
-          self.save!
         end
-      # rescue => e
+        self.volume = volume
+        self.start_date = Date.parse(components[3])
+        self.end_date = Date.parse(components[4])
         
-      # end
-      
+        self.title = components[3] + " to " + components[4]
+        
+        
+        if components[5] && components[5].length > 0
+          page_type_num = components[5][0]
+          page_type = PageType.find_by(number: page_type_num, ledger_id: ledger.id)
+          unless page_type
+            page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: ('Register ' + ledger_type + ', page ' + page_type_num))
+          end
+          self.page_type_id = page_type.id
+        end
+      else
+        raise "invalid filename"
+      end
+
+      self.save!
     end
   end
   
   #sets the height and width attributes of the page to those of its attachment dimensions on create
   def extract_upload_dimensions
     return unless image?
-    
+
     tempfile = image.queued_for_write[:original]
-    
+
     unless tempfile.nil?
       geometry = Paperclip::Geometry.from_file(tempfile)
       self.width = geometry.width.to_i
       self.height = geometry.height.to_i
-      # self.save
     end
   end
 

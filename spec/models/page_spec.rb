@@ -44,4 +44,20 @@ describe Page do
       end
     end
   end
+
+  describe '#num_rows_expected' do
+    context 'when the page has page_days' do
+      it 'returns the sum of the page days num_observations' do
+        page.page_days = build_list(:page_day, 3)
+        expect(page.num_rows_expected).to eq(page.page_days.sum(:num_observations))
+      end
+    end
+
+    context 'when the page does not have page days' do
+      it 'returns nil' do
+        page.page_days = []
+        expect(page.num_rows_expected).to eq(nil)
+      end
+    end
+  end
 end
