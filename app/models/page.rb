@@ -29,7 +29,7 @@ class Page < ActiveRecord::Base
   
   #sets a scope for all transcribable pages to be those that are not done
   scope :transcribeable, -> { 
-    joins({:page_type => :field_groups}).
+    joins(page_type: :field_groups).
     where(
       done: false, visible: true, 
       page_types: { visible: true }
@@ -72,11 +72,11 @@ class Page < ActiveRecord::Base
     #regex to select all parts of the filename preceding the end of the supported file types and forms
     reg = /(.+\.(jpg|JPG|jpeg|JPEG|png|PNG))/
     tempfile = self.image.url
-    puts tempfile
+    # puts tempfile
     cleaned = reg.match(tempfile).to_s
-    puts cleaned
+    # puts cleaned
     full_path = Rails.root.to_s + "/public" + cleaned
-    puts full_path
+    # puts full_path
     unless tempfile.nil?
       geometry = Paperclip::Geometry.from_file(full_path)
       self.width = geometry.width.to_i

@@ -60,4 +60,30 @@ describe Page do
       end
     end
   end
+
+  describe '#to_jq_upload' do
+    it { is_expected.to respond_to(:to_jq_upload) }
+    it { expect(page.to_jq_upload).to be_a(Hash) }
+    it do
+      hash_keys = %w[
+        name size url thumbnailUrl deleteUrl deleteType pageId
+      ]
+      expect(page.to_jq_upload.keys).to contain_exactly(*hash_keys)
+    end
+  end
+
+  describe '#extract_dimensions' do
+    it { is_expected.to respond_to(:extract_dimensions) }
+
+    context 'when the page has no image' do
+      it { expect{ page.extract_dimensions }.to_not change{ page.width }  }
+      it { expect{ page.extract_dimensions }.to_not change{ page.height }  }
+    end
+
+    # context 'when page has an image' do
+    #   let(:page) { build(:page, :image) }
+    #   it { expect{ page.extract_dimensions }.to change{ page.width }  }
+    #   it { expect{ page.extract_dimensions }.to change{ page.height }  }
+    # end
+  end
 end
