@@ -1,6 +1,6 @@
 class Transcription < ActiveRecord::Base
-  belongs_to :page
-  belongs_to :user
+  belongs_to :page, required: true
+  belongs_to :user, required: true
   has_one :page_type, through: :page
   has_many :field_groups, through: :page_type
   has_many :field_groups_fields, through: :field_groups
@@ -8,8 +8,7 @@ class Transcription < ActiveRecord::Base
   has_many :annotations, dependent: :destroy
   has_many :data_entries, through: :annotations
 
-  validates :page_id, uniqueness: { scope: :user_id }, presence: true
-  validates :user_id, presence: true
+  validates :page_id, uniqueness: { scope: :user_id }
 
   def num_rows_started
     annotations.pluck(:observation_date).uniq.size
