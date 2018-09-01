@@ -1,3 +1,4 @@
+require "paperclip/matchers"
 
 def zeus_running?
   File.exists? '.zeus.sock'
@@ -7,15 +8,24 @@ if !zeus_running?
   require 'simplecov'
   require 'coveralls'
 
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-    SimpleCov::Formatter::HTMLFormatter,
-    Coveralls::SimpleCov::Formatter
-  ]
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
+    [
+      SimpleCov::Formatter::HTMLFormatter,
+      Coveralls::SimpleCov::Formatter
+    ]
+  )
 
   SimpleCov.start 'rails' do
     add_filter '/bin/'
     add_filter '/db/'
-    add_filter '/spec/' # for rspec
+    add_filter '/vendor/'
+    add_filter '/tmp/'
+    add_filter '/docker/'
+    add_filter '/script/'
+    add_filter '/log/'
+    add_filter '/public/'
+    add_filter '/deploy/'
+    add_filter 'spec/' # for rspec
   end
 end
 
@@ -35,6 +45,7 @@ end
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  config.include Paperclip::Shoulda::Matchers
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
