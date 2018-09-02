@@ -31,6 +31,19 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
           - if Rails.env.staging?
             span.label.label-danger
               = "Test Environment"
+        li
+          a.fa.fa-facebook href="https://facebook.com/DRAWMcGill/" target="_blank"
+        li
+          a.fa.fa-twitter href="https://twitter.com/DRAWMcGill" target="_blank"
+        li.dropdown-submenu.top-level-nav
+          a.dropdown-toggle href="#" data-toggle="dropdown"
+            = t(I18n.locale) + " "
+            i.caret
+          ul.dropdown-menu
+            - I18n.available_locales.each do |lang|
+              - if lang != I18n.locale
+                li
+                  = locale_switcher_link(lang, static_page: @page)
         - if user_signed_in?
           - if current_user.admin?
             li id="admin-menu" class="#{yield(:admin)} top-level-nav dropdown-submenu"
@@ -68,15 +81,6 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
         - else
           li = link_to t('log-in'), baseUri + "/login", :class => "sidebar-url"
           li = link_to t('sign-up'), baseUri + "/users/sign_up", :class => "sidebar-url"
-        li.dropdown-submenu.top-level-nav
-          a.dropdown-toggle href="#" data-toggle="dropdown"
-            = t(I18n.locale) + " "
-            i.caret
-          ul.dropdown-menu
-            - I18n.available_locales.each do |lang|
-              - if lang != I18n.locale
-                li
-                  = locale_switcher_link(lang, static_page: @page)
 
 
 
