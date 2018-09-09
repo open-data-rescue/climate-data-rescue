@@ -41,4 +41,7 @@ DataRescueAtHome::Application.configure do
 
   #have to brew install image magick
   Paperclip.options[:command_path] = "/usr/local/bin/"
+
+
+  Rails.application.routes.default_url_options[:protocol] = "http"
 end
