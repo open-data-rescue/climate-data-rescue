@@ -36,14 +36,6 @@ class User < ActiveRecord::Base
     :size => { :in => 0..2.megabytes },
     :content_type => { :content_type => /^image\/(jpeg|jpg|png)$/ }
 
-  def privileged?
-    self.admin?
-  end
-
-  def num_contributions
-    transcriptions.where(complete: true).count
-  end
-
   def name
     display_name.present? ? display_name : email
   end

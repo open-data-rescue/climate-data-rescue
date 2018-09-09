@@ -16,14 +16,14 @@
     <%= f.input :visible %>
     <div class="row">
       <div class="col-md-6">
-        <%= f.association :ledger, include_blank: false, label: t('register') %>
+        <%= f.association :ledger, include_blank: false, label: t('register'), required: true %>
       </div>
       <div class="col-md-6">
-        <%= f.input :number %>
+        <%= f.input :number, required: true %>
       </div>
     </div>
     <div class="form-inputs">
-      <%= f.input :title %>
+      <%= f.input :title, required: true %>
       <%= f.input :description %>
     </div>
     <div class="form-actions">

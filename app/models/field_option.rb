@@ -1,7 +1,11 @@
 class FieldOption < ActiveRecord::Base
+  translates :name, :help,
+             fallbacks_for_empty_translations: true,
+             touch: true
+  globalize_accessors
+
   has_many :fields, through: :field_options_fields
   has_many :field_options_fields, dependent: :destroy
-  has_many :data_entries
 
   has_attached_file :image,
                   styles: { 
@@ -15,8 +19,10 @@ class FieldOption < ActiveRecord::Base
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
 
-  translates :name, :help, fallbacks_for_empty_translations: true, touch: true
-  globalize_accessors
+  validates :name,
+            presence: true
+  validates :help,
+            presence: true
 
   def self.only_defaults
     where(is_default: true)
