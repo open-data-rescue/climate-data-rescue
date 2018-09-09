@@ -4,5 +4,5 @@ RUN mkdir /draw
 WORKDIR /draw
 COPY Gemfile /draw/Gemfile
 COPY Gemfile.lock /draw/Gemfile.lock
-RUN bundle install
+RUN bundle update
 COPY . /draw
