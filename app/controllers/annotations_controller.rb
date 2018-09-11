@@ -9,6 +9,7 @@ class AnnotationsController < ApplicationController
   # GET /annotations.json
   def index
     #@annotations is the variable containing all instances of the "annotation.rb" model passed to the annotation view "index.html.slim" (project_root/annotations) and is used to populate the page with information about each annotation using @annotations.each (an iterative loop).
+    begin
     if params[:transcription_id]
       @annotations = Annotation.where(transcription_id: params[:transcription_id]).includes(
           { :field_group => [
@@ -51,6 +52,7 @@ class AnnotationsController < ApplicationController
     Rails.logger.error ex.message
     Rails.logger.error ex.backtrace.join('\n\t')
     render json: {status: :bad_request, text: ex.message}
+  end
   end
 
   # GET /annotations/annotation_id
@@ -120,50 +122,21 @@ class AnnotationsController < ApplicationController
   # POST /annotations
   # POST /annotations.json
   def create
+    error = ""
     Annotation.transaction do
-      #@annotation is a variable containing an instance of the "annotation.rb" model created with data passed in the params of the "new.html.slim" form submit action. 
-      metadata = params.require(:annotation).permit!
-      meta = metadata[:meta]
-      data = metadata[:data].to_unsafe_h
-      
-      logger.debug "meta: " + meta.to_s
-      logger.debug "data: " + data.to_s
-      
-      @annotation = Annotation.create!(
-        transcription_id: meta[:transcription_id], 
-        page_id: meta[:page_id], 
-        field_group_id: meta[:field_group_id], 
-        x_tl: meta[:x_tl], 
-        y_tl: meta[:y_tl], 
-        width: meta[:width], 
-        height: meta[:height],
-        date_time_id: annotation_params[:observation_date],
-        observation_date: DateTime.parse(annotation_params[:observation_date])
-      )
-
-      process_annotation_data(annotation: @annotation, data: data)
-    end
-    respond_to do |format|
-      format.json
-    end
-  rescue => e
-    Rails.logger.error e.message
-    Rails.logger.error e.backtrace.join("\n\t") if Rails.env.development?
-
-    render status: :bad_request, text: e.message
-  end
-
-  # PUT /annotations/annotation_id
-  # PUT /annotations/annotation_id.json
-  def update
-    Annotation.transaction do
-      @annotation = Annotation.includes(:data_entries).references(:data_entries).find(params[:id])
-      metadata = params.require(:annotation).permit!
-      meta = metadata[:meta]
-      data = metadata[:data].to_unsafe_h
-      
-      if meta && data
-        @annotation.update(
+      begin
+        #@annotation is a variable containing an instance of the "annotation.rb" model created with data passed in the params of the "new.html.slim" form submit action. 
+        
+        meta = params[:annotation][:meta]
+        data = params[:annotation][:data]
+        
+        logger.debug "meta: " + meta.to_s
+        logger.debug "data: " + data.to_s
+        
+        @annotation = Annotation.create!(
+          transcription_id: meta[:transcription_id], 
+          page_id: meta[:page_id], 
+          field_group_id: meta[:field_group_id], 
           x_tl: meta[:x_tl], 
           y_tl: meta[:y_tl], 
           width: meta[:width], 
@@ -171,42 +144,108 @@ class AnnotationsController < ApplicationController
           date_time_id: annotation_params[:observation_date],
           observation_date: DateTime.parse(annotation_params[:observation_date])
         )
-        
-        process_annotation_data(annotation: @annotation, data: data)
-      else
-        # Rails.logger.info "Updating with backbone attributes"
-        @annotation.update(backbone_annotation_params.merge(observation_date: DateTime.parse(annotation_params[:observation_date])))
-      end
+        # Rails.logger.info DateTime.parse(annotation_params[:observation_date])
 
-      @annotation.save!
+        if data && data.length > 0
+          data.each do |key, value|
+            entry_value = value[:value]
+
+            if value[:selected_option_ids].present?
+              entry_value = value_for_option_ids value[:selected_option_ids]
+            end
+
+            @annotation.data_entries.build(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type], value: entry_value, field_options_ids: (value[:selected_option_ids].present? ? value[:selected_option_ids] : nil))
+          end
+          @annotation.save!
+        end
+
+        respond_to do |format|
+          format.json
+        end
+      rescue => e
+        error = e.message
+        Rails.logger.error error
+        Rails.logger.error e.backtrace
+
+        render json: {status: :bad_request, text: error}
+      end
     end
+    
+    
+  end
+
+  # PUT /annotations/annotation_id
+  # PUT /annotations/annotation_id.json
+  def update
+    #@annotation is a variable containing an instance of the "annotation.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
+    error = ""
+    Annotation.transaction do
+      begin
+
+        @annotation = Annotation.includes(:data_entries).references(:data_entries).find(params[:id])
+        meta = params[:annotation][:meta]
+        data = params[:annotation][:data]
+        
+        if meta && data
+          # Rails.logger.info "Updating with meta and data"
+          
+          @annotation.update(
+            x_tl: meta[:x_tl], 
+            y_tl: meta[:y_tl], 
+            width: meta[:width], 
+            height: meta[:height],
+            date_time_id: annotation_params[:observation_date],
+            observation_date: DateTime.parse(annotation_params[:observation_date])
+          )
+          
+          if data && data.length > 0
+            data.each do |key, value|
+              entry_value = value[:value]
+
+              if value[:selected_option_ids].present?
+                entry_value = value_for_option_ids value[:selected_option_ids]
+              end
+
+              datum = @annotation.data_entries.find_or_create_by(page_id: value[:page_id], user_id: value[:user_id], field_id: value[:field_id], data_type: value[:data_type])
+              datum.value = entry_value
+              datum.field_options_ids = (value[:selected_option_ids].present? ? value[:selected_option_ids] : nil)
+              datum.save!
+            end
+          end
+        else
+          # Rails.logger.info "Updating with backbone attributes"
+          @annotation.update(backbone_annotation_params.merge(observation_date: DateTime.parse(annotation_params[:observation_date])))
+        end
+
+        @annotation.save!
+      rescue => e 
+        error = e.message
+        Rails.logger.error error
+        Rails.logger.error e.backtrace
+      end
+    end
+
 
     respond_to do |format|
       format.json
     end
-  rescue => e
-    Rails.logger.error e.message
-    Rails.logger.error e.backtrace.join("\n\t") if Rails.env.development?
-
-    render status: :bad_request, text: e.message
   end
 
   # DELETE /annotations/annotation_id
   # DELETE /annotations/annotation_id.json
   def destroy
     #this function is called to delete the instance of "annotation.rb" identified by the annotation_id passed to the destroy function when it was called
-    annotation = Annotation.find(params[:id])
-    annotation.destroy
+    @annotation = Annotation.find(params[:id])
+    @annotation.destroy
 
     respond_to do |format|
       format.html { redirect_to annotations_url }
       format.json { head :no_content }
     end
   end
-
+  
   private
-
-  def value_for_option_ids(ids)
+  def value_for_option_ids ids
     value = ""
     if ids.is_a?(String)
       ids = ids.split(',')
@@ -217,31 +256,9 @@ class AnnotationsController < ApplicationController
     value
   end
 
-  def process_annotation_data(annotation:, data:)
-    return unless data && data.length > 0
-    data.each do |key, value|
-      entry_value = value[:value]
-
-      if value[:selected_option_ids].present?
-        entry_value = value_for_option_ids value[:selected_option_ids]
-      end
-
-      datum = annotation.data_entries.find_or_create_by(
-        page_id: value[:page_id],
-        user_id: value[:user_id],
-        field_id: value[:field_id],
-        data_type: value[:data_type]
-      )
-      datum.value = entry_value
-      datum.field_options_ids = (value[:selected_option_ids].present? ? value[:selected_option_ids] : nil)
-      datum.save!
-    end
-  end
-
   def annotation_params
     params.require(:annotation).permit(:observation_date)
   end
-
   def backbone_annotation_params
     params.require(:annotation).permit(:x_tl, :y_tl, :width, :height, :page_id, :transcription_id, :date_time_id, :field_group_id, :observation_date)
   end
