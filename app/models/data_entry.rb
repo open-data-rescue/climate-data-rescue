@@ -4,10 +4,10 @@ class DataEntry < ActiveRecord::Base
   belongs_to :user, required: true
   belongs_to :annotation, touch: true, required: true
 
-  validates :field_id,
-            uniqueness: { scope: :annotation_id }
-  validates :value,
-            presence: true
-  validates :data_type,
-            presence: true
+  # validates :field_id,
+  #           uniqueness: { scope: :annotation_id }
+  # validates :value,
+  #           presence: true
+  # validates :data_type,
+  #           presence: true
 end
