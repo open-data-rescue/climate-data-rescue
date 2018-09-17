@@ -2,8 +2,8 @@ module Admin
   class PageTypesController < AdminController
     # load_and_authorize_resource
     respond_to :html, :json, :js
-    #Corresponds to the "pagetype" model, pagetype.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the pagetype model
-    # All .html.slim views for "pagetype.rb" are located at "project_root\app\views\page_types"
+    #Corresponds to the "page_schema" model, page_schema.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the page_schema model
+    # All .html.slim views for "page_schema.rb" are located at "project_root\app\views\page_types"
 
     # GET /page_types
     # GET /page_types.json
@@ -16,14 +16,14 @@ module Admin
       end
     end
 
-    # GET /page_types/pagetype_id
-    # GET /page_types/pagetype_id.json
+    # GET /page_types/page_schema_id
+    # GET /page_types/page_schema_id.json
     def show
       @page_type = PageType.find(params[:id])
       respond_to do |format|
         format.html # show.html.erb
         format.json {
-          render :json => @pagetype.to_json(:include => { :fieldgroups => { :include => :fields }})
+          render :json => @page_schema.to_json(:include => { :fieldgroups => { :include => :fields }})
         }
       end
     end
@@ -39,7 +39,7 @@ module Admin
       end
     end
 
-    # GET /page_types/pagetype_id/edit
+    # GET /page_types/page_schema_id/edit
     def edit
       PageType.transaction do
         begin
@@ -55,7 +55,7 @@ module Admin
     def create
       PageType.transaction do  
         begin
-          @page_type = PageType.create!(pagetype_params)
+          @page_type = PageType.create!(page_schema_params)
 
           params[:page_type][:field_group_ids] ||= []
           @page_type.field_group_ids = params[:page_type][:field_group_ids]
@@ -67,7 +67,7 @@ module Admin
       
       respond_to do |format|
         if @page_type && @page_type.id
-          format.html { redirect_to admin_page_type_path(@page_type), notice: 'Pagetype was successfully created.' }
+          format.html { redirect_to admin_page_type_path(@page_type), success: 'Page Schema was successfully created.' }
           format.json { render json: @page_type, status: :created, location: @page_type }
         else
           format.html { render action: "new" }
@@ -76,8 +76,8 @@ module Admin
       end
     end
 
-    # PUT /page_types/pagetype_id
-    # PUT /page_types/pagetype_id.json
+    # PUT /page_types/page_schema_id
+    # PUT /page_types/page_schema_id.json
     def update
       PageType.transaction do  
         begin
@@ -88,8 +88,8 @@ module Admin
       end
       
       respond_to do |format|
-        if @page_type.update_attributes(pagetype_params)
-          format.html { redirect_to admin_page_type_path(@page_type), notice: 'Pagetype was successfully updated.' }
+        if @page_type.update(page_schema_params)
+          format.html { redirect_to admin_page_type_path(@page_type), success: 'Page Schema was successfully updated.' }
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
@@ -99,8 +99,8 @@ module Admin
       
     end
 
-    # DELETE /page_types/pagetype_id
-    # DELETE /page_types/pagetype_id.json
+    # DELETE /page_types/page_schema_id
+    # DELETE /page_types/page_schema_id.json
     def destroy
       PageType.transaction do  
         begin
@@ -118,7 +118,7 @@ module Admin
     end
     
     private
-    def pagetype_params
+    def page_schema_params
       params.require(:page_type).permit(:title, :type, :description, :ledger_id, :visible)
     end
   end

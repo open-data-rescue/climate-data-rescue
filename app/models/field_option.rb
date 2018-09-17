@@ -1,11 +1,13 @@
-class FieldOption < ActiveRecord::Base
+class FieldOption < ApplicationRecord
+  include TranslationHelpers
+
   translates :name, :help,
              fallbacks_for_empty_translations: true,
              touch: true
   globalize_accessors
 
-  has_many :fields, through: :field_options_fields
   has_many :field_options_fields, dependent: :destroy
+  has_many :fields, through: :field_options_fields
 
   has_attached_file :image,
                   styles: { 

@@ -16,7 +16,7 @@ module StaticPagesHelper
       url.gsub!('//', '/')
       res = link_to(t(lang), url)
     else
-      res = link_to(t(lang), params.merge({ locale: lang }))
+      res = link_to(t(lang), params.to_unsafe_h.merge({ locale: lang }))
     end
     
     res

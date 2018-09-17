@@ -6,7 +6,7 @@
       <col style="width: 10%">
       <col style="width: 15%">
     </colgroup>
-    <% unless pages.first.parent %>
+    <% if pages && pages.any? && pages.first.parent.nil? %>
       <thead>
         <th></th>
         <th><%= t('page-title') %></th>

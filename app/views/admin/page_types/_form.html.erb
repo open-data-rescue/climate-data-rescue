@@ -16,7 +16,7 @@
     <%= f.input :visible %>
     <div class="row">
       <div class="col-md-6">
-        <%= f.association :ledger, include_blank: false, label: t('register'), required: true %>
+        <%= f.association :ledger, label: t('register'), required: true %>
       </div>
       <div class="col-md-6">
         <%= f.input :number, required: true %>

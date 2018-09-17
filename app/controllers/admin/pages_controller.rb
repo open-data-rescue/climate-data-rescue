@@ -50,42 +50,39 @@ module Admin
     # POST /pages.json
     def create
       Page.transaction do
-        if params[:page][:image]
-          upload = params[:page][:image]
-          Rails.logger.debug upload
-          begin
-            if upload.is_a? Array
-              image = upload[0]
-            else
-              image = upload
-            end
+        raise "no image detected" unless params[:page][:image].present?
+        upload = params[:page][:image]
+        Rails.logger.debug upload unless Rails.env.production?
 
-            filename = image.original_filename
-            page = Page.find_by(image_file_name: filename)
-            if page.present?
-              page.image = image
-              page.save!
-            else
-              page = Page.create!(:image => image)
-            end
-            respond_to do |format|
-              format.html { #(html response is for browsers using iframe solution)
-                render :json => [page.to_jq_upload].to_json,
-                :content_type => 'text/html',
-                :layout => false
-              }
-              format.json {
-                render :json => {files: [page.to_jq_upload] }.to_json
-              }
-            end
+        if upload.is_a? Array
+          image = upload[0]
+        else
+          image = upload
+        end
 
-          rescue => ex
-            Rails.logger.error ex.message
-            Rails.logger.error ex.backtrace.join("\n\t")
-            render status: :bad_request, text: ex.message
-          end
+        filename = image.original_filename
+        page = Page.find_by(image_file_name: filename)
+        if page.present?
+          page.image = image
+          page.save!
+        else
+          page = Page.create!(image: image)
+        end
+        respond_to do |format|
+          format.html { #(html response is for browsers using iframe solution)
+            render :json => [page.to_jq_upload].to_json,
+            :content_type => 'text/html',
+            :layout => false
+          }
+          format.json {
+            render :json => {files: [page.to_jq_upload] }.to_json
+          }
         end
       end
+    rescue => ex
+      Rails.logger.error ex.message
+      Rails.logger.error ex.backtrace.join("\n\t")
+      render status: :bad_request, text: ex.message
     end
 
     # PUT /pages/page_id
@@ -105,7 +102,7 @@ module Admin
 
         respond_to do |format|
           if @page.update_attributes(page_params)
-            format.html { redirect_to admin_page_path(@page), notice: 'Page was successfully updated.' }
+            format.html { redirect_to admin_page_path(@page), success: 'Page was successfully updated.' }
             format.json { head :no_content }
           else
             format.html { render action: "edit" }

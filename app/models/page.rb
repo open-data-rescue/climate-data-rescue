@@ -1,6 +1,5 @@
-class Page < ActiveRecord::Base
+class Page < ApplicationRecord
   belongs_to :page_type
-  belongs_to :transcriber, class_name: "User"
 
   has_many :field_groups, through: :page_type
   has_many :fields, through: :field_groups
@@ -23,8 +22,8 @@ class Page < ActiveRecord::Base
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
 
+  before_validation :parse_filename
   before_save :extract_upload_dimensions
-  after_create :parse_filename
   before_destroy :check_for_delete
   
   #sets a scope for all transcribable pages to be those that are not done
@@ -33,7 +32,7 @@ class Page < ActiveRecord::Base
     where(
       done: false, visible: true, 
       page_types: { visible: true }
-    ).uniq.order("pages.start_date asc, page_types.number asc")
+    ).order("pages.start_date asc, page_types.number asc").distinct
   }
 
   scope :unseen, -> (user) {
@@ -89,45 +88,44 @@ class Page < ActiveRecord::Base
 
   def check_for_delete
     if data_entries.any? 
-      raise I18n.t('cant-delete-page-that-has-been-transcribed')
+      errors.add(:base, I18n.t('cant-delete-page-that-has-been-transcribed'))
+      throw(:abort)
     end
   end
   
   def parse_filename
-    return unless image.present?
-    Page.transaction do
-      filename = image_file_name
-      components = filename.split("_")
-      if components.count == 6
-        self.accession_number = components[0]
-        if components[1] && components[2]
-          ledger_type = components[1]
-          volume = components[2]
-          ledger = Ledger.find_by(ledger_type: ledger_type)
-          unless ledger
-            ledger = Ledger.create!(title: ledger_type, ledger_type: ledger_type)
-          end
+    return if image.blank? || persisted?
+    filename = image_file_name
+    components = filename.split("_")
+    ledger_type = components[1]
+    volume = components[2]
+    start_date = components[3]
+    end_date = components[4]
+
+    if components.count == 6
+      self.accession_number = components[0]
+      if ledger_type && volume
+        ledger = Ledger.find_or_create_by(ledger_type: ledger_type) do |ledger|
+          ledger.title = ledger_type
         end
-        self.volume = volume
-        self.start_date = Date.parse(components[3])
-        self.end_date = Date.parse(components[4])
-        
-        self.title = components[3] + " to " + components[4]
-        
-        
-        if components[5] && components[5].length > 0
-          page_type_num = components[5][0]
-          page_type = PageType.find_by(number: page_type_num, ledger_id: ledger.id)
-          unless page_type
-            page_type = PageType.create!(number: page_type_num, ledger_type: ledger_type, ledger_id: ledger.id, title: ('Register ' + ledger_type + ', page ' + page_type_num))
-          end
-          self.page_type_id = page_type.id
+      end
+      
+      if components[5] && components[5].length > 0
+        # take the first character of the 6th position?
+        page_type_num = components[5][0]
+        self.page_type = PageType.find_or_create_by(number: page_type_num, ledger_id: ledger.id) do |page_type|
+          page_type.ledger_type = ledger_type
+          page_type.title = "Register #{ledger_type}, page #{page_type_num}"
         end
-      else
-        raise "invalid filename"
       end
 
-      self.save!
+      self.volume = volume
+      self.start_date = Date.parse(start_date)
+      self.end_date = Date.parse(end_date)
+      
+      self.title = "#{start_date} to #{end_date}"
+    else
+      raise "invalid filename"
     end
   end
   

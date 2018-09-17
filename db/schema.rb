@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,273 +10,260 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107024341) do
+ActiveRecord::Schema.define(version: 2017_11_07_024341) do
 
-  create_table "annotations", force: :cascade do |t|
-    t.integer  "x_tl",             limit: 4
-    t.integer  "y_tl",             limit: 4
-    t.integer  "width",            limit: 4
-    t.integer  "height",           limit: 4
-    t.integer  "page_id",          limit: 4
-    t.integer  "transcription_id", limit: 4
+  create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.integer "x_tl"
+    t.integer "y_tl"
+    t.integer "width"
+    t.integer "height"
+    t.integer "page_id"
+    t.integer "transcription_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "date_time_id",     limit: 255
-    t.integer  "field_group_id",   limit: 4
+    t.string "date_time_id"
+    t.integer "field_group_id"
     t.datetime "observation_date"
+    t.index ["date_time_id"], name: "by_date_time"
+    t.index ["field_group_id"], name: "by_field_group"
+    t.index ["page_id"], name: "by_page"
+    t.index ["transcription_id"], name: "by_transcription"
   end
 
-  add_index "annotations", ["date_time_id"], name: "by_date_time", using: :btree
-  add_index "annotations", ["field_group_id"], name: "by_field_group", using: :btree
-  add_index "annotations", ["page_id"], name: "by_page", using: :btree
-  add_index "annotations", ["transcription_id"], name: "by_transcription", using: :btree
-
-  create_table "content_images", force: :cascade do |t|
-    t.string   "image_file_name",    limit: 255
-    t.string   "image_content_type", limit: 255
-    t.integer  "image_file_size",    limit: 4
+  create_table "content_images", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "image_file_name"
+    t.string "image_content_type"
+    t.integer "image_file_size"
     t.datetime "image_updated_at"
-    t.string   "name",               limit: 255
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "data_entries", force: :cascade do |t|
-    t.string  "value",             limit: 255
-    t.string  "data_type",         limit: 255
-    t.integer "user_id",           limit: 4
-    t.integer "page_id",           limit: 4
-    t.integer "annotation_id",     limit: 4
-    t.integer "field_id",          limit: 4
-    t.string  "field_options_ids", limit: 255
+  create_table "data_entries", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "value"
+    t.string "data_type"
+    t.integer "user_id"
+    t.integer "page_id"
+    t.integer "annotation_id"
+    t.integer "field_id"
+    t.string "field_options_ids"
+    t.index ["annotation_id", "field_id"], name: "annotation_field", unique: true
   end
 
-  add_index "data_entries", ["annotation_id", "field_id"], name: "annotation_field", unique: true, using: :btree
-
-  create_table "field_group_translations", force: :cascade do |t|
-    t.integer  "field_group_id", limit: 4,     null: false
-    t.string   "locale",         limit: 255,   null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.string   "name",           limit: 255
-    t.string   "display_name",   limit: 255
-    t.text     "help",           limit: 65535
+  create_table "field_group_translations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.integer "field_group_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "display_name"
+    t.text "help"
+    t.index ["field_group_id"], name: "index_field_group_translations_on_field_group_id"
+    t.index ["locale"], name: "index_field_group_translations_on_locale"
   end
 
-  add_index "field_group_translations", ["field_group_id"], name: "index_field_group_translations_on_field_group_id", using: :btree
-  add_index "field_group_translations", ["locale"], name: "index_field_group_translations_on_locale", using: :btree
-
-  create_table "field_groups", force: :cascade do |t|
-    t.string   "description",   limit: 255
+  create_table "field_groups", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "colour_class",  limit: 255, default: "", null: false
-    t.string   "internal_name", limit: 255
+    t.string "colour_class", default: "", null: false
+    t.string "internal_name"
   end
 
-  create_table "field_groups_fields", force: :cascade do |t|
-    t.integer "field_group_id", limit: 4, null: false
-    t.integer "field_id",       limit: 4, null: false
-    t.integer "sort_order",     limit: 4, null: false
+  create_table "field_groups_fields", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "field_group_id", null: false
+    t.integer "field_id", null: false
+    t.integer "sort_order", null: false
+    t.index ["field_group_id"], name: "index_field_groups_fields_on_field_group_id"
+    t.index ["field_id"], name: "index_field_groups_fields_on_field_id"
   end
 
-  add_index "field_groups_fields", ["field_group_id"], name: "index_field_groups_fields_on_field_group_id", using: :btree
-  add_index "field_groups_fields", ["field_id"], name: "index_field_groups_fields_on_field_id", using: :btree
-
-  create_table "field_option_translations", force: :cascade do |t|
-    t.integer  "field_option_id", limit: 4,     null: false
-    t.string   "locale",          limit: 255,   null: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.string   "name",            limit: 255
-    t.text     "help",            limit: 65535
+  create_table "field_option_translations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.integer "field_option_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+    t.text "help"
+    t.index ["field_option_id"], name: "index_field_option_translations_on_field_option_id"
+    t.index ["locale"], name: "index_field_option_translations_on_locale"
   end
 
-  add_index "field_option_translations", ["field_option_id"], name: "index_field_option_translations_on_field_option_id", using: :btree
-  add_index "field_option_translations", ["locale"], name: "index_field_option_translations_on_locale", using: :btree
-
-  create_table "field_options", force: :cascade do |t|
-    t.string   "image_file_name",    limit: 255
-    t.string   "image_content_type", limit: 255
-    t.integer  "image_file_size",    limit: 4
+  create_table "field_options", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "image_file_name"
+    t.string "image_content_type"
+    t.integer "image_file_size"
     t.datetime "image_updated_at"
-    t.string   "value",              limit: 255
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-    t.string   "text_symbol",        limit: 255
-    t.string   "display_attribute",  limit: 255, default: "name"
-    t.string   "internal_name",      limit: 255
-    t.boolean  "is_default",                     default: false
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "text_symbol"
+    t.string "display_attribute", default: "name"
+    t.string "internal_name"
+    t.boolean "is_default", default: false
   end
 
-  create_table "field_options_fields", force: :cascade do |t|
-    t.integer "field_option_id", limit: 4, null: false
-    t.integer "field_id",        limit: 4, null: false
-    t.integer "sort_order",      limit: 4
+  create_table "field_options_fields", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "field_option_id", null: false
+    t.integer "field_id", null: false
+    t.integer "sort_order"
+    t.index ["field_id"], name: "index_field_options_fields_on_field_id"
+    t.index ["field_option_id"], name: "index_field_options_fields_on_field_option_id"
   end
 
-  add_index "field_options_fields", ["field_id"], name: "index_field_options_fields_on_field_id", using: :btree
-  add_index "field_options_fields", ["field_option_id"], name: "index_field_options_fields_on_field_option_id", using: :btree
-
-  create_table "field_translations", force: :cascade do |t|
-    t.integer  "field_id",   limit: 4,     null: false
-    t.string   "locale",     limit: 255,   null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "name",       limit: 255
-    t.string   "full_name",  limit: 255
-    t.text     "help",       limit: 65535
+  create_table "field_translations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.integer "field_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "full_name"
+    t.text "help"
+    t.index ["field_id"], name: "index_field_translations_on_field_id"
+    t.index ["locale"], name: "index_field_translations_on_locale"
   end
 
-  add_index "field_translations", ["field_id"], name: "index_field_translations_on_field_id", using: :btree
-  add_index "field_translations", ["locale"], name: "index_field_translations_on_locale", using: :btree
-
-  create_table "fields", force: :cascade do |t|
-    t.string   "field_key",       limit: 255
-    t.string   "html_field_type", limit: 255
-    t.string   "data_type",       limit: 255
+  create_table "fields", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "field_key"
+    t.string "html_field_type"
+    t.string "data_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "multi_select",                default: false
-    t.string   "internal_name",   limit: 255
+    t.boolean "multi_select", default: false
+    t.string "internal_name"
   end
 
-  create_table "ledgers", force: :cascade do |t|
-    t.string   "title",       limit: 255
-    t.string   "ledger_type", limit: 255
+  create_table "ledgers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.string "ledger_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "page_days", force: :cascade do |t|
-    t.date    "date"
-    t.integer "num_observations", limit: 4
-    t.integer "page_id",          limit: 4
-    t.integer "user_id",          limit: 4
+  create_table "page_days", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.date "date"
+    t.integer "num_observations"
+    t.integer "page_id"
+    t.integer "user_id"
+    t.index ["page_id"], name: "by_page"
+    t.index ["user_id"], name: "by_user"
   end
 
-  add_index "page_days", ["page_id"], name: "by_page", using: :btree
-  add_index "page_days", ["user_id"], name: "by_user", using: :btree
-
-  create_table "page_types", force: :cascade do |t|
-    t.string   "title",       limit: 255
-    t.string   "ledger_type", limit: 255
-    t.integer  "number",      limit: 4
-    t.text     "description", limit: 65535
-    t.integer  "ledger_id",   limit: 4
+  create_table "page_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.string "ledger_type"
+    t.integer "number"
+    t.text "description"
+    t.integer "ledger_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "visible",                   default: false
+    t.boolean "visible", default: false
   end
 
-  create_table "page_types_field_groups", force: :cascade do |t|
-    t.integer "page_type_id",   limit: 4, null: false
-    t.integer "field_group_id", limit: 4, null: false
-    t.integer "sort_order",     limit: 4, null: false
+  create_table "page_types_field_groups", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "page_type_id", null: false
+    t.integer "field_group_id", null: false
+    t.integer "sort_order", null: false
+    t.index ["field_group_id"], name: "index_page_types_field_groups_on_field_group_id"
+    t.index ["page_type_id"], name: "index_page_types_field_groups_on_page_type_id"
   end
 
-  add_index "page_types_field_groups", ["field_group_id"], name: "index_page_types_field_groups_on_field_group_id", using: :btree
-  add_index "page_types_field_groups", ["page_type_id"], name: "index_page_types_field_groups_on_page_type_id", using: :btree
-
-  create_table "pages", force: :cascade do |t|
-    t.string   "title",              limit: 255
-    t.integer  "height",             limit: 4
-    t.integer  "width",              limit: 4
-    t.integer  "page_type_id",       limit: 4
-    t.boolean  "done",                           default: false, null: false
-    t.string   "accession_number",   limit: 255
-    t.date     "start_date"
-    t.date     "end_date"
+  create_table "pages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "title"
+    t.integer "height"
+    t.integer "width"
+    t.integer "page_type_id"
+    t.boolean "done", default: false, null: false
+    t.string "accession_number"
+    t.date "start_date"
+    t.date "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "image_file_name",    limit: 255
-    t.string   "image_content_type", limit: 255
-    t.integer  "image_file_size",    limit: 4
+    t.string "image_file_name"
+    t.string "image_content_type"
+    t.integer "image_file_size"
     t.datetime "image_updated_at"
-    t.string   "volume",             limit: 255
-    t.boolean  "visible",                        default: true
+    t.string "volume"
+    t.boolean "visible", default: true
+    t.index ["page_type_id"], name: "index_pages_on_page_type_id"
   end
 
-  add_index "pages", ["page_type_id"], name: "index_pages_on_page_type_id", using: :btree
-
-  create_table "static_page_translations", force: :cascade do |t|
-    t.integer  "static_page_id",   limit: 4,     null: false
-    t.string   "locale",           limit: 255,   null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.string   "title",            limit: 255
-    t.text     "body",             limit: 65535
-    t.string   "slug",             limit: 255
-    t.string   "meta_keywords",    limit: 255
-    t.string   "meta_title",       limit: 255
-    t.string   "meta_description", limit: 255
+  create_table "static_page_translations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.integer "static_page_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
+    t.text "body"
+    t.string "slug"
+    t.string "meta_keywords"
+    t.string "meta_title"
+    t.string "meta_description"
+    t.index ["locale"], name: "index_static_page_translations_on_locale"
+    t.index ["static_page_id"], name: "index_static_page_translations_on_static_page_id"
   end
 
-  add_index "static_page_translations", ["locale"], name: "index_static_page_translations_on_locale", using: :btree
-  add_index "static_page_translations", ["static_page_id"], name: "index_static_page_translations_on_static_page_id", using: :btree
-
-  create_table "static_pages", force: :cascade do |t|
-    t.boolean  "show_in_header",                  default: false, null: false
-    t.boolean  "show_in_footer",                  default: false, null: false
-    t.boolean  "visible",                         default: true,  null: false
-    t.string   "foreign_link",        limit: 255
-    t.integer  "position",            limit: 4,   default: 1,     null: false
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-    t.boolean  "title_as_header",                 default: true
-    t.integer  "parent_id",           limit: 4
-    t.boolean  "show_in_transcriber",             default: false
+  create_table "static_pages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.boolean "show_in_header", default: false, null: false
+    t.boolean "show_in_footer", default: false, null: false
+    t.boolean "visible", default: true, null: false
+    t.string "foreign_link"
+    t.integer "position", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "title_as_header", default: true
+    t.integer "parent_id"
+    t.boolean "show_in_transcriber", default: false
   end
 
-  create_table "transcriptions", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.integer  "page_id",    limit: 4
+  create_table "transcriptions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "page_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "complete",             default: false, null: false
+    t.boolean "complete", default: false, null: false
+    t.index ["user_id", "page_id"], name: "user_page", unique: true
   end
 
-  add_index "transcriptions", ["user_id", "page_id"], name: "user_page", unique: true, using: :btree
-
-  create_table "translations", force: :cascade do |t|
-    t.string   "locale",         limit: 255
-    t.string   "key",            limit: 255
-    t.text     "value",          limit: 65535
-    t.text     "interpolations", limit: 65535
-    t.boolean  "is_proc",                      default: false
+  create_table "translations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "locale"
+    t.string "key"
+    t.text "value"
+    t.text "interpolations"
+    t.boolean "is_proc", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "stale",                        default: false
+    t.boolean "stale", default: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255,   default: "",    null: false
-    t.string   "encrypted_password",     limit: 255,   default: "",    null: false
-    t.string   "reset_password_token",   limit: 255
+  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,     default: 0,     null: false
+    t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
-    t.string   "confirmation_token",     limit: 255
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "display_name",           limit: 255
-    t.boolean  "admin"
-    t.text     "bio",                    limit: 65535
+    t.string "display_name"
+    t.boolean "admin"
+    t.text "bio"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "avatar_file_name",       limit: 255
-    t.string   "avatar_content_type",    limit: 255
-    t.integer  "avatar_file_size",       limit: 4
+    t.string "avatar_file_name"
+    t.string "avatar_content_type"
+    t.integer "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.boolean  "dismissed_box_tutorial",               default: false, null: false
+    t.boolean "dismissed_box_tutorial", default: false, null: false
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

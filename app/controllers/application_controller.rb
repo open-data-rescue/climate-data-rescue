@@ -6,7 +6,11 @@ class ApplicationController < ActionController::Base
   helper_method :baseUri, :baseUri_no_lang, :baseUri_with_lang, :request_path
 
   def default_url_options(options = {})
-    options.merge(protocol: 'https')
+    if Rails.env.development?
+      options
+    else
+      options.merge(protocol: 'https')
+    end
   end
 
   def baseUri

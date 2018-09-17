@@ -2,6 +2,8 @@ require 'faker'
 
 FactoryBot.define do
   factory :page do
+    page_type_id { create(:page_type).id }
+
     trait :image do
       image do
         Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'support', '1491_110_11_1879-06-01_1879-06-03_1.jpg'), 'image/jpg')

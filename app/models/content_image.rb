@@ -1,4 +1,4 @@
-class ContentImage < ActiveRecord::Base
+class ContentImage < ApplicationRecord
 
     has_attached_file :image,
                   styles: { 

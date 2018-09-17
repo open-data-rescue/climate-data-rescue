@@ -1,4 +1,4 @@
-class Transcription < ActiveRecord::Base
+class Transcription < ApplicationRecord
   belongs_to :page, required: true
   belongs_to :user, required: true
   has_one :page_type, through: :page

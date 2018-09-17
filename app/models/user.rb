@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_many :transcriptions
   has_many :annotations, through: :transcriptions
   has_many :data_entries

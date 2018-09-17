@@ -105,8 +105,8 @@ module Admin
         
         respond_to do |format|
           if @field.save
-            format.html { redirect_to admin_fields_path, notice: 'Field was successfully created.' }
-            format.json { render json: @field, status: :created, location: @field }
+            format.html { redirect_to admin_fields_path, success: 'Field was successfully created.' }
+            format.json { render json: @field, status: :created, location: [:admin, @field] }
           else
             format.html { render action: "new" }
             format.json { render json: @field.errors, status: :unprocessable_fieldgroup }
@@ -135,7 +135,7 @@ module Admin
 
         respond_to do |format|
           if @field.update_attributes(field_params)
-            format.html { redirect_to admin_fields_path, notice: 'Field was successfully updated.' }
+            format.html { redirect_to admin_fields_path, success: 'Field was successfully updated.' }
             format.json
           else
             format.html { render action: "edit" }
