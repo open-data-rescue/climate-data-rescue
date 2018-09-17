@@ -1,9 +1,9 @@
-class Annotation < ActiveRecord::Base
+class Annotation < ApplicationRecord
   has_many :data_entries, dependent: :destroy
   belongs_to :transcription, touch: true
-  belongs_to :field_group, required: true
-  belongs_to :page, required: true
-  # belongs_to :user, required: true # not yet, but needs to be added
+  belongs_to :field_group
+  belongs_to :page
+  # belongs_to :user # not yet, but needs to be added
 
   validates :date_time_id,
             presence: true

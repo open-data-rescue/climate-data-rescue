@@ -314,7 +314,7 @@
             childView : FieldOptionView,
             ChildViewContainer : "#option-rows-container",
             tagName : "table",
-            className : "table table-striped table-responsive field-option-table",
+            className : "table table-striped field-option-table",
 
             emptyView : Marionette.ItemView.extend({
                 template : _.template("<td colspan=6>No Field Options</td>"),
@@ -453,57 +453,56 @@
 </script>
 
 <script type="text/template" id="field-options-layout-template">
-    <h3>Field Options (<i>Optional</i>)  <button class="btn btn-primary btn-xs" id="create-field-option-btn" type="button">New</button></h3>
-    <div id="field-multi-toggle-container"></div>
-    <div id="options-tables-container" class="row">
-        <div id="assigned-options-container" class="col-md-12"></div>
-        <div id="available-options-container" class="col-md-12"></div>
+  <h3>Field Options (<i>Optional</i>)  <button class="btn btn-primary btn-xs" id="create-field-option-btn" type="button">New</button></h3>
+  <div id="field-multi-toggle-container"></div>
+  <div id="options-tables-container" class="row">
+    <div class="col-md-12">
+      <div id="assigned-options-container" class="table-responsive"></div>
     </div>
-
+    <div class="col-md-12">
+      <div id="available-options-container" class="table-responsive"></div>
+    </div>
+  </div>
 </script>
 
 <script type="text/template" id="field-template">
-    <input type="checkbox" id="field-multi-toggle" value=true {{= (multi_select) ? "checked" : null }} />
+  <input type="checkbox" id="field-multi-toggle" value=true {{= (multi_select) ? "checked" : null }} />
 </script>
 
 <script type="text/template" id="field-option-template">
-        <td>{{= internal_name}}</td>
-        <td>{{ if (image != null) { }}<img src="{{= icon_url }}" />{{ } }}</td>
-        <td>{{= name }}</td>
-        <td>{{= text_symbol }}</td>
-        <td>{{= value }}</td>
-        <td>{{= display_attribute }}</td>
-        <td>{{= help }}</td>
-        <td>
-            <i class="fa fa-pencil model-edit-btn pull-left btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
-            {{ if(assigned) { }}
-                    <i class="fa fa-times fa-2x remove-from-field-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field"></i>
-            {{ } else { }}
-                <i class="fa fa-plus fa-2x add-to-field-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field"></i>
-            {{ } }}
-        </td>
+  <td>{{= internal_name}}</td>
+  <td>{{ if (image != null) { }}<img src="{{= icon_url }}" />{{ } }}</td>
+  <td>{{= name }}</td>
+  <td>{{= text_symbol }}</td>
+  <td>{{= value }}</td>
+  <td>{{= display_attribute }}</td>
+  <td>{{= help }}</td>
+  <td>
+    <i class="fa fa-pencil model-edit-btn pull-left btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
+    {{ if(assigned) { }}
+            <i class="fa fa-times fa-2x remove-from-field-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field"></i>
+    {{ } else { }}
+        <i class="fa fa-plus fa-2x add-to-field-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field"></i>
+    {{ } }}
+  </td>
 </script>
 
 
 <script type="text/template" id="options-collection-template">
-        <thead>
-            <tr>
-                <th><%= t('internal-name') %></th>
-                <th><%= t('icon-image') %></th>
-                <th><%= t('name') %></th>
-                <th><%= t('text-symbol') %></th>
-                <th><%= t('stored-value') %></th>
-                <th><%= t('displayed-when-selected') %></th>
-                <th><%= t('help-text') %></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="title-wrapper"><td id="collection-title-container" colspan=6></td></tr>
-        </tbody>
-        <tbody id="options-row-container"></tbody>
-</script>
-
-<script type="text/template" id="available-options-collection-template">
-
+  <thead>
+    <tr>
+      <th><%= t('internal-name') %></th>
+      <th><%= t('icon-image') %></th>
+      <th><%= t('name') %></th>
+      <th><%= t('text-symbol') %></th>
+      <th><%= t('stored-value') %></th>
+      <th><%= t('displayed-when-selected') %></th>
+      <th><%= t('help-text') %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr class="title-wrapper"><td id="collection-title-container" colspan=6></td></tr>
+  </tbody>
+  <tbody id="options-row-container"></tbody>
 </script>

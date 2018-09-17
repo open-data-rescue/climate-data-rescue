@@ -41,7 +41,7 @@ class UsersController < ApplicationController
       begin
         #@user is a variable containing an instance of the "user.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
         @user = User.find(params[:id])
-        @user.update_attributes(users_params)
+        @user.update(users_params)
         
       rescue => e
         flash[:danger] = e.message
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
   private
   
   def users_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :remember_me, :name, :admin, :avatar, :about, :contributions, :rank)
+    params.require(:user).permit(:email, :name, :admin, :avatar, :bio)
   end
 
 end

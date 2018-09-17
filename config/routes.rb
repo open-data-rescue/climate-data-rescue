@@ -1,5 +1,4 @@
-DataRescueAtHome::Application.routes.draw do
-
+Rails.application.routes.draw do
   filter :locale
 
   namespace :admin do
@@ -75,11 +74,11 @@ DataRescueAtHome::Application.routes.draw do
     get ':locale/(*path)', to: 'static_pages#show', as: 'static'
   end
 
-  authenticate :user, lambda { |u| u.admin? } do
-    # mount Sidekiq::Web => '/sidekiq'
+  # authenticate :user, lambda { |u| u.admin? } do
+  #   # mount Sidekiq::Web => '/sidekiq'
 
-    mount Interpret::Engine => "/translator"
-  end
+  #   mount Interpret::Engine => "/translator"
+  # end
 
   devise_scope :user do
     get "login", to: "devise/sessions#new"

@@ -19,6 +19,8 @@ services:
       - db
     env_file:
       - './docker/.env.app.conf'
+    volumes_from:
+      - bundle
   db:
     container_name: draw-db
     image: mysql:5.7
@@ -32,3 +34,7 @@ services:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
+  bundle:
+    image: climatedatarescue_app
+    volumes:
+      - /bundle

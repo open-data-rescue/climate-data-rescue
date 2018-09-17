@@ -84,7 +84,7 @@ module Admin
     
         respond_to do |format|
           if @ledger && @ledger.id
-            format.html { redirect_to @ledger, notice: 'Ledger was successfully created.' }
+            format.html { redirect_to @ledger, success: 'Ledger was successfully created.' }
             format.json { render json: @ledger, status: :created, location: @ledger }
           else
             format.html { render action: "new" }

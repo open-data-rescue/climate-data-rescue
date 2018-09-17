@@ -1,4 +1,4 @@
-class Ledger < ActiveRecord::Base
+class Ledger < ApplicationRecord
   has_many :page_types, dependent: :destroy
   has_many :pages, through: :page_types
 

@@ -15,9 +15,10 @@ describe FieldGroupsField do
   end
 
   describe 'ActiveModel validations' do
-    it { is_expected.to validate_presence_of(:sort_order) }
   end
 
   # describe 'callbacks' do
   # end
+  
+  it_behaves_like 'a ranked join model'
 end

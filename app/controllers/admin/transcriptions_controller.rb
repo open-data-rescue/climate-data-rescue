@@ -66,7 +66,7 @@ module Admin
     def export
       Rails.logger.info params
       if request.format.html?
-        @page_types = PageType.order(:title).uniq
+        @page_types = PageType.order(:title).distinct
       else
         limit = params['limit'] || nil
         offset = params['offset'] || nil
@@ -95,13 +95,13 @@ module Admin
                                         )
                                         .preload(:data_entries)
                                         .limit(limit).offset(offset)
-                                        .order('pages.start_date ASC').uniq
+                                        .order('pages.start_date ASC').distinct
           end
         else
           @transcriptions = Transcription.joins(
             :data_entries,
             :page
-          ).limit(limit).offset(offset).order('pages.start_date ASC').uniq
+          ).limit(limit).offset(offset).order('pages.start_date ASC').distinct
         end
       end
 

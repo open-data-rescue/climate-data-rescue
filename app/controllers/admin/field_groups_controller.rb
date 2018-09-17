@@ -8,7 +8,6 @@ module Admin
     # GET /fieldgroups
     # GET /fieldgroups.json
     def index
-      
       if current_user && current_user.admin?
         #@field_groups is the variable containing all instances of the "FieldGroup.rb" model passed to the fieldgroup view "index.html.slim" (project_root/fieldgroups) and is used to populate the page with information about each fieldgroup using @field_groups.each (an iterative loop).
         @field_groups = FieldGroup.includes(:page_types).all
@@ -94,7 +93,7 @@ module Admin
         
         respond_to do |format|
           if @field_group.id
-            format.html { redirect_to admin_field_group_path(@field_group), notice: 'Fieldgroup was successfully created.' }
+            format.html { redirect_to admin_field_group_path(@field_group), success: 'Fieldgroup was successfully created.' }
             format.json 
           else
             format.html { render action: "new" }
@@ -125,7 +124,7 @@ module Admin
 
         respond_to do |format|
           if @field_group.update_attributes(field_group_params)
-            format.html { redirect_to admin_field_group_path(@field_group), notice: 'Fieldgroup was successfully updated.' }
+            format.html { redirect_to admin_field_group_path(@field_group), success: 'Fieldgroup was successfully updated.' }
             format.json 
           else
             format.html { render action: "edit" }
@@ -168,51 +167,44 @@ module Admin
 
 
     def add_to_page_type
-      if params[:page_type_id].present? && params[:field_group_id].present?
-        begin
-          @page_type = PageType.find params[:page_type_id]
-          @field_group = FieldGroup.find params[:field_group_id]
+      raise 'page type and field not present' unless params[:page_type_id].present? && params[:field_group_id].present?
 
-          PageTypesFieldGroup.create!(page_type_id: params[:page_type_id], field_group_id: params[:field_group_id])
-        rescue => e
-          flash[:danger] = e.message
-        end
+      @page_type = PageType.find params[:page_type_id]
+      @field_group = FieldGroup.find params[:field_group_id]
 
-        # render json: {}
-      end
+      ptfg = PageTypesFieldGroup.create!(page_type_id: params[:page_type_id], field_group_id: params[:field_group_id])
+      # raise ptfg.errors.full_messages.join("<br />") if ptfg.errors.any?
+    rescue => ex
+      Rails.logger.error ex.message
+      Rails.logger.error ex.backtrace.join('\n\t')
+      render status: :bad_request, text: ex.message
     end
 
     def remove_from_page_type
-      if params[:page_type_id].present? && params[:field_group_id].present?
-        begin
-          @page_type = PageType.find params[:page_type_id]
-          @field_group = FieldGroup.find params[:field_group_id]
-          @ptfg = PageTypesFieldGroup.find_by(page_type_id: params[:page_type_id], field_group_id: params[:field_group_id])
-          @ptfg.destroy if @ptfg
-        rescue => e
-          flash[:danger] = e.message
-        end
-
-        # render json: {}
-      end
+      raise 'page type and field not present' unless params[:page_type_id].present? && params[:field_group_id].present?
+      @page_type = PageType.find params[:page_type_id]
+      @field_group = FieldGroup.find params[:field_group_id]
+      @ptfg = PageTypesFieldGroup.find_by(page_type_id: params[:page_type_id], field_group_id: params[:field_group_id])
+      @ptfg.destroy if @ptfg
+    rescue => ex
+      Rails.logger.error ex.message
+      Rails.logger.error ex.backtrace.join('\n\t')
+      render status: :bad_request, text: ex.message
     end
 
     def update_sort_order
-      if params[:page_type_id].present? && params[:field_group_id].present?
-        begin
-          @page_type = PageType.find params[:page_type_id]
-          @field_group = FieldGroup.find params[:field_group_id]
-          @ptfg = PageTypesFieldGroup.find_by(page_type_id: params[:page_type_id], field_group_id: params[:field_group_id])
-          if @ptfg
-            @ptfg.sort_order_position = params[:sort_order_position]
-            @ptfg.save!
-          end
-        rescue => e
-          flash[:danger] = e.message
-        end
-
-        # render json: {}
+      raise 'page type and field not present' unless params[:page_type_id].present? && params[:field_group_id].present?
+      @page_type = PageType.find params[:page_type_id]
+      @field_group = FieldGroup.find params[:field_group_id]
+      @ptfg = PageTypesFieldGroup.find_by(page_type_id: params[:page_type_id], field_group_id: params[:field_group_id])
+      if @ptfg
+        @ptfg.sort_order_position = params[:sort_order_position]
+        @ptfg.save!
       end
+    rescue => ex
+      Rails.logger.error ex.message
+      Rails.logger.error ex.backtrace.join('\n\t')
+      render status: :bad_request, text: ex.message
     end
 
     def for_page_type
