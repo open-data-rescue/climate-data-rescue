@@ -17,4 +17,4 @@ before_install:
   - docker-compose build
   - docker-compose up -d db
 script:
-- docker-compose run app rspec
+- docker-compose run app bundle exec rspec
