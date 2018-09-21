@@ -38,7 +38,7 @@ class StaticPage < ApplicationRecord
   end
 
   def link
-    foreign_link.blank? ? ('/' + I18n.locale.to_s + slug) : foreign_link
+    foreign_link.blank? ? "/#{I18n.locale}#{slug}" : foreign_link
   end
   
   def is_external?
