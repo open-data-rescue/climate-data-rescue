@@ -117,7 +117,7 @@ end
 
 group :test do
   gem 'simplecov', require: false
-  gem 'coveralls'
+  gem 'coveralls', require: false
 end
 
 # To use debugger
