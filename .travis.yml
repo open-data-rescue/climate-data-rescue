@@ -15,6 +15,6 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - docker-compose build
-  - docker-compose up db
+  - docker-compose up -d db
 script:
 - docker-compose run app rspec
