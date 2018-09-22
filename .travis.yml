@@ -4,6 +4,8 @@ services:
   - docker
 env:
   - DOCKER_COMPOSE_VERSION=1.22.0
+  - CI=true
+  - TRAVIS=true
 
 before_install:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -21,5 +23,3 @@ script:
   - docker-compose run app bundle update
   - docker-compose run app bundle exec rails db:setup
   - docker-compose run app bundle exec rspec
-after_success:
-- CI=true TRAVIS=true coveralls --verbose
