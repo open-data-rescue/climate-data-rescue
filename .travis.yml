@@ -21,3 +21,5 @@ script:
   - docker-compose run app bundle update
   - docker-compose run app bundle exec rails db:setup
   - docker-compose run app bundle exec rspec
+after_success:
+- CI=true TRAVIS=true coveralls --verbose
