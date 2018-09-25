@@ -147,6 +147,7 @@ class AnnotationsController < ApplicationController
       format.json
     end
   rescue => e
+    NewRelic::Agent.notice_error(e)
     Rails.logger.error e.message
     Rails.logger.error e.backtrace.join("\n\t") if Rails.env.development?
 
@@ -160,7 +161,7 @@ class AnnotationsController < ApplicationController
       @annotation = Annotation.includes(:data_entries).references(:data_entries).find(params[:id])
       metadata = params.require(:annotation).permit!
       meta = metadata[:meta]
-      data = metadata[:data].to_unsafe_h
+      data = metadata[:data].to_unsafe_h if metadata[:data]
       
       if meta && data
         @annotation.update(
@@ -185,6 +186,7 @@ class AnnotationsController < ApplicationController
       format.json
     end
   rescue => e
+    NewRelic::Agent.notice_error(e)
     Rails.logger.error e.message
     Rails.logger.error e.backtrace.join("\n\t") if Rails.env.development?
 
