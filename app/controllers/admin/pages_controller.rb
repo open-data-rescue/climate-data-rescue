@@ -82,7 +82,15 @@ module Admin
     rescue => ex
       Rails.logger.error ex.message
       Rails.logger.error ex.backtrace.join("\n\t")
-      render status: :bad_request, text: ex.message
+      respond_to do |format|
+        format.html do
+          flash[:error] = ex.message
+          redirect_to new_admin_page_path
+        end
+        format.json do
+          render status: :bad_request, text: ex.message
+        end
+      end
     end
 
     # PUT /pages/page_id
