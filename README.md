@@ -1,8 +1,10 @@
 # DRAW - Data Rescue: Archives and Weather
 
-[![Build Status][BS img]][Build Status]
+[![Build Status Travis (Github)][BS img]][Build Status]
+[![pipeline status gitlab](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/badges/master/pipeline.svg)](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/commits/master)
 [![Code Climate][CC img]][Code Climate]
-[![Coverage Status][CS img]][Coverage Status]
+[![Coverage Status Coveralls][CS img]][Coverage Status]
+[![coverage report gitlab](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/badges/master/coverage.svg)](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/commits/master)
 
 [Build Status]: https://travis-ci.org/rsmithlal/ClimateDataRescue
 [travis pull requests]: https://travis-ci.org/rsmithlal/ClimateDataRescue/pull_requests

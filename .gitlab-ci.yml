@@ -1,12 +1,23 @@
-before_script:
-  - docker-compose up -d db
-  - docker-compose build
+build_image:
+  image: docker:git
+  services:
+  -group- docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/open-archives-data-rescue/climate-data-rescue .
+    - docker push registry.gitlab.com/open-archives-data-rescue/climate-data-rescue:latest
+  only:
+    - master
 
-rspec:
-  script:
-    - docker-compose run app bundle update
-    - docker-compose run app bundle exec rspec
-rubocop:
-  script:
-    - docker-compose run app bundle update
-    - docker-compose run app bundle exec rubocop
+# before_script:
+#   - docker-compose up -d db
+#   - docker-compose build
+
+# rspec:
+#   script:
+#     - docker-compose run app bundle update
+#     - docker-compose run app bundle exec rspec
+# rubocop:
+#   script:
+#     - docker-compose run app bundle update
+#     - docker-compose run app bundle exec rubocop
