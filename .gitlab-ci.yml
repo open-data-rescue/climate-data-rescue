@@ -1,23 +1,49 @@
-build_image:
-  image: docker:git
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  GL_IMAGE: $CI_REGISTRY/${CI_PROJECT_PATH}:$CI_COMMIT_SHA
+
+build:
+  stage: build
+  image: docker:latest
   services:
   - docker:dind
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker build -t registry.gitlab.com/open-archives-data-rescue/climate-data-rescue .
-    - docker push registry.gitlab.com/open-archives-data-rescue/climate-data-rescue:latest
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker build -t $GL_IMAGE .
+    - docker push $GL_IMAGE
   only:
     - master
 
-# before_script:
-#   - docker-compose up -d db
-#   - docker-compose build
-
 # rspec:
+#   stage: test
 #   script:
 #     - docker-compose run app bundle update
 #     - docker-compose run app bundle exec rspec
 # rubocop:
+#   stage: test
 #   script:
 #     - docker-compose run app bundle update
 #     - docker-compose run app bundle exec rubocop
+#tag:
+#  stage: tag
+
+# tag-smoke:
+#   stage: tag
+#   image: docker:latest
+#   services:
+#     - docker:dind
+#   script:
+#     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+#     - docker pull $GL_IMAGE
+#     - docker tag $GL_IMAGE $SMOKE_IMAGE
+#     - docker push $SMOKE_IMAGE
+#   only:
+#     - branches
+#   except:
+#     - master
+#deploy:
+#  stage: deploy
