@@ -4,7 +4,7 @@ stages:
   - deploy
 
 variables:
-  GL_IMAGE: $CI_REGISTRY/${CI_PROJECT_PATH}:$CI_COMMIT_SHA
+  GL_IMAGE: $CI_REGISTRY/${CI_PROJECT_PATH}:latest
 
 build:
   stage: build
