@@ -1,13 +1,13 @@
 # DRAW - Data Rescue: Archives and Weather
 
-[![Build Status][BS img]][Build Status]
-[![Dependency Status][DS img]][Dependency Status]
+[![Build Status Travis (Github)][BS img]][Build Status]
+[![pipeline status gitlab](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/badges/master/pipeline.svg)](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/commits/master)
 [![Code Climate][CC img]][Code Climate]
-[![Coverage Status][CS img]][Coverage Status]
+[![Coverage Status Coveralls][CS img]][Coverage Status]
+[![coverage report gitlab](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/badges/master/coverage.svg)](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/commits/master)
 
 [Build Status]: https://travis-ci.org/rsmithlal/ClimateDataRescue
 [travis pull requests]: https://travis-ci.org/rsmithlal/ClimateDataRescue/pull_requests
-[Dependency Status]: https://gemnasium.com/rsmithlal/ClimateDataRescue
 [Code Climate]: https://codeclimate.com/github/rsmithlal/ClimateDataRescue
 [Coverage Status]: https://coveralls.io/r/rsmithlal/ClimateDataRescue
 
@@ -28,7 +28,7 @@
 - Attribution and Acknowlegements
 
 ## Introduction
-This application seeks to aid in the digitization of paper records through the crowd-sourced transcription of scanned image files, particularly documents ill-suided for Optical Character Recognition (OCR). It specializes in recovering data stored in a highly structured format. The app fully supports multilingual localization of the user interface and the data schema organization (field labels, help texts, etc).
+This application seeks to aid in the digitization of paper records through the crowd-sourced transcription of scanned image files, particularly documents ill-suited for Optical Character Recognition (OCR). It specializes in recovering data stored in a highly structured format. The app fully supports multilingual localization of the user interface and the data schema organization (field labels, help texts, etc).
 
 Administrators are given an interface with which to define their data collection schemas, and users are provided a mechanism to transcribe data contained on the page and indicate its position. 
 
@@ -130,6 +130,6 @@ Forthcoming.
 Forthcoming.
 
 ## Attribution and Acknowlegements
-This project was created in 2015 as my final independent study project in Geography at McGill University with [Renee Sieber] (http://rose.geog.mcgill.ca/) from the departments of Geography and Environmental Studies as my supervisor. It was developed in coordination with [Victoria Slonosky] (https://sites.google.com/site/historicalclimatedata/Home) in her efforts to recover data from thousands of pages of historical weather observations.
+This project was created in 2015 as my final independent study project in Geography at McGill University with [Renee Sieber](http://rose.geog.mcgill.ca/) from the departments of Geography and Environmental Studies as my supervisor. It was developed in coordination with [Victoria Slonosky](https://sites.google.com/site/historicalclimatedata/Home) in her efforts to recover data from thousands of pages of historical weather observations.
 
-This project was inspired by the [Scribe Framework] (https://scribeproject.github.io/).
+This project was inspired by the [Scribe Framework](https://scribeproject.github.io/).
