@@ -7,6 +7,7 @@
       table.table.table-striped
         thead
           tr
+            th = 'id'
             th = t('image')
             th = t('user-name')
             th = t('email')
@@ -19,12 +20,13 @@
         tbody
           - @users.each do |user|
             tr
+              td = user.id
               td = link_to(image_tag((user.avatar.present? ? user.avatar.url(:thumb) : 'default-person.png'), :class => "center-block img-circle", style: 'max-width:50px;'), user_path(user))
               td = user.display_name
               td = link_to(user.email, "mailto:#{user.email}")
               td = (user.admin? ? ('<i class="fa fa-star admin-star"></i>').html_safe : nil)
               td = user.transcriptions.count
-              td = time_ago_in_words(user.created_at)
+              td = l(user.created_at, format: :long)
               td = time_ago_in_words(user.current_sign_in_at)
               td = user.sign_in_count
               td 

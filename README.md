@@ -130,6 +130,6 @@ Forthcoming.
 Forthcoming.
 
 ## Attribution and Acknowlegements
-This project was created in 2015 as my final independent study project in Geography at McGill University with [Renee Sieber] (http://rose.geog.mcgill.ca/) from the departments of Geography and Environmental Studies as my supervisor. It was developed in coordination with [Victoria Slonosky] (https://sites.google.com/site/historicalclimatedata/Home) in her efforts to recover data from thousands of pages of historical weather observations.
+This project was created in 2015 as my final independent study project in Geography at McGill University with [Renee Sieber](http://rose.geog.mcgill.ca/) from the departments of Geography and Environmental Studies as my supervisor. It was developed in coordination with [Victoria Slonosky](https://sites.google.com/site/historicalclimatedata/Home) in her efforts to recover data from thousands of pages of historical weather observations.
 
-This project was inspired by the [Scribe Framework] (https://scribeproject.github.io/).
+This project was inspired by the [Scribe Framework](https://scribeproject.github.io/).
