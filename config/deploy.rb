@@ -58,6 +58,11 @@ namespace :deploy do
     end
   end
 
+  desc 'clean bundler'
+  task :clean_bundler do
+    invoke 'bundler:clean'
+  end
+
 
   before :starting,     :check_revision
   after  :finishing,    :compile_assets

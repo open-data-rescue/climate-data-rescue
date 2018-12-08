@@ -6,7 +6,7 @@ set :deploy_to,       "/opt/www/ClimateDataRescue"
 
 set :application,     'ClimateDataRescue'
 
-set :rvm_ruby_version, '2.5.1@climate'
+set :rvm_ruby_version, '2.5.3@climate'
 
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
