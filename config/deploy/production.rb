@@ -17,8 +17,8 @@ set :puma_error_log,  "#{release_path}/log/puma.access.log"
 set :branch do
   default_tag = `git tag`.split("\n").last
 
-  tag = Capistrano::CLI.ui.ask "Tag to deploy (make sure to push the tag first): [#{default_tag}] "
-  tag = default_tag if tag.empty?
+  #tag = Capistrano::CLI.ui.ask "Tag to deploy (make sure to push the tag first): [#{default_tag}] "
+  tag = default_tag# if tag.empty?
   tag
 end
 
