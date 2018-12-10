@@ -65,7 +65,7 @@ gem 'rails-observers'
 
 gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'globalize-accessors'
-
+gem "skylight"
 # gem 'interpret', :git => 'git://github.com/balen/interpret.git', :branch => 'upgrade/rails4'
 
 # To use ActiveModel has_secure_password
