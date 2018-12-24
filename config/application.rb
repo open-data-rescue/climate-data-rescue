@@ -30,7 +30,7 @@ module DataRescueAtHome
     config.active_support.escape_html_fieldgroups_in_json = true
 
     config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
-    config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js )
+    config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js snowEffect.js )
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {

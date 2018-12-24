@@ -87,25 +87,13 @@ $(document).ready(function(){
 
 
     $('[data-toggle="popover"]').popover();
-    $('[data-toggle="tooltip"]').tooltip();
-
-    // $('ul.nav li.dropdown').hover(function() {
-    //   $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeIn();
-    // }, function() {
-    //   $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeOut();
-    // });
-    
+    $('[data-toggle="tooltip"]').tooltip();    
 
     window.setTimeout(function() {
       $(".alert").fadeTo(500, 0).slideUp(500, function(){
           $(this).remove();
       });
     }, 5000);
-
-    // $(window).on("scroll", function() {
-    //     $(".body-bg-img").css("top", $(window).scrollTop());
-    // });
-
 });
 
 
