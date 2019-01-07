@@ -7,7 +7,9 @@ class FieldGroup < ApplicationRecord
   globalize_accessors
   
   has_many :field_groups_fields, dependent: :destroy
-  has_many :fields, -> { order("field_groups_fields.sort_order asc") }, through: :field_groups_fields
+  has_many :fields,
+           -> { order("field_groups_fields.sort_order asc") },
+           through: :field_groups_fields
   has_many :annotations
 
   has_many :page_types_field_groups, dependent: :destroy
@@ -29,7 +31,7 @@ class FieldGroup < ApplicationRecord
   before_destroy :check_for_annotations
 
   def presentation_name
-    if display_name && display_name.present?
+    if display_name.present?
       display_name
     else
       name

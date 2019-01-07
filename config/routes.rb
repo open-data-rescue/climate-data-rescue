@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     match 'transcriptions/export' => 'transcriptions#export',
           via: %i[get post],
           as: 'export_transcriptions'
+    
     resources :transcriptions
 
     # for field options app
@@ -40,13 +41,17 @@ Rails.application.routes.draw do
 
   root :to => "home#index"
 
-  resources :transcriptions
+  resources :transcriptions do
+    resources 'annotations',
+      except: %i[new edit],
+      defaults: { format: :json }
+  end
+
   get 'transcribe(/:current_page_id)' => 'transcriptions#new', as: "transcribe_page"
   resources :annotations, defaults: { format: :json }
 
 
   resources :pages, only: [:show, :index]
-  get "page_for_transcription/:transcription_id" => "pages#for_transcription"
   get 'weather-logs' => 'pages#index', as: "public_pages_index"
   # post 'pages' => 'pages#create', as: "pages_create"
 

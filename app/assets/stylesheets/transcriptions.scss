@@ -13,7 +13,7 @@
     margin-right: 5px;
 }
 
-#scribe_annotation_box {
+#annotation-box {
     font-family: verdana,tahoma,sans-serif;
     font-size: 13px;
     height: auto;
@@ -24,7 +24,7 @@
     left:25%;
     display:none;
 }
-#scribe_tab_bar {
+#field-group-tab-bar {
     border-bottom: 1px solid #e0e0e0;
     // font-size: 10pt;
     margin-left: 0;
@@ -47,7 +47,7 @@
         right: 0px;
     }
 }
-#scribe_tab_bar .scribe_tab {
+#field-group-tab-bar .field-group-tab {
     background: #f4f4f4;
     border-left: 1px solid #e0e0e0;
     border-right: 1px solid #e0e0e0;
@@ -82,7 +82,7 @@
     top:0px;
     margin-bottom:0px;
 }
-#scribe_transcription_area {
+#transcription-area {
     background-color: white;
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
     min-height: 130px;
@@ -91,7 +91,7 @@
     z-index:200;
 }
 
-#scribe_top_bar {
+#transcription-box-tab-container {
     padding:5px;
 }
 
@@ -100,7 +100,7 @@
     position: absolute;
     right: 10px;
 }
-#scribe_transcription_area .ui-draggable-dragging {
+#transcription-area .ui-draggable-dragging {
     box-shadow: 3px 3px 4px #000;
     z-index: 1;
 }
@@ -112,7 +112,7 @@
     
 
 
-    .scribe_input_field, .scribe_input_label {
+    .transcriber-input, .scribe_input_label {
         // float: left;
         // font-size: 8pt;
         // margin: 5px;
@@ -147,7 +147,7 @@
 }
 
 
-#scribe_bottom_area {
+#transcription-box-form-container {
     clear: both;
     // height: 49px;
     padding: 5px;
@@ -505,8 +505,8 @@ $tab-active-text: white;
 }
 
 
-#scribe_tab_bar {
-  .scribe_tab.red-group {
+#field-group-tab-bar {
+  .field-group-tab.red-group {
     background: tabBackground($fg-red);
 
     &.active{
@@ -514,7 +514,7 @@ $tab-active-text: white;
       color: $tab-active-text;
     }
   }
-  .scribe_tab.pink-group {
+  .field-group-tab.pink-group {
     background: tabBackground($fg-pink);
     
     &.active{
@@ -522,7 +522,7 @@ $tab-active-text: white;
       color: $tab-active-text;
     }
   }
-  .scribe_tab.purple-group {
+  .field-group-tab.purple-group {
     background: tabBackground($fg-purple);
     
     &.active{
@@ -530,7 +530,7 @@ $tab-active-text: white;
       color: $tab-active-text;
     }
   }
-  .scribe_tab.blue-group {
+  .field-group-tab.blue-group {
     background: tabBackground($fg-blue);
     
     &.active{
@@ -538,7 +538,7 @@ $tab-active-text: white;
       color: $tab-active-text;
     }
   }
-  .scribe_tab.cyan-group {
+  .field-group-tab.cyan-group {
     background: tabBackground($fg-cyan);
     
     &.active{
@@ -546,7 +546,7 @@ $tab-active-text: white;
       color: $tab-active-text;
     }
   }
-  .scribe_tab.green-group {
+  .field-group-tab.green-group {
     background: tabBackground($fg-green);
   
     &.active{
@@ -554,7 +554,7 @@ $tab-active-text: white;
       color: $tab-active-text;
     }
   }
-  .scribe_tab.yellow-group {
+  .field-group-tab.yellow-group {
     background: tabBackground($fg-yellow);
   
     &.active{
@@ -562,7 +562,7 @@ $tab-active-text: white;
       color: $tab-active-text;
     }
   }
-  .scribe_tab.orange-group {
+  .field-group-tab.orange-group {
     background: tabBackground($fg-orange);
   
     &.active{
