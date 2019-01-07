@@ -19,15 +19,4 @@ class PagesController < ApplicationController
       format.json { render json: @page }
     end
   end
-
-  def for_transcription
-    if params[:transcription_id].present?
-      begin
-        @transcription = Transcription.find(params[:transcription_id])
-        @page = @transcription.page
-      rescue => e
-
-      end
-    end
-  end
 end

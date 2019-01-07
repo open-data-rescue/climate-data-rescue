@@ -56,9 +56,29 @@ class TranscriptionsController < ApplicationController
   # GET /transcriptions/transcription_id/edit
   def edit
     if current_user
-      @transcription = Transcription.find(params[:id])
+      @transcription = Transcription.includes(:page).find(params[:id])
       @page = @transcription.page
+      @field_groups = @page.field_groups.includes(
+        { 
+          fields: [
+            :translations,
+            :field_groups_fields,
+            :field_options
+          ]
+        },
+        :translations
+      ).references(
+        { 
+          fields: [
+            :field_groups_fields
+          ]
+        }
+      )
       @user = current_user
+      @content_pages = StaticPage.transcriber_links.includes(
+        :translations,
+        :children
+      )
     else
       flash[:danger] = 'Only users can transcribe documents! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path

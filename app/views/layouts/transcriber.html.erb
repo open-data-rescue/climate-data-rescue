@@ -29,20 +29,19 @@
         <% end %>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
         <%= javascript_include_tag "application" %>
-
     </head>
     <body>
-        <div class="container">
-            <div class="row col-md-12" id="message-container">
-                <%= render partial: 'application/alerts' %>
-            </div>
+      <div class="container">
+        <div class="row col-md-12" id="message-container">
+          <%= render partial: 'application/alerts' %>
         </div>
-        <%= yield %>
+      </div>
+      <%= yield %>
 
-        <% #render partial: "transcription_js" %>
-        <%= render "shared/transcriber_templates", page: @page, field_groups: @transcription.field_groups, transcription: @transcription %>
-        <%= render "shared/transcriber_app", page: @page, field_groups: @transcription.field_groups, transcription: @transcription %>
+      <%= render "shared/transcriber_templates", page: @page, field_groups: @field_groups, transcription: @transcription, content_pages: @content_pages %>
+      <%= render "shared/transcriber_app", page: @page, field_groups: @field_groups, transcription: @transcription %>
     </body>
 </html>
