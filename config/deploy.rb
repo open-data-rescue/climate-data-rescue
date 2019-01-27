@@ -29,7 +29,9 @@ set :log_level,     :debug
 set :linked_files, %w{config/database.yml config/application.yml config/skylight.yml config/newrelic.yml config/initializers/secret_token.rb}
 set :linked_dirs,  %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-
+set :rollbar_token, 'ROLLBAR_TOKEN'
+set :rollbar_env, Proc.new { fetch :stage }
+set :rollbar_role, Proc.new { :app }
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."

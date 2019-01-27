@@ -80,7 +80,7 @@ You need two entries in the ENV for the app, `SECRET_KEY_BASE` and `SECRET_TOKEN
 Run the following command twice to generate secure tokens.
 
 ```
-docker-compose run app rake secret
+docker-compose run app bundle exec rake secret
 ```
 
 Add an entry to the `docker/.env.app.conf`file for each key identified above, and set the values as the results of the above two `rake secret` commands.
