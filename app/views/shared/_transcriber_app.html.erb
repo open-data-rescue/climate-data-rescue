@@ -697,9 +697,9 @@
             format : "DD MMM YYYY, hh:mm A",
             useCurrent: false,
             sideBySide : true,
-            defaultDate : '<%= ( page.has_metadata? ? (page.page_days.first.date.beginning_of_day + 108.minutes).to_s : (transcription.page.start_date.beginning_of_day + 108.minutes).to_s) %>',
-            minDate : '<%= ( page.has_metadata? ? page.page_days.first.date.beginning_of_day.to_s : (transcription.page.start_date.beginning_of_day.to_s)) %>',
-            maxDate : '<%= ( page.has_metadata? ? page.page_days.last.date.end_of_day.to_s : (transcription.page.end_date.end_of_day.to_s)) %>',
+            defaultDate : '<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day + 108.minutes).to_s : (transcription.page.start_date.beginning_of_day + 108.minutes).to_s) %>',
+            minDate : '<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.to_s : (transcription.page.start_date.beginning_of_day.to_s)) %>',
+            maxDate : '<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.to_s : (transcription.page.end_date.end_of_day.to_s)) %>',
           });
 
           $(datetime).on('dp.change', function(e) {
