@@ -18,7 +18,7 @@ module DataRescueAtHome
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     
-    config.i18n.fallbacks = true
+    config.i18n.fallbacks = [I18n.default_locale]
     
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
