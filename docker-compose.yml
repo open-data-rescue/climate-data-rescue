@@ -35,6 +35,7 @@ services:
       timeout: 20s
       retries: 10
   bundle:
-    image: climate-data-rescue_app
+    container_name: draw-bundler
+    image: busybox
     volumes:
       - /bundle
