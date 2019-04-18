@@ -37,11 +37,9 @@ html lang="en"
     /[if lt IE 9]
       = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-    = javascript_include_tag "snowEffect"
 
   body
-    .body-bg-img.holiday-special
-    canvas#snow-canvas
+    .body-bg-img
     .container-fluid.main-wrapper
       .container-fluid.top-nav
         = render 'application/nav'
