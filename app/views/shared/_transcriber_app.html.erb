@@ -800,23 +800,21 @@
       editAnnotation : function(annotation) {
         var self = this;
         var $transcriber = this.$el;
-        $("#transcriber-container").append($transcriber);
 
         var field_group = annotation.get('field_group');
-        // console.log(field_group);
-         // Clear values and reset form desitantation
-         $forms = $transcriber.find("form.annotation-form");
-         _.each($forms, function(form){
-          var $form = $(form);
-          if ($form.attr('id') == ("field_group_" + field_group.id)) {
-            $form.attr("method", "PUT");
-            $form.attr("action", ("/annotations/" + annotation.get("id")));
-            $transcriber.find("button#field-group-tab_" + field_group.id).trigger("click");
-          } else {
-            $transcriber.find(".annotation-form-field-group:not(#field-group-" + field_group.id + ")").remove();
-            $transcriber.find("button:not(.submit-btn, .close-btn, #field-group-tab_" + field_group.id + ")").remove();
-          };
-         });
+
+        // Clear values and reset form desitantation
+        console.log(this, field_group, annotation);
+        var $form = $("form.annotation-form#field_group_" + field_group.id);
+
+        $form.attr({
+          method: 'PUT',
+          action: "/annotations/" + annotation.get("id")
+        });
+        $transcriber.find("button#field-group-tab-" + field_group.id).click();
+
+        $transcriber.find(".annotation-form-field-group:not(#field-group-" + field_group.id + ")").remove();
+        $transcriber.find("button:not(.submit-btn, .close-btn, #field-group-tab-" + field_group.id + ")").remove();
 
          if ($transcriber.is(":hidden")) {
            // show transcriber
