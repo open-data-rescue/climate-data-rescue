@@ -3,7 +3,7 @@
   var TranscriberApp = (function(Backbone, Marionette) {
     var annotationInstructionsCookie = Cookies.get('hideAnnotationInstructions');
     var hideAnnotationInstructions = annotationInstructionsCookie == 'true';
-    
+
     var EventAggregator = new Backbone.Wreqr.EventAggregator();
     var transcriberOffset = {left: 25, top: 250};
     var lastDate = latestMsg = null;
@@ -131,7 +131,7 @@
         }
       );
     }
-    
+
     var MainLayout = Marionette.LayoutView.extend({
       template : "#main-layout-template",
       regions : {
@@ -163,23 +163,23 @@
           var transcriptionBox = new TranscriptionBox().render();
         },
         "click #stop-transcribing" : function(e) {
-          var modal = new Backbone.BootstrapModal({ 
+          var modal = new Backbone.BootstrapModal({
             title : '<%= j t('transcriber.stop-transcribing-modal.title') %>',
             animate : true,
             content : $('#stop-transcribing-template').html(),
             showFooter : false
           }).open();
-        }, 
-        'click .btn-zoom-in:not(.disabled)': 'zoomIn', 
-        'click .btn-zoom-out:not(.disabled)': 'zoomOut', 
-        'click .btn-zoom-level [data-zoom-level]' : function(e) { 
-          var zoom = $(e.target).data('zoom-level'); 
-          this.zoomPage(zoom, true); 
-        }, 
+        },
+        'click .btn-zoom-in:not(.disabled)': 'zoomIn',
+        'click .btn-zoom-out:not(.disabled)': 'zoomOut',
+        'click .btn-zoom-level [data-zoom-level]' : function(e) {
+          var zoom = $(e.target).data('zoom-level');
+          this.zoomPage(zoom, true);
+        },
         'click #toggle-data-btn': 'toggleDataPanel',
-      }, 
+      },
 
-      initialize : function(opts) { 
+      initialize : function(opts) {
         this.options = opts || {};
         if (Cookies.get('zoomLevelPage') != void 0) {
           this.currentZoom = Cookies.get('zoomLevelPage') * 1.0;
@@ -188,44 +188,44 @@
           Cookies.set('zoomLevelPage', 1);
           this.currentZoom = 1;
         }
-        this.zoomContainer = $(); 
+        this.zoomContainer = $();
       },
 
-      zoomIn : function() { 
-        this.zoomPage((this.currentZoom + 0.1)); 
-      }, 
+      zoomIn : function() {
+        this.zoomPage((this.currentZoom + 0.1));
+      },
 
-      zoomOut : function() { 
-        this.zoomPage((this.currentZoom - 0.1)); 
-      }, 
+      zoomOut : function() {
+        this.zoomPage((this.currentZoom - 0.1));
+      },
 
-      zoomPage : function(value, _percent) { 
+      zoomPage : function(value, _percent) {
         var percent = _percent || false;
         value = value || this.currentZoom;
 
-        var zoom = (percent ? (value / 100) : value); 
+        var zoom = (percent ? (value / 100) : value);
         if (zoom > 0.1) {
-          this.zoomContainer.css({ 
-            zoom : zoom, 
-            // handle zoom css for firefox 
-            '-moz-transform' : ('scale(' + zoom + ')'), 
-            '-moz-transform-origin' : 'left top' 
+          this.zoomContainer.css({
+            zoom : zoom,
+            // handle zoom css for firefox
+            '-moz-transform' : ('scale(' + zoom + ')'),
+            '-moz-transform-origin' : 'left top'
           });
           this.currentZoom = zoom;
           this.updateZoomLevel();
 
           Cookies.set('zoomLevelPage', zoom);
-        }; 
-      }, 
+        };
+      },
 
-      updateZoomLevel : function(zoomPage) { 
-        // Update zoom level value displayed to the user in the indicator. 
-        // Optionally, zoom the results to the current page 
-        this.$('.current-zoom').html(Math.round(this.currentZoom * 100)); 
-        if (zoomPage) this.zoomPage(this.currentZoom); 
-      }, 
+      updateZoomLevel : function(zoomPage) {
+        // Update zoom level value displayed to the user in the indicator.
+        // Optionally, zoom the results to the current page
+        this.$('.current-zoom').html(Math.round(this.currentZoom * 100));
+        if (zoomPage) this.zoomPage(this.currentZoom);
+      },
 
-      setZoomContainer : function () { 
+      setZoomContainer : function () {
         this.zoomContainer = this.zoomContainer.add(arguments);
         this.zoomPage();
       },
@@ -409,7 +409,7 @@
           self.setMsg('<%= j t('transcriber.messages.annotation-actions.resize-instructions').html_safe %>').addClass("active");
 
           pageCanvas.disableScrolling();
-          
+
           $box.resizable({
             handles: 'ne, nw, se, sw',
             create : function() {
@@ -530,7 +530,7 @@
           var self = this;
           var annotation = this.model;
 
-          var modal = new Backbone.BootstrapModal({ 
+          var modal = new Backbone.BootstrapModal({
             title : '<%= j t('transcriber.delete-annotation-confirmation-modal.title').html_safe %>',
             animate : true,
             okText : '<%= j t('transcriber.delete-annotation-confirmation-modal.ok-btn-text').html_safe %>',
@@ -772,7 +772,7 @@
               }
             );
           }
-          
+
           $field.select2(select2Config).trigger('change');
         });
       },
@@ -840,7 +840,7 @@
         var newWidth = (fields.length + 3) * 110 + 100;
 
         $transcriber.css("width", newWidth);
-        
+
         // // set field values from response
         _.each(fields, function(field){
           // console.log(field);
@@ -848,7 +848,7 @@
           var $fieldContainer = $form.find(".transcriber-input[data-field-id=" + field.id +"]");
           var $select = $fieldContainer.find("select");
           // console.log($select);
-          
+
           if ($select.children().length > 0) {
             $select.children().remove();
             $select.trigger('change');
@@ -903,7 +903,7 @@
               fieldGroupName : fieldGroupName
             }).enableBoxer();
           } else {
-            var modal = new Backbone.BootstrapModal({ 
+            var modal = new Backbone.BootstrapModal({
               title : ('<%= j t('transcriber.messages.annotation-saved-with-field-group').html_safe %>').replace('%{field_group}', fieldGroupName),
               animate : true,
               allowCancel : false,
@@ -1023,7 +1023,7 @@
                 setMsg('<%= j t('transcriber.messages.annotation-saved').html_safe %>', true, "success");
 
                 imageView.$el.boxer('destroy');
-                
+
                 imageView.enableScrolling();
 
                 self.sync();
@@ -1128,7 +1128,7 @@
                 setMsg('<%= j t('transcriber.messages.annotation-saved').html_safe %>', true, "success");
 
                 pageCanvas.$el.boxer('destroy');
-                
+
                 pageCanvas.enableScrolling();
 
                 annotator.sync();
@@ -1160,7 +1160,7 @@
       description : '<%= j t('transcriber.guide-images.help-text.fields').html_safe %>',
       popoverPlacement: function(context, source) {
         var self = this;
-        setTimeout(function() { 
+        setTimeout(function() {
           self.$arrow.css('left', (self.$tip.outerWidth() / 2));
           self.$tip.css({
             left: ($('#field-guide-container').offset().left + ($('#field-guide-container').width() / 2)),
@@ -1172,7 +1172,7 @@
     });
     var timeGuidePage = new Page({
       image_id : 'time-guide',
-      title: '<%= j t('transcriber.guide-images.title.time').html_safe %>',            
+      title: '<%= j t('transcriber.guide-images.title.time').html_safe %>',
       description : '<%= j t('transcriber.guide-images.help-text.time').html_safe %>',
       popoverPlacement: function(context, source) {
         var self = this;
@@ -1231,7 +1231,7 @@
 
         mainLayout.guideImages.concat([ fieldGuideImg, timeGuideImg]);
 
-        toolbarLayout.setZoomContainer(pageCanvas.el, fieldGuideImg.el, timeGuideImg.el); 
+        toolbarLayout.setZoomContainer(pageCanvas.el, fieldGuideImg.el, timeGuideImg.el);
 
         setTimeout(function() {
           fieldGuideImg.$el.kinetic("scrollTop", 390);
