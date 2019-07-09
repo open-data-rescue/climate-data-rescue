@@ -5,6 +5,7 @@
 [![Code Climate][CC img]][Code Climate]
 [![Coverage Status Coveralls][CS img]][Coverage Status]
 [![coverage report gitlab](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/badges/master/coverage.svg)](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/commits/master)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frsmithlal%2FClimateDataRescue.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frsmithlal%2FClimateDataRescue?ref=badge_shield)
 
 [Build Status]: https://travis-ci.org/rsmithlal/ClimateDataRescue
 [travis pull requests]: https://travis-ci.org/rsmithlal/ClimateDataRescue/pull_requests
@@ -133,3 +134,6 @@ Forthcoming.
 This project was created in 2015 as my final independent study project in Geography at McGill University with [Renee Sieber](http://rose.geog.mcgill.ca/) from the departments of Geography and Environmental Studies as my supervisor. It was developed in coordination with [Victoria Slonosky](https://sites.google.com/site/historicalclimatedata/Home) in her efforts to recover data from thousands of pages of historical weather observations.
 
 This project was inspired by the [Scribe Framework](https://scribeproject.github.io/).
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frsmithlal%2FClimateDataRescue.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frsmithlal%2FClimateDataRescue?ref=badge_large)
