@@ -3,13 +3,10 @@
 [![Build Status Travis (Github)][BS img]][Build Status]
 [![pipeline status gitlab](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/badges/master/pipeline.svg)](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/commits/master)
 [![Code Climate][CC img]][Code Climate]
-[![Coverage Status Coveralls][CS img]][Coverage Status]
-[![coverage report gitlab](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/badges/master/coverage.svg)](https://gitlab.com/open-archives-data-rescue/climate-data-rescue/commits/master)
 
 [Build Status]: https://travis-ci.org/rsmithlal/ClimateDataRescue
 [travis pull requests]: https://travis-ci.org/rsmithlal/ClimateDataRescue/pull_requests
 [Code Climate]: https://codeclimate.com/github/rsmithlal/ClimateDataRescue
-[Coverage Status]: https://coveralls.io/r/rsmithlal/ClimateDataRescue
 
 [BS img]: https://travis-ci.org/rsmithlal/ClimateDataRescue.png
 [DS img]: https://gemnasium.com/rsmithlal/ClimateDataRescue.png
