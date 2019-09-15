@@ -5,9 +5,6 @@ WORKDIR /draw
 COPY Gemfile /draw/Gemfile
 COPY Gemfile.lock /draw/Gemfile.lock
 
-ENV BUNDLE_GEMFILE=/draw/Gemfile \
-  BUNDLE_JOBS=2 \
-  BUNDLE_PATH=/bundle
+RUN gem install bundler
 
-RUN bundle install
 COPY . /draw
