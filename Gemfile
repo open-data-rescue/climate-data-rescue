@@ -43,6 +43,7 @@ gem 'will_paginate'
 
 #for attachments
 gem 'paperclip'
+gem 'aws-sdk-s3'
 
 # Support for tag inputs
 gem 'select2-rails'
