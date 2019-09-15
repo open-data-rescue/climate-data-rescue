@@ -48,19 +48,23 @@ module DataRescueAtHome
       storage: :s3,
       s3_permissions: :private,
       s3_protocol: ENV.fetch('S3_PROTOCOL'),
-      s3_host_name: ENV.fetch('S3_HOSTNAME'),
+      s3_host_name: ENV.fetch('S3_HOST_NAME'),
       s3_credentials: {
         access_key_id: ENV.fetch('S3_ACCESS_KEY_ID'),
         secret_access_key: ENV.fetch('S3_SECRET_ACCESS_KEY'),
         s3_region: ENV.fetch('S3_REGION'),
         bucket: ENV.fetch('S3_PRIVATE_BUCKET')
+      },
+      s3_options: {
+        endpoint: "#{ENV.fetch('S3_PROTOCOL')}://#{ENV.fetch('S3_HOST_NAME')}",
+        force_path_style: true
       }
     }
 
     config.action_mailer.default_options = {
-        :from   => 'draw_mcgill@outlook.com',
-        :reply_to => 'draw_mcgill@outlook.com',
-        :bcc => 'robert@grenadine.co'
+      :from   => 'draw_mcgill@outlook.com',
+      :reply_to => 'draw_mcgill@outlook.com',
+      :bcc => 'rsmithlal@gmail.com'
     }
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
