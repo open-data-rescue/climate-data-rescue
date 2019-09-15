@@ -47,12 +47,13 @@ module DataRescueAtHome
     config.paperclip_defaults = {
       storage: :s3,
       s3_permissions: :private,
-      s3_host_name: ENV.fetch('AWS_HOSTNAME'),
+      s3_protocol: ENV.fetch('S3_PROTOCOL'),
+      s3_host_name: ENV.fetch('S3_HOSTNAME'),
       s3_credentials: {
-        access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID'),
-        secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY'),
-        s3_region: ENV.fetch('AWS_REGION'),
-        bucket: ENV.fetch('AWS_S3_PRIVATE_BUCKET')
+        access_key_id: ENV.fetch('S3_ACCESS_KEY_ID'),
+        secret_access_key: ENV.fetch('S3_SECRET_ACCESS_KEY'),
+        s3_region: ENV.fetch('S3_REGION'),
+        bucket: ENV.fetch('S3_PRIVATE_BUCKET')
       }
     }
 
