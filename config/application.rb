@@ -17,9 +17,9 @@ module DataRescueAtHome
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-    
+
     config.i18n.fallbacks = [I18n.default_locale]
-    
+
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
@@ -41,6 +41,19 @@ module DataRescueAtHome
         :password       => ENV['SMTP_PASSWORD'],
         :domain         => 'outlook.com',
         :enable_starttls_auto => true
+    }
+
+    # Paperclip S3 settings
+    config.paperclip_defaults = {
+      storage: :s3,
+      s3_permissions: :private,
+      s3_host_name: ENV.fetch('AWS_HOSTNAME'),
+      s3_credentials: {
+        access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID'),
+        secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY'),
+        s3_region: ENV.fetch('AWS_REGION'),
+        bucket: ENV.fetch('AWS_S3_PRIVATE_BUCKET')
+      }
     }
 
     config.action_mailer.default_options = {
