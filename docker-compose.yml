@@ -2,6 +2,7 @@ version: '2.1'
 
 volumes:
   db-data:
+  draw-bundler-gems:
 
 services:
   app:
@@ -10,6 +11,7 @@ services:
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/draw
+      - draw-bundler-gems:/usr/local/bundle/
     ports:
       - "3000:3000"
     depends_on:
@@ -19,8 +21,6 @@ services:
       - db
     env_file:
       - './docker/.env.app.conf'
-    volumes_from:
-      - bundle
   db:
     container_name: draw-db
     image: mysql:5.7
@@ -34,8 +34,3 @@ services:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
-  bundle:
-    container_name: draw-bundler
-    image: busybox
-    volumes:
-      - /bundle

@@ -19,7 +19,7 @@ unless Rails.env.production?
   end
 
   sql = File.read('docker/init-data/DRAW-init.sql')
-  statements = sql.split(/;\r\n/)
+  statements = sql.split(/;$/)
   statements.pop
 
   ActiveRecord::Base.transaction do
