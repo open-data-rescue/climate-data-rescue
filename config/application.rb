@@ -44,24 +44,24 @@ module DataRescueAtHome
     }
 
     # Paperclip S3 settings
-    config.paperclip_defaults = {
-      storage: :s3,
-      s3_permissions: :public,
-      s3_protocol: ENV.fetch('S3_PROTOCOL'),
-      s3_host_name: ENV.fetch('S3_HOST_NAME'),
-      s3_credentials: {
-        access_key_id: ENV.fetch('S3_ACCESS_KEY_ID'),
-        secret_access_key: ENV.fetch('S3_SECRET_ACCESS_KEY'),
-        s3_region: ENV.fetch('S3_REGION'),
-        bucket: ENV.fetch('S3_PRIVATE_BUCKET')
-      },
-      s3_options: {
-        endpoint: "#{ENV.fetch('S3_PROTOCOL')}://#{ENV.fetch('S3_HOST_NAME')}",
-        force_path_style: true
-      },
-      url: ':s3_path_url',
-      path: '/:class/:style/:hash.:extension'
-    }
+    # config.paperclip_defaults = {
+    #   storage: :s3,
+    #   s3_permissions: :public,
+    #   s3_protocol: ENV.fetch('S3_PROTOCOL'),
+    #   s3_host_name: ENV.fetch('S3_HOST_NAME'),
+    #   s3_credentials: {
+    #     access_key_id: ENV.fetch('S3_ACCESS_KEY_ID'),
+    #     secret_access_key: ENV.fetch('S3_SECRET_ACCESS_KEY'),
+    #     s3_region: ENV.fetch('S3_REGION'),
+    #     bucket: ENV.fetch('S3_PRIVATE_BUCKET')
+    #   },
+    #   s3_options: {
+    #     endpoint: "#{ENV.fetch('S3_PROTOCOL')}://#{ENV.fetch('S3_HOST_NAME')}",
+    #     force_path_style: true
+    #   },
+    #   url: ':s3_path_url',
+    #   path: '/:class/:style/:hash.:extension'
+    # }
 
     config.action_mailer.default_options = {
       :from   => 'draw_mcgill@outlook.com',
