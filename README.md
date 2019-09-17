@@ -64,12 +64,6 @@ It will read `(healthy)` when it is finished. You may need to run the following 
 docker ps
 ```
 
-Create the databases, load the application schema, and initialize with the seed data:
-
-```
-docker-compose run app rake db:setup
-```
-
 Add app secrets:
 
 You need two entries in the ENV for the app, `SECRET_KEY_BASE` and `SECRET_TOKEN`.
@@ -82,6 +76,14 @@ docker-compose run app bundle exec rake secret
 
 Add an entry to the `docker/.env.app.conf`file for each key identified above, and set the values as the results of the above two `rake secret` commands.
 
+
+Run all of the following commands to create the databases, load the application schema, and initialize with the seed data:
+
+```
+docker-compose run app bin/rails db:environment:set RAILS_ENV=development
+docker-compose run app bin/rails db:environment:set RAILS_ENV=test
+docker-compose run app rake db:setup
+```
 
 Start the app container
 
