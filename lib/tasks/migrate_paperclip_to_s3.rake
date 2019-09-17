@@ -20,7 +20,6 @@ namespace :attachments do
       endpoint: "#{ENV.fetch('S3_PROTOCOL')}://#{ENV.fetch('S3_HOST_NAME')}",
       force_path_style: true
     })
-    s3 = Aws::S3::Client.new
     s3_bucket = Aws::S3::Bucket.new(bucket)
 
     # determine the models to migrate
@@ -50,7 +49,7 @@ namespace :attachments do
               styles.each do |style|
                 # whatever mapping needed to where your files will live on S3
                 # in my case, I changed the URL when migrating to S3
-                path = attachment.url(style.to_sym).gsub('/system/', '').partition('?').first
+                path = attachment.url(style.to_sym).gsub('/system/', '').partition('?').first.gsub('images', 'pages')
                 begin
 
                   file = File.open("#{Rails.root}/public#{attachment.url(style.to_sym).partition('?').first}")
@@ -59,15 +58,14 @@ namespace :attachments do
                   # skip if we already have this file on S3
                   # byebug
                   object = s3_bucket.object(path)
-                  # next if object.exists?
+                  next if object.exists?
 
                   print "uploading: #{style.to_sym}..."
                   object.upload_file(file, { acl: :public_read})
-                  # Aws::S3::Object.store(path, file, bucket, :access => :public_read)
                   print " done.\n"
                 rescue Errno::ENOENT => e
                   puts "File #{full_path} not found"
-                # rescue Aws::S3::NoSuchBucket => e
+                # rescue Aws::S3::NoSuchBucket => Errno
                 #   Aws::S3::Bucket.create(bucket)
                 #   retry
                 rescue Aws::S3::ResponseError => e
