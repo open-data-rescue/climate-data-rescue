@@ -65,6 +65,22 @@ GEM
     ast (2.4.0)
     autoprefixer-rails (9.1.4)
       execjs
+    aws-eventstream (1.0.3)
+    aws-partitions (1.212.0)
+    aws-sdk-core (3.67.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-kms (1.24.0)
+      aws-sdk-core (~> 3, >= 3.61.1)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.48.0)
+      aws-sdk-core (~> 3, >= 3.61.1)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.1.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
     bcrypt (3.1.13)
     better_errors (2.5.0)
       coderay (>= 1.0.0)
@@ -146,6 +162,7 @@ GEM
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
+    jmespath (1.4.0)
     jquery-fileupload-rails (0.4.7)
       actionpack (>= 3.1)
       railties (>= 3.1)
@@ -379,6 +396,7 @@ PLATFORMS
 
 DEPENDENCIES
   autoprefixer-rails
+  aws-sdk-s3 (~> 1)
   better_errors
   binding_of_caller
   bootsnap (>= 1.1.0)
@@ -442,4 +460,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.16.6
+   1.17.3

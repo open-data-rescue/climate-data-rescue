@@ -17,9 +17,9 @@ module DataRescueAtHome
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-    
+
     config.i18n.fallbacks = [I18n.default_locale]
-    
+
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
@@ -34,19 +34,39 @@ module DataRescueAtHome
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-        :address        => 'smtp.office365.com',
-        :port           => '587',
-        :authentication => :login,
-        :user_name      => ENV['SMTP_USERNAME'],
-        :password       => ENV['SMTP_PASSWORD'],
-        :domain         => 'outlook.com',
-        :enable_starttls_auto => true
+      :address        => 'smtp.office365.com',
+      :port           => '587',
+      :authentication => :login,
+      :user_name      => ENV['SMTP_USERNAME'],
+      :password       => ENV['SMTP_PASSWORD'],
+      :domain         => 'outlook.com',
+      :enable_starttls_auto => true
     }
 
+    # Paperclip S3 settings
+    # config.paperclip_defaults = {
+    #   storage: :s3,
+    #   s3_permissions: :public,
+    #   s3_protocol: ENV.fetch('S3_PROTOCOL'),
+    #   s3_host_name: ENV.fetch('S3_HOST_NAME'),
+    #   s3_credentials: {
+    #     access_key_id: ENV.fetch('S3_ACCESS_KEY_ID'),
+    #     secret_access_key: ENV.fetch('S3_SECRET_ACCESS_KEY'),
+    #     s3_region: ENV.fetch('S3_REGION'),
+    #     bucket: ENV.fetch('S3_PRIVATE_BUCKET')
+    #   },
+    #   s3_options: {
+    #     endpoint: "#{ENV.fetch('S3_PROTOCOL')}://#{ENV.fetch('S3_HOST_NAME')}",
+    #     force_path_style: true
+    #   },
+    #   url: ':s3_path_url',
+    #   path: '/:class/:style/:hash.:extension'
+    # }
+
     config.action_mailer.default_options = {
-        :from   => 'draw_mcgill@outlook.com',
-        :reply_to => 'draw_mcgill@outlook.com',
-        :bcc => 'robert@grenadine.co'
+      :from   => 'draw_mcgill@outlook.com',
+      :reply_to => 'draw_mcgill@outlook.com',
+      :bcc => 'rsmithlal@gmail.com'
     }
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true

@@ -4,13 +4,15 @@
 #
 # Examples:
 #
-User.create!(
-  email: 'draw-dev-admin@grr.la',
-  password: 'password',
-  password_confirmation: 'password',
-  display_name: 'Administrator',
-  admin: true
-)
+unless User.any?
+  User.create!(
+    email: 'draw-dev-admin@grr.la',
+    password: 'password',
+    password_confirmation: 'password',
+    display_name: 'Administrator',
+    admin: true
+  )
+end
 
 unless Rails.env.production?
   connection = ActiveRecord::Base.connection
