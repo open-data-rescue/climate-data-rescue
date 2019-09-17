@@ -43,7 +43,7 @@ gem 'will_paginate'
 
 #for attachments
 gem 'paperclip'
-gem 'aws-sdk-s3'
+gem 'aws-sdk-s3', '~> 1'
 
 # Support for tag inputs
 gem 'select2-rails'
@@ -85,7 +85,7 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano3-puma'
-  
+
   gem 'execjs'
 
   gem "better_errors"

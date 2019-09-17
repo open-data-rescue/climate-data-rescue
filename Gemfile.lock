@@ -396,7 +396,7 @@ PLATFORMS
 
 DEPENDENCIES
   autoprefixer-rails
-  aws-sdk-s3
+  aws-sdk-s3 (~> 1)
   better_errors
   binding_of_caller
   bootsnap (>= 1.1.0)

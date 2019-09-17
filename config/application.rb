@@ -34,19 +34,19 @@ module DataRescueAtHome
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-        :address        => 'smtp.office365.com',
-        :port           => '587',
-        :authentication => :login,
-        :user_name      => ENV['SMTP_USERNAME'],
-        :password       => ENV['SMTP_PASSWORD'],
-        :domain         => 'outlook.com',
-        :enable_starttls_auto => true
+      :address        => 'smtp.office365.com',
+      :port           => '587',
+      :authentication => :login,
+      :user_name      => ENV['SMTP_USERNAME'],
+      :password       => ENV['SMTP_PASSWORD'],
+      :domain         => 'outlook.com',
+      :enable_starttls_auto => true
     }
 
     # Paperclip S3 settings
     config.paperclip_defaults = {
       storage: :s3,
-      s3_permissions: :private,
+      s3_permissions: :public,
       s3_protocol: ENV.fetch('S3_PROTOCOL'),
       s3_host_name: ENV.fetch('S3_HOST_NAME'),
       s3_credentials: {
@@ -58,7 +58,9 @@ module DataRescueAtHome
       s3_options: {
         endpoint: "#{ENV.fetch('S3_PROTOCOL')}://#{ENV.fetch('S3_HOST_NAME')}",
         force_path_style: true
-      }
+      },
+      url: ':s3_path_url',
+      path: '/:class/:style/:hash.:extension'
     }
 
     config.action_mailer.default_options = {
