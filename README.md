@@ -31,20 +31,61 @@ Administrators are given an interface with which to define their data collection
 
 ## Development Setup
 
-### Software Requirements
-- docker
-- docker-compose
+The following setup has been tested on Ubuntu 18.04 LTS. Please note that the sections marked with an asterisk (\*) contain commands that are specific to this version and distribution of Linux.
 
-### Project Installation
-#### Installing required software
-##### docker
-##### docker-compose
+### Installing packages\*
 
+This software requires two packages:
+* docker
+* docker-compose
 
-### Setup
+Run the following command to install docker and docker-compose
+
+```bash
+sudo apt-get install docker docker-compose 
+```
+
+### Docker Setup\*
+
+On Ubuntu 18.04, docker is controlled by a Linux command called systemctl. Execute the following commands:
+
+```bash
+sudo systemctl start docker
+```
+
+Now, check that docker started successfully by running the following command:
+
+```bash
+systemctl status docker
+```
+
+The result should look something like this, and it should say 'running'. Checking the status of a process does not require sudo permissions.
+
+![Docker status](images/dockerstatus.png)
+
+Next, ensure that docker starts on boot by using the 'enable' command:
+
+```bash
+sudo systemctl enable docker
+```
+
+Now, we need to add the current user to the 'docker' group, so that docker commands can be executed.
+
+```bash
+sudo usermod -a -G docker $USER
+```
+
+In order to refresh the permissions, log out of your current session, and then log back in. In order to ensure the groups have been set correctly, run the following command:
+
+```bash
+groups
+```
+
+If 'docker' does not appear among the groups for your user, you will need to fix the group permissions before proceeding.
 
 #### Docker Containers
-Navigate to the project directory in the terminal. 
+
+Next, clone a copy of this repository. Navigate to the project directory in the terminal. 
 
 Ensure you are at the application folder and run the following script to extract the initial files and build the docker containers:
 
@@ -63,6 +104,13 @@ It will read `(healthy)` when it is finished. You may need to run the following 
 ```
 docker ps
 ```
+
+Next, create the ruby environment using the following command
+
+```bash
+docker-compose run app bundle install
+```
+
 
 Add app secrets:
 
@@ -121,12 +169,6 @@ docker-compose up app
 
 You should be able to log into the application as the admin user with the information defined in the `seeds.rb` file.
 
-
-## User Guide
-Forthcoming.
-
-## Data Model
-Forthcoming.
 
 ## Attribution and Acknowlegements
 This project was created in 2015 as my final independent study project in Geography at McGill University with [Renee Sieber](http://rose.geog.mcgill.ca/) from the departments of Geography and Environmental Studies as my supervisor. It was developed in coordination with [Victoria Slonosky](https://sites.google.com/site/historicalclimatedata/Home) in her efforts to recover data from thousands of pages of historical weather observations.
