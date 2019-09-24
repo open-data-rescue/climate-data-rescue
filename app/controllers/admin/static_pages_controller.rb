@@ -27,7 +27,7 @@ module Admin
             flash[:success] = 'Content Page created successfully!'
             format.html { redirect_to admin_static_pages_path }
           else
-            format.html { redirect_to admin_new_static_page_path }
+            format.html { redirect_to new_admin_static_page_path }
           end
         end
     	else
