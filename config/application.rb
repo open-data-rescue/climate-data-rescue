@@ -34,13 +34,13 @@ module DataRescueAtHome
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      :address        => 'smtp.office365.com',
-      :port           => '587',
-      :authentication => :login,
-      :user_name      => ENV['SMTP_USERNAME'],
-      :password       => ENV['SMTP_PASSWORD'],
-      :domain         => 'outlook.com',
-      :enable_starttls_auto => true
+      address: 'smtp.sendgrid.net',
+      port: '587',
+      authentication: :plain,
+      user_name: ENV.fetch('SENDGRID_USERNAME'),
+      password: ENV.fetch('SENDGRID_PASSWORD'),
+      domain: 'heroku.com',
+      enable_starttls_auto: true
     }
 
     # Paperclip S3 settings
