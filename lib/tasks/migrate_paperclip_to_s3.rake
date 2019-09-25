@@ -58,7 +58,7 @@ namespace :attachments do
                   # skip if we already have this file on S3
                   # byebug
                   object = s3_bucket.object(path)
-                  # next if object.exists?
+                  next if object.exists?
 
                   print "uploading: #{style.to_sym}..."
                   object.upload_file(file, { acl: :public_read})
