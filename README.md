@@ -36,8 +36,8 @@ The following setup has been tested on Ubuntu 18.04 LTS. Please note that the se
 ### Installing packages\*
 
 This software requires two packages:
-* docker
-* docker-compose
+* docker - [Docker Overview](https://docs.docker.com/engine/docker-overview/)
+* docker-compose - [Docker Compose Overview](https://docs.docker.com/compose/)
 
 Run the following command to install docker and docker-compose
 
