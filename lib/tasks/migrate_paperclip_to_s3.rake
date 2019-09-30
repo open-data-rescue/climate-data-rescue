@@ -68,8 +68,8 @@ namespace :attachments do
                 # rescue Aws::S3::NoSuchBucket => Errno
                 #   Aws::S3::Bucket.create(bucket)
                 #   retry
-                rescue Aws::S3::ResponseError => e
-                  raise
+                # rescue Aws::S3::ResponseError => e
+                #   raise
 
                 rescue => e
                   puts e.message

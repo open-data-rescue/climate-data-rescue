@@ -13,6 +13,8 @@ gem "ranked-model"
 
 gem 'uglifier'
 
+gem 'activerecord-session_store'
+
 #bootstrap stuff
 gem 'sass-rails'
 #gem 'sprockets-rails'
