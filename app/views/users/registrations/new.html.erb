@@ -13,7 +13,7 @@
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, t('sign-up'), class: 'btn-draw-accented' %>
+    <%= invisible_recaptcha_tags text: t('sign-up'), ui: :input, class: 'btn btn-default btn-draw-accented' %>
   </div>
 <% end %>
 
