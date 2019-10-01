@@ -77,6 +77,8 @@ gem 'newrelic_rpm'
 gem 'rollbar'
 gem 'puma'
 
+gem "recaptcha", require: "recaptcha/rails"
+
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Deploy with Capistrano
