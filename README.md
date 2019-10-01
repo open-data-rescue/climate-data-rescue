@@ -147,7 +147,7 @@ Requirements:
 
 After you finish creating the Recaptcha site, you will be presented with a confirmation screen containing your site key and secret key. Copy and paste each into their appropriate place in the ENV file the same way you added the secret key base and secret token above.
 
-Database Setup
+### Database Setup
 
 Run all of the following commands to create the databases, load the application schema, and initialize with the seed data:
 
@@ -157,30 +157,22 @@ docker-compose run app bin/rails db:environment:set RAILS_ENV=test
 docker-compose run app rake db:setup
 ```
 
-Start the app container
+### Starting and Stopping the application
+To start the app:
 
 ```bash
 docker-compose up app
-
 ```
 
 Open another terminal and verify that the docker containers have started and that the local host's ports are mapped to the containers' ports:
 
 ```bash
 docker ps
-
 ```
 
  You should be able to verify that two containers `draw-app` and `draw-db` have started, and their ports are being mapped to the host machine.
-
-### Starting and Stopping the application
-By now, the app server should already be running and accessible at `localhost:3000` in your browser.
-
-To start the app:
-
-```bash
-docker-compose up app
-```
+ 
+Once both containers are confirmed to be running, the application should be running and accessible at `localhost:3000` in your browser.
 
 To stop the app when running in current terminal window:
 ```
