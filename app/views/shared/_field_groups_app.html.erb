@@ -8,6 +8,7 @@
 
     FieldGroupsApp.AppManager = (function(Backbone, Marionette){
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
+        
 
         PageType = Backbone.Model.extend({
             url : "<%= admin_page_types_path %>",
