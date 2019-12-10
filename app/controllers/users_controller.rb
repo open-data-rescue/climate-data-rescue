@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   #load_and_authorize_resource
   respond_to :html, :json, :js
   before_action :ensure_current_user
+  layout 'layouts/certificate'
   #Corresponds to the "user" model, user.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the user model
   #All .html.slim views for "user.rb" are located at "project_root\app\views\users"
 
@@ -70,7 +71,23 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
+  def show_certificate
+  @user = User.includes(
+      {
+        transcriptions: [
+          { 
+            page: [
+              :page_days
+            ] 
+          },
+          :annotations
+        ]
+      },
+      :data_entries
+    ).find(params[:id])
+
+    render "certificate"  
   private
   
   def users_params

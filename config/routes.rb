@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :pages
     resources :static_pages
     resources :users
+    resources :certificate
 
     match 'transcriptions/export' => 'transcriptions#export',
           via: %i[get post],
