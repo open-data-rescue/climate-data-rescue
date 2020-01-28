@@ -440,7 +440,7 @@ DEPENDENCIES
   newrelic_rpm
   paperclip
   pry
-  puma
+  puma (~> 4.3.1)
   rack-mini-profiler
   rails (~> 5.2.3)
   rails-erd

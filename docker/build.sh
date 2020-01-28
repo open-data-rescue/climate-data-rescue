@@ -13,3 +13,4 @@ if [ ! -d "`pwd`/tmp" ]; then
 fi
 
 docker-compose build
+docker-compose run app bundle
