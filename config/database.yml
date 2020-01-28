@@ -2,11 +2,12 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 10
-  username: root
-  password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
-  host: db
   protocol: tcp
-  port: 3306
+  url: <%= ENV.fetch('DATABASE_URL') { "mysql2://#{ENV.fetch('DATABASE_USERNAME') { 'root' }}:#{ENV.fetch('DATABASE_PASSWORD') { 'root' }}@#{ENV.fetch('DATABASE_HOST') { 'db' }}:#{ENV.fetch('DATABASE_PORT') { 3306 }}" } %>
+  # username: <%= ENV.fetch('DB_USERNAME') { 'root' } %>
+  # password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
+  # host: <%= ENV.fetch('DB_HOST') { 'db' } %>
+  # port: 3306
 
 development:
   <<: *default
