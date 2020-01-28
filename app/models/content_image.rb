@@ -11,7 +11,7 @@ class ContentImage < ApplicationRecord
                   xlarge: ["1000x1000>"]
                 },
                 default_style: :medium,
-                url: "/:class/:style/:image_file_name.:extension"
+                url: "/:class/:style/:image_file_name"
   validates_attachment :image,
                       presence: true,
                       content_type: { :content_type => /^image\/(jpg|jpeg|pjpeg|png|x-png|gif)$/, :message => 'file type is not allowed (only jpeg/png/gif images)' }
