@@ -61,4 +61,6 @@ Rails.application.configure do
 
   Paperclip.options[:command_path] = "/usr/local/bin/"
   Rails.application.routes.default_url_options[:protocol] = "http"
+
+  BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
 end
