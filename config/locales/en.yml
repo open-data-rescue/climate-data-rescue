@@ -4,214 +4,214 @@ en:
     attributes: 
       content_image: 
         image: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         name: 
-          one: ""
-          other: ""
+          one: 
+          other: 
       data_entry: 
         field_id: 
-          one: ""
-          other: ""
+          one: 
+          other: 
       field: 
         colour_class: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         data_type: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         display_name: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         field_key: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         full_name: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         help: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         html_field_type: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         internal_name: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         name: 
-          one: ""
-          other: ""
+          one: 
+          other: 
       field_group: 
         Colour: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         display_name: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         help: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         internal_name: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         name: 
-          one: ""
-          other: ""
+          one: 
+          other: 
       field_option: 
         ? "Display this when selected"
         : 
-          one: ""
-          other: ""
+          one: 
+          other: 
         help: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         image: 
-          one: ""
-          other: ""
+          one: 
+          other: 
       page: 
         accession_number: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         image: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         page_type: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         title: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         visible: 
-          one: ""
-          other: ""
+          one: 
+          other: 
       page_type: 
         description: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         ledger: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         number: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         title: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         visible: 
-          one: ""
-          other: ""
+          one: 
+          other: 
       static_page: 
         body: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         foreign_link: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         meta_description: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         meta_keywords: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         meta_title: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         position: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         show_in_footer: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         show_in_header: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         show_in_transcriber: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         slug: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         title: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         title_as_header: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         visible: 
-          one: ""
-          other: ""
+          one: 
+          other: 
       user: 
         admin: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         avatar: 
           one: "Profile photo"
-          other: ""
+          other: 
         avatar_content_type: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         avatar_file_size: 
-          one: ""
-          other: ""
+          one: 
+          other: 
         bio: 
           one: Bio
-          other: ""
+          other: 
         display_name: 
           one: "Display name"
-          other: ""
+          other: 
         email: 
           one: Email
-          other: ""
+          other: 
         password: 
           one: Password
-          other: ""
+          other: 
         password_confirmation: 
           one: "Password confirmation"
-          other: ""
+          other: 
         remember_me: 
           one: "Remember me"
-          other: ""
+          other: 
         reset_password_token: 
-          one: ""
-          other: ""
+          one: 
+          other: 
     errors: 
       messages: 
         in_between: 
-          one: ""
-          other: ""
-        invalid: ""
-        not_found: ""
-        taken: ""
+          one: 
+          other: 
+        invalid: 
+        not_found: 
+        taken: 
       models: 
         data_entry: 
-          taken: ""
+          taken: 
         user: 
           in_between: 
-            one: ""
-            other: ""
-          invalid: ""
-          not_found: ""
+            one: 
+            other: 
+          invalid: 
+          not_found: 
     models: 
       data_entry: 
-        one: ""
-        other: ""
+        one: 
+        other: 
       page_type: 
-        one: ""
-        other: ""
+        one: 
+        other: 
       user: 
-        one: ""
-        other: ""
+        one: 
+        other: 
   admin: 
     fields: 
-      available-fields: ""
-    linked-field-groups: ""
-    linked-fields: ""
-    linked-schemas: ""
-    new-field-group: ""
-    percent-translated: ""
+      available-fields: 
+    linked-field-groups: 
+    linked-fields: 
+    linked-schemas: 
+    new-field-group: 
+    percent-translated: 
     transcriptions: 
       export: 
-        header: ""
+        header: 
   admin-access-only-error-msg: "Admin Access Only Error Message"
   all-pages: "All Pages"
   annotation: Annotation
@@ -229,136 +229,136 @@ en:
   are-you-sure: "Are you sure?"
   attributes: 
     Colour: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     ? "Display this when selected"
     : 
-      one: ""
-      other: ""
+      one: 
+      other: 
     accession_number: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     admin: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     avatar: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     avatar_content_type: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     avatar_file_size: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     bio: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     body: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     colour_class: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     data_type: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     description: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     display_name: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     email: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     field_id: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     field_key: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     foreign_link: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     full_name: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     help: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     html_field_type: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     image: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     internal_name: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     ledger: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     meta_description: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     meta_keywords: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     meta_title: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     name: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     number: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     page_type: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     password: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     password_confirmation: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     position: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     remember_me: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     reset_password_token: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     show_in_footer: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     show_in_header: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     show_in_transcriber: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     slug: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     title: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     title_as_header: 
-      one: ""
-      other: ""
+      one: 
+      other: 
     visible: 
-      one: ""
-      other: ""
+      one: 
+      other: 
   back: Back
   cancel: Cancel
   cancel_file_transfer: "Cancel File Transfer"
   content-images: "Content Images"
   content-pages: "Custom Pages"
   continue: Continue
-  custom-pages: ""
+  custom-pages: 
   data-collected: "Data Collected"
   data-type: "Data Type"
   date-time: "Date Time"
@@ -373,49 +373,49 @@ en:
   edit-page-translations: "Edit Page Translations"
   edit-site-translations: "Modify Site UI Translations"
   edit-transcription: "Edit transcription"
-  edit-user: ""
-  editing-page: ""
+  edit-user: 
+  editing-page: 
   email: Email
   en: English
   errors: 
     attributes: 
       avatar: 
         in_between: 
-          one: ""
-          other: ""
+          one: 
+          other: 
       avatar_content_type: 
-        invalid: ""
+        invalid: 
       avatar_file_size: 
         in_between: 
-          one: ""
-          other: ""
+          one: 
+          other: 
       email: 
-        not_found: ""
+        not_found: 
       field_id: 
-        taken: ""
+        taken: 
       reset_password_token: 
-        invalid: ""
-  external-url: ""
-  field-group-successfully-deleted: ""
+        invalid: 
+  external-url: 
+  field-group-successfully-deleted: 
   field-groups: "Field Groups"
   field-options: "Field Options"
   field-values: "Field Values"
   field_group: "Field Group"
   fields: Fields
-  filename: ""
+  filename: 
   fr: Français
   height: Height
   help: Help
   help-text: "Help Text"
-  hidden: ""
+  hidden: 
   home: Home
-  icon-image: ""
-  image: ""
+  icon-image: 
+  image: 
   in-total: "in total"
-  in-use: ""
-  internal-name: ""
+  in-use: 
+  internal-name: 
   last-login: "Last login"
-  last-updated: ""
+  last-updated: 
   ledgers: Ledgers
   log-in: "Log In"
   log-out: "Log out"
@@ -426,25 +426,25 @@ en:
       my-transcriptions: "My Transcriptions"
       transcribe: Transcribe
       transcribe-random-page: "Transcribe Random Page"
-  metadata: ""
+  metadata: 
   my-profile: "My Profile"
   my-transcriptions: "My Transcriptions"
-  name: ""
-  new: ""
-  new-custom-page: ""
-  new-field: ""
-  new-field-value: ""
+  name: 
+  new: 
+  new-custom-page: 
+  new-field: 
+  new-field-value: 
   new-transcription: "New Transcription"
-  no-metadata: ""
+  no-metadata: 
   no-pages-transcribed-yet: "No pages transcribed yet"
-  none: ""
-  observation-date: ""
-  observations-expected: ""
+  none: 
+  observation-date: 
+  observations-expected: 
   page: Page
-  page-body: ""
-  page-link: ""
+  page-body: 
+  page-link: 
   page-metadata: 
-    creation-success: ""
+    creation-success: 
     form: 
       labels: 
         date: "Observation Date"
@@ -458,712 +458,712 @@ en:
       day-number: "Day %{number}"
       main: "Confirm Page Metadata Before Transcribing"
     update-success: "Page metadata successfully updated"
-  page-number: ""
+  page-number: 
   page-schema: "Page Schema"
   page-schemas: "Page Schemas"
   page-title: "Page Title"
   page-type: "Page Type"
   page-types: "Page Types"
   pages: Pages
-  pages-uploaded: ""
-  parent-page: ""
-  path: ""
-  register: ""
-  sample-page: ""
-  save: ""
-  schema: ""
-  sign-in-count: ""
+  pages-uploaded: 
+  parent-page: 
+  path: 
+  register: 
+  sample-page: 
+  save: 
+  schema: 
+  sign-in-count: 
   sign-up: "Sign Up"
-  signed-up-on: ""
+  signed-up-on: 
   simple_form: 
     hints: 
       content_image: 
         edit: 
-          image: ""
-          name: ""
-        image: ""
-        name: ""
+          image: 
+          name: 
+        image: 
+        name: 
         new: 
-          image: ""
-          name: ""
+          image: 
+          name: 
       defaults: 
-        accession_number: ""
-        admin: ""
-        avatar: ""
-        bio: ""
-        body: ""
-        description: ""
-        display_name: ""
+        accession_number: 
+        admin: 
+        avatar: 
+        bio: 
+        body: 
+        description: 
+        display_name: 
         edit: 
-          accession_number: ""
-          admin: ""
-          avatar: ""
-          bio: ""
-          body: ""
-          description: ""
-          display_name: ""
-          field_key: ""
-          foreign_link: ""
-          full_name: ""
-          help: ""
-          image: ""
-          internal_name: ""
-          ledger: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          name: ""
-          number: ""
-          page_type: ""
-          password_confirmation: ""
-          position: ""
-          show_in_footer: ""
-          show_in_header: ""
-          show_in_sidebar: ""
-          show_in_transcriber: ""
-          slug: ""
-          text_symbol: ""
-          title: ""
-          title_as_header: ""
-          value: ""
-          visible: ""
-        email: ""
-        field_key: ""
-        foreign_link: ""
-        full_name: ""
-        help: ""
-        image: ""
-        internal_name: ""
-        ledger: ""
-        meta_description: ""
-        meta_keywords: ""
-        meta_title: ""
-        name: ""
+          accession_number: 
+          admin: 
+          avatar: 
+          bio: 
+          body: 
+          description: 
+          display_name: 
+          field_key: 
+          foreign_link: 
+          full_name: 
+          help: 
+          image: 
+          internal_name: 
+          ledger: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          name: 
+          number: 
+          page_type: 
+          password_confirmation: 
+          position: 
+          show_in_footer: 
+          show_in_header: 
+          show_in_sidebar: 
+          show_in_transcriber: 
+          slug: 
+          text_symbol: 
+          title: 
+          title_as_header: 
+          value: 
+          visible: 
+        email: 
+        field_key: 
+        foreign_link: 
+        full_name: 
+        help: 
+        image: 
+        internal_name: 
+        ledger: 
+        meta_description: 
+        meta_keywords: 
+        meta_title: 
+        name: 
         new: 
-          avatar: ""
-          bio: ""
-          body: ""
-          display_name: ""
-          email: ""
-          field_key: ""
-          foreign_link: ""
-          full_name: ""
-          help: ""
-          image: ""
-          internal_name: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          name: ""
-          password: ""
-          password_confirmation: ""
-          position: ""
-          remember_me: ""
-          show_in_footer: ""
-          show_in_header: ""
-          show_in_transcriber: ""
-          slug: ""
-          text_symbol: ""
-          title: ""
-          title_as_header: ""
-          value: ""
-          visible: ""
-        number: ""
-        page_type: ""
-        password: ""
-        password_confirmation: ""
-        position: ""
-        remember_me: ""
-        show_in_footer: ""
-        show_in_header: ""
-        show_in_sidebar: ""
-        show_in_transcriber: ""
-        slug: ""
-        text_symbol: ""
-        title: ""
-        title_as_header: ""
-        value: ""
-        visible: ""
+          avatar: 
+          bio: 
+          body: 
+          display_name: 
+          email: 
+          field_key: 
+          foreign_link: 
+          full_name: 
+          help: 
+          image: 
+          internal_name: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          name: 
+          password: 
+          password_confirmation: 
+          position: 
+          remember_me: 
+          show_in_footer: 
+          show_in_header: 
+          show_in_transcriber: 
+          slug: 
+          text_symbol: 
+          title: 
+          title_as_header: 
+          value: 
+          visible: 
+        number: 
+        page_type: 
+        password: 
+        password_confirmation: 
+        position: 
+        remember_me: 
+        show_in_footer: 
+        show_in_header: 
+        show_in_sidebar: 
+        show_in_transcriber: 
+        slug: 
+        text_symbol: 
+        title: 
+        title_as_header: 
+        value: 
+        visible: 
       field: 
         edit: 
-          field_key: ""
-          full_name: ""
-          help: ""
-          name: ""
-        field_key: ""
-        full_name: ""
-        help: ""
-        name: ""
+          field_key: 
+          full_name: 
+          help: 
+          name: 
+        field_key: 
+        full_name: 
+        help: 
+        name: 
         new: 
-          field_key: ""
-          full_name: ""
-          help: ""
-          name: ""
+          field_key: 
+          full_name: 
+          help: 
+          name: 
       field_group: 
-        display_name: ""
+        display_name: 
         edit: 
-          display_name: ""
-          help: ""
-          internal_name: ""
-          name: ""
-        help: ""
-        internal_name: ""
-        name: ""
+          display_name: 
+          help: 
+          internal_name: 
+          name: 
+        help: 
+        internal_name: 
+        name: 
         new: 
-          display_name: ""
-          help: ""
-          internal_name: ""
-          name: ""
+          display_name: 
+          help: 
+          internal_name: 
+          name: 
       field_option: 
         edit: 
-          help: ""
-          image: ""
-          internal_name: ""
-          name: ""
-          text_symbol: ""
-          value: ""
-        help: ""
-        image: ""
-        internal_name: ""
-        name: ""
+          help: 
+          image: 
+          internal_name: 
+          name: 
+          text_symbol: 
+          value: 
+        help: 
+        image: 
+        internal_name: 
+        name: 
         new: 
-          help: ""
-          image: ""
-          internal_name: ""
-          name: ""
-          text_symbol: ""
-          value: ""
-        text_symbol: ""
-        value: ""
+          help: 
+          image: 
+          internal_name: 
+          name: 
+          text_symbol: 
+          value: 
+        text_symbol: 
+        value: 
       page: 
-        accession_number: ""
+        accession_number: 
         edit: 
-          accession_number: ""
-          image: ""
-          page_type: ""
-          title: ""
-          visible: ""
-        image: ""
-        page_type: ""
-        title: ""
-        visible: ""
+          accession_number: 
+          image: 
+          page_type: 
+          title: 
+          visible: 
+        image: 
+        page_type: 
+        title: 
+        visible: 
       page_type: 
-        description: ""
+        description: 
         edit: 
-          description: ""
-          ledger: ""
-          number: ""
-          title: ""
-          visible: ""
-        ledger: ""
-        number: ""
-        title: ""
-        visible: ""
+          description: 
+          ledger: 
+          number: 
+          title: 
+          visible: 
+        ledger: 
+        number: 
+        title: 
+        visible: 
       static_page: 
-        body: ""
+        body: 
         edit: 
-          body: ""
-          foreign_link: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          position: ""
-          show_in_footer: ""
-          show_in_header: ""
-          show_in_sidebar: ""
-          show_in_transcriber: ""
-          slug: ""
-          title: ""
-          title_as_header: ""
-          visible: ""
-        foreign_link: ""
-        meta_description: ""
-        meta_keywords: ""
-        meta_title: ""
+          body: 
+          foreign_link: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          position: 
+          show_in_footer: 
+          show_in_header: 
+          show_in_sidebar: 
+          show_in_transcriber: 
+          slug: 
+          title: 
+          title_as_header: 
+          visible: 
+        foreign_link: 
+        meta_description: 
+        meta_keywords: 
+        meta_title: 
         new: 
-          body: ""
-          foreign_link: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          position: ""
-          show_in_footer: ""
-          show_in_header: ""
-          show_in_transcriber: ""
-          slug: ""
-          title: ""
-          title_as_header: ""
-          visible: ""
-        position: ""
-        show_in_footer: ""
-        show_in_header: ""
-        show_in_sidebar: ""
-        show_in_transcriber: ""
-        slug: ""
-        title: ""
-        title_as_header: ""
-        visible: ""
+          body: 
+          foreign_link: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          position: 
+          show_in_footer: 
+          show_in_header: 
+          show_in_transcriber: 
+          slug: 
+          title: 
+          title_as_header: 
+          visible: 
+        position: 
+        show_in_footer: 
+        show_in_header: 
+        show_in_sidebar: 
+        show_in_transcriber: 
+        slug: 
+        title: 
+        title_as_header: 
+        visible: 
       user: 
-        admin: ""
-        avatar: ""
-        bio: ""
-        display_name: ""
+        admin: 
+        avatar: 
+        bio: 
+        display_name: 
         edit: 
-          admin: ""
-          avatar: ""
-          bio: ""
-          display_name: ""
-          password_confirmation: ""
-        email: ""
+          admin: 
+          avatar: 
+          bio: 
+          display_name: 
+          password_confirmation: 
+        email: 
         new: 
-          avatar: ""
-          bio: ""
-          display_name: ""
-          email: ""
+          avatar: 
+          bio: 
+          display_name: 
+          email: 
           password: "8 characters minimum"
-          password_confirmation: ""
-          remember_me: ""
-        password: ""
-        password_confirmation: ""
-        remember_me: ""
+          password_confirmation: 
+          remember_me: 
+        password: 
+        password_confirmation: 
+        remember_me: 
     labels: 
       content_image: 
         edit: 
-          image: ""
-          name: ""
-        image: ""
-        name: ""
+          image: 
+          name: 
+        image: 
+        name: 
         new: 
-          image: ""
-          name: ""
+          image: 
+          name: 
       defaults: 
-        Colour: ""
+        Colour: 
         ? "Display this when selected"
-        : ""
-        accession_number: ""
-        admin: ""
-        avatar: ""
-        bio: ""
-        body: ""
-        data_type: ""
-        description: ""
-        display_name: ""
+        : 
+        accession_number: 
+        admin: 
+        avatar: 
+        bio: 
+        body: 
+        data_type: 
+        description: 
+        display_name: 
         edit: 
-          Colour: ""
+          Colour: 
           ? "Display this when selected"
-          : ""
-          accession_number: ""
-          admin: ""
-          avatar: ""
-          bio: ""
-          body: ""
-          data_type: ""
-          description: ""
-          display_name: ""
-          field_key: ""
-          foreign_link: ""
-          full_name: ""
-          help: ""
-          html_field_type: ""
-          image: ""
-          internal_name: ""
-          ledger: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          name: ""
-          number: ""
-          page_type: ""
-          position: ""
-          show_in_footer: ""
-          show_in_header: ""
-          show_in_transcriber: ""
-          slug: ""
-          title: ""
-          title_as_header: ""
-          visible: ""
-        email: ""
-        field_key: ""
-        foreign_link: ""
-        full_name: ""
-        help: ""
-        html_field_type: ""
-        image: ""
-        internal_name: ""
-        ledger: ""
-        meta_description: ""
-        meta_keywords: ""
-        meta_title: ""
-        name: ""
+          : 
+          accession_number: 
+          admin: 
+          avatar: 
+          bio: 
+          body: 
+          data_type: 
+          description: 
+          display_name: 
+          field_key: 
+          foreign_link: 
+          full_name: 
+          help: 
+          html_field_type: 
+          image: 
+          internal_name: 
+          ledger: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          name: 
+          number: 
+          page_type: 
+          position: 
+          show_in_footer: 
+          show_in_header: 
+          show_in_transcriber: 
+          slug: 
+          title: 
+          title_as_header: 
+          visible: 
+        email: 
+        field_key: 
+        foreign_link: 
+        full_name: 
+        help: 
+        html_field_type: 
+        image: 
+        internal_name: 
+        ledger: 
+        meta_description: 
+        meta_keywords: 
+        meta_title: 
+        name: 
         new: 
-          Colour: ""
+          Colour: 
           ? "Display this when selected"
-          : ""
-          avatar: ""
-          bio: ""
-          data_type: ""
-          display_name: ""
-          email: ""
-          field_key: ""
-          full_name: ""
-          help: ""
-          html_field_type: ""
-          image: ""
-          internal_name: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          name: ""
-          password: ""
-          password_confirmation: ""
-          remember_me: ""
-          show_in_footer: ""
-          show_in_header: ""
-          show_in_transcriber: ""
-          title_as_header: ""
-          visible: ""
-        number: ""
-        page_type: ""
-        password: ""
-        password_confirmation: ""
-        position: ""
-        remember_me: ""
-        show_in_footer: ""
-        show_in_header: ""
-        show_in_transcriber: ""
-        slug: ""
-        title: ""
-        title_as_header: ""
-        visible: ""
+          : 
+          avatar: 
+          bio: 
+          data_type: 
+          display_name: 
+          email: 
+          field_key: 
+          full_name: 
+          help: 
+          html_field_type: 
+          image: 
+          internal_name: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          name: 
+          password: 
+          password_confirmation: 
+          remember_me: 
+          show_in_footer: 
+          show_in_header: 
+          show_in_transcriber: 
+          title_as_header: 
+          visible: 
+        number: 
+        page_type: 
+        password: 
+        password_confirmation: 
+        position: 
+        remember_me: 
+        show_in_footer: 
+        show_in_header: 
+        show_in_transcriber: 
+        slug: 
+        title: 
+        title_as_header: 
+        visible: 
       field: 
-        data_type: ""
+        data_type: 
         edit: 
-          data_type: ""
-          field_key: ""
-          full_name: ""
-          help: ""
-          html_field_type: ""
-        field_key: ""
-        full_name: ""
-        help: ""
-        html_field_type: ""
+          data_type: 
+          field_key: 
+          full_name: 
+          help: 
+          html_field_type: 
+        field_key: 
+        full_name: 
+        help: 
+        html_field_type: 
         new: 
-          data_type: ""
-          field_key: ""
-          full_name: ""
-          help: ""
-          html_field_type: ""
+          data_type: 
+          field_key: 
+          full_name: 
+          help: 
+          html_field_type: 
       field_group: 
-        Colour: ""
-        display_name: ""
+        Colour: 
+        display_name: 
         edit: 
-          Colour: ""
-          display_name: ""
-          help: ""
-          internal_name: ""
-          name: ""
-        help: ""
-        internal_name: ""
-        name: ""
+          Colour: 
+          display_name: 
+          help: 
+          internal_name: 
+          name: 
+        help: 
+        internal_name: 
+        name: 
         new: 
-          Colour: ""
-          display_name: ""
-          help: ""
-          internal_name: ""
-          name: ""
+          Colour: 
+          display_name: 
+          help: 
+          internal_name: 
+          name: 
       field_option: 
         ? "Display this when selected"
-        : ""
+        : 
         edit: 
           ? "Display this when selected"
-          : ""
-          help: ""
-          image: ""
-        help: ""
-        image: ""
+          : 
+          help: 
+          image: 
+        help: 
+        image: 
         new: 
           ? "Display this when selected"
-          : ""
-          help: ""
-          image: ""
+          : 
+          help: 
+          image: 
       page: 
-        accession_number: ""
+        accession_number: 
         edit: 
-          accession_number: ""
-          image: ""
-          page_type: ""
-          title: ""
-          visible: ""
-        image: ""
-        page_type: ""
-        title: ""
-        visible: ""
+          accession_number: 
+          image: 
+          page_type: 
+          title: 
+          visible: 
+        image: 
+        page_type: 
+        title: 
+        visible: 
       page_type: 
-        description: ""
+        description: 
         edit: 
-          description: ""
-          ledger: ""
-          number: ""
-          title: ""
-          visible: ""
-        ledger: ""
-        number: ""
-        title: ""
-        visible: ""
+          description: 
+          ledger: 
+          number: 
+          title: 
+          visible: 
+        ledger: 
+        number: 
+        title: 
+        visible: 
       static_page: 
-        body: ""
+        body: 
         edit: 
-          body: ""
-          foreign_link: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          position: ""
-          show_in_footer: ""
-          show_in_header: ""
-          show_in_transcriber: ""
-          slug: ""
-          title: ""
-          title_as_header: ""
-          visible: ""
-        foreign_link: ""
-        meta_description: ""
-        meta_keywords: ""
-        meta_title: ""
+          body: 
+          foreign_link: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          position: 
+          show_in_footer: 
+          show_in_header: 
+          show_in_transcriber: 
+          slug: 
+          title: 
+          title_as_header: 
+          visible: 
+        foreign_link: 
+        meta_description: 
+        meta_keywords: 
+        meta_title: 
         new: 
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          show_in_footer: ""
-          show_in_header: ""
-          show_in_transcriber: ""
-          title_as_header: ""
-          visible: ""
-        position: ""
-        show_in_footer: ""
-        show_in_header: ""
-        show_in_transcriber: ""
-        slug: ""
-        title: ""
-        title_as_header: ""
-        visible: ""
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          show_in_footer: 
+          show_in_header: 
+          show_in_transcriber: 
+          title_as_header: 
+          visible: 
+        position: 
+        show_in_footer: 
+        show_in_header: 
+        show_in_transcriber: 
+        slug: 
+        title: 
+        title_as_header: 
+        visible: 
       user: 
-        admin: ""
-        avatar: ""
-        bio: ""
-        display_name: ""
+        admin: 
+        avatar: 
+        bio: 
+        display_name: 
         edit: 
-          admin: ""
-          avatar: ""
-          bio: ""
-          display_name: ""
-        email: ""
+          admin: 
+          avatar: 
+          bio: 
+          display_name: 
+        email: 
         new: 
-          avatar: ""
-          bio: ""
-          display_name: ""
-          email: ""
-          password: ""
-          password_confirmation: ""
-          remember_me: ""
-        password: ""
-        password_confirmation: ""
-        remember_me: ""
+          avatar: 
+          bio: 
+          display_name: 
+          email: 
+          password: 
+          password_confirmation: 
+          remember_me: 
+        password: 
+        password_confirmation: 
+        remember_me: 
     placeholders: 
       content_image: 
         edit: 
-          name: ""
-        name: ""
+          name: 
+        name: 
         new: 
-          name: ""
+          name: 
       defaults: 
-        accession_number: ""
-        bio: ""
-        body: ""
-        description: ""
-        display_name: ""
+        accession_number: 
+        bio: 
+        body: 
+        description: 
+        display_name: 
         edit: 
-          accession_number: ""
-          bio: ""
-          body: ""
-          description: ""
-          display_name: ""
-          field_key: ""
-          foreign_link: ""
-          full_name: ""
-          help: ""
-          internal_name: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          name: ""
-          number: ""
-          password: ""
-          password_confirmation: ""
-          position: ""
-          slug: ""
-          text_symbol: ""
-          title: ""
-          value: ""
-        email: ""
-        field_key: ""
-        foreign_link: ""
-        full_name: ""
-        help: ""
-        internal_name: ""
-        meta_description: ""
-        meta_keywords: ""
-        meta_title: ""
-        name: ""
+          accession_number: 
+          bio: 
+          body: 
+          description: 
+          display_name: 
+          field_key: 
+          foreign_link: 
+          full_name: 
+          help: 
+          internal_name: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          name: 
+          number: 
+          password: 
+          password_confirmation: 
+          position: 
+          slug: 
+          text_symbol: 
+          title: 
+          value: 
+        email: 
+        field_key: 
+        foreign_link: 
+        full_name: 
+        help: 
+        internal_name: 
+        meta_description: 
+        meta_keywords: 
+        meta_title: 
+        name: 
         new: 
-          bio: ""
-          body: ""
-          display_name: ""
-          email: ""
-          field_key: ""
-          foreign_link: ""
-          full_name: ""
-          help: ""
-          internal_name: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          name: ""
-          password: ""
-          password_confirmation: ""
-          position: ""
-          slug: ""
-          text_symbol: ""
-          title: ""
-          value: ""
-        number: ""
-        password: ""
-        password_confirmation: ""
-        position: ""
-        slug: ""
-        text_symbol: ""
-        title: ""
-        value: ""
+          bio: 
+          body: 
+          display_name: 
+          email: 
+          field_key: 
+          foreign_link: 
+          full_name: 
+          help: 
+          internal_name: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          name: 
+          password: 
+          password_confirmation: 
+          position: 
+          slug: 
+          text_symbol: 
+          title: 
+          value: 
+        number: 
+        password: 
+        password_confirmation: 
+        position: 
+        slug: 
+        text_symbol: 
+        title: 
+        value: 
       field: 
         edit: 
-          field_key: ""
-          full_name: ""
-          help: ""
-          name: ""
-        field_key: ""
-        full_name: ""
-        help: ""
-        name: ""
+          field_key: 
+          full_name: 
+          help: 
+          name: 
+        field_key: 
+        full_name: 
+        help: 
+        name: 
         new: 
-          field_key: ""
-          full_name: ""
-          help: ""
-          name: ""
+          field_key: 
+          full_name: 
+          help: 
+          name: 
       field_group: 
-        display_name: ""
+        display_name: 
         edit: 
-          display_name: ""
-          help: ""
-          internal_name: ""
-          name: ""
-        help: ""
-        internal_name: ""
-        name: ""
+          display_name: 
+          help: 
+          internal_name: 
+          name: 
+        help: 
+        internal_name: 
+        name: 
         new: 
-          display_name: ""
-          help: ""
-          internal_name: ""
-          name: ""
+          display_name: 
+          help: 
+          internal_name: 
+          name: 
       field_option: 
         edit: 
-          help: ""
-          internal_name: ""
-          name: ""
-          text_symbol: ""
-          value: ""
-        help: ""
-        internal_name: ""
-        name: ""
+          help: 
+          internal_name: 
+          name: 
+          text_symbol: 
+          value: 
+        help: 
+        internal_name: 
+        name: 
         new: 
-          help: ""
-          internal_name: ""
-          name: ""
-          text_symbol: ""
-          value: ""
-        text_symbol: ""
-        value: ""
+          help: 
+          internal_name: 
+          name: 
+          text_symbol: 
+          value: 
+        text_symbol: 
+        value: 
       page: 
-        accession_number: ""
+        accession_number: 
         edit: 
-          accession_number: ""
-          title: ""
-        title: ""
+          accession_number: 
+          title: 
+        title: 
       page_type: 
-        description: ""
+        description: 
         edit: 
-          description: ""
-          number: ""
-          title: ""
-        number: ""
-        title: ""
+          description: 
+          number: 
+          title: 
+        number: 
+        title: 
       static_page: 
-        body: ""
+        body: 
         edit: 
-          body: ""
-          foreign_link: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          position: ""
-          slug: ""
-          title: ""
-        foreign_link: ""
-        meta_description: ""
-        meta_keywords: ""
-        meta_title: ""
+          body: 
+          foreign_link: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          position: 
+          slug: 
+          title: 
+        foreign_link: 
+        meta_description: 
+        meta_keywords: 
+        meta_title: 
         new: 
-          body: ""
-          foreign_link: ""
-          meta_description: ""
-          meta_keywords: ""
-          meta_title: ""
-          position: ""
-          slug: ""
-          title: ""
-        position: ""
-        slug: ""
-        title: ""
+          body: 
+          foreign_link: 
+          meta_description: 
+          meta_keywords: 
+          meta_title: 
+          position: 
+          slug: 
+          title: 
+        position: 
+        slug: 
+        title: 
       user: 
-        bio: ""
-        display_name: ""
+        bio: 
+        display_name: 
         edit: 
-          bio: ""
-          display_name: ""
-          password: ""
-          password_confirmation: ""
-        email: ""
+          bio: 
+          display_name: 
+          password: 
+          password_confirmation: 
+        email: 
         new: 
-          bio: ""
-          display_name: ""
-          email: ""
-          password: ""
-          password_confirmation: ""
-        password: ""
-        password_confirmation: ""
+          bio: 
+          display_name: 
+          email: 
+          password: 
+          password_confirmation: 
+        password: 
+        password_confirmation: 
     required: 
-      html: ""
-  sort-order: ""
+      html: 
+  sort-order: 
   start-transcribing: "Start Transcribing"
-  start_file_transfer: ""
-  started-at: ""
-  stored-value: ""
-  take-a-break: ""
-  text-symbol: ""
-  title: ""
+  start_file_transfer: 
+  started-at: 
+  stored-value: 
+  take-a-break: 
+  text-symbol: 
+  title: 
   to: to
   transcribe: Transcribe
   transcribe-random-page: "Transcribe a random page"
-  transcribe-this-page: ""
+  transcribe-this-page: 
   transcriber: 
     annotation-box-instructions-modal: 
       btn-labels: 
@@ -1214,13 +1214,13 @@ en:
     templates: 
       page-image: 
         actions: 
-          reset-position-btn-label: ""
+          reset-position-btn-label: 
     toolbar: 
-      feedback: ""
+      feedback: 
       hide-data: "Hide transcription data"
       open-transcriber: "Open transcriber panel"
       stop-transcribing: "Stop transcribing"
-      tutorial: ""
+      tutorial: 
       view-data: "Show transcription data"
     transcription-box-template: 
       form: 
@@ -1231,18 +1231,18 @@ en:
             datetime: "Date and time"
         help: 
           fields: 
-            datetime: ""
+            datetime: 
         labels: 
           fields: 
-            datetime: ""
+            datetime: 
         submit-btn-text: Save
       initial-prompt: "Click one of the above tabs to begin transcribing"
-  transcription: ""
+  transcription: 
   transcription-saved-msg: "Transcription saved successfully"
   transcriptions: 
     data-table: 
       header: 
-        data-collected: ""
+        data-collected: 
     table: 
       header-labels: 
         fields-total: "Fields Total"
@@ -1258,23 +1258,23 @@ en:
         user: User
       tooltips: 
         view-page-details: "Show page details"
-  unique-key: ""
-  unique-rows: ""
-  unique-rows-expected: ""
-  upload-a-photo: ""
-  upload-pages: ""
-  upload-pages-help-text: ""
-  uploaded-pages: ""
-  user: ""
-  user-name: ""
-  user-observations: ""
+  unique-key: 
+  unique-rows: 
+  unique-rows-expected: 
+  upload-a-photo: 
+  upload-pages: 
+  upload-pages-help-text: 
+  uploaded-pages: 
+  user: 
+  user-name: 
+  user-observations: 
   users: Users
-  value: ""
-  view-all-field-groups: ""
-  view-all-fields: ""
-  view-all-pages: ""
+  value: 
+  view-all-field-groups: 
+  view-all-fields: 
+  view-all-pages: 
   view-details: "View details"
   view-list-of-pages-to-transcribe: "View all transcribable pages"
-  visible: ""
+  visible: 
   what-is-draw: "What is DRAW?"
-  width: ""
+  width: 
