@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  Paperclip.interpolates :image_file_name do |attachment, style|
+  Paperclip.interpolates :avatar_file_name do |attachment, style|
     attachment.instance.avatar_file_name
   end
   has_many :transcriptions
