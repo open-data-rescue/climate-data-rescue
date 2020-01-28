@@ -16,4 +16,8 @@ test:
   <<: *default
   database: draw_test
 
+production:
+  <<: *default
+  database: draw_production
+
 

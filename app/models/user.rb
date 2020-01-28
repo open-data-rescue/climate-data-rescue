@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  Paperclip.interpolates :image_file_name do |attachment, style|
+    attachment.instance.avatar_file_name
+  end
   has_many :transcriptions
   has_many :annotations, through: :transcriptions
   has_many :data_entries
@@ -28,8 +31,7 @@ class User < ApplicationRecord
     :retina   => '-set colorspace sRGB -strip -sharpen 0x0.5'
   },
   default_style: :thumb,
-  url: "/system/:attachment/:style/:hash.:extension",
-  hash_secret: "SECRET"
+  url: "/:class/:style/:image_file_name.:extension"
 
   
   validates_attachment :avatar,
