@@ -2,9 +2,9 @@
 - provide(:transcriptions, "active")
 - provide(:admin, "active")
 
-- provide(:title, strip_tags(t('transcriptions')))
+- provide(:title, strip_tags('transcriptions'))
 
-h1 = t('transcriptions')
+h1 = 'transcriptions'
 /! Load a list of all transcriptions into a table with their attribute info, including which page they relate to. Table rows are each transcription, table columns are self explanitory.
 = render 'transcriptions/transcriptions_table', transcriptions: @transcriptions
 

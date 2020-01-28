@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_01_204101) do
+ActiveRecord::Schema.define(version: 2020_01_28_013758) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -233,17 +233,6 @@ ActiveRecord::Schema.define(version: 2019_10_01_204101) do
     t.datetime "updated_at"
     t.boolean "complete", default: false, null: false
     t.index ["user_id", "page_id"], name: "user_page", unique: true
-  end
-
-  create_table "translations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "locale"
-    t.string "key"
-    t.text "value"
-    t.text "interpolations"
-    t.boolean "is_proc", default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean "stale", default: false
   end
 
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
