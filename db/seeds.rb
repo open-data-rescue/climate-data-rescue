@@ -10,7 +10,8 @@ unless User.any?
     password: 'password',
     password_confirmation: 'password',
     display_name: 'Administrator',
-    admin: true
+    admin: true,
+    confirmed_at: DateTime.current
   )
 end
 

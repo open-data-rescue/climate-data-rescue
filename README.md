@@ -148,10 +148,10 @@ Requirements:
 After you finish creating the Recaptcha site, you will be presented with a confirmation screen containing your site key and secret key. Copy and paste each into their appropriate place in the ENV file the same way you added the secret key base and secret token above.
 
 ### Database Setup
-(If you are a Mac user please run `docker compose run app bundle exec rails db:create` before executing the following three commands. 
 Run all of the following commands to create the databases, load the application schema, and initialize with the seed data:
 
 ```bash
+docker-compose run app rake db:create
 docker-compose run app bin/rails db:environment:set RAILS_ENV=development
 docker-compose run app bin/rails db:environment:set RAILS_ENV=test
 docker-compose run app rake db:setup
