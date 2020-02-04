@@ -3,7 +3,7 @@
 
 server 'citsci.geog.mcgill.ca', port: 22, roles: [:web, :app, :db], primary: true
 
-set :repo_url,        'git@gitlab.com:open-archives-data-rescue/climate-data-rescue.git'
+set :repo_url,        'git@github.com:open-data-rescue/climate-data-rescue.git'
 set :user,            'deployer'
 set :puma_threads,    [4, 16]
 set :puma_workers,    2
