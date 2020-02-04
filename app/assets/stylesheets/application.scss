@@ -103,13 +103,6 @@ a {
   }
 }
 
-.footer {
-    background:#ffffff;
-    min-height:200px;
-    width: 100%;
-    bottom: 0;
-}
-
 .btn-signup:link {color:white}
 .btn-signup:active {color:white}
 .btn-signup:visited {color:white}
@@ -122,6 +115,12 @@ a {
 
 .partner-logo {
   width: 100%;
+}
+
+.footer {
+  width: 100%;
+  bottom: 0;
+  position: fixed;
 }
 
 .footer-copyright {
@@ -146,6 +145,33 @@ a {
   small {
     color: #A94442;
   }
+}
+
+.draw-footer-nav-container {
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+    border-radius: 0;
+    background: rgba(0,0,0,1);
+    border-color: transparent;
+    color: white;
+
+    .footer-copyright {
+        margin: 10px 0;
+    }
+
+    > div {
+      display: block;
+      text-align: center;
+    }
+
+    .navbar-nav > li > a, .navbar-header a {
+        color: white;
+    }
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+  color: $accent-color;
 }
 
 .hidden {
@@ -241,37 +267,13 @@ a {
   }
 }
 
-.draw-footer-nav-container {
-    display: block;
-    width: 100%;
-    margin-bottom: 0;
-    background: rgba(0,0,0,0.8);
-    border-color: transparent;
-    color: white;
-
-    .footer-copyright {
-        margin: 10px 0;
-    }
-
-    > div {
-      display: block;
-      text-align: center;
-    }
-
-    .navbar-nav > li > a, .navbar-header a {
-        color: white;
-    }
-}
-
 .draw-top-nav {
-    background: rgba(0,0,0,0.8);
-    border-color: transparent;
+  background: rgba(0,0,0,1);
+  border-color: transparent;
 
-    .navbar-nav > li > a, .navbar-header a {
-        color: white;
-    }
-
-
+  .navbar-nav > li > a, .navbar-header a {
+      color: white;
+  }
 }
 
 .navbar-nav > li > a {
