@@ -31,7 +31,9 @@ class Page < ApplicationRecord
   
   #sets a scope for all transcribable pages to be those that are not done
   scope :transcribeable, -> { 
-    joins(page_type: :field_groups).
+    joins(page_type: {
+      field_groups: :fields
+    }).
     where(
       done: false, visible: true, 
       page_types: { visible: true }

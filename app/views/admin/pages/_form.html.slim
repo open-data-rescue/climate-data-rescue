@@ -9,7 +9,8 @@
   = f.error_notification
   = f.association :page_type, include_blank: false
   .form-inputs
-    = f.input :visible
+    = f.input :visible, label: t('pages.visible-to-transcribers')
+    = f.input :done, label: t('pages.mark-as-completed')
     = f.input :title
     = f.input :accession_number
     = f.input :image, as: :file

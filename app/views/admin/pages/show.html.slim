@@ -21,6 +21,8 @@ div.table-responsive
         th = t('height')
         th = t('width')
         th = t('accession-number')
+        th = t('pages.visible-to-transcribers')
+        th = t('pages.page-completed')
 
     tbody
       
@@ -30,6 +32,8 @@ div.table-responsive
         td = @page.height
         td = @page.width
         td = @page.accession_number
+        td = @page.visible ? content_tag(:i, '', class: 'fa fa-eye') : ''
+        td = @page.done ? content_tag(:i, '', class: 'fa fa-check') : ''
 
 
 .voffset20

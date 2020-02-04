@@ -1243,6 +1243,7 @@ en:
     data-table: 
       header: 
         data-collected: 
+    marked-complete: Marked complete
     table: 
       header-labels: 
         fields-total: "Fields Total"
