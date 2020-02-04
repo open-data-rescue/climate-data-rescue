@@ -44,8 +44,8 @@
           td
             - if transcription.complete
               i.fa.fa-check style="color: green;"
-          td = l(transcription.created_at, format: :short)
-          td = l(transcription.updated_at, format: :short)
+          td = l(transcription.created_at, format: :long)
+          td = l(transcription.updated_at, format: :long)
           - if current_user.admin?
             td = link_to transcription.page_type.title, admin_page_type_path(transcription.page_type)
             td = link_to(transcription.user.name, user_path(transcription.user))

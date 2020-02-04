@@ -7,7 +7,7 @@ module Admin
     # GET /pages
     # GET /pages.json
     def index
-      @pages = Page.all
+      @pages = Page.joins(:page_type).includes(:page_days, transcriptions: [:user]).all
 
       respond_to do |format|
         format.html # index.html.erb
@@ -149,7 +149,7 @@ module Admin
     def page_params
       params.require(:page).permit(:height, :order, :width, :page_type_id, :image, 
         :title, :accession_number, :start_date, :start_date, :page_type, :volume,
-        :visible)
+        :visible, :done)
     end
   end
 end
