@@ -44,16 +44,16 @@ h3.boffset20
             td = l(page.created_at, format: :long)
             td
               - if page.transcriptions.any?
-                - page.transcriptions.each do |t|
-                  = link_to(admin_transcription_path(t)) do
-                    = "#{t.user.display_name}"
-                    =" (#{number_to_percentage(t.percent_complete, precision: 0)})"
-                    br
-                    = "#{time_ago_in_words(t.updated_at)}"
-                    - if t.complete
+                - page.transcriptions.order("updated_at DESC").each do |t|
+                  .page-transcription
+                    = link_to(admin_transcription_path(t)) do
+                      = "#{t.user.display_name}"
+                      =" (#{number_to_percentage(t.percent_complete, precision: 0)})"
                       br
-                        i.fa.fa-check style="color: green;" title=t('transcriptions.marked-complete') data-toggle="tooltip" data-placement="right"
-                  br
+                      = "#{time_ago_in_words(t.updated_at)}"
+                      - if t.complete
+                        br
+                          i.fa.fa-check style="color: green;" title=t('transcriptions.marked-complete') data-toggle="tooltip" data-placement="right"
               - else
                 = 0
             td = content_tag(:i, '', class: 'fa fa-eye') if page.visible
