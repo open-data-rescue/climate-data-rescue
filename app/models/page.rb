@@ -6,6 +6,8 @@ class Page < ApplicationRecord
   has_many :transcriptions, dependent: :destroy  
   has_many :page_days, dependent: :destroy
   has_many :data_entries, dependent: :destroy
+  has_one :page_info, dependent: :destroy
+  
 
   #handles the image upload association
   has_attached_file :image,
@@ -28,13 +30,11 @@ class Page < ApplicationRecord
   
   #sets a scope for all transcribable pages to be those that are not done
   scope :transcribeable, -> { 
-    joins(page_type: {
-      field_groups: :fields
-    }).
+    joins(page_type: :field_groups).
     where(
       done: false, visible: true, 
       page_types: { visible: true }
-    ).order("pages.start_date asc, page_types.number asc").distinct
+    ).order("pages.start_date asc").distinct
   }
 
   scope :unseen, -> (user) {
@@ -45,6 +45,10 @@ class Page < ApplicationRecord
 
   def has_metadata?
     page_days.any?
+  end
+
+  def has_page_metadata?
+    page_info ? true : false
   end
 
   def num_rows_expected
@@ -102,9 +106,9 @@ class Page < ApplicationRecord
     ledger_type = components[1]
     volume = components[2]
     start_date = components[3]
-    end_date = components[4]
 
     if components.count == 6
+      end_date = components[4]
       self.accession_number = components[0]
       if ledger_type && volume
         ledger = Ledger.find_or_create_by(ledger_type: ledger_type) do |ledger|
@@ -126,7 +130,29 @@ class Page < ApplicationRecord
       self.end_date = Date.parse(end_date)
       
       self.title = "#{start_date} to #{end_date}"
-    else
+
+    elsif components.count == 5
+
+      self.accession_number = components[0]
+      if ledger_type && volume
+        ledger = Ledger.find_or_create_by(ledger_type: ledger_type) do |ledger|
+          ledger.title = ledger_type
+        end
+      end
+      
+      page_types=components[4].split(".")
+      page_type_num = page_types[0]
+      self.page_type = PageType.find_or_create_by(number: page_type_num, ledger_id: ledger.id) do |page_type|
+      page_type.ledger_type = ledger_type
+      page_type.title = "Register #{ledger_type}, page #{page_type_num}"
+      end
+
+      self.volume = volume
+      self.start_date = Date.parse(start_date)
+      self.end_date = self.start_date.next_month.prev_day
+      self.title = "#{accession_number} - #{start_date} to #{self.end_date}"
+
+      else
       raise "invalid filename"
     end
   end

@@ -20,7 +20,8 @@ class UsersController < ApplicationController
         transcriptions: [
           { 
             page: [
-              :page_days
+              :page_days,
+	      :page_info
             ] 
           },
           :annotations

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_28_013758) do
+ActiveRecord::Schema.define(version: 2020_02_03_142051) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -150,10 +150,37 @@ ActiveRecord::Schema.define(version: 2020_01_28_013758) do
     t.index ["user_id"], name: "by_user"
   end
 
+  create_table "page_infos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "observer"
+    t.string "lat"
+    t.string "lon"
+    t.string "location"
+    t.bigint "page_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "elevation"
+    t.index ["page_id"], name: "index_page_infos_on_page_id"
+    t.index ["user_id"], name: "index_page_infos_on_user_id"
+  end
+
+  create_table "page_metadata", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "observer"
+    t.string "lat"
+    t.string "lon"
+    t.string "location"
+    t.bigint "page_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_page_metadata_on_page_id"
+    t.index ["user_id"], name: "index_page_metadata_on_user_id"
+  end
+
   create_table "page_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.string "ledger_type"
-    t.integer "number"
+    t.string "number"
     t.text "description"
     t.integer "ledger_id"
     t.datetime "created_at"
@@ -233,6 +260,17 @@ ActiveRecord::Schema.define(version: 2020_01_28_013758) do
     t.datetime "updated_at"
     t.boolean "complete", default: false, null: false
     t.index ["user_id", "page_id"], name: "user_page", unique: true
+  end
+
+  create_table "translations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "locale"
+    t.string "key"
+    t.text "value"
+    t.text "interpolations"
+    t.boolean "is_proc", default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean "stale", default: false
   end
 
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|

@@ -74,6 +74,10 @@ Rails.application.routes.draw do
     post 'update' => 'page_days#update'
   end
 
+  scope path: 'page-page_metadata' do
+    post 'create' => 'page_info#create'
+    post 'update' => 'page_info#update'
+  end
   resources :static_pages
   constraints(StaticPage) do
     get ':locale/(*path)', to: 'static_pages#show', as: 'static'
@@ -81,6 +85,8 @@ Rails.application.routes.draw do
 
   # authenticate :user, lambda { |u| u.admin? } do
   #   # mount Sidekiq::Web => '/sidekiq'
+
+  #   mount Interpret::Engine => "/translator"
   # end
 
   devise_scope :user do
