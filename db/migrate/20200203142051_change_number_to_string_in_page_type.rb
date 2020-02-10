@@ -1,5 +1,9 @@
 class ChangeNumberToStringInPageType < ActiveRecord::Migration[5.2]
-  def change
+  def up
 	  change_column :page_types, :number, :string
+  end
+
+  def down
+    change_column :page_types, :number, :integer
   end
 end
