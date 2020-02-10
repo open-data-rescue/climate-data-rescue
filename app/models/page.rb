@@ -48,12 +48,12 @@ class Page < ApplicationRecord
     end
   }
 
-  def has_metadata?
+  def page_days?
     page_days.any?
   end
 
-  def has_page_metadata?
-    page_info ? true : false
+  def page_metadata?
+    page_info.present?
   end
 
   def num_rows_expected
