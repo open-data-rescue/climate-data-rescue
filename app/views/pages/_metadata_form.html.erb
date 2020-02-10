@@ -2,10 +2,10 @@
 <% create_transcription = create_transcription || nil %>
 <% submit_btn_text = submit_btn_text || t('page-metadata.form.labels.submit-btn') %>
 
-<% days = page.has_metadata? ? page.page_days.order(:date) : (page.start_date..page.end_date) %>
-<% page_meta = page.has_page_metadata?  ? page.page_info : nil%>
+<% days = page.page_days? ? page.page_days.order(:date) : (page.start_date..page.end_date) %>
+<% page_meta = page.page_metadata?  ? page.page_info : nil%>
 
-<%= form_tag baseUri + (page.has_page_metadata? ? '/page-page_metadata/update' : "/page-page_metadata/create"), method: "post" do %>
+<%= form_tag baseUri + (page.page_metadata? ? '/page-page_metadata/update' : "/page-page_metadata/create"), method: "post" do %>
    
   <%= hidden_field_tag "page_id", page.id %>
   
@@ -38,7 +38,7 @@
   </div>
 <% end %>
 
-<%= form_tag baseUri + (page.has_metadata? ? '/page-metadata/update' : "/page-metadata/create"), method: "post" do %>
+<%= form_tag baseUri + (page.page_days? ? '/page-metadata/update' : "/page-metadata/create"), method: "post" do %>
   <%= hidden_field_tag "create_transcription", create_transcription %>
   <%= hidden_field_tag "page_id", page.id %>
   <div class="row">

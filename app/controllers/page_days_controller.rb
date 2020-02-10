@@ -7,7 +7,7 @@ class PageDaysController < ApplicationController
         begin
           @page = Page.find params[:page_id]
           
-          if @page && !@page.has_metadata?
+          if @page && !@page.page_days?
             days = params[:days]
             
             days.each do |key, value|
@@ -17,7 +17,7 @@ class PageDaysController < ApplicationController
           
 
           @transcription = nil
-          if @page && @page.has_metadata? && create_transcription?
+          if @page && @page.page_days? && create_transcription?
             @transcription = find_transcription(@page, current_user) || create_transcription(@page, current_user)
           end
 
@@ -49,7 +49,7 @@ class PageDaysController < ApplicationController
         begin
           @page = Page.find params[:page_id]
           
-          if @page && @page.has_metadata?
+          if @page && @page.page_days?
             days = params[:days]
             
             days.each do |key, value|
@@ -66,7 +66,7 @@ class PageDaysController < ApplicationController
           end 
 
           @transcription = nil
-          if @page && @page.has_metadata? && create_transcription?
+          if @page && @page.page_days? && create_transcription?
             @transcription = find_transcription(@page, current_user) || create_transcription(@page, current_user)
           end
 

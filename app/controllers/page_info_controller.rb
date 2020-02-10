@@ -7,7 +7,7 @@ class PageInfoController < ApplicationController
         begin
           @page = Page.find params[:page_id]
           
-         if @page && !@page.has_page_metadata?
+         if @page && !@page.page_metadata?
             observer = params[:observer]
             location = params[:location]
             lat = params[:lat]
@@ -15,7 +15,7 @@ class PageInfoController < ApplicationController
             elevation = params[:elevation]
             page_id= params[:page_id]
             @page.create_page_info({observer: observer, lat: lat, lon: lon, location: location, page_id: page_id, elevation: elevation,user_id: current_user.id})
-	    
+  
           end
           
 
@@ -30,7 +30,7 @@ class PageInfoController < ApplicationController
         begin
           @page = Page.find params[:page_id]
           
-          if @page && @page.has_page_metadata?
+          if @page && @page.page_metadata?
             observer = params[:observer]
             location = params[:location]
             lat = params[:lat]
