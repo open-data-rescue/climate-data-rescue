@@ -108,18 +108,23 @@ class Page < ApplicationRecord
     return if image.blank? || persisted?
     filename = image_file_name
     components = filename.split("_")
+    component_count = components.size
+
     ledger_type = components[1]
     volume = components[2]
     start_date = components[3]
 
-    if components.count == 6
+    ledger = Ledger.find_or_create_by(ledger_type: ledger_type) do |l|
+      l.title = ledger_type
+    end
+
+    self.accession_number = components[0]
+
+    self.volume = volume
+    self.start_date = Date.parse(start_date)
+
+    if component_count == 6 # Normal DRAW app
       end_date = components[4]
-      self.accession_number = components[0]
-      if ledger_type && volume
-        ledger = Ledger.find_or_create_by(ledger_type: ledger_type) do |ledger|
-          ledger.title = ledger_type
-        end
-      end
       
       if components[5] && components[5].length > 0
         # take the first character of the 6th position?
@@ -129,35 +134,22 @@ class Page < ApplicationRecord
           page_type.title = "Register #{ledger_type}, page #{page_type_num}"
         end
       end
-
-      self.volume = volume
-      self.start_date = Date.parse(start_date)
       self.end_date = Date.parse(end_date)
       
       self.title = "#{start_date} to #{end_date}"
 
-    elsif components.count == 5
-
-      self.accession_number = components[0]
-      if ledger_type && volume
-        ledger = Ledger.find_or_create_by(ledger_type: ledger_type) do |ledger|
-          ledger.title = ledger_type
-        end
-      end
+    elsif component_count == 5 #ECCC data
       
-      page_types=components[4].split(".")
+      page_types = components[4].split(".")
       page_type_num = page_types[0]
-      self.page_type = PageType.find_or_create_by(number: page_type_num, ledger_id: ledger.id) do |page_type|
-      page_type.ledger_type = ledger_type
-      page_type.title = "Register #{ledger_type}, page #{page_type_num}"
-      end
 
-      self.volume = volume
-      self.start_date = Date.parse(start_date)
+      self.page_type = PageType.find_or_create_by(number: page_type_num, ledger_id: ledger.id) do |page_type|
+        page_type.ledger_type = ledger_type
+        page_type.title = "Register #{ledger_type}, page #{page_type_num}"
+      end
       self.end_date = self.start_date.next_month.prev_day
       self.title = "#{accession_number} - #{start_date} to #{self.end_date}"
-
-      else
+    else
       raise "invalid filename"
     end
   end
