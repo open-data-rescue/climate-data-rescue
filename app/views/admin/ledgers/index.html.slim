@@ -18,10 +18,10 @@ table.table.table-striped
       tr
         td = ledger.title
         td = ledger.pages.count
-        td = link_to 'Show', ledger
-        td = link_to 'Edit', edit_ledger_path(ledger)
-        td = link_to 'Destroy', ledger, data: {:confirm => 'Are you sure?'}, :method => :delete
+        td = link_to 'Show', admin_ledger_path(ledger)
+        td = link_to 'Edit', edit_admin_ledger_path(ledger)
+        td = link_to 'Destroy', admin_ledger_path(ledger), data: {:confirm => 'Are you sure?'}, :method => :delete
 
 br
 
-= link_to 'New Ledger', new_ledger_path
+= link_to 'New Ledger', new_admin_ledger_path
