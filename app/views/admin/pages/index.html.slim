@@ -4,10 +4,10 @@
 
 h3.boffset20
   = t('uploaded-pages')
+.btn-toolbar
+   = link_to t('upload-pages'), new_admin_page_path, class: "btn btn-primary btn-sm"
 
 - if @pages && @pages.any?
-  .btn-toolbar
-     = link_to t('upload-pages'), new_admin_page_path, class: "btn btn-primary btn-sm"
     
   /! List all pages and their info in a table
   .table-responsive style="max-height: 70vh;"
