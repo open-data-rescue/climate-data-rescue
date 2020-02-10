@@ -19,7 +19,7 @@ class FieldOption < ApplicationRecord
                     large: ["100x100#", :png]
                   },
                   default_style: :icon,
-                  url: "/:class/:style/:image_file_name"
+                  url: "/uploads/:class/:style/:image_file_name"
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
 
