@@ -5,5 +5,6 @@ class Ledger < ApplicationRecord
   validates :title,
             presence: true
   validates :ledger_type,
-            presence: true
+            presence: true,
+            uniqueness: true
 end
