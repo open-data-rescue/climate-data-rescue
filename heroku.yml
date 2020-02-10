@@ -1,0 +1,11 @@
+build:
+  docker:
+    web: Dockerfile.prod
+  config:
+    RACK_ENV: production
+    RAILS_ENV: production
+    RAILS_SERVE_STATIC_FILES: true
+release:
+  image: web
+run:
+  web: ./docker/startup.sh

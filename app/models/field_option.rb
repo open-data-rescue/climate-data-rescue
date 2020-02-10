@@ -1,4 +1,7 @@
 class FieldOption < ApplicationRecord
+  Paperclip.interpolates :image_file_name do |attachment, style|
+    attachment.instance.image_file_name
+  end
   include TranslationHelpers
 
   translates :name, :help,
@@ -16,8 +19,7 @@ class FieldOption < ApplicationRecord
                     large: ["100x100#", :png]
                   },
                   default_style: :icon,
-                  url: "/system/:class/:style/:hash.:extension",
-                  hash_secret: "SECRET"
+                  url: "/:class/:style/:image_file_name"
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
 

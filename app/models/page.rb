@@ -1,4 +1,8 @@
 class Page < ApplicationRecord
+  Paperclip.interpolates :image_file_name do |attachment, style|
+    attachment.instance.image_file_name
+  end
+
   belongs_to :page_type
 
   has_many :field_groups, through: :page_type
@@ -19,8 +23,7 @@ class Page < ApplicationRecord
                     xlarge: ["1000x1000>", :jpg]
                   },
                   default_style: :medium,
-                  url: "/system/:attachment/:style/:hash.:extension",
-                  hash_secret: "SECRET"
+                  url: "/uploads/:class/:style/:image_file_name"
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
 
@@ -30,7 +33,9 @@ class Page < ApplicationRecord
   
   #sets a scope for all transcribable pages to be those that are not done
   scope :transcribeable, -> { 
-    joins(page_type: :field_groups).
+    joins(page_type: {
+      field_groups: :fields
+    }).
     where(
       done: false, visible: true, 
       page_types: { visible: true }

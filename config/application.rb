@@ -37,8 +37,8 @@ module DataRescueAtHome
       address: 'smtp.sendgrid.net',
       port: '587',
       authentication: :plain,
-      user_name: 'no-reply',
-      password: 'password',
+      user_name: ENV.fetch('SENDGRID_USERNAME') { '' },
+      password: ENV.fetch('SENDGRID_PASSWORD') { '' },
       domain: 'heroku.com',
       enable_starttls_auto: true
     }
@@ -59,8 +59,7 @@ module DataRescueAtHome
     #     endpoint: "#{ENV.fetch('S3_PROTOCOL')}://#{ENV.fetch('S3_HOST_NAME')}",
     #     force_path_style: true
     #   },
-    #   url: ':s3_path_url',
-    #   path: '/:class/:style/:hash.:extension'
+    #   url: ':s3_path_url'
     # }
 
     config.action_mailer.default_options = {
