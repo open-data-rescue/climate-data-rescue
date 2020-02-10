@@ -8,7 +8,7 @@ module Admin
     # GET /page_types
     # GET /page_types.json
     def index
-      @page_types = PageType.all
+      @page_types = PageType.order(:title)
 
       respond_to do |format|
         format.html # index.html.erb
