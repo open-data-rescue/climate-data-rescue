@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_28_013758) do
+ActiveRecord::Schema.define(version: 2020_02_11_232706) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -153,7 +153,7 @@ ActiveRecord::Schema.define(version: 2020_01_28_013758) do
   create_table "page_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.string "ledger_type"
-    t.integer "number"
+    t.string "number"
     t.text "description"
     t.integer "ledger_id"
     t.datetime "created_at"
