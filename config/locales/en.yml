@@ -396,6 +396,7 @@ en:
       reset_password_token: 
         invalid: 
   external-url: 
+  export-transcriptions: Export
   field-group-successfully-deleted: 
   field-groups: "Field Groups"
   field-options: "Field Options"
