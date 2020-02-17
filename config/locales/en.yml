@@ -427,7 +427,9 @@ en:
       my-transcriptions: "My Transcriptions"
       transcribe: Transcribe
       transcribe-random-page: "Transcribe Random Page"
-  metadata: 
+  metadata:
+  my-active-transcriptions: My Active Transcriptions
+  my-completed-transcriptions: My Completed Transcriptions
   my-profile: "My Profile"
   my-transcriptions: "My Transcriptions"
   name: 
@@ -436,7 +438,8 @@ en:
   new-field: 
   new-field-value: 
   new-transcription: "New Transcription"
-  no-metadata: 
+  no-metadata:
+  no-pages-completed-yet: "No pages completed yet"
   no-pages-transcribed-yet: "No pages transcribed yet"
   none: 
   observation-date: 
@@ -1162,6 +1165,7 @@ en:
   text-symbol: 
   title: 
   to: to
+  toggle-completed-transcriptions: Toggle completed transcriptions
   transcribe: Transcribe
   transcribe-random-page: "Transcribe a random page"
   transcribe-this-page: 

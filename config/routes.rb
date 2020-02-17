@@ -65,7 +65,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {:registrations => "registrations"}
   resources :users, except: [:create, :new, :destroy, :index]
   match 'users/dismiss_box_tutorial' => 'users#dismiss_box_tutorial', :via => [:post]
-  get 'my-profile' => 'users#my_profile', as: "my_profile"
+  get 'my-profile' => 'users#show', as: "my_profile"
 
   post 'create_page_metadata' => "page_days#create"
 

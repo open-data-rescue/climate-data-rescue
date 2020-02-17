@@ -10,6 +10,9 @@ class Transcription < ApplicationRecord
 
   validates :page_id, uniqueness: { scope: :user_id }
 
+  scope :completed, -> { where(complete: true) }
+  scope :in_progress, -> { where(complete: false) }
+
   def num_rows_started
     annotations.pluck(:observation_date).uniq.size
   end
@@ -19,7 +22,7 @@ class Transcription < ApplicationRecord
   end
 
   def num_data_entries
-    data_entries.count
+    data_entries.size
   end
 
   def num_data_entries_expected
