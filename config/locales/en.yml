@@ -427,6 +427,7 @@ en:
       my-transcriptions: "My Transcriptions"
       transcribe: Transcribe
       transcribe-random-page: "Transcribe Random Page"
+  mark-completed: Mark Completed
   metadata:
   my-active-transcriptions: My Active Transcriptions
   my-completed-transcriptions: My Completed Transcriptions

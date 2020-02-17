@@ -26,15 +26,18 @@
                 <% if current_user && current_user.admin? %>
                   <%= link_to(t('view-details'), admin_page_path(page), class: 'btn btn-sm  btn-draw-accented') %>
                 <% end %>
-                <% if @user_transcriptions.any? && page.transcriptions.any? %>
+                <% if page.transcriptions.any? %>
                   <% transcription = @user_transcriptions.find{|t| t.page_id == page.id} %>
                   <% if transcription %>
                     <% if transcription.complete %>
                       <a href="<%= transcription_path(transcription) %>" class="btn btn-default btn-sm"><%= t('view-completed-transcription') %></a>
-                    <% else%>
+                    <% else %>
                       <a href="<%= edit_transcription_path(transcription) %>" class="btn btn-success btn-sm"><%= t('edit-transcription') %></a>
                     <% end %>
                   <% else %>
+                    <% if current_user && current_user.admin? %>
+                      <%= link_to(t('mark-completed'), admin_edit_page_path(page), class: 'btn btn-sm btn-success') %>
+                    <% end %>
                     <a href="<%= new_transcription_path(:current_page_id => page.id) %>" class="btn btn-primary btn-sm"><%= t('start-transcribing') %></a>
                   <% end %>
                 <% else %>
