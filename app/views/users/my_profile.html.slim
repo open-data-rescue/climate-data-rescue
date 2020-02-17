@@ -1,7 +1,7 @@
 - if @user.present?
   - provide(:user, "active")
   - provide(:profile, "active")
-  - provide(:title, strip_tags(t('users.my-profile.page-title', name: @user.display_name)))
+  - provide(:title, strip_tags(t('my-profile')))
 
   .row
     .col-xs-9.col-lg-10
@@ -29,14 +29,54 @@
         = link_to t('transcribe-random-page'), new_transcription_path, class: "btn btn-lg btn-draw-accented pull-left"
     .row.voffset20
       .col-md-12
-        h2 = t('my-transcriptions')
+        h2.transcriptions-header
+          = t('my-active-transcriptions')
+          - if @active_transcriptions.any?
+            span.badge
+              = @active_transcriptions.size
+    .row.voffset20
       .col-md-12
-        - if @user.transcriptions.any?
-          = render 'transcriptions/transcriptions_table', transcriptions: @user.transcriptions
+        - if @active_transcriptions.any?
+          = render 'transcriptions/transcriptions_table', transcriptions: @active_transcriptions
         - else
-          p = t('no-pages-transcribed-yet')
+          = link_to t('start-new-transcription'), new_transcription_path, class: "btn btn-lg btn-draw-accented"
+    .row.voffset20
+      .col-md-12
+        h2.transcriptions-header
+          = t('my-completed-transcriptions')
+          - if @completed_transcriptions.any?
+            span.badge
+              = @completed_transcriptions.size
+          button#toggle-completed-transcriptions.btn.btn-default data-target="#completed-transcriptions-container" data-toggle="collapse" title= t('toggle-completed-transcriptions') aria-expanded="false" aria-controls="completed-transcriptions-container"
+           i.fa.fa-caret-down
+    .row.voffset20
+      .col-md-12
+        #completed-transcriptions-container.collapse
+          - if @completed_transcriptions.any?
+            = render 'transcriptions/transcriptions_table', transcriptions: @completed_transcriptions
+          - else
+            p = t('no-pages-completed-yet')
     .row.voffset20
       .col-md-12
         = link_to t('view-list-of-pages-to-transcribe'), public_pages_index_path, class: "btn btn-primary"
+
+    javascript:
+      $('#toggle-completed-transcriptions').tooltip();
+      $('#completed-transcriptions-container').on('hide.bs.collapse', function () {
+        $('#toggle-completed-transcriptions > i').removeClass('fa-caret-up').addClass('fa-caret-down');
+      }).on('show.bs.collapse', function () {
+        $('#toggle-completed-transcriptions > i').removeClass('fa-caret-down').addClass('fa-caret-up');
+      })
+
+    scss:
+      #toggle-completed-transcriptions {
+        margin-left: 10px;
+      }
+
+      .transcriptions-header {
+        .badge {
+          margin-left: 10px;
+        }
+      }
 
 

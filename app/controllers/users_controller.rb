@@ -2,38 +2,17 @@ class UsersController < ApplicationController
   #load_and_authorize_resource
   respond_to :html, :json, :js
   before_action :ensure_current_user
+  before_action :find_user_and_transcriptions, only: :show
   #Corresponds to the "user" model, user.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the user model
   #All .html.slim views for "user.rb" are located at "project_root\app\views\users"
-
-  def my_profile
-    @user = current_user
-
-    respond_to do |format|
-      format.html # show.html.erb
-    end
-  end
   
   def show
     #@user is a variable containing an instance of the "user.rb" model. It is passed to the user view "show.html.slim" (project_root/users/user_id) and is used to populate the page with information about the user instance.
-    @user = User.includes(
-      {
-        transcriptions: [
-          { 
-            page: [
-              :page_days
-            ] 
-          },
-          :annotations
-        ]
-      },
-      :data_entries
-    ).find(params[:id])
-
     render "my_profile"
   end
 
   def edit
-      @user = User.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def update
@@ -75,6 +54,69 @@ class UsersController < ApplicationController
   
   def users_params
     params.require(:user).permit(:email, :name, :admin, :avatar, :bio)
+  end
+
+  def find_user_and_transcriptions
+    @user = User.includes(
+      {
+        transcriptions: [
+          { 
+            page: [
+              :page_days
+            ] 
+          },
+          :annotations
+        ]
+      },
+      :data_entries
+    ).find(params[:id] || current_user.id)
+
+    @active_transcriptions = @user.transcriptions
+                                     .in_progress
+                                     .order(updated_at: :desc)
+                                     .includes([
+                                       { 
+                                         page: [
+                                           :page_days,
+                                           :page_type
+                                         ] 
+                                       },
+                                       { annotations: :data_entries },
+                                       :user
+                                     ])
+                                     .references([
+                                       { 
+                                         page: [
+                                           :page_days,
+                                           :page_type
+                                         ] 
+                                       },
+                                       { annotations: :data_entries },
+                                       :user
+                                     ])
+    @completed_transcriptions = @user.transcriptions
+                                     .completed
+                                     .order(updated_at: :desc)
+                                     .includes([
+                                       { 
+                                         page: [
+                                           :page_days,
+                                           :page_type
+                                         ] 
+                                       },
+                                       { annotations: :data_entries },
+                                       :user
+                                     ])
+                                     .references([
+                                       { 
+                                         page: [
+                                           :page_days,
+                                           :page_type
+                                         ] 
+                                       },
+                                       { annotations: :data_entries },
+                                       :user
+                                     ])
   end
 
 end

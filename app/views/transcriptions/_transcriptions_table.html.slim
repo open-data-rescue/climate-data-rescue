@@ -29,13 +29,12 @@
         tr
           - if current_user.admin? && detail_links
             td = link_to(transcription.id, [:admin, transcription])
-          - if transcription.page
-            td
-              - if current_user.admin
-                = link_to image_tag(transcription.page.image.url(:thumb), title: strip_tags(t('transcriptions.table.tooltips.view-page-details')), data: { toggle: 'tooltip', trigger: 'hover', placement: 'top' }), admin_page_path(transcription.page)
-              - else
-                = image_tag(transcription.page.image.url(:thumb))
-          td = (transcription.page ? transcription.page.title : '')
+          td
+            - if current_user.admin
+              = link_to image_tag(transcription.page.image.url(:thumb), title: strip_tags(t('transcriptions.table.tooltips.view-page-details')), data: { toggle: 'tooltip', trigger: 'hover', placement: 'top' }), admin_page_path(transcription.page)
+            - else
+              = image_tag(transcription.page.image.url(:thumb))
+          td = transcription.page.title
           td = transcription.num_data_entries
           td = transcription.num_data_entries_expected
           td = number_to_percentage(transcription.percent_complete, precision: 0)
