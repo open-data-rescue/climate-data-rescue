@@ -306,7 +306,9 @@ fr:
       my-transcriptions: "Mes transcriptions"
       transcribe: Transcrire
       transcribe-random-page: "Transcrire une page aléatoire"
-  metadata: 
+  metadata:
+  my-active-transcriptions: Mes transcriptions en progrès
+  my-completed-transcriptions: Mes transcriptions terminées
   my-profile: "Mon profil"
   my-transcriptions: "Mes transcriptions"
   name: 

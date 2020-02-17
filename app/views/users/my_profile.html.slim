@@ -40,7 +40,7 @@
           #active-transcriptions-container
             = render 'transcriptions/transcriptions_table', transcriptions: @active_transcriptions
         - else
-          = link_to t('start-new-transcription'), new_transcription_path, class: "btn btn-lg btn-draw-accented"
+          = link_to t('transcribe-random-page'), new_transcription_path, class: "btn btn-lg btn-draw-accented"
     .row.voffset20
       .col-md-12
         h2.transcriptions-header
