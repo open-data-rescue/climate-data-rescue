@@ -27,6 +27,12 @@ class TranscriptionsController < ApplicationController
         :data_entries
       ).find(params[:id])
 
+      page = params[:page].to_i
+      per_page = params[:per_page].to_i
+
+      offset = per_page * (page - 1)
+      limit = per_page
+
       @completed_transcriptions =
         @user.transcriptions
              .completed
@@ -51,6 +57,8 @@ class TranscriptionsController < ApplicationController
                { annotations: :data_entries },
                :user
              ])
+             .offset(offset)
+             .limit(limit)
     end
   end
 

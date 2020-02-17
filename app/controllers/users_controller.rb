@@ -117,6 +117,10 @@ class UsersController < ApplicationController
                                        { annotations: :data_entries },
                                        :user
                                      ]).size
+    
+    @default_per_page = 20
+    @num_pages_completed_transcriptions = @completed_transcriptions_size / @default_per_page
+    # @num_pages_completed_transcriptions = 500 / @default_per_page
   end
 
 end
