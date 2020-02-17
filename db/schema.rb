@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_03_142051) do
+ActiveRecord::Schema.define(version: 2020_02_17_020739) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -160,6 +160,8 @@ ActiveRecord::Schema.define(version: 2020_02_03_142051) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "elevation"
+    t.integer "month"
+    t.integer "year"
     t.index ["page_id"], name: "index_page_infos_on_page_id"
     t.index ["user_id"], name: "index_page_infos_on_user_id"
   end
