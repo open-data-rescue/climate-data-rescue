@@ -2,7 +2,7 @@
 <% provide(:transcribe, "active") %>
 <% provide(:title, strip_tags(t('weather-logs'))) %>
 
-<h1><%= t('pages.weather-logs.page-title') %></h1>
+<h1><%= t('weather-logs') %> (<%= @pages.to_a.size %>)</h1>
 
 <% if @user_transcriptions.any? %>
   <%= link_to "View my #{@user_transcriptions.size} transcriptions", my_profile_path, class: 'btn btn-info' %>
@@ -21,8 +21,15 @@
             <%= image_tag(page.image.url(:medium), class: "img-responsive center-block")%>
             <div class="text-center" style="width: 100%;">
                 <h5><%= t('page') %> <%= page.page_type.number %></h5>
-                <% if current_user && current_user.transcriptions.any? && page.transcriptions.any? && (current_user.transcriptions.collect(&:page_id).include? page.id) %>
-                    <a href="<%= edit_transcription_path(current_user.transcriptions.find_by(:page_id => page.id)) %>" class="btn btn-success btn-sm"><%= t('edit-transcription') %></a>
+                <% if @user_transcriptions.any? && page.transcriptions.any? %>
+                  <% transcription = @user_transcriptions.find{|t| t.page_id == page.id} %>
+                  <% if transcription %>
+                    <% if transcription.complete %>
+                      <a href="<%= transcription_path(transcription) %>" class="btn btn-default btn-sm"><%= t('view-completed-transcription') %></a>
+                    <% else%>
+                      <a href="<%= edit_transcription_path(transcription) %>" class="btn btn-success btn-sm"><%= t('edit-transcription') %></a>
+                    <% end %>
+                  <% end %>
                 <% else %>
                     <a href="<%= new_transcription_path(:current_page_id => page.id) %>" class="btn btn-primary btn-sm"><%= t('pages.weather-logs.start-transcribing') %></a>
                 <% end %>
