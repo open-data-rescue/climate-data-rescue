@@ -25,7 +25,6 @@ div.table-responsive
         th = t('pages.page-completed')
 
     tbody
-      
       tr
         td = @page.page_type ? link_to(@page.page_type.title, admin_page_type_path(@page.page_type)) : ''
         td = @page.title
@@ -35,6 +34,8 @@ div.table-responsive
         td = @page.visible ? content_tag(:i, '', class: 'fa fa-eye') : ''
         td = @page.done ? content_tag(:i, '', class: 'fa fa-check') : ''
 
+h3.transcriptions = t('transcriptions.transcriptions')
+= render 'transcriptions/transcriptions_table', transcriptions: @page.transcriptions
 
 .voffset20
   = render 'pages/metadata_form', page: @page, submit_btn_text: t('page-metadata.form.labels.update-btn')

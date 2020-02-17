@@ -2,54 +2,58 @@
 - detail_links = true unless detail_links === false
 - render_btns = true unless render_btns === false
 
-.table-responsive
-  table.table.table-striped
-    thead
-      tr
-        - if current_user.admin? && detail_links
-          th #
-        th
-        th = t('transcriptions.table.header-labels.page-title')
-        th = t('transcriptions.table.header-labels.fields-transcribed')
-        th = t('transcriptions.table.header-labels.fields-total')
-        th = t('transcriptions.table.header-labels.percent-complete')
-        th = t('transcriptions.table.header-labels.rows-started')
-        th = t('transcriptions.table.header-labels.rows-total')
-        th = t('transcriptions.table.header-labels.marked-finished')
-        th = t('transcriptions.table.header-labels.started-at')
-        th = t('transcriptions.table.header-labels.last-updated')
-        - if current_user.admin?
-          th = t('transcriptions.table.header-labels.page-type')
-          th = t('transcriptions.table.header-labels.user')
-        - if render_btns
-          th
-
-    tbody
-      - transcriptions.each do |transcription|
+- if transcriptions.any?
+  .table-responsive
+    table.table.table-striped
+      thead
         tr
           - if current_user.admin? && detail_links
-            td = link_to(transcription.id, [:admin, transcription])
-          td
-            - if current_user.admin
-              = link_to image_tag(transcription.page.image.url(:thumb), title: strip_tags(t('transcriptions.table.tooltips.view-page-details')), data: { toggle: 'tooltip', trigger: 'hover', placement: 'top' }), admin_page_path(transcription.page)
-            - else
-              = image_tag(transcription.page.image.url(:thumb))
-          td = transcription.page.title
-          td = transcription.num_data_entries
-          td = transcription.num_data_entries_expected
-          td = number_to_percentage(transcription.percent_complete, precision: 0)
-          td = transcription.num_rows_started
-          td = transcription.num_rows_expected
-          td
-            - if transcription.complete
-              i.fa.fa-check style="color: green;"
-          td = l(transcription.created_at, format: :long)
-          td = l(transcription.updated_at, format: :long)
+            th #
+          th
+          th = t('transcriptions.table.header-labels.page-title')
+          th = t('transcriptions.table.header-labels.fields-transcribed')
+          th = t('transcriptions.table.header-labels.fields-total')
+          th = t('transcriptions.table.header-labels.percent-complete')
+          th = t('transcriptions.table.header-labels.rows-started')
+          th = t('transcriptions.table.header-labels.rows-total')
+          th = t('transcriptions.table.header-labels.marked-finished')
+          th = t('transcriptions.table.header-labels.started-at')
+          th = t('transcriptions.table.header-labels.last-updated')
           - if current_user.admin?
-            td = link_to transcription.page_type.title, admin_page_type_path(transcription.page_type)
-            td = link_to(transcription.user.name, user_path(transcription.user))
+            th = t('transcriptions.table.header-labels.page-type')
+            th = t('transcriptions.table.header-labels.user')
           - if render_btns
-            td 
-              = link_to t('edit-transcription'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
-              = link_to t('view-details'), (current_user.admin? ?  admin_transcription_path(transcription) :  transcription_path(transcription)), class: "btn btn-xs btn-primary" if detail_links
-              /= link_to ('<i class="fa fa-trash"></i>').html_safe, admin_transcriptions_path(transcription), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+            th
+
+      tbody
+        - transcriptions.each do |transcription|
+          tr
+            - if current_user.admin? && detail_links
+              td = link_to(transcription.id, [:admin, transcription])
+            td
+              - if current_user.admin
+                = link_to image_tag(transcription.page.image.url(:thumb), title: strip_tags(t('transcriptions.table.tooltips.view-page-details')), data: { toggle: 'tooltip', trigger: 'hover', placement: 'top' }), admin_page_path(transcription.page)
+              - else
+                = image_tag(transcription.page.image.url(:thumb))
+            td = transcription.page.title
+            td = transcription.num_data_entries
+            td = transcription.num_data_entries_expected
+            td = number_to_percentage(transcription.percent_complete, precision: 0)
+            td = transcription.num_rows_started
+            td = transcription.num_rows_expected
+            td
+              - if transcription.complete
+                i.fa.fa-check style="color: green;"
+            td = l(transcription.created_at, format: :long)
+            td = l(transcription.updated_at, format: :long)
+            - if current_user.admin?
+              td = link_to transcription.page_type.title, admin_page_type_path(transcription.page_type)
+              td = link_to(transcription.user.name, user_path(transcription.user))
+            - if render_btns
+              td 
+                = link_to t('edit-transcription'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
+                = link_to t('view-details'), (current_user.admin? ?  admin_transcription_path(transcription) :  transcription_path(transcription)), class: "btn btn-xs btn-primary" if detail_links
+                /= link_to ('<i class="fa fa-trash"></i>').html_safe, admin_transcriptions_path(transcription), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+
+- else
+  = t('none')

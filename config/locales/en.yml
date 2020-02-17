@@ -442,7 +442,7 @@ en:
   no-pages-available: "No pages available"
   no-pages-completed-yet: "No pages completed yet"
   no-pages-transcribed-yet: "No pages transcribed yet"
-  none: 
+  none: None
   observation-date: 
   observations-expected: 
   page: Page
@@ -1170,7 +1170,7 @@ en:
   transcribe: Transcribe
   transcribe-new-page: "Transcribe a new page"
   transcribe-random-page: "Transcribe a random page"
-  transcribe-this-page: 
+  transcribe-this-page: Transcribe this page
   transcriber: 
     annotation-box-instructions-modal: 
       btn-labels: 
@@ -1266,6 +1266,7 @@ en:
         user: User
       tooltips: 
         view-page-details: "Show page details"
+    transcriptions: Transcriptions
   unique-key: 
   unique-rows: 
   unique-rows-expected: 

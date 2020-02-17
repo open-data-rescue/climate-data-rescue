@@ -23,6 +23,9 @@
             <%= image_tag(page.image.url(:medium), class: "img-responsive center-block")%>
             <div class="text-center" style="width: 100%;">
                 <h5><%= t('page') %> <%= page.page_type.number %></h5>
+                <% if current_user && current_user.admin? %>
+                  <%= link_to(t('view-details'), admin_page_path(page), class: 'btn btn-sm  btn-draw-accented') %>
+                <% end %>
                 <% if @user_transcriptions.any? && page.transcriptions.any? %>
                   <% transcription = @user_transcriptions.find{|t| t.page_id == page.id} %>
                   <% if transcription %>
