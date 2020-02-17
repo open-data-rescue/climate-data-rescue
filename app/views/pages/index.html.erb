@@ -36,7 +36,7 @@
                     <% end %>
                   <% else %>
                     <% if current_user && current_user.admin? %>
-                      <%= link_to(t('mark-completed'), admin_edit_page_path(page), class: 'btn btn-sm btn-success') %>
+                      <%= link_to(t('mark-completed'), edit_admin_page_path(page), class: 'btn btn-sm btn-success') %>
                     <% end %>
                     <a href="<%= new_transcription_path(:current_page_id => page.id) %>" class="btn btn-primary btn-sm"><%= t('start-transcribing') %></a>
                   <% end %>
