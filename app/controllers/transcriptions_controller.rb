@@ -138,7 +138,7 @@ class TranscriptionsController < ApplicationController
     if page_id
       page = Page.find(page_id)
     else
-      page = Page.transcribeable.unseen(current_user).reorder("RAND()").first
+      page = Page.inactive.transcribeable.unseen(current_user).reorder("RAND()").first
     end
     
     page
