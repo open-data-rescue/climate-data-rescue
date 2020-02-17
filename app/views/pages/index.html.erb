@@ -1,17 +1,16 @@
 <% provide(:weather_logs, "active") %>
 <% provide(:transcribe, "active") %>
-<% provide(:title, strip_tags(t('weather-logs'))) %>
+<% provide(:title, strip_tags(t('weather-logspages'))) %>
 
 <h1>
-  <%= t('weather-logs') %>
+  <%= t('pages') %>
   <span class="badge"><%= @pages.to_a.size %></span>
+  <% if @user_transcriptions.any? %>
+    <%= link_to t('view-my-transcriptions', count: @user_transcriptions.size), my_profile_path, class: 'btn btn-info' %>
+  <% end %>
 </h1>
 
-<% if @user_transcriptions.any? %>
-  <%= link_to "View my #{@user_transcriptions.size} transcriptions", my_profile_path, class: 'btn btn-info' %>
-<% end %>
-
-<h3 class="voffset30">Transcribe a new page</h3>
+<h3 class="voffset30"><%= t('transcribe-new-page') %></h3>
 
 <% if @pages && @pages.any? %>
   <% @pages.group_by{|p|[p.start_date, p.end_date]}.each do |dates, pages| %>

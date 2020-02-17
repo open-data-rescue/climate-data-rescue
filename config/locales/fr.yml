@@ -124,7 +124,7 @@ fr:
     new-field-group: 
     percent-translated: 
   admin-access-only-error-msg: 
-  all-pages: Voir toutes les pages
+  all-pages: Afficher toutes les pages
   annotation: 
   annotations: 
   app: 
@@ -835,7 +835,7 @@ fr:
       mark: 
       text: 
   sort-order: 
-  start-transcribing: 
+  start-transcribing: Transcrire
   start_file_transfer: 
   started-at: 
   stored-value: 
@@ -844,6 +844,7 @@ fr:
   title: 
   to: à
   transcribe: Transcrire
+  transcribe-new-page: "Transcrire une nouvelle page"
   transcribe-random-page: "Transcrire une page aléatoire"
   transcribe-this-page: "Transcrire cette page"
   transcriber: 
@@ -950,6 +951,8 @@ fr:
   view-all-pages: 
   view-details: "Afficher les détails"
   view-list-of-pages-to-transcribe: "Afficher toutes les pages transcriptibles"
+  view-my-transcriptions: Afficher mes %{count} transcriptions
   visible: 
+  weather-logs: 'Pages'
   what-is-draw: "Quel est SAM?"
   width: 

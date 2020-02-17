@@ -1168,6 +1168,7 @@ en:
   to: to
   toggle-completed-transcriptions: Toggle completed transcriptions
   transcribe: Transcribe
+  transcribe-new-page: "Transcribe a new page"
   transcribe-random-page: "Transcribe a random page"
   transcribe-this-page: 
   transcriber: 
@@ -1282,7 +1283,8 @@ en:
   view-all-pages: 
   view-details: "View details"
   view-list-of-pages-to-transcribe: "View all transcribable pages"
-  visible: 
+  view-my-transcriptions: View my %{count} transcriptions
+  visible: Visible
   weather-logs: Weather Logs
   what-is-draw: "What is DRAW?"
   width: 
