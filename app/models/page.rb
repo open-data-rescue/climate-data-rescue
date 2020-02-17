@@ -49,6 +49,17 @@ class Page < ApplicationRecord
     end
   }
 
+  scope :inactive, -> {
+    transcriptions = Transcription.arel_table
+    condition = transcriptions[:id].eq(nil).or(
+      transcriptions[:updated_at].lt(Date.current - 2.weeks)
+    )
+
+    includes(:transcriptions).
+    references(:transcriptions).
+    where(condition)
+  }
+
   def page_days?
     page_days.any?
   end

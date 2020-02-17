@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   # GET /pages
   # GET /pages.json
   def index
-    @pages = Page.transcribeable.includes(:transcriptions)
+    @pages = Page.unseen(current_user).inactive.transcribeable
     @user_transcriptions = current_user ? current_user.transcriptions : []
   end
 
