@@ -37,7 +37,8 @@
     .row.voffset20
       .col-md-12
         - if @active_transcriptions.any?
-          = render 'transcriptions/transcriptions_table', transcriptions: @active_transcriptions
+          #active-transcriptions-container
+            = render 'transcriptions/transcriptions_table', transcriptions: @active_transcriptions
         - else
           = link_to t('start-new-transcription'), new_transcription_path, class: "btn btn-lg btn-draw-accented"
     .row.voffset20
@@ -178,6 +179,11 @@
         .badge {
           margin-left: 10px;
         }
+      }
+
+      #transcription-ajax-target .table-responsive,
+      #active-transcriptions-container .table-responsive {
+        max-height: 500px;
       }
 
 
