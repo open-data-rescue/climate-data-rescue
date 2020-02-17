@@ -53,6 +53,28 @@
       .col-md-12
         #completed-transcriptions-container.collapse
           - if @completed_transcriptions_size > 0
+            <nav class="transcription-paginator" aria-label="...">
+              <ul class="pagination">
+                - if @num_pages_completed_transcriptions > 1
+                  li data-page="first"
+                    a href="#p-first"  data-page="first"
+                      | &laquo;
+                - (0..@num_pages_completed_transcriptions).each_with_index do |p, index|
+                  - p = p + 1
+                  - if index == 0
+                    li.real-page.active data-page= p
+                      a href="#p-#{p}" data-page= p
+                        = p
+                  - else
+                    li.real-page data-page= p
+                      a href="#p-#{p}" data-page= p
+                        = p
+                - if @num_pages_completed_transcriptions > 1
+                  li data-page="last"
+                    a href="#p-last"  data-page="last"
+                      | &raquo;
+              </ul>
+            </nav>
             #transcription-ajax-target
               i.fa.fa-refresh.fa-spin.fa-3x
             <nav class="transcription-paginator" aria-label="...">
@@ -91,7 +113,6 @@
         $('#toggle-completed-transcriptions > i').removeClass('fa-caret-up').addClass('fa-caret-down');
       }).on('show.bs.collapse', function () {
         $('#toggle-completed-transcriptions > i').removeClass('fa-caret-down').addClass('fa-caret-up');
-        $('#transcription-ajax-target').html('<i class="fa fa-refresh fa-spin fa-3x"></i>');
         loadTranscriptions();
       });
 
@@ -133,6 +154,7 @@
       }
 
       function loadTranscriptions() {
+        $('#transcription-ajax-target').html('<i class="fa fa-refresh fa-spin fa-3x"></i>');
         $.ajax({
           url: "#{completed_transcriptions_user_path(@user)}",
           data: {
