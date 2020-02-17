@@ -94,7 +94,7 @@ class UsersController < ApplicationController
                                        { annotations: :data_entries },
                                        :user
                                      ])
-    @completed_transcriptions = @user.transcriptions
+    @completed_transcriptions_size = @user.transcriptions
                                      .completed
                                      .order(updated_at: :desc)
                                      .includes([
@@ -116,7 +116,7 @@ class UsersController < ApplicationController
                                        },
                                        { annotations: :data_entries },
                                        :user
-                                     ])
+                                     ]).size
   end
 
 end

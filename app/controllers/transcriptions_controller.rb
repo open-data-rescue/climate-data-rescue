@@ -3,11 +3,55 @@ class TranscriptionsController < ApplicationController
   respond_to :html, :json, :js
   before_action :ensure_current_user
   layout 'layouts/transcriber', :only => [:edit]
+  layout 'raw', :only => [:completed_transcriptions_table]
   #Corresponds to the "transcription" model, transcription.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the transcription model
   #All .html.slim views for "transcription.rb" are located at "project_root\app\views\transcriptions"
 
   def index
     redirect_to my_profile_path
+  end
+
+  def completed_transcriptions_table
+    if params[:id] #user ID
+      @user = User.includes(
+        {
+          transcriptions: [
+            { 
+              page: [
+                :page_days
+              ] 
+            },
+            :annotations
+          ]
+        },
+        :data_entries
+      ).find(params[:id])
+
+      @completed_transcriptions =
+        @user.transcriptions
+             .completed
+             .order(updated_at: :desc)
+             .includes([
+               { 
+                 page: [
+                   :page_days,
+                   :page_type
+                 ] 
+               },
+               { annotations: :data_entries },
+               :user
+             ])
+             .references([
+               { 
+                 page: [
+                   :page_days,
+                   :page_type
+                 ] 
+               },
+               { annotations: :data_entries },
+               :user
+             ])
+    end
   end
 
   # GET /transcriptions/transcription_id

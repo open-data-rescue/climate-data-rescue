@@ -44,16 +44,17 @@
       .col-md-12
         h2.transcriptions-header
           = t('my-completed-transcriptions')
-          - if @completed_transcriptions.any?
+          - if @completed_transcriptions_size > 0
             span.badge
-              = @completed_transcriptions.size
+              = @completed_transcriptions_size
           button#toggle-completed-transcriptions.btn.btn-default data-target="#completed-transcriptions-container" data-toggle="collapse" title= t('toggle-completed-transcriptions') aria-expanded="false" aria-controls="completed-transcriptions-container"
            i.fa.fa-caret-down
     .row.voffset20
       .col-md-12
         #completed-transcriptions-container.collapse
-          - if @completed_transcriptions.any?
-            = render 'transcriptions/transcriptions_table', transcriptions: @completed_transcriptions
+          - if @completed_transcriptions_size > 0
+            #transcription-ajax-target
+              i.fa.fa-refresh.fa-spin.fa-3x
           - else
             p = t('no-pages-completed-yet')
     .row.voffset20
@@ -66,6 +67,15 @@
         $('#toggle-completed-transcriptions > i').removeClass('fa-caret-up').addClass('fa-caret-down');
       }).on('show.bs.collapse', function () {
         $('#toggle-completed-transcriptions > i').removeClass('fa-caret-down').addClass('fa-caret-up');
+        $('#transcription-ajax-target').html('<i class="fa fa-refresh fa-spin fa-3x"></i>');
+        $.ajax({
+          url: "#{completed_transcriptions_user_path(@user)}"
+        }).done(function(data) {
+          $('#transcription-ajax-target').html(data);
+        })
+        .fail(function(xhr) {
+          $('#transcription-ajax-target').html("Could not load completed transcriptions. Please try again, or report this to the DRAW administrators if the problem persists.");
+        });
       })
 
     scss:

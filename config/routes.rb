@@ -63,7 +63,11 @@ Rails.application.routes.draw do
   resources :field_groups, only: [:index]
 
   devise_for :users, :controllers => {:registrations => "registrations"}
-  resources :users, except: [:create, :new, :destroy, :index]
+  resources :users, except: [:create, :new, :destroy, :index] do
+    member do
+      get :completed_transcriptions, to: 'transcriptions#completed_transcriptions_table'
+    end
+  end
   match 'users/dismiss_box_tutorial' => 'users#dismiss_box_tutorial', :via => [:post]
   get 'my-profile' => 'users#show', as: "my_profile"
 
