@@ -1,23 +1,23 @@
 
 <% if page %>
   <% content_for :large_page_image do %>
-      <%= image_tag page.image.url(:xlarge), id: "page-img", class: "img-responsive", data: { 'magnify-src' => page.image.url(:original) } %>
+    <%= image_tag page.image.url(:xlarge), id: "page-img", class: "img-responsive", data: { 'magnify-src' => page.image.url(:original) } %>
 
-      <script id="image-magnifier-script" type="text/javascript">
-          const toggleMagnifier = (magnify) => {
-              const $targetImg = $('#page-img');
-              let result = null;
-              if(magnify != void 0) {
-                  magnify.destroy();
-              }
-              else {
-                  result = $targetImg.magnify();
-              }
+    <script id="image-magnifier-script" type="text/javascript">
+      function toggleMagnifier(magnify) {
+        var $targetImg = $('#page-img');
+        var result = null;
+        if (magnify != void 0) {
+          magnify.destroy();
+        }
+        else {
+          result = $targetImg.magnify();
+        }
 
-              return result;
-          }
+        return result;
+      }
 
-          $(document).ready(() => { toggleMagnifier(); });
-      </script>
+      $(document).ready(function () { toggleMagnifier(); });
+    </script>
   <% end %>
 <% end %>
