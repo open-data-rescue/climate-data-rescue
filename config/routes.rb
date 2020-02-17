@@ -52,7 +52,7 @@ Rails.application.routes.draw do
 
 
   resources :pages, only: [:show, :index]
-  get 'weather-logs' => 'pages#index', as: "public_pages_index"
+  get 'pages' => 'pages#index', as: "public_pages_index"
   # post 'pages' => 'pages#create', as: "pages_create"
 
   resources :field_options, only: [:index]
