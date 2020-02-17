@@ -4,7 +4,7 @@
 
 <% page_meta = page.page_info || page.build_page_info %>
 
-<%= form_tag baseUri + (page.page_metadata? ? '/page-page_metadata/update' : "/page-page_metadata/create"), method: "post" do %>
+<%= form_tag baseUri + (page.page_info.persisted? ? '/page-page_metadata/update' : "/page-page_metadata/create"), method: "post" do %>
    
   <%= hidden_field_tag "create_transcription", create_transcription %>
   <%= hidden_field_tag "page_id", page.id %>

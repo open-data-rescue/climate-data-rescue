@@ -1259,6 +1259,7 @@ en:
         user: User
       tooltips: 
         view-page-details: "Show page details"
+    transcriptions: Transcriptions
   unique-key: 
   unique-rows: 
   unique-rows-expected: 
@@ -1274,8 +1275,10 @@ en:
   view-all-field-groups: 
   view-all-fields: 
   view-all-pages: 
+  view-completed-transcription: View Completed Transcription
   view-details: "View details"
   view-list-of-pages-to-transcribe: "View all transcribable pages"
   visible: 
   what-is-draw: "What is DRAW?"
   width: 
+  weather-logs: Weather Logs

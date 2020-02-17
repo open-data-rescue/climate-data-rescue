@@ -49,7 +49,7 @@ class PageInfoController < PageDaysController
           end
 
           @transcription = nil
-          if @page && @page.page_days? && create_transcription?
+          if @page && @page.page_metadata? && create_transcription?
             @transcription = find_transcription(@page, current_user) || create_transcription(@page, current_user)
           end
 

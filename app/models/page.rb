@@ -37,7 +37,8 @@ class Page < ApplicationRecord
       field_groups: :fields
     }).
     where(
-      done: false, visible: true, 
+      done: false,
+      visible: true, 
       page_types: { visible: true }
     ).order("pages.start_date asc").distinct
   }
