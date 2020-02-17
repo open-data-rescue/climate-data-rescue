@@ -439,6 +439,7 @@ en:
   new-field-value: 
   new-transcription: "New Transcription"
   no-metadata:
+  no-pages-available: "No pages available"
   no-pages-completed-yet: "No pages completed yet"
   no-pages-transcribed-yet: "No pages transcribed yet"
   none: 
@@ -1282,5 +1283,6 @@ en:
   view-details: "View details"
   view-list-of-pages-to-transcribe: "View all transcribable pages"
   visible: 
+  weather-logs: Weather Logs
   what-is-draw: "What is DRAW?"
   width: 

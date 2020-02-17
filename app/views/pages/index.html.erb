@@ -2,7 +2,10 @@
 <% provide(:transcribe, "active") %>
 <% provide(:title, strip_tags(t('weather-logs'))) %>
 
-<h1><%= t('weather-logs') %> (<%= @pages.to_a.size %>)</h1>
+<h1>
+  <%= t('weather-logs') %>
+  <span class="badge"><%= @pages.to_a.size %></span>
+</h1>
 
 <% if @user_transcriptions.any? %>
   <%= link_to "View my #{@user_transcriptions.size} transcriptions", my_profile_path, class: 'btn btn-info' %>
@@ -31,7 +34,7 @@
                     <% end %>
                   <% end %>
                 <% else %>
-                    <a href="<%= new_transcription_path(:current_page_id => page.id) %>" class="btn btn-primary btn-sm"><%= t('pages.weather-logs.start-transcribing') %></a>
+                    <a href="<%= new_transcription_path(:current_page_id => page.id) %>" class="btn btn-primary btn-sm"><%= t('start-transcribing') %></a>
                 <% end %>
             </div>
         </div>
@@ -41,7 +44,7 @@
 <% else %>
   <div class="row">
     <div class="col-md-12">
-      <%= t('pages.weather-logs.no-pages-available') %>
+      <%= t('no-pages-available') %>
     </div>
   </div>
 <% end %>
