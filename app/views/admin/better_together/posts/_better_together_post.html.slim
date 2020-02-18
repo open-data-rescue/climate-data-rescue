@@ -1,0 +1,9 @@
+
+tr
+  td = better_together_post.id
+  td = better_together_post.title
+  td = strip_tags(better_together_post.content).truncate(250, separator: /\s/)
+  td = link_to t('better-together.community.posts.show'), better_together_post
+  td = link_to t('better-together.community.posts.edit'), edit_admin_better_together_post_path(better_together_post)
+  td = link_to t('better-together.community.posts.destroy'), [:admin, better_together_post], data: { confirm: t('better-together.community.posts.destroy-confirmation') }, method: :delete
+  

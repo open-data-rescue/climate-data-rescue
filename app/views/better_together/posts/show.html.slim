@@ -1,0 +1,22 @@
+- provide(:better_together, "active")
+- provide(:better_together_blog, "active")
+
+div class=dom_class(@better_together_post, :detail)
+  h3.boffset20
+    = @better_together_post.title
+  .post-content-summary
+    = @better_together_post.content.html_safe
+
+.post-nav.voffset20
+  => link_to BetterTogether::Post.model_name.human(count: 2), better_together_posts_path
+
+scss:
+  .post-nav {
+    a {
+      margin-right: 5px;
+
+      &:not(:first-child) {
+        margin-left: 5px;
+      }
+    }
+  }

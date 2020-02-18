@@ -46,6 +46,15 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
                   = locale_switcher_link(lang, static_page: @page)
         - if user_signed_in?
           - if current_user.admin?
+            li id="better-together-menu" class="#{yield(:better_together)} top-level-nav dropdown-submenu"
+              a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
+                = t('better-together.better-together') + ' '
+                span.caret
+              ul.dropdown-menu
+                li class="" = link_to t('better-together.about-better-together'), 'https://bebettertogether.ca', target: :bebettertogether
+                li role="separator" class="divider"
+                li class="#{yield(:better_together_blog)}" = link_to t('better-together.community.blog'), better_together_posts_path
+                li class="#{yield(:better_together_posts)}" = link_to BetterTogether::Post.model_name.human(count: 2), admin_better_together_posts_path
             li id="admin-menu" class="#{yield(:admin)} top-level-nav dropdown-submenu"
               a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
                 = 'Admin '

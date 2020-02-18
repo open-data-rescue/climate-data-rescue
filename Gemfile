@@ -63,8 +63,13 @@ gem 'http_accept_language'
 
 gem 'rails-i18n'
 gem 'i18n-active_record', :require => 'i18n/active_record'
+# gem 'i18n-tasks'
 
 gem 'rails-observers'
+
+gem 'friendly_id', '~> 5.2.0'
+gem 'mobility', '~> 0.8.6'
+gem 'friendly_id-mobility', '~> 0.5.4'
 
 gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'globalize-accessors'
@@ -118,6 +123,8 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'shoulda-callback-matchers'
+  gem 'capybara'
+  gem 'database_cleaner'
 end
 
 group :test do

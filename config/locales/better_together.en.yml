@@ -1,0 +1,25 @@
+
+en:
+  better-together:
+    about-better-together: About Better Together
+    better-together: Better Together
+    community:
+      blog: Blog
+      posts:
+        edit: Edit
+        destroy: Delete
+        destroy-confirmation: Are you sure?
+        new: New Post
+        show: View
+  activerecord:
+    attributes:
+      better_together/post:
+        bt_id: Better Together ID
+        content: Content
+        id: Database ID
+        title: Title
+    models:
+      better_together/post:
+        one: Post
+        other: Posts
+
