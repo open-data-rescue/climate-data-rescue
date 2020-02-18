@@ -489,3 +489,10 @@ div[class*=".col-*"] {
 a.btn-primary:visited {
   color: white;
 }
+
+.nav-label > label {
+  padding-left: 15px;
+  padding-right: 15px;
+  color: white;
+  display: block;
+}
