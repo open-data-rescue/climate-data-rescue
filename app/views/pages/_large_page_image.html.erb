@@ -1,7 +1,7 @@
 
 <% if page %>
   <% content_for :large_page_image do %>
-    <%= image_tag page.image.url(:xlarge), id: "page-img", class: "img-responsive", data: { 'magnify-src' => page.image.url(:original) } %>
+    <%= image_tag page.image.url(:original), id: "page-img", class: "img-responsive", data: { 'magnify-src' => page.image.url(:original) } %>
 
     <script id="image-magnifier-script" type="text/javascript">
       function toggleMagnifier(magnify) {
