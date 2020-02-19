@@ -53,10 +53,10 @@ html lang="en"
                   = yield
           - else
               - if params[:controller] == "home" && params[:action] == "index"
-                .col-sm-8.col-md-6.main-content-container
+                .col-sm-8.col-md-6.col-lg-10.main-content-container
                   = yield
               - else
-                .col-sm-10.col-md-8.main-content-container.default
+                .col-sm-10.col-md-8.col-lg-10.main-content-container.default
                   = yield
           - if content_for? :large_page_image
             .col-sm-12.voffset30.large-page-img-container
