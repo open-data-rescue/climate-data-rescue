@@ -13,7 +13,6 @@
  *= require eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min
  *= require magnify
  *= require animate
- *= require snowEffect
 
 
  *= require_tree .
@@ -63,11 +62,17 @@ a {
     -moz-background-size: cover;
     -webkit-background-size: cover;
     background-size: cover;
-    background-image: url(image_path("mcgill-background"));
+    background-image: url(image_path("backgrounds/mcgill-background"));
     background-position: left center;
 
   &.holiday-special {
-    background-image: url(image_path("holiday-bg"));
+    background-image: url(image_path("backgrounds/holiday-bg"));
+    -webkit-filter: grayscale(50%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(50%);
+  }
+
+  &.eccc-data-rescue {
+    background-image: url(image_path("backgrounds/Red_river_fort_garry"));
     -webkit-filter: grayscale(50%); /* Safari 6.0 - 9.0 */
     filter: grayscale(50%);
   }
