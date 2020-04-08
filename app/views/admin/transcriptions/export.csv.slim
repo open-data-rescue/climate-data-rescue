@@ -8,7 +8,7 @@
   - csv_string = CSV.generate(encoding: 'UTF-8') do |csv|
     - csv << headers
     - @transcriptions.each do |transcription|
-      - dates = transcription.annotations.order_by_date.group_by do |a|
+      - dates = transcription.annotations.with_dimensions.order_by_date.group_by do |a|
         - a.observation_date.utc.to_date
       - dates.each do |date, date_annotations|
         - times = date_annotations.group_by { |a| a.observation_date.utc }
