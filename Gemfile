@@ -39,6 +39,8 @@ gem 'devise'
 #to handle .slim files
 gem 'slim-rails'
 
+gem "sentry-raven"
+
 #for forms
 gem 'simple_form'
 gem 'will_paginate'
