@@ -29,6 +29,8 @@
                     <% else%>
                       <a href="<%= edit_transcription_path(transcription) %>" class="btn btn-success btn-sm"><%= t('edit-transcription') %></a>
                     <% end %>
+                  <% else %>
+                    <a href="<%= new_transcription_path(:current_page_id => page.id) %>" class="btn btn-primary btn-sm"><%= t('start-transcribing') %></a>
                   <% end %>
                 <% else %>
                     <a href="<%= new_transcription_path(:current_page_id => page.id) %>" class="btn btn-primary btn-sm"><%= t('start-transcribing') %></a>
