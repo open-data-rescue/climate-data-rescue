@@ -1,7 +1,7 @@
 
 if @transcriptions.present?
   json.array! @transcriptions do |transcription|
-    dates = transcription.annotations.order_by_date.group_by do |a|
+    dates = transcription.annotations.with_dimensions.order_by_date.group_by do |a|
       a.observation_date.utc.to_date
     end
 
