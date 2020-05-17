@@ -9,11 +9,11 @@ GIT
 
 GIT
   remote: https://github.com/svenfuchs/routing-filter
-  revision: 95e225700bb8c67ac98e7818b7572f001ca1b5bc
+  revision: eb80b02fc916eeb9b3e490ac15e77aee0bd63539
   specs:
-    routing-filter (0.6.2)
-      actionpack (>= 4.2, < 6)
-      activesupport (>= 4.2, < 6)
+    routing-filter (0.6.3)
+      actionpack (>= 4.2)
+      activesupport (>= 4.2)
 
 GEM
   remote: https://rubygems.org/
