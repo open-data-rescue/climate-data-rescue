@@ -6,7 +6,7 @@ h1 = t('better-together.community.posts.edit')
 == render 'form'
 
 .post-nav.voffset20
-  => link_to BetterTogether::Post.model_name.human(count: 2), admin_better_together_post_path
+  => link_to BetterTogether::Post.model_name.human(count: 2), admin_better_together_posts_path
   = "|"
   => link_to t('better-together.community.posts.show'), @better_together_post, target: :_blank
   = "|"

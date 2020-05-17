@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "admin/better_together/posts/edit", type: :view do
   before(:each) do
-    @better_together_post = assign(:better_together_post, BetterTogether::Post.create!(
-      :bt_id => "MyString"
-    ))
+    @better_together_post = assign(:better_together_post, create(:better_together_post))
   end
 
   it "renders the edit better_together_post form" do
