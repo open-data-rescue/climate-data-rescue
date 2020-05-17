@@ -81,7 +81,7 @@ gem "skylight"
 # gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'newrelic_rpm'
 gem 'rollbar'
-gem 'puma',  '~> 4.3.1'
+gem 'puma',  '~> 4.3.3'
 
 gem "recaptcha", require: "recaptcha/rails"
 
