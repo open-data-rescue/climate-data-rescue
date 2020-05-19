@@ -78,6 +78,7 @@ Rails.application.routes.draw do
   end
   match 'users/dismiss_box_tutorial' => 'users#dismiss_box_tutorial', :via => [:post]
   get 'my-profile' => 'users#show', as: "my_profile"
+  get 'my-profile/certificate' => 'users#my_certificate', as: "my_certificate"
 
   post 'create_page_metadata' => "page_days#create"
 

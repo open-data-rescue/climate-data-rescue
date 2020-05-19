@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <center>
+    <style>
+    .signature, .title { 
+    float:left;
+      border-top: 1px solid #000;
+      width: 200px; 
+      text-align: center;
+    }
+    </style>
+    <div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
+    <div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
+           <span style="font-size:50px; font-weight:bold">Certificate of Completion</span>
+           <br><br>
+           <span style="font-size:25px"><i>This is to certify that</i></span>
+           <br><br>
+           <span style="font-size:30px"><b><%= @user.display_name %></b></span><br/><br/>
+           <span style="font-size:25px"><i>has transcribed <%= @user.transcriptions.count %> pages</i></span> <br/><br/>
+           <span style="font-size:30px">On DRAW</span> <br/><br/>
+           <span style="font-size:20px">With <%= @completed_transcriptions_size %> marked completed</span> <br/><br/><br/><br/>
+           <span style="font-size:25px"><i>Completed Date</i></span><br>
+           <span style="font-size:25px"><b><p id="date"></p></b></span><br>
+    <table style="margin-top:40px;float:left">
+    <tr>
+    <td><span><b>DRAW Team</b></td>
+    </tr>
+    <tr>
+    <td style="width:200px;float:left;border:0;border-bottom:1px solid #000;"></td>
+    </tr>
+    <tr>
+    <td style="text-align:center"><span><b>Signature</b></td>
+    </tr>
+    </table>
+    
+    </div>
+    </div>
+    </center>
+     
+    
+</html>
+
+<script language="javascript">
+  n =  new Date();
+  y = n.getFullYear();
+  m = n.getMonth() + 1;
+  d = n.getDate();
+  document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
+  </script>
