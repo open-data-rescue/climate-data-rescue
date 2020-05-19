@@ -16,7 +16,7 @@
            <span style="font-size:25px"><i>This is to certify that</i></span>
            <br><br>
            <span style="font-size:30px"><b><%= @user.display_name %></b></span><br/><br/>
-           <span style="font-size:25px"><i>has transcribed <%= @user.transcriptions.count %> pages</i></span> <br/><br/>
+           <span style="font-size:25px"><i>has transcribed <%= @user.transcriptions.count %> pages <%= @data_entries_count%> data entries </i></span> <br/><br/>
            <span style="font-size:30px">On DRAW</span> <br/><br/>
            <span style="font-size:20px">With <%= @completed_transcriptions_size %> marked completed</span> <br/><br/><br/><br/>
            <span style="font-size:25px"><i>Completed Date</i></span><br>

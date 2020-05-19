@@ -52,7 +52,7 @@ class UsersController < ApplicationController
   end
 
   def my_certificate
-    
+    @data_entries_count = @user.data_entries.count
   end
 
   private
