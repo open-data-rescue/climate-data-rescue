@@ -11,7 +11,7 @@ describe StaticPage do
 
   describe 'ActiveRecord associations' do
     it { is_expected.to have_many(:children) }
-    it { is_expected.to belong_to(:parent) }
+    it { is_expected.to belong_to(:parent).optional(true) }
   end
 
   describe 'ActiveModel validations' do
