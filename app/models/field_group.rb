@@ -1,4 +1,9 @@
 class FieldGroup < ApplicationRecord
+  COLOUR_CLASSES = %w(
+    red-group pink-group purple-group blue-group cyan-group
+    green-group yellow-group orange-group
+  ).freeze
+
   include TranslationHelpers
 
   translates :name, :display_name, :help,
@@ -18,10 +23,7 @@ class FieldGroup < ApplicationRecord
   validates :colour_class,
             presence: true,
             inclusion: {
-              in: %w(
-                red-group pink-group purple-group blue-group cyan-group
-                green-group yellow-group orange-group
-              )
+              in: COLOUR_CLASSES
             }
   validates :name,
             presence: true
