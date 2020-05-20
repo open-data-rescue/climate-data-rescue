@@ -8,6 +8,6 @@ FactoryBot.define do
     association :user
 
     data_type { 'string' }
-    value { Faker::Number.between(1, 500) }
+    value { Faker::Number.between(from: 1, to: 500) }
   end
 end
