@@ -1,4 +1,14 @@
 GIT
+  remote: git://github.com/better-together-org/community-engine-rails.git
+  revision: 93c983b576f8c3c7137df9d60e8479ba04944a26
+  specs:
+    better_together-community (0.1.1)
+      friendly_id (>= 5.2, < 5.4)
+      friendly_id-mobility (~> 0.5.4)
+      mobility (~> 0.8.6)
+      rails (>= 5.2.2, < 6.1.0)
+
+GIT
   remote: https://github.com/globalize/globalize
   revision: 6207a3b49d9705120ceed460af0d0af78c8bfaf3
   specs:
@@ -431,6 +441,7 @@ DEPENDENCIES
   autoprefixer-rails
   aws-sdk-s3 (~> 1)
   better_errors
+  better_together-community!
   binding_of_caller
   bootsnap (>= 1.1.0)
   bootstrap-sass
