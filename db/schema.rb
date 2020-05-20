@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_11_232706) do
+ActiveRecord::Schema.define(version: 2020_05_20_055318) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -30,10 +30,131 @@ ActiveRecord::Schema.define(version: 2020_02_11_232706) do
     t.index ["transcription_id"], name: "by_transcription"
   end
 
-  create_table "better_together_posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "bt_id"
+  create_table "better_together_authorables", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "bt_id", limit: 50, null: false
+    t.string "authorable_type", null: false
+    t.bigint "authorable_id", null: false
+    t.integer "lock_version", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["authorable_type", "authorable_id"], name: "by_authorable", unique: true
+    t.index ["bt_id"], name: "authorable_by_bt_id", unique: true
+  end
+
+  create_table "better_together_authors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "bt_id", limit: 50, null: false
+    t.string "author_type", null: false
+    t.bigint "author_id", null: false
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_type", "author_id"], name: "by_author", unique: true
+    t.index ["bt_id"], name: "author_by_bt_id", unique: true
+  end
+
+  create_table "better_together_authorships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "bt_id", limit: 50, null: false
+    t.bigint "authorable_id", null: false
+    t.bigint "author_id", null: false
+    t.integer "sort_order"
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "by_authorship_author"
+    t.index ["authorable_id"], name: "by_authorship_authorable"
+    t.index ["bt_id"], name: "authorship_by_bt_id", unique: true
+    t.index ["sort_order"], name: "by_authorship_sort_order"
+  end
+
+  create_table "better_together_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "bt_id", limit: 50, null: false
+    t.bigint "creator_id", null: false
+    t.string "group_privacy", default: "public", null: false
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bt_id"], name: "group_by_bt_id", unique: true
+    t.index ["creator_id"], name: "by_creator"
+    t.index ["group_privacy"], name: "by_group_privacy"
+  end
+
+  create_table "better_together_identifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.boolean "active", null: false
+    t.string "identity_type", null: false
+    t.bigint "identity_id", null: false
+    t.string "agent_type", null: false
+    t.bigint "agent_id", null: false
+    t.string "bt_id", limit: 100, null: false
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active", "agent_type", "agent_id"], name: "active_identification", unique: true
+    t.index ["active"], name: "by_active_state"
+    t.index ["agent_type", "agent_id"], name: "by_agent"
+    t.index ["bt_id"], name: "identification_by_bt_id", unique: true
+    t.index ["identity_type", "identity_id", "agent_type", "agent_id"], name: "unique_identification", unique: true
+    t.index ["identity_type", "identity_id"], name: "by_identity"
+  end
+
+  create_table "better_together_invitations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "bt_id", limit: 100, null: false
+    t.string "status", limit: 20, null: false
+    t.datetime "valid_from", null: false
+    t.datetime "valid_until"
+    t.string "invitable_type", null: false
+    t.bigint "invitable_id", null: false
+    t.string "inviter_type", null: false
+    t.bigint "inviter_id", null: false
+    t.string "invitee_type", null: false
+    t.bigint "invitee_id", null: false
+    t.bigint "role_id"
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bt_id"], name: "invitation_by_bt_id", unique: true
+    t.index ["invitable_type", "invitable_id"], name: "by_invitable"
+    t.index ["invitee_type", "invitee_id"], name: "by_invitee"
+    t.index ["inviter_type", "inviter_id"], name: "by_inviter"
+    t.index ["role_id"], name: "by_role"
+    t.index ["status"], name: "by_status"
+    t.index ["valid_from"], name: "by_valid_from"
+    t.index ["valid_until"], name: "by_valid_until"
+  end
+
+  create_table "better_together_people", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "bt_id", limit: 100, null: false
+    t.string "name", limit: 50, null: false
+    t.string "description"
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bt_id"], name: "person_by_bt_id", unique: true
+    t.index ["name"], name: "by_name"
+  end
+
+  create_table "better_together_posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "bt_id"
+    t.datetime "published_at"
+    t.string "post_privacy", default: "public", null: false
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_privacy"], name: "by_post_privacy"
+    t.index ["published_at"], name: "by_post_publication_date"
+  end
+
+  create_table "better_together_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "bt_id", limit: 50, null: false
+    t.boolean "reserved", default: false, null: false
+    t.integer "sort_order"
+    t.string "target_class", limit: 100
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bt_id"], name: "role_by_bt_id", unique: true
+    t.index ["reserved"], name: "by_reserved_state"
+    t.index ["sort_order"], name: "by_sort_order"
+    t.index ["target_class"], name: "by_target_class"
   end
 
   create_table "content_images", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
@@ -145,9 +266,11 @@ ActiveRecord::Schema.define(version: 2020_02_11_232706) do
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
     t.string "scope"
+    t.string "locale"
     t.datetime "created_at"
-    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, length: { slug: 70, scope: 70 }
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
+    t.index ["locale"], name: "index_friendly_id_slugs_on_locale"
+    t.index ["slug", "sluggable_type", "locale"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_locale", length: { slug: 140, locale: 2 }
+    t.index ["slug", "sluggable_type", "scope", "locale"], name: "index_friendly_id_slugs_unique", unique: true, length: { slug: 70, scope: 70, locale: 2 }
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
@@ -192,10 +315,26 @@ ActiveRecord::Schema.define(version: 2020_02_11_232706) do
     t.index ["user_id"], name: "by_user"
   end
 
+  create_table "page_infos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "observer"
+    t.string "lat"
+    t.string "lon"
+    t.string "location"
+    t.bigint "page_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "elevation"
+    t.integer "month"
+    t.integer "year"
+    t.index ["page_id"], name: "index_page_infos_on_page_id"
+    t.index ["user_id"], name: "index_page_infos_on_user_id"
+  end
+
   create_table "page_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.string "ledger_type"
-    t.string "number"
+    t.integer "number"
     t.text "description"
     t.integer "ledger_id"
     t.datetime "created_at"
@@ -306,4 +445,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_232706) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "better_together_authorships", "better_together_authorables", column: "authorable_id"
+  add_foreign_key "better_together_authorships", "better_together_authors", column: "author_id"
+  add_foreign_key "better_together_groups", "better_together_people", column: "creator_id"
 end
