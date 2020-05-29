@@ -302,7 +302,7 @@ GEM
       ffi (>= 1.0.6)
       msgpack (>= 0.4.3)
       optimist (>= 3.0.0)
-    recaptcha (5.1.1)
+    recaptcha (5.5.0)
       json
     regexp_parser (1.7.0)
     request_store (1.5.0)
