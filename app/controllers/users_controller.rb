@@ -53,6 +53,7 @@ class UsersController < ApplicationController
 
   def my_certificate
     @data_entries_count = @user.data_entries.count
+    @transcriptions_count = @user.transcriptions.count
   end
 
   private

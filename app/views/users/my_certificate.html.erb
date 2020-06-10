@@ -11,17 +11,19 @@
     </style>
     <div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
     <div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
-           <span style="font-size:50px; font-weight:bold">Certificate of Completion</span>
+           <span style="font-size:50px; font-weight:bold">Certificate of Participation</span>
            <br><br>
            <span style="font-size:25px"><i>This is to certify that</i></span>
            <br><br>
            <span style="font-size:30px"><b><%= @user.display_name %></b></span><br/><br/>
-           <span style="font-size:25px"><i>has transcribed <%= @user.transcriptions.count %> pages <%= @data_entries_count%> data entries </i></span> <br/><br/>
-           <span style="font-size:30px">On DRAW</span> <br/><br/>
-           <span style="font-size:20px">With <%= @completed_transcriptions_size %> marked completed</span> <br/><br/><br/><br/>
+           <span style="font-size:25px"><i>has transcribed <%= @transcriptions_count %> pages with <%= @data_entries_count%> data entries </i></span> <br/><br/>
+           <span style="font-size:30px">on DRAW</span> <br/><br/>
+           <span style="font-size:20px">(with <%= @completed_transcriptions_size %> pages marked as completed)</span> <br/><br/>
+           <span style="font-size:25px"><i>This amount of work is counted as <%= @data_entries_count / 300 %> volunteer hours</i></span><br/><br/>
+           <span style="font-size:20px">(on average, participants complete 300 data entries per hour)</span> <br/><br/>
            <span style="font-size:25px"><i>Completed Date</i></span><br>
            <span style="font-size:25px"><b><p id="date"></p></b></span><br>
-    <table style="margin-top:40px;float:left">
+    <table style="margin-top:-100px;float:left">
     <tr>
     <td><span><b>DRAW Team</b></td>
     </tr>
@@ -29,13 +31,20 @@
     <td style="width:200px;float:left;border:0;border-bottom:1px solid #000;"></td>
     </tr>
     <tr>
-    <td style="text-align:center"><span><b>Signature</b></td>
+    <td style="text-align:center"><span><img src="https://citsci.geog.mcgill.ca/system/content_images/medium/7b45ecd3276efa816d2107e6f4418cfd9c6a1739.png" style="width:175px;height:97px;"></td>
+    </tr>
+    </table>
+
+    <table style="margin-top:-60px;float:right">
+    <tr>
+    <td style="text-align:center"><span><img src="https://citsci.geog.mcgill.ca/assets/partners/Geothink_Logo_T2-5605b868fb6a3f586c60e82b6f48cb6eda0e6875b74b3b06fd2f2fc8d7f16535.jpg" style="width:254px;height:62px;"></td>
     </tr>
     </table>
     
     </div>
     </div>
     </center>
+
      
     
 </html>
