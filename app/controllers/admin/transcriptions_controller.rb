@@ -89,13 +89,15 @@ module Admin
             #   annotation_id: @page_type.annotations.pluck(:id)
             # )
             @transcriptions = @page_type.transcriptions
+                                        .select(Arel.star, Page.arel_table[:start_date])
                                         .joins(
                                           :annotations,
                                           :page
                                         )
                                         .preload(:data_entries)
+                                        .order('pages.start_date ASC')
                                         .limit(limit).offset(offset)
-                                        .order('pages.start_date ASC').distinct
+                                        .distinct
           end
         else
           @transcriptions = Transcription.joins(
