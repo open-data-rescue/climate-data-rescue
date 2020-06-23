@@ -199,13 +199,14 @@
                       data-trigger="hover" 
                       data-content="<%= t('transcriber.transcription-box-template.form.fields.help.datetime').html_safe %>" 
                       data-container="body" 
-                      data-html=true
+                      data-html="true"
+                      data-sanitize="false"
                       data-placement="auto"> 
                       <%= t('transcriber.transcription-box-template.form.fields.labels.datetime') %></label>
                     </div>
                     <% field_group.fields.each do |field| %>
                       <div class="scribe_input_label">
-                        <label for="<%= field.id %>"
+                        <label for="<%= dom_id(field) %>"
                           style="cursor: help;" 
                           aria-hidden="true" 
                           title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" 
@@ -258,6 +259,7 @@
                         select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", 
                         ('<option></option>').html_safe, 
                         class: "observation-input form-control selectable", 
+                          id: dom_id(field),
                           multiple: field.multi_select, 
                           placeholder: (field.multi_select ? 'select' : 'type'), 
                           data: { 
