@@ -16,9 +16,10 @@
            <span style="font-size:25px"><i>This is to certify that</i></span>
            <br><br>
            <span style="font-size:30px"><b><%= @user.display_name %></b></span><br/><br/>
-           <span style="font-size:25px"><i>has transcribed <%= @transcriptions_count %> pages with <%= @data_entries_count%> data entries </i></span> <br/><br/>
+           <!-- <span style="font-size:25px"><i>has transcribed <%= @transcriptions_count %> pages with <%= @data_entries_count%> data entries </i></span> <br/><br/> -->
+           <span style="font-size:25px"><i>has transcribed <%= @data_entries_count%> data entries </i></span> <br/><br/>
            <span style="font-size:30px">on DRAW</span> <br/><br/>
-           <span style="font-size:20px">(with <%= @completed_transcriptions_size %> pages marked as completed)</span> <br/><br/>
+           <!-- <span style="font-size:20px">(with <%= @completed_transcriptions_size %> pages marked as completed)</span> <br/><br/> -->
            <span style="font-size:25px"><i>This amount of work is counted as <%= @data_entries_count / 300 %> volunteer hours</i></span><br/><br/>
            <span style="font-size:20px">(on average, participants complete 300 data entries per hour)</span> <br/><br/>
            <span style="font-size:25px"><i>Completed Date</i></span><br>
