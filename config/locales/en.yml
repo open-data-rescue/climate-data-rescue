@@ -1243,6 +1243,9 @@ en:
     data-table:
       header:
         data-collected:
+    export:
+      download-csv: Download (CSV)
+      download-json: Download (JSON)
     marked-complete: Marked complete
     table:
       header-labels:
