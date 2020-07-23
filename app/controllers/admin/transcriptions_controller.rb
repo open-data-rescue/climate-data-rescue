@@ -78,7 +78,7 @@ module Admin
                 field_group: {
                   field_groups_fields: :field
                 }
-              }
+              } 
             }
           )
           .find(params['page_type_id'])
@@ -117,11 +117,6 @@ module Admin
           # response.headers['Content-Type'] = 'text/plain'
         end
         format.json
-        # format.xlsx do
-        #   response.headers['Content-Disposition'] =
-        #     "attachment; \
-        #     filename='DRAW_transcriptions_#{Datetime.current}.xlsx'"
-        # end
       end
     end
 
