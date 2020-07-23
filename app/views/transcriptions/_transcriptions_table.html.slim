@@ -53,12 +53,13 @@
               td 
                 = link_to t('edit-transcription'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
                 = link_to t('view-details'), (current_user.admin? ?  admin_transcription_path(transcription) :  transcription_path(transcription)), class: "btn btn-xs btn-primary" if detail_links
-                .dropdown
-                  button class="btn btn-warning btn-xs dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" Download transcription
-                  div class="dropdown-menu" aria-labelledby="dropdownMenuLink"
-                    a class="dropdown-item" href="#" Download as JSON
-                    .dropdown-divider
-                    a class="dropdown-item" href="#" Download as CSV
+                .btn-group style="width: 150px;"
+                  = link_to "Download (CSV)", transcription_path(transcription, format: :csv), class: "btn btn-info btn-xs"
+                  button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    span.caret
+                    span.sr-only Toggle Dropdown
+                  ul.dropdown-menu aria-labelledby="dropdownMenuLink" style="font-size: 12px;"
+                    li = link_to "Download (JSON)", transcription_path(transcription, format: :json), class: "dropdown-item"
                 /= link_to ('<i class="fa fa-trash"></i>').html_safe, admin_transcriptions_path(transcription), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
 
 - else
