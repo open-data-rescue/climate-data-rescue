@@ -22,6 +22,17 @@ class TranscriptionsController < ApplicationController
       if params['only_data_table'].present? && params['only_data_table'] == true || params['only_data_table'] == 'true'
         render 'data_view', layout: 'raw'
       end
+      respond_to do |format|
+        format.html
+        format.csv do
+          require 'csv'
+          response.headers['Content-Disposition'] =
+            "attachment; \
+            filename=DRAW_transcription_#{@transcription.id}_#{DateTime.current}.csv"
+          # response.headers['Content-Type'] = 'text/plain'
+        end
+        format.json
+      end
     else
       flash[:danger] = 'Only users can view transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
       redirect_to root_path
