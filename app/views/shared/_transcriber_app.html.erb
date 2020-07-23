@@ -705,7 +705,9 @@
           });
 
           $(datetime).on('dp.change', function(e) {
-            lastDate = e.date;
+            if (e.date) {
+              lastDate = e.date;
+            }
           });
 
           if (lastDate != null) {
