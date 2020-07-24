@@ -78,7 +78,7 @@ module Admin
                 field_group: {
                   field_groups_fields: :field
                 }
-              } 
+              }
             }
           )
           .find(params['page_type_id'])
