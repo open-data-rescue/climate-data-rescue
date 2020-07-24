@@ -918,6 +918,9 @@ fr:
     data-table:
       header:
         data-collected:
+    export:
+      download-csv: Télécharger (CSV)
+      download-json: Télécharger (JSON)
     table:
       header-labels:
         fields-total: "Champs au total"
