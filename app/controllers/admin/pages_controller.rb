@@ -67,6 +67,7 @@ module Admin
           page.save!
         else
           page = Page.create!(image: image)
+          page.visible = false
         end
         respond_to do |format|
           format.html { #(html response is for browsers using iframe solution)
