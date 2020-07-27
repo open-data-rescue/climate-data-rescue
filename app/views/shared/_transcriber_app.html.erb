@@ -897,11 +897,12 @@
           var fieldGroupName = data.field_group.name || "";
 
           if (hideAnnotationInstructions) {
-            new DrawBoxes({
+            Boxer.options = {
               data : data,
               transcriber : self,
               fieldGroupName : fieldGroupName
-            }).enableBoxer();
+            };
+            Boxer.enableBoxer();
           } else {
             var modal = new Backbone.BootstrapModal({
               title : ('<%= j t('transcriber.messages.annotation-saved-with-field-group').html_safe %>').replace('%{field_group}', fieldGroupName),
@@ -915,6 +916,9 @@
               showFooter : false
             }).open();
           }
+
+          $form.off("ajax:success");
+          $form.off("ajax:error");
         }).on("ajax:error", function(e, xhr, status, error) {
           // console.log(e);
           console.error(error);
@@ -923,6 +927,9 @@
           pageCanvas.$el.boxer('destroy');
           self.show();
           setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %><br>' + error + " | " + status, true, "danger");
+
+          $form.off("ajax:success");
+          $form.off("ajax:error");
         });
 
         $form.submit();
@@ -1084,6 +1091,7 @@
         },
         'click .dont-ask-again' : function(e) {
           Cookies.set('hideAnnotationInstructions', true);
+          hideAnnotationInstructions = true;
           this.enableBoxer();
         },
       },
@@ -1095,6 +1103,7 @@
         $('body').removeClass("modal-open");
 
         setMsg(('<%= j t('transcriber.messages.draw-annotation-box-instructions-with-field-group').html_safe %>').replace('%{field_group}', fieldGroupName), false, "info");
+    
         var annotation = new Annotation(this.options.data);
 
         pageCanvas.disableScrolling();
@@ -1151,6 +1160,7 @@
     var annotator = new Annotator();
     var mainLayout = new MainLayout();
     var toolbarLayout = new ToolbarLayout();
+    var Boxer = new DrawBoxes({});
 
     var mainPage = new Page({
       image_id: 'target-image',
