@@ -1,4 +1,4 @@
-set :branch, "master"
+set :branch, "production"
 set :stage,           :staging
 
 set :deploy_to,       "/opt/www/climate_test"
