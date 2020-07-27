@@ -474,10 +474,10 @@ $fg-gray: hsla(0, 0%, 50%, 0.3);
 
 $tab-active-text: white;
 
-@function tab-background($colour){
+@function tab-background($colour) {
   @return rgba($colour, 0.3)
 }
-@function active-tab-background($colour){
+@function active-tab-background($colour) {
   @return rgba(tab-background($colour), 1)
 }
 .red-group {
