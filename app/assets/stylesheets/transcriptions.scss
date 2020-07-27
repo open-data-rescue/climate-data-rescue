@@ -475,11 +475,12 @@ $fg-gray: hsla(0, 0%, 50%, 0.3);
 $tab-active-text: white;
 
 @function tab-background($colour) {
-  @return rgba($colour, 0.3)
+  @return rgba($colour, 0.3);
 }
 @function active-tab-background($colour) {
-  @return rgba(tab-background($colour), 1)
+  @return rgba(tab-background($colour), 1);
 }
+
 .red-group {
   background: $fg-red;
 }
@@ -513,7 +514,7 @@ $tab-active-text: white;
   .field-group-tab.red-group {
     background: tab-background($fg-red);
 
-    &.active{
+    &.active {
       background: active-tab-background($fg-red);
       color: $tab-active-text;
     }
@@ -521,7 +522,7 @@ $tab-active-text: white;
   .field-group-tab.pink-group {
     background: tab-background($fg-pink);
     
-    &.active{
+    &.active {
       background: active-tab-background($fg-pink);
       color: $tab-active-text;
     }
@@ -529,7 +530,7 @@ $tab-active-text: white;
   .field-group-tab.purple-group {
     background: tab-background($fg-purple);
     
-    &.active{
+    &.active {
       background: active-tab-background($fg-purple);
       color: $tab-active-text;
     }
@@ -537,7 +538,7 @@ $tab-active-text: white;
   .field-group-tab.blue-group {
     background: tab-background($fg-blue);
     
-    &.active{
+    &.active {
       background: active-tab-background($fg-blue);
       color: $tab-active-text;
     }
@@ -545,7 +546,7 @@ $tab-active-text: white;
   .field-group-tab.cyan-group {
     background: tab-background($fg-cyan);
     
-    &.active{
+    &.active {
       background: active-tab-background($fg-cyan);
       color: $tab-active-text;
     }
@@ -553,7 +554,7 @@ $tab-active-text: white;
   .field-group-tab.green-group {
     background: tab-background($fg-green);
   
-    &.active{
+    &.active {
       background: active-tab-background($fg-green);
       color: $tab-active-text;
     }
@@ -561,7 +562,7 @@ $tab-active-text: white;
   .field-group-tab.yellow-group {
     background: tab-background($fg-yellow);
 
-    &.active{
+    &.active {
       background: active-tab-background($fg-yellow);
       color: $tab-active-text;
     }
@@ -569,7 +570,7 @@ $tab-active-text: white;
   .field-group-tab.orange-group {
     background: tab-background($fg-orange);
 
-    &.active{
+    &.active {
       background: active-tab-background($fg-orange);
       color: $tab-active-text;
     }
@@ -577,7 +578,7 @@ $tab-active-text: white;
   .field-group-tab.gray-group {
     background: tab-background($fg-gray);
 
-    &.active{
+    &.active {
       background: active-tab-background($fg-gray);
       color: $tab-active-text;
     }
