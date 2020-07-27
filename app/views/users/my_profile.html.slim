@@ -28,9 +28,9 @@
     .row.voffset40
       .col-md-12 
         p 
-          strong Press this button to view your certificate of participation:
-        p You can press this button at any time to generate a certificate of participation. Your participation is based on an average speed of 300 data entries per hour, which was tested by volunteers from the DRAW team. You also can utilize this certificate as proof of your volunteer hours. 
-        = link_to t('my_certificate'), my_certificate_path, class: "btn btn-lg btn-draw-accented"
+          strong = t('profile.certificate.heading')
+        p = t('profile.certificate.description') 
+        = link_to t('profile.certificate.button-text'), my_certificate_path, class: "btn btn-lg btn-draw-accented"
 
     .row.voffset40
       .col-md-12 

@@ -11,13 +11,13 @@
     </style>
     <div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
     <div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
-           <span style="font-size:50px; font-weight:bold">Certificate of Participation</span>
+           <span style="font-size:50px; font-weight:bold"><%= t('certificate.line1') %></span>
            <br><br>
-           <span style="font-size:25px"><i>This is to certify that</i></span>
+           <span style="font-size:25px"><i><%= t('certificate.line2') %></i></span>
            <br><br>
            <span style="font-size:30px"><b><%= @user.display_name %></b></span><br/><br/>
            <!-- <span style="font-size:25px"><i>has transcribed <%= @transcriptions_count %> pages with <%= @data_entries_count%> data entries </i></span> <br/><br/> -->
-           <span style="font-size:25px"><i>has transcribed <%= @data_entries_count%> data entries </i></span> <br/><br/>
+           <span style="font-size:25px"><i><%= t('certificate.line3', count: @data_entries_count) %></i></span> <br/><br/>
            <span style="font-size:30px">on DRAW</span> <br/><br/>
            <!-- <span style="font-size:20px">(with <%= @completed_transcriptions_size %> pages marked as completed)</span> <br/><br/> -->
            <span style="font-size:25px"><i>This amount of work is counted as <%= @data_entries_count / 300 %> volunteer hours</i></span><br/><br/>
