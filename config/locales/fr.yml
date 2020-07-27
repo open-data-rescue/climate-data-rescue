@@ -233,6 +233,7 @@ fr:
     line5: This amount of work is counted as %{hours} volunteer hours
     line6: (on average, participants complete 300 data entries per hour)
     line7: Completion Date
+    line8: Équipe DRAW
   content-images: "Images de contenus"
   content-pages: "Pages customisés"
   continue: Continuer

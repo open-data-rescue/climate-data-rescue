@@ -16,17 +16,15 @@
            <span style="font-size:25px"><i><%= t('certificate.line2') %></i></span>
            <br><br>
            <span style="font-size:30px"><b><%= @user.display_name %></b></span><br/><br/>
-           <!-- <span style="font-size:25px"><i>has transcribed <%= @transcriptions_count %> pages with <%= @data_entries_count%> data entries </i></span> <br/><br/> -->
            <span style="font-size:25px"><i><%= t('certificate.line3', count: @data_entries_count) %></i></span> <br/><br/>
-           <span style="font-size:30px">on DRAW</span> <br/><br/>
-           <!-- <span style="font-size:20px">(with <%= @completed_transcriptions_size %> pages marked as completed)</span> <br/><br/> -->
-           <span style="font-size:25px"><i>This amount of work is counted as <%= @data_entries_count / 300 %> volunteer hours</i></span><br/><br/>
-           <span style="font-size:20px">(on average, participants complete 300 data entries per hour)</span> <br/><br/>
-           <span style="font-size:25px"><i>Completed Date</i></span><br>
+           <span style="font-size:30px"><%= t('certificate.line4') %></span> <br/><br/>
+           <span style="font-size:25px"><i><%= t('certificate.line5', hours: @data_entries_count / 300) %></i></span><br/><br/>
+           <span style="font-size:20px"><%= t('certificate.line6') %></span> <br/><br/>
+           <span style="font-size:25px"><i><%= t('certificate.line7') %></i></span><br>
            <span style="font-size:25px"><b><p id="date"></p></b></span><br>
     <table style="margin-top:-100px;float:left">
     <tr>
-    <td><span><b>DRAW Team</b></td>
+    <td><span><b><%= t('certificate.line8') %></b></td>
     </tr>
     <tr>
     <td style="width:200px;float:left;border:0;border-bottom:1px solid #000;"></td>
