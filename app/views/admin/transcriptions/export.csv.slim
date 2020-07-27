@@ -26,6 +26,6 @@
               - value = nil
               - value = entry.value.html_safe if entry.present? && entry.value.present?
               - row << value
-          - row = row.concat([transcription.id, transcription.page_id, transcription.user_id, created.strftime('%Y-%m-%d %H:%M'), updated.strftime('%Y-%m-%d %H:%M')])
+          - row = row.concat([transcription.id, transcription.page_id, transcription.user_id, (created ? created.strftime('%Y-%m-%d %H:%M') : nil), (updated ? updated.strftime('%Y-%m-%d %H:%M') : nil)])
           - csv << row
   = csv_string.html_safe

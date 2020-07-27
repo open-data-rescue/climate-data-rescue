@@ -1,2 +1,3 @@
 AllCops:
-  RunRailsCops: true
+  Rails:
+    Enabled: true
