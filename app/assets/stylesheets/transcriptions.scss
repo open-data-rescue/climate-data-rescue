@@ -470,7 +470,7 @@ $fg-cyan: hsla(178, 100%, 68%, 0.3);
 $fg-green: hsla(126, 100%, 68%, 0.3);
 $fg-yellow: hsla(62, 100%, 68%, 0.3);
 $fg-orange: hsla(26, 100%, 68%, 0.3);
-$fg-gray: hsla(0,0%,50%, 0.3);
+$fg-gray: hsla(0, 0%, 50%, 0.3);
 
 $tab-active-text: white;
 
@@ -560,7 +560,7 @@ $tab-active-text: white;
   }
   .field-group-tab.yellow-group {
     background: tab-background($fg-yellow);
-  
+
     &.active{
       background: active-tab-background($fg-yellow);
       color: $tab-active-text;
@@ -568,7 +568,7 @@ $tab-active-text: white;
   }
   .field-group-tab.orange-group {
     background: tab-background($fg-orange);
-  
+
     &.active{
       background: active-tab-background($fg-orange);
       color: $tab-active-text;
@@ -576,7 +576,7 @@ $tab-active-text: white;
   }
   .field-group-tab.gray-group {
     background: tab-background($fg-gray);
-  
+
     &.active{
       background: active-tab-background($fg-gray);
       color: $tab-active-text;
