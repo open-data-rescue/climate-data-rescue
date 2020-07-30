@@ -16,6 +16,7 @@
            <span style="font-size:25px"><i><%= t('certificate.line2') %></i></span>
            <br><br>
            <span style="font-size:30px"><b><%= @user.display_name %></b></span><br/><br/>
+           <span style="font-size:22px"><b><%= @user.email %></b></span><br/><br/>
            <span style="font-size:25px"><i><%= t('certificate.line3', count: @data_entries_count) %></i></span> <br/><br/>
            <span style="font-size:30px"><%= t('certificate.line4') %></span> <br/><br/>
            <span style="font-size:25px"><i><%= t('certificate.line5', hours: (@data_entries_count.to_f / 300).ceil(1)) %></i></span><br/><br/>
