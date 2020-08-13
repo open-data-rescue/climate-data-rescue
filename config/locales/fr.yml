@@ -226,14 +226,14 @@ fr:
   cancel: Annuler
   cancel_file_transfer: 
   certificate:
-    line1: Certificate of Participation
-    line2: This is to certify that
-    line3: has transcribed %{count} data entries
-    line4: on DRAW
-    line5: This amount of work is counted as %{hours} volunteer hours
-    line6: (on average, participants complete 300 data entries per hour)
-    line7: Completion Date
-    line8: Équipe DRAW
+    line1: Certificat de participation
+    line2: Il est certifié que
+    line3: a transcrit %{count} entrées de données
+    line4: sur SAM
+    line5: Ce montant de travail équivaut à %{hours} heures de bénévolat
+    line6: (en moyenne, les participants complètent 300 entrées de données par heure)
+    line7: Date de fin
+    line8: L'équipe SAM
   content-images: "Images de contenus"
   content-pages: "Pages customisés"
   continue: Continuer
@@ -356,9 +356,9 @@ fr:
   path:
   profile:
     certificate:
-      button-text: Mon Certificat
-      description: You can press this button at any time to generate a certificate of participation. Your participation is based on an average speed of 300 data entries per hour, which was tested by volunteers from the DRAW team. You also can utilize this certificate as proof of your volunteer hours.
-      heading: Montrer certificat de participation
+      button-text: Mon certificat
+      description: Vous pouvez cliquer sur le bouton n'importe quand pour générer un certificat de participation. Elle est basée sur une vitesse moyenne de 300 entrées de données par heure, ce qui a été testé par des bénévoles de l'équipe SAM. Vous pouvez aussi utiliser ce certificat comme preuve de vos heures de bénévolat.
+      heading: Certificat de participation
   register: 
   save: 
   sign-in-count: 
