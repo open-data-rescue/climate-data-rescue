@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   #load_and_authorize_resource
   respond_to :html, :json, :js
   before_action :ensure_current_user
-  before_action :find_user_and_transcriptions, only: :show
+  before_action :find_user_and_transcriptions, only: %i[show my_certificate]
+  layout 'certificate', only: :my_certificate
   #Corresponds to the "user" model, user.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the user model
   #All .html.slim views for "user.rb" are located at "project_root\app\views\users"
   
@@ -49,7 +50,12 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
+  def my_certificate
+    @data_entries_count = @user.data_entries.count
+    @transcriptions_count = @user.transcriptions.count
+  end
+
   private
   
   def users_params

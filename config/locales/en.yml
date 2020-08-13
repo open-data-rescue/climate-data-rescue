@@ -353,6 +353,15 @@ en:
   back: Back
   cancel: Cancel
   cancel_file_transfer: "Cancel File Transfer"
+  certificate:
+    line1: Certificate of Participation
+    line2: This is to certify that
+    line3: has transcribed %{count} data entries
+    line4: on DRAW
+    line5: This amount of work is counted as %{hours} volunteer hours
+    line6: (on average, participants complete 300 data entries per hour)
+    line7: Completion Date
+    line8: DRAW Team
   content-images: "Content Images"
   content-pages: "Custom Pages"
   continue: Continue
@@ -469,14 +478,19 @@ en:
   page-type: "Page Type"
   page-types: "Page Types"
   pages: Pages
-  pages-uploaded:
-  parent-page:
+  pages-uploaded: 
+  parent-page: 
   path:
-  register:
-  sample-page:
-  save:
-  schema:
-  sign-in-count:
+  profile:
+    certificate:
+      button-text: My Certificate
+      description: You can press this button at any time to generate a certificate of participation. Your participation is based on an average speed of 300 data entries per hour, which was tested by volunteers from the DRAW team. You also can utilize this certificate as proof of your volunteer hours.
+      heading: Participation Certificate
+  register: 
+  sample-page: 
+  save: 
+  schema: 
+  sign-in-count: 
   sign-up: "Sign Up"
   signed-up-on:
   simple_form:
