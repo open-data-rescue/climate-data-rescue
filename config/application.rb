@@ -29,6 +29,8 @@ module DataRescueAtHome
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_fieldgroups_in_json = true
 
+    config.action_mailer.preview_path = "#{Rails.root}/spec/mailer_previews"
+
     config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
     config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js snowEffect.js )
 
