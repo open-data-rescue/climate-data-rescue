@@ -40,4 +40,13 @@ class User < ApplicationRecord
     display_name.present? ? display_name : email
   end
 
+  def after_confirmation
+    send_welcome_email
+  end
+
+  def send_welcome_email
+    # Send Welcome Mail after confirmation
+    UserMailer.welcome(self).deliver!
+  end
+
 end
