@@ -969,6 +969,7 @@ en:
           avatar:
           bio:
           display_name:
+          full_name: Full name (It will only be used to generate certificate of partification.)
         email:
         new:
           avatar:
