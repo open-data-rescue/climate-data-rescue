@@ -13,7 +13,6 @@
   .form-inputs
     = f.input :display_name
     = f.input :full_name
-    / = f.input :full_name, label:'Full name: (It will only be used to generate certificate of partification.)'
     - if current_user.admin?
       = f.input :admin
     = f.input :bio
