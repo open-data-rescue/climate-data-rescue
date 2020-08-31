@@ -732,7 +732,7 @@ en:
           bio:
           display_name:
           password_confirmation:
-          full_name: "It will be used only to generate a certificate of participation"
+          full_name: "It will only be used to generate a certificate of participation."
         email:
         new:
           avatar:
@@ -741,7 +741,7 @@ en:
           email:
           password: "8 characters minimum"
           password_confirmation:
-          full_name: "It will be used only to generate a certificate of participation"
+          full_name: "It will only be used to generate a certificate of participation."
           remember_me:
         password:
         password_confirmation:
