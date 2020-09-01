@@ -8,7 +8,7 @@ class RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(
       :sign_up,
       keys: %i[
-        email password password_confirmation display_name bio avatar
+        email password password_confirmation display_name bio avatar full_name
       ]
     )
   end
