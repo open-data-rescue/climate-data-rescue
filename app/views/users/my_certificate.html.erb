@@ -32,11 +32,11 @@
     <td style="width:200px;float:left;border:0;border-bottom:1px solid #000;"></td>
     </tr>
     <tr>
-      {% if I18n.locale == :fr %}
-      <td style="text-align:center"><span><img src="logo.fr.jpeg" style="width:175px;height:97px;"></td>
-      {% else %}
-      <td style="text-align:center"><span><img src="logo.en.jpeg" style="width:175px;height:97px;"></td>
-      {% endif %}
+      <% if I18n.locale == :fr %>
+      <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_fr.png" %>" style= "width:175px;height:97px;"></td>
+      <% else %>
+      <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_en.png" %>" style= "width:175px;height:97px;"></td>
+      <% end %>
 
 
 
