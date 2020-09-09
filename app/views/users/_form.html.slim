@@ -12,6 +12,7 @@
 
   .form-inputs
     = f.input :display_name
+    = f.input :full_name
     - if current_user.admin?
       = f.input :admin
     = f.input :bio
