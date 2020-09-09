@@ -15,7 +15,12 @@
         = t('in-total').html_safe
       p = @user.bio
       - if @user == current_user || current_user.admin?
-        /! if current user is admin or this is their user page, show links to edit the user information
+        /! if current user is admin or this is their user page, show full name
+        / andlinks to edit the user information
+        p 
+          strong = "#{User.human_attribute_name(:full_name)}: #{@user.full_name}"
+          br
+          span = "(#{t('simple_form.hints.user.edit.full_name')})"
         = link_to t('edit'), edit_user_url(@user)
 
     .col-xs-3.col-lg-2
