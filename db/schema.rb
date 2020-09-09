@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_11_232706) do
+ActiveRecord::Schema.define(version: 2020_08_26_195658) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -301,6 +301,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_232706) do
     t.integer "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.boolean "dismissed_box_tutorial", default: false, null: false
+    t.string "full_name"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
