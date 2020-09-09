@@ -470,15 +470,17 @@ $fg-cyan: hsla(178, 100%, 68%, 0.3);
 $fg-green: hsla(126, 100%, 68%, 0.3);
 $fg-yellow: hsla(62, 100%, 68%, 0.3);
 $fg-orange: hsla(26, 100%, 68%, 0.3);
+$fg-gray: hsla(0, 0%, 50%, 0.3);
 
 $tab-active-text: white;
 
-@function tabBackground($colour){
-  @return rgba($colour, 0.3)
+@function tab-background($colour) {
+  @return rgba($colour, 0.3);
 }
-@function activeTabBackground($colour){
-  @return rgba(tabBackground($colour), 1)
+@function active-tab-background($colour) {
+  @return rgba(tab-background($colour), 1);
 }
+
 .red-group {
   background: $fg-red;
 }
@@ -503,70 +505,81 @@ $tab-active-text: white;
 .orange-group {
   background: $fg-orange;
 }
+.gray-group {
+  background: $fg-gray;
+}
 
 
 #field-group-tab-bar {
   .field-group-tab.red-group {
-    background: tabBackground($fg-red);
+    background: tab-background($fg-red);
 
-    &.active{
-      background: activeTabBackground($fg-red);
+    &.active {
+      background: active-tab-background($fg-red);
       color: $tab-active-text;
     }
   }
   .field-group-tab.pink-group {
-    background: tabBackground($fg-pink);
+    background: tab-background($fg-pink);
     
-    &.active{
-      background: activeTabBackground($fg-pink);
+    &.active {
+      background: active-tab-background($fg-pink);
       color: $tab-active-text;
     }
   }
   .field-group-tab.purple-group {
-    background: tabBackground($fg-purple);
+    background: tab-background($fg-purple);
     
-    &.active{
-      background: activeTabBackground($fg-purple);
+    &.active {
+      background: active-tab-background($fg-purple);
       color: $tab-active-text;
     }
   }
   .field-group-tab.blue-group {
-    background: tabBackground($fg-blue);
+    background: tab-background($fg-blue);
     
-    &.active{
-      background: activeTabBackground($fg-blue);
+    &.active {
+      background: active-tab-background($fg-blue);
       color: $tab-active-text;
     }
   }
   .field-group-tab.cyan-group {
-    background: tabBackground($fg-cyan);
+    background: tab-background($fg-cyan);
     
-    &.active{
-      background: activeTabBackground($fg-cyan);
+    &.active {
+      background: active-tab-background($fg-cyan);
       color: $tab-active-text;
     }
   }
   .field-group-tab.green-group {
-    background: tabBackground($fg-green);
+    background: tab-background($fg-green);
   
-    &.active{
-      background: activeTabBackground($fg-green);
+    &.active {
+      background: active-tab-background($fg-green);
       color: $tab-active-text;
     }
   }
   .field-group-tab.yellow-group {
-    background: tabBackground($fg-yellow);
-  
-    &.active{
-      background: activeTabBackground($fg-yellow);
+    background: tab-background($fg-yellow);
+
+    &.active {
+      background: active-tab-background($fg-yellow);
       color: $tab-active-text;
     }
   }
   .field-group-tab.orange-group {
-    background: tabBackground($fg-orange);
-  
-    &.active{
-      background: activeTabBackground($fg-orange);
+    background: tab-background($fg-orange);
+
+    &.active {
+      background: active-tab-background($fg-orange);
+      color: $tab-active-text;
+    }
+  }
+  .field-group-tab.gray-group {
+    background: tab-background($fg-gray);
+
+    &.active {
+      background: active-tab-background($fg-gray);
       color: $tab-active-text;
     }
   }

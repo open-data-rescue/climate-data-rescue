@@ -19,7 +19,6 @@ gem 'activerecord-session_store'
 gem 'sass-rails'
 #gem 'sprockets-rails'
 gem 'bootstrap-sass'
-gem 'autoprefixer-rails'
 
 # source 'https://rails-assets.org' do
 #   gem 'rails-assets-tether', '>= 1.1.0'
@@ -52,8 +51,6 @@ gem 'aws-sdk-s3', '~> 1'
 # Support for tag inputs
 gem 'select2-rails'
 
-# gem "rails-backbone"
-
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 
@@ -75,12 +72,11 @@ gem 'friendly_id-mobility', '~> 0.5.4'
 
 gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'globalize-accessors'
-gem "skylight"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'newrelic_rpm'
-gem 'rollbar'
+
 gem 'puma',  '~> 4.3.5'
 
 gem "recaptcha", require: "recaptcha/rails"

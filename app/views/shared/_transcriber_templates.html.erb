@@ -191,20 +191,21 @@
                 <div class="labels-container">
                   <!-- "What is the date and time of this observation? <b>You can select the date and time by clicking on the clock icon.</b><br>Should follow the format <nobr><code>04 Aug 1874, 01:48 AM</code></nobr>." -->
                     <div class="scribe_input_label date-label">
-                      <%= content_tag "i", "", 
-                        class: "fa fa-info-circle", 
-                        style: "cursor: help;", 
-                        title: strip_tags(t('transcriber.transcription-box-template.form.fields.labels.datetime')), 
-                        data: { 
-                          content: t('transcriber.transcription-box-template.form.fields.help.datetime').html_safe, 
-                          html: true, toggle: "popover", placement: "auto", trigger: "hover", container: "body"
-                        } 
-                      %> <%= t('transcriber.transcription-box-template.form.fields.labels.datetime') %>
+                      <label for="datetime-help"
+                      style="cursor: help;"
+                      aria-hidden="true" 
+                      title="<%=strip_tags(t('transcriber.transcription-box-template.form.fields.labels.datetime'))%>"
+                      data-toggle="popover" 
+                      data-trigger="hover" 
+                      data-content="<%= t('transcriber.transcription-box-template.form.fields.help.datetime').html_safe %>" 
+                      data-container="body" 
+                      data-html="true"
+                      data-placement="auto"> 
+                      <%= t('transcriber.transcription-box-template.form.fields.labels.datetime') %></label>
                     </div>
                     <% field_group.fields.each do |field| %>
                       <div class="scribe_input_label">
-                        <i 
-                          class="fa fa-info-circle" 
+                        <label for="<%= dom_id(field) %>"
                           style="cursor: help;" 
                           aria-hidden="true" 
                           title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" 
@@ -212,8 +213,7 @@
                           data-trigger="hover" 
                           data-content="<%= (field.help && field.help.present? ? field.help : "") %>" 
                           data-container="body" 
-                          data-placement="auto"
-                        ></i> <%= field.name_en %>
+                          data-placement="auto"><%= field.name_en %></label>
                       </div>
                     <% end %>
                 </div>
@@ -258,6 +258,7 @@
                         select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", 
                         ('<option></option>').html_safe, 
                         class: "observation-input form-control selectable", 
+                          id: dom_id(field),
                           multiple: field.multi_select, 
                           placeholder: (field.multi_select ? 'select' : 'type'), 
                           data: { 

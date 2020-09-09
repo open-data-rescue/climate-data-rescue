@@ -1,8 +1,8 @@
 <% if flash.to_hash.length > 0 %>
   <% flash.each do |key, value| %>
-    <% if key == "notice" %>
+    <% if key == 'notice' %>
       <% style = 'info' %>
-    <% elsif key == "alert" %>
+    <% elsif key == 'alert' || key == 'error' || key == 'recaptcha_error' %>
       <% style = 'danger' %>
     <% else %>
       <% style = key %>

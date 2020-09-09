@@ -8,7 +8,7 @@ class RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(
       :sign_up,
       keys: %i[
-        email password password_confirmation display_name bio avatar
+        email password password_confirmation display_name bio avatar full_name
       ]
     )
   end
@@ -16,10 +16,13 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def check_captcha
-    unless verify_recaptcha
+    if !Rails.env.development? && !captcha_solved?
       self.resource = resource_class.new sign_up_params
-      flash[:error] = "reCAPTCHA verification failed, please try again."
       respond_with_navigational(resource) { render :new }
     end
+  end
+
+  def captcha_solved?
+    @captcha_solved ||= verify_recaptcha
   end
 end
