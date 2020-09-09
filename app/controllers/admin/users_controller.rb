@@ -5,22 +5,6 @@ module Admin
       @users = User.includes(:transcriptions).order('admin desc, created_at asc')
     end
 
-    def show
-      @user = User.includes(
-        {
-          transcriptions: [
-            { 
-              page: [
-                :page_days
-              ] 
-            },
-            :annotations
-          ]
-        },
-        :data_entries
-      ).find params[:id]
-    end
-
     def edit
       @user = User.find params[:id]
     end
@@ -58,7 +42,7 @@ module Admin
     private
 
     def users_params
-      params.require(:user).permit(:display_name, :admin, :bio)
+      params.require(:user).permit(:display_name, :admin, :bio, :full_name)
     end
 
   end

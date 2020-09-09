@@ -546,6 +546,7 @@ fr:
           bio:
           display_name:
           password_confirmation:
+          full_name: "Ne sera ultisé que pour le certificat de participation."
         email:
         new:
           avatar:
@@ -554,6 +555,7 @@ fr:
           email:
           password: "8 caractères minimum"
           password_confirmation:
+          full_name: "Ne sera ultisé que pour le certificat de participation."
           remember_me:
         password:
         password_confirmation:
@@ -690,6 +692,7 @@ fr:
         avatar:
         bio:
         display_name:
+        full_name: "Nom Complet"
         edit:
           avatar:
           bio:
