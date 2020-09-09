@@ -16,10 +16,13 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def check_captcha
-    unless verify_recaptcha
+    if !Rails.env.development? && !captcha_solved?
       self.resource = resource_class.new sign_up_params
-      flash[:error] = "reCAPTCHA verification failed, please try again."
       respond_with_navigational(resource) { render :new }
     end
+  end
+
+  def captcha_solved?
+    @captcha_solved ||= verify_recaptcha
   end
 end
