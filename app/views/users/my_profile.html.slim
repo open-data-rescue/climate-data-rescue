@@ -30,12 +30,12 @@
         = image_tag "default-person.png", :class => "img-responsive img-circle"
 
   - if @user == current_user || (current_user && current_user.admin?)   
-    / .row.voffset40
-    /   .col-md-12 
-    /     p 
-    /       strong = t('profile.certificate.heading')
-    /     p = t('profile.certificate.description') 
-    /     = link_to t('profile.certificate.button-text'), my_certificate_path, class: "btn btn-lg btn-draw-accented"
+    .row.voffset40
+      .col-md-12 
+        p 
+          strong = t('profile.certificate.heading')
+        p = t('profile.certificate.description') 
+        = link_to t('profile.certificate.button-text'), my_certificate_path, class: "btn btn-lg btn-draw-accented"
 
     .row.voffset40
       .col-md-12 
