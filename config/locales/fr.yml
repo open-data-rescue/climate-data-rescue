@@ -98,6 +98,9 @@ fr:
         email:
           one: Courriel
           other:
+        full_name:
+          one: Nom complet
+          other:
         password:
           one: "Mot de passe"
           other:
