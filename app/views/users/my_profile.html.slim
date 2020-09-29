@@ -18,7 +18,8 @@
         /! if current user is admin or this is their user page, show full name
         / andlinks to edit the user information
         p 
-          strong = "#{User.human_attribute_name(:full_name)}: #{@user.full_name}"
+          / strong = "#{User.human_attribute_name(:full_name)}: #{@user.full_name}"
+          strong = "(#{t('simple_form.labels.user.full_name')}: #{@user.full_name})"
           br
           span = "(#{t('simple_form.hints.user.edit.full_name')})"
         = link_to t('edit'), edit_user_url(@user)
