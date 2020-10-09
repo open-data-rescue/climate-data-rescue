@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      <%= content_for?(:title) ? yield(:title) + " | " : '' %>
+      <%= t('app.meta-info.title').html_safe %>
+    </title>
+    <%= csrf_meta_tags %>
+
+    <% if Rails.env.production? %>
+      <!-- Global Site Tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106824244-1"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)};
+        gtag('js', new Date());
+
+        gtag('config', 'UA-106824244-1');
+      </script>
+    <% end %>
+  </head>
   <body> 
     <%= yield %>
   </body> 
 </html>
-
-<script language="javascript">
-  n =  new Date();
-  y = n.getFullYear();
-  m = n.getMonth() + 1;
-  d = n.getDate();
-  document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
-  </script>
