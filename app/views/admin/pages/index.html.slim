@@ -7,4 +7,8 @@ h3.boffset20
 .btn-toolbar.boffset20
   = link_to t('upload-pages'), new_admin_page_path, class: "btn btn-primary btn-sm"
 
+= will_paginate(@posts)
+
 = render 'pages_table', pages: @pages, transcriptions: @transcriptions, page_days: @page_days, users: @users  || 'No Pages Present. Upload some by clicking on the button above.'
+
+= will_paginate(@posts)

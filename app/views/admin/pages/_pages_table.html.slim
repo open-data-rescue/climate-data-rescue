@@ -4,8 +4,8 @@
   table#admin-pages.table.table-striped
     thead
       tr
-        th
         th ID
+        th
         th = t('filename')
         th = t('height')
         th = t('width')
@@ -20,7 +20,7 @@
     tbody
       - pages.each do |page|
         tr
-          td = page.id
+          td = link_to page.id, admin_page_path(page)
           td = link_to image_tag((page.image.url(:thumb))), admin_page_path(page)
           td = page.title
           td = page.height
