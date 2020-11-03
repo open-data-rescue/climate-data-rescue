@@ -7,7 +7,10 @@ module Admin
     # GET /pages
     # GET /pages.json
     def index
-      @pages = Page.joins(:page_type).includes(:page_days, transcriptions: [:user]).all
+      @pages = Page.includes(:page_type, :page_days)
+      @page_days = PageDay.where(page: @pages).order("date ASC").to_a
+      @transcriptions = Transcription.where(page: @pages).includes(:user).order("updated_at DESC").to_a
+      @users = User.where(id: @transcriptions.pluck(:user_id).uniq).to_a
 
       respond_to do |format|
         format.html # index.html.erb

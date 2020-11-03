@@ -89,7 +89,7 @@ Rails.application.routes.draw do
 
   resources :static_pages
   constraints(StaticPage) do
-    get ':locale/(*path)', to: 'static_pages#show', as: 'static'
+    get ':locale/(*path)', to: 'static_pages#show', as: 'static', format: false
   end
 
   # authenticate :user, lambda { |u| u.admin? } do
