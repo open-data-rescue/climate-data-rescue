@@ -1,5 +1,3 @@
 class PageDay < ApplicationRecord
-  belongs_to :page #, foreign_key: "ledger_id"
-
-  
+  belongs_to :page, autosave: true
 end

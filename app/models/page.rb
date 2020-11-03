@@ -9,7 +9,7 @@ class Page < ApplicationRecord
 
   has_many :field_groups, through: :page_type
   has_many :fields, through: :field_groups
-  has_many :transcriptions, dependent: :destroy  
+  has_many :transcriptions, dependent: :destroy, autosave: true
   has_many :page_days, dependent: :destroy
   has_many :data_entries, dependent: :destroy
   has_one :page_info, dependent: :destroy
@@ -83,7 +83,7 @@ class Page < ApplicationRecord
     elsif page_metadata?
       Time.days_in_month(page_info.month, page_info.year)
     else
-      nil
+      0
     end
   end
   

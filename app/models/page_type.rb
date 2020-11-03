@@ -4,7 +4,7 @@ class PageType < ApplicationRecord
   has_many :pages
   has_many :page_types_field_groups, dependent: :destroy
   has_many :field_groups,
-           -> { order("page_types_field_groups.sort_order asc") },
+           -> { includes(:page_types_field_groups).order("page_types_field_groups.sort_order asc") },
            through: :page_types_field_groups
   has_many :fields, through: :field_groups
   has_many :transcriptions, through: :pages

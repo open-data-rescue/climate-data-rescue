@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_25_165452) do
+ActiveRecord::Schema.define(version: 2022_11_18_163320) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -134,12 +134,6 @@ ActiveRecord::Schema.define(version: 2021_12_25_165452) do
     t.datetime "updated_at"
     t.boolean "multi_select", default: false
     t.string "internal_name"
-    t.string "period"
-    t.string "time_of_day"
-    t.string "measurement_type"
-    t.string "measurement_unit_original"
-    t.string "measurement_unit_si"
-    t.string "odr_type"
   end
 
   create_table "ledgers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -177,7 +171,7 @@ ActiveRecord::Schema.define(version: 2021_12_25_165452) do
   create_table "page_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.string "ledger_type"
-    t.string "number"
+    t.integer "number"
     t.text "description"
     t.integer "ledger_id"
     t.datetime "created_at"
@@ -256,6 +250,15 @@ ActiveRecord::Schema.define(version: 2021_12_25_165452) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "complete", default: false, null: false
+    t.integer "field_groups_fields_count", default: 0, null: false
+    t.integer "data_entries_count", default: 0, null: false
+    t.integer "started_rows_count", default: 0, null: false
+    t.integer "expected_rows_count", default: 0, null: false
+    t.integer "field_groups_fields_count", default: 0, null: false
+    t.integer "data_entries_count", default: 0, null: false
+    t.integer "started_rows_count", default: 0, null: false
+    t.integer "expected_rows_count", default: 0, null: false
+    t.index ["page_id"], name: "fk_rails_fa14a87e4a"
     t.index ["user_id", "page_id"], name: "user_page", unique: true
   end
 
@@ -288,4 +291,8 @@ ActiveRecord::Schema.define(version: 2021_12_25_165452) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "pages", "page_types"
+  add_foreign_key "static_pages", "static_pages", column: "parent_id"
+  add_foreign_key "transcriptions", "pages"
+  add_foreign_key "transcriptions", "users"
 end
