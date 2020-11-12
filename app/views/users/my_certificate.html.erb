@@ -1,70 +1,59 @@
-<!DOCTYPE html>
-<html>
-  <center>
-    <style>
-    .signature, .title { 
-    float:left;
-      border-top: 1px solid #000;
-      width: 200px; 
-      text-align: center;
-    }
-    </style>
-    <div style="width:800px; padding:20px; text-align:center; border: 10px solid #787878">
-    <div style="width:750px; padding:20px; text-align:center; border: 5px solid #787878">
-           <span style="font-size:50px; font-weight:bold"><%= t('certificate.line1') %></span>
-           <br><br>
-           <span style="font-size:25px"><i><%= t('certificate.line2') %></i></span>
-           <br><br>
-           <span style="font-size:30px"><b><%= @user.full_name %></b></span><br/><br/>
-           <span style="font-size:22px"><b><%= @user.email %></b></span><br/><br/>
-           <span style="font-size:25px"><i><%= t('certificate.line3', count: @data_entries_count) %></i></span> <br/><br/>
-           <span style="font-size:30px"><%= t('certificate.line4') %></span> <br/><br/>
-           <span style="font-size:25px"><i><%= t('certificate.line5', hours: (@data_entries_count.to_f / 300).ceil(1)) %></i></span><br/><br/>
-           <span style="font-size:20px"><%= t('certificate.line6') %></span> <br/><br/>
-           <span style="font-size:25px"><i><%= t('certificate.line7') %></i></span><br>
-           <span style="font-size:25px"><b><p id="date"></p></b></span><br>
-           <span style="font-size:15px"><b><a href=<%= root_url %>><%= t('certificate.line8') %></a></b></span><br>
-    <table style="margin-top:-100px;float:left">
-    <tr>
-    <td><span><b><%= t('certificate.line8') %></b></td>
-    </tr>
-    <tr>
-    <td style="width:200px;float:left;border:0;border-bottom:1px solid #000;"></td>
-    </tr>
-    <tr>
-      <% if I18n.locale == :fr %>
-      <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_fr.png" %>" style= "width:175px;height:97px;"></td>
-      <% else %>
-      <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_en.png" %>" style= "width:175px;height:97px;"></td>
-      <% end %>
+<% content_for :title, t('certificate.line1') %>
 
+<center>
+  <style>
+  .signature, .title { 
+  float:left;
+    border-top: 1px solid #000;
+    width: 200px; 
+    text-align: center;
+  }
+  </style>
+  <div style="width:800px; padding:20px; text-align:center; border: 10px solid #787878">
+  <div style="width:750px; padding:20px; text-align:center; border: 5px solid #787878">
+         <span style="font-size:50px; font-weight:bold"><%= t('certificate.line1') %></span>
+         <br><br>
+         <span style="font-size:25px"><i><%= t('certificate.line2') %></i></span>
+         <br><br>
+         <span style="font-size:30px"><b><%= @user.full_name %></b></span><br/><br/>
+         <span style="font-size:22px"><b><%= @user.email %></b></span><br/><br/>
+         <span style="font-size:25px"><i><%= t('certificate.line3', count: @data_entries_count) %></i></span> <br/><br/>
+         <span style="font-size:30px"><%= t('certificate.line4') %></span> <br/><br/>
+         <span style="font-size:25px"><i><%= t('certificate.line5', hours: (@data_entries_count.to_f / 300).ceil(1)) %></i></span><br/><br/>
+         <span style="font-size:20px"><%= t('certificate.line6') %></span> <br/><br/>
+         <span style="font-size:25px"><i><%= t('certificate.line7') %></i></span><br>
+         <span style="font-size:25px"><b><p id="date"></p></b></span><br>
+         <span style="font-size:15px"><b><a href=<%= root_url %>><%= t('certificate.line8') %></a></b></span><br>
+  <table style="margin-top:-100px;float:left">
+  <tr>
+  <td><span><b><%= t('certificate.line8') %></b></td>
+  </tr>
+  <tr>
+  <td style="width:200px;float:left;border:0;border-bottom:1px solid #000;"></td>
+  </tr>
+  <tr>
+    <% if I18n.locale == :fr %>
+    <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_fr.png" %>" style= "width:175px;height:97px;"></td>
+    <% else %>
+    <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_en.png" %>" style= "width:175px;height:97px;"></td>
+    <% end %>
+  </tr>
+  </table>
 
+  <table style="margin-top:-60px;float:right">
+  <tr>
+  <td style="text-align:center"><span><img src="https://citsci.geog.mcgill.ca/assets/partners/Geothink_Logo_T2-5605b868fb6a3f586c60e82b6f48cb6eda0e6875b74b3b06fd2f2fc8d7f16535.jpg" style="width:254px;height:62px;"></td>
+  </tr>
+  </table>
+  
+  </div>
+  </div>
+</center>
 
-
-
-
-    <!-- <td style="text-align:center"><span><img src=https://citsci.geog.mcgill.ca/system/content_images/medium/7b45ecd3276efa816d2107e6f4418cfd9c6a1739.png style="width:175px;height:97px;"></td> -->
-    </tr>
-    </table>
-
-    <table style="margin-top:-60px;float:right">
-    <tr>
-    <td style="text-align:center"><span><img src="https://citsci.geog.mcgill.ca/assets/partners/Geothink_Logo_T2-5605b868fb6a3f586c60e82b6f48cb6eda0e6875b74b3b06fd2f2fc8d7f16535.jpg" style="width:254px;height:62px;"></td>
-    </tr>
-    </table>
-    
-    </div>
-    </div>
-    </center>
-
-     
-    
-</html>
-
-<script language="javascript">
+<script>
   n =  new Date();
   y = n.getFullYear();
   m = n.getMonth() + 1;
   d = n.getDate();
   document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
-  </script>
+</script>

@@ -5,11 +5,6 @@
 h3.boffset20
   = t('uploaded-pages')
 .btn-toolbar.boffset20
-   = link_to t('upload-pages'), new_admin_page_path, class: "btn btn-primary btn-sm"
+  = link_to t('upload-pages'), new_admin_page_path, class: "btn btn-primary btn-sm"
 
-- if @pages && @pages.any?
-    
-  = render 'pages_table', pages: @pages
-
-- else
-  p No Pages Present. Upload some by clicking on the button below.
+= render 'pages_table', pages: @pages, transcriptions: @transcriptions, page_days: @page_days, users: @users  || 'No Pages Present. Upload some by clicking on the button above.'
