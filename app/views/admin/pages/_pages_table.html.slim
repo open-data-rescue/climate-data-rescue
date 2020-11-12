@@ -5,6 +5,7 @@
     thead
       tr
         th
+        th ID
         th = t('filename')
         th = t('height')
         th = t('width')
@@ -19,25 +20,28 @@
     tbody
       - pages.each do |page|
         tr
-          td = link_to image_tag(page.image.url(:thumb)), admin_page_path(page)
+          td = page.id
+          td = link_to image_tag((page.image.url(:thumb))), admin_page_path(page)
           td = page.title
           td = page.height
           td = page.width
           td = page.page_type ? link_to(page.page_type.title, admin_page_type_path(page.page_type)) : ''
           td
-            - if page.page_days.any?
-              - page.page_days.order("date asc").each do |day|
+            - page_days = page_days.select{|pd| pd.page_id === page.id }
+            - if page_days.any?
+              - page_days.each do |day|
                 div.page-metadata-day
                   = "#{day.date.strftime("%A %b %e, %Y")} (#{day.num_observations} obs)"
             - else
               = t('no-metadata')
           td = l(page.created_at, format: :long)
           td
-            - if page.transcriptions.any?
-              - page.transcriptions.order("updated_at DESC").each do |t|
+            - page_transcriptions = transcriptions.select{|t| t.page_id === page.id }
+            - if page_transcriptions.any?
+              - page_transcriptions.each do |t|
                 .page-transcription
                   = link_to(admin_transcription_path(t)) do
-                    = "#{t.user.display_name}"
+                    = "#{users.find{|u| u.id == t.user_id }.display_name}"
                     =" (#{number_to_percentage(t.percent_complete, precision: 0)})"
                     br
                     = "#{time_ago_in_words(t.updated_at)}"

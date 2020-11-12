@@ -13,7 +13,7 @@ describe Annotation do
     it { is_expected.to belong_to(:field_group) }
     it { is_expected.to belong_to(:page) }
     # it { is_expected.to belong_to(:user) }
-    it { is_expected.to belong_to(:transcription).touch(true) }
+    it { is_expected.to belong_to(:transcription).autosave(true) }
     it { is_expected.to have_many(:data_entries).dependent(:destroy) }
   end
 

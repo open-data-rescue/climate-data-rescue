@@ -28,12 +28,11 @@ class StaticPage < ApplicationRecord
   end
 
   def self.matches?(request)
-    Rails.logger.info '================================='
     slug = request.path
     I18n.available_locales.each do |locale|
       slug.gsub!('/' + locale.to_s + '/', '/')
     end
-    # return false if slug =~ %r{\A\/+(admin|account|cart|checkout|content|login|pg\/|orders|products|s\/|session|signup|shipments|states|t\/|tax_categories|user)+}
+    return false if slug =~ %r{\A\/+(admin|system)+}
     StaticPage.visible.find_by(slug: slug).present?
   end
 

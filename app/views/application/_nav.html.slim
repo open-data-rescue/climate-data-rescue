@@ -11,9 +11,7 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
     #navbar.navbar-collapse.collapse.navbar-responsive-collapse
       ul.nav.navbar-nav.dropdown
         li class="#{yield(:home)}" = link_to t('home'), baseUri
-        - if StaticPage.header_links.any?
-          - StaticPage.header_links.each do |sp|
-            = render "static_pages/link", page: sp, top_level: true
+        = render partial: "static_pages/link", collection: StaticPage.header_links, as: :page, locals: { top_level: true }
           
         li class="#{yield(:transcribe)} top-level-nav dropdown-submenu"
           a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
