@@ -16,15 +16,19 @@ class Transcription < ApplicationRecord
   scope :in_progress, -> { where(complete: false) }
 
   def num_rows_started
-    started_rows_count
+    annotations.pluck(:observation_date).uniq.size
   end
 
   def num_rows_expected
-    expected_rows_count
+    page.num_rows_expected || 0
   end
 
   def num_data_entries
-    data_entries_count
+    data_entries.size
+  end
+
+  def field_groups_fields_count
+    field_groups_fields.size
   end
 
   def num_data_entries_expected
