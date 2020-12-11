@@ -35,6 +35,13 @@
         p 
           strong = t('profile.certificate.heading')
         p = t('profile.certificate.description') 
+        
+        h3 = t('profile.certificate.ccr.heading')
+        p = t('profile.certificate.ccr.introduction')
+        ol
+          li = t('profile.certificate.ccr.step-1')
+          li = t('profile.certificate.ccr.step-2')
+          li = t('profile.certificate.ccr.step-3')
         = link_to t('profile.certificate.button-text'), my_certificate_path, class: "btn btn-lg btn-draw-accented"
 
     .row.voffset40
