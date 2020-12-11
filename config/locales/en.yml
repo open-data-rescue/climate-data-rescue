@@ -489,6 +489,12 @@ en:
       button-text: My Certificate
       description: You can press this button at any time to generate a certificate of participation. Your participation is based on an average speed of 300 data entries per hour, which was tested by volunteers from the DRAW team. You also can utilize this certificate as proof of your volunteer hours.
       heading: Participation Certificate
+      ccr:
+        heading: McGill Co-Curricular Record
+        introduction: 'For McGill students, you can put your DRAW Transcriptions towards recognition on your Transcript using the Co-Curricular Record Program. Please see <a href="https://www.mcgill.ca/involvement/myinvolvement">My Involvement</a> for more information. \n To have your hours validated, please:' 
+        step-1: Generate your Participation Certificate using the button below.
+        step-2: 'Attach your certificate and email draw.archives@mcgill.ca using your McGill email with the subject line "[Your Name] CCR Submission"'
+        step-3: DRAW will submit these hours and other relevant information to My Involvement in December and April of each year.
   register: 
   sample-page: 
   save: 
