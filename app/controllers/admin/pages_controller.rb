@@ -13,8 +13,10 @@ module Admin
       )
       page_ids = @pages.pluck(:id)
 
-      @page_days = PageDay.where(page_id: page_ids).order("date ASC").to_a
-      @transcriptions = Transcription.where(page_id: page_ids).includes(:user).order("updated_at DESC").to_a
+      @page_days = PageDay.where(page_id: page_ids).order('date ASC').to_a
+      @transcriptions = Transcription.where(page_id: page_ids)
+                                     .includes(:user)
+                                     .order('updated_at DESC').to_a
       @users = User.where(id: @transcriptions.pluck(:user_id).uniq).to_a
 
       respond_to do |format|
