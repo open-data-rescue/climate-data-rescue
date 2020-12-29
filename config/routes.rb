@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      resources :pages, except: %i[new edit]
+    end
+  end
+
   namespace :better_together, path: '/' do
     resources :posts, only: %i(index show)
   end
