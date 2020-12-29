@@ -36,8 +36,12 @@ RSpec.describe Api::V1::PagesController, type: :request do
       end
     end
 
-    context 'user doesnt not have an account' do
+    context 'user does not have an account' do
+      it 'returns status 403' do
+        get api_v1_pages_path
 
+        expect(response).to have_http_status(403)
+      end
     end
   end
 end

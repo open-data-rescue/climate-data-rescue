@@ -1,7 +1,9 @@
-require "paperclip/matchers"
- 
-require 'simplecov'
-require 'coveralls'
+
+require_dependency 'coveralls'
+require_dependency 'jsonapi/rspec'
+require_dependency "paperclip/matchers"
+require_dependency 'simplecov'
+
 Coveralls.wear!
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
@@ -39,6 +41,7 @@ end
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  config.include JSONAPI::RSpec
   config.include Paperclip::Shoulda::Matchers
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

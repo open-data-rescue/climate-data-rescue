@@ -54,6 +54,9 @@ gem 'select2-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 
+gem 'jsonapi-rails'
+gem 'jsonapi-rspec'
+
 gem "jquery-fileupload-rails"
 
 gem 'routing-filter', git: 'https://github.com/svenfuchs/routing-filter'
