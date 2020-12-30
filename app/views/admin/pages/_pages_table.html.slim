@@ -1,4 +1,8 @@
 
+- page_days ||= pages.map(&:page_days).flatten.uniq
+- transcriptions ||= pages.map(&:transcriptions).flatten.uniq
+- users ||= transcriptions.map(&:user).flatten.uniq
+
 /! List all pages and their info in a table
 .table-responsive style="max-height: 70vh;"
   table#admin-pages.table.table-striped
