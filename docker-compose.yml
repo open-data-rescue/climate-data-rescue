@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.4'
 
 volumes:
   db-data:
@@ -12,15 +12,17 @@ services:
     volumes:
       - .:/draw
       - draw-bundler-gems:/usr/local/bundle/
+      - /home/rob/.ssh:/root/.ssh:ro
     ports:
       - "3000:3000"
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     links:
       - db
     env_file:
       - './docker/.env.app.conf'
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=webpack
   webpack:
     <<: *app
     container_name: draw-webpack

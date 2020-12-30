@@ -202,13 +202,13 @@
             >
               Edit
             </b-button>
-            <b-button
+            <!-- <b-button
               block
               :href="data.item.links.admin_delete"
               method="DELETE"
             >
               Delete
-            </b-button>
+            </b-button> -->
           </template>
         </b-table>
       </b-col>
