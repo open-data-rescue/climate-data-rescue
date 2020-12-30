@@ -54,9 +54,9 @@ describe Page do
     end
 
     context 'when the page does not have page days' do
-      it 'returns nil' do
+      it 'returns 0' do
         page.page_days = []
-        expect(page.num_rows_expected).to eq(nil)
+        expect(page.num_rows_expected).to eq(0)
       end
     end
   end
