@@ -155,6 +155,13 @@
             {{ data.item.attributes.image_file_name }}
           </template>
           <template
+            v-slot:cell(id)="data"
+          >
+            <b-link :href="data.item.links.admin_detail">
+              {{ data.item.id }}
+            </b-link>
+          </template>
+          <template
             v-slot:cell(selected)="data"
           >
             <span v-if="data.rowSelected">✔</span>
@@ -167,7 +174,9 @@
           <template
             v-slot:cell(title)="data"
           >
-            {{ data.item.attributes.title }}
+            <b-link :href="data.item.links.admin_detail">
+              {{ data.item.attributes.title }}
+            </b-link>
           </template>
           <template
             v-slot:cell(visible)="data"
@@ -183,6 +192,23 @@
             v-slot:cell(updated_at)="data"
           >
             {{ data.item.attributes.updated_at_datestring }}
+          </template>
+          <template
+            v-slot:cell(actions)="data"
+          >
+            <b-button
+              block
+              :href="data.item.links.admin_edit"
+            >
+              Edit
+            </b-button>
+            <b-button
+              block
+              :href="data.item.links.admin_delete"
+              method="DELETE"
+            >
+              Delete
+            </b-button>
           </template>
         </b-table>
       </b-col>
@@ -230,10 +256,16 @@ export default {
   data () {
     return {
       fields: [
+        // {
+        //   key: 'selected',
+        //   label: 'Select All',
+        //   class: 'selected'
+        // },
         {
-          key: 'selected',
-          label: 'Select All',
-          class: 'selected'
+          key: 'actions',
+          label: '',
+          class: 'actions',
+          sortable: false
         },
         {
           key: 'id',
@@ -316,7 +348,7 @@ export default {
         start_date: '',
         end_date: '',
         visible: null,
-        done: null,
+        done: null
       },
       totalRows: 1,
       currentPage: 1,
@@ -362,7 +394,7 @@ export default {
         'filters[start_date]': this.filters.start_date,
         'filters[end_date]': this.filters.end_date,
         'filters[title]': this.filters.title,
-        'filters[visible]': this.filters.visible,
+        'filters[visible]': this.filters.visible
       }).then(response => {
         // set the total rows from the response meta
         if (response.meta && response.meta.total) {

@@ -6,11 +6,12 @@
     "node": "14.x"
   },
   "scripts": {
-    "lint": "yarn run eslint --ext .js,.vue --ignore-path .gitignore app/javascript",
+    "lint": "yarn run eslint --ext .js,.vue --ignore-path .gitignore app/webpacker",
     "lint:fix": "yarn run lint -- --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@rails/ujs": "^6.1.0",
     "@rails/webpacker": "3.5",
     "axios": "^0.18.0",
     "babel-plugin-module-resolver": "^4.0.0",
