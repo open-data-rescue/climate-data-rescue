@@ -40,7 +40,7 @@ const actions = {
           reject(response)
         })
     })
-  },
+  }
   // getPage ({ commit }, params) {
   //   return new Promise((resolve, reject) => {
   //     axios.get(`/api/v1/pages/${params.id}`)

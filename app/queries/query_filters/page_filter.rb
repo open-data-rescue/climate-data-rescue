@@ -8,6 +8,8 @@ module QueryFilters
       set_title
       set_start_date
       set_end_date
+      set_done
+      set_visible
     end
 
     def set_title
@@ -16,6 +18,24 @@ module QueryFilters
       # allow partial matches on the account name
       append_condition(
         tables.pages[:title].matches("%#{filters.title}%")
+      )
+    end
+
+    def set_visible
+      return if filters.visible.blank?
+
+      # allow partial matches on the account name
+      append_condition(
+        tables.pages[:visible].eq(filters.visible)
+      )
+    end
+
+    def set_done
+      return if filters.done.blank?
+
+      # allow partial matches on the account name
+      append_condition(
+        tables.pages[:done].eq(filters.done)
       )
     end
 

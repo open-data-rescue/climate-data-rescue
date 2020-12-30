@@ -15,11 +15,6 @@ class PageQuery < BaseQuery
     QueryFilters::PageFilter
   end
 
-  def call(sort: nil, page: nil, filters: {}, paginated: true)
-    new(sort: sort, page: page, filters: filters)
-    resolve(paginated: paginated)
-  end
-
   protected
 
   def sort_by

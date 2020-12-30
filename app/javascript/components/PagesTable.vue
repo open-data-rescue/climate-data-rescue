@@ -34,7 +34,7 @@
       <b-col>
         <b-table
           ref="table"
-          class="accounts-receivable-table"
+          class="pages-table"
           selectable
           responsive
           foot-clone
@@ -66,7 +66,6 @@
               @change="toggleSelectAll"
             />
           </template>
-
 
           <template
             v-slot:cell(selected)="data"
@@ -114,6 +113,26 @@
             />
           </template>
           <template
+            v-slot:head(visible)="data"
+          >
+            <b>{{ data.label }}</b>
+
+            <table-boolean-filter
+              v-model="filters.visible"
+              class="visible"
+            />
+          </template>
+          <template
+            v-slot:head(done)="data"
+          >
+            <b>{{ data.label }}</b>
+
+            <table-boolean-filter
+              v-model="filters.done"
+              class="done"
+            />
+          </template>
+          <template
             v-slot:cell(title)="data"
           >
             {{ data.item.attributes.title }}
@@ -134,9 +153,9 @@
             <span v-if="data.item.attributes.visible">✔</span>
           </template>
           <template
-            v-slot:cell(complete)="data"
+            v-slot:cell(done)="data"
           >
-            <span v-if="data.item.attributes.complete">✔</span>
+            <span v-if="data.item.attributes.done">✔</span>
           </template>
           <template
             v-slot:cell(created_at)="data"
@@ -182,11 +201,13 @@
 
 <script>
 import { mapActions } from 'vuex'
+import TableBooleanFilter from './TableBooleanFilter'
 import TableTextFilter from './TableTextFilter'
 
 export default {
   name: 'PagesTable',
   components: {
+    TableBooleanFilter,
     TableTextFilter
   },
   data () {
@@ -210,6 +231,12 @@ export default {
           sortable: true
         },
         {
+          key: 'page_type_id',
+          label: 'Page Schema',
+          class: 'page-type-id',
+          sortable: false
+        },
+        {
           key: 'start_date',
           label: 'Start Date',
           class: 'start-date',
@@ -225,13 +252,13 @@ export default {
           key: 'visible',
           label: 'Visible',
           class: 'visible',
-          sortable: true
+          sortable: false
         },
         {
-          key: 'complete',
+          key: 'done',
           label: 'Complete',
-          class: 'complete',
-          sortable: true
+          class: 'done',
+          sortable: false
         },
         {
           key: 'created_at',
@@ -249,7 +276,12 @@ export default {
       pages: [],
       selected: [],
       filters: {
-        id: ''
+        id: '',
+        title: '',
+        start_date: '',
+        end_date: '',
+        visible: null,
+        done: null,
       },
       totalRows: 1,
       currentPage: 1,
@@ -293,6 +325,8 @@ export default {
         'filters[title]': this.filters.title,
         'filters[start_date]': this.filters.start_date,
         'filters[end_date]': this.filters.end_date,
+        'filters[visible]': this.filters.visible,
+        'filters[done]': this.filters.done
       }).then(response => {
         // set the total rows from the response meta
         if (response.meta && response.meta.total) {

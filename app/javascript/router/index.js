@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
-import axios from 'axios'
+// import axios from 'axios'
 // import CripVueLoading from 'crip-vue-loading'
 // import VueToasted from 'vue-toasted'
 
