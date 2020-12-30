@@ -1,6 +1,7 @@
 module Admin
   class PagesController < AdminController
-    # load_and_authorize_resource
+    layout 'admin_app', only: :index
+
     respond_to :html
     #Corresponds to the "page" model, page.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the page model
     #All .html.slim views for "page.rb" are located at "project_root\app\views\pages"
