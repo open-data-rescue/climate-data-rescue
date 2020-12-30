@@ -1,27 +1,29 @@
 module Admin
   class PagesController < AdminController
     # load_and_authorize_resource
-    respond_to :html, :json, :js
+    respond_to :html
     #Corresponds to the "page" model, page.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the page model
     #All .html.slim views for "page.rb" are located at "project_root\app\views\pages"
     # GET /pages
     # GET /pages.json
     def index
-      @pages = Page.includes(:page_type, :page_days).paginate(
-        page: page_number,
-        per_page: per_page
-      )
-      page_ids = @pages.pluck(:id)
+      # @pages = Page.includes(:page_type, :page_days).limit(10)
 
-      @page_days = PageDay.where(page_id: page_ids).order('date ASC').to_a
-      @transcriptions = Transcription.where(page_id: page_ids)
-                                     .includes(:user)
-                                     .order('updated_at DESC').to_a
-      @users = User.where(id: @transcriptions.pluck(:user_id).uniq).to_a
+      # # .paginate(
+      # #   page: page_number,
+      # #   per_page: per_page
+      # # )
+      # page_ids = @pages.pluck(:id)
+
+      # @page_days = PageDay.where(page_id: page_ids).order('date ASC').to_a
+      # @transcriptions = Transcription.where(page_id: page_ids)
+      #                                .includes(:user)
+      #                                .order('updated_at DESC').to_a
+      # @users = User.where(id: @transcriptions.pluck(:user_id).uniq).to_a
 
       respond_to do |format|
         format.html # index.html.erb
-        format.json { render json: @pages }
+        # format.json { render json: @pages }
       end
     end
 
