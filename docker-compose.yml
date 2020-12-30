@@ -5,7 +5,7 @@ volumes:
   draw-bundler-gems:
 
 services:
-  app:
+  app: &app
     container_name: draw-app
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
@@ -21,6 +21,14 @@ services:
       - db
     env_file:
       - './docker/.env.app.conf'
+  webpack:
+    <<: *app
+    container_name: draw-webpack
+    command: ./bin/webpack-dev-server
+    ports:
+      - 3035:3035
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
   db:
     container_name: draw-db
     image: mysql:5.7

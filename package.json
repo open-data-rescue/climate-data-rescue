@@ -1,0 +1,53 @@
+{
+  "name": "draw-app",
+  "private": true,
+  "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
+    "lint": "yarn run eslint --ext .js,.vue --ignore-path .gitignore app/javascript",
+    "lint:fix": "yarn run lint -- --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@rails/webpacker": "3.5",
+    "axios": "^0.18.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "bootstrap-vue": "^2.0.0-rc.28",
+    "common-tags": "^1.8.0",
+    "crip-vue-loading": "^1.2.5",
+    "css-loader": "1.0",
+    "devour-client": "^2.1.0",
+    "lodash": "^4.17.11",
+    "miragejs": "^0.1.41",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0",
+    "vue": "^2.5",
+    "vue-confirmation-button": "^1.0.0",
+    "vue-loader": "^14.0",
+    "vue-material": "^1.0.0-beta-10.2",
+    "vue-multiselect": "^2.1.6",
+    "vue-router": "^3.0",
+    "vue-template-compiler": "^2.5",
+    "vue-toasted": "^1.1.26",
+    "vuedraggable": "^2.14",
+    "vuex": "^3.0",
+    "webpack": "^3.0"
+  },
+  "devDependencies": {
+    "@behance/jasmine-vue": "^1.0.0",
+    "add": "^2.0.6",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^5.0",
+    "webpack-dev-server": "2.11.2",
+    "yarn": "^1.13.0"
+  }
+}
