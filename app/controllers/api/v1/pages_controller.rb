@@ -13,12 +13,14 @@ module Api
         @pages = query.resolve
 
         render jsonapi: @pages,
+               include: %i[page_type],
                meta: { total: query.total }
       end
 
       def jsonapi_class
         {
-          Page: Api::V1::SerializablePage
+          Page: Api::V1::SerializablePage,
+          PageType: Api::V1::SerializablePageType
         }
       end
 

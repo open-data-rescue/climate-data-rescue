@@ -5,7 +5,9 @@ module Api
     class SerializablePage < ApplicationSerializer
       type 'pages'
 
-      attributes :title, :start_date, :end_date, :visible, :done
+      has_one :page_type
+
+      attributes :title, :start_date, :end_date, :visible, :done, :image_file_name
     end
   end
 end
