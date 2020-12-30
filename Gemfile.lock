@@ -511,6 +511,7 @@ DEPENDENCIES
   uglifier
   web-console (>= 3.3.0)
   webpacker (~> 3.5)
+  websocket-extensions (~> 0.1.5)
   will_paginate
 
 BUNDLED WITH

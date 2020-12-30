@@ -4,15 +4,26 @@ module Api
     # Returns page data to the API consumer
     class PagesController < BaseController
       def index
-        @pages = Page.all
+        query = PageQuery.new(
+          filters: query_filters,
+          page: query_page,
+          sort: query_sort,
+        )
 
-        render jsonapi: @pages
+        @pages = query.resolve
+
+        render jsonapi: @pages,
+               meta: { total: query.total }
       end
 
       def jsonapi_class
         {
           Page: Api::V1::SerializablePage
         }
+      end
+
+      def available_filters
+        %i[id title start_date end_date].freeze
       end
     end
   end
