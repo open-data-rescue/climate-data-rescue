@@ -8,6 +8,18 @@ module Api
       has_one :page_type
 
       attributes :title, :start_date, :end_date, :visible, :done, :image_file_name
+
+      link :admin_detail do
+        @url_helpers.admin_page_url(@object.id)
+      end
+
+      link :admin_edit do
+        @url_helpers.edit_admin_page_url(@object.id)
+      end
+
+      link :admin_delete do
+        @url_helpers.admin_pages_url
+      end
     end
   end
 end
