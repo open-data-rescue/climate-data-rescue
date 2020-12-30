@@ -6,6 +6,7 @@ module QueryFilters
     def set_filters
       set_id
       set_title
+      set_image_file_name
       set_start_date
       set_end_date
       set_done
@@ -18,6 +19,15 @@ module QueryFilters
       # allow partial matches on the account name
       append_condition(
         tables.pages[:title].matches("%#{filters.title}%")
+      )
+    end
+
+    def set_image_file_name
+      return if filters.image_file_name.blank?
+
+      # allow partial matches on the account name
+      append_condition(
+        tables.pages[:image_file_name].matches("%#{filters.image_file_name}%")
       )
     end
 

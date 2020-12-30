@@ -25,7 +25,7 @@ module Api
       end
 
       def available_filters
-        %i[id title start_date end_date visible done].freeze
+        %i[id title start_date end_date visible done image_file_name].freeze
       end
     end
   end

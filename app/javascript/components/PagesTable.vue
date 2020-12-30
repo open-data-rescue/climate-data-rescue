@@ -44,8 +44,8 @@
           striped
           hover
           primary-key="id"
-          empty-text="None"
-          empty-filter-text="None matching filters"
+          empty-text="No Pages Present. Upload some by clicking on the button above."
+          empty-filter-text="No pages match your filters"
           :show-empty="true"
           :items="getFilteredPages"
           :fields="fields"
@@ -56,6 +56,7 @@
           :sort-direction="sortDirection"
           @row-selected="rowSelected"
         >
+          <!-- TH contents -->
           <template
             v-slot:head(selected)="data"
           >
@@ -65,12 +66,6 @@
               v-model="selectAll"
               @change="toggleSelectAll"
             />
-          </template>
-
-          <template
-            v-slot:cell(selected)="data"
-          >
-            <span v-if="data.rowSelected">✔</span>
           </template>
           <template
             v-slot:head(id)="data"
@@ -90,6 +85,16 @@
             <table-text-filter
               v-model="filters.title"
               class="title"
+            />
+          </template>
+          <template
+            v-slot:head(image_file_name)="data"
+          >
+            <b>{{ data.label }}</b>
+
+            <table-text-filter
+              v-model="filters.image_file_name"
+              class="image_file_name"
             />
           </template>
           <template
@@ -132,15 +137,12 @@
               class="done"
             />
           </template>
+
+          <!-- Cells -->
           <template
-            v-slot:cell(title)="data"
+            v-slot:cell(done)="data"
           >
-            {{ data.item.attributes.title }}
-          </template>
-          <template
-            v-slot:cell(start_date)="data"
-          >
-            {{ data.item.attributes.start_date }}
+            <span v-if="data.item.attributes.done">✔</span>
           </template>
           <template
             v-slot:cell(end_date)="data"
@@ -148,14 +150,29 @@
             {{ data.item.attributes.end_date }}
           </template>
           <template
+            v-slot:cell(image_file_name)="data"
+          >
+            {{ data.item.attributes.image_file_name }}
+          </template>
+          <template
+            v-slot:cell(selected)="data"
+          >
+            <span v-if="data.rowSelected">✔</span>
+          </template>
+          <template
+            v-slot:cell(start_date)="data"
+          >
+            {{ data.item.attributes.start_date }}
+          </template>
+          <template
+            v-slot:cell(title)="data"
+          >
+            {{ data.item.attributes.title }}
+          </template>
+          <template
             v-slot:cell(visible)="data"
           >
             <span v-if="data.item.attributes.visible">✔</span>
-          </template>
-          <template
-            v-slot:cell(done)="data"
-          >
-            <span v-if="data.item.attributes.done">✔</span>
           </template>
           <template
             v-slot:cell(created_at)="data"
@@ -231,9 +248,27 @@ export default {
           sortable: true
         },
         {
+          key: 'image_file_name',
+          label: 'Filename',
+          class: 'filename',
+          sortable: true
+        },
+        {
           key: 'page_type_id',
           label: 'Page Schema',
           class: 'page-type-id',
+          sortable: false
+        },
+        {
+          key: 'page_day_ids',
+          label: 'Metadata',
+          class: 'page-day-ids',
+          sortable: false
+        },
+        {
+          key: 'transcription_ids',
+          label: 'Transcriptions',
+          class: 'transcription-ids',
           sortable: false
         },
         {
@@ -322,11 +357,12 @@ export default {
         'sort[key]': ctx.sortBy,
         'sort[desc]': ctx.sortDesc,
         'filters[id]': this.filters.id,
-        'filters[title]': this.filters.title,
+        'filters[done]': this.filters.done,
+        'filters[image_file_name]': this.filters.image_file_name,
         'filters[start_date]': this.filters.start_date,
         'filters[end_date]': this.filters.end_date,
+        'filters[title]': this.filters.title,
         'filters[visible]': this.filters.visible,
-        'filters[done]': this.filters.done
       }).then(response => {
         // set the total rows from the response meta
         if (response.meta && response.meta.total) {

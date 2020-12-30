@@ -1,7 +1,7 @@
 
 module Api
   module V1
-    # Serializes the Page class
+    # Serializes the PageType class
     class SerializablePageType < ApplicationSerializer
       type 'page_types'
 
