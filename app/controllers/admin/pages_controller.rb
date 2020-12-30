@@ -49,13 +49,7 @@ module Admin
 
     # GET /pages/page_id/edit
     def edit
-      Page.transaction do
-        begin
-            @page = Page.find(params[:id])
-        rescue => e
-          flash[:danger] = e.message
-        end
-      end
+      @page = Page.find(params[:id])
     end
 
     # POST /pages
