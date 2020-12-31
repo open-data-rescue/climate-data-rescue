@@ -3,7 +3,7 @@
   "private": true,
   "main": "index.js",
   "engines": {
-    "node": "14.x"
+    "node": "15.x"
   },
   "scripts": {
     "lint": "yarn run eslint --ext .js,.vue --ignore-path .gitignore app/webpacker",
