@@ -1,25 +1,42 @@
 
 <template>
   <div id="admin-app">
+    <div
+      id="body-bg-img"
+      :style="
+        `background-image: url(${McGillBackground});`"
+    />
     <Header />
-    <transition
-      name="fade"
-      mode="out-in"
+    <div
+      id="content-wrapper"
+      class="py-4"
     >
-      <router-view />
-    </transition>
+      <transition
+        name="fade"
+        mode="out-in"
+      >
+        <router-view />
+      </transition>
+    </div>
     <Footer />
   </div>
 </template>
 
 <script>
+import McGillBackground from '../../assets/images/mcgill-background.jpg'
 import Footer from './Footer'
 import Header from './Header'
+
 export default {
   name: 'AdminApp',
   components: {
     Footer,
     Header
+  },
+  data: function () {
+    return {
+      McGillBackground: McGillBackground
+    }
   }
 }
 </script>
@@ -36,11 +53,38 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
 
-    a {
-      color: #ffffff;
+    #body-bg-img {
+      display: block;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-repeat: no-repeat;
+      -ms-background-size: cover;
+      -o-background-size: cover;
+      -moz-background-size: cover;
+      -webkit-background-size: cover;
+      background-size: cover;
+      background-position: left center;
+
+      &.holiday-special {
+        background-image: url(image_path("holiday-bg"));
+        -webkit-filter: grayscale(50%); /* Safari 6.0 - 9.0 */
+        filter: grayscale(50%);
+      }
+    }
+
+    #content-wrapper {
+      background-color: #fafafa;
+    }
+
+    a:not(.btn) {
+      color: $accent-color;
 
       &:hover {
-        background-color: $accent-color;
+        color: lighten($accent-color, 20%);
       }
     }
 
@@ -62,6 +106,12 @@ export default {
         color: #ffffff;
         background-color: #399f71;
         border-color: #399f71;
+      }
+    }
+
+    .btn-secondary {
+      &:visited {
+        color: lighten($accent-color, 20%);
       }
     }
 
