@@ -30,7 +30,7 @@ const routes = [
         component: Pages,
         name: 'pages',
         meta: {
-          title: 'Pages - DRAW',
+          title: 'Pages | DRAW',
           metaTags: [
             {
               name: 'description',
@@ -48,7 +48,7 @@ const routes = [
         component: Transcriptions,
         name: 'transcriptions',
         meta: {
-          title: 'Transcriptions - DRAW',
+          title: 'Transcriptions | DRAW',
           metaTags: [
             {
               name: 'description',
