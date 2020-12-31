@@ -275,7 +275,7 @@ import TableFilterText from './TableFilterText'
 import UrlHelpers from '../mixins/UrlHelpers'
 
 export default {
-  name: 'PagesTable',
+  name: 'TablePages',
   components: {
     TableFilterBoolean,
     TableFilterSelect,
