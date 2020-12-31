@@ -19,6 +19,6 @@ html lang="en"
       = yield(:head)
 
     = javascript_pack_tag "admin_app"
-    = stylesheet_pack_tag "admin_app" unless Webpacker.dev_server.hot_module_replacing?
+    = stylesheet_pack_tag "admin_app"
   body
     #admin-app
