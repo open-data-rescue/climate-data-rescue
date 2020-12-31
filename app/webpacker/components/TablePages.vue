@@ -9,7 +9,7 @@
     >
       <b-col>
         <b-input-group
-          class="mb-0 pagination-group"
+          class="mb-0 page-size-group"
           prepend="Per page"
         >
           <b-form-select
@@ -276,7 +276,7 @@
     >
       <b-col>
         <b-input-group
-          class="mb-0 pagination-group"
+          class="mb-0 page-size-group"
           prepend="Per page"
         >
           <b-form-select
@@ -620,8 +620,8 @@ export default {
     }
   }
 
-  .pagination-group {
-    width: 230px;
+  .page-size-group {
+    width: 110px;
 
     .page-size-selector {
       text-align: right;
@@ -629,6 +629,14 @@ export default {
 
       /deep/ option {
         direction: rtl;
+      }
+    }
+  }
+
+  .pagination {
+    /deep/ li.page-item.disabled {
+      span.page-link {
+        padding: .4rem .9rem;
       }
     }
   }
