@@ -84,7 +84,7 @@
           Profile
         </b-dropdown-item>
         <b-dropdown-item
-          href="/logout"
+          href="/users/sign_out"
           data-method="DELETE"
         >
           Sign Out
