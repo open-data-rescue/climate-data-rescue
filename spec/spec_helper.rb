@@ -2,6 +2,7 @@
 require_dependency 'coveralls'
 require_dependency 'jsonapi/rspec'
 require_dependency "paperclip/matchers"
+require_dependency 'pundit/rspec'
 require_dependency 'simplecov'
 
 Coveralls.wear!
