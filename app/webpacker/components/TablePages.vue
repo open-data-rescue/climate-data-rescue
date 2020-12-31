@@ -578,6 +578,13 @@ export default {
           text-align: right;
         }
       }
+
+      > .filter {
+        select {
+          margin-top: 0 !important;
+          min-width: 50px;
+        }
+      }
     }
 
     /deep/ td {
