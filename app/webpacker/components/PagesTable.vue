@@ -45,7 +45,7 @@
           hover
           sticky-header="70vh"
           primary-key="id"
-          empty-text="No Pages Present. Upload some by clicking on the button above."
+          empty-text="No pages found"
           empty-filter-text="No pages match your filters"
           :show-empty="true"
           :items="getFilteredPages"

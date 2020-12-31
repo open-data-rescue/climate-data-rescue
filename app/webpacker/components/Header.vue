@@ -101,6 +101,7 @@ import UrlHelpers from '../mixins/UrlHelpers'
 
 export default {
   name: 'Header',
+  mixins: [UrlHelpers],
   computed: {
     currentRouteName () {
       return this.$route.name
@@ -108,8 +109,7 @@ export default {
     localizedLogo () {
       return this.locale === 'en' ? DrawLogoEn : DrawLogoFr
     }
-  },
-  mixins: [UrlHelpers]
+  }
 }
 </script>
 
@@ -130,7 +130,8 @@ export default {
       /deep/ a {
         color: #ffffff;
 
-        &:not(.navbar-brand):hover {
+        &:not(.navbar-brand):hover,
+        &.router-link-active {
           background-color: $accent-color;
         }
 
