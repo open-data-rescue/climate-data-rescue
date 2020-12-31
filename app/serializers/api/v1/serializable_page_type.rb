@@ -6,6 +6,10 @@ module Api
       type 'page_types'
 
       attributes :title
+
+      link :admin_detail do
+        @url_helpers.admin_page_type_url(@object.id)
+      end
     end
   end
 end

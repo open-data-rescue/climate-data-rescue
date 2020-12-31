@@ -178,7 +178,7 @@
           >
             <b-link
               v-if="data.item.page_type"
-              :href="localizedPath(`/admin/page_types/${data.item.relationships.page_type.data.id}`)"
+              :href="data.item.page_type.links.admin_detail"
             >
               {{ data.item.page_type.attributes.title }}
             </b-link>
@@ -199,6 +199,13 @@
             <b-link :href="data.item.links.admin_detail">
               {{ data.item.attributes.title }}
             </b-link>
+          </template>
+          <template
+            v-slot:cell(transcriptions)="data"
+          >
+            <TableCellPageTranscriptions
+              :transcriptions="data.item.transcriptions"
+            />
           </template>
           <template
             v-slot:cell(visible)="data"
@@ -269,6 +276,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import TableCellPageTranscriptions from './TableCellPageTranscriptions'
 import TableFilterBoolean from './TableFilterBoolean'
 import TableFilterSelect from './TableFilterSelect'
 import TableFilterText from './TableFilterText'
@@ -277,6 +285,7 @@ import UrlHelpers from '../mixins/UrlHelpers'
 export default {
   name: 'TablePages',
   components: {
+    TableCellPageTranscriptions,
     TableFilterBoolean,
     TableFilterSelect,
     TableFilterText
@@ -327,9 +336,9 @@ export default {
           sortable: false
         },
         {
-          key: 'transcription_ids',
+          key: 'transcriptions',
           label: 'Transcriptions',
-          class: 'transcription-ids',
+          class: 'transcriptions',
           sortable: false
         },
         {
@@ -371,6 +380,7 @@ export default {
       ],
       pages: [],
       page_types: [],
+      transcriptions: [],
       selected: [],
       filters: {
         done: null,
@@ -380,6 +390,7 @@ export default {
         page_type_id: null,
         start_date: '',
         title: '',
+        transcriptions: null,
         visible: null
       },
       totalRows: 1,
@@ -458,6 +469,11 @@ export default {
           this.page_types = response.included.filter(relation => {
             return relation.type === 'page_types'
           })
+
+          // Store all of the transcriptions for the result set so they can be
+          this.transcriptions = response.included.filter(relation => {
+            return relation.type === 'transcriptions'
+          })
         }
 
         if (response.data) {
@@ -468,6 +484,18 @@ export default {
             // rows will have access to the page_type data
             page.page_type = this.page_types.find(pageType => {
               return pageType.id === page.relationships.page_type.data.id
+            })
+
+            // Find the transcriptions for each page, and then
+            // set the transcriptions property on the page to the
+            // transcriptions we find so that the page will have access to
+            // the transcription data
+            const transcriptionIds = page.relationships.transcriptions.data.map(
+              transcription => transcription.id
+            )
+            // console.log(transcriptionIds)
+            page.transcriptions = this.transcriptions.filter(transcription => {
+              return transcriptionIds.includes(transcription.id)
             })
 
             return page
@@ -516,6 +544,10 @@ export default {
 
       &.selected {
         text-align: center;
+      }
+
+      &.transcriptions {
+        min-width: 120px;
       }
     }
   }

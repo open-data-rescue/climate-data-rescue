@@ -5,7 +5,9 @@ module Api
     class PagesController < BaseController
       def index
         query = PageQuery.new(
-          collection: policy_scope(Page).includes(:page_type).references(:page_type),
+          collection: policy_scope(Page)
+                        .includes(:page_type)
+                        .references(:page_type),
           filters: query_filters,
           page: query_page,
           sort: query_sort,
@@ -14,14 +16,15 @@ module Api
         @pages = query.resolve
 
         render jsonapi: @pages,
-               include: %i[page_type],
+               include: %i[page_type transcriptions],
                meta: { total: query.total }
       end
 
       def jsonapi_class
         {
           Page: Api::V1::SerializablePage,
-          PageType: Api::V1::SerializablePageType
+          PageType: Api::V1::SerializablePageType,
+          Transcription: Api::V1::SerializableTranscription
         }
       end
 

@@ -6,6 +6,7 @@ module Api
       type 'pages'
 
       has_one :page_type
+      has_many :transcriptions
 
       attributes :title, :start_date, :end_date, :visible, :done, :image_file_name
 
