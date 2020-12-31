@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   authenticate :user do
     namespace :api do
       namespace :v1 do
-        resources :pages, except: %i[new edit]
+        resources :pages, only: %i[index]
+        resources :page_types, only: %i[index]
       end
     end
   end
