@@ -45,7 +45,6 @@ export default {
   @import 'bootstrap/scss/_functions.scss';
   @import 'bootstrap/scss/_variables.scss';
   @import 'bootstrap/scss/_mixins.scss';
-  @import 'stylesheets/draw-variables';
 
   #admin-app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -80,56 +79,14 @@ export default {
       background-color: #fafafa;
     }
 
-    a:not(.btn) {
-      color: $accent-color;
-
-      &:hover {
-        color: lighten($accent-color, 20%);
-      }
-    }
-
-    .dropdown-menu > li > a,
-    .dropdown-menu > li > a a.dropdown-toggle, {
-      color: #2c3e50;
-
-      &:hover {
-        color: #ffffff;
-      }
-    }
-
-    .btn-primary {
-      color: #ffffff;
-      background-color: $accent-color;
-      border-color: $accent-color;
-
-      &:hover, &:focus, &:active {
-        color: #ffffff;
-        background-color: #399f71;
-        border-color: #399f71;
-      }
-    }
-
-    .btn-secondary {
-      &:visited {
-        color: lighten($accent-color, 20%);
-      }
-    }
-
     header,
     footer {
-      // width: 100vw;
-      // height: 15vh;
       padding: 0;
 
       .navbar-nav {
         a {
           font-weight: bold;
           color: #ffffff;
-
-          &.router-link-exact-active,
-          &:hover {
-            color: $accent-color;
-          }
         }
 
         @include media-breakpoint-up(md) {
