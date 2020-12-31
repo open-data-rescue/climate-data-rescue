@@ -34,7 +34,7 @@ gem 'log4r'
 
 #for user authentication
 gem 'devise'
-
+gem 'pundit'
 #to handle .slim files
 gem 'slim-rails'
 

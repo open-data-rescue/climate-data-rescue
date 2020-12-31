@@ -5,7 +5,7 @@ module Api
     class PagesController < BaseController
       def index
         query = PageQuery.new(
-          collection: Page.includes(:page_type).references(:page_type),
+          collection: policy_scope(Page).includes(:page_type).references(:page_type),
           filters: query_filters,
           page: query_page,
           sort: query_sort,
