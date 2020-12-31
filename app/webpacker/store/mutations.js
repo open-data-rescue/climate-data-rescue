@@ -9,5 +9,8 @@ export default {
   [types.GET_INFO_ASYNC.PENDING] (state) {
     console.log(types.GET_INFO_ASYNC.loadingKey)
     Vue.set(state, types.GET_INFO_ASYNC.loadingKey, true)
+  },
+  SET_LOCALE (state, locale) {
+    state.locale = locale
   }
 }

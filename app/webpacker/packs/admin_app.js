@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const el = document.getElementById('admin-app')
   new Vue({
     el,
-    router,
     store,
+    router,
     render: h => h(AdminApp)
   }).$mount(el)
 })

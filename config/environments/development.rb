@@ -65,4 +65,5 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:protocol] = "http"
 
   BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
+  Rack::MiniProfiler.config.position = 'bottom-right'
 end

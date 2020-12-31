@@ -1,39 +1,95 @@
+import store from '../store'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import BootstrapVue from 'bootstrap-vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
-// import axios from 'axios'
-// import CripVueLoading from 'crip-vue-loading'
-// import VueToasted from 'vue-toasted'
+
+import Pages from '../pages/Pages'
+import Transcriptions from '../pages/Transcriptions'
+
+// Install BootstrapVue
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
 
 Vue.use(VueRouter)
-Vue.use(BootstrapVue)
-Vue.use(VueMaterial)
-// Vue.use(CripVueLoading, {
-//   axios,
-//   applyOnRouter: true,
-//   color: '#0075D1',
-//   height: '3px'
-// })
-// Vue.use(VueToasted, {
-//   globalToasts: {
-//     toast: function (payload, initiate) {
-//       return initiate(payload.options.message, payload.options)
-//     }
-//   }
-// })
+
+// Make sure to *not* prepend your paths with a `/`!
+const routes = [
+  {
+    path: 'admin',
+    component: {
+      // Inline declaration of a component that renders our <router-view>
+      render: (c) => c('router-view')
+    },
+    children: [
+      {
+        path: 'pages',
+        component: Pages,
+        name: 'pages',
+        meta: {
+          title: 'Pages - DRAW',
+          metaTags: [
+            {
+              name: 'description',
+              content: 'The list of pages'
+            },
+            {
+              property: 'og:description',
+              content: 'The list of pages'
+            }
+          ]
+        }
+      },
+      {
+        path: 'transcriptions',
+        component: Transcriptions,
+        name: 'transcriptions',
+        meta: {
+          title: 'Transcriptions - DRAW',
+          metaTags: [
+            {
+              name: 'description',
+              content: 'The list of transcriptions'
+            },
+            {
+              property: 'og:description',
+              content: 'The list of transcriptions'
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
 
 const router = new VueRouter({
   mode: 'history',
-  base: '/',
-  routes: [
-
-  ]
+  routes: [{
+    path: '/:locale(en|fr)?',
+    component: {
+      beforeRouteEnter: setLocale,
+      beforeRouteUpdate: setLocale,
+      render (h) { return h('router-view') }
+    },
+    children: routes
+  }]
 })
+
+function setLocale (to, from, next) {
+  let { locale } = to.params
+  console.log(to)
+  if (!locale) {
+    locale = store.state.locale
+  }
+
+  // Do something with locale, check availability of messages etc.
+  store.commit('SET_LOCALE', locale)
+  console.log(store.state.locale)
+  next()
+}
 
 // This callback runs before every route change, including on page load.
 router.beforeEach((to, from, next) => {
