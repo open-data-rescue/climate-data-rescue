@@ -130,6 +130,16 @@
             />
           </template>
           <template
+            v-slot:head(transcriptions)="data"
+          >
+            <b>{{ data.label }}</b>
+
+            <table-filter-boolean
+              v-model="filters.transcriptions"
+              class="transcriptions"
+            />
+          </template>
+          <template
             v-slot:head(visible)="data"
           >
             <b>{{ data.label }}</b>
@@ -457,6 +467,7 @@ export default {
         'filters[page_type_id]': this.filters.page_type_id,
         'filters[start_date]': this.filters.start_date,
         'filters[title]': this.filters.title,
+        'filters[transcriptions]': this.filters.transcriptions,
         'filters[visible]': this.filters.visible
       }).then(response => {
         // set the total rows from the response meta

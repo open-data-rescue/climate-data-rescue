@@ -11,6 +11,7 @@ module QueryFilters
       set_page_type_id
       set_start_date
       set_title
+      set_transcriptions
       set_visible
     end
 
@@ -81,6 +82,25 @@ module QueryFilters
       append_condition(
         tables.pages[:title].matches("%#{filters.title}%")
       )
+    end
+
+    def set_transcriptions
+      return if filters.transcriptions.blank?
+
+      if filters.transcriptions === 'true'
+        append_condition(
+          tables.pages[:id].in(
+            tables.transcriptions.project(tables.transcriptions[:page_id])
+          )
+        )
+      else
+        # no transcriptions, where the page id is not in the transcriptions
+        append_condition(
+          tables.pages[:id].not_in(
+            tables.transcriptions.project(tables.transcriptions[:page_id])
+          )
+        )
+      end
     end
 
     def set_visible
