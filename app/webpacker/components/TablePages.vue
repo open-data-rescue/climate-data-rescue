@@ -37,7 +37,6 @@
           class="pages-table"
           selectable
           responsive
-          foot-clone
           no-local-sorting
           no-footer-sorting
           no-sort-reset
