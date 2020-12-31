@@ -18,7 +18,7 @@ module Api
       end
 
       link :admin_delete do
-        @url_helpers.admin_pages_url
+        @url_helpers.admin_page_url(@object.id)
       end
     end
   end

@@ -1,7 +1,7 @@
 
 <template>
   <b-container
-    class="accounts-receivable-table-wrapper mb-3"
+    class="pages-table-wrapper mb-3"
     fluid
   >
     <b-row
@@ -43,6 +43,7 @@
           no-sort-reset
           striped
           hover
+          sticky-header="70vh"
           primary-key="id"
           empty-text="No Pages Present. Upload some by clicking on the button above."
           empty-filter-text="No pages match your filters"
@@ -198,17 +199,20 @@
           >
             <b-button
               block
+              variant="primary"
               :href="data.item.links.admin_edit"
             >
               Edit
             </b-button>
-            <!-- <b-button
+            <b-button
               block
+              variant="danger"
               :href="data.item.links.admin_delete"
-              method="DELETE"
+              data-method="DELETE"
+              :data-confirm="`Are you sure you want to delete page #${data.item.id}: ${data.item.attributes.title}?`"
             >
               Delete
-            </b-button> -->
+            </b-button>
           </template>
         </b-table>
       </b-col>
@@ -424,6 +428,35 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .pages-table {
+    /deep/ th {
+      vertical-align: top;
+
+      &.selected {
+        width: 105px;
+        text-align: center;
+      }
+
+      &.id {
+        width: 75px;
+
+        input {
+          text-align: right;
+        }
+      }
+    }
+
+    /deep/ td {
+
+      &.number {
+        text-align: right;
+      }
+
+      &.selected {
+        text-align: center;
+      }
+    }
+  }
 
   .filter {
     > .input-group-append {
@@ -434,6 +467,19 @@ export default {
           background-color: #ced4da;
           color: #6c757d;
         }
+      }
+    }
+  }
+
+  .pagination-group {
+    width: 230px;
+
+    .page-size-selector {
+      text-align: right;
+      text-align-last: right;
+
+      /deep/ option {
+        direction: rtl;
       }
     }
   }

@@ -4,6 +4,8 @@ import store from '../store'
 
 import AdminApp from '../components/AdminApp.vue'
 
+require('@rails/ujs').start()
+
 Vue.config.productionTip = false
 
 document.addEventListener('DOMContentLoaded', () => {

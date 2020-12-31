@@ -80,14 +80,13 @@ const router = new VueRouter({
 
 function setLocale (to, from, next) {
   let { locale } = to.params
-  console.log(to)
+
   if (!locale) {
     locale = store.state.locale
   }
 
   // Do something with locale, check availability of messages etc.
   store.commit('SET_LOCALE', locale)
-  console.log(store.state.locale)
   next()
 }
 
