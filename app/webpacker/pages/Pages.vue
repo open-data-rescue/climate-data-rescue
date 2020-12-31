@@ -6,7 +6,7 @@
       <b-btn-toolbar class="mb-4">
         <b-btn
           variant="primary"
-          :href="this.localizedPath('/admin/pages/new')"
+          :href="localizedPath('/admin/pages/new')"
         >
           Upload Pages
         </b-btn>
