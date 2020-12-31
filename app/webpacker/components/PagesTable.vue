@@ -163,6 +163,16 @@
             </b-link>
           </template>
           <template
+            v-slot:cell(page_type_id)="data"
+          >
+            <b-link
+              v-if="data.item.page_type"
+              :href="localizedPath(`/admin/page_types/${data.item.relationships.page_type.data.id}`)"
+            >
+              {{ data.item.page_type.attributes.title }}
+            </b-link>
+          </template>
+          <template
             v-slot:cell(selected)="data"
           >
             <span v-if="data.rowSelected">✔</span>
@@ -250,6 +260,7 @@
 import { mapActions } from 'vuex'
 import TableBooleanFilter from './TableBooleanFilter'
 import TableTextFilter from './TableTextFilter'
+import UrlHelpers from '../mixins/UrlHelpers'
 
 export default {
   name: 'PagesTable',
@@ -257,6 +268,7 @@ export default {
     TableBooleanFilter,
     TableTextFilter
   },
+  mixins: [UrlHelpers],
   data () {
     return {
       fields: [
@@ -345,6 +357,7 @@ export default {
         }
       ],
       pages: [],
+      page_types: [],
       selected: [],
       filters: {
         id: '',
@@ -405,9 +418,23 @@ export default {
           this.totalRows = response.meta.total
         }
 
+        if (response.included) {
+          // Store all of the page_types for the result set so they can be
+          this.page_types = response.included.filter(relation => {
+            return relation.type === 'page_types'
+          })
+        }
+
         if (response.data) {
           // Pluck the array of pages off our axios response
           this.pages = response.data.map(page => {
+            // Find the page_type for each page, and then set the page_type
+            // property on the page to the page_type we found so that the page
+            // rows will have access to the page_type data
+            page.page_type = this.page_types.find(pageType => {
+              return pageType.id === page.relationships.page_type.data.id
+            })
+
             return page
           })
         }
