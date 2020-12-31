@@ -129,6 +129,16 @@
             />
           </template>
           <template
+            v-slot:head(page_days)="data"
+          >
+            <b>{{ data.label }}</b>
+
+            <table-filter-boolean
+              v-model="filters.page_days"
+              class="page_days"
+            />
+          </template>
+          <template
             v-slot:head(transcriptions)="data"
           >
             <b>{{ data.label }}</b>
@@ -191,6 +201,13 @@
             >
               {{ data.item.page_type.attributes.title }}
             </b-link>
+          </template>
+          <template
+            v-slot:cell(page_days)="data"
+          >
+            <TableCellPageDays
+              :page_days="data.item.page_days"
+            />
           </template>
           <template
             v-slot:cell(selected)="data"
@@ -285,6 +302,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import TableCellPageDays from './TableCellPageDays'
 import TableCellPageTranscriptions from './TableCellPageTranscriptions'
 import TableFilterBoolean from './TableFilterBoolean'
 import TableFilterSelect from './TableFilterSelect'
@@ -294,6 +312,7 @@ import UrlHelpers from '../mixins/UrlHelpers'
 export default {
   name: 'TablePages',
   components: {
+    TableCellPageDays,
     TableCellPageTranscriptions,
     TableFilterBoolean,
     TableFilterSelect,
@@ -303,11 +322,6 @@ export default {
   data () {
     return {
       fields: [
-        // {
-        //   key: 'selected',
-        //   label: 'Select All',
-        //   class: 'selected'
-        // },
         {
           key: 'actions',
           label: '',
@@ -339,9 +353,9 @@ export default {
           sortable: false
         },
         {
-          key: 'page_day_ids',
+          key: 'page_days',
           label: 'Metadata',
-          class: 'page-day-ids',
+          class: 'page-days',
           sortable: false
         },
         {
@@ -388,6 +402,7 @@ export default {
         }
       ],
       pages: [],
+      page_days: [],
       page_types: [],
       transcriptions: [],
       selected: [],
@@ -480,6 +495,11 @@ export default {
             return relation.type === 'page_types'
           })
 
+          // Store all of the page_days for the result set so they can be
+          this.page_days = response.included.filter(relation => {
+            return relation.type === 'page_days'
+          })
+
           // Store all of the transcriptions for the result set so they can be
           this.transcriptions = response.included.filter(relation => {
             return relation.type === 'transcriptions'
@@ -494,6 +514,18 @@ export default {
             // rows will have access to the page_type data
             page.page_type = this.page_types.find(pageType => {
               return pageType.id === page.relationships.page_type.data.id
+            })
+
+            // Find the page_days for each page, and then
+            // set the page_days property on the page to the
+            // page_days we find so that the page will have access to
+            // the page_day data
+            const pageDayIds = page.relationships.page_days.data.map(
+              pageDay => pageDay.id
+            )
+            // console.log(pageDayIds)
+            page.page_days = this.page_days.filter(pageDay => {
+              return pageDayIds.includes(pageDay.id)
             })
 
             // Find the transcriptions for each page, and then
@@ -554,6 +586,10 @@ export default {
 
       &.selected {
         text-align: center;
+      }
+
+      &.page-days {
+        min-width: 150px;
       }
 
       &.transcriptions {
