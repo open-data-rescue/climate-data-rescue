@@ -9,6 +9,7 @@ module QueryFilters
       set_end_date
       set_image_file_name
       set_page_type_id
+      set_page_days
       set_start_date
       set_title
       set_transcriptions
@@ -62,6 +63,25 @@ module QueryFilters
       append_condition(
         tables.pages[:page_type_id].eq(filters.page_type_id)
       )
+    end
+
+    def set_page_days
+      return if filters.page_days.blank?
+
+      if filters.page_days === 'true'
+        append_condition(
+          tables.pages[:id].in(
+            tables.page_days.project(tables.page_days[:page_id])
+          )
+        )
+      else
+        # no page_days, where the page id is not in the page_days
+        append_condition(
+          tables.pages[:id].not_in(
+            tables.page_days.project(tables.page_days[:page_id])
+          )
+        )
+      end
     end
 
     def set_start_date

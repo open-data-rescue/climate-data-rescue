@@ -6,8 +6,8 @@ module Api
       def index
         query = PageQuery.new(
           collection: policy_scope(Page)
-                        .includes(:page_type, :transcriptions)
-                        .references(:page_type, :transcriptions),
+                        .includes(:page_type, :transcriptions, :page_days)
+                        .references(:page_type, :transcriptions, :page_days),
           filters: query_filters,
           page: query_page,
           sort: query_sort,
@@ -32,7 +32,7 @@ module Api
       def available_filters
         %i[
           done end_date id image_file_name
-          page_type_id start_date title transcriptions visible
+          page_type_id page_days start_date title transcriptions visible
         ].freeze
       end
     end

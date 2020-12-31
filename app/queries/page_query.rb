@@ -4,6 +4,7 @@ class PageQuery < BaseQuery
   def tables_hash
     {
       pages: ::Page.arel_table,
+      page_days: ::PageDay.arel_table,
       transcriptions: ::Transcription.arel_table
     }
   end

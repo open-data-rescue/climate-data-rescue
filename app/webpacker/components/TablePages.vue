@@ -348,7 +348,7 @@ export default {
         },
         {
           key: 'page_type_id',
-          label: 'Page Schema',
+          label: 'Schema',
           class: 'page-type-id',
           sortable: false
         },
@@ -412,6 +412,7 @@ export default {
         id: '',
         image_file_name: '',
         page_type_id: null,
+        page_days: null,
         start_date: '',
         title: '',
         transcriptions: null,
@@ -479,6 +480,7 @@ export default {
         'filters[id]': this.filters.id,
         'filters[image_file_name]': this.filters.image_file_name,
         'filters[page_type_id]': this.filters.page_type_id,
+        'filters[page_days]': this.filters.page_days,
         'filters[start_date]': this.filters.start_date,
         'filters[title]': this.filters.title,
         'filters[transcriptions]': this.filters.transcriptions,
