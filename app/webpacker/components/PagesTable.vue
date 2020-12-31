@@ -119,6 +119,17 @@
             />
           </template>
           <template
+            v-slot:head(page_type_id)="data"
+          >
+            <b>{{ data.label }}</b>
+
+            <table-filter-select
+              v-model="filters.page_type_id"
+              :options="filterOptionsPageType"
+              class="page_type_id"
+            />
+          </template>
+          <template
             v-slot:head(visible)="data"
           >
             <b>{{ data.label }}</b>
@@ -259,6 +270,7 @@
 <script>
 import { mapActions } from 'vuex'
 import TableFilterBoolean from './TableFilterBoolean'
+import TableFilterSelect from './TableFilterSelect'
 import TableFilterText from './TableFilterText'
 import UrlHelpers from '../mixins/UrlHelpers'
 
@@ -266,6 +278,7 @@ export default {
   name: 'PagesTable',
   components: {
     TableFilterBoolean,
+    TableFilterSelect,
     TableFilterText
   },
   mixins: [UrlHelpers],
@@ -360,12 +373,14 @@ export default {
       page_types: [],
       selected: [],
       filters: {
-        id: '',
-        title: '',
-        start_date: '',
+        done: null,
         end_date: '',
-        visible: null,
-        done: null
+        id: '',
+        image_file_name: '',
+        page_type_id: null,
+        start_date: '',
+        title: '',
+        visible: null
       },
       totalRows: 1,
       currentPage: 1,
@@ -375,6 +390,25 @@ export default {
       sortBy: 'created_at',
       sortDesc: true,
       sortDirection: 'asc'
+    }
+  },
+  computed: {
+    filterOptionsPageType () {
+      return [...this.page_types].sort((a, b) => {
+        const nameA = a.attributes.title.toUpperCase() // ignore upper and lowercase
+        const nameB = b.attributes.title.toUpperCase() // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1
+        }
+        if (nameA > nameB) {
+          return 1
+        }
+
+        // names must be equal
+        return 0
+      }).map(pageType => {
+        return { value: pageType.id, text: pageType.attributes.title }
+      })
     }
   },
   watch: {
@@ -405,11 +439,12 @@ export default {
         'page[size]': this.perPage,
         'sort[key]': ctx.sortBy,
         'sort[desc]': ctx.sortDesc,
-        'filters[id]': this.filters.id,
         'filters[done]': this.filters.done,
-        'filters[image_file_name]': this.filters.image_file_name,
-        'filters[start_date]': this.filters.start_date,
         'filters[end_date]': this.filters.end_date,
+        'filters[id]': this.filters.id,
+        'filters[image_file_name]': this.filters.image_file_name,
+        'filters[page_type_id]': this.filters.page_type_id,
+        'filters[start_date]': this.filters.start_date,
         'filters[title]': this.filters.title,
         'filters[visible]': this.filters.visible
       }).then(response => {
