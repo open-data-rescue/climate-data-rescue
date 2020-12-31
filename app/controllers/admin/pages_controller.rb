@@ -1,20 +1,30 @@
 module Admin
   class PagesController < AdminController
-    # load_and_authorize_resource
-    respond_to :html, :json, :js
+    layout 'admin_app', only: :index
+
+    respond_to :html
     #Corresponds to the "page" model, page.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the page model
     #All .html.slim views for "page.rb" are located at "project_root\app\views\pages"
     # GET /pages
     # GET /pages.json
     def index
-      @pages = Page.includes(:page_type, :page_days)
-      @page_days = PageDay.where(page: @pages).order("date ASC").to_a
-      @transcriptions = Transcription.where(page: @pages).includes(:user).order("updated_at DESC").to_a
-      @users = User.where(id: @transcriptions.pluck(:user_id).uniq).to_a
+      # @pages = Page.includes(:page_type, :page_days).limit(10)
+
+      # # .paginate(
+      # #   page: page_number,
+      # #   per_page: per_page
+      # # )
+      # page_ids = @pages.pluck(:id)
+
+      # @page_days = PageDay.where(page_id: page_ids).order('date ASC').to_a
+      # @transcriptions = Transcription.where(page_id: page_ids)
+      #                                .includes(:user)
+      #                                .order('updated_at DESC').to_a
+      # @users = User.where(id: @transcriptions.pluck(:user_id).uniq).to_a
 
       respond_to do |format|
         format.html # index.html.erb
-        format.json { render json: @pages }
+        # format.json { render json: @pages }
       end
     end
 
@@ -40,13 +50,7 @@ module Admin
 
     # GET /pages/page_id/edit
     def edit
-      Page.transaction do
-        begin
-            @page = Page.find(params[:id])
-        rescue => e
-          flash[:danger] = e.message
-        end
-      end
+      @page = Page.find(params[:id])
     end
 
     # POST /pages
@@ -149,10 +153,19 @@ module Admin
     end
 
     private
+
     def page_params
       params.require(:page).permit(:height, :order, :width, :page_type_id, :image, 
         :title, :accession_number, :start_date, :start_date, :page_type, :volume,
         :visible, :done)
+    end
+
+    def page_number
+      params[:page] || 1
+    end
+
+    def per_page
+      params[:per_page] || 10
     end
   end
 end

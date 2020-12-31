@@ -9,6 +9,8 @@ capybara-*.html
 .rspec
 /log
 /tmp
+tmp/*
+node_modules/*
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /public/system
@@ -38,6 +40,14 @@ config/application.yml
 
 # if using bower-rails ignore default bower_components path bower.json files
 /vendor/assets/bower_components
+# Ignore JS/Yarn built files
+/public/packs
+/public/packs-test
+/node_modules
+/coverage
+yarn-debug.log*
+yarn-error.log*
+.yarn-integrity
 #*.bowerrc
 #bower.json
 
@@ -46,3 +56,8 @@ config/application.yml
 
 # Ignore Byebug command history file.
 .byebug_history
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity
