@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'TableTextFilter',
+  name: 'TableFilterText',
   props: {
     value: {
       type: String,

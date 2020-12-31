@@ -73,7 +73,7 @@
           >
             <b>{{ data.label }}</b>
 
-            <table-text-filter
+            <table-filter-text
               v-model="filters.id"
               class="id"
             />
@@ -83,7 +83,7 @@
           >
             <b>{{ data.label }}</b>
 
-            <table-text-filter
+            <table-filter-text
               v-model="filters.title"
               class="title"
             />
@@ -93,7 +93,7 @@
           >
             <b>{{ data.label }}</b>
 
-            <table-text-filter
+            <table-filter-text
               v-model="filters.image_file_name"
               class="image_file_name"
             />
@@ -103,7 +103,7 @@
           >
             <b>{{ data.label }}</b>
 
-            <table-text-filter
+            <table-filter-text
               v-model="filters.start_date"
               class="start_date"
             />
@@ -113,7 +113,7 @@
           >
             <b>{{ data.label }}</b>
 
-            <table-text-filter
+            <table-filter-text
               v-model="filters.end_date"
               class="end_date"
             />
@@ -123,7 +123,7 @@
           >
             <b>{{ data.label }}</b>
 
-            <table-boolean-filter
+            <table-filter-boolean
               v-model="filters.visible"
               class="visible"
             />
@@ -133,7 +133,7 @@
           >
             <b>{{ data.label }}</b>
 
-            <table-boolean-filter
+            <table-filter-boolean
               v-model="filters.done"
               class="done"
             />
@@ -258,15 +258,15 @@
 
 <script>
 import { mapActions } from 'vuex'
-import TableBooleanFilter from './TableBooleanFilter'
-import TableTextFilter from './TableTextFilter'
+import TableFilterBoolean from './TableFilterBoolean'
+import TableFilterText from './TableFilterText'
 import UrlHelpers from '../mixins/UrlHelpers'
 
 export default {
   name: 'PagesTable',
   components: {
-    TableBooleanFilter,
-    TableTextFilter
+    TableFilterBoolean,
+    TableFilterText
   },
   mixins: [UrlHelpers],
   data () {

@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'TableBooleanFilter',
+  name: 'TableFilterBoolean',
   props: {
     selected: {
       type: Object,
