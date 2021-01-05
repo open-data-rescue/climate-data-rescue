@@ -572,7 +572,7 @@ export default {
       }
 
       &.id {
-        min-width: 75px;
+        width: 75px;
 
         input {
           text-align: right;
