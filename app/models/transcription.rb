@@ -36,7 +36,18 @@ class Transcription < ApplicationRecord
   end
 
   def percent_complete
-    ((num_data_entries.to_f / num_data_entries_expected.to_f) * 100) || 0
+    value = ((num_data_entries.to_f / num_data_entries_expected.to_f) * 100) || 0
+
+    precision =
+      if value < 1
+        2
+      elsif value < 10
+        3
+      else
+        4
+      end
+
+    BigDecimal(value, precision)
   end
 
   private

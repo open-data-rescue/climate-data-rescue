@@ -34,7 +34,7 @@ gem 'log4r'
 
 #for user authentication
 gem 'devise'
-
+gem 'pundit'
 #to handle .slim files
 gem 'slim-rails'
 
@@ -53,6 +53,9 @@ gem 'select2-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
+
+gem 'jsonapi-rails'
+gem 'jsonapi-rspec'
 
 gem "jquery-fileupload-rails"
 
@@ -82,6 +85,9 @@ gem 'puma',  '~> 4.3.5'
 gem "recaptcha", require: "recaptcha/rails"
 
 gem 'bootsnap', '>= 1.1.0', require: false
+
+gem 'webpacker', '~> 3.5'
+gem 'websocket-extensions', '~> 0.1.5'
 
 # Deploy with Capistrano
 # Deploy with Capistrano
