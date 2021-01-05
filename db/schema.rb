@@ -333,9 +333,6 @@ ActiveRecord::Schema.define(version: 2020_12_31_221221) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "better_together_authorships", "better_together_authorables", column: "authorable_id"
-  add_foreign_key "better_together_authorships", "better_together_authors", column: "author_id"
-  add_foreign_key "better_together_groups", "better_together_people", column: "creator_id"
   add_foreign_key "pages", "page_types"
   add_foreign_key "static_pages", "static_pages", column: "parent_id"
   add_foreign_key "transcriptions", "pages"
