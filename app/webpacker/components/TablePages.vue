@@ -347,24 +347,6 @@ export default {
           sortable: true
         },
         {
-          key: 'page_type_id',
-          label: 'Schema',
-          class: 'page-type-id',
-          sortable: false
-        },
-        {
-          key: 'page_days',
-          label: 'Metadata',
-          class: 'page-days',
-          sortable: false
-        },
-        {
-          key: 'transcriptions',
-          label: 'Transcriptions',
-          class: 'transcriptions',
-          sortable: false
-        },
-        {
           key: 'start_date',
           label: 'Start Date',
           class: 'start-date',
@@ -386,6 +368,24 @@ export default {
           key: 'done',
           label: 'Complete',
           class: 'done',
+          sortable: false
+        },
+        {
+          key: 'page_type_id',
+          label: 'Schema',
+          class: 'page-type-id',
+          sortable: false
+        },
+        {
+          key: 'page_days',
+          label: 'Metadata',
+          class: 'page-days',
+          sortable: false
+        },
+        {
+          key: 'transcriptions',
+          label: 'Transcriptions',
+          class: 'transcriptions',
           sortable: false
         },
         {
@@ -572,7 +572,7 @@ export default {
       }
 
       &.id {
-        width: 75px;
+        min-width: 75px;
 
         input {
           text-align: right;
