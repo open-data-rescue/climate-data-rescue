@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  authenticate :user do
+    namespace :api do
+      namespace :v1 do
+        resources :pages, only: %i[index]
+        resources :page_types, only: %i[index]
+      end
+    end
+  end
+
   namespace :better_together, path: '/' do
     resources :posts, only: %i(index show)
   end

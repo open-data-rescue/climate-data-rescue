@@ -1,0 +1,14 @@
+
+@import './draw-variables';
+
+// Your variable overrides
+$primary: $accent-color;
+
+// Bootstrap and its default variables
+
+@import 'bootstrap/scss/_functions.scss';
+@import 'bootstrap/scss/_variables.scss';
+@import 'bootstrap/scss/_mixins.scss';
+@import 'bootstrap/scss/bootstrap';
+// BootstrapVue and its default variables
+@import 'bootstrap-vue/src/index.scss';
