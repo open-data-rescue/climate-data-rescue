@@ -123,7 +123,7 @@ group :development, :test do
   gem 'pry'
   gem 'rubocop-rspec'
   gem 'listen'
-  gem 'faker', '~> 2.11.0'
+  gem 'faker', '~> 2.14.0'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'shoulda-callback-matchers'
