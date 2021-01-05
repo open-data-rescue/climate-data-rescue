@@ -941,6 +941,10 @@ fr:
   transcription:
   transcription-saved-msg:
   transcriptions:
+    active:
+      zero: Aucun transcription active. Voudriez-vous commencer?? 
+      one: Un transcription active
+      many: "%{count} transcriptions actives"
     data-table:
       header:
         data-collected:

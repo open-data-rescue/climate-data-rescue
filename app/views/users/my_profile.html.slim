@@ -3,128 +3,128 @@
   - provide(:profile, "active")
   - provide(:title, strip_tags(t('my-profile')))
 
-  .row
-    .col-xs-9.col-lg-10
-      /! Show user information. Pulled dynamically from the user model instance
-      h1 #{@user.display_name}
-      p 
-        strong = @user.email
-      p 
-        = pluralize(@user.transcriptions.count, strip_tags(t("transcription")))
-        = " "
-        = t('in-total').html_safe
-      p = @user.bio
-      - if @user == current_user || current_user.admin?
-        /! if current user is admin or this is their user page, show full name
-        / andlinks to edit the user information
+  section#my-profile.boffset20
+    .row
+      #my-profile-details.col-xs-9.col-lg-10
+        /! Show user information. Pulled dynamically from the user model instance
+        h1 #{@user.display_name}
         p 
-          strong = "#{User.human_attribute_name(:full_name)}: #{@user.full_name}"
-          br
-          span = "(#{t('simple_form.hints.user.edit.full_name')})"
-        = link_to t('edit'), edit_user_url(@user)
+          strong = @user.email
+        p 
+          = pluralize(@user.transcriptions.count, strip_tags(t("transcription")))
+          = " "
+          = t('in-total').html_safe
+        p = @user.bio
+        - if @user == current_user || current_user.admin?
+          /! if current user is admin or this is their user page, show full name
+          / andlinks to edit the user information
+          p 
+            strong = "#{User.human_attribute_name(:full_name)}: #{@user.full_name}"
+            br
+            span = "(#{t('simple_form.hints.user.edit.full_name')})"
+          = link_to t('edit'), edit_user_url(@user)
 
-    .col-xs-3.col-lg-2
-      - if @user.avatar.present?
-        = image_tag @user.avatar.url(:medium), :class => "img-responsive img-circle"
-      - else
-        = image_tag "default-person.png", :class => "img-responsive img-circle"
+      #my-profile-photo.col-xs-3.col-lg-2
+        - if @user.avatar.present?
+          = image_tag @user.avatar.url(:medium), :class => "img-responsive img-circle"
+        - else
+          = image_tag "default-person.png", :class => "img-responsive img-circle"
 
   - if @user == current_user || (current_user && current_user.admin?)   
-    .row.voffset40
-      .col-md-12 
-        p 
-          strong = t('profile.certificate.heading')
-        p = t('profile.certificate.description') 
-        
-        h3 = t('profile.certificate.ccr.heading')
-        p = t('profile.certificate.ccr.introduction').html_safe
-        ol
-          li = t('profile.certificate.ccr.step-1')
-          li = t('profile.certificate.ccr.step-2')
-          li = t('profile.certificate.ccr.step-3')
-        = link_to t('profile.certificate.button-text'), my_certificate_path, class: "btn btn-lg btn-draw-accented"
-
-    .row.voffset40
-      .col-md-12 
-        = link_to t('transcribe-random-page'), new_transcription_path, class: "btn btn-lg btn-draw-accented pull-left"
-    .row.voffset20
-      .col-md-12
-        h2.transcriptions-header
-          = t('my-active-transcriptions')
+    section#my-certificate
+      .row
+        .col-md-12 
+          h2 = t('profile.certificate.heading')
+          p = t('profile.certificate.description') 
+          
+          h3 = t('profile.certificate.ccr.heading')
+          p = t('profile.certificate.ccr.introduction').html_safe
+          ol.boffset20
+            li = t('profile.certificate.ccr.step-1')
+            li = t('profile.certificate.ccr.step-2')
+            li = t('profile.certificate.ccr.step-3')
+          = link_to t('profile.certificate.button-text'), my_certificate_path, class: "btn btn-sm btn-primary", target: 'my-certificate'
+    // Transcriptions section
+    section#my-transcriptions
+      .row.voffset20
+        .col-md-12
+          h2.transcriptions-header.boffset10
+            = t('my-active-transcriptions')
+            - if @active_transcriptions.any?
+              span.badge
+                = @active_transcriptions.size
+      .row.voffset20
+        .col-md-12
           - if @active_transcriptions.any?
-            span.badge
-              = @active_transcriptions.size
-    .row.voffset20
-      .col-md-12
-        - if @active_transcriptions.any?
-          #active-transcriptions-container
-            = render 'transcriptions/transcriptions_table', transcriptions: @active_transcriptions
-        - else
-          = link_to t('transcribe-random-page'), new_transcription_path, class: "btn btn-lg btn-draw-accented"
-    .row.voffset20
-      .col-md-12
-        h2.transcriptions-header
-          = t('my-completed-transcriptions')
-          - if @completed_transcriptions_size > 0
-            span.badge
-              = @completed_transcriptions_size
-          button#toggle-completed-transcriptions.btn.btn-default data-target="#completed-transcriptions-container" data-toggle="collapse" title= t('toggle-completed-transcriptions') aria-expanded="false" aria-controls="completed-transcriptions-container"
-           i.fa.fa-caret-down
-    .row.voffset20
-      .col-md-12
-        #completed-transcriptions-container.collapse
-          - if @completed_transcriptions_size > 0
-            <nav class="transcription-paginator" aria-label="...">
-              <ul class="pagination">
-                - if @num_pages_completed_transcriptions > 1
-                  li data-page="first"
-                    a href="#p-first"  data-page="first"
-                      | &laquo;
-                - (0..@num_pages_completed_transcriptions).each_with_index do |p, index|
-                  - p = p + 1
-                  - if index == 0
-                    li.real-page.active data-page= p
-                      a href="#p-#{p}" data-page= p
-                        = p
-                  - else
-                    li.real-page data-page= p
-                      a href="#p-#{p}" data-page= p
-                        = p
-                - if @num_pages_completed_transcriptions > 1
-                  li data-page="last"
-                    a href="#p-last"  data-page="last"
-                      | &raquo;
-              </ul>
-            </nav>
-            #transcription-ajax-target
-              i.fa.fa-refresh.fa-spin.fa-3x
-            <nav class="transcription-paginator" aria-label="...">
-              <ul class="pagination">
-                - if @num_pages_completed_transcriptions > 1
-                  li data-page="first"
-                    a href="#p-first"  data-page="first"
-                      | &laquo;
-                - (0..@num_pages_completed_transcriptions).each_with_index do |p, index|
-                  - p = p + 1
-                  - if index == 0
-                    li.real-page.active data-page= p
-                      a href="#p-#{p}" data-page= p
-                        = p
-                  - else
-                    li.real-page data-page= p
-                      a href="#p-#{p}" data-page= p
-                        = p
-                - if @num_pages_completed_transcriptions > 1
-                  li data-page="last"
-                    a href="#p-last"  data-page="last"
-                      | &raquo;
-              </ul>
-            </nav>
+            = link_to t('transcribe-random-page'), new_transcription_path, class: "btn btn-sm btn-draw-accented"
+            #active-transcriptions-container.voffset20
+              = render 'transcriptions/transcriptions_table', transcriptions: @active_transcriptions
           - else
-            p = t('no-pages-completed-yet')
-    .row.voffset20
-      .col-md-12
-        = link_to t('view-list-of-pages-to-transcribe'), public_pages_index_path, class: "btn btn-primary"
+            p = t('transcriptions.active', count: 0)
+      .row.voffset20
+        .col-md-12
+          h2.transcriptions-header
+            = t('my-completed-transcriptions')
+            - if @completed_transcriptions_size > 0
+              span.badge
+                = @completed_transcriptions_size
+            button#toggle-completed-transcriptions.btn.btn-default data-target="#completed-transcriptions-container" data-toggle="collapse" title= t('toggle-completed-transcriptions') aria-expanded="false" aria-controls="completed-transcriptions-container"
+             i.fa.fa-caret-down
+      .row.voffset20
+        .col-md-12
+          #completed-transcriptions-container.collapse
+            - if @completed_transcriptions_size > 0
+              <nav class="transcription-paginator" aria-label="...">
+                <ul class="pagination">
+                  - if @num_pages_completed_transcriptions > 1
+                    li data-page="first"
+                      a href="#p-first"  data-page="first"
+                        | &laquo;
+                  - (0..@num_pages_completed_transcriptions).each_with_index do |p, index|
+                    - p = p + 1
+                    - if index == 0
+                      li.real-page.active data-page= p
+                        a href="#p-#{p}" data-page= p
+                          = p
+                    - else
+                      li.real-page data-page= p
+                        a href="#p-#{p}" data-page= p
+                          = p
+                  - if @num_pages_completed_transcriptions > 1
+                    li data-page="last"
+                      a href="#p-last"  data-page="last"
+                        | &raquo;
+                </ul>
+              </nav>
+              #transcription-ajax-target
+                i.fa.fa-refresh.fa-spin.fa-3x
+              <nav class="transcription-paginator" aria-label="...">
+                <ul class="pagination">
+                  - if @num_pages_completed_transcriptions > 1
+                    li data-page="first"
+                      a href="#p-first"  data-page="first"
+                        | &laquo;
+                  - (0..@num_pages_completed_transcriptions).each_with_index do |p, index|
+                    - p = p + 1
+                    - if index == 0
+                      li.real-page.active data-page= p
+                        a href="#p-#{p}" data-page= p
+                          = p
+                    - else
+                      li.real-page data-page= p
+                        a href="#p-#{p}" data-page= p
+                          = p
+                  - if @num_pages_completed_transcriptions > 1
+                    li data-page="last"
+                      a href="#p-last"  data-page="last"
+                        | &raquo;
+                </ul>
+              </nav>
+            - else
+              p = t('transcriptions.completed', count: 0)
+      .row.voffset20
+        .col-md-12
+          = link_to t('view-list-of-pages-to-transcribe'), public_pages_index_path, class: "btn btn-primary"
 
     javascript:
       var currentPage = 1;
