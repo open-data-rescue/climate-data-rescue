@@ -6,11 +6,9 @@ module Api
 
     respond_to :json
 
-    # after_action :verify_authorized, except: :index
-    # after_action :verify_policy_scoped, only: :index
-
     rescue_from ActiveRecord::RecordNotFound, with: -> { render json: { error: 'Not found' }, status: :not_found }
     rescue_from Pundit::NotAuthorizedError, with: :reject_forbidden_request
+
     after_action :verify_authorized, except: :index
     after_action :verify_policy_scoped, only: :index
 
