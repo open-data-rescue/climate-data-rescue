@@ -69,7 +69,7 @@ gem 'i18n-active_record', :require => 'i18n/active_record'
 
 gem 'rails-observers'
 
-gem 'friendly_id', '~> 5.2.0'
+gem 'friendly_id', '~> 5.3.0'
 gem 'mobility', '~> 0.8.13'
 gem 'friendly_id-mobility', '~> 0.5.4'
 
@@ -123,7 +123,7 @@ group :development, :test do
   gem 'pry'
   gem 'rubocop-rspec'
   gem 'listen'
-  gem 'faker', '~> 2.11.0'
+  gem 'faker', '~> 2.14.0'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'shoulda-callback-matchers'
