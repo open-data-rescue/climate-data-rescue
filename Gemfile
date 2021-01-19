@@ -71,7 +71,7 @@ gem 'rails-observers'
 
 gem 'friendly_id', '~> 5.3.0'
 gem 'mobility', '~> 0.8.13'
-gem 'friendly_id-mobility', '~> 0.5.4'
+gem 'friendly_id-mobility', '~> 0.5.5'
 
 gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'globalize-accessors'
