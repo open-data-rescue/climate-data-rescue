@@ -362,6 +362,12 @@ fr:
       button-text: Mon certificat
       description: Vous pouvez cliquer sur le bouton n'importe quand pour générer un certificat de participation. Elle est basée sur une vitesse moyenne de 300 entrées de données par heure, ce qui a été testé par des bénévoles de l'équipe SAM. Vous pouvez aussi utiliser ce certificat comme preuve de vos heures de bénévolat.
       heading: Certificat de participation
+      ccr:
+        heading: McGill Co-Curricular Record
+        introduction: 'For McGill students, you can put your DRAW Transcriptions towards recognition on your Transcript using the Co-Curricular Record Program. Please see <a href="https://www.mcgill.ca/involvement/myinvolvement">My Involvement</a> for more information. \n To have your hours validated, please:' 
+        step-1: Generate your Participation Certificate using the button below.
+        step-2: 'Attach your certificate and email draw.archives@mcgill.ca using your McGill email with the subject line "[Your Name] CCR Submission"'
+        step-3: DRAW will submit these hours and other relevant information to My Involvement in December and April of each year.
   register: 
   save: 
   sign-in-count: 
@@ -935,6 +941,10 @@ fr:
   transcription:
   transcription-saved-msg:
   transcriptions:
+    active:
+      zero: Aucun transcription active. Voudriez-vous commencer?? 
+      one: Un transcription active
+      many: "%{count} transcriptions actives"
     data-table:
       header:
         data-collected:

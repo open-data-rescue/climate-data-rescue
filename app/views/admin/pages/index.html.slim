@@ -1,10 +1,11 @@
 - provide(:pages, "active")
 - provide(:admin, "active")
 - provide(:title, "Pages")
+/ - provide(:head, javascript_pack_tag('admin_pages'))
 
 h3.boffset20
   = t('uploaded-pages')
 .btn-toolbar.boffset20
   = link_to t('upload-pages'), new_admin_page_path, class: "btn btn-primary btn-sm"
 
-= render 'pages_table', pages: @pages, transcriptions: @transcriptions, page_days: @page_days, users: @users  || 'No Pages Present. Upload some by clicking on the button above.'
+#admin-pages-table-container
