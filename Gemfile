@@ -86,7 +86,7 @@ gem "recaptcha", require: "recaptcha/rails"
 
 gem 'bootsnap', '>= 1.1.0', require: false
 
-gem 'webpacker', '~> 3.5'
+gem 'webpacker', '~> 5.2'
 gem 'websocket-extensions', '~> 0.1.5'
 
 # Deploy with Capistrano
