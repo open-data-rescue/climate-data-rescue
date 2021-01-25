@@ -69,7 +69,7 @@ gem 'i18n-active_record', :require => 'i18n/active_record'
 
 gem 'rails-observers'
 
-gem 'friendly_id', '~> 5.3.0'
+gem 'friendly_id', '~> 5.4.2'
 gem 'mobility', '~> 1.0.3'
 gem 'friendly_id-mobility', '~> 1.0.3'
 
