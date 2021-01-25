@@ -172,7 +172,7 @@ GEM
     friendly_id-mobility (1.0.3)
       friendly_id (>= 5.0.0, < 5.5)
       mobility (>= 1.0.1, < 2.0)
-    fuubar (2.5.0)
+    fuubar (2.5.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
     globalid (0.4.2)
