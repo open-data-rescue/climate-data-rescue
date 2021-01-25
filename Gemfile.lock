@@ -167,7 +167,7 @@ GEM
     ffi (1.14.2)
     figaro (1.2.0)
       thor (>= 0.14.0, < 2)
-    friendly_id (5.3.0)
+    friendly_id (5.4.0)
       activerecord (>= 4.0.0)
     friendly_id-mobility (0.5.5)
       friendly_id (>= 5.0.0, <= 5.4.0)
@@ -472,7 +472,7 @@ DEPENDENCIES
   factory_bot_rails
   faker (~> 2.15.1)
   figaro
-  friendly_id (~> 5.3.0)
+  friendly_id (~> 5.4.0)
   friendly_id-mobility (~> 0.5.5)
   fuubar
   globalize!
