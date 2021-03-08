@@ -1307,7 +1307,9 @@ en:
   user:
   user-name:
   user-observations:
-  users: Users
+  users:
+    users: Users
+    send-password-reset-instructions: Send Password Reset Instructions
   value:
   view-all-field-groups:
   view-all-fields:

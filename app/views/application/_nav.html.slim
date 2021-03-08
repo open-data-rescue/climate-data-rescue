@@ -79,7 +79,7 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
                 li class="#{yield(:static_pages)}" = link_to t('content-pages'), admin_static_pages_path
                 li class="#{yield(:content_images)}" = link_to t('content-images'), admin_content_images_path
                 li role="separator" class="divider"
-                li class="#{yield(:users)}" = link_to t('users'), admin_users_path
+                li class="#{yield(:users)}" = link_to t('users.users'), admin_users_path
                 / - if current_user && current_user.admin?
                 /   li target="translator" = link_to t('edit-site-translations'), '/translator'
           li id="user-menu" class="#{yield(:user)} top-level-nav dropdown-submenu"
