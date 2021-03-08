@@ -37,9 +37,9 @@ module DataRescueAtHome
       address: 'smtp.sendgrid.net',
       port: '587',
       authentication: :plain,
-      user_name: ENV.fetch('SENDGRID_USERNAME'),
-      password: ENV.fetch('SENDGRID_PASSWORD'),
-      domain: 'heroku.com',
+      user_name: ENV.fetch('SENDGRID_USERNAME') { '' },
+      password: ENV.fetch('SENDGRID_PASSWORD') { '' },
+      domain: 'opendatarescue.org',
       enable_starttls_auto: true
     }
 
@@ -64,9 +64,9 @@ module DataRescueAtHome
     # }
 
     config.action_mailer.default_options = {
-      from: 'community@opendatarescue.org',
-      reply_to: 'community@opendatarescue.org',
-      bcc: 'community@opendatarescue.org'
+      from: 'draw@opendatarescue.org',
+      reply_to: 'draw@opendatarescue.org',
+      bcc: 'rob@opendatarescue.org'
     }
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
