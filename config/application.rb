@@ -64,8 +64,7 @@ module DataRescueAtHome
     # }
 
     config.action_mailer.default_options = {
-      from: 'draw@opendatarescue.org',
-      reply_to: 'draw@opendatarescue.org',
+      from: ENV.fetch('FROM_ADDRESS', 'draw@opendatarescue.org'),
       bcc: 'rob@opendatarescue.org'
     }
     config.action_mailer.perform_deliveries = true

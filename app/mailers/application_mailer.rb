@@ -1,5 +1,5 @@
 
 class ApplicationMailer < ActionMailer::Base
-  default from: 'draw@opendatarescue.org'
+  default from: ENV.fetch('FROM_ADDRESS', 'draw@opendatarescue.org')
   layout 'mailer'
 end
