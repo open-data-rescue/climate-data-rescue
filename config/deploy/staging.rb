@@ -1,4 +1,4 @@
-set :branch, "production"
+set :branch, "mcgill-server-deploy"
 set :stage,           :staging
 
 set :deploy_to,       "/opt/www/climate_test"
