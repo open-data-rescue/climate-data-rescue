@@ -34,10 +34,12 @@ module DataRescueAtHome
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      address: 'smtp.sendgrid.net',
+      address: ENV.fetch('SMTP_ADDRESS', 'smtp.sendgrid.net'),
       port: '587',
       authentication: :plain,
       enable_starttls_auto: true,
+      user_name: ENV.fetch('SMTP_USERNAME', ''),
+      password: ENV.fetch('SMTP_PASSWORD', ''),
       domain: 'opendatarescue.org'
     }
 
