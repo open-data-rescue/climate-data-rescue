@@ -37,7 +37,8 @@ module DataRescueAtHome
       address: 'smtp.sendgrid.net',
       port: '587',
       authentication: :plain,
-      enable_starttls_auto: true
+      enable_starttls_auto: true,
+      domain: 'opendatarescue.org'
     }
 
     # Paperclip S3 settings
