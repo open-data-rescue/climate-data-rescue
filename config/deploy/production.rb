@@ -14,13 +14,14 @@ set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
 set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log,  "#{release_path}/log/puma.access.log"
 
-set :branch do
-  default_tag = `git tag --sort=taggerdate`.split("\n").last
+set :branch, 'mcgill-server-deploy'
+# set :branch do
+#   default_tag = `git tag --sort=taggerdate`.split("\n").last
 
-  #tag = Capistrano::CLI.ui.ask "Tag to deploy (make sure to push the tag first): [#{default_tag}] "
-  tag = default_tag# if tag.empty?
-  tag
-end
+#   #tag = Capistrano::CLI.ui.ask "Tag to deploy (make sure to push the tag first): [#{default_tag}] "
+#   tag = default_tag# if tag.empty?
+#   tag
+# end
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
