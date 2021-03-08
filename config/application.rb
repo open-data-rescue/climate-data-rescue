@@ -63,9 +63,8 @@ module DataRescueAtHome
     # }
 
     config.action_mailer.default_options = {
-      :from   => 'draw_mcgill@outlook.com',
-      :reply_to => 'draw_mcgill@outlook.com',
-      :bcc => 'rsmithlal@gmail.com'
+      from: ENV.fetch('FROM_ADDRESS', 'draw@opendatarescue.org'),
+      bcc: 'rob@opendatarescue.org'
     }
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
