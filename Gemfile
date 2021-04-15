@@ -26,7 +26,7 @@ gem 'autoprefixer-rails'
 # end
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'mini_racer'
+gem 'mini_racer', '~> 0.2.6'
 
 gem 'modernizr-rails'
 
