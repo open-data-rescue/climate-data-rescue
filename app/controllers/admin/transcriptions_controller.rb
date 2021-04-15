@@ -7,7 +7,7 @@ module Admin
     # GET /transcriptions
     # GET /transcriptions.json
     def index
-      @transcriptions = Transcription.order(:created_at => :asc)
+      @transcriptions = Transcription.order(updated_at: :desc)
     end
 
     # GET /transcriptions/transcription_id
