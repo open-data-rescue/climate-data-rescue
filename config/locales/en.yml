@@ -1297,6 +1297,8 @@ en:
       tooltips:
         view-page-details: "Show page details"
     transcriptions: Transcriptions
+    view-all-transcriptions: View All Transcriptions
+    view-transcriptions-ready-for-review: View Transcriptions Ready For Review
   unique-key:
   unique-rows:
   unique-rows-expected:
@@ -1310,10 +1312,11 @@ en:
   users:
     users: Users
     send-password-reset-instructions: Send Password Reset Instructions
-  value:
-  view-all-field-groups:
-  view-all-fields:
-  view-all-pages:
+  value: 
+  view-all-field-groups: 
+  view-all-fields: 
+  view-all-pages: 
+  view-completed-transcription: View Completed Transcription
   view-details: "View details"
   view-list-of-pages-to-transcribe: "View all transcribable pages"
   view-my-transcriptions: View my %{count} transcriptions
