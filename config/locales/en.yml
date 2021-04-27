@@ -1297,6 +1297,8 @@ en:
       tooltips:
         view-page-details: "Show page details"
     transcriptions: Transcriptions
+    view-all-transcriptions: View All Transcriptions
+    view-transcriptions-ready-for-review: View Transcriptions Ready For Review
   unique-key:
   unique-rows:
   unique-rows-expected:
@@ -1311,7 +1313,7 @@ en:
   value:
   view-all-field-groups:
   view-all-fields:
-  view-all-pages:
+  view-all-pages: 
   view-details: "View details"
   view-list-of-pages-to-transcribe: "View all transcribable pages"
   view-my-transcriptions: View my %{count} transcriptions

@@ -966,6 +966,8 @@ fr:
         user: Utilisateur
       tooltips:
         view-page-details: "Afficher les détails de page"
+    view-all-transcriptions: Affichier toutes transcriptions
+    view-transcriptions-ready-for-review: Affichier pour revision
   unique-key:
   unique-rows:
   unique-rows-expected:
