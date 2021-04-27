@@ -15,20 +15,22 @@ unless User.any?
   )
 end
 
-unless Rails.env.production?
-  connection = ActiveRecord::Base.connection
-  connection.tables.each do |table|
-    connection.execute("TRUNCATE #{table}") unless table == "schema_migrations" || table == "users"
-  end
+#unless Rails.env.production?
+  #connection = ActiveRecord::Base.connection
+  #connection.tables.each do |table|
+    #connection.execute("TRUNCATE #{table} CASCADE") unless table == "schema_migrations" || table == "users"
+  #end
+  
+  #ApplicationRecord.subclasses.each(&:delete_all)
 
-  sql = File.read('docker/init-data/DRAW-init.sql')
-  statements = sql.split(/;$/)
-  statements.pop
+  #sql = File.read('docker/init-data/DRAW-init.sql')
+  #statements = sql.split(/;$/)
+  #statements.pop
 
-  ActiveRecord::Base.transaction do
-    statements.each do |statement|
-      Rails.logger.debug statement
-      connection.execute(statement)
-    end
-  end
-end
+  #ActiveRecord::Base.transaction do
+    #statements.each do |statement|
+      #Rails.logger.debug statement
+      #connection.execute(statement)
+    #end
+  #end
+#end
