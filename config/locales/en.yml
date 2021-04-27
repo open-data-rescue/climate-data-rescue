@@ -1261,16 +1261,18 @@ en:
       tooltips: 
         view-page-details: "Show page details"
     transcriptions: Transcriptions
-  unique-key: 
-  unique-rows: 
-  unique-rows-expected: 
-  upload-a-photo: 
-  upload-pages: 
-  upload-pages-help-text: 
-  uploaded-pages: 
-  user: 
-  user-name: 
-  user-observations: 
+    view-all-transcriptions: View All Transcriptions
+    view-transcriptions-ready-for-review: View Transcriptions Ready For Review
+  unique-key:
+  unique-rows:
+  unique-rows-expected:
+  upload-a-photo:
+  upload-pages:
+  upload-pages-help-text:
+  uploaded-pages:
+  user:
+  user-name:
+  user-observations:
   users: Users
   value: 
   view-all-field-groups: 

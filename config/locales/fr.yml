@@ -936,14 +936,16 @@ fr:
         user: Utilisateur
       tooltips: 
         view-page-details: "Afficher les détails de page"
-  unique-key: 
-  unique-rows: 
-  unique-rows-expected: 
-  upload-a-photo: 
-  upload-pages: 
-  uploaded-pages: 
-  user-name: 
-  user-observations: 
+    view-all-transcriptions: Affichier toutes transcriptions
+    view-transcriptions-ready-for-review: Affichier pour revision
+  unique-key:
+  unique-rows:
+  unique-rows-expected:
+  upload-a-photo:
+  upload-pages:
+  uploaded-pages:
+  user-name:
+  user-observations:
   users: Utilisateurs
   value: 
   view-all-fields: 

@@ -7,7 +7,7 @@ module Admin
     # GET /transcriptions
     # GET /transcriptions.json
     def index
-      @transcriptions = Transcription.order(updated_at: :desc)
+      @transcriptions = transcriptions
     end
 
     # GET /transcriptions/transcription_id
@@ -117,15 +117,29 @@ module Admin
           # response.headers['Content-Type'] = 'text/plain'
         end
         format.json
-        # format.xlsx do
-        #   response.headers['Content-Disposition'] =
-        #     "attachment; \
-        #     filename='DRAW_transcriptions_#{Datetime.current}.xlsx'"
-        # end
       end
     end
 
     private
+
+    def transcriptions
+      transcriptions_filter = nil
+      transcriptions_joins = nil
+      if params[:review_transcriptions]
+        transcriptions_filter = {
+          complete: true,
+          pages: {
+            done: false
+          }
+        }
+        transcriptions_joins = :page
+      end
+
+      Transcription.where(transcriptions_filter)
+                   .joins(transcriptions_joins)
+                   .references(transcriptions_joins)
+                   .order(updated_at: :desc)
+    end
 
     def get_or_assign_page(page_id)
     # this function gets a random page for display on the new transcription page 
