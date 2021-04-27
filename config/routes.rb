@@ -1,3 +1,4 @@
+# here we define the urls for the controllers
 Rails.application.routes.draw do
   authenticate :user do
     namespace :api do
@@ -24,6 +25,7 @@ Rails.application.routes.draw do
     match "content_images/:id/delete" => "content_images#destroy", via: [:get, :delete], as: 'delete_content_image'
     resources :field_groups
     resources :field_options
+    # defines urls for fields controllers "resources" is a method to define ... 
     resources :fields
     resources :ledgers
     resources :page_types

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_31_221221) do
+ActiveRecord::Schema.define(version: 2021_04_25_202809) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -139,6 +139,12 @@ ActiveRecord::Schema.define(version: 2020_12_31_221221) do
     t.datetime "updated_at"
     t.boolean "multi_select", default: false
     t.string "internal_name"
+    t.string "period"
+    t.string "time_of_day"
+    t.string "measurement_type"
+    t.string "measurement_unit_original"
+    t.string "measurement_unit_si"
+    t.string "odr_type"
   end
 
   create_table "friendly_id_slugs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
