@@ -1,6 +1,8 @@
 class Field < ApplicationRecord
   include TranslationHelpers
 
+  MEASUREMENT_TYPE_OPTIONS = ['orginal observation', 'mean', 'summary', 'number of days', 'statistic', 'other'].freeze
+
   translates :name, :full_name, :help,
              fallbacks_for_empty_translations: true,
              touch: true
@@ -28,6 +30,12 @@ class Field < ApplicationRecord
             inclusion: {
               in: %w(string integer decimal)
             }
+  validates :measurement_type,
+            inclusion: {
+              in: MEASUREMENT_TYPE_OPTIONS
+            },
+            allow_blank: true,
+            allow_nil: true
 
   before_destroy :check_for_data_entries
 
