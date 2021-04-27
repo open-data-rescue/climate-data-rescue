@@ -6,15 +6,19 @@ module Admin
     #All .html.slim views for "field.rb" are located at "project_root\app\views\fields"
     # GET /fields
     # GET /fields.json
+    # this sets up the data for the view using the index method
     def index
       #@fields is the variable containing all instances of the "field.rb" model passed to the field view "index.html.slim" (project_root/fields) and is used to populate the page with information about each field using @fields.each (an iterative loop).
+      # checks that the user is an admin
       if current_user && current_user.admin?
+      	# finds all fields and includes all page types and field groups in data that are returned
         @fields = Field.includes(:page_types, :field_groups).all
+        # look for results of requested field group
         if params[:field_group_id].present?
           @field_group = FieldGroup.find params[:field_group_id]
           @fields = @fields.select{|field| !field.field_groups.include?(@field_group) }
         end
-
+        # sets views for data set
         respond_to do |format|
           format.html # index.html.erb
           format.json 
@@ -239,7 +243,7 @@ module Admin
     
     private
     def field_params
-      params.require(:field).permit(:internal_name, :field_key, :initial_value, :data_type, :html_field_type, :name, :validations, :full_name, :help, :field_group_id, :multi_select)
+      params.require(:field).permit(:internal_name, :field_key, :initial_value, :data_type, :html_field_type, :name, :validations, :full_name, :help, :field_group_id, :multi_select, :period, :time_of_day, :measurement_type, :measurement_unit_original, :measurement_unit_si, :odr_type)
     end
   end
 end

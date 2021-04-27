@@ -9,6 +9,12 @@ table.table
       th = t('internal-name')
       th = t('name')
       th = t('unique-key')
+      th = t('period')
+      th = t('time_of_day')
+      th = t('measurement_type')
+      th = t('measurement_unit_original')
+      th = t('measurement_unit_si') 
+      th = t('odr_type') 
       th = t('data-type')
       th = t('help')
 
@@ -18,6 +24,12 @@ table.table
       td = @field.internal_name
       td = link_to @field.name, admin_field_path(@field)
       td = @field.field_key
+      td = @field.period
+      td = @field.time_of_day
+      td = @field.measurement_type
+      td = @field.measurement_unit_original
+      td = @field.measurement_unit_si
+      td = @field.odr_type
       td = @field.data_type
       td = @field.help
 
