@@ -527,5 +527,8 @@ DEPENDENCIES
   websocket-extensions (~> 0.1.5)
   will_paginate
 
+RUBY VERSION
+   ruby 2.6.7p197
+
 BUNDLED WITH
    1.17.3
