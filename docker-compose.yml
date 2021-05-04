@@ -23,6 +23,8 @@ services:
       - './docker/.env.app.conf'
     environment:
       - WEBPACKER_DEV_SERVER_HOST=webpack
+    stdin_open: true
+    tty: true
   webpack:
     <<: *app
     container_name: draw-webpack
