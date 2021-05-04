@@ -355,10 +355,6 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    skylight (4.1.2)
-      skylight-core (= 4.1.2)
-    skylight-core (4.1.2)
-      activesupport (>= 4.2.0)
     slim (3.0.9)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 1.3.3, < 2.1)
@@ -469,13 +465,15 @@ DEPENDENCIES
   shoulda-matchers
   simple_form
   simplecov
-  skylight
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
   uglifier
   web-console (>= 3.3.0)
   will_paginate
+
+RUBY VERSION
+   ruby 2.6.7p197
 
 BUNDLED WITH
    1.17.3

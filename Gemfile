@@ -72,7 +72,6 @@ gem 'rails-observers'
 
 gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'globalize-accessors'
-gem "skylight"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
