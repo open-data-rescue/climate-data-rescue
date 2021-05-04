@@ -21,6 +21,8 @@ services:
       - db
     env_file:
       - './docker/.env.app.conf'
+    stdin_open: true
+    tty: true
   db:
     container_name: draw-db
     image: mysql:5.7
