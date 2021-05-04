@@ -71,6 +71,8 @@ class Page < ApplicationRecord
   def num_rows_expected
     if page_days.any?
       page_days.sum(:num_observations)
+    elsif page_metadata?
+      Time.days_in_month(page_info.month, page_info.year)
     else
       nil
     end
