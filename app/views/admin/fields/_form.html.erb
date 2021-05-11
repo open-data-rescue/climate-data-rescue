@@ -11,19 +11,47 @@
     <% end %>
     <%= f.error_notification %>
     <div class="form-inputs">
-      <%= f.input :name, required: true, label: "Display Name", wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-      <%= f.input :full_name, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-      <%= f.input :field_key, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-      <%= f.input :period, wrapper_html: { class: 'field-group' }, 
-          input_html: { class: 'form-control' } %>
-      <%= f.input :time_of_day, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-      <%= f.label :measurement_type, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-      <%= f.select :measurement_type, options_for_select(Field::MEASUREMENT_TYPE_OPTIONS), include_blank:true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>    
-      <%= f.input :measurement_unit_original, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>    
-      <%= f.input :measurement_unit_si, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %> 
-      <%= f.input :odr_type, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>               
-      <%= f.label :data_type, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
-      <%= f.select :data_type, options_for_select(%w(string integer decimal)), required: true, prompt: "Select One", wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :name, required: true, label: "Display Name", wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :full_name, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :field_key, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :data_type, collection: %w(string integer decimal), required: true, prompt: "Select One", wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, label: 'Data Type' %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :period, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :time_of_day, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :odr_type, collection: Field::ODR_TYPE_OPTIONS, include_blank: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, label: 'ODR Type' %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :measurement_type, collection: Field::MEASUREMENT_TYPE_OPTIONS, include_blank: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, label: 'Measurement Type' %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :measurement_unit_original, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>    
+        </div>
+        <div class="col-md-6">
+          <%= f.input :measurement_unit_si, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
+        </div>
+      </div>
+
       <%= f.input :help, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, as: :text %>
     </div>
 

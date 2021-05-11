@@ -50,9 +50,9 @@ html lang="en"
           #message-container.col-md-12
             = render partial: 'application/alerts'
         .row
-          - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index") || (params[:controller] == "pages" && params[:action] == "index")
-              .col-sm-12.main-content-container.default
-                  = yield
+          - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index") || (params[:controller] == "pages" && params[:action] == "index") || (params[:controller] == "admin/fields" && params[:action] == "index")
+              .col-sm-11.main-content-container.default
+                = yield
           - else
               - if params[:controller] == "home" && params[:action] == "index"
                 .col-sm-8.col-md-6.col-lg-10.main-content-container
