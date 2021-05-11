@@ -13,6 +13,10 @@ h4 Fields from all groups are listed below, edit carefully please.
         th = Field.human_attribute_name(:full_name)
         th = Field.human_attribute_name(:data_type)
         th = Field.human_attribute_name(:field_key)
+        th = Field.human_attribute_name(:odr_type)
+        th = Field.human_attribute_name(:measurement_type)
+        th = Field.human_attribute_name(:measurement_unit_original)
+        th = Field.human_attribute_name(:measurement_unit_si)
         th = t('admin.linked-schemas')
         th = t('admin.linked-field-groups')
         th = t('admin.percent-translated')
@@ -26,6 +30,10 @@ h4 Fields from all groups are listed below, edit carefully please.
           td = field.full_name
           td = field.data_type
           td = field.field_key
+          td = field.odr_type
+          td = field.measurement_type
+          td = field.measurement_unit_original
+          td = field.measurement_unit_si
           td = field.page_types.count
           td = field.field_groups.count
           td = number_with_precision(field.translation_score, precision: 2).to_s + '%'
@@ -35,7 +43,7 @@ h4 Fields from all groups are listed below, edit carefully please.
             = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_field_path(field), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
         - if field.help.present?
           tr
-            td colspan=9
+            td colspan=13
               strong Help:&nbsp;
               = field.help
 
