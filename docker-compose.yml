@@ -2,7 +2,7 @@ version: '3.4'
 
 volumes:
   db-data:
-  draw-bundler-gems:
+  draw-mcgill-bundler-gems:
 
 services:
   app: &app
@@ -11,7 +11,7 @@ services:
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/draw
-      - draw-bundler-gems:/usr/local/bundle/
+      - draw-mcgill-bundler-gems:/usr/local/bundle/
       # - /home/rob/.ssh:/root/.ssh:ro
     ports:
       - "3000:3000"
