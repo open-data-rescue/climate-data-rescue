@@ -1,7 +1,15 @@
 class Field < ApplicationRecord
   include TranslationHelpers
 
-  MEASUREMENT_TYPE_OPTIONS = ['orginal observation', 'mean', 'summary', 'number of days', 'statistic', 'other'].freeze
+  MEASUREMENT_TYPE_OPTIONS = %w[
+    orginal_observation mean summary number_of_days statistic
+    corrected difference estimated adjusted other
+  ].freeze
+
+  ODR_TYPE_OPTIONS = %w[
+    p mslp ta ww dd pr rr atb au c cd ch cv e h hd hv nl rh o3 rd rtb rte
+    sd skc tarange tb tdb Tgn Tn Tx Txs w1 wf ws ww_remarks taNW TnNW TxNW
+  ].freeze
 
   translates :name, :full_name, :help,
              fallbacks_for_empty_translations: true,
@@ -24,7 +32,8 @@ class Field < ApplicationRecord
   validates :help,
             presence: true
   validates :field_key,
-            presence: true
+            presence: true,
+            uniqueness: true
   validates :data_type,
             presence: true,
             inclusion: {
@@ -33,6 +42,12 @@ class Field < ApplicationRecord
   validates :measurement_type,
             inclusion: {
               in: MEASUREMENT_TYPE_OPTIONS
+            },
+            allow_blank: true,
+            allow_nil: true
+  validates :odr_type,
+            inclusion: {
+              in: ODR_TYPE_OPTIONS
             },
             allow_blank: true,
             allow_nil: true
