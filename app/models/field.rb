@@ -3,7 +3,7 @@ class Field < ApplicationRecord
 
   MEASUREMENT_TYPE_OPTIONS = %w[
     orginal_observation mean summary number_of_days statistic
-    corrected difference estimated adjusted other
+    corrected difference estimated adjusted calculated other
   ].freeze
 
   ODR_TYPE_OPTIONS = %w[
