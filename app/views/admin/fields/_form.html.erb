@@ -24,7 +24,7 @@
           <%= f.input :field_key, required: true, wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' } %>
         </div>
         <div class="col-md-6">
-          <%= f.input :data_type, collection: %w(string integer decimal), required: true, prompt: "Select One", wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, label: 'Data Type' %>
+          <%= f.input :data_type, collection: Field::DATA_TYPE_OPTIONS, required: true, prompt: "Select One", wrapper_html: { class: 'field-group' }, input_html: { class: 'form-control' }, label: 'Data Type' %>
         </div>
       </div>
       <div class="row">

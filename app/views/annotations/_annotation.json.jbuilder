@@ -23,7 +23,8 @@ if annotation
                 entry = annotation.data_entries.find_by(field_id: field.id)
                 json.id field.id
                 json.name field.name
-                json.value (entry ? entry.value : nil )
+                json.data_type field.data_type
+                json.value (entry ? entry.value.strip : nil )
                 json.has_options field.field_options.any?
                 if entry
                     if entry.field_options_ids.present?

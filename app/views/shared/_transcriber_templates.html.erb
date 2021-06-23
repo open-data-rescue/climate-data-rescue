@@ -232,7 +232,7 @@
                     </div>
                   </div>
                   <% field_group.fields.each do |field| %>
-                    <div class="transcriber-input" data-field-id="<%= field.id %>">
+                    <div class="transcriber-input <%= field.data_type.gsub('_', '-') %>" data-field-id="<%= field.id %>">
                       <%= 
                         hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]", 
                         page.id 
@@ -253,21 +253,34 @@
                         hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", 
                         nil, class: "selected-option-ids" 
                       %>
-                      
-                      <%= 
-                        select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", 
-                        ('<option></option>').html_safe, 
-                        class: "observation-input form-control selectable", 
-                          multiple: field.multi_select, 
-                          placeholder: (field.multi_select ? 'select' : 'type'), 
-                          data: { 
-                            field_id: field.id, 
-                            field_type: "field_value", 
-                            selectable: true, 
-                            field_options: field.field_options.any?, 
-                            multiple: field.multi_select 
-                          } 
-                      %>
+                      <% if field.long_text? %>
+                        <%=
+                          text_area_tag(
+                            "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]",
+                            nil,
+                            class: 'long-text',
+                            data: { 
+                              field_id: field.id, 
+                              field_type: "field_value"
+                            }
+                          )
+                        %>
+                      <% else %>
+                        <%=
+                          select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", 
+                          ('<option></option>').html_safe, 
+                          class: "observation-input form-control selectable", 
+                            multiple: field.multi_select, 
+                            placeholder: (field.multi_select ? 'select' : 'type'), 
+                            data: { 
+                              field_id: field.id, 
+                              field_type: "field_value", 
+                              selectable: true, 
+                              field_options: field.field_options.any?, 
+                              multiple: field.multi_select 
+                            } 
+                        %>
+                      <% end %>
                     </div>
                   <% end %>
                   <%= 
