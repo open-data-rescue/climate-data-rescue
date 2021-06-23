@@ -613,6 +613,8 @@
 
           var $currentForm = self.$el.find("#field-group-" + $tab.data('field-group-id'));
 
+          var numTextAreas = $currentForm.find('textarea').length
+
           var $dateField = $currentForm.find('.datetime-group');
 
           if ($dateField.length > 0 && lastDate != null) {
@@ -621,7 +623,7 @@
 
           $currentForm.show();
 
-          var newWidth = ($tab.data("field-count") * 100) + 270 + 150;
+          var newWidth = ($tab.data("field-count") * 100) + 270 + 150 + (numTextAreas * 300);
 
           self.$el.width(newWidth);
         },
@@ -806,7 +808,7 @@
         var field_group = annotation.get('field_group');
 
         // Clear values and reset form desitantation
-        console.log(this, field_group, annotation);
+        // console.log(this, field_group, annotation);
         var $form = $("form.annotation-form#field_group_" + field_group.id);
 
         $form.attr({
@@ -848,6 +850,14 @@
           // console.log(field);
           var value = field.value;
           var $fieldContainer = $form.find(".transcriber-input[data-field-id=" + field.id +"]");
+          console.log(field)
+
+          if (field.data_type === 'long_text') {
+            var $textArea = $fieldContainer.find("textarea.long-text[data-field-id=" + field.id + "]");
+            $textArea.val(value).trigger('change')
+            return
+          } 
+
           var $select = $fieldContainer.find("select");
           // console.log($select);
 
@@ -1038,6 +1048,7 @@
                 self.sync();
 
                 transcriber.$('.selectable').val('empty').trigger('change');
+                transcriber.$('.long-text').val('').trigger('change');
 
                 transcriber.show();
               },
@@ -1145,6 +1156,7 @@
                 annotator.sync();
 
                 transcriber.$('.selectable').val('empty').trigger('change');
+                transcriber.$('.long-text').val('').trigger('change');
 
                 transcriber.show();
               },
