@@ -850,7 +850,7 @@
           // console.log(field);
           var value = field.value;
           var $fieldContainer = $form.find(".transcriber-input[data-field-id=" + field.id +"]");
-          console.log(field)
+          // console.log(field)
 
           if (field.data_type === 'long_text') {
             var $textArea = $fieldContainer.find("textarea.long-text[data-field-id=" + field.id + "]");
@@ -1080,7 +1080,7 @@
       },
       render: function() {
         var self = this;
-        console.log('render existing annotations', this);
+        // console.log('render existing annotations', this);
 
         this.annotations.fetch({
           success: function(collection) {
