@@ -1,6 +1,8 @@
 class Field < ApplicationRecord
   include TranslationHelpers
 
+  DATA_TYPE_OPTIONS = %w(string long_text integer decimal).freeze
+
   MEASUREMENT_TYPE_OPTIONS = %w[
     orginal_observation mean summary number_of_days statistic
     corrected difference estimated adjusted calculated other
@@ -37,7 +39,7 @@ class Field < ApplicationRecord
   validates :data_type,
             presence: true,
             inclusion: {
-              in: %w(string integer decimal)
+              in: DATA_TYPE_OPTIONS
             }
   validates :measurement_type,
             inclusion: {
@@ -53,6 +55,13 @@ class Field < ApplicationRecord
             allow_nil: true
 
   before_destroy :check_for_data_entries
+  before_save :normalize_field_key
+
+  DATA_TYPE_OPTIONS.each do |option|
+    define_method "#{option}?" do
+      data_type === option
+    end
+  end
 
   private 
 
@@ -60,6 +69,10 @@ class Field < ApplicationRecord
     if data_entries.any?
       raise "Can't delete a field that has data entered"
     end
+  end
+
+  def normalize_field_key
+    self[:field_key] = field_key.downcase.gsub(' ', '_')
   end
   
 end

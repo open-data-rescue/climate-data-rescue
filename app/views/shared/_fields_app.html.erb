@@ -15,10 +15,21 @@
         Field = Backbone.Model.extend({
             url : "<%= admin_fields_path %>",
             schema : {
-                internal_name : {
+                field_key : {
                     type : "Text",
-                    title : "Internal Name",
-                    hint : "Name for internal organization"
+                    title : "Unique Field Key",
+                    hint : "Enter a unique identifier for this field. No spaces, use underscores to separate words."
+                },
+                data_type : {
+                    type : "Select",
+                    title : "Data Type",
+                    hint : "Select the type of data that will be entered. This will be used to convert the text data to the proper format on export.",
+                    options : [
+                        {label : "Short Text", val: "string"},
+                        {label : "Long Text", val: "long_text"},
+                        {label : "Integer", val: "integer"},
+                        {label : "Decimal/Float", val: "float"}
+                    ]
                 },
                 name : {
                     type : "Text",
@@ -32,24 +43,14 @@
                     // validators : ["required"],
                     hint : "Enter the full name for this field. This will be displayed in the help popover if present."
                 },
+                internal_name : {
+                    type : "Text",
+                    title : "Internal Name",
+                    hint : "Name for internal organization"
+                },
                 help : {
                     type : "TextArea",
                     hint : "Enter a help text that will be shown to the user in the help popover."
-                },
-                field_key : {
-                    type : "Text",
-                    title : "Unique Field Key",
-                    hint : "Enter a unique identifier for this field. No spaces, use underscores to separate words."
-                },
-                data_type : {
-                    type : "Select",
-                    title : "Data Type",
-                    hint : "Select the type of data that will be entered. This will be used to convert the text data to the proper format on export.",
-                    options : [
-                        {label : "Text/String", val: "string"},
-                        {label : "Integer", val: "integer"},
-                        {label : "Decimal/Float", val: "float"}
-                    ]
                 },
             },
             defaults : {
