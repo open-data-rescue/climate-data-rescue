@@ -2,7 +2,7 @@ class User < ApplicationRecord
   Paperclip.interpolates :avatar_file_name do |attachment, style|
     attachment.instance.avatar_file_name
   end
-  has_many :transcriptions
+  has_many :transcriptions, -> { order(updated_at: :desc) }
   has_many :annotations, through: :transcriptions
   has_many :data_entries
   has_many :pages, through: :transcriptions
