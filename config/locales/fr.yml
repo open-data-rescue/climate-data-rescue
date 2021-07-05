@@ -106,7 +106,6 @@ fr:
           other:
         remember_me:
           one: "Souvenir de moi"
-<<<<<<< HEAD
           other: 
         reset_password_token: 
           one: 
@@ -128,16 +127,7 @@ fr:
   annotation: 
   annotations: 
   app: 
-    footer: 
-=======
-          other:
-        reset_password_token:
-          one:
-          other:
-    models:
-      user:
-        one:
-        other:
+    footer:
   admin:
     fields:
       available-fields:
@@ -152,7 +142,6 @@ fr:
   annotations:
   app:
     footer:
->>>>>>> 11a9865... Fix issue caused by nobr tag for the date/time info toggle
       copyright-holder: SAM
     layout:
       footer:
@@ -562,7 +551,6 @@ fr:
           display_name:
           email:
           password: "8 caractères minimum"
-<<<<<<< HEAD
           password_confirmation: 
           remember_me: 
         password: 
@@ -865,308 +853,7 @@ fr:
   stored-value: 
   take-a-break: 
   text-symbol: 
-  title: 
-=======
-          password_confirmation:
-          remember_me:
-        password:
-        password_confirmation:
-        remember_me:
-    labels:
-      content_image:
-        edit:
-          image:
-          name:
-        image:
-        name:
-      defaults:
-        "Display this when selected":
-        accession_number:
-        avatar:
-        bio:
-        data_type:
-        display_name:
-        edit:
-          "Display this when selected":
-          accession_number:
-          avatar:
-          bio:
-          data_type:
-          display_name:
-          field_key:
-          full_name:
-          help:
-          image:
-          meta_description:
-          meta_keywords:
-          meta_title:
-          name:
-          page_type:
-          show_in_footer:
-          show_in_header:
-          show_in_transcriber:
-          title:
-          title_as_header:
-          visible:
-        email:
-        field_key:
-        full_name:
-        help:
-        image:
-        meta_description:
-        meta_keywords:
-        meta_title:
-        name:
-        new:
-          avatar:
-          bio:
-          display_name:
-          email:
-          meta_description:
-          meta_keywords:
-          meta_title:
-          password:
-          password_confirmation:
-          remember_me:
-          show_in_footer:
-          show_in_header:
-          show_in_transcriber:
-          title_as_header:
-          visible:
-        page_type:
-        password:
-        password_confirmation:
-        remember_me:
-        show_in_footer:
-        show_in_header:
-        show_in_transcriber:
-        title:
-        title_as_header:
-        visible:
-      field:
-        data_type:
-        edit:
-          data_type:
-          field_key:
-          full_name:
-          help:
-        field_key:
-        full_name:
-        help:
-      field_option:
-        "Display this when selected":
-        edit:
-          "Display this when selected":
-          help:
-          image:
-        help:
-        image:
-      page:
-        accession_number:
-        edit:
-          accession_number:
-          image:
-          page_type:
-          title:
-          visible:
-        image:
-        page_type:
-        title:
-        visible:
-      static_page:
-        edit:
-          meta_description:
-          meta_keywords:
-          meta_title:
-          show_in_footer:
-          show_in_header:
-          show_in_transcriber:
-          title_as_header:
-          visible:
-        meta_description:
-        meta_keywords:
-        meta_title:
-        new:
-          meta_description:
-          meta_keywords:
-          meta_title:
-          show_in_footer:
-          show_in_header:
-          show_in_transcriber:
-          title_as_header:
-          visible:
-        show_in_footer:
-        show_in_header:
-        show_in_transcriber:
-        title_as_header:
-        visible:
-      user:
-        avatar:
-        bio:
-        display_name:
-        edit:
-          avatar:
-          bio:
-          display_name:
-        email:
-        new:
-          avatar:
-          bio:
-          display_name:
-          email:
-          password:
-          password_confirmation:
-          remember_me:
-        password:
-        password_confirmation:
-        remember_me:
-    placeholders:
-      content_image:
-        edit:
-          name:
-        name:
-      defaults:
-        accession_number:
-        bio:
-        body:
-        display_name:
-        edit:
-          accession_number:
-          bio:
-          body:
-          display_name:
-          field_key:
-          foreign_link:
-          full_name:
-          help:
-          internal_name:
-          meta_description:
-          meta_keywords:
-          meta_title:
-          name:
-          password:
-          password_confirmation:
-          position:
-          slug:
-          text_symbol:
-          title:
-          value:
-        email:
-        field_key:
-        foreign_link:
-        full_name:
-        help:
-        internal_name:
-        meta_description:
-        meta_keywords:
-        meta_title:
-        name:
-        new:
-          bio:
-          body:
-          display_name:
-          email:
-          foreign_link:
-          meta_description:
-          meta_keywords:
-          meta_title:
-          password:
-          password_confirmation:
-          position:
-          slug:
-          title:
-        password:
-        password_confirmation:
-        position:
-        slug:
-        text_symbol:
-        title:
-        value:
-      field:
-        edit:
-          field_key:
-          full_name:
-          help:
-          name:
-        field_key:
-        full_name:
-        help:
-        name:
-      field_option:
-        edit:
-          help:
-          internal_name:
-          name:
-          text_symbol:
-          value:
-        help:
-        internal_name:
-        name:
-        text_symbol:
-        value:
-      page:
-        accession_number:
-        edit:
-          accession_number:
-          title:
-        title:
-      static_page:
-        body:
-        edit:
-          body:
-          foreign_link:
-          meta_description:
-          meta_keywords:
-          meta_title:
-          position:
-          slug:
-          title:
-        foreign_link:
-        meta_description:
-        meta_keywords:
-        meta_title:
-        new:
-          body:
-          foreign_link:
-          meta_description:
-          meta_keywords:
-          meta_title:
-          position:
-          slug:
-          title:
-        position:
-        slug:
-        title:
-      user:
-        bio:
-        display_name:
-        edit:
-          bio:
-          display_name:
-          password:
-          password_confirmation:
-        email:
-        new:
-          bio:
-          display_name:
-          email:
-          password:
-          password_confirmation:
-        password:
-        password_confirmation:
-    required:
-      html:
-      mark:
-      text:
-  sort-order:
-  start-transcribing: Transcrire
-  start_file_transfer:
-  started-at:
-  stored-value:
-  take-a-break:
-  text-symbol:
   title:
->>>>>>> 11a9865... Fix issue caused by nobr tag for the date/time info toggle
   to: à
   transcribe: Transcrire
   transcribe-random-page: "Transcrire une page aléatoire"
@@ -1264,11 +951,8 @@ fr:
         user: Utilisateur
       tooltips:
         view-page-details: "Afficher les détails de page"
-<<<<<<< HEAD
     view-all-transcriptions: Affichier toutes transcriptions
     view-transcriptions-ready-for-review: Affichier pour revision
-=======
->>>>>>> 11a9865... Fix issue caused by nobr tag for the date/time info toggle
   unique-key:
   unique-rows:
   unique-rows-expected:
@@ -1283,12 +967,8 @@ fr:
   view-all-pages:
   view-details: "Afficher les détails"
   view-list-of-pages-to-transcribe: "Afficher toutes les pages transcriptibles"
-<<<<<<< HEAD
-  visible: 
-=======
-  view-my-transcriptions: Afficher mes %{count} transcriptions
   visible:
+  view-my-transcriptions: Afficher mes %{count} transcriptions
   weather-logs: "Pages"
->>>>>>> 11a9865... Fix issue caused by nobr tag for the date/time info toggle
   what-is-draw: "Quel est SAM?"
   width:
