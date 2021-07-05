@@ -10,6 +10,10 @@ class Transcription < ApplicationRecord
 
   validates :page_id, uniqueness: { scope: :user_id }
 
+  def self.most_recent_by_page_and_user
+    reorder(page_id: :asc, user_id: :asc, updated_at: :desc)
+  end
+
   def num_rows_started
     annotations.pluck(:observation_date).uniq.size
   end

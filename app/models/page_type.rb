@@ -9,6 +9,7 @@ class PageType < ApplicationRecord
   has_many :fields, through: :field_groups
   has_many :transcriptions, through: :pages
   has_many :annotations, through: :transcriptions
+  has_many :data_entries, through: :transcriptions
 
   validates :title,
             presence: true
@@ -16,4 +17,8 @@ class PageType < ApplicationRecord
             presence: true
   validates :number,
             presence: true
+
+  def sorted_fields
+    fields.reorder("page_types_field_groups.sort_order asc, page_types_field_groups.sort_order asc")
+  end
 end
