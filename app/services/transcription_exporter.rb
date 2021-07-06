@@ -13,12 +13,9 @@ class TranscriptionExporter
     self.fields = page_type.sorted_fields.select(:id, :field_key)
     # self.pages = page_type.pages
     self.transcriptions = Transcription.where(page_id: Page.where(page_type_id: page_type_id).select(:id).pluck(:id)).most_recent_by_page_and_user.select(:id, :page_id, :user_id, :updated_at)
-    self.annotations = Annotation.where(transcription_id: transcriptions.map(&:id)).order_by_date.select(:id, :observation_date, :transcription_id)
-    # self.start_datetime = annotations.first.observation_date
-    # self.end_datetime = annotations.last.observation_date
+    self.annotations = Annotation.with_dimensions.where(transcription_id: transcriptions.map(&:id)).order_by_date.select(:id, :observation_date, :transcription_id)
     self.data_entries = page_type.data_entries.select(:id, :value, :field_id, :annotation_id)
-    self.field_headers = %w[date time] +
-                         %w[transcription_id page_id user_id] +
+    self.field_headers = %w[date time transcription_id page_id user_id] +
                          fields.map(&:field_key)
   end
 
