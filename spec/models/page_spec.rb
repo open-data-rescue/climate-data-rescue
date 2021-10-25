@@ -27,6 +27,17 @@ describe Page do
                   allowing("image/jpg","image/jpeg", "image/png") }
   end
 
+  describe '.transcribeable' do
+    it { expect(described_class).to respond_to(:transcribeable) }
+
+    it 'only returns records that are not "done"' do
+      create_list(:page, 5,  done: true)
+      create_list(:page, 2, :transcribeable)
+      expect(described_class.transcribeable.size).to eq(2)
+      expect(described_class.transcribeable.new.done).to be_falsy
+    end
+  end
+
   describe '#page_metadata?' do
     it { is_expected.to respond_to(:page_metadata?) }
 
