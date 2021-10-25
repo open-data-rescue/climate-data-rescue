@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :page_type do
     number = Faker::Number.unique.between(from: 1, to: 5000)
     title { "page type #{number}" }
-    ledger_type { Faker::Number.unique.between(from: 100, to: 500) }
+    ledger_type { Faker::Number.unique.between(from: 0, to: 999999999) }
     number { Faker::Number.between(from: 1, to: 2) }
 
     ledger

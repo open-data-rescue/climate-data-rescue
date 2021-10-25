@@ -1,4 +1,6 @@
 class Page < ApplicationRecord
+  STALE_DURATION = ENV.fetch("STALE_DURATION_WEEKS", 2).weeks.freeze
+
   Paperclip.interpolates :image_file_name do |attachment, style|
     attachment.instance.image_file_name
   end
@@ -52,7 +54,9 @@ class Page < ApplicationRecord
   scope :inactive, -> {
     transcriptions = Transcription.arel_table
     condition = transcriptions[:id].eq(nil).or(
-      transcriptions[:updated_at].lt(Date.current - 2.weeks)
+      transcriptions[:updated_at].lt(Date.current - STALE_DURATION).and(
+        transcriptions[:complete].eq(false)
+      )
     )
 
     includes(:transcriptions).
