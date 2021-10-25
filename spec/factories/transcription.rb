@@ -2,7 +2,7 @@ require 'faker'
 
 FactoryBot.define do
   factory :transcription do
-    association :page
-    association :user
+    page
+    user
   end
 end
