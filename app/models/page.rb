@@ -1,4 +1,6 @@
 class Page < ApplicationRecord
+  STALE_DURATION = ENV.fetch("STALE_DURATION_WEEKS", 2).weeks.freeze
+
   belongs_to :page_type
 
   has_many :field_groups, through: :page_type
@@ -46,7 +48,9 @@ class Page < ApplicationRecord
   scope :inactive, -> {
     transcriptions = Transcription.arel_table
     condition = transcriptions[:id].eq(nil).or(
-      transcriptions[:updated_at].lt(Date.current - 2.weeks)
+      transcriptions[:updated_at].lt(Date.current - STALE_DURATION).and(
+        transcriptions[:complete].eq(false)
+      )
     )
 
     includes(:transcriptions).
