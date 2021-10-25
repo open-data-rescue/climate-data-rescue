@@ -15,5 +15,32 @@ FactoryBot.define do
       done { false }
       visible { true }
     end
+
+    trait :transcription do
+      after :create do |object|
+        create :transcription, page: object
+      end
+      after :build do |object|
+        build :transcription, page: object
+      end
+    end
+
+    trait :finished_transcription do
+      after :create do |object|
+        create :transcription, :finished, :stale, page: object
+      end
+      after :build do |object|
+        build :transcription, :finished, :stale, page: object
+      end
+    end
+
+    trait :stale_transcription do
+      after :create do |object|
+        create :transcription, :stale, page: object
+      end
+      after :build do |object|
+        build :transcription, :stale, page: object
+      end
+    end
   end
 end

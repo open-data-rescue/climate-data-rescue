@@ -29,6 +29,7 @@ describe Page do
 
   describe '.transcribeable' do
     it { expect(described_class).to respond_to(:transcribeable) }
+    let (:transcribeable_page_type) { create(:page_type, :visible, :fields) }
 
     it 'only returns records that are not "done"' do
       create_list(:page, 5, done: true)
@@ -46,9 +47,40 @@ describe Page do
 
     it 'only returns records whose page_type is "visible"' do
       create_list(:page, 5, page_type: create(:page_type))
-      create_list(:page, 2, :transcribeable, page_type: create(:page_type, :visible, :fields))
+      create_list(:page, 2, :transcribeable, page_type: transcribeable_page_type)
       expect(described_class.transcribeable.size).to eq(2)
       expect(described_class.transcribeable.first.page_type.visible).to be_truthy
+    end
+
+    context 'when pages have no transcriptions' do
+      it 'only returns records that have no transcriptions' do
+        create_list(:page, 2, :transcribeable, page_type: transcribeable_page_type)
+        create_list(:page, 3, :transcribeable, :transcription, page_type: transcribeable_page_type)
+        create_list(:page, 5)
+        expect(described_class.transcribeable.size).to eq(2)
+      end
+    end
+
+    context 'when pages have unfinished stale transcriptions' do
+      it 'only returns records that are unfinished and stale' do
+       create_list(:page, 2, :transcribeable, page_type: transcribeable_page_type)
+       create_list(:page, 3, :transcribeable, :transcription, page_type: transcribeable_page_type)
+       create_list(:page, 3, :transcribeable, :finished_transcription, page_type: transcribeable_page_type)
+        create_list(:page, 3, :transcribeable, :stale_transcription, page_type: transcribeable_page_type)
+        create_list(:page, 6)
+        expect(described_class.transcribeable.size).to eq(5)
+      end
+    end
+
+    context 'when pages have finished transcriptions' do
+      it 'only returns records that are unfinished and stale or dont have any' do
+       create_list(:page, 2, :transcribeable, page_type: transcribeable_page_type)
+       create_list(:page, 3, :transcribeable, :transcription, page_type: transcribeable_page_type)
+        create_list(:page, 3, :transcribeable, :stale_transcription, page_type: transcribeable_page_type)
+        create_list(:page, 4, :transcribeable, :finished_transcription, page_type: transcribeable_page_type)
+        create_list(:page, 6)
+        expect(described_class.transcribeable.size).to eq(5)
+      end
     end
   end
 
