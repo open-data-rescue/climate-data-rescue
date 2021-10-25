@@ -31,10 +31,24 @@ describe Page do
     it { expect(described_class).to respond_to(:transcribeable) }
 
     it 'only returns records that are not "done"' do
-      create_list(:page, 5,  done: true)
+      create_list(:page, 5, done: true)
       create_list(:page, 2, :transcribeable)
       expect(described_class.transcribeable.size).to eq(2)
       expect(described_class.transcribeable.new.done).to be_falsy
+    end
+
+    it 'only returns records that are "visible"' do
+      create_list(:page, 5, visible: false)
+      create_list(:page, 2, :transcribeable)
+      expect(described_class.transcribeable.size).to eq(2)
+      expect(described_class.transcribeable.new.visible).to be_truthy
+    end
+
+    it 'only returns records whose page_type is "visible"' do
+      create_list(:page, 5, page_type: create(:page_type))
+      create_list(:page, 2, :transcribeable, page_type: create(:page_type, :visible, :fields))
+      expect(described_class.transcribeable.size).to eq(2)
+      expect(described_class.transcribeable.first.page_type.visible).to be_truthy
     end
   end
 
