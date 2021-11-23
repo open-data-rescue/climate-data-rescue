@@ -47,16 +47,20 @@ class Page < ApplicationRecord
   }
 
   scope :inactive, -> {
+    stale_date = Date.current - STALE_DURATION
+    pages = self.arel_table
     transcriptions = Transcription.arel_table
-    condition = transcriptions[:id].eq(nil).or(
-      transcriptions[:updated_at].lt(Date.current - STALE_DURATION).and(
-        transcriptions[:complete].eq(false)
-      )
-    )
 
-    includes(:transcriptions).
-    references(:transcriptions).
-    where(condition)
+    active_uncompleted = transcriptions[:updated_at].gteq(stale_date).and(
+      transcriptions[:complete].eq(false)
+    )
+    completed = transcriptions[:complete].eq(true)
+
+    condition = active_uncompleted.or(completed)
+
+    page_ids = transcriptions.where(condition).project(:page_id)
+
+    where(pages[:id].not_in(page_ids))
   }
 
   def has_metadata?
