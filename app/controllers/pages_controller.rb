@@ -6,7 +6,12 @@ class PagesController < ApplicationController
   # GET /pages
   # GET /pages.json
   def index
-    @pages = Page.select("page_types.number").transcribeable.unseen(current_user).includes(:page_type).references(:page_type).order("page_types.number ASC")
+    @pages = Page.select("page_types.number")
+                 .transcribeable
+                 .unseen(current_user)
+                 .includes(:page_type)
+                 .references(:page_type)
+                 .order("page_types.number ASC")
     @user_transcriptions = current_user ? current_user.transcriptions.to_a : []
   end
 
