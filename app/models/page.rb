@@ -1,5 +1,5 @@
 class Page < ApplicationRecord
-  STALE_DURATION = ENV.fetch("STALE_DURATION_WEEKS", 2).weeks.freeze
+  STALE_DURATION = ENV.fetch("STALE_DURATION_WEEKS", 2).to_i.weeks.freeze
 
   belongs_to :page_type
 
