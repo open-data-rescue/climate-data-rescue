@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.7.5'
+
 gem 'rails', '~> 5.2.5'
 
 gem 'mysql2'
@@ -69,9 +71,9 @@ gem 'i18n-active_record', :require => 'i18n/active_record'
 
 gem 'rails-observers'
 
-gem 'friendly_id', '~> 5.3.0'
-gem 'mobility', '~> 0.8.13'
-gem 'friendly_id-mobility', '~> 0.5.4'
+gem 'friendly_id', '~> 5.4.2'
+gem 'mobility', '~> 1.0.3'
+gem 'friendly_id-mobility', '~> 1.0.3'
 
 gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'globalize-accessors'
@@ -80,7 +82,7 @@ gem 'globalize-accessors'
 # gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'newrelic_rpm'
 
-gem 'puma',  '~> 4.3.5'
+gem 'puma',  '~> 5.2.2'
 
 gem "recaptcha", require: "recaptcha/rails"
 
@@ -123,7 +125,7 @@ group :development, :test do
   gem 'pry'
   gem 'rubocop-rspec'
   gem 'listen'
-  gem 'faker', '~> 2.14.0'
+  gem 'faker', '~> 2.15.1'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'shoulda-callback-matchers'

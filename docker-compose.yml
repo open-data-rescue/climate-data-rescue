@@ -7,41 +7,55 @@ volumes:
 services:
   app: &app
     container_name: draw-app
-    build: .
+    # build context
+    build: .  
+    # app is running on port 3000, bound to any IP address
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    # declare volumes, data storage from local file to folder in container. any local changes automatically synced to container.
     volumes:
       - .:/draw
-      - draw-mcgill-bundler-gems:/usr/local/bundle/
+      # where gems are stored
+      - draw-bundler-gems:/usr/local/bundle/
       # - /home/rob/.ssh:/root/.ssh:ro
+     # left -> local port, right -> container port 
     ports:
       - "3000:3000"
+    # these are the other containers the app depends on  
     depends_on:
       - db
     links:
       - db
+    # environment variables for containers
     env_file:
       - './docker/.env.app.conf'
-    environment:
+     # key value pair LHS -> environemnt variable value name, RHS -> value
+    environment: 
       - WEBPACKER_DEV_SERVER_HOST=webpack
     stdin_open: true
     tty: true
+  # container to server front end dynamic javascript
   webpack:
+    # inherits settings from app container. overwrites any that follow
     <<: *app
     container_name: draw-webpack
     command: ./bin/webpack-dev-server
+    # left -> local port, right -> container port
     ports:
       - 3035:3035
     environment:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+  # database container. uses a published image   
   db:
     container_name: draw-db
     image: mysql:5.7
     volumes:
       - db-data:/var/lib/mysql
+    # left -> local port, right -> container port. need to access 3308 on local machine
     ports:
       - "3308:3306"
     env_file:
       - './docker/.env.db.conf'
+    # this lets the container know if the db is running 
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s
