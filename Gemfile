@@ -27,7 +27,7 @@ gem 'bootstrap-sass'
 # end
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'mini_racer', '~> 0.2.6'
+gem 'mini_racer'
 
 gem 'modernizr-rails'
 
