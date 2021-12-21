@@ -123,22 +123,7 @@ class TranscriptionsController < ApplicationController
     if current_user
       @transcription = Transcription.includes(:page).find(params[:id])
       @page = @transcription.page
-      @field_groups = @page.field_groups.includes(
-        { 
-          fields: [
-            :translations,
-            :field_groups_fields,
-            :field_options
-          ]
-        },
-        :translations
-      ).references(
-        { 
-          fields: [
-            :field_groups_fields
-          ]
-        }
-      )
+      @field_groups = @transcription.field_groups
       @user = current_user
       @content_pages = StaticPage.transcriber_links.includes(
         :translations,

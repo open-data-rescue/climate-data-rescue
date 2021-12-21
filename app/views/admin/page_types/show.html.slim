@@ -13,7 +13,6 @@
         span.label.label-success.pull-right style="font-size: 40%;" = t('visible')
       - else
         span.label.label-danger.pull-right style="font-size: 40%;" = t('hidden')
-= render 'shared/sample_image', page: @page_type.pages.where("RAND()").first
 .row.voffset20
   .col-md-12
     h3 = t('fields')
@@ -36,6 +35,8 @@
             - @page_type.field_groups.each do |group|
               - group.fields.each do |field|
                 td = field.data_type
+
+= render 'shared/sample_image', page: @page_type.pages.where("RAND()").first
 
 .row.voffset20  
   .col-md-12

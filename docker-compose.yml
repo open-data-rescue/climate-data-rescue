@@ -25,15 +25,17 @@ services:
       - db
     links:
       - db
-      # environment variables for containers
+    # environment variables for containers
     env_file:
       - './docker/.env.app.conf'
      # key value pair LHS -> environemnt variable value name, RHS -> value
     environment: 
       - WEBPACKER_DEV_SERVER_HOST=webpack
-      # container to server front end dynamic javascript
+    stdin_open: true
+    tty: true
+  # container to server front end dynamic javascript
   webpack:
-  # inherits settings from app container. overwrites any that follow
+    # inherits settings from app container. overwrites any that follow
     <<: *app
     container_name: draw-webpack
     command: ./bin/webpack-dev-server
@@ -42,7 +44,7 @@ services:
       - 3035:3035
     environment:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
-   # database container. uses a published image   
+  # database container. uses a published image   
   db:
     container_name: draw-db
     image: mysql:5.7
@@ -53,7 +55,7 @@ services:
       - "3308:3306"
     env_file:
       - './docker/.env.db.conf'
-     # this lets the container know if the db is running 
+    # this lets the container know if the db is running 
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s

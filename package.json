@@ -13,7 +13,7 @@
   "dependencies": {
     "@rails/ujs": "^6.1.0",
     "@rails/webpacker": "3.5",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "babel-plugin-module-resolver": "^4.0.0",
     "bootstrap": "^4.5.3",
     "bootstrap-vue": "^2.2.1",
