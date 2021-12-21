@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.6.7'
 
-gem 'rails', '~> 5.2.5'
+gem 'rails', '~> 5.2.6'
 
 gem 'mysql2'
 
@@ -82,7 +82,7 @@ gem 'globalize-accessors'
 # gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'newrelic_rpm'
 
-gem 'puma',  '~> 5.5.1'
+gem 'puma',  '~> 5.5.2'
 
 gem "recaptcha", require: "recaptcha/rails"
 
