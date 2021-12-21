@@ -47,7 +47,7 @@ table.table.table-striped
   tbody
     - @field.data_entries.sort_by{|d| d.page.start_date}.each do |entry|
       tr
-        td = l(entry.annotation.observation_date, format: :long)
+        td = (l(entry.annotation.observation_date, format: :long) if entry.annotation)
         td = entry.value
         td = entry.page.title
         td = entry.annotation.transcription.id

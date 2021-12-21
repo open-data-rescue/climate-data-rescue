@@ -109,8 +109,6 @@
     // display: block;
     // height: auto;
     // overflow-x: auto;
-    
-
 
     .transcriber-input, .scribe_input_label {
         // float: left;
@@ -144,8 +142,18 @@
         padding: 0 5px;
         vertical-align: bottom;
     }
-}
 
+    .transcriber-input {
+      &.long-text {
+        width: auto;
+
+        textarea.long-text {
+          width: 430px;
+          height: 200px;
+        }
+      }
+    }
+}
 
 #transcription-box-form-container {
     clear: both;

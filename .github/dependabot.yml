@@ -1,0 +1,44 @@
+version: 2
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  assignees:
+  - rsmithlal
+  ignore:
+  - dependency-name: rubocop
+    versions:
+    - 1.10.0
+    - 1.11.0
+    - 1.12.0
+    - 1.12.1
+    - 1.9.0
+    - 1.9.1
+  - dependency-name: aws-sdk-s3
+    versions:
+    - 1.87.0
+    - 1.88.0
+    - 1.88.1
+    - 1.88.2
+    - 1.89.0
+    - 1.90.0
+    - 1.91.0
+    - 1.92.0
+    - 1.93.0
+    - 1.93.1
+  - dependency-name: rspec-rails
+    versions:
+    - 5.0.0
+  - dependency-name: puma
+    versions:
+    - 5.2.0
+    - 5.2.1
+  - dependency-name: simple_form
+    versions:
+    - 5.0.3
+  - dependency-name: capistrano
+    versions:
+    - 3.15.0
