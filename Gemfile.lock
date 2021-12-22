@@ -157,7 +157,7 @@ GEM
     factory_bot_rails (5.2.0)
       factory_bot (~> 5.2.0)
       railties (>= 4.2.0)
-    faker (2.15.1)
+    faker (2.19.0)
       i18n (>= 1.6, < 2)
     faraday (1.8.0)
       faraday-em_http (~> 1.0)
@@ -485,7 +485,7 @@ DEPENDENCIES
   devise
   execjs
   factory_bot_rails
-  faker (~> 2.15.1)
+  faker (~> 2.19.0)
   figaro
   friendly_id (~> 5.4.2)
   friendly_id-mobility (~> 1.0.3)
