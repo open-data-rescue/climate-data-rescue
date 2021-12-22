@@ -24,6 +24,9 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
             li class="#{yield(:new_transcription)}" = link_to t('main-nav.transcribe.transcribe-random-page'), baseUri + "/transcribe"
 
       ul.nav.navbar-nav.navbar-right
+        li.snowball
+          a
+            i#snow-toggle.far.fa-snowflake title="#{strip_tags t('toggle-snowfall')}"
         - if Rails.env.staging?
           li#test-msg
             a
