@@ -14,6 +14,15 @@ class Annotation < ApplicationRecord
     order("observation_date #{direction}")
   end
 
+  def self.without_dimensions
+    where(
+      x_tl: nil,
+      y_tl: nil,
+      width: nil,
+      height: nil
+    )
+  end
+
   def self.with_dimensions
     where.not(
       x_tl: nil,
