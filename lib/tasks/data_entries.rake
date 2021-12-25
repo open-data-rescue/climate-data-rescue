@@ -12,4 +12,11 @@ namespace :data_entries do
       end
     end
   end
+
+  desc "Deletes data entries with null values"
+  task :clear_nulls => :environment do
+    require 'data_entry'
+
+    DataEntry.where(value: nil).delete_all
+  end
 end
