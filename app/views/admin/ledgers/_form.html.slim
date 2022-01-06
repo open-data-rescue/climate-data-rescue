@@ -1,4 +1,4 @@
-= simple_form_for(@ledger) do |f|
+= simple_form_for([:admin, @ledger]) do |f|
   - if @ledger.errors.any?
     #error_explanation
       h2 = "#{pluralize(@ledger.errors.count, "error")} prohibited this ledger from being saved:"
@@ -10,9 +10,6 @@
   .form-inputs
     = f.input :title
     = f.input :ledger_type
-    = f.input :volume
-    /= f.input :start_date
-    /= f.input :end_date
 
   .form-actions
     = f.button :submit
