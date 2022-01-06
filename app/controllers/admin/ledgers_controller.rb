@@ -84,7 +84,7 @@ module Admin
     
         respond_to do |format|
           if @ledger && @ledger.id
-            format.html { redirect_to @ledger, success: 'Ledger was successfully created.' }
+            format.html { redirect_to [:admin, @ledger], success: 'Ledger was successfully created.' }
             format.json { render json: @ledger, status: :created, location: @ledger }
           else
             format.html { render action: "new" }
@@ -104,11 +104,20 @@ module Admin
         Ledger.transaction do
           begin
             #@ledger is a variable containing an instance of the "ledger.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
-            ledger = Ledger.find(params[:id])
-            ledger.update_attributes(ledger_params)
-            respond_with ledger if ledger.save
+            @ledger = Ledger.find(params[:id])
+            @ledger.update!(ledger_params)
           rescue => e
-            # flash[:danger] = e.message
+            flash[:danger] = e.message
+          end
+        end
+
+        respond_to do |format|
+          if @ledger && @ledger.id
+            format.html { redirect_to [:admin, @ledger], success: 'Ledger was successfully created.' }
+            format.json { render json: @ledger, status: :created, location: @ledger }
+          else
+            format.html { render action: "edit" }
+            format.json { render json: @ledger.errors, status: :unprocessable_ledger }
           end
         end
       else
@@ -145,7 +154,7 @@ module Admin
     
     private
     def ledger_params
-      params.require(:ledger).permit(:title, :ledger_type, :start_date, :end_date)
+      params.require(:ledger).permit(:title, :ledger_type)
     end
   end
 end
