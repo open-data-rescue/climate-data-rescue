@@ -27,7 +27,7 @@ module Admin
     def show
       if current_user
         #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "show.html.slim" (project_root/ledgers/ledger_id) and is used to populate the page with information about the ledger instance.
-        @ledger = Ledger.find(params[:id])
+        @ledger = Ledger.includes(page_types: :pages).find(params[:id])
     
         respond_to do |format|
           format.html # show.html.erb
