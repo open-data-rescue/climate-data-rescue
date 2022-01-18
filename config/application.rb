@@ -32,36 +32,25 @@ module DataRescueAtHome
     config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
     config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js snowEffect.js )
 
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {
-      address: ENV.fetch('SMTP_ADDRESS', 'smtp.sendgrid.net'),
-      port: '587',
-      authentication: :plain,
-      enable_starttls_auto: true,
-      user_name: ENV.fetch('SMTP_USERNAME', ''),
-      password: ENV.fetch('SMTP_PASSWORD', ''),
-      domain: 'opendatarescue.org'
-    }
-
-    # Paperclip S3 settings
-    # config.paperclip_defaults = {
-    #   storage: :s3,
-    #   s3_permissions: :public,
-    #   s3_protocol: ENV.fetch('S3_PROTOCOL'),
-    #   s3_host_name: ENV.fetch('S3_HOST_NAME'),
-    #   s3_credentials: {
-    #     access_key_id: ENV.fetch('S3_ACCESS_KEY_ID'),
-    #     secret_access_key: ENV.fetch('S3_SECRET_ACCESS_KEY'),
-    #     s3_region: ENV.fetch('S3_REGION'),
-    #     bucket: ENV.fetch('S3_PRIVATE_BUCKET')
-    #   },
-    #   s3_options: {
-    #     endpoint: "#{ENV.fetch('S3_PROTOCOL')}://#{ENV.fetch('S3_HOST_NAME')}",
-    #     force_path_style: true
-    #   },
-    #   url: ':s3_path_url',
-    #   path: '/:class/:style/:hash.:extension'
-    # }
+    sendgrid_api_key = ENV.fetch('SENDGRID_API_KEY', '')
+    if sendgrid_api_key.present?
+      config.action_mailer.delivery_method = :sendgrid_actionmailer
+      config.action_mailer.sendgrid_actionmailer_settings = {
+        api_key: ENV.fetch('SENDGRID_API_KEY'),
+        raise_delivery_errors: true
+      }
+    else
+      config.action_mailer.delivery_method = :smtp
+      config.action_mailer.smtp_settings = {
+        address: ENV.fetch('SMTP_ADDRESS', 'smtp.sendgrid.net'),
+        port: '587',
+        authentication: :plain,
+        enable_starttls_auto: true,
+        user_name: ENV.fetch('SMTP_USERNAME', ''),
+        password: ENV.fetch('SMTP_PASSWORD', ''),
+        domain: 'opendatarescue.org'
+      }
+    end
 
     config.action_mailer.default_options = {
       from: ENV.fetch('FROM_ADDRESS', 'draw@opendatarescue.org'),

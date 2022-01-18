@@ -368,6 +368,7 @@ GEM
     ruby-graphviz (1.2.4)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.2)
+    ruby_http_client (3.5.3)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -383,6 +384,11 @@ GEM
       ffi (~> 1.9)
       rake
     select2-rails (4.0.13)
+    sendgrid-actionmailer (3.1.1)
+      mail (~> 2.7)
+      sendgrid-ruby (~> 6.0)
+    sendgrid-ruby (6.6.0)
+      ruby_http_client (~> 3.4)
     sentry-raven (3.1.1)
       faraday (>= 1.0)
     shoulda-callback-matchers (1.1.4)
@@ -514,6 +520,7 @@ DEPENDENCIES
   rubocop-rspec
   sass-rails
   select2-rails
+  sendgrid-actionmailer (~> 3.1.0)
   sentry-raven
   shoulda-callback-matchers
   shoulda-matchers

@@ -35,6 +35,9 @@ gem 'log4r'
 #for user authentication
 gem 'devise'
 gem 'pundit'
+
+gem 'sendgrid-actionmailer', '~> 3.1.0'
+
 #to handle .slim files
 gem 'slim-rails'
 
