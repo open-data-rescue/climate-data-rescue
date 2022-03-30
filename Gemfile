@@ -82,7 +82,7 @@ gem 'globalize-accessors'
 # gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'newrelic_rpm'
 
-gem 'puma',  '~> 5.5.2'
+gem 'puma',  '~> 5.6.4'
 
 gem "recaptcha", require: "recaptcha/rails"
 
