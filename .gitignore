@@ -22,6 +22,9 @@ rerun.txt
 pickle-email-*.html
 *.DS_Store
 .project
+.docker-sync
+.yardoc
+.envrc
 
 # TODO Comment out these rules if you are OK with secrets being uploaded to the repo
 config/secret_token.rb
