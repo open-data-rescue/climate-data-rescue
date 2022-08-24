@@ -12,5 +12,5 @@ if [ ! -d "`pwd`/tmp" ]; then
   mkdir "`pwd`/tmp"
 fi
 
-docker-compose build
-docker-compose run app bundle
+# docker-compose build
+# docker-compose run app bundle

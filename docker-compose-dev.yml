@@ -37,9 +37,9 @@ services:
       - RAILS_ENV=development
       - NODE_ENV=development
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
-      - SIDEKIQ_REDIS_URL=redis://redis:6379/0
       - SMTP_SERVER=mailcatcher
       - SMTP_PORT=1025
+      # - SIDEKIQ_REDIS_URL=redis://redis:6379/0
     volumes:
       - draw-node_modules:/opt/draw/node_modules
       - .:/opt/draw
@@ -51,40 +51,40 @@ services:
       - "3035:3035"
     depends_on:
       - draw-db
-      - redis
+      # - redis
     links:
-      - redis
       - draw-db
       - mailcatcher
+      # - redis
 
-  draw-sidekiq:
-    command: /opt/draw/script/draw_sidekiq.sh
-    build:
-      context: .
-      dockerfile: Dockerfile-dev
-    env_file:
-      - .envrc
-    environment:
-      - DB_HOST=draw-db
-      - RAILS_ENV=development
-      - NODE_ENV=development
-      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
-      - SIDEKIQ_REDIS_URL=redis://redis:6379/0
-      - SMTP_SERVER=mailcatcher
-      - SMTP_PORT=1025
-    volumes:
-      - draw-node_modules_sidekiq:/opt/draw/node_modules
-      - .:/opt/draw
-      - box:/var/bundler
-      - type: tmpfs
-        target: /opt/draw/tmp
-    depends_on:
-      - draw-db
-      - redis
-    links:
-      - redis
-      - draw-db
-      - mailcatcher
+  # draw-sidekiq:
+  #   command: /opt/draw/script/draw_sidekiq.sh
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-dev
+  #   env_file:
+  #     - .envrc
+  #   environment:
+  #     - DB_HOST=draw-db
+  #     - RAILS_ENV=development
+  #     - NODE_ENV=development
+  #     - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+  #     - SIDEKIQ_REDIS_URL=redis://redis:6379/0
+  #     - SMTP_SERVER=mailcatcher
+  #     - SMTP_PORT=1025
+  #   volumes:
+  #     - draw-node_modules_sidekiq:/opt/draw/node_modules
+  #     - .:/opt/draw
+  #     - box:/var/bundler
+  #     - type: tmpfs
+  #       target: /opt/draw/tmp
+  #   depends_on:
+  #     - draw-db
+  #     - redis
+  #   links:
+  #     - redis
+  #     - draw-db
+  #     - mailcatcher
 
   draw-db:
     container_name: draw-db
@@ -104,13 +104,13 @@ services:
     #   retries: 10
 
   # Used for sidekiq for jobs
-  redis:
-    image: redis:alpine
-    restart: always
-    volumes:
-      - draw-redis-data:/data
-    ports:
-      - "6379:6379"
+  # redis:
+  #   image: redis:alpine
+  #   restart: always
+  #   volumes:
+  #     - draw-redis-data:/data
+  #   ports:
+  #     - "6379:6379"
 
   # Use when we move to R6 or greater
   # livereload:

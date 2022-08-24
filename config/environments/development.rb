@@ -1,3 +1,6 @@
+require 'socket'
+require 'ipaddr'
+
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = true
@@ -68,4 +71,8 @@ Rails.application.configure do
 
   BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
   Rack::MiniProfiler.config.position = 'bottom-right'
+
+  config.web_console.whitelisted_ips = Socket.ip_address_list.reduce([]) do |res, addrinfo|
+    addrinfo.ipv4? ? res << IPAddr.new(addrinfo.ip_address).mask(24) : res
+  end
 end

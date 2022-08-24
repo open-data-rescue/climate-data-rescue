@@ -10,13 +10,11 @@ if [[ -z $RAILS_ENV ]] || [[ $RAILS_ENV = "development" ]]; then
   bin/rails webpacker:install -n
   bin/webpack-dev-server --host 0.0.0.0 &
 
-  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:structure:load)
-  bin/rake db:setup
+  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:setup)
   bin/rake db:migrate
 elif [[ $RAILS_ENV = "staging" ]]; then
-  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:structure:load)
+  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:setup)
 
-  bin/rake db:setup
   bin/rake db:migrate
 else
   until ! mysqladmin ping -h"$DB_HOST" --silent; do
