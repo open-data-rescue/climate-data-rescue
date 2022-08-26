@@ -2,29 +2,27 @@
 
 # Use ruby image to build our own image
 # TODO: change based when we change version of ruby
-FROM --platform=linux/x86_64 ruby:2.6.7-alpine as base
+FROM --platform=linux/x86_64 ruby:2.7.2-alpine as base
 
 # Ensure that we work in UTF 8
 ENV LANG C.UTF-8 # ensure that the encoding is UTF8
 ENV LANGUAGE C.UTF-8 # ensure that the encoding is UTF8
 
-# Specify an external volume for the Application source
-VOLUME ["/opt/draw"]
-WORKDIR /opt/draw
+ARG RAILS_ENV=production
+ARG NODE_ENV=production
 
 # Use a persistent volume for the gems installed by the bundler
 ENV BUNDLE_PATH /var/bundler
-ENV RAILS_ENV development
 
-# RUN apt-get update -qq && apt-get install -y build-essential libpq-dev yarn nodejs libjpeg62 imagemagick graphviz default-mysql-client
+ARG DEVISE_SECRET
+
 RUN apk add \
       build-base \
       freetds-dev \
-      git \
       less \
       netcat-openbsd \
-      mysql-client \
-      mysql-dev \
+      postgresql-client \
+      postgresql-dev \
       pkgconfig \
       openssl \
       shared-mime-info \
@@ -33,15 +31,22 @@ RUN apk add \
     && rm -rf /var/cache/apk/*
 
 # Install bundler for this Docker image
-# RUN gem install bundler:2.2.4
 # TODO: ensure that version of bundler matches what we want
 RUN gem install bundler:1.17.3
 
-# pre-install bundle for speed later
-ADD ./Gemfile /opt/draw/Gemfile
-RUN bundle install
+# WORKDIR /setup
+ADD . /opt/draw
+WORKDIR /opt/draw
+
+# Just not use dev here
+RUN bin/bundle install --without development
+RUN bin/yarn install --frozen-lockfile
+
+# The precompile will also deal with the webpacker assets
+RUN bin/rake assets:precompile --trace
 
 # We expose the port
 EXPOSE 3000
 
+# CMD script/draw_start.sh
 CMD ["tail", "-f", "/dev/null"]

@@ -21,10 +21,6 @@ else
     echo "waiting for database..."
     sleep 5
   done
-  # until mysql -Atx "mysql://$MYSQL_USER:$MYSQL_PASSWORD@$DB_HOST/$DB_NAME" -c 'select current_date'; do
-  #   echo "waiting for database..."
-  #   sleep 5
-  # done
 
   bin/rake db:migrate
 fi
