@@ -13,16 +13,16 @@ services:
   #     - redis-data:/data
 
   web:
-    command: "/opt/planorama/script/planorama_start.sh"
+    command: "/opt/draw/script/draw_start.sh"
     # TOOD
     # ghcr.io/OWNER/IMAGE_NAME:latest
-    image: 666959015006.dkr.ecr.us-west-2.amazonaws.com/planorama:main
+    # image: 666959015006.dkr.ecr.us-west-2.amazonaws.com/draw:main
     volumes:
       # TODO: we need to map directories for images uploads etc
-      # - /var/log/planorama/web:/opt/planorama/log
+      # - /var/log/draw/web:/opt/draw/log
       # - type: tmpfs
       #   target: /app/tmp
-      # - /opt/chicago/etc/planorama:/config
+      # - /opt/chicago/etc/draw:/config
     environment:
       - RAILS_ENV=production
       - NODE_ENV=production
@@ -36,8 +36,8 @@ services:
       # - SMTP_PORT=1025
     env_file:
       # - "/opt/chicago/etc/hostname.env"
-      # - "/opt/chicago/etc/planorama.env"
-      # - "/opt/chicago/etc/planorama-overrides.env"
+      # - "/opt/chicago/etc/draw.env"
+      # - "/opt/chicago/etc/draw-overrides.env"
       # - "/opt/chicago/etc/creds.env"
     depends_on:
       # - redis
@@ -47,14 +47,14 @@ services:
       - "127.0.0.1:3000:3000"
     restart: always
 
-  # planorama-sidekiq:
-  #   command: "/opt/planorama/script/planorama_sidekiq.sh"
-  #   image: 666959015006.dkr.ecr.us-west-2.amazonaws.com/planorama:main
+  # draw-sidekiq:
+  #   command: "/opt/draw/script/draw.sh"
+  #   image: 666959015006.dkr.ecr.us-west-2.amazonaws.com/draw:main
   #   volumes:
-  #     - /var/log/planorama/sidekiq:/opt/planorama/log
+  #     - /var/log/draw/sidekiq:/opt/draw/log
   #     - type: tmpfs
   #       target: /app/tmp
-  #     - /opt/chicago/etc/planorama:/config
+  #     - /opt/chicago/etc/draw:/config
   #   environment:
   #     - PGID=1005
   #     - PUID=1001
@@ -62,8 +62,8 @@ services:
   #     - NODE_ENV=production
   #   env_file:
   #     - "/opt/chicago/etc/hostname.env"
-  #     - "/opt/chicago/etc/planorama.env"
-  #     - "/opt/chicago/etc/planorama-overrides.env"
+  #     - "/opt/chicago/etc/draw.env"
+  #     - "/opt/chicago/etc/draw-overrides.env"
   #     - "/opt/chicago/etc/creds.env"
   #   depends_on:
   #     - redis

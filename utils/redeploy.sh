@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 
-cd /opt/chicago/app/planorama
+cd /opt/climate-data-rescue/app/draw
 
 # TODO
 eval $(docker run rlister/ecr-login:latest)
