@@ -32,6 +32,7 @@ module DataRescueAtHome
     config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
     config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js snowEffect.js )
 
+    # TODO: this needs to be put in intializer
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
       address: 'smtp.sendgrid.net',

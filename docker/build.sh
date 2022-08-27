@@ -12,5 +12,10 @@ if [ ! -d "`pwd`/tmp" ]; then
   mkdir "`pwd`/tmp"
 fi
 
-docker-compose build
-docker-compose run app bundle
+#
+# Create volumes (only does so if they do not already exist)
+#
+docker volume create --name=draw-db-data
+docker volume create --name=draw-redis-data
+docker volume create --name=draw-node_modules
+docker volume create --name=draw-node_modules_sidekiq
