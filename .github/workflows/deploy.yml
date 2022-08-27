@@ -65,8 +65,8 @@ jobs:
 
       - name: Define the repository labels
         run: |
-          echo "CONTAINER_TEST_REPOSITORY=${{ steps.login-ecr.outputs.registry }}/planorama:ci-${{ github.sha }}" >> $GITHUB_ENV
-          echo "CONTAINER_DEPLOY_REPOSITORY=${{ steps.login-ecr.outputs.registry }}/planorama:${{ steps.extract_name.outputs.branch }}" >> $GITHUB_ENV
+          echo "CONTAINER_TEST_REPOSITORY=${{ steps.login-ecr.outputs.registry }}/climate-data-rescue:ci-${{ github.sha }}" >> $GITHUB_ENV
+          echo "CONTAINER_DEPLOY_REPOSITORY=${{ steps.login-ecr.outputs.registry }}/climate-data-rescue:${{ steps.extract_name.outputs.branch }}" >> $GITHUB_ENV
       # TODO -----------
       #  for pull
       # https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
