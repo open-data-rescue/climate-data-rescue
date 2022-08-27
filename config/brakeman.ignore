@@ -1,0 +1,890 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "026c32eab4c00cd920262e553ff33a1163ccd71eed194901e38b11f824b6b7f2",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Page#find`",
+      "file": "app/controllers/pages_controller.rb",
+      "line": 17,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Page.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "PagesController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Reverse Tabnabbing",
+      "warning_code": 111,
+      "fingerprint": "07665746055528066312d1a6ce4b4b256321d293d4a571b3d047a372150c04ac",
+      "check_name": "ReverseTabnabbing",
+      "message": "When opening a link in a new tab without setting `rel: \"noopener noreferrer\"`, the new tab can control the parent tab's location. For example, an attacker could redirect to a phishing page.",
+      "file": "app/views/admin/static_pages/_static_page.html.erb",
+      "line": 4,
+      "link": "https://brakemanscanner.org/docs/warning_types/reverse_tabnabbing/",
+      "code": "link_to(static_page.link, static_page.link, :target => \"_blank\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "admin/static_pages/_static_page"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        1022
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "0e2e062d885dbbeef611e74ee2da367d19dcfca9766a1aca8aa1aebf715d18c9",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `PageType#find`",
+      "file": "app/controllers/admin/page_types_controller.rb",
+      "line": 22,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "PageType.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PageTypesController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "14f6926d4c4a2a2c3b664cfb6af2d1ee289500d1d355bcb19a2c7a528232e41a",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Transcription#find`",
+      "file": "app/controllers/admin/transcriptions_controller.rb",
+      "line": 26,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Transcription.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::TranscriptionsController",
+        "method": "edit"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "198fbe4b7690037375c97924164ba9b24759c47000160458ea313060bc8f7ae0",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Transcription#find`",
+      "file": "app/controllers/admin/pages_controller.rb",
+      "line": 133,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Transcription.find(params[:transcription_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PagesController",
+        "method": "for_transcription"
+      },
+      "user_input": "params[:transcription_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "2740708ef376ee6f87e02eb074c367ec4f8a6f877a065d97a534f1aaf20d0a60",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/annotation.rb",
+      "line": 14,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "order(\"observation_date #{direction}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Annotation",
+        "method": "Annotation.order_by_date"
+      },
+      "user_input": "direction",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "3039ff01460209799c7ef6aab19f975f2499f4b839b15c003491076cea14346e",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `PageType#find`",
+      "file": "app/controllers/admin/field_groups_controller.rb",
+      "line": 185,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "PageType.find(params[:page_type_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::FieldGroupsController",
+        "method": "remove_from_page_type"
+      },
+      "user_input": "params[:page_type_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "345d58c4fcb2af31bad7ae494c251875fc686fc32e35db5da7ef4fa327502c5b",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `PageType#find`",
+      "file": "app/controllers/admin/field_groups_controller.rb",
+      "line": 87,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "PageType.find(params[:page_type_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::FieldGroupsController",
+        "method": "create"
+      },
+      "user_input": "params[:page_type_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "3858ed51545a04c977ab5bfab41ba58cc238c78efc99557fc42a5ce58c02a525",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Transcription#find`",
+      "file": "app/controllers/admin/transcriptions_controller.rb",
+      "line": 16,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Transcription.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::TranscriptionsController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "3b225078e4584ead39d9cb2f85c51fb24614906f9011a723aec4303062469d36",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `PageType#find`",
+      "file": "app/controllers/admin/field_groups_controller.rb",
+      "line": 213,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "PageType.find(params[:page_type_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::FieldGroupsController",
+        "method": "for_page_type"
+      },
+      "user_input": "params[:page_type_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "4882b52639861f159ff5abd3d320dafb1bbe01b9a105ea87c53815c4e4f04765",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Page#find`",
+      "file": "app/controllers/page_days_controller.rb",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Page.find(params[:page_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "PageDaysController",
+        "method": "create"
+      },
+      "user_input": "params[:page_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Reverse Tabnabbing",
+      "warning_code": 111,
+      "fingerprint": "4d190c263e0e8f039ad98cbc8c3c5f0ad20126acf9b7313f58b9e8f171f0269a",
+      "check_name": "ReverseTabnabbing",
+      "message": "When opening a link in a new tab without setting `rel: \"noopener noreferrer\"`, the new tab can control the parent tab's location. For example, an attacker could redirect to a phishing page.",
+      "file": "app/views/static_pages/_static_page.html.erb",
+      "line": 4,
+      "link": "https://brakemanscanner.org/docs/warning_types/reverse_tabnabbing/",
+      "code": "link_to(static_page.link, static_page.link, :target => \"_blank\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "static_pages/_static_page"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        1022
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "4e448e44afaa2dcae799472c3a440edd2a0284864b7162357b0802043c352c78",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `PageType#find`",
+      "file": "app/controllers/admin/field_groups_controller.rb",
+      "line": 197,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "PageType.find(params[:page_type_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::FieldGroupsController",
+        "method": "update_sort_order"
+      },
+      "user_input": "params[:page_type_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "4e8be3486c84868c5acbb6bfc9f26acd5f5abcfffa7e2c759f9eff98dbff97b6",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Transcription#find`",
+      "file": "app/controllers/admin/transcriptions_controller.rb",
+      "line": 34,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Transcription.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::TranscriptionsController",
+        "method": "update"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "5408a3d8a7ad31f803bb52b039ee940dba44180e54b21e5bf017ade175cf2b43",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/annotations_controller.rb",
+      "line": 162,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:annotation).permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AnnotationsController",
+        "method": "update"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "5d2fdfb73d4be5cebbc3c7bf2af53e0ce0c5f3d64a48ba6f86f538b99ed14a51",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Page#find`",
+      "file": "app/controllers/page_days_controller.rb",
+      "line": 50,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Page.find(params[:page_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "PageDaysController",
+        "method": "update"
+      },
+      "user_input": "params[:page_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "60704a7dafe1b91fe13a2d295f7b4fa507eb2367e49f4dbfb0d746bdca5af7f7",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `PageType#find`",
+      "file": "app/controllers/admin/field_groups_controller.rb",
+      "line": 15,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "PageType.find(params[:page_type_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::FieldGroupsController",
+        "method": "index"
+      },
+      "user_input": "params[:page_type_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Missing Encryption",
+      "warning_code": 109,
+      "fingerprint": "6a26086cd2400fbbfb831b2f8d7291e320bcc2b36984d2abc359e41b3b63212b",
+      "check_name": "ForceSSL",
+      "message": "The application does not force use of HTTPS: `config.force_ssl` is not enabled",
+      "file": "config/environments/production.rb",
+      "line": 1,
+      "link": "https://brakemanscanner.org/docs/warning_types/missing_encryption/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        311
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "6b1900ed65d22efd0bb7bfe50fe05f8a5ca4b6ec87d8e90015a864d99a3caa41",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Transcription#find`",
+      "file": "app/controllers/transcriptions_controller.rb",
+      "line": 74,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Transcription.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TranscriptionsController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "6d374f300c86895eae29934775c4fe9ffc6b2d59cf7990457e5489fa08c6476c",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/annotations_controller.rb",
+      "line": 125,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:annotation).permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AnnotationsController",
+        "method": "create"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "781e480b15d4fe5c75674364a64d4635356f5ebbfa96e4b53e412ac2b37bb275",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `PageType#find`",
+      "file": "app/controllers/admin/page_types_controller.rb",
+      "line": 46,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "PageType.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PageTypesController",
+        "method": "edit"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "7cd12f935edffdc39eccfc2d9b060dede066eb0cce5ed7f22326bc0abd0a5133",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Annotation#find`",
+      "file": "app/controllers/annotations_controller.rb",
+      "line": 200,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Annotation.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AnnotationsController",
+        "method": "destroy"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "802391d9927f24ecb6eceb26d4a814648e6077211a1e67a9d959dbe7e901ebca",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Transcription#find`",
+      "file": "app/controllers/transcriptions_controller.rb",
+      "line": 173,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Transcription.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TranscriptionsController",
+        "method": "update"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "979817a2f4001e3d3c1232d82835eec338662e916136a5f8ac4e63996322ec4c",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `PageType#find`",
+      "file": "app/controllers/admin/page_types_controller.rb",
+      "line": 84,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "PageType.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PageTypesController",
+        "method": "update"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "ac8aeeb70e1fd52a63c5aef0ff93adf8f535431b71ec6ab583321d8c3f0a9686",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Page#find`",
+      "file": "app/controllers/admin/pages_controller.rb",
+      "line": 34,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Page.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PagesController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "b4c4fe55ca00ab8718b2b4d74cb54b3cc0934d380f41b61a55d59d184e8f89bc",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Page#find`",
+      "file": "app/controllers/admin/pages_controller.rb",
+      "line": 108,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Page.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PagesController",
+        "method": "update"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "b5d4d5cddcd5e1252384f88ca8d60483a8939fc92feeaae4e496fe09d5c313bc",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Page#find`",
+      "file": "app/controllers/admin/pages_controller.rb",
+      "line": 145,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Page.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PagesController",
+        "method": "destroy"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "b8501f47460e78136ca7ccdad4d4011855c5a503492283fa0d3ae92137e2bb1f",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/static_pages/show.html.erb",
+      "line": 20,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "StaticPage.visible.find_by(:slug => request.path.gsub(((\"/\" + I18n.locale.to_s) + \"/\"), \"/\")).body",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "StaticPagesController",
+          "method": "show",
+          "line": 9,
+          "file": "app/controllers/static_pages_controller.rb",
+          "rendered": {
+            "name": "static_pages/show",
+            "file": "app/views/static_pages/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "static_pages/show"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Reverse Tabnabbing",
+      "warning_code": 111,
+      "fingerprint": "b94001509d24cefa512eb44f7a0a05104ddfe89124ca30abb8ad5e5c17c5e0cd",
+      "check_name": "ReverseTabnabbing",
+      "message": "When opening a link in a new tab without setting `rel: \"noopener noreferrer\"`, the new tab can control the parent tab's location. For example, an attacker could redirect to a phishing page.",
+      "file": "app/views/admin/better_together/posts/edit.html.slim",
+      "line": 11,
+      "link": "https://brakemanscanner.org/docs/warning_types/reverse_tabnabbing/",
+      "code": "link_to(t(\"better-together.community.posts.show\"), BetterTogether::Post.friendly.find(params[:id]), :target => :_blank)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Admin::BetterTogether::PostsController",
+          "method": "edit",
+          "line": 22,
+          "file": "app/controllers/admin/better_together/posts_controller.rb",
+          "rendered": {
+            "name": "admin/better_together/posts/edit",
+            "file": "app/views/admin/better_together/posts/edit.html.slim"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "admin/better_together/posts/edit"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        1022
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "bb47fb0d90807cc5f7e65f955bfdf41455c3006087d97240c469c2be24121f04",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/admin/users_controller.rb",
+      "line": 45,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:display_name, :admin, :bio, :full_name)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::UsersController",
+        "method": "users_params"
+      },
+      "user_input": ":admin",
+      "confidence": "High",
+      "cwe_id": [
+        915
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "c3a92835121d6e46319cdadfa146ba747ec9e3e568b6ae3a3a438c014ffd17d2",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Page#find`",
+      "file": "app/controllers/admin/pages_controller.rb",
+      "line": 53,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Page.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PagesController",
+        "method": "edit"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "d0f6824a0008bae69d47a8aedd3dbe9506cfa94c53f546cdf0e101dd7ece378e",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `PageType#find`",
+      "file": "app/controllers/admin/field_groups_controller.rb",
+      "line": 172,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "PageType.find(params[:page_type_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::FieldGroupsController",
+        "method": "add_to_page_type"
+      },
+      "user_input": "params[:page_type_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "d7fa821f4622032c390befe831685cc005707dacb918a3d1541d8c3a71dbf70f",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Transcription#find`",
+      "file": "app/controllers/admin/transcriptions_controller.rb",
+      "line": 53,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Transcription.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::TranscriptionsController",
+        "method": "destroy"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 120,
+      "fingerprint": "d84924377155b41e094acae7404ec2e521629d86f97b0ff628e3d1b263f8101c",
+      "check_name": "EOLRails",
+      "message": "Support for Rails 5.2.8.1 ended on 2022-06-01",
+      "file": "Gemfile.lock",
+      "line": 246,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        1104
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "e4c7898e47ae2c35c6286037955076c8a4ca1d6390fedd28d0f4c27b6d68ea7d",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/static_pages/_link.html.slim",
+      "line": 13,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to((if StaticPage.new.children.any? and (top_level or false) then\n  ((StaticPage.new.title or StaticPage.new.id.to_s) + \" <span class=\\\"caret\\\"></span>\").html_safe\nelse\n  (StaticPage.new.title or StaticPage.new.id.to_s)\nend), StaticPage.new.link, :target => (if (StaticPage.new.is_external? or (opens_new_tab or false)) then\n  \"_blank\"\nelse\n  \"_self\"\nend), :name => CGI.escape((StaticPage.new.title or StaticPage.new.id.to_s).downcase))",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "application/_footer",
+          "line": 5,
+          "file": "app/views/application/_footer.html.erb",
+          "rendered": {
+            "name": "static_pages/_link",
+            "file": "app/views/static_pages/_link.html.slim"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "static_pages/_link"
+      },
+      "user_input": "StaticPage.new.link",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "f2f6445d38fc9bed2f782345d63a5efd308aa25606b2976593e8b5ad71c96852",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/better_together/posts/show.html.slim",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "BetterTogether::Post.friendly.find(params[:id]).content",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BetterTogether::PostsController",
+          "method": "show",
+          "line": 13,
+          "file": "app/controllers/better_together/posts_controller.rb",
+          "rendered": {
+            "name": "better_together/posts/show",
+            "file": "app/views/better_together/posts/show.html.slim"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "better_together/posts/show"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "f9dc82adecf9aa5ffce0836d03b20d9b548e92262b26d3b491f49a2cdc7b7d19",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `PageType#find`",
+      "file": "app/controllers/admin/page_types_controller.rb",
+      "line": 107,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "PageType.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PageTypesController",
+        "method": "destroy"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    }
+  ],
+  "updated": "2022-08-27 10:43:40 -0400",
+  "brakeman_version": "5.3.1"
+}

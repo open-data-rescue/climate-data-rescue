@@ -104,13 +104,13 @@ services:
     #   retries: 10
 
   # Used for sidekiq for jobs
-  # redis:
-  #   image: redis:alpine
-  #   restart: always
-  #   volumes:
-  #     - draw-redis-data:/data
-  #   ports:
-  #     - "6379:6379"
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - draw-redis-data:/data
+    ports:
+      - "6379:6379"
 
   # Use when we move to R6 or greater
   # livereload:

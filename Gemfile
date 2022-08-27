@@ -114,6 +114,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'brakeman'
   gem 'fuubar'
   gem 'rspec-rails'
   gem 'pry'

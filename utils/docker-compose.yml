@@ -3,14 +3,15 @@
 version: "3.7"
 
 volumes:
-  # redis-data:
+  draw-redis-data:
+    external: true
 
 services:
-  # redis:
-  #   image: redis:alpine
-  #   restart: always
-  #   volumes:
-  #     - redis-data:/data
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - draw-redis-data:/data
 
   web:
     command: "/opt/draw/script/draw_start.sh"
@@ -18,31 +19,27 @@ services:
     # ghcr.io/OWNER/IMAGE_NAME:latest
     # image: 666959015006.dkr.ecr.us-west-2.amazonaws.com/draw:main
     volumes:
-      # TODO: we need to map directories for images uploads etc
-      # - /var/log/draw/web:/opt/draw/log
-      # - type: tmpfs
-      #   target: /app/tmp
-      # - /opt/chicago/etc/draw:/config
+      - /opt/draw/shared/public/assets:/opt/draw/shared/public/assets
+      - /opt/draw/shared/public/system:/opt/draw/shared/public/system
+      - /var/log/draw/web:/opt/draw/log
+      - /opt/draw/etc/draw:/config
+      - type: tmpfs
+        target: /app/tmp
     environment:
       - RAILS_ENV=production
       - NODE_ENV=production
       # - PGID=1005
       # - PUID=1001
       # - DB_HOST=draw-db
-      # - RAILS_ENV=development
-      # - NODE_ENV=development
-      # - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
-      # - SMTP_SERVER=mailcatcher
-      # - SMTP_PORT=1025
     env_file:
       # - "/opt/chicago/etc/hostname.env"
       # - "/opt/chicago/etc/draw.env"
       # - "/opt/chicago/etc/draw-overrides.env"
       # - "/opt/chicago/etc/creds.env"
     depends_on:
-      # - redis
+      - redis
     links:
-      # - redis
+      - redis
     ports:
       - "127.0.0.1:3000:3000"
     restart: always
