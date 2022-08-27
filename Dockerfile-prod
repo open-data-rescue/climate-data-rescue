@@ -45,7 +45,7 @@ RUN bin/bundle install --without development
 RUN bin/yarn install --frozen-lockfile
 
 # The precompile will also deal with the webpacker assets
-RUN bin/rake assets:precompile --trace
+# RUN bin/rake assets:precompile --trace
 
 # We expose the port
 EXPOSE 3000
