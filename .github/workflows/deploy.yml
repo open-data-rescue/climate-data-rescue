@@ -115,7 +115,7 @@ jobs:
       - name: Run specs
         run: |
           docker run -d --name="test-database" --hostname "mysql" -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=test" -e "MYSQL_ROOT_PASSWORD=test" -p 127.0.0.1:3306:3306/tcp mysql:5.7
-          docker run --network "container:test-database" -e RAILS_ENV=test -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }} -e SECRET_TOKEN=${{ env.SECRET_TOKEN }} -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=root" $CONTAINER_TEST_REPOSITORY /bin/sh -c "bundle exec rake db:create db:structure:load; bundle exec rake db:seed; bundle exec rspec"
+          docker run --network "container:test-database" -e RAILS_ENV=test -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }} -e SECRET_TOKEN=${{ env.SECRET_TOKEN }} -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=root" $CONTAINER_TEST_REPOSITORY /bin/sh -c "bundle exec rake db:create db:setup; bundle exec rake db:seed; bundle exec rspec"
 
       # The docker pull does not work
       # https://docs.github.com/en/actions/publishing-packages/publishing-docker-images
