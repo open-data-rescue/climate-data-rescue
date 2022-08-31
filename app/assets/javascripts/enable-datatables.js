@@ -1,1 +1,5 @@
-$(() => $(".datatables").DataTable());
+$(function() {
+	$(".datatables")
+		.css({display: 'block'})
+		.DataTable();
+});
