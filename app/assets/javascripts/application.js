@@ -45,9 +45,11 @@
 //= require magnify/jquery.magnify
 //= require magnify/jquery.magnify-mobile
 //= require bootstrap-notify/bootstrap-notify
+//= require jquery.dataTables.min
 //
 //= require content_images
 //= require snowEffect
+//= require enable-datatables
 //
 // require transcriptions
 // require_tree .
