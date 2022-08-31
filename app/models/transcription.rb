@@ -8,6 +8,8 @@ class Transcription < ApplicationRecord
   has_many :annotations, dependent: :destroy
   has_many :data_entries, through: :annotations
 
+  define_eager_group :data_entries_count, :data_entries, :count, :*
+
   validates :page_id, uniqueness: { scope: :user_id }
 
   def self.most_recent_by_page_and_user
@@ -23,7 +25,7 @@ class Transcription < ApplicationRecord
   end
 
   def num_data_entries
-    data_entries.count
+    data_entries_count
   end
 
   def num_data_entries_expected
