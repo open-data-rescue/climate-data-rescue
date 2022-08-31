@@ -1,5 +1,9 @@
 $(function() {
 	$(".datatables")
 		.css({display: 'block'})
-		.DataTable();
+		.DataTable({
+			drawCallback: function() {
+				$("img.lazyload").lazyload();
+			}
+		});
 });

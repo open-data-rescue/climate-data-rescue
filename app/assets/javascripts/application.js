@@ -46,6 +46,7 @@
 //= require magnify/jquery.magnify-mobile
 //= require bootstrap-notify/bootstrap-notify
 //= require jquery.dataTables.min
+//= require lazyload.min
 //
 //= require content_images
 //= require snowEffect
