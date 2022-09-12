@@ -144,8 +144,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          # secrets: |
-          #   GIT_AUTH_TOKEN=${{ github.token }}
+          secrets: |
+            GIT_AUTH_TOKEN=${{ github.token }}
 
       # steps.meta.outputs.tags is not quite right
       # Push the image to the docker registry (using Github ghcr.io)
