@@ -140,12 +140,12 @@ jobs:
             RAILS_ENV=production
             NODE_ENV=development
           push: true
-          tags: "${{ steps.meta.outputs.tags }}"
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
           # secrets: |
           #   GIT_AUTH_TOKEN=${{ github.token }}
-          # cache-from: type=local,src=/tmp/.buildx-cache
-          # cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       # steps.meta.outputs.tags is not quite right
       # Push the image to the docker registry (using Github ghcr.io)
