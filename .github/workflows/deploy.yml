@@ -66,11 +66,11 @@ jobs:
         with:
           images: climate-data-rescue
           tags: |
-            type=raw,enable=true,priority=200,value=test
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            type=raw,enable=true,prefix="ghcr.io/${{github.repository_owner}}/",priority=200,value=test
+            type=ref,event=branch,prefix="ghcr.io/${{github.repository_owner}}/"
+            type=ref,event=pr,prefix="ghcr.io/${{github.repository_owner}}/"
+            type=semver,pattern={{version}},prefix="ghcr.io/${{github.repository_owner}}/"
+            type=semver,pattern={{major}}.{{minor}},prefix="ghcr.io/${{github.repository_owner}}/"
 
       - name: Set up Docker Buildx
         id: buildx
@@ -140,14 +140,11 @@ jobs:
             RAILS_ENV=production
             NODE_ENV=development
           push: true
-          # load: true
-          # tags: ${{ steps.meta.outputs.tags }}
-          tags: ${{ env.TEST_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          secrets: |
-            GIT_AUTH_TOKEN=${{ github.token }}
+          # secrets: |
+          #   GIT_AUTH_TOKEN=${{ github.token }}
 
       # steps.meta.outputs.tags is not quite right
       # Push the image to the docker registry (using Github ghcr.io)
