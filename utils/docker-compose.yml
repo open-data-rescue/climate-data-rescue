@@ -32,6 +32,7 @@ services:
 
   web:
     command: "/opt/draw/script/draw_start.sh"
+    # ghcr.io/balen/climate-data-rescue:latest
     image: ghcr.io/balen/climate-data-rescue:production
     volumes:
       - /opt/draw/shared/public//assets:/opt/draw/public/assets
