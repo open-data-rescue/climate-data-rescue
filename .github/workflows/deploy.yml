@@ -151,7 +151,10 @@ jobs:
       - name: Publish the deployable image
         # ${{ github.repository_owner }}
         run: |
-          docker push "ghcr.io/${{ github.repository_owner }}/${{ steps.meta.outputs.tags }}"
+          docker tag ${{ steps.meta.outputs.tags }} "${{ steps.login-ecr.outputs.registry }}/${{ steps.meta.outputs.tags }}"
+          docker push "${{ steps.login-ecr.outputs.registry }}/${{ steps.meta.outputs.tags }}"
+        # docker tag $CONTAINER_TEST_REPOSITORY $CONTAINER_DEPLOY_REPOSITORY
+        # docker push "ghcr.io/${{ github.repository_owner }}/${{ steps.meta.outputs.tags }}"
       # docker tag ${{ steps.meta.outputs.tags }} climate-data-rescue:${{ steps.extract_name.outputs.branch }}
 
       # Needed to prevent cache from growing forever (see https://github.com/docker/build-push-action/issues/252)
