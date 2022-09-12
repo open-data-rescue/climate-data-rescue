@@ -5,6 +5,8 @@ version: "3.7"
 volumes:
   draw-redis-data:
     external: true
+  draw-prd-db-data:
+    external: true
 
 services:
   redis:
@@ -13,57 +15,72 @@ services:
     volumes:
       - draw-redis-data:/data
 
+  draw-db:
+    container_name: draw-db
+    image: mysql:5.7
+    platform: linux/x86_64
+    env_file:
+      - "/opt/draw/etc/hostname.env"
+      - "/opt/draw/etc/draw.env"
+    volumes:
+      # - draw-prd-db-data:/var/lib/mysql
+      - draw-prd-db-data:/opt/draw/lib/mysql
+      - /opt/draw/etc/mysql/conf.d:/opt/draw/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
+    restart: always
+
   web:
     command: "/opt/draw/script/draw_start.sh"
-    # TOOD
-    # ghcr.io/OWNER/IMAGE_NAME:latest
-    # image: 666959015006.dkr.ecr.us-west-2.amazonaws.com/draw:main
+    image: ghcr.io/balen/climate-data-rescue:production
     volumes:
-      - /opt/draw/shared/public/assets:/opt/draw/shared/public/assets
-      - /opt/draw/shared/public/system:/opt/draw/shared/public/system
-      - /var/log/draw/web:/opt/draw/log
+      - /opt/draw/shared/public//assets:/opt/draw/public/assets
+      - /opt/draw/shared/public/system:/opt/draw/public/system
+      - /opt/draw/shared/public/packs:/opt/draw/public/packs
       - /opt/draw/etc/draw:/config
+      - /var/log/draw/web:/opt/draw/log
       - type: tmpfs
         target: /app/tmp
     environment:
       - RAILS_ENV=production
       - NODE_ENV=production
-      # - PGID=1005
-      # - PUID=1001
-      # - DB_HOST=draw-db
+      - DB_HOST=draw-db
+      # - SIDEKIQ_REDIS_URL=redis://redis:6379/0
     env_file:
-      # - "/opt/chicago/etc/hostname.env"
-      # - "/opt/chicago/etc/draw.env"
-      # - "/opt/chicago/etc/draw-overrides.env"
-      # - "/opt/chicago/etc/creds.env"
+      - "/opt/draw/etc/hostname.env"
+      - "/opt/draw/etc/draw.env"
     depends_on:
+      - draw-db
       - redis
     links:
+      - draw-db
       - redis
     ports:
       - "127.0.0.1:3000:3000"
     restart: always
 
   # draw-sidekiq:
-  #   command: "/opt/draw/script/draw.sh"
-  #   image: 666959015006.dkr.ecr.us-west-2.amazonaws.com/draw:main
+  #   command: "/opt/draw/script/draw_sidekiq.sh"
+  #   image: ghcr.io/balen/climate-data-rescue:production
   #   volumes:
+  #     - /opt/draw/shared/public//assets:/opt/draw/public/assets
+  #     - /opt/draw/shared/public/system:/opt/draw/public/system
+  #     - /opt/draw/shared/public/packs:/opt/draw/public/packs
+  #     - /opt/draw/etc/draw:/config
   #     - /var/log/draw/sidekiq:/opt/draw/log
   #     - type: tmpfs
   #       target: /app/tmp
-  #     - /opt/chicago/etc/draw:/config
   #   environment:
-  #     - PGID=1005
-  #     - PUID=1001
   #     - RAILS_ENV=production
   #     - NODE_ENV=production
+  #     - DB_HOST=draw-db
   #   env_file:
-  #     - "/opt/chicago/etc/hostname.env"
-  #     - "/opt/chicago/etc/draw.env"
-  #     - "/opt/chicago/etc/draw-overrides.env"
-  #     - "/opt/chicago/etc/creds.env"
+  #     - "/opt/draw/etc/hostname.env"
+  #     - "/opt/draw/etc/draw.env"
   #   depends_on:
+  #     - draw-db
   #     - redis
   #   links:
+  #     - draw-db
   #     - redis
   #   restart: always

@@ -1,62 +1,64 @@
-version: '3.4'
+# compose file for production
+#
+# docker-compose -p draw-prd -f docker-compose.yml up
+#
+# docker-compose -p draw-prd -f docker-compose.yml run web bin/rake assets:precompile --trace
+#
+# docker volume create --name=draw-prd-db-data
+version: "3.7"
 
 volumes:
-  db-data:
-  draw-bundler-gems:
+  draw-prd-db-data:
+    external: true
+  # draw-redis-data:
+  #   external: true
+  # box: {} # used for the bundler, persistent store between runs
 
 services:
-  app: &app
-    container_name: draw-app
-    # build context
-    build: .  
-    # app is running on port 3000, bound to any IP address
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    # declare volumes, data storage from local file to folder in container. any local changes automatically synced to container.
+  web:
+    command: "/opt/draw/script/draw_start.sh"
+    image: ghcr.io/balen/climate-data-rescue:production
     volumes:
-      - .:/draw
-      # where gems are stored
-      - draw-bundler-gems:/usr/local/bundle/
-      # - /home/rob/.ssh:/root/.ssh:ro
-     # left -> local port, right -> container port 
-    ports:
-      - "3000:3000"
-    # these are the other containers the app depends on  
-    depends_on:
-      - db
-    links:
-      - db
-    # environment variables for containers
+      - /Users/balen/tmp/draw/assets:/opt/draw/public/assets
+      - /Users/balen/tmp/draw/system:/opt/draw/public/system
+      - /Users/balen/tmp/draw/packs:/opt/draw/public/packs
+      # - /var/log/draw/web:/opt/draw/log
+      # - /opt/draw/etc/draw:/config
+      - type: tmpfs
+        target: /app/tmp
     env_file:
-      - './docker/.env.app.conf'
-     # key value pair LHS -> environemnt variable value name, RHS -> value
-    environment: 
-      - WEBPACKER_DEV_SERVER_HOST=webpack
-    stdin_open: true
-    tty: true
-  # container to server front end dynamic javascript
-  webpack:
-    # inherits settings from app container. overwrites any that follow
-    <<: *app
-    container_name: draw-webpack
-    command: ./bin/webpack-dev-server
-    # left -> local port, right -> container port
-    ports:
-      - 3035:3035
+      - .envrc
     environment:
-      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
-  # database container. uses a published image   
-  db:
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - MYSQL_PASSWORD=H0rvendile
+      - DB_HOST=draw-db
+      - DEVISE_SECRET=aa77bb734faa9b935c1f8b68846e37aed9096cc9fb746copypastaf856594409a11b1086535e468edb2e5bbc18482b386b6264ada38703dcdefd94a291ab5a95eb5
+      - SECRET_KEY_BASE=aa77bb734faa9b935c1f8b68846e37aed9096cc9fb746copypastaf856594409a11b1086535e468edb2e5bbc18482b386b6264ada38703dcdefd94a291ab5a95eb5
+      - SECRET_TOKEN=aa77bb734faa9b935c1f8b68846e37aed9096cc9fb746copypastaf856594409a11b1086535e468edb2e5bbc18482b386b6264ada38703dcdefd94a291ab5a95eb5
+    depends_on:
+      - draw-db
+      # - redis
+    links:
+      - draw-db
+      # - redis
+    ports:
+      - "127.0.0.1:3000:3000"
+
+  draw-db:
     container_name: draw-db
     image: mysql:5.7
-    volumes:
-      - db-data:/var/lib/mysql
-    # left -> local port, right -> container port. need to access 3308 on local machine
-    ports:
-      - "3308:3306"
+    platform: linux/x86_64
     env_file:
-      - './docker/.env.db.conf'
-    # this lets the container know if the db is running 
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+      - .envrc
+    volumes:
+      - draw-prd-db-data:/var/lib/mysql
+      - ./etc/mysql/conf.d:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
+
+  # redis:
+  #   image: redis:alpine
+  #   restart: always
+  #   volumes:
+  #     - draw-redis-data:/data

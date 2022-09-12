@@ -23,6 +23,8 @@ else
   done
 
   bin/rake db:migrate
+  # TODO: asset compilation
+  bin/rake assets:precompile
 fi
 
 bin/rails server -b 0.0.0.0

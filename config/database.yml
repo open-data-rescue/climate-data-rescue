@@ -1,14 +1,14 @@
 default: &default
   adapter: mysql2
   encoding: utf8
-  # This is a better encoding for UTF6
+  # This would be a better encoding for UTF8
   # encoding: utf8mb4
   # collation: utf8mb4_unicode_ci
   pool: <%= ENV.fetch("DB_POOL") { 5 } %>
   timeout: <%= ENV.fetch("DB_TIMEOUT") { 8000 } %>
   host: <%= ENV.fetch("DB_HOST") { '127.0.0.1' } %>
   port: <%= ENV.fetch("DB_PORT") { 3306 } %>
-  username: <%= ENV['MYSQL_USER'] { 'root' } %>
+  username: <%= ENV['RAILS_MYSQL_USER'] { 'root' } %>
   password: <%= ENV['MYSQL_PASSWORD'] %>
 
 development:

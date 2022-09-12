@@ -44,6 +44,7 @@ WORKDIR /opt/draw
 RUN bin/bundle install --without development
 RUN bin/yarn install --frozen-lockfile
 
+# The pre-compile will be done as part of the deploy of the image
 # The precompile will also deal with the webpacker assets
 # RUN bin/rake assets:precompile --trace
 
