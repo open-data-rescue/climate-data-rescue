@@ -66,7 +66,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: name/app
+          # name/app:production === ${{ steps.meta.outputs.tags }}
+          # The images name needs to be changed ... climate-data-rescue
+          images: balen/climate-data-rescue
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -121,6 +123,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
+      # name/app:production === ${{ steps.meta.outputs.tags }}
       - name: Run specs
         run: |
           docker run -d --name="test-database" --hostname "mysql" -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=test" -e "MYSQL_ROOT_PASSWORD=test" -p 127.0.0.1:3306:3306/tcp mysql:5.7
@@ -145,10 +148,10 @@ jobs:
       #     tags: ${{ steps.meta.outputs.tags }}
       #     labels: ${{ steps.meta.outputs.labels }}
 
-      # - name: Publish the deployable image
-      #   run: |
-      #     docker tag $CONTAINER_TEST_REPOSITORY $CONTAINER_DEPLOY_REPOSITORY
-      #     docker push $CONTAINER_DEPLOY_REPOSITORY
+      - name: Publish the deployable image
+        run: |
+          docker push ${{ steps.meta.outputs.tags }}
+      # docker tag ${{ steps.meta.outputs.tags }} climate-data-rescue:${{ steps.extract_name.outputs.branch }}
 
       # Needed to prevent cache from growing forever (see https://github.com/docker/build-push-action/issues/252)
       - name: Move cache
