@@ -67,11 +67,11 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: name/app
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
       # images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       # - name: Define the repository labels
