@@ -140,6 +140,7 @@ jobs:
             RAILS_ENV=production
             NODE_ENV=development
           push: true
+          load: true
           # tags: ${{ steps.meta.outputs.tags }}
           tags: ${{ env.TEST_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
