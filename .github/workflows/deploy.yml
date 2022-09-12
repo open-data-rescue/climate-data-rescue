@@ -58,7 +58,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          # ${{ env.REGISTRY }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -110,7 +109,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
-      #
+      # #
       # - name: Run specs
       #   run: |
       #     docker run -d --name="test-database" --hostname "mysql" -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=test" -e "MYSQL_ROOT_PASSWORD=test" -p 127.0.0.1:3306:3306/tcp mysql:5.7
@@ -128,7 +127,7 @@ jobs:
 
       - name: Build and Push image
         id: docker_build_push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./
           file: ./Dockerfile-prod
@@ -144,8 +143,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          # secrets: |
-          #   GIT_AUTH_TOKEN=${{ github.token }}
 
       # steps.meta.outputs.tags is not quite right
       # Push the image to the docker registry (using Github ghcr.io)
