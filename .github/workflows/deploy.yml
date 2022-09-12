@@ -68,7 +68,7 @@ jobs:
         with:
           # name/app:production === ${{ steps.meta.outputs.tags }}
           # The images name needs to be changed ... climate-data-rescue
-          images: balen/climate-data-rescue
+          images: climate-data-rescue
           tags: |
             type=ref,event=branch
             type=ref,event=pr
