@@ -92,7 +92,7 @@ jobs:
 
       - name: Build the image
         id: docker_build
-        uses: mr-smithers-excellent/docker-build-push@v5
+        uses: docker/build-push-action@v2
         with:
           context: ./
           file: ./Dockerfile-prod
@@ -128,22 +128,30 @@ jobs:
 
       - name: Build and Push image
         id: docker_build_push
+        # uses: docker/build-push-action@v2
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          context: ./
-          file: ./Dockerfile-prod
-          builder: ${{ steps.buildx.outputs.name }}
-          build-args: |
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          image: ${{ github.repository_owner }}/climate-data-rescue
+          addLatest: true
+          dockerfile: ./Dockerfile-prod
+          # builder: ${{ steps.buildx.outputs.name }}
+          buildArgs: |
             DEVISE_SECRET=${{ env.DEVISE_SECRET }}
             SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }}
             SECRET_TOKEN=${{ env.SECRET_TOKEN }}
             RAILS_ENV=production
             NODE_ENV=development
-          push: true
-          registry: ghcr.io
+          # TODO: tags needs to be a comma seperate list instaed of the JSON from meta
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          tags: ${{ steps.meta.outputs.tags }}
+          # push: true
+          # cache-from: type=local,src=/tmp/.buildx-cache
+          # cache-to: type=local,dest=/tmp/.buildx-cache-new
+          # secrets: |
+          #   GIT_AUTH_TOKEN=${{ github.token }}
 
       # steps.meta.outputs.tags is not quite right
       # Push the image to the docker registry (using Github ghcr.io)
