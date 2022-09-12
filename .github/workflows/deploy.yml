@@ -56,7 +56,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
           # ${{ env.REGISTRY }}
 
@@ -106,25 +106,25 @@ jobs:
           push: false
           load: true
           tags: ${{ env.TEST_TAG }}
-          # labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       #
-      - name: Run specs
-        run: |
-          docker run -d --name="test-database" --hostname "mysql" -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=test" -e "MYSQL_ROOT_PASSWORD=test" -p 127.0.0.1:3306:3306/tcp mysql:5.7
-          docker run --network "container:test-database" -e RAILS_ENV=test -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }} -e SECRET_TOKEN=${{ env.SECRET_TOKEN }} -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=root" -e "BASE_URL=localhost:3000" ${{ env.TEST_TAG }} /bin/sh -c "bundle exec rake db:create db:setup; bundle exec rake db:seed; bundle exec rspec"
-
+      # - name: Run specs
+      #   run: |
+      #     docker run -d --name="test-database" --hostname "mysql" -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=test" -e "MYSQL_ROOT_PASSWORD=test" -p 127.0.0.1:3306:3306/tcp mysql:5.7
+      #     docker run --network "container:test-database" -e RAILS_ENV=test -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }} -e SECRET_TOKEN=${{ env.SECRET_TOKEN }} -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=root" -e "BASE_URL=localhost:3000" ${{ env.TEST_TAG }} /bin/sh -c "bundle exec rake db:create db:setup; bundle exec rake db:seed; bundle exec rspec"
       #
-      - name: Run security tests
-        if: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/security-') }}
-        run: |
-          docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle update brakeman --quiet
-          docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec brakeman --run-all-checks --no-pager
-          # docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec bundler-audit check --update
-          # docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec ruby-audit check
-          docker run -e RAILS_ENV=production -e NODE_ENV=production ${{ env.TEST_TAG }} /bin/sh -c "bin/yarn install --frozen-lockfile; yarn check --integrity"
+      # #
+      # - name: Run security tests
+      #   if: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/security-') }}
+      #   run: |
+      #     docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle update brakeman --quiet
+      #     docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec brakeman --run-all-checks --no-pager
+      #     # docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec bundler-audit check --update
+      #     # docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec ruby-audit check
+      #     docker run -e RAILS_ENV=production -e NODE_ENV=production ${{ env.TEST_TAG }} /bin/sh -c "bin/yarn install --frozen-lockfile; yarn check --integrity"
 
       - name: Build and Push image
         id: docker_build_push
@@ -140,12 +140,13 @@ jobs:
             RAILS_ENV=production
             NODE_ENV=development
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          # tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ env.TEST_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          secrets: |
-            GIT_AUTH_TOKEN=${{ github.token }}
+          # secrets: |
+          #   GIT_AUTH_TOKEN=${{ github.token }}
 
       # steps.meta.outputs.tags is not quite right
       # Push the image to the docker registry (using Github ghcr.io)
