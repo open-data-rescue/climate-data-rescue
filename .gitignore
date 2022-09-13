@@ -13,7 +13,8 @@ tmp/*
 node_modules/*
 /db/*.sqlite3
 /db/*.sqlite3-journal
-/public/system
+/public/system/*
+!/public/system/.keep
 /public/uploads
 /coverage/
 /spec/tmp
@@ -22,6 +23,9 @@ rerun.txt
 pickle-email-*.html
 *.DS_Store
 .project
+.docker-sync
+.yardoc
+.envrc
 
 # TODO Comment out these rules if you are OK with secrets being uploaded to the repo
 config/secret_token.rb
@@ -41,7 +45,8 @@ config/application.yml
 # if using bower-rails ignore default bower_components path bower.json files
 /vendor/assets/bower_components
 # Ignore JS/Yarn built files
-/public/packs
+/public/packs/*
+!/public/packs/.keep
 /public/packs-test
 /node_modules
 /coverage
@@ -56,7 +61,7 @@ yarn-error.log*
 
 # Ignore Byebug command history file.
 .byebug_history
-/public/packs
+/public/packs/*
 /public/packs-test
 /node_modules
 yarn-debug.log*

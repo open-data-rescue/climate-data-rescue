@@ -27,7 +27,7 @@ gem 'bootstrap-sass'
 # end
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'mini_racer'
+gem 'execjs'
 
 gem 'modernizr-rails'
 
@@ -39,8 +39,6 @@ gem 'devise'
 gem 'pundit'
 #to handle .slim files
 gem 'slim-rails'
-
-gem "sentry-raven"
 
 #for forms
 gem 'simple_form'
@@ -61,7 +59,7 @@ gem 'jsonapi-rspec'
 
 gem "jquery-fileupload-rails"
 
-gem 'routing-filter', git: 'https://github.com/svenfuchs/routing-filter'
+gem 'routing-filter', '~> 0.6.0' # TODO: change when Rails upgrades
 
 gem 'http_accept_language'
 
@@ -75,8 +73,11 @@ gem 'friendly_id', '~> 5.4.2'
 gem 'mobility', '~> 1.0.3'
 gem 'friendly_id-mobility', '~> 1.0.3'
 
-gem 'globalize', git: 'https://github.com/globalize/globalize'
+gem 'globalize', '~> 5.3.0' # TODO: change when Rails upgrades
 gem 'globalize-accessors'
+
+gem "sidekiq"
+gem "sidekiq-scheduler"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -91,16 +92,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'webpacker', '~> 3.5'
 gem 'websocket-extensions', '~> 0.1.5'
 
-# Deploy with Capistrano
-# Deploy with Capistrano
 group :development do
-  gem 'capistrano'
-  gem 'capistrano-rvm'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rails'
-  gem 'capistrano3-puma'
-
-  gem 'execjs'
+  # What is this used for?
+  # gem 'execjs'
 
   gem "better_errors"
   gem "binding_of_caller"
@@ -120,6 +114,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'brakeman'
   gem 'fuubar'
   gem 'rspec-rails'
   gem 'pry'
@@ -129,7 +124,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'shoulda-callback-matchers'
-  gem 'capybara'
+  # gem 'capybara'
   gem 'database_cleaner'
 end
 
@@ -140,4 +135,3 @@ end
 
 # To use debugger
 # gem 'debugger'
-
