@@ -64,8 +64,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: |
-            name=climate-data-rescue,enable=false
+          images: climate-data-rescue
+          # |
+          #   name=climate-data-rescue,enable=false
           tags: |
             type=raw,enable=true,priority=200,value=test
             type=ref,event=branch
@@ -140,8 +141,8 @@ jobs:
           dockerfile: ./Dockerfile-prod
           # builder: ${{ steps.buildx.outputs.name }}
           buildArgs: DEVISE_SECRET=${{ env.DEVISE_SECRET }}, SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }}, SECRET_TOKEN=${{ env.SECRET_TOKEN }}, RAILS_ENV=production, NODE_ENV=development
-          labels: ${{ fromJSON(steps.meta.outputs.json).labels }}
           tags: ${{ fromJSON(steps.meta.outputs.json).tags }}
+          labels: ${{ fromJSON(steps.meta.outputs.json).labels }}
           # TODO: tags needs to be a comma seperate list instaed of the JSON from meta
             # ${{ steps.meta.outputs.labels }}
           # tags: ${{ steps.meta.outputs.tags }}
