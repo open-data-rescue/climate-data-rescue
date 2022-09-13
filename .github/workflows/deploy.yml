@@ -134,7 +134,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          image: ${{ github.repository_owner }}/climate-data-rescue
+          # image: ${{ github.repository_owner }}/climate-data-rescue
           addLatest: true
           dockerfile: ./Dockerfile-prod
           # builder: ${{ steps.buildx.outputs.name }}
