@@ -23,7 +23,6 @@ services:
       - "/opt/draw/etc/hostname.env"
       - "/opt/draw/etc/draw.env"
     volumes:
-      # - draw-prd-db-data:/var/lib/mysql
       - draw-prd-db-data:/opt/draw/lib/mysql
       - /opt/draw/etc/mysql/conf.d:/opt/draw/etc/mysql/conf.d
     ports:
@@ -32,8 +31,7 @@ services:
 
   web:
     command: "/opt/draw/script/draw_start.sh"
-    # ghcr.io/balen/climate-data-rescue:latest
-    image: ghcr.io/balen/climate-data-rescue:production
+    image: ghcr.io/balen/climate-data-rescue:latest
     volumes:
       - /opt/draw/shared/public//assets:/opt/draw/public/assets
       - /opt/draw/shared/public/system:/opt/draw/public/system
@@ -62,7 +60,7 @@ services:
 
   # draw-sidekiq:
   #   command: "/opt/draw/script/draw_sidekiq.sh"
-  #   image: ghcr.io/balen/climate-data-rescue:production
+  #   image: ghcr.io/balen/climate-data-rescue:latest
   #   volumes:
   #     - /opt/draw/shared/public//assets:/opt/draw/public/assets
   #     - /opt/draw/shared/public/system:/opt/draw/public/system
