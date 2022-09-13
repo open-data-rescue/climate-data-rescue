@@ -230,7 +230,7 @@ GEM
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    puma (5.5.2)
+    puma (5.6.5)
       nio4r (~> 2.0)
     pundit (2.2.0)
       activesupport (>= 3.0.0)
@@ -470,7 +470,7 @@ DEPENDENCIES
   newrelic_rpm
   paperclip
   pry
-  puma (~> 5.5.2)
+  puma (~> 5.6.5)
   pundit
   rack-mini-profiler
   rails (~> 5.2.6)
