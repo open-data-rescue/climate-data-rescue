@@ -141,8 +141,11 @@ jobs:
           dockerfile: ./Dockerfile-prod
           # builder: ${{ steps.buildx.outputs.name }}
           buildArgs: DEVISE_SECRET=${{ env.DEVISE_SECRET }}, SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }}, SECRET_TOKEN=${{ env.SECRET_TOKEN }}, RAILS_ENV=production, NODE_ENV=development
-          tags: ${{ fromJSON(steps.meta.outputs.json).tags }}
-          labels: ${{ fromJSON(steps.meta.outputs.json).labels }}
+          tags: ${{ join(fromJSON(steps.meta.outputs.json).tags, ', ') }}
+          labels: ${{ join(fromJSON(steps.meta.outputs.json).labels, ', ') }}
+
+          # Error: .github/workflows/deploy.yml (Line: 144, Col: 17): A sequence was not expected
+          # Error: .github/workflows/deploy.yml (Line: 145, Col: 19): A mapping was not expected
           # TODO: tags needs to be a comma seperate list instaed of the JSON from meta
             # ${{ steps.meta.outputs.labels }}
           # tags: ${{ steps.meta.outputs.tags }}
