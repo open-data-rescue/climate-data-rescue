@@ -62,20 +62,19 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           # ${{ env.REGISTRY }}
 
+      # TODO: how to tag with latest
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          # images: climate-data-rescue
-          # |
-          #   name=climate-data-rescue,enable=false
           tags: |
-            type=raw,enable=true,priority=200,value=test
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern=latest
+          # type=raw,enable=true,priority=200,value=test
 
       - name: Set up Docker Buildx
         id: buildx
@@ -116,20 +115,20 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       #
-      # - name: Run specs
-      #   run: |
-      #     docker run -d --name="test-database" --hostname "mysql" -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=test" -e "MYSQL_ROOT_PASSWORD=test" -p 127.0.0.1:3306:3306/tcp mysql:5.7
-      #     docker run --network "container:test-database" -e RAILS_ENV=test -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }} -e SECRET_TOKEN=${{ env.SECRET_TOKEN }} -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=root" -e "BASE_URL=localhost:3000" ${{ env.TEST_TAG }} /bin/sh -c "bundle exec rake db:create db:setup; bundle exec rake db:seed; bundle exec rspec"
+      - name: Run specs
+        run: |
+          docker run -d --name="test-database" --hostname "mysql" -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=test" -e "MYSQL_ROOT_PASSWORD=test" -p 127.0.0.1:3306:3306/tcp mysql:5.7
+          docker run --network "container:test-database" -e RAILS_ENV=test -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }} -e SECRET_TOKEN=${{ env.SECRET_TOKEN }} -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=root" -e "BASE_URL=localhost:3000" ${{ env.TEST_TAG }} /bin/sh -c "bundle exec rake db:create db:setup; bundle exec rake db:seed; bundle exec rspec"
+
       #
-      # #
-      # - name: Run security tests
-      #   if: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/security-') }}
-      #   run: |
-      #     docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle update brakeman --quiet
-      #     docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec brakeman --run-all-checks --no-pager
-      #     # docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec bundler-audit check --update
-      #     # docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec ruby-audit check
-      #     docker run -e RAILS_ENV=production -e NODE_ENV=production ${{ env.TEST_TAG }} /bin/sh -c "bin/yarn install --frozen-lockfile; yarn check --integrity"
+      - name: Run security tests
+        if: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/security-') }}
+        run: |
+          docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle update brakeman --quiet
+          docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec brakeman --run-all-checks --no-pager
+          # docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec bundler-audit check --update
+          # docker run -e RAILS_ENV=test ${{ env.TEST_TAG }} bundle exec ruby-audit check
+          docker run -e RAILS_ENV=production -e NODE_ENV=production ${{ env.TEST_TAG }} /bin/sh -c "bin/yarn install --frozen-lockfile; yarn check --integrity"
 
       # TODO: change to match https://docs.github.com/en/actions/publishing-packages/publishing-docker-images
       - name: Push the image
@@ -150,40 +149,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-
-      # - name: Build and Push image
-      #   id: docker_build_push
-      #   # uses: docker/build-push-action@v2
-      #   uses: mr-smithers-excellent/docker-build-push@v5
-      #   with:
-      #     registry: ghcr.io
-      #     username: ${{ github.repository_owner }}
-      #     password: ${{ secrets.GITHUB_TOKEN }}
-      #     image: climate-data-rescue
-      #     addLatest: true
-      #     dockerfile: ./Dockerfile-prod
-      #     # builder: ${{ steps.buildx.outputs.name }}
-      #     buildArgs: DEVISE_SECRET=${{ env.DEVISE_SECRET }}, SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }}, SECRET_TOKEN=${{ env.SECRET_TOKEN }}, RAILS_ENV=production, NODE_ENV=development
-      #     tags: ${{ join(fromJSON(steps.meta.outputs.json).tags, ', ') }}
-      #     labels: ${{ join(fromJSON(steps.meta.outputs.json).labels, ', ') }}
-      #
-      #     # Error: .github/workflows/deploy.yml (Line: 144, Col: 17): A sequence was not expected
-      #     # Error: .github/workflows/deploy.yml (Line: 145, Col: 19): A mapping was not expected
-      #     # TODO: tags needs to be a comma seperate list instaed of the JSON from meta
-      #       # ${{ steps.meta.outputs.labels }}
-      #     # tags: ${{ steps.meta.outputs.tags }}
-      #     # push: true
-      #     # cache-from: type=local,src=/tmp/.buildx-cache
-      #     # cache-to: type=local,dest=/tmp/.buildx-cache-new
-      #     # secrets: |
-      #     #   GIT_AUTH_TOKEN=${{ github.token }}
-
-      # steps.meta.outputs.tags is not quite right
-      # Push the image to the docker registry (using Github ghcr.io)
-      # - name: Publish the deployable image
-      #   run: |
-      #     docker tag ${{ steps.meta.outputs.tags }} "ghcr.io/${{ github.repository_owner }}/${{ steps.meta.outputs.tags }}"
-      #     docker push "ghcr.io/${{ github.repository_owner }}/${{ steps.meta.outputs.tags }}"
 
       # Needed to prevent cache from growing forever (see https://github.com/docker/build-push-action/issues/252)
       - name: Move cache
