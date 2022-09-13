@@ -139,12 +139,7 @@ jobs:
           addLatest: true
           dockerfile: ./Dockerfile-prod
           # builder: ${{ steps.buildx.outputs.name }}
-          buildArgs:
-            - DEVISE_SECRET=${{ env.DEVISE_SECRET }}
-            - SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }}
-            - SECRET_TOKEN=${{ env.SECRET_TOKEN }}
-            - RAILS_ENV=production
-            - NODE_ENV=development
+          buildArgs: DEVISE_SECRET=${{ env.DEVISE_SECRET }}, SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }}, SECRET_TOKEN=${{ env.SECRET_TOKEN }}, RAILS_ENV=production, NODE_ENV=development
           labels: ${{ fromJSON(steps.meta.outputs.json).labels }}
           tags: ${{ fromJSON(steps.meta.outputs.json).tags }}
           # TODO: tags needs to be a comma seperate list instaed of the JSON from meta
