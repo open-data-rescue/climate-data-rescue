@@ -354,6 +354,7 @@ GEM
       sprockets-rails
       tilt
     select2-rails (4.0.13)
+    semantic_range (3.0.0)
     shoulda-callback-matchers (1.1.4)
       activesupport (>= 3)
     shoulda-matchers (5.1.0)
@@ -420,10 +421,11 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
-    webpacker (3.6.0)
-      activesupport (>= 4.2)
+    webpacker (5.4.3)
+      activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
-      railties (>= 4.2)
+      railties (>= 5.2)
+      semantic_range (>= 2.3.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -498,7 +500,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   uglifier
   web-console (>= 3.3.0)
-  webpacker (~> 3.5)
+  webpacker (~> 5.4)
   websocket-extensions (~> 0.1.5)
   will_paginate
 
