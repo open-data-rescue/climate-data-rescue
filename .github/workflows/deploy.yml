@@ -64,7 +64,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: climate-data-rescue
+          images: |
+            name=climate-data-rescue,enable=false
           tags: |
             type=raw,enable=true,priority=200,value=test
             type=ref,event=branch
@@ -134,7 +135,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          # image: ${{ github.repository_owner }}/climate-data-rescue
+          image: climate-data-rescue
           addLatest: true
           dockerfile: ./Dockerfile-prod
           # builder: ${{ steps.buildx.outputs.name }}
