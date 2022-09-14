@@ -36,7 +36,6 @@ services:
       - /opt/draw/shared/public/assets:/opt/draw/public/assets
       - /opt/draw/shared/public/system:/opt/draw/public/system
       - /opt/draw/shared/public/packs:/opt/draw/public/packs
-      - /opt/draw/etc/draw:/config
       - /var/log/draw/web:/opt/draw/log
       - type: tmpfs
         target: /app/tmp
