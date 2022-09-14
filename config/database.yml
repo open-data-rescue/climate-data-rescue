@@ -9,7 +9,7 @@ default: &default
   host: <%= ENV.fetch("DB_HOST") { '127.0.0.1' } %>
   port: <%= ENV.fetch("DB_PORT") { 3306 } %>
   username: <%= ENV['RAILS_MYSQL_USER'] { 'root' } %>
-  password: <%= ENV['MYSQL_PASSWORD'] %>
+  password: "<%= ENV['MYSQL_PASSWORD'] %>"
 
 development:
   <<: *default
