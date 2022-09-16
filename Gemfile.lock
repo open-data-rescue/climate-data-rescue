@@ -140,9 +140,9 @@ GEM
       ruby-progressbar (~> 1.4)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    globalize (5.3.1)
-      activemodel (>= 4.2, < 6.1)
-      activerecord (>= 4.2, < 6.1)
+    globalize (6.2.1)
+      activemodel (>= 4.2, < 7.1)
+      activerecord (>= 4.2, < 7.1)
       request_store (~> 1.0)
     globalize-accessors (0.3.0)
       globalize (>= 5.0.0)
@@ -451,7 +451,7 @@ DEPENDENCIES
   friendly_id (~> 5.4.2)
   friendly_id-mobility (~> 1.0.3)
   fuubar
-  globalize (~> 5.3.0)
+  globalize (~> 6.2.1)
   globalize-accessors
   http_accept_language
   i18n-active_record
