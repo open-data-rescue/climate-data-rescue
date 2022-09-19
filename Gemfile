@@ -70,7 +70,7 @@ gem 'i18n-active_record', :require => 'i18n/active_record'
 gem 'rails-observers'
 
 gem 'friendly_id', '~> 5.4.2'
-gem 'mobility', '~> 1.0.3'
+gem 'mobility', '~> 1.2.9'
 gem 'friendly_id-mobility', '~> 1.0.3'
 
 gem 'globalize', '~> 5.3.0' # TODO: change when Rails upgrades
