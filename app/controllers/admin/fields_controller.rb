@@ -21,7 +21,7 @@ module Admin
         # sets views for data set
         respond_to do |format|
           format.html # index.html.erb
-          format.json 
+          format.json
         end
       else
         flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
@@ -40,7 +40,7 @@ module Admin
           format.html # show.html.erb
           format.json { render json: @field }
         end
-        
+
       else
         flash[:danger] = 'Only administrators can view fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
         redirect_to root_path
@@ -59,12 +59,12 @@ module Admin
             # flash[:danger] = e.message
           end
         end
-        
+
         respond_to do |format|
           format.html # new.html.erb
           format.json { render json: @pagetype }
         end
-        
+
       else
         flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
         redirect_to root_path
@@ -82,7 +82,7 @@ module Admin
             # flash[:danger] = e.message
           end
         end
-        
+
       else
         flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
         redirect_to root_path
@@ -93,12 +93,12 @@ module Admin
     # POST /fields.json
     def create
       if current_user && current_user.admin?
-          
+
         Field.transaction do
           begin
             #@field is a variable containing an instance of the "field.rb" model created with data passed in the params of the "new.html.slim" form submit action.
             @field = Field.new(field_params)
-            
+
             if params[:field_group_id]
               @field_group = FieldGroup.find params[:field_group_id]
             end
@@ -106,7 +106,7 @@ module Admin
             # flash[:danger] = e.message
           end
         end
-        
+
         respond_to do |format|
           if @field.save
             format.html { redirect_to admin_fields_path, success: 'Field was successfully created.' }
@@ -116,7 +116,7 @@ module Admin
             format.json { render json: @field.errors, status: :unprocessable_fieldgroup }
           end
         end
-        
+
       else
         flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
         redirect_to root_path
@@ -127,10 +127,10 @@ module Admin
     # PUT /fields/field_id.json
     def update
       if current_user && current_user.admin?
-        
+
         Field.transaction do
           begin
-            #@field is a variable containing an instance of the "field.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
+            #@field is a variable containing an instance of the "field.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action.
             @field = Field.find(params[:id])
           rescue => e
             flash[:danger] = e.message
@@ -146,7 +146,7 @@ module Admin
             format.json { render json: @field.errors, status: :unprocessable_fieldgroup }
           end
         end
-        
+
       else
         flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
         redirect_to root_path
@@ -166,12 +166,12 @@ module Admin
             flash[:danger] = e.message
           end
         end
-        
+
         respond_to do |format|
           format.html { redirect_to admin_fields_path }
           format.json { head :no_content }
         end
-        
+
       else
         flash[:danger] = 'Only administrators can modify fields! <a href="' + new_user_session_path + '">Log in to continue.</a>'
         redirect_to root_path
@@ -240,7 +240,7 @@ module Admin
 
       render "index"
     end
-    
+
     private
     def field_params
       params.require(:field).permit(:internal_name, :field_key, :initial_value, :data_type, :html_field_type, :name, :validations, :full_name, :help, :field_group_id, :multi_select, :period, :time_of_day, :measurement_type, :measurement_unit_original, :measurement_unit_si, :odr_type)

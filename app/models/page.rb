@@ -1,4 +1,6 @@
 class Page < ApplicationRecord
+  STALE_DURATION = ENV.fetch("STALE_DURATION_WEEKS", 2).to_i.weeks.freeze
+
   belongs_to :page_type
 
   has_many :field_groups, through: :page_type
@@ -9,7 +11,7 @@ class Page < ApplicationRecord
 
   #handles the image upload association
   has_attached_file :image,
-                  styles: { 
+                  styles: {
                     thumb: ["64x64#", :jpg],
                     small: ["200x200>", :jpg],
                     medium: ["400x400>", :jpg],
@@ -25,16 +27,17 @@ class Page < ApplicationRecord
   before_validation :parse_filename
   before_save :extract_upload_dimensions
   before_destroy :check_for_delete
-  
+
   #sets a scope for all transcribable pages to be those that are not done
-  scope :transcribeable, -> { 
+  scope :transcribeable, -> {
     joins(page_type: {
       field_groups: :fields
     }).
     where(
-      done: false, visible: true, 
+      done: false,
+      visible: true,
       page_types: { visible: true }
-    ).order("pages.start_date asc, page_types.number asc").distinct
+    ).inactive.order("pages.start_date asc, page_types.number asc").distinct
   }
 
   scope :unseen, -> (user) {
@@ -44,14 +47,20 @@ class Page < ApplicationRecord
   }
 
   scope :inactive, -> {
+    stale_date = Date.current - STALE_DURATION
+    pages = self.arel_table
     transcriptions = Transcription.arel_table
-    condition = transcriptions[:id].eq(nil).or(
-      transcriptions[:updated_at].lt(Date.current - 2.weeks)
-    )
 
-    includes(:transcriptions).
-    references(:transcriptions).
-    where(condition)
+    active_uncompleted = transcriptions[:updated_at].gteq(stale_date).and(
+      transcriptions[:complete].eq(false)
+    )
+    completed = transcriptions[:complete].eq(true)
+
+    condition = active_uncompleted.or(completed)
+
+    page_ids = transcriptions.where(condition).project(:page_id)
+
+    where(pages[:id].not_in(page_ids))
   }
 
   def has_metadata?
@@ -65,7 +74,7 @@ class Page < ApplicationRecord
       0
     end
   end
-  
+
   def to_jq_upload
     {
       "name" => read_attribute(:image_file_name),
@@ -77,7 +86,7 @@ class Page < ApplicationRecord
       "pageId" => "page-#{self.id}"
     }
   end
-  
+
   #sets the height and width attributes of the page to those of its attachment dimensions on update
   def extract_dimensions
     return unless self.image?
@@ -97,15 +106,15 @@ class Page < ApplicationRecord
     end
   end
 
-  private 
+  private
 
   def check_for_delete
-    if data_entries.any? 
+    if data_entries.any?
       errors.add(:base, I18n.t('cant-delete-page-that-has-been-transcribed'))
       throw(:abort)
     end
   end
-  
+
   def parse_filename
     return if image.blank? || persisted?
     filename = image_file_name
@@ -122,7 +131,7 @@ class Page < ApplicationRecord
           ledger.title = ledger_type
         end
       end
-      
+
       if components[5] && components[5].length > 0
         # take the first character of the 6th position?
         page_type_num = components[5][0]
@@ -135,13 +144,13 @@ class Page < ApplicationRecord
       self.volume = volume
       self.start_date = Date.parse(start_date)
       self.end_date = Date.parse(end_date)
-      
+
       self.title = "#{start_date} to #{end_date}"
     else
       raise "invalid filename"
     end
   end
-  
+
   #sets the height and width attributes of the page to those of its attachment dimensions on create
   def extract_upload_dimensions
     return unless image?

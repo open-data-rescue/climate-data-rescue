@@ -1,5 +1,5 @@
 <script id="fields-app" type="text/javascript">
-    
+
     FieldsApp = new Marionette.Application();
 
     FieldsApp.addRegions({
@@ -87,8 +87,8 @@
                     model: new Field()
 
                 });
-                
-                var modal = new Backbone.BootstrapModal({ 
+
+                var modal = new Backbone.BootstrapModal({
                     content : form,
                     title : "Create New Field",
                     animate : true,
@@ -102,10 +102,10 @@
                         var errors = form.commit({ validate: true });
 
                         // console.log(form.model);
-                        
+
 
                         if (!errors) {
-                            form.model.save(null, { 
+                            form.model.save(null, {
                                 success : function(mdl) {
                                     AvailableFields.add(mdl);
                                     // console.log(mdl);
@@ -138,13 +138,13 @@
             },
 
             editModel : function() {
-                
+
                 var form = new Backbone.Form({
-                    model: this.model, 
+                    model: this.model,
 
                 });
-                
-                var modal = new Backbone.BootstrapModal({ 
+
+                var modal = new Backbone.BootstrapModal({
                     content : form,
                     title : "Edit Field",
                     animate : true,
@@ -156,7 +156,7 @@
                         var errors = form.commit({ validate: true });
 
                         if (!errors) {
-                            form.model.save(null, { 
+                            form.model.save(null, {
                                 url : "<%= admin_fields_path %>" + "/" + form.model.get("id") + "?field_group_id=" + <%= field_group.id %>,
                                 success : function(mdl) {
                                     // console.log(mdl);
@@ -263,22 +263,22 @@
                             update : function(e, ui) {
                                 item_id = ui.item.data('field-id');
                                 position = ui.item.index();
-                                
+
                                 console.log(position);
                                 $.ajax({
                                     type: 'POST',
                                     url: '<%= admin_update_field_sort_order_path %>',
                                     dataType: 'json',
-                                    data: { 
+                                    data: {
                                         field_group_id : <%= field_group.id %>,
-                                        field_id: item_id, 
-                                        sort_order_position: position 
-                                    } 
+                                        field_id: item_id,
+                                        sort_order_position: position
+                                    }
                                 });
                             }
                         });
                     }
-                    
+
                 }
             }
         });

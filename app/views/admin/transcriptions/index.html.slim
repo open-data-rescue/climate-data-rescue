@@ -7,10 +7,10 @@
 h1 = t('transcriptions.transcriptions')
 
 - if params[:review_transcriptions]
-  a href="?" class="btn btn-sm btn-draw-accented"   
+  a href="?" class="btn btn-sm btn-draw-accented"
     = t('transcriptions.view-all-transcriptions')
-- else  
-  a href="?review_transcriptions=true" class="btn btn-sm btn-draw-accented"   
+- else
+  a href="?review_transcriptions=true" class="btn btn-sm btn-draw-accented"
     = t('transcriptions.view-transcriptions-ready-for-review')
 
 /! Load a list of all transcriptions into a table with their attribute info, including which page they relate to. Table rows are each transcription, table columns are self explanitory.

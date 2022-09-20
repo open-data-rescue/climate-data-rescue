@@ -16,14 +16,14 @@
     <div id="transcriber-nav" class="draw-top-nav navbar-default">
       <ul class="nav navbar-nav dropdown">
         <li class="transcriber-btn-li">
-          <button id="new-annotation" type="button" 
+          <button id="new-annotation" type="button"
             class="btn btn-sm btn-draw-accented">
             <%= t('transcriber.toolbar.open-transcriber') %>
           </button>
         </li>
         <% if content_pages.any? %>
           <% content_pages.each do |sp| %>
-            <%= render "static_pages/link", page: sp, top_level: true, 
+            <%= render "static_pages/link", page: sp, top_level: true,
               opens_new_tab: true %>
           <% end %>
         <% end %>
@@ -37,39 +37,39 @@
     </div>
   </div>
   <div class="text-right">
-    <div class="btn-group"> 
-      <button class="btn btn-sm btn-default zoom-btn btn-zoom-out" 
-        style="border-right: none;"> 
-          <i class="fa fa-search-minus"></i> 
-      </button> 
-      <div class="dropdown btn-zoom-level" style="float: left;"> 
-        <button type="button" class="btn btn-sm dropdown-toggle btn-default" 
-          style="border-radius: 0px;" data-toggle="dropdown" aria-haspopup="true" 
+    <div class="btn-group">
+      <button class="btn btn-sm btn-default zoom-btn btn-zoom-out"
+        style="border-right: none;">
+          <i class="fa fa-search-minus"></i>
+      </button>
+      <div class="dropdown btn-zoom-level" style="float: left;">
+        <button type="button" class="btn btn-sm dropdown-toggle btn-default"
+          style="border-radius: 0px;" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false"
-        > 
-          <strong><span class="current-zoom">100</span>%</strong>&nbsp;<span class="caret"></span> 
-        </button> 
-        <ul class="dropdown-menu"> 
-          <li><a data-zoom-level="25">25%</a></li> 
-          <li><a data-zoom-level="50">50%</a></li> 
-          <li><a data-zoom-level="75">75%</a></li> 
-          <li><a data-zoom-level="100">100%</a></li> 
-          <li><a data-zoom-level="125">125%</a></li> 
-          <li><a data-zoom-level="150">150%</a></li> 
-          <li><a data-zoom-level="175">175%</a></li> 
-          <li><a data-zoom-level="200">200%</a></li> 
-          <li><a data-zoom-level="225">225%</a></li> 
-          <li><a data-zoom-level="250">250%</a></li> 
-          <li><a data-zoom-level="275">275%</a></li> 
-          <li><a data-zoom-level="300">300%</a></li> 
-        </ul> 
-      </div> 
-       <button class="btn btn-sm btn-default zoom-btn btn-zoom-in" 
-        style="border-left: none;"> 
-          <i class="fa fa-search-plus"></i> 
-      </button> 
-    </div> 
-    <button id="toggle-data-btn" class="btn btn-sm btn-default" 
+        >
+          <strong><span class="current-zoom">100</span>%</strong>&nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a data-zoom-level="25">25%</a></li>
+          <li><a data-zoom-level="50">50%</a></li>
+          <li><a data-zoom-level="75">75%</a></li>
+          <li><a data-zoom-level="100">100%</a></li>
+          <li><a data-zoom-level="125">125%</a></li>
+          <li><a data-zoom-level="150">150%</a></li>
+          <li><a data-zoom-level="175">175%</a></li>
+          <li><a data-zoom-level="200">200%</a></li>
+          <li><a data-zoom-level="225">225%</a></li>
+          <li><a data-zoom-level="250">250%</a></li>
+          <li><a data-zoom-level="275">275%</a></li>
+          <li><a data-zoom-level="300">300%</a></li>
+        </ul>
+      </div>
+       <button class="btn btn-sm btn-default zoom-btn btn-zoom-in"
+        style="border-left: none;">
+          <i class="fa fa-search-plus"></i>
+      </button>
+    </div>
+    <button id="toggle-data-btn" class="btn btn-sm btn-default"
       data-panel="closed">
       <%= t('transcriber.toolbar.view-data') %>
     </button>
@@ -97,28 +97,28 @@
 <script id="annotation-box-template" type="text/template">
   <div class="inner">
     <div class="annotation-actions">
-      <button type="button" 
-        class="btn btn-xs btn-default edit-annotation-btn" 
-        data-toggle="tooltip" data-trigger="hover" data-container="#canvas" 
+      <button type="button"
+        class="btn btn-xs btn-default edit-annotation-btn"
+        data-toggle="tooltip" data-trigger="hover" data-container="#canvas"
         title="<%= strip_tags(t('transcriber.annotation-boxes.tooltips.edit')) %>">
         <i class="fa fa-pencil"></i>
       </button>
-      <button type="button" 
-        class="btn btn-xs btn-default resize-annotation-btn" 
-        data-toggle="tooltip" data-trigger="hover" data-container="#canvas" 
+      <button type="button"
+        class="btn btn-xs btn-default resize-annotation-btn"
+        data-toggle="tooltip" data-trigger="hover" data-container="#canvas"
         title="<%= strip_tags(t('transcriber.annotation-boxes.tooltips.resize')) %>">
         <i class="fa fa-expand" aria-hidden="true"></i>
       </button>
-      <button type="button" 
-        class="btn btn-xs btn-default move-annotation-btn" 
-        data-toggle="tooltip" data-trigger="hover" data-container="#canvas" 
+      <button type="button"
+        class="btn btn-xs btn-default move-annotation-btn"
+        data-toggle="tooltip" data-trigger="hover" data-container="#canvas"
         title="<%= strip_tags(t('transcriber.annotation-boxes.tooltips.move')) %>">
         <i class="fa fa-arrows" aria-hidden="true"></i>
       </button>
 
-      <button type="button" 
-        class="btn btn-xs btn-danger delete-annotation-btn pull-right" 
-        data-toggle="tooltip" data-trigger="hover" data-container="#canvas" 
+      <button type="button"
+        class="btn btn-xs btn-danger delete-annotation-btn pull-right"
+        data-toggle="tooltip" data-trigger="hover" data-container="#canvas"
         title="<%= strip_tags(t('transcriber.annotation-boxes.tooltips.delete')) %>">
         <i class="fa fa-trash"></i>
       </button>
@@ -132,15 +132,15 @@
     <div id="transcription-box-tab-container">
       <div id="field-group-tab-bar">
         <% field_groups.each do |field_group| %>
-          <button id="field-group-tab-<%= field_group.id %>" 
-            class="btn btn-default btn-sm field-group-tab" 
-            data-classname=" <%= field_group.colour_class %>" 
-            data-field-group-id="<%= field_group.id %>" 
+          <button id="field-group-tab-<%= field_group.id %>"
+            class="btn btn-default btn-sm field-group-tab"
+            data-classname=" <%= field_group.colour_class %>"
+            data-field-group-id="<%= field_group.id %>"
             data-field-count=<%= field_group.fields.size %>>
             <%= field_group.presentation_name %>
           </button>
         <% end %>
-        <button class="btn btn-default btn-xs close-btn" 
+        <button class="btn btn-default btn-xs close-btn"
         style="border: none;"><i class="fa fa-close fa-2x"></i></button>
       </div>
     </div>
@@ -150,7 +150,7 @@
           <%= t('transcriber.transcription-box-template.initial-prompt') %>
         </div>
         <% field_groups.each do |field_group| %>
-          <div id="field-group-<%= field_group.id %>" 
+          <div id="field-group-<%= field_group.id %>"
             class="annotation-form-field-group" style="display:none;">
             <% if field_group.help.present? %>
               <p class="field-group-help-text">
@@ -158,73 +158,73 @@
               </p>
             <% end %>
             <%= form_tag(
-              annotations_path, 
-                id: "field_group_#{field_group.id}", 
-                class:"annotation-form", remote: true, format: :json, 
+              annotations_path,
+                id: "field_group_#{field_group.id}",
+                class:"annotation-form", remote: true, format: :json,
                 data: { field_group_id: field_group.id }
-              ) do 
+              ) do
             %>
               <%= hidden_field_tag "filename", page.image_file_name %>
-              <%= hidden_field_tag "annotation[meta][transcription_id]", 
-                transcription.id 
+              <%= hidden_field_tag "annotation[meta][transcription_id]",
+                transcription.id
               %>
-              <%= hidden_field_tag "annotation[meta][page_id]", 
-                page.id 
+              <%= hidden_field_tag "annotation[meta][page_id]",
+                page.id
               %>
-              <%= hidden_field_tag "annotation[meta][field_group_id]", 
-                field_group.id 
+              <%= hidden_field_tag "annotation[meta][field_group_id]",
+                field_group.id
               %>
-              <%= hidden_field_tag "annotation[meta][x_tl]", nil, 
-                id: "x-field" 
+              <%= hidden_field_tag "annotation[meta][x_tl]", nil,
+                id: "x-field"
               %>
-              <%= hidden_field_tag "annotation[meta][y_tl]", nil, 
-                id: "y-field" 
+              <%= hidden_field_tag "annotation[meta][y_tl]", nil,
+                id: "y-field"
               %>
-              <%= hidden_field_tag "annotation[meta][width]", nil, 
-                id: "width-field" 
+              <%= hidden_field_tag "annotation[meta][width]", nil,
+                id: "width-field"
               %>
-              <%= hidden_field_tag "annotation[meta][height]", nil, 
-                id: "height-field" 
+              <%= hidden_field_tag "annotation[meta][height]", nil,
+                id: "height-field"
               %>
-              
+
               <div class="user-input-container">
                 <div class="labels-container">
                   <!-- "What is the date and time of this observation? <b>You can select the date and time by clicking on the clock icon.</b><br>Should follow the format <nobr><code>04 Aug 1874, 01:48 AM</code></nobr>." -->
                     <div class="scribe_input_label date-label">
                       <label for="datetime-help"
                       style="cursor: help;"
-                      aria-hidden="true" 
+                      aria-hidden="true"
                       title="<%=strip_tags(t('transcriber.transcription-box-template.form.fields.labels.datetime'))%>"
-                      data-toggle="popover" 
-                      data-trigger="hover" 
-                      data-content="<%= t('transcriber.transcription-box-template.form.fields.help.datetime').html_safe %>" 
-                      data-container="body" 
+                      data-toggle="popover"
+                      data-trigger="hover"
+                      data-content="<%= t('transcriber.transcription-box-template.form.fields.help.datetime').html_safe %>"
+                      data-container="body"
                       data-html="true"
-                      data-placement="auto"> 
+                      data-placement="auto">
                       <%= t('transcriber.transcription-box-template.form.fields.labels.datetime') %></label>
                     </div>
                     <% field_group.fields.each do |field| %>
                       <div class="scribe_input_label">
                         <label for="<%= dom_id(field) %>"
-                          style="cursor: help;" 
-                          aria-hidden="true" 
-                          title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>" 
-                          data-toggle="popover" 
-                          data-trigger="hover" 
-                          data-content="<%= (field.help && field.help.present? ? field.help : "") %>" 
-                          data-container="body" 
+                          style="cursor: help;"
+                          aria-hidden="true"
+                          title="<%= (field.full_name && field.full_name.present? ? field.full_name : field.name) %>"
+                          data-toggle="popover"
+                          data-trigger="hover"
+                          data-content="<%= (field.help && field.help.present? ? field.help : "") %>"
+                          data-container="body"
                           data-placement="auto"><%= field.name_en %></label>
                       </div>
                     <% end %>
                 </div>
                 <div class="fields-container">
                   <div class="transcriber-input datetime">
-                    <div class="input-group datetime-group" 
+                    <div class="input-group datetime-group"
                       id="time-<%= field_group.id.to_s %>">
-                      <%= text_field_tag "annotation[observation_date]", 
-                        nil, required: true, 
-                        class: "observation-input do-not-clear form-control datetime-field", 
-                        title: t('transcriber.transcription-box-template.form.fields.labels.datetime') 
+                      <%= text_field_tag "annotation[observation_date]",
+                        nil, required: true,
+                        class: "observation-input do-not-clear form-control datetime-field",
+                        title: t('transcriber.transcription-box-template.form.fields.labels.datetime')
                       %>
                       <span class="input-group-addon">
                         <span class="glyphicon glyphicon-time"></span>
@@ -233,25 +233,25 @@
                   </div>
                   <% field_group.fields.each do |field| %>
                     <div class="transcriber-input <%= field.data_type.gsub('_', '-') %>" data-field-id="<%= field.id %>">
-                      <%= 
-                        hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]", 
-                        page.id 
+                      <%=
+                        hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][page_id]",
+                        page.id
                       %>
-                      <%= 
-                        hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]", 
-                        current_user.id 
+                      <%=
+                        hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][user_id]",
+                        current_user.id
                       %>
-                      <%= 
-                        hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]", 
-                        field.id, data: {field_type: "field_id"} 
+                      <%=
+                        hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][field_id]",
+                        field.id, data: {field_type: "field_id"}
                       %>
-                      <%= 
-                        hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]", 
-                        field.data_type 
+                      <%=
+                        hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][data_type]",
+                        field.data_type
                       %>
-                      <%= 
-                        hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]", 
-                        nil, class: "selected-option-ids" 
+                      <%=
+                        hidden_field_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][selected_option_ids]",
+                        nil, class: "selected-option-ids"
                       %>
                       <% if field.long_text? %>
                         <%=
@@ -260,34 +260,34 @@
                             nil,
                             id: dom_id(field),
                             class: 'long-text',
-                            data: { 
-                              field_id: field.id, 
+                            data: {
+                              field_id: field.id,
                               field_type: "field_value"
                             }
                           )
                         %>
                       <% else %>
                         <%=
-                          select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]", 
+                          select_tag "annotation[data][#{field.field_key.downcase.gsub(" ", "_")}][value]",
                           ('<option></option>').html_safe,
                           id: dom_id(field),
-                          class: "observation-input form-control selectable", 
-                          multiple: field.multi_select, 
-                          placeholder: (field.multi_select ? 'select' : 'type'), 
-                          data: { 
-                            field_id: field.id, 
-                            field_type: "field_value", 
-                            selectable: true, 
-                            field_options: field.field_options.any?, 
-                            multiple: field.multi_select 
-                          } 
+                          class: "observation-input form-control selectable",
+                          multiple: field.multi_select,
+                          placeholder: (field.multi_select ? 'select' : 'type'),
+                          data: {
+                            field_id: field.id,
+                            field_type: "field_value",
+                            selectable: true,
+                            field_options: field.field_options.any?,
+                            multiple: field.multi_select
+                          }
                         %>
                       <% end %>
                     </div>
                   <% end %>
-                  <%= 
-                    button_tag t('transcriber.transcription-box-template.form.submit-btn-text'), 
-                    class:"submit-btn btn btn-primary btn-md btn-draw-accented" 
+                  <%=
+                    button_tag t('transcriber.transcription-box-template.form.submit-btn-text'),
+                    class:"submit-btn btn btn-primary btn-md btn-draw-accented"
                   %>
                 </div>
               </div>
@@ -305,18 +305,18 @@
     </div>
     <%= form_for transcription, html: {
       class: "", id: "submit-transcription-form", style: "overflow: hidden;"
-      } do 
+      } do
     %>
-      <%= hidden_field_tag "transcription[complete]", true %> 
-      <%= button_tag t('transcriber.stop-transcribing-modal.buttons.mark-finished'), 
-        class: "btn btn-lg btn-draw-accented", 
-        id: "transcription-complete-btn", type: 'submit' 
+      <%= hidden_field_tag "transcription[complete]", true %>
+      <%= button_tag t('transcriber.stop-transcribing-modal.buttons.mark-finished'),
+        class: "btn btn-lg btn-draw-accented",
+        id: "transcription-complete-btn", type: 'submit'
       %>
-      <%= link_to t('transcriber.stop-transcribing-modal.buttons.take-a-break'), 
-        transcription, class: 'btn btn-lg btn-primary pull-right', 
-        id: 'take-a-break-btn' 
+      <%= link_to t('transcriber.stop-transcribing-modal.buttons.take-a-break'),
+        transcription, class: 'btn btn-lg btn-primary pull-right',
+        id: 'take-a-break-btn'
       %>
-    <% end %> 
+    <% end %>
 </script>
 
 <!-- Click and drag the main image to draw a box around the observations that you just transcribed. Don't include the date or time. -->
@@ -335,4 +335,3 @@
         </button>
     </div>
 </script>
-

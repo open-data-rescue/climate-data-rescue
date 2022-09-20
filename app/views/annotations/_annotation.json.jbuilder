@@ -13,7 +13,7 @@ if annotation
     json.page_id annotation.page_id
     json.transcription_id annotation.transcription_id
     json.field_group_id annotation.field_group_id
-    
+
     json.field_group do
         json.id annotation.field_group_id
         json.name annotation.field_group.presentation_name
@@ -24,7 +24,7 @@ if annotation
                 json.id field.id
                 json.name field.name
                 json.data_type field.data_type
-                json.value (entry ? entry.value.strip : nil )
+                json.value (entry && entry.value.present? ? entry.value.strip : nil )
                 json.has_options field.field_options.any?
                 if entry
                     if entry.field_options_ids.present?

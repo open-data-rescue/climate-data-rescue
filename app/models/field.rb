@@ -22,7 +22,7 @@ class Field < ApplicationRecord
   has_many :field_groups, through: :field_groups_fields
 
   has_many :page_types, through: :field_groups
-  
+
   has_many :field_options_fields, dependent: :destroy
   has_many :field_options, -> { order("field_options_fields.sort_order asc") }, through: :field_options_fields
   has_many :data_entries
@@ -63,7 +63,7 @@ class Field < ApplicationRecord
     end
   end
 
-  private 
+  private
 
   def check_for_data_entries
     if data_entries.any?
@@ -74,5 +74,5 @@ class Field < ApplicationRecord
   def normalize_field_key
     self[:field_key] = field_key.downcase.gsub(' ', '_')
   end
-  
+
 end

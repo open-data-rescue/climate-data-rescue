@@ -481,8 +481,8 @@ en:
   page-type: "Page Type"
   page-types: "Page Types"
   pages: Pages
-  pages-uploaded: 
-  parent-page: 
+  pages-uploaded:
+  parent-page:
   path:
   profile:
     certificate:
@@ -491,15 +491,15 @@ en:
       heading: Participation Certificate
       ccr:
         heading: McGill Co-Curricular Record
-        introduction: 'For McGill students, you can put your DRAW Transcriptions towards recognition on your Transcript using the Co-Curricular Record Program. Please see <a href="https://www.mcgill.ca/involvement/myinvolvement">My Involvement</a> for more information. <br /><br /> To have your hours validated, please:' 
+        introduction: 'For McGill students, you can put your DRAW Transcriptions towards recognition on your Transcript using the Co-Curricular Record Program. Please see <a href="https://www.mcgill.ca/involvement/myinvolvement">My Involvement</a> for more information. <br /><br /> To have your hours validated, please:'
         step-1: Generate your Participation Certificate using the button below.
         step-2: 'Attach your certificate and email draw.archives@mcgill.ca using your McGill email with the subject line "[Your Name] CCR Submission"'
         step-3: DRAW will submit these hours and other relevant information to My Involvement in December and April of each year.
-  register: 
-  sample-page: 
-  save: 
-  schema: 
-  sign-in-count: 
+  register:
+  sample-page:
+  save:
+  schema:
+  sign-in-count:
   sign-up: "Sign Up"
   signed-up-on:
   simple_form:
@@ -1267,7 +1267,7 @@ en:
   transcription-saved-msg: "Transcription saved successfully"
   transcriptions:
     active:
-      zero: None yet, let's get started! 
+      zero: None yet, let's get started!
       one: One active transcription
       many: "%{count} active transcriptions"
     data-table:
@@ -1277,7 +1277,7 @@ en:
       download-csv: Download (CSV)
       download-json: Download (JSON)
     completed:
-      zero: None yet, let's get started! 
+      zero: None yet, let's get started!
       one: One completed transcription
       many: "%{count} completed transcriptions"
     marked-complete: Marked complete
@@ -1309,11 +1309,14 @@ en:
   user:
   user-name:
   user-observations:
-  users: Users
+  users:
+    users: Users
+    send-password-reset-instructions: Send Password Reset Instructions
   value:
   view-all-field-groups:
   view-all-fields:
-  view-all-pages: 
+  view-all-pages:
+  view-completed-transcription: View Completed Transcription
   view-details: "View details"
   view-list-of-pages-to-transcribe: "View all transcribable pages"
   view-my-transcriptions: View my %{count} transcriptions

@@ -278,7 +278,7 @@
           }
         }
       }
-      
+
       #field-guide-container {
         border-bottom: 3px solid $accent-color;
         height: 20%;
@@ -300,7 +300,7 @@
         }
       }
 
-      #page-time-container {        
+      #page-time-container {
         height: 80%;
         width: 100%;
         position: relative;
@@ -358,7 +358,7 @@
         overflow-y: scroll;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         padding: 0;
-        
+
         &.showing-panel {
           width: 100vw;
           padding: 15px;
@@ -529,7 +529,7 @@ $tab-active-text: white;
   }
   .field-group-tab.pink-group {
     background: tab-background($fg-pink);
-    
+
     &.active {
       background: active-tab-background($fg-pink);
       color: $tab-active-text;
@@ -537,7 +537,7 @@ $tab-active-text: white;
   }
   .field-group-tab.purple-group {
     background: tab-background($fg-purple);
-    
+
     &.active {
       background: active-tab-background($fg-purple);
       color: $tab-active-text;
@@ -545,7 +545,7 @@ $tab-active-text: white;
   }
   .field-group-tab.blue-group {
     background: tab-background($fg-blue);
-    
+
     &.active {
       background: active-tab-background($fg-blue);
       color: $tab-active-text;
@@ -553,7 +553,7 @@ $tab-active-text: white;
   }
   .field-group-tab.cyan-group {
     background: tab-background($fg-cyan);
-    
+
     &.active {
       background: active-tab-background($fg-cyan);
       color: $tab-active-text;
@@ -561,7 +561,7 @@ $tab-active-text: white;
   }
   .field-group-tab.green-group {
     background: tab-background($fg-green);
-  
+
     &.active {
       background: active-tab-background($fg-green);
       color: $tab-active-text;

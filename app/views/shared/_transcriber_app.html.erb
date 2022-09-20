@@ -856,7 +856,7 @@
             var $textArea = $fieldContainer.find("textarea.long-text[data-field-id=" + field.id + "]");
             $textArea.val(value).trigger('change')
             return
-          } 
+          }
 
           var $select = $fieldContainer.find("select");
           // console.log($select);
@@ -1116,7 +1116,7 @@
         $('body').removeClass("modal-open");
 
         setMsg(('<%= j t('transcriber.messages.draw-annotation-box-instructions-with-field-group').html_safe %>').replace('%{field_group}', fieldGroupName), false, "info");
-    
+
         var annotation = new Annotation(this.options.data);
 
         pageCanvas.disableScrolling();

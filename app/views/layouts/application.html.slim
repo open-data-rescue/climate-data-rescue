@@ -22,7 +22,7 @@ html lang="en"
       meta name="robots" content="noindex,nofollow"
     = stylesheet_link_tag "application", :media => "all"
     /!= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
-    
+
     - if content_for(:head)
       = yield(:head)
 
@@ -32,7 +32,7 @@ html lang="en"
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/v4-shims.css">
-    
+
     = javascript_include_tag "application"
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
     /! Le HTML5 shim, for IE6-8 support of HTML elements
@@ -41,7 +41,8 @@ html lang="en"
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
   body
-    .body-bg-img
+    .body-bg-img.holiday-special
+    canvas#snow-canvas
     .container-fluid.main-wrapper
       .container-fluid.top-nav
         = render 'application/nav'
@@ -63,7 +64,7 @@ html lang="en"
           - if content_for? :large_page_image
             .col-sm-12.voffset30.large-page-img-container
                = yield :large_page_image
-    
+
     .container-fluid.footer
       footer
         .container
@@ -80,6 +81,6 @@ html lang="en"
               = image_tag "partners/cirm.jpg", class: "partner-logo criem-logo img-responsive"
         .row.voffset20
           = render 'application/footer'
-          
+
 
     = render partial: 'shared/templates'

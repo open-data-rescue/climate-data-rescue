@@ -13,13 +13,13 @@ table.table
       th = t('time_of_day')
       th = t('measurement_type')
       th = t('measurement_unit_original')
-      th = t('measurement_unit_si') 
-      th = t('odr_type') 
+      th = t('measurement_unit_si')
+      th = t('odr_type')
       th = t('data-type')
       th = t('help')
 
   tbody
-    
+
     tr
       td = @field.internal_name
       td = link_to @field.name, admin_field_path(@field)
@@ -50,9 +50,9 @@ table.table.table-striped
         td = (l(entry.annotation.observation_date, format: :long) if entry.annotation)
         td = entry.value
         td = entry.page.title
-        td = entry.annotation.transcription.id
-        td = entry.annotation.id
-        td = entry.annotation.field_group.name
+        td = entry.annotation ? entry.annotation.transcription.id : ''
+        td = entry.annotation ? entry.annotation.id : ''
+        td = entry.annotation ? entry.annotation.field_group.name : ''
 
 = link_to t('edit'), edit_admin_field_path(@field)
 '&nbsp|

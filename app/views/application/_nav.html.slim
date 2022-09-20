@@ -1,7 +1,7 @@
 nav.navbar.navbar-default.navbar-static-top.draw-top-nav
   .container-fluid
     .navbar-header
-      button.navbar-toggle.collapsed aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button" 
+      button.navbar-toggle.collapsed aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button"
         span.sr-only Toggle navigation
         span.icon-bar
         span.icon-bar
@@ -12,7 +12,7 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
       ul.nav.navbar-nav.dropdown
         li class="#{yield(:home)}" = link_to t('home'), baseUri
         = render partial: "static_pages/link", collection: StaticPage.header_links, as: :page, locals: { top_level: true }
-          
+
         li class="#{yield(:transcribe)} top-level-nav dropdown-submenu"
           a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
             = t('main-nav.transcribe.transcribe') + ' '
@@ -24,6 +24,9 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
             li class="#{yield(:new_transcription)}" = link_to t('main-nav.transcribe.transcribe-random-page'), baseUri + "/transcribe"
 
       ul.nav.navbar-nav.navbar-right
+        li.snowball
+          a
+            i#snow-toggle.far.fa-snowflake title="#{strip_tags t('toggle-snowfall')}"
         - if Rails.env.staging?
           li#test-msg
             a
@@ -79,7 +82,7 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
                 li class="#{yield(:static_pages)}" = link_to t('content-pages'), admin_static_pages_path
                 li class="#{yield(:content_images)}" = link_to t('content-images'), admin_content_images_path
                 li role="separator" class="divider"
-                li class="#{yield(:users)}" = link_to t('users'), admin_users_path
+                li class="#{yield(:users)}" = link_to t('users.users'), admin_users_path
                 / - if current_user && current_user.admin?
                 /   li target="translator" = link_to t('edit-site-translations'), '/translator'
           li id="user-menu" class="#{yield(:user)} top-level-nav dropdown-submenu"
@@ -94,8 +97,3 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
         - else
           li = link_to t('log-in'), baseUri + "/login", :class => "sidebar-url"
           li = link_to t('sign-up'), baseUri + "/users/sign_up", :class => "sidebar-url"
-
-
-
-
-

@@ -14,7 +14,7 @@ module Admin
     # GET /transcriptions/transcription_id.json
     def show
       @transcription = Transcription.find(params[:id])
-    
+
       respond_to do |format|
         format.html # show.html.erb
         # format.json { render json: @transcription }
@@ -73,8 +73,8 @@ module Admin
 
         if params['page_type_id'].present?
           @page_type = PageType.includes(
-            { 
-              page_types_field_groups: { 
+            {
+              page_types_field_groups: {
                 field_group: {
                   field_groups_fields: :field
                 }
@@ -142,14 +142,14 @@ module Admin
     end
 
     def get_or_assign_page(page_id)
-    # this function gets a random page for display on the new transcription page 
+    # this function gets a random page for display on the new transcription page
     # if one has not been set by selecting "Transcribe" on an page's show page
       if page_id
         page = Page.find(page_id)
       else
         page = Page.transcribeable.unseen(current_user).reorder("RAND()").first
       end
-      
+
       page
     end
 
