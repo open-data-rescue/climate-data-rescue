@@ -47,6 +47,7 @@
 //= require bootstrap-notify/bootstrap-notify
 //
 //= require content_images
+//= require snowEffect
 //
 // require transcriptions
 // require_tree .
@@ -55,7 +56,7 @@
 
 
 $(document).ready(function(){
-	_.templateSettings = {
+  _.templateSettings = {
         interpolate : /\{\{\=(.+?)\}\}/g,
         evaluate : /\{\{(.+?)\}\}/g
     };
