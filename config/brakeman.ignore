@@ -7,7 +7,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `Page#find`",
       "file": "app/controllers/pages_controller.rb",
-      "line": 17,
+      "line": 22,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "Page.find(params[:id])",
       "render_path": null,
@@ -415,7 +415,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `Transcription#find`",
       "file": "app/controllers/transcriptions_controller.rb",
-      "line": 74,
+      "line": 274,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "Transcription.find(params[:id])",
       "render_path": null,
@@ -451,6 +451,29 @@
       "confidence": "Medium",
       "cwe_id": [
         915
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "70ad151171647fa3bbaa20a3869c703d11604f70db1542da34db01116fe34cd0",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Transcription#find`",
+      "file": "app/controllers/transcriptions_controller.rb",
+      "line": 173,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Transcription.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TranscriptionsController",
+        "method": "update"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
       ],
       "note": ""
     },
@@ -507,7 +530,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `Transcription#find`",
       "file": "app/controllers/transcriptions_controller.rb",
-      "line": 173,
+      "line": 373,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "Transcription.find(params[:id])",
       "render_path": null,
@@ -543,6 +566,25 @@
       "confidence": "Weak",
       "cwe_id": [
         285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 121,
+      "fingerprint": "9a3951031616a07c8e02c86652f537e92c08685da97f5ec2b12d5d3602b55bb8",
+      "check_name": "EOLRuby",
+      "message": "Support for Ruby 2.6.7 ended on 2022-03-31",
+      "file": "Gemfile.lock",
+      "line": 246,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        1104
       ],
       "note": ""
     },
@@ -828,6 +870,29 @@
       "note": ""
     },
     {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "f24d1b0194bca6de58ddfbf071876d660433c80911c4c435424e4c1dcddcaf5f",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Transcription#find`",
+      "file": "app/controllers/transcriptions_controller.rb",
+      "line": 74,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Transcription.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TranscriptionsController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 2,
       "fingerprint": "f2f6445d38fc9bed2f782345d63a5efd308aa25606b2976593e8b5ad71c96852",
@@ -885,6 +950,6 @@
       "note": ""
     }
   ],
-  "updated": "2022-08-27 10:43:40 -0400",
+  "updated": "2022-09-20 12:24:39 -0400",
   "brakeman_version": "5.3.1"
 }
