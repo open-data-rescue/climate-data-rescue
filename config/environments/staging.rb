@@ -1,10 +1,10 @@
 DataRescueAtHome::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
-  
+
   config.log_level = :error
-  
+
   config.eager_load = true
-  
+
   # Code is not reloaded between requests
   config.cache_classes = true
 
@@ -68,9 +68,9 @@ DataRescueAtHome::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
-  # 
+  #
 
   Rails.application.routes.default_url_options[:host] = ENV["BASE_URL"]
-  config.action_mailer.default_url_options = { :host => ENV["BASE_URL"] }
+  config.action_mailer.default_url_options[:host] = ENV["BASE_URL"]
 
 end

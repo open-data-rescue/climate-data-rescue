@@ -59,9 +59,8 @@ module DataRescueAtHome
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = ENV.fetch('RAISE_EMAIL_DELIVERY_ERRORS', nil).present?
 
+    # base URL setting
     Rails.application.routes.default_url_options[:host] = ENV["BASE_URL"]
-
-    config.action_mailer.default_url_options = { :host => ENV["BASE_URL"] }
-
+    config.action_mailer.default_url_options = { host: ENV["BASE_URL"] }
   end
 end

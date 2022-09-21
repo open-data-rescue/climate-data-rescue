@@ -16,6 +16,9 @@ elif [[ $RAILS_ENV = "staging" ]]; then
   bin/rake db:db_missing || (bin/rails db:create; bin/rails db:setup)
 
   bin/rake db:migrate
+
+  # TODO: asset compilation
+  bin/rake assets:precompile
 else
   until ! mysqladmin ping -h"$DB_HOST" --silent; do
     echo "waiting for database..."
