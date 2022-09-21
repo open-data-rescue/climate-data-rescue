@@ -67,7 +67,7 @@ var LetItSnow = (function() {
       ctx.fillStyle = "rgba(255,255,255," + flake.opacity + ")";
       flake.y += flake.velY;
       flake.x += flake.velX;
-          
+
       if (flake.y >= canvas.height || flake.y <= 0) {
         reset(flake);
       }
@@ -121,9 +121,10 @@ var LetItSnow = (function() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     });
-    
+
     var snowfallCookie = Cookies.get('letItSnow');
-    var snowfallEnabled = snowfallCookie == 'true' || snowfallCookie == void 0;
+    // Snow if cookie says so, otherwise the default is no
+    var snowfallEnabled = snowfallCookie == 'true'; // || snowfallCookie == void 0;
 
     if (snowfallEnabled) start();
   }
