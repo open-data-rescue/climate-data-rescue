@@ -16,19 +16,18 @@ class Transcription < ApplicationRecord
   scope :in_progress, -> { where(complete: false) }
 
   def num_rows_started
-    annotations.pluck(:observation_date).uniq.size
+    # annotations.pluck(:observation_date).uniq.size
+    started_rows_count
   end
 
   def num_rows_expected
-    page.num_rows_expected || 0
+    # page.num_rows_expected || 0
+    expected_rows_count
   end
 
   def num_data_entries
+    # data_entries_count
     data_entries.size
-  end
-
-  def field_groups_fields_count
-    field_groups_fields.size
   end
 
   def num_data_entries_expected
@@ -36,7 +35,8 @@ class Transcription < ApplicationRecord
   end
 
   def percent_complete
-    value = ((num_data_entries.to_f / num_data_entries_expected.to_f) * 100) || 0
+    value = 0
+    value = ((num_data_entries.to_f / num_data_entries_expected.to_f) * 100) || 0 if num_data_entries > 0 && num_data_entries_expected > 0
 
     precision =
       if value < 1
