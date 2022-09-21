@@ -138,6 +138,7 @@ module Admin
       Transcription.where(transcriptions_filter)
                    .joins(transcriptions_joins)
                    .references(transcriptions_joins)
+                   .includes(:page, :page_type, :user)
                    .order(updated_at: :desc)
     end
 
