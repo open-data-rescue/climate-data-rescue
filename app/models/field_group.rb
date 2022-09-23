@@ -5,10 +5,11 @@ class FieldGroup < ApplicationRecord
              fallbacks_for_empty_translations: true,
              touch: true
   globalize_accessors
-  
-  has_many :field_groups_fields, dependent: :destroy
-  has_many :fields,
+
+  has_many :field_groups_fields,
            -> { order("field_groups_fields.sort_order asc") },
+           dependent: :destroy
+  has_many :fields,
            through: :field_groups_fields
   has_many :annotations
 

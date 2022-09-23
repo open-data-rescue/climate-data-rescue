@@ -8,7 +8,7 @@
   - csv_string = CSV.generate(encoding: 'UTF-8') do |csv|
     - csv << headers
     - @transcriptions.each do |transcription|
-      - dates = transcription.annotations.with_dimensions.order_by_date.group_by do |a|
+      - dates = transcription.annotations_with_dimensions.group_by do |a|
         - a.observation_date.utc.to_date
       - dates.each do |date, date_annotations|
         - times = date_annotations.group_by { |a| a.observation_date.utc }
@@ -22,7 +22,7 @@
             - updated = annotation.updated_at if annotation && (updated.nil? || annotation.updated_at > updated)
             - group.fields.each do |field|
               - entry = nil
-              - entry = transcription.data_entries.find_by(field_id: field.id, annotation_id: annotation.id) if annotation
+              - entry = transcription.data_entries.select{|a| a.field_id == field.id && a.annotation_id == annotation.id}.first if annotation
               - value = nil
               - value = entry.value.html_safe if entry.present? && entry.value.present?
               - row << value
