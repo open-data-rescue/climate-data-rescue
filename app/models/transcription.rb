@@ -5,8 +5,21 @@ class Transcription < ApplicationRecord
   has_many :field_groups, through: :page_type
   has_many :field_groups_fields, through: :field_groups, counter_cache: :field_groups_fields_count
   has_many :fields, through: :field_groups
+
   has_many :annotations, dependent: :destroy
   has_many :data_entries, through: :annotations, counter_cache: :data_entries_count
+
+  has_many :annotations_with_dimensions,
+            -> {
+              where.not(
+                x_tl: nil,
+                y_tl: nil,
+                width: nil,
+                height: nil
+              )
+              .order("observation_date asc")
+            },
+            class_name: 'Annotation'
 
   validates :page_id, uniqueness: { scope: :user_id }
 

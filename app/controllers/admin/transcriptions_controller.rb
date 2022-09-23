@@ -94,7 +94,8 @@ module Admin
                                           :annotations,
                                           :page
                                         )
-                                        .preload(:data_entries)
+                                        .preload(:data_entries, {annotations_with_dimensions: :field_group}, {field_groups: :fields}, {fields: :translations})
+                                        .includes(:annotations, {page: :page_days}, :fields)
                                         .order('pages.start_date ASC')
                                         .limit(limit).offset(offset)
                                         .distinct
@@ -103,7 +104,10 @@ module Admin
           @transcriptions = Transcription.joins(
             :data_entries,
             :page
-          ).limit(limit).offset(offset).order('pages.start_date ASC').distinct
+          )
+          .preload(:data_entries, {annotations_with_dimensions: :field_group}, {field_groups: :fields}, {fields: :translations})
+          .includes(:annotations, {page: :page_days})
+          .limit(limit).offset(offset).order('pages.start_date ASC').distinct
         end
       end
 

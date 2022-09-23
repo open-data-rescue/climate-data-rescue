@@ -1,7 +1,7 @@
 
 if @transcriptions.present?
   json.array! @transcriptions do |transcription|
-    dates = transcription.annotations.with_dimensions.order_by_date.group_by do |a|
+    dates = transcription.annotations_with_dimensions.group_by do |a|
       a.observation_date.utc.to_date
     end
 
@@ -36,7 +36,7 @@ if @transcriptions.present?
             annotation = time_annotations.select{|a| a.field_group == group}.first
 
             group.fields.each do |field|
-              entry = transcription.data_entries.find_by(field_id: field.id, annotation_id: annotation.id) if annotation
+              entry = transcription.data_entries.select{|a| a.field_id == field.id && a.annotation_id == annotation.id}.first if annotation
 
               value = nil
               value = entry.value if entry.present?
