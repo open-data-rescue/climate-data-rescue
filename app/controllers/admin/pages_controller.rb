@@ -7,8 +7,8 @@ module Admin
     # GET /pages
     # GET /pages.json
     def index
-      @pages = Page.joins(:page_type)
-        .includes(:page_days, :page_info, :transcriptions, :field_groups, transcriptions: [:user, :field_groups_fields])
+      @pages = Page.joins(:page_type, :field_groups)
+        .includes(:page_days, :page_type, :page_info, :transcriptions, :field_groups, transcriptions: [:user, :field_groups_fields])
         .eager_group({transcriptions: :data_entries_count})
         .order(:start_date)
 

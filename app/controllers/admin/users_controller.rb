@@ -48,7 +48,8 @@ module Admin
     private
 
     def transcriptions(user_id)
-      Transcription.includes(:user, :page, :annotations, :field_groups, :field_groups_fields, :page_type, annotations: [:data_entries], page: [:page_days, :page_info, :page_type])
+      Transcription.joins(:field_groups)
+        .includes(:user, :page, :annotations, :field_groups, :field_groups_fields, :page_type, annotations: [:data_entries], page: [:page_days, :page_info, :page_type])
         .eager_group(:data_entries_count, {page: :page_days_observation_sum})
         .where(user_id: user_id)
     end
