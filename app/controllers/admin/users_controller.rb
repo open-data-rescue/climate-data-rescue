@@ -3,7 +3,6 @@ module Admin
     
     def index
       @users = User.includes(:transcriptions).order('admin desc, created_at asc')
-      @transcriptions = transcriptions(@user.id)
     end
 
     def show
