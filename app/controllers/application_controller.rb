@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
     if Rails.env.development?
       opts
     else
-      opts[:host] = nil
-      opts['host'] = nil
+      opts[:port] = nil
+      opts['port'] = nil
       opts.merge(protocol: 'https')
     end
   end
