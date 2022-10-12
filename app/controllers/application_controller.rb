@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     if Rails.env.development?
       opts
     else
-      opts.merge(protocol: 'https')
+      opts.except(:port).merge(protocol: 'https')
     end
   end
 
