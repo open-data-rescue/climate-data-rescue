@@ -6,11 +6,14 @@ class ApplicationController < ActionController::Base
   helper_method :baseUri, :baseUri_no_lang, :baseUri_with_lang, :request_path
 
   def default_url_options(options = {})
-    opts = options.merge(host: ENV["BASE_URL"]) if ENV["BASE_URL"]
+    opts = options
+    opts = opts.merge(host: ENV["BASE_URL"]) if ENV["BASE_URL"]
     if Rails.env.development?
       opts
     else
-      opts.except(:port).merge(protocol: 'https')
+      opts[:port] = nil
+      opts['port'] = nil
+      opts.merge(protocol: 'https')
     end
   end
 
