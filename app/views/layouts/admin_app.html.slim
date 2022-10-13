@@ -8,13 +8,11 @@ html lang="en"
       = content_for?(:title) ? yield(:title) + " | " : ''
       = strip_tags(t('app.meta-info.title')).html_safe
     = csrf_meta_tags
-    - if Rails.env.production?
-      = render 'application/sentry'
     - else
       meta name="robots" content="noindex,nofollow"
     = stylesheet_link_tag "application", :media => "all"
     /!= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
-    
+
     - if content_for(:head)
       = yield(:head)
 
