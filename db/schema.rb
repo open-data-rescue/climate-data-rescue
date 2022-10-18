@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_23_185258) do
+ActiveRecord::Schema.define(version: 2022_10_18_232624) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2021_06_23_185258) do
     t.integer "field_id"
     t.string "field_options_ids"
     t.index ["annotation_id", "field_id"], name: "annotation_field", unique: true
+    t.index ["user_id"], name: "index_data_entries_on_user_id"
   end
 
   create_table "field_group_translations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
@@ -196,8 +197,8 @@ ActiveRecord::Schema.define(version: 2021_06_23_185258) do
     t.integer "page_id"
     t.integer "user_id"
     t.integer "lock_version", default: 0, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["page_id"], name: "by_page"
     t.index ["user_id"], name: "by_user"
   end
