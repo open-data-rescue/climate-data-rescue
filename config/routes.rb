@@ -1,5 +1,6 @@
 # here we define the urls for the controllers
 Rails.application.routes.draw do
+
   authenticate :user do
     namespace :api do
       namespace :v1 do
@@ -25,7 +26,7 @@ Rails.application.routes.draw do
     match "content_images/:id/delete" => "content_images#destroy", via: [:get, :delete], as: 'delete_content_image'
     resources :field_groups
     resources :field_options
-    # defines urls for fields controllers "resources" is a method to define ... 
+    # defines urls for fields controllers "resources" is a method to define ...
     resources :fields
     resources :ledgers
     resources :page_types
@@ -36,7 +37,7 @@ Rails.application.routes.draw do
     match 'transcriptions/export' => 'transcriptions#export',
           via: %i[get post],
           as: 'export_transcriptions'
-    
+
     resources :transcriptions
 
     # for field options app
@@ -50,7 +51,7 @@ Rails.application.routes.draw do
     post 'add_fields_to_field_group' => "fields#add_to_field_group", as: "add_field_to_field_group"
     post 'remove_fields_from_field_group' => "fields#remove_from_field_group", as: "remove_field_from_field_group"
     post 'fields/update_sort_order' => "fields#update_sort_order", as: "update_field_sort_order"
-    
+
     # for fields app
     get 'field_groups_for_page_type/:page_type_id' => "field_groups#for_page_type", as: "field_groups_for_page_type"
     post 'add_field_groups_to_page_type' => "field_groups#add_to_page_type", as: "add_field_group_to_page_type"
