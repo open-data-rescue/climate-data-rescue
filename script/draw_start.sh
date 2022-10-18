@@ -25,6 +25,8 @@ else
     sleep 5
   done
 
+  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:structure:load)
+
   bin/rake db:migrate
   # TODO: asset compilation
   bin/rake assets:precompile
