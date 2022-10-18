@@ -13,12 +13,8 @@
 ## Contents
 - Introduction
 - Development Setup
-    - Requirements
-    - Installation
-    - Configuration
-    - Running the application
-- User Guide
-- Data Model
+    - Environment Variables
+    - Starting and Stopping the application
 - Attribution and Acknowlegements
 
 ## Introduction
