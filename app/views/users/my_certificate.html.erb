@@ -2,10 +2,10 @@
 
 <center>
   <style>
-  .signature, .title { 
+  .signature, .title {
   float:left;
     border-top: 1px solid #000;
-    width: 200px; 
+    width: 200px;
     text-align: center;
   }
   </style>
@@ -26,26 +26,30 @@
          <span style="font-size:15px"><b><a href=<%= root_url %>><%= t('certificate.line8') %></a></b></span><br>
   <table style="margin-top:-100px;float:left">
   <tr>
-  <td><span><b><%= t('certificate.line8') %></b></td>
+  <td><span><b><%= t('certificate.line8') %></b></span></td>
   </tr>
   <tr>
   <td style="width:200px;float:left;border:0;border-bottom:1px solid #000;"></td>
   </tr>
   <tr>
     <% if I18n.locale == :fr %>
-    <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_fr.png" %>" style= "width:175px;height:97px;"></td>
+    <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_fr.png" %>" style= "width:175px;height:97px;"></span></td>
     <% else %>
-    <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_en.png" %>" style= "width:175px;height:97px;"></td>
+    <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_en.png" %>" style= "width:175px;height:97px;"></span></td>
     <% end %>
   </tr>
   </table>
 
   <table style="margin-top:-60px;float:right">
   <tr>
-  <td style="text-align:center"><span><img src="https://citsci.geog.mcgill.ca/assets/partners/Geothink_Logo_T2-5605b868fb6a3f586c60e82b6f48cb6eda0e6875b74b3b06fd2f2fc8d7f16535.jpg" style="width:254px;height:62px;"></td>
+    <td style="text-align:center">
+      <span>
+        <%= image_tag "partners/Geothink_Logo_T2.jpg", style: "width:254px;height:62px;" %>
+      </span>
+    </td>
   </tr>
   </table>
-  
+
   </div>
   </div>
 </center>
