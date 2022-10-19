@@ -23,8 +23,8 @@ class Field < ApplicationRecord
 
   has_many :page_types, through: :field_groups
 
-  has_many :field_options_fields, dependent: :destroy
-  has_many :field_options, -> { order("field_options_fields.sort_order asc") }, through: :field_options_fields
+  has_many :field_options_fields, -> { order("field_options_fields.sort_order asc") }, dependent: :destroy
+  has_many :field_options, through: :field_options_fields
   has_many :data_entries
 
   validates :name,
