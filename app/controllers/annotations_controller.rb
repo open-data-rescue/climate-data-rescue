@@ -2,7 +2,7 @@ class AnnotationsController < ApplicationController
   #load_and_authorize_resource
   respond_to :json
   before_action :ensure_current_user
-  
+
   #Corresponds to the "Annotation" model, Annotation.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the Annotation model
   # All .html.slim views for "annotation.rb" are located at "project_root\app\views\annotations"
   # GET /annotations
@@ -10,42 +10,40 @@ class AnnotationsController < ApplicationController
   def index
     #@annotations is the variable containing all instances of the "annotation.rb" model passed to the annotation view "index.html.slim" (project_root/annotations) and is used to populate the page with information about each annotation using @annotations.each (an iterative loop).
     if params[:transcription_id]
-      @annotations = Annotation.where(transcription_id: params[:transcription_id]).includes(
-          { :field_group => [
-              { :fields => [:translations, :field_options] },
-              :translations 
-            ] },
-          
-          :data_entries
-        ).references(
-          { :field_group => [
-              { :fields => [:translations, :field_options] },
-              :translations 
-            ] },
-          
-          :data_entries
-        )
+      @annotations = Annotation
+                      .where(transcription_id: params[:transcription_id])
+                      .includes(
+                          {
+                            field_group: [
+                              {
+                                fields: [
+                                  :translations,
+                                  :field_options
+                                ]
+                              },
+                              :translations
+                            ]
+                          },
+                          :data_entries
+                        )
     else
-      @annotations = Annotation.includes(
-        { :field_group => [
-            { :fields => [:translations, :field_options] },
-            :translations 
-          ] },
-        
-        :data_entries
-      ).references(
-          { :field_group => [
-              { :fields => [:translations, :field_options] },
-              :translations 
-            ] },
-          
-          :data_entries
-      )
+      @annotations = Annotation
+                      .includes(
+                          {
+                            field_group: [
+                              {
+                                fields: [:translations, :field_options]
+                              },
+                              :translations
+                            ]
+                          },
+                          :data_entries
+                        )
     end
 
     respond_to do |format|
       format.html # index.html.slim
-      format.json 
+      format.json
     end
   rescue => ex
     Rails.logger.error ex.message
@@ -60,16 +58,16 @@ class AnnotationsController < ApplicationController
     @annotation = Annotation.includes(
       { :field_group => [
           { :fields => [:translations, :field_options] },
-          :translations 
+          :translations
         ] },
-      
+
       :data_entries
     ).references(
       { :field_group => [
           { :fields => [:translations, :field_options] },
-          :translations 
+          :translations
         ] },
-      
+
       :data_entries
     ).find(params[:id])
 
@@ -93,23 +91,19 @@ class AnnotationsController < ApplicationController
   # GET /annotations/annotation_id/edit
   def edit
     #@annotation is a variable containing an instance of the "annotation.rb" model. It is passed to the annotation view "edit.html.slim" (project_root/annotations/edit) and is used to populate the page with information about the annotation instance. "edit.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the curent annotation instance.
-    @annotation = Annotation.includes(
-      { :field_group => [
-          { :fields => [:translations, :field_options] },
-          :translations 
-        ] 
-      },
-      
-      :data_entries
-    ).references(
-      { :field_group => [
-          { :fields => [:translations, :field_options] },
-          :translations 
-        ] 
-      },
-      
-      :data_entries
-    ).find(params[:id])
+    @annotation = Annotation
+                    .includes(
+                        {
+                          field_group: [
+                            {
+                              fields: [:translations, :field_options]
+                            },
+                            :translations
+                          ]
+                        },
+                        :data_entries
+                      )
+                      .find(params[:id])
 
     respond_to do |format|
       format.html # new.html.slim
@@ -121,21 +115,21 @@ class AnnotationsController < ApplicationController
   # POST /annotations.json
   def create
     Annotation.transaction do
-      #@annotation is a variable containing an instance of the "annotation.rb" model created with data passed in the params of the "new.html.slim" form submit action. 
+      #@annotation is a variable containing an instance of the "annotation.rb" model created with data passed in the params of the "new.html.slim" form submit action.
       metadata = params.require(:annotation).permit!
       meta = metadata[:meta]
       data = metadata[:data].to_unsafe_h
-      
+
       logger.debug "meta: " + meta.to_s
       logger.debug "data: " + data.to_s
-      
+
       @annotation = Annotation.create!(
-        transcription_id: meta[:transcription_id], 
-        page_id: meta[:page_id], 
-        field_group_id: meta[:field_group_id], 
-        x_tl: meta[:x_tl], 
-        y_tl: meta[:y_tl], 
-        width: meta[:width], 
+        transcription_id: meta[:transcription_id],
+        page_id: meta[:page_id],
+        field_group_id: meta[:field_group_id],
+        x_tl: meta[:x_tl],
+        y_tl: meta[:y_tl],
+        width: meta[:width],
         height: meta[:height],
         date_time_id: annotation_params[:observation_date],
         observation_date: DateTime.parse(annotation_params[:observation_date])
@@ -162,17 +156,17 @@ class AnnotationsController < ApplicationController
       metadata = params.require(:annotation).permit!
       meta = metadata[:meta]
       data = metadata[:data].to_unsafe_h if metadata[:data]
-      
+
       if meta && data
         @annotation.update(
-          x_tl: meta[:x_tl], 
-          y_tl: meta[:y_tl], 
-          width: meta[:width], 
+          x_tl: meta[:x_tl],
+          y_tl: meta[:y_tl],
+          width: meta[:width],
           height: meta[:height],
           date_time_id: annotation_params[:observation_date],
           observation_date: DateTime.parse(annotation_params[:observation_date])
         )
-        
+
         process_annotation_data(annotation: @annotation, data: data)
       else
         # Rails.logger.info "Updating with backbone attributes"
