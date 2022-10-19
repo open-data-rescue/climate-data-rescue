@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_18_160140) do
+ActiveRecord::Schema.define(version: 2022_10_18_232624) do
 
   create_table "annotations", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2022_10_18_160140) do
     t.integer "field_id"
     t.string "field_options_ids"
     t.index ["annotation_id", "field_id"], name: "annotation_field", unique: true
+    t.index ["user_id"], name: "index_data_entries_on_user_id"
   end
 
   create_table "field_group_translations", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
