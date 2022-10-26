@@ -291,7 +291,7 @@ GEM
       ffi (>= 1.0.6)
       msgpack (>= 0.4.3)
       optimist (>= 3.0.0)
-    recaptcha (5.9.0)
+    recaptcha (5.12.3)
       json
     redis (4.8.0)
     regexp_parser (2.6.0)
@@ -513,7 +513,7 @@ DEPENDENCIES
   will_paginate
 
 RUBY VERSION
-   ruby 2.6.7p197
+   ruby 2.7.3p183
 
 BUNDLED WITH
-   1.17.3
+   2.1.4
