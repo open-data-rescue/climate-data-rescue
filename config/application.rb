@@ -9,7 +9,15 @@ Bundler.require(*Rails.groups)
 module DataRescueAtHome
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.0
+    config.load_defaults 6.0
+
+    # Disable asset pipeline, should all be moved to webpacker now
+    config.assets.enabled = false
+    config.generators { |g| g.assets false }
+
+    if !Rails.env.test?
+      config.active_job.queue_adapter = :sidekiq
+    end
 
     config.time_zone = "Eastern Time (US & Canada)"
 
