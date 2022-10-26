@@ -3,11 +3,12 @@ class Transcription < ApplicationRecord
   belongs_to :user, required: true
   has_one :page_type, through: :page
   has_many :field_groups, through: :page_type
-  has_many :field_groups_fields, through: :field_groups, counter_cache: :field_groups_fields_count
+  # Counter cache does not work for has many through, so we need to deal with that differently
+  has_many :field_groups_fields, through: :field_groups #, counter_cache: :field_groups_fields_count
   has_many :fields, through: :field_groups
 
   has_many :annotations, dependent: :destroy
-  has_many :data_entries, through: :annotations, counter_cache: :data_entries_count
+  has_many :data_entries, through: :annotations #, counter_cache: :data_entries_count
 
   has_many :annotations_with_dimensions,
             -> {
@@ -29,12 +30,10 @@ class Transcription < ApplicationRecord
   scope :in_progress, -> { where(complete: false) }
 
   def num_rows_started
-    # annotations.pluck(:observation_date).uniq.size
     started_rows_count
   end
 
   def num_rows_expected
-    # page.num_rows_expected || 0
     expected_rows_count
   end
 
@@ -63,10 +62,11 @@ class Transcription < ApplicationRecord
     BigDecimal(value, precision)
   end
 
-  private
-
   def update_row_counters
-    self.started_rows_count = annotations.pluck(:observation_date).uniq.size
-    self.expected_rows_count = page.num_rows_expected || 0
+    self.started_rows_count = self.annotations.pluck(:observation_date).uniq.size
+    self.expected_rows_count = self.page.num_rows_expected || 0
+
+    self.field_groups_fields_count = self.field_groups_fields.count(:all)
+    self.data_entries_count = self.data_entries.count(:all)
   end
 end
