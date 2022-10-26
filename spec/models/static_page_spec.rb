@@ -18,7 +18,7 @@ describe StaticPage do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:slug) }
     it { is_expected.to validate_presence_of(:body) }
-    it { is_expected.to validate_uniqueness_of(:foreign_link).allow_blank }
+    it { is_expected.to validate_uniqueness_of(:foreign_link).ignoring_case_sensitivity.allow_blank }
   end
 
   describe 'callbacks' do
