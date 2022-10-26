@@ -46,16 +46,6 @@ class TranscriptionsController < ApplicationController
                { annotations: :data_entries },
                :user
              ])
-             .references([
-               {
-                 page: [
-                   :page_days,
-                   :page_type
-                 ]
-               },
-               { annotations: :data_entries },
-               :user
-             ])
              .offset(offset)
              .limit(limit)
       respond_to do |format|

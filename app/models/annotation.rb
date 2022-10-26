@@ -10,6 +10,8 @@ class Annotation < ApplicationRecord
   validates :observation_date,
             presence: true
 
+  before_save :update_parents
+
   def self.order_by_date(direction='asc')
     order("observation_date #{direction}")
   end
@@ -21,6 +23,12 @@ class Annotation < ApplicationRecord
       width: nil,
       height: nil
     )
+  end
+
+  # This is needed because "autosave" does not update parent on save (only children)
+  def update_parents
+    transcription.save!
+    page.save!
   end
   
 end
