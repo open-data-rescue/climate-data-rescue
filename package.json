@@ -8,7 +8,7 @@
     "@rails/ujs": "^6.0.3-7",
     "axios": "^0.21.2",
     "babel-plugin-module-resolver": "^4.0.0",
-    "bootstrap-vue": "^2.21.2",
+    "bootstrap-vue": "^2.0",
     "caniuse-lite": "^1.0.30001171",
     "common-tags": "^1.8.0",
     "node-polyglot": "^2.4.0",
