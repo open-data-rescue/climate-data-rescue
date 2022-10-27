@@ -29,7 +29,6 @@ jobs:
     env:
       DEVISE_SECRET: aa77bb734faa9b935c1f8b68846e37aed9096cc9fb746copypastaf856594409a11b1086535e468edb2e5bbc18482b386b6264ada38703dcdefd94a291ab5a95eb5
       SECRET_KEY_BASE: aa77bb734faa9b935c1f8b68846e37aed9096cc9fb746copypastaf856594409a11b1086535e468edb2e5bbc18482b386b6264ada38703dcdefd94a291ab5a95eb5
-      SECRET_TOKEN: aa77bb734faa9b935c1f8b68846e37aed9096cc9fb746copypastaf856594409a11b1086535e468edb2e5bbc18482b386b6264ada38703dcdefd94a291ab5a95eb5
       TEST_TAG: ${{ github.repository_owner }}/climate-data-rescue:test
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
@@ -101,7 +100,6 @@ jobs:
           build-args: |
             DEVISE_SECRET=${{ env.DEVISE_SECRET }}
             SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }}
-            SECRET_TOKEN=${{ env.SECRET_TOKEN }}
             RAILS_ENV=production
             NODE_ENV=development
           push: false
@@ -115,7 +113,7 @@ jobs:
       - name: Run specs
         run: |
           docker run -d --name="test-database" --hostname "mysql" -e "MYSQL_PASSWORD=test" -e "MYSQL_USER=test" -e "MYSQL_ROOT_PASSWORD=test" -p 127.0.0.1:3306:3306/tcp mysql:5.7
-          docker run --network "container:test-database" -e RAILS_ENV=test -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }} -e SECRET_TOKEN=${{ env.SECRET_TOKEN }} -e "MYSQL_PASSWORD=test" -e "RAILS_MYSQL_USER=root" -e "BASE_URL=localhost:3000" ${{ env.TEST_TAG }} /bin/sh -c "bundle exec rake db:create db:setup; bundle exec rake db:seed; bundle exec rspec"
+          docker run --network "container:test-database" -e RAILS_ENV=test -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }} -e "MYSQL_PASSWORD=test" -e "RAILS_MYSQL_USER=root" -e "BASE_URL=localhost:3000" ${{ env.TEST_TAG }} /bin/sh -c "bundle exec rake db:create db:setup; bundle exec rake db:seed; bundle exec rspec"
 
       #
       - name: Run security tests
@@ -138,7 +136,6 @@ jobs:
           build-args: |
             DEVISE_SECRET=${{ env.DEVISE_SECRET }}
             SECRET_KEY_BASE=${{ env.SECRET_KEY_BASE }}
-            SECRET_TOKEN=${{ env.SECRET_TOKEN }}
             RAILS_ENV=production
             NODE_ENV=development
           push: true
