@@ -40,14 +40,13 @@ export HOSTNAME=localhost
 export HOSTPORT=3000
 export DEVISE_SECRET=
 export SECRET_KEY_BASE=
-export SECRET_TOKEN=
 ```
 
 For development set the MYSQL_ROOT_PASSWORD and MYSQL_PASSWORD to the same value
 will be used by the docker scripts to create an instance of the database and set up the initial database.
 Also by the Rails database.yml for the connection. In local dev their value is unimportant and can be used as-is.
 
-`DEVISE_SECRET`, `SECRET_KEY_BASE`, and `SECRET_TOKEN` will need values. You can generate values for them using the following commands:
+`DEVISE_SECRET`, and `SECRET_KEY_BASE` will need values. You can generate values for them using the following commands:
 
 ```
 docker-compose -p draw-dev -f docker-compose-dev.yml run draw bundle install
