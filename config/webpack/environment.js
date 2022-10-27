@@ -1,17 +1,4 @@
-// const { environment } = require('@rails/webpacker')
-// const isProduction = process.env.NODE_ENV === 'production'
-
-// const vue = require('./loaders/vue')
-// environment.loaders.append('vue', vue)
-
-// if (!isProduction) {
-//   const eslint = require('./loaders/eslint')
-//   environment.loaders.append('eslint', eslint)
-// }
-
-// module.exports = environment
-
-
+//
 const { environment } = require('@rails/webpacker')
 const { VueLoaderPlugin } = require('vue-loader')
 const vue = require('./loaders/vue')
@@ -42,7 +29,7 @@ const config = environment.toWebpackConfig()
 config.resolve = {
   alias: {
     'vue$': 'vue/dist/vue.esm.js',
-    '@': path.resolve(__dirname, '../../app/webpacker'),
+    '@': path.resolve(__dirname, '../../app/javascript'),
     '@mixins': '@/mixins'
   },
   extensions: ['*', '.js', '.vue', '.json']

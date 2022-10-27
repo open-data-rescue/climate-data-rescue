@@ -10,7 +10,6 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-// require requirejs/require
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
@@ -29,7 +28,6 @@
 //
 //= require backbone/underscore
 //= require backbone/backbone
-// require backbone.radio/build/backbone.radio
 //= require backbone/backbone.marionette/
 //= require backbone/backbone-model-file-upload
 //= require backbone/backbone.wreqr
@@ -49,8 +47,6 @@
 //= require content_images
 //= require snowEffect
 //
-// require transcriptions
-// require_tree .
 //= require_self
 
 

@@ -1,4 +1,3 @@
-
 <template>
   <div id="admin-app">
     <div
