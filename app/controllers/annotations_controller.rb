@@ -41,6 +41,8 @@ class AnnotationsController < ApplicationController
                         )
     end
 
+    @field_options = FieldOption.all
+
     respond_to do |format|
       format.html # index.html.slim
       format.json
@@ -70,6 +72,8 @@ class AnnotationsController < ApplicationController
 
       :data_entries
     ).find(params[:id])
+
+    @field_options = FieldOption.all
 
     respond_to do |format|
       format.html # show.html.slim
