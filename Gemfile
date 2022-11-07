@@ -38,8 +38,6 @@ gem 'log4r'
 gem 'devise'
 gem 'pundit'
 
-gem 'sendgrid-actionmailer', '~> 3.1.0'
-
 #to handle .slim files
 gem 'slim-rails'
 
