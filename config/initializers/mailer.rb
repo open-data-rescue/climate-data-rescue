@@ -29,9 +29,10 @@ Rails.application.config.action_mailer.tap do |action_mailer|
       action_mailer.raise_delivery_errors = true
       action_mailer.smtp_settings = {
         authentication: :plain,
-        enable_starttls_auto: true,
+        # enable_starttls_auto: true,
+        ssl: true,
         address: ENV.fetch('SMTP_SERVER', 'smtp.gmail.com'),
-        port: ENV.fetch("SMTP_PORT") { 587 },
+        port: ENV.fetch("SMTP_PORT") { 465 },
         user_name: ENV.fetch('SMTP_USERNAME', ''),
         password: ENV.fetch('SMTP_PASSWORD', ''),
         domain: ENV.fetch('SMTP_DOMAIN', 'gmail.com')
