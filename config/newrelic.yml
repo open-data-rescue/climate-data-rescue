@@ -1,23 +1,26 @@
 #
 # This file configures the New Relic Agent.  New Relic monitors Ruby, Java,
-# .NET, PHP, Python and Node applications with deep visibility and low
+# .NET, PHP, Python, Node, and Go applications with deep visibility and low
 # overhead.  For more information, visit www.newrelic.com.
 #
-# Generated November 01, 2016
+# Generated November 12, 2022
 #
-# This configuration file is custom generated for Data Rescue at Home
+# This configuration file is custom generated for NewRelic Administration
 #
 # For full documentation of agent configuration options, please refer to
 # https://docs.newrelic.com/docs/agents/ruby-agent/installation-configuration/ruby-agent-configuration
 
 common: &default_settings
   # Required license key associated with your New Relic account.
-  # Get the license from the ENV variable
+  # Get from env variable
   # license_key:
 
   # Your application name. Renaming here affects where data displays in New
   # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications
-  app_name: Data Rescue at Home
+  app_name: DRAW
+
+  distributed_tracing:
+    enabled: true
 
   # To disable the agent regardless of other settings, uncomment the following:
   # agent_enabled: false
@@ -25,6 +28,23 @@ common: &default_settings
   # Logging level for log/newrelic_agent.log
   log_level: info
 
+  application_logging:
+    # If `true`, all logging-related features for the agent can be enabled or disabled
+    # independently. If `false`, all logging-related features are disabled.
+    enabled: true
+    forwarding:
+      # If `true`, the agent captures log records emitted by this application.
+      enabled: true
+      # Defines the maximum number of log records to buffer in memory at a time.
+      max_samples_stored: 10000
+    metrics:
+      # If `true`, the agent captures metrics related to logging for this application.
+      enabled: true
+    local_decorating:
+      # If `true`, the agent decorates logs with metadata to link to entities, hosts, traces, and spans.
+      # This requires a log forwarder to send your log files to New Relic.
+      # This should not be used when forwarding is enabled.
+      enabled: false
 
 # Environment-specific settings are in this section.
 # RAILS_ENV or RACK_ENV (as appropriate) is used to determine the environment.
@@ -32,10 +52,6 @@ common: &default_settings
 development:
   <<: *default_settings
   app_name: DRAW (Development)
-
-  # NOTE: There is substantial overhead when running in developer mode.
-  # Do not use for production or load testing.
-  developer_mode: true
 
 test:
   <<: *default_settings
@@ -48,4 +64,3 @@ staging:
 
 production:
   <<: *default_settings
-  app_name: DRAW (Prod)
