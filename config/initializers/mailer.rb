@@ -34,7 +34,8 @@ Rails.application.config.action_mailer.tap do |action_mailer|
         port: ENV.fetch("SMTP_PORT") { 587 },
         user_name: ENV.fetch('SMTP_USERNAME', ''),
         password: ENV.fetch('SMTP_PASSWORD', ''),
-        domain: ENV.fetch('SMTP_DOMAIN', 'gmail.com')
+        domain: ENV.fetch('SMTP_DOMAIN', 'gmail.com'),
+        openssl_verify_mode: 'none'
       }
     end
   end
