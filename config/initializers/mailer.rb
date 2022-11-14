@@ -1,6 +1,6 @@
 Rails.application.config.action_mailer.tap do |action_mailer|
   action_mailer.default_options = {
-    from: ENV.fetch('FROM_ADDRESS', 'draw@opendatarescue.org'),
+    from: ENV.fetch('FROM_ADDRESS', 'draw.mcgill@gmail.com'),
     bcc: ENV.fetch('BCC_ADDRESS', nil)
   }
 
@@ -29,10 +29,9 @@ Rails.application.config.action_mailer.tap do |action_mailer|
       action_mailer.raise_delivery_errors = true
       action_mailer.smtp_settings = {
         authentication: :plain,
-        # enable_starttls_auto: true,
-        ssl: true,
+        enable_starttls_auto: true,
         address: ENV.fetch('SMTP_SERVER', 'smtp.gmail.com'),
-        port: ENV.fetch("SMTP_PORT") { 465 },
+        port: ENV.fetch("SMTP_PORT") { 587 },
         user_name: ENV.fetch('SMTP_USERNAME', ''),
         password: ENV.fetch('SMTP_PASSWORD', ''),
         domain: ENV.fetch('SMTP_DOMAIN', 'gmail.com')
