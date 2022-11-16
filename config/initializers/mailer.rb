@@ -28,14 +28,14 @@ Rails.application.config.action_mailer.tap do |action_mailer|
       action_mailer.perform_deliveries = true
       action_mailer.raise_delivery_errors = true
       action_mailer.smtp_settings = {
-        authentication: :plain,
-        enable_starttls_auto: true,
         address: ENV.fetch('SMTP_SERVER', 'smtp.gmail.com'),
-        port: ENV.fetch("SMTP_PORT") { 587 },
-        user_name: ENV.fetch('SMTP_USERNAME', ''),
-        password: ENV.fetch('SMTP_PASSWORD', ''),
-        domain: ENV.fetch('SMTP_DOMAIN', 'gmail.com'),
-        openssl_verify_mode: 'none'
+        port: ENV.fetch("SMTP_PORT") { 25 },
+        domain: ENV.fetch('SMTP_DOMAIN', nil),
+        user_name: ENV.fetch('SMTP_USERNAME', nil),
+        password: ENV.fetch('SMTP_PASSWORD', nil),
+        authentication: ENV.fetch('SMTP_AUTHENTICATION', nil), # plain etc
+        enable_starttls_auto: ENV.fetch('SMTP_SSL_START_AUTO', nil),
+        openssl_verify_mode: ENV.fetch('SMTP_SSL_VERIFY_MODE', nil)
       }
     end
   end
