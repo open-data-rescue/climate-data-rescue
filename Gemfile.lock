@@ -422,6 +422,7 @@ DEPENDENCIES
   capistrano3-puma
   coveralls
   devise
+  eager_group
   execjs
   factory_bot_rails
   faker (~> 2.19.0)
