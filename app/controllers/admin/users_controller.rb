@@ -6,20 +6,8 @@ module Admin
     end
 
     def show
-      @user = User.includes(
-        {
-          transcriptions: [
-            { 
-              page: [
-                :page_days,
-		:page_info
-              ] 
-            },
-            :annotations
-          ]
-        },
-        :data_entries
-      ).find params[:id]
+      @user = User.find(params[:id])
+      @transcriptions = transcriptions(@user.id)
     end
 
     def edit
@@ -57,6 +45,13 @@ module Admin
     end
 
     private
+
+    def transcriptions(user_id)
+      Transcription.joins(:field_groups)
+        .includes(:user, :page, :annotations, :field_groups, :field_groups_fields, :page_type, annotations: [:data_entries], page: [:page_days, :page_info, :page_type])
+        .eager_group(:data_entries_count, {page: :page_days_observation_sum})
+        .where(user_id: user_id)
+    end
 
     def users_params
       params.require(:user).permit(:display_name, :admin, :bio)

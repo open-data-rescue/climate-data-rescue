@@ -13,7 +13,8 @@ class Page < ApplicationRecord
   has_many :page_days, dependent: :destroy
   has_many :data_entries, dependent: :destroy
   has_one :page_info, dependent: :destroy
-  
+
+  define_eager_group :page_days_observation_sum, :page_days, :sum, :num_observations
 
   #handles the image upload association
   has_attached_file :image,
@@ -78,7 +79,7 @@ class Page < ApplicationRecord
 
   def num_rows_expected
     if page_days.any?
-      page_days.sum(:num_observations)
+      page_days_observation_sum
     elsif page_metadata?
       Time.days_in_month(page_info.month, page_info.year)
     else

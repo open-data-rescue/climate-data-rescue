@@ -7,6 +7,7 @@ class UsersController < ApplicationController
 
   def my_profile
     @user = current_user
+    @transcriptions = transcriptions(@user.id)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -15,20 +16,8 @@ class UsersController < ApplicationController
   
   def show
     #@user is a variable containing an instance of the "user.rb" model. It is passed to the user view "show.html.slim" (project_root/users/user_id) and is used to populate the page with information about the user instance.
-    @user = User.includes(
-      {
-        transcriptions: [
-          { 
-            page: [
-              :page_days,
-	      :page_info
-            ] 
-          },
-          :annotations
-        ]
-      },
-      :data_entries
-    ).find(params[:id])
+    @user = User.find(params[:id])
+    @transcriptions = transcriptions(@user.id)
 
     render "my_profile"
   end
@@ -73,6 +62,13 @@ class UsersController < ApplicationController
   end
   
   private
+
+  def transcriptions(user_id)
+    Transcription.joins(:field_groups)
+      .includes(:user, :page, :annotations, :field_groups, :field_groups_fields, :page_type, annotations: [:data_entries], page: [:page_days, :page_info, :page_type])
+      .eager_group(:data_entries_count, {page: :page_days_observation_sum})
+      .where(user_id: user_id)
+  end
   
   def users_params
     params.require(:user).permit(:email, :name, :admin, :avatar, :bio)

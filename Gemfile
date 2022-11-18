@@ -83,6 +83,8 @@ gem "recaptcha", require: "recaptcha/rails"
 
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem 'eager_group'
+
 # Deploy with Capistrano
 # Deploy with Capistrano
 group :development do
