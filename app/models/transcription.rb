@@ -8,8 +8,6 @@ class Transcription < ApplicationRecord
   has_many :annotations, dependent: :destroy
   has_many :data_entries, through: :annotations, counter_cache: :data_entries_count
 
-  define_eager_group :data_entries_count, :data_entries, :count, :*
-
   validates :page_id, uniqueness: { scope: :user_id }
 
   before_save :update_row_counters

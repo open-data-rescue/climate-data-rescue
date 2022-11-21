@@ -96,7 +96,6 @@ module Admin
       end
 
       Transcription.includes(:user, :page, :field_groups, :field_groups_fields, :page_type, page: [:page_days, :page_info, :page_type])
-                   .eager_group(:data_entries_count, {page: :page_days_observation_sum})
                    .where(transcriptions_filter)
                    .joins(transcriptions_joins)
                    .references(transcriptions_joins)
