@@ -65,8 +65,7 @@ class UsersController < ApplicationController
 
   def transcriptions(user_id)
     Transcription.joins(:field_groups)
-      .includes(:user, :page, :annotations, :field_groups, :field_groups_fields, :page_type, page: [:page_days, :page_info, :page_type])
-      .eager_group(:data_entries_count, {page: :page_days_observation_sum})
+      .includes(:user, :page, :page_type)
       .where(user_id: user_id)
   end
   
