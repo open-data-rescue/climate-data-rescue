@@ -47,7 +47,7 @@ module Admin
     private
 
     def transcriptions(user_id)
-      Transcription.joins(:field_groups)
+      Transcription
         .includes(:user, :page, :page_type)
         .where(user_id: user_id)
     end
