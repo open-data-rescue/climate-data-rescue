@@ -95,7 +95,7 @@ module Admin
         transcriptions_joins = :page
       end
 
-      Transcription.includes(:user, :page, :field_groups, :field_groups_fields, :page_type, page: [:page_days, :page_info, :page_type])
+      Transcription.includes(:user, :page, :field_groups, :field_groups_fields, :page_type)
                    .where(transcriptions_filter)
                    .joins(transcriptions_joins)
                    .references(transcriptions_joins)
