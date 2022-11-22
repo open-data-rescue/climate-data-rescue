@@ -41,6 +41,8 @@ class AnnotationsController < ApplicationController
                         )
     end
 
+    @field_options = FieldOption.all
+
     respond_to do |format|
       format.html # index.html.slim
       format.json
@@ -70,6 +72,8 @@ class AnnotationsController < ApplicationController
 
       :data_entries
     ).find(params[:id])
+
+    @field_options = FieldOption.all
 
     respond_to do |format|
       format.html # show.html.slim
@@ -152,7 +156,7 @@ class AnnotationsController < ApplicationController
   # PUT /annotations/annotation_id.json
   def update
     Annotation.transaction do
-      @annotation = Annotation.includes(:data_entries).references(:data_entries).find(params[:id])
+      @annotation = Annotation.includes(:data_entries, :transcription).references(:data_entries).find(params[:id])
       metadata = params.require(:annotation).permit!
       meta = metadata[:meta]
       data = metadata[:data].to_unsafe_h if metadata[:data]
@@ -173,6 +177,7 @@ class AnnotationsController < ApplicationController
         @annotation.update(backbone_annotation_params.merge(observation_date: DateTime.parse(annotation_params[:observation_date])))
       end
 
+      # TODO: double save ?????
       @annotation.save!
     end
 

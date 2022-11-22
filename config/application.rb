@@ -9,7 +9,15 @@ Bundler.require(*Rails.groups)
 module DataRescueAtHome
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.0
+    config.load_defaults 6.0
+
+    # Disable asset pipeline, should all be moved to webpacker now
+    config.assets.enabled = false
+    config.generators { |g| g.assets false }
+
+    if !Rails.env.test?
+      config.active_job.queue_adapter = :sidekiq
+    end
 
     config.time_zone = "Eastern Time (US & Canada)"
 
@@ -18,6 +26,7 @@ module DataRescueAtHome
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    config.i18n.default_locale = :en
     config.i18n.fallbacks = [:en, :fr]
 
     # Configure the default encoding used in templates for Ruby 1.9.

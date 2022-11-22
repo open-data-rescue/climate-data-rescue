@@ -561,7 +561,11 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+  .b-table-sticky-header > table.b-table > thead > tr > th {
+    position: sticky !important;
+  }
+
   .pages-table {
     /deep/ th {
       vertical-align: top;
@@ -640,5 +644,4 @@ export default {
       }
     }
   }
-
 </style>

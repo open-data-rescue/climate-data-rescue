@@ -10,7 +10,7 @@ class Field < ApplicationRecord
 
   ODR_TYPE_OPTIONS = %w[
     p mslp ta ww dd pr rr atb au c cd ch cv e h hd hv nl rh o3 rd rtb rte
-    sd skc tarange tb tdb Tgn Tn Tx Txs w1 wf ws ww_remarks taNW TnNW TxNW
+    sd skc tarange tb td tdb Tgn Tn Tx Txs w1 wf ws ww_remarks taNW TnNW TxNW
   ].freeze
 
   translates :name, :full_name, :help,

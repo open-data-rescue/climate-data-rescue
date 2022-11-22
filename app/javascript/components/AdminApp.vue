@@ -1,4 +1,3 @@
-
 <template>
   <div id="admin-app">
     <div
@@ -68,11 +67,12 @@ export default {
       background-size: cover;
       background-position: left center;
 
-      &.holiday-special {
-        background-image: url(image_path("holiday-bg"));
-        -webkit-filter: grayscale(50%); /* Safari 6.0 - 9.0 */
-        filter: grayscale(50%);
-      }
+      // &.holiday-special {
+      //   // image_path is a RAILS erb thing
+      //   background-image: url(image_path("holiday-bg"));
+      //   -webkit-filter: grayscale(50%); /* Safari 6.0 - 9.0 */
+      //   filter: grayscale(50%);
+      // }
     }
 
     #content-wrapper {

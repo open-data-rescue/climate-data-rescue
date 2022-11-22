@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.6.7'
+ruby '2.7.3'
 
-gem 'rails', '~> 5.2.6'
+gem 'rails', '~> 6.1'
 
 gem 'mysql2'
 
@@ -60,7 +60,7 @@ gem 'jsonapi-rspec'
 
 gem "jquery-fileupload-rails"
 
-gem 'routing-filter', '~> 0.6.0' # TODO: change when Rails upgrades
+gem 'routing-filter'
 
 gem 'http_accept_language'
 
@@ -74,7 +74,7 @@ gem 'friendly_id', '~> 5.4.2'
 gem 'mobility', '~> 1.0.3'
 gem 'friendly_id-mobility', '~> 1.0.3'
 
-gem 'globalize', '~> 5.3.0' # TODO: change when Rails upgrades
+gem 'globalize', '~> 6.0' # TODO: change when Rails upgrades
 gem 'globalize-accessors'
 
 gem "sidekiq"
@@ -84,13 +84,14 @@ gem "sidekiq-scheduler"
 # gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'newrelic_rpm'
 
-gem 'puma',  '~> 5.6.4'
+gem 'puma', '>= 5.0'
 
 gem "recaptcha", require: "recaptcha/rails"
 
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', '>= 1.4.4', require: false
 
-gem 'webpacker', '~> 3.5'
+# gem 'webpacker', '~> 3.5'
+gem 'webpacker', '~> 5.0'
 gem 'websocket-extensions', '~> 0.1.5'
 
 group :development do
@@ -136,3 +137,6 @@ end
 
 # To use debugger
 # gem 'debugger'
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+# gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

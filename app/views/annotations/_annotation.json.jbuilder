@@ -20,16 +20,18 @@ if annotation
         json.colour_class annotation.field_group.colour_class
         json.fields do
             json.array! annotation.field_group.fields do |field|
-                entry = annotation.data_entries.find_by(field_id: field.id)
+                entry = annotation.data_entries.find{|e| e.field_id == field.id}
                 json.id field.id
                 json.name field.name
                 json.data_type field.data_type
                 json.value (entry && entry.value.present? ? entry.value.strip : nil )
                 json.has_options field.field_options.any?
                 if entry
+                  json.field_options_ids entry.field_options_ids
                     if entry.field_options_ids.present?
                         selected_options = []
-                        selected_options = FieldOption.where(id: entry.field_options_ids.split(','))
+                        selected_options = @field_options.select{|fo| entry.field_options_ids.split(',').collect{|a| a.to_i}.include?(fo.id) } if @field_options
+                        # selected_options = FieldOption.where(id: entry.field_options_ids.split(','))
                         # Rails.logger.info selected_options.to_a.to_s
 
                         json.selected_options do
