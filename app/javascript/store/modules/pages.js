@@ -27,7 +27,7 @@ const actions = {
   getPages ({ commit }, params) {
     return new Promise((resolve, reject) => {
       axios.get(
-        `/api/v1/pages`,
+        `/api/v1/page`,
         {
           params: params
         }

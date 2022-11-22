@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import router from '../router'
-import store from '../store'
+import {store} from '../store/model.store'
 
 import AdminApp from '../components/AdminApp.vue'
 

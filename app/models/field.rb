@@ -41,18 +41,19 @@ class Field < ApplicationRecord
             inclusion: {
               in: DATA_TYPE_OPTIONS
             }
-  validates :measurement_type,
-            inclusion: {
-              in: MEASUREMENT_TYPE_OPTIONS
-            },
-            allow_blank: true,
-            allow_nil: true
-  validates :odr_type,
-            inclusion: {
-              in: ODR_TYPE_OPTIONS
-            },
-            allow_blank: true,
-            allow_nil: true
+  # Remove for free text entry
+  # validates :measurement_type,
+  #           inclusion: {
+  #             in: MEASUREMENT_TYPE_OPTIONS
+  #           },
+  #           allow_blank: true,
+  #           allow_nil: true
+  # validates :odr_type,
+  #           inclusion: {
+  #             in: ODR_TYPE_OPTIONS
+  #           },
+  #           allow_blank: true,
+  #           allow_nil: true
 
   before_destroy :check_for_data_entries
   before_save :normalize_field_key

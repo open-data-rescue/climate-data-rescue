@@ -1,3 +1,3 @@
-export const state = {
-  locale: 'en'
-}
+// export const state = {
+//   locale: 'en'
+// }

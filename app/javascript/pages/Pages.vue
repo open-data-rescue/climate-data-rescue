@@ -12,18 +12,18 @@
         </b-btn>
       </b-btn-toolbar>
     </b-container>
-    <TablePages />
+    <pages-table></pages-table>
   </div>
 </template>
 
 <script>
-import TablePages from '../components/TablePages'
+import PagesTable from './pages_table'
 import UrlHelpers from '../mixins/UrlHelpers'
 
 export default {
   name: 'Pages',
   components: {
-    TablePages
+    PagesTable
   },
   mixins: [UrlHelpers]
 }
