@@ -66,10 +66,10 @@ class BaseQuery
     results
   end
 
-  protected
-
   attr_writer :total
   attr_accessor :page, :sort, :filters, :tables
+
+  protected
 
   def filter_class
     raise ::NoMethodError, 'you must define a filter class to use for the query'

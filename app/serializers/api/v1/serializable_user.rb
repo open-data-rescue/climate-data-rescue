@@ -3,7 +3,9 @@ module Api
   module V1
     # Serializes the User class
     class SerializableUser < ApplicationSerializer
-      type 'users'
+      type 'user'
+
+      attrbutes :id
 
       has_one :user
     end

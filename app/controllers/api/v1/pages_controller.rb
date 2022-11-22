@@ -17,7 +17,11 @@ module Api
 
         render jsonapi: @pages,
                include: %i[page_days page_type transcriptions],
-               meta: { total: query.total }
+               meta: {
+                 total: query.total,
+                 current_page: query.page.number,
+                 per_page: query.page.size
+               }
       end
 
       def jsonapi_class

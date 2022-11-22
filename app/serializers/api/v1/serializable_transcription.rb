@@ -3,15 +3,15 @@ module Api
   module V1
     # Serializes the Transcription class
     class SerializableTranscription < ApplicationSerializer
-      type 'transcriptions'
+      type 'transcription'
 
       has_one :user
 
-      link :admin_detail do
+      attribute :admin_detail_url do
         @url_helpers.admin_transcription_url(@object.id)
       end
 
-      attribute :percent_complete
+      attributes :id, :percent_complete
     end
   end
 end

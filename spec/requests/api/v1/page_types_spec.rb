@@ -27,7 +27,7 @@ RSpec.describe Api::V1::PageTypesController, type: :request do
   end
 
   # Test suite for #index
-  describe 'GET /api/v1/page_types' do
+  describe 'GET /api/v1/page_type' do
     context 'user has an account' do
       before do
         login(user)
