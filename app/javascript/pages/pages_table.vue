@@ -3,6 +3,7 @@
     :model="model"
     :columns="columns"
     ref="pages-table"
+    :filters="filters"
   >
     <template #cell(actions)="{ item }">
       <b-button
@@ -77,7 +78,10 @@ export default {
   data: () => ({
     columns,
     model,
-    DateTime
+    DateTime,
+    filters: [
+      'end_date', 'id', 'image_file_name', 'start_date', 'title'
+    ]
   }),
   mounted() {
     this.$refs['pages-table'].fetchPaged()
