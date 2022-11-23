@@ -7,7 +7,7 @@ module Api
       def index
         query = TranscriptionQuery.new(
           collection: policy_scope(Transcription)
-                        .joins(:page),
+                        .joins(:page, :user),
                         # .references(:page),
           filters: query_filters,
           page: query_page,
@@ -39,7 +39,7 @@ module Api
         # done end_date id image_file_name
         # page_type_id page_days start_date title transcriptions visible
         %i[
-          id title
+          id title user.display_name
         ].freeze
       end
     end

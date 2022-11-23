@@ -3,7 +3,8 @@ class TranscriptionQuery < BaseQuery
   def tables_hash
     {
       transcriptions: ::Transcription.arel_table,
-      page: ::Page.arel_table
+      page: ::Page.arel_table,
+      user: ::User.arel_table
     }
   end
 

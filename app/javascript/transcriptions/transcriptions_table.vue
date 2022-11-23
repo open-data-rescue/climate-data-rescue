@@ -72,7 +72,7 @@ export default {
     model,
     DateTime,
     filters: [
-      'id', 'title'
+      'id', 'title', 'user.display_name'
     ]
   }),
   mounted() {

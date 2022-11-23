@@ -52,6 +52,7 @@ export const transcription_columns = [
   },
   {
     key: 'user',
+    search_key: 'user.display_name',
     label: 'User',
     sortable: false
   },
