@@ -110,20 +110,18 @@ export const tableMixin = {
         if (clear) this.clear() // NOTE: clear is a sync call
         this.correctOrder = [] // we need to clear otherwise the order in the computed sorted gets weird
         // What URL does this use
+        let args = Object.assign({},
+                    {
+                      'page[size]': perPage,
+                      'sort[desc]': this.sortDesc,
+                      'sort[key]': this.sortBy,
+                      'page[number]': this.currentPage
+                    },
+                    this.filter
+                  )
 
-        // http://localhost:3000/api/v1/page?page[size]=20&page[number]=1
-        // https://draw.geog.mcgill.ca/api/v1/pages?page[number]=1&page[size]=10&
-        // sort[key]=title&
-        // sort[desc]=false&filters[end_date]=&filters[id]=&filters[image_file_name]=&filters[start_date]=&filters[title]=
         this.fetch(
-          {
-            // THIS IS THE PROBLEM
-            'page[size]': perPage,
-            'sort[desc]': this.sortDesc,
-            'sort[key]': this.sortBy,
-            // filter: _filter,
-            'page[number]': this.currentPage
-          },
+          args,
           this.url
         ).then(data => {
           // this stores some metadata that returns with the fetch call

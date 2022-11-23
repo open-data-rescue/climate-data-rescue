@@ -5,9 +5,20 @@
     class="pages-table-wrapper mb-3"
     fluid
   >
-    <b-row
-      class="pagination-row"
-    >
+    <b-row>
+      <b-col>
+        <search-vue
+          class="w-75"
+          :value="filter"
+          @change="onSearchChanged"
+          :columns="columns"
+          ref="table-search"
+        >
+        </search-vue>
+      </b-col>
+    </b-row>
+
+    <b-row class="pagination-row">
       <b-col>
         <b-input-group
           class="mb-0 page-size-group"
@@ -86,15 +97,15 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex'
 import modelMixin from '../store/model.mixin';
 import tableMixin from '../store/table.mixin';
+import SearchVue from './search_vue'
 
 
 export default {
   name: 'TableVue',
   components: {
-    // SearchVue
+    SearchVue
   },
   mixins: [
     modelMixin,
@@ -125,6 +136,9 @@ export default {
       this.editable_ids = []
       this.sortBy = ctx.sortBy;
       this.sortDesc = ctx.sortDesc;
+    },
+    onSearchChanged(arg) {
+      this.filter = arg
     }
   },
   watch: {
