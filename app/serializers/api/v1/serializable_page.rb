@@ -10,7 +10,7 @@ module Api
       has_many :page_days
 
       attributes :id, :title, :start_date, :end_date, :visible, :done,
-                 :image_file_name, :created_at, :updated_at 
+                 :image_file_name, :created_at, :updated_at, :page_type_id
 
       attribute :admin_detail_url do
         @url_helpers.admin_page_url(@object.id)

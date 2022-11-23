@@ -21,6 +21,3 @@ export const pageStore = {
   getters: {
   }
 }
-
-// http://localhost:3000/api/v1/page?page[number]=1&page[size]=10&sort[key]=created_at&sort[desc]=true&filters[end_date]=&filters[id]=&filters[image_file_name]=&filters[start_date]=&filters[title]=
-// http://localhost:3000/api/v1/page?page[number]=1&page[size]=10&sort[key]=id&sort[desc]=false&filters[end_date]=&filters[id]=&filters[image_file_name]=&filters[start_date]=&filters[title]=

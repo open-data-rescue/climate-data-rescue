@@ -1,4 +1,4 @@
-class PagePolicy < ApplicationPolicy
+class TranscriptionPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       # Need to test current person etc ...

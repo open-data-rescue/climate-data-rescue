@@ -5,9 +5,12 @@ module Api
     class SerializableUser < ApplicationSerializer
       type 'user'
 
-      attributes :id
+      attributes :id, :display_name
 
-      has_one :user
+      attribute :user_url do
+        @url_helpers.user_url(@object.id)
+      end
+
     end
   end
 end
