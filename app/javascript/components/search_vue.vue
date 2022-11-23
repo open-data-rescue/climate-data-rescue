@@ -30,7 +30,8 @@ export default {
     stateName: {
       type: String,
       default: null
-    }
+    },
+    filters: Array
   },
   data() {
     return {
@@ -68,7 +69,13 @@ export default {
     dynamicChoices(key) {
     },
     filter_by_value() {
-      return { 'filter[all]': `contains("${this.value}")` }
+      let filters = new Object();
+      let value = this.value;
+      this.filters.forEach(function (arg) {
+          filters[`filters[${arg}]`] = `${value}`
+      });
+      filters['query:op'] = 'or'
+      return filters;
     },
     onSearch: function (event) {
       let filter = this.filter_by_value()

@@ -13,7 +13,7 @@ class BaseQuery
   delegate :number, to: :page, prefix: true
   delegate :number=, to: :page, prefix: true
 
-  def initialize(sort: nil, page: nil, filters: {}, collection: nil)
+  def initialize(sort: nil, page: nil, filters: {}, collection: nil, query_op: nil)
     @total = 0
     @collection = collection
 
@@ -22,6 +22,7 @@ class BaseQuery
     initialize_sort(sort)
     initialize_page(page)
     initialize_filters(filters)
+    initialize_query_op(query_op)
   end
 
   def base_collection
@@ -67,7 +68,7 @@ class BaseQuery
   end
 
   attr_writer :total
-  attr_accessor :page, :sort, :filters, :tables
+  attr_accessor :page, :sort, :filters, :tables, :query_op
 
   protected
 
@@ -76,7 +77,7 @@ class BaseQuery
   end
 
   def query_conditions
-    account_filters = filter_class.new(filters, tables)
+    account_filters = filter_class.new(filters, tables, query_op)
     account_filters.apply
   end
 
@@ -96,6 +97,10 @@ class BaseQuery
 
   def initialize_filters(filters)
     self.filters = OpenStruct.new(**process_filters(filters))
+  end
+
+  def initialize_query_op(query_op)
+    self.query_op = query_op
   end
 
   def order_statement

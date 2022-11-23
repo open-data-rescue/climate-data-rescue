@@ -12,6 +12,7 @@
           :value="filter"
           @change="onSearchChanged"
           :columns="columns"
+          :filters="filters"
           ref="table-search"
         >
         </search-vue>
@@ -118,7 +119,8 @@ export default {
     }
   },
   props : {
-    columns : { type: Array }
+    columns : { type: Array },
+    filters : { type: Array }
   },
   computed: {
     tableColumns () {
