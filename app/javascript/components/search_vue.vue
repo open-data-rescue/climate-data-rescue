@@ -72,7 +72,7 @@ export default {
       let filters = new Object();
       let value = this.value;
       this.filters.forEach(function (arg) {
-          filters[`filters[${arg}]`] = `${value}`
+        filters[`filters[${arg}]`] = `${value}`
       });
       filters['query:op'] = 'or'
       return filters;

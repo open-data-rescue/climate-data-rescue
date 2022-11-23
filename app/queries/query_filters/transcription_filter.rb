@@ -6,6 +6,7 @@ module QueryFilters
     def set_filters
       set_id
       set_title
+      set_user_display_name
     end
 
     def set_id
@@ -22,9 +23,16 @@ module QueryFilters
     def set_title
       return if filters.title.blank?
 
-      # allow partial matches on the account name
       append_condition(
         tables.page[:title].matches("%#{filters.title}%")
+      )
+    end
+
+    def set_user_display_name
+      return if filters['user.display_name'].blank?
+
+      append_condition(
+        tables.user[:display_name].matches("%#{filters['user.display_name']}%")
       )
     end
   end
