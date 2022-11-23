@@ -5,7 +5,7 @@ module Api
     class SerializableUser < ApplicationSerializer
       type 'user'
 
-      attrbutes :id
+      attributes :id
 
       has_one :user
     end
