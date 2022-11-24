@@ -24,6 +24,10 @@ export const tableMixin = {
     nullsFirst: {
       type: String,
       default: null
+    },
+    where: {
+      type: String,
+      default: null
     }
   },
   data: () => ({
@@ -37,7 +41,7 @@ export const tableMixin = {
     url: null,
     shall_clear: true,
     tempCurrentPage: 1,
-    tableBusy: false,
+    tableBusy: false
   }),
   computed: {
     ...mapState({
@@ -70,15 +74,6 @@ export const tableMixin = {
     removeFromCollection(id) {
       this.correctOrder = this.correctOrder.filter( el => el != id)
     },
-    mergeFilters(filter1, filter2) {
-      return {
-        op: 'all',
-        queries: [
-          (typeof filter1 == 'string') ? JSON.parse(filter1) : JSON.parse(JSON.stringify(filter1)),
-          (typeof filter2 == 'string') ? JSON.parse(filter2) : JSON.parse(JSON.stringify(filter2))
-        ]
-      }
-    },
     setCurrentPage() {
       const maxPage = Math.ceil(this.totalRows / this.perPage);
       const oldCurrentPage = this.currentPage;
@@ -88,23 +83,10 @@ export const tableMixin = {
         this.tempCurrentPage = this.currentPage;
       }
     },
-    // https://draw.geog.mcgill.ca/api/v1/pages?
-    // page[number]=1&page[size]=10
-    // &sort[key]=created_at&sort[desc]=true&filters[end_date]=&filters[id]=&filters[image_file_name]=&filters[start_date]=&filters[title]=
+
     fetchAll(clear=true, perPage=null) {
       this.tableBusy = true;
       this.shall_clear = clear
-      let _filter = JSON.stringify(this.filter)
-
-      if (!this.filter && this.defaultFilter) {
-        _filter = this.defaultFilter
-      }
-
-      // if this.filter AND this.defaultFilter then we merge
-      if (this.filter && this.defaultFilter) {
-        let merged = this.mergeFilters(this.defaultFilter, _filter)
-        _filter = merged
-      }
 
       return new Promise((res, rej) => {
         if (clear) this.clear() // NOTE: clear is a sync call
@@ -115,7 +97,8 @@ export const tableMixin = {
                       'page[size]': perPage,
                       'sort[desc]': this.sortDesc,
                       'sort[key]': this.sortBy,
-                      'page[number]': this.currentPage
+                      'page[number]': this.currentPage,
+                      'query:where': this.where
                     },
                     this.filter
                   )
@@ -171,6 +154,11 @@ export const tableMixin = {
     },
     filter(newVal, oldVal) {
       // console.debug("filter changed:", newVal, oldVal)
+      if(newVal != oldVal) {
+        this.fetchPaged(this.shall_clear);
+      }
+    },
+    where(newVal, oldVal) {
       if(newVal != oldVal) {
         this.fetchPaged(this.shall_clear);
       }
