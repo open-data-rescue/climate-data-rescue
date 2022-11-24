@@ -4,6 +4,7 @@
     :columns="columns"
     ref="transcriptions-table"
     :filters="filters"
+    :where="where"
   >
     <template #cell(page_image)="{ item }">
       <b-link
@@ -66,6 +67,12 @@ export default {
   name: 'TranscriptionsTable',
   components: {
     TableVue,
+  },
+  props: {
+    where: {
+      type: String,
+      default: null
+    }
   },
   data: () => ({
     columns,
