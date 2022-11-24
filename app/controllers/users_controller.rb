@@ -15,6 +15,8 @@ class UsersController < ApplicationController
   end
   
   def show
+    raise "No access to other user" if params[:id].to_i != current_user.id
+
     #@user is a variable containing an instance of the "user.rb" model. It is passed to the user view "show.html.slim" (project_root/users/user_id) and is used to populate the page with information about the user instance.
     @user = User.find(params[:id])
     @transcriptions = transcriptions(@user.id)
@@ -23,10 +25,14 @@ class UsersController < ApplicationController
   end
 
   def edit
-      @user = User.find(params[:id])
+    raise "No access to other user" if params[:id].to_i != current_user.id
+
+    @user = User.find(params[:id])
   end
 
   def update
+    raise "No access to other user" if params[:id].to_i != current_user.id
+
     User.transaction do
       begin
         #@user is a variable containing an instance of the "user.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
@@ -70,7 +76,11 @@ class UsersController < ApplicationController
   end
   
   def users_params
-    params.require(:user).permit(:email, :name, :admin, :avatar, :bio)
+    if current_user.admin?
+      params.require(:user).permit(:email, :name, :admin, :avatar, :bio)
+    else
+      params.require(:user).permit(:email, :name, :avatar, :bio)
+    end
   end
 
 end
