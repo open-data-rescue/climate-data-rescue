@@ -37,7 +37,7 @@ export const transcription_columns = [
   },
   {
     key: 'complete',
-    label: 'Makred Finished?',
+    label: 'Marked Finished?',
     sortable: true
   },
   {
