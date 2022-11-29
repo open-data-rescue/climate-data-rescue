@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   authenticate :user do
     namespace :api do
       namespace :v1 do
-        resources :pages, only: %i[index]
-        resources :page_types, only: %i[index]
+        resources :pages, only: %i[index], path: 'page'
+        resources :page_types, only: %i[index],  path: 'page_type'
+        resources :transcriptions, only: %i[index],  path: 'transcription'
       end
     end
   end

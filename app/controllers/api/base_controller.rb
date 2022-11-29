@@ -84,5 +84,11 @@ module Api
 
       params.require(:page).permit(:number, :size)
     end
+
+    def query_op
+      return if params[:'query:op'].blank?
+
+      params.permit(:'query:op')[:'query:op']
+    end
   end
 end

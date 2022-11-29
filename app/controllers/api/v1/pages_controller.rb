@@ -3,6 +3,7 @@ module Api
   module V1
     # Returns page data to the API consumer
     class PagesController < BaseController
+      # TODO: scope this ??
       def index
         query = PageQuery.new(
           collection: policy_scope(Page)
@@ -11,13 +12,18 @@ module Api
           filters: query_filters,
           page: query_page,
           sort: query_sort,
+          query_op: query_op
         )
 
         @pages = query.resolve
 
         render jsonapi: @pages,
                include: %i[page_days page_type transcriptions],
-               meta: { total: query.total }
+               meta: {
+                 total: query.total,
+                 current_page: query.page.number,
+                 per_page: query.page.size
+               }
       end
 
       def jsonapi_class

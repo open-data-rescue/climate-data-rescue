@@ -1,4 +1,4 @@
-import store from '../store'
+import {store, SET_LOCALE} from '../store/model.store'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -6,7 +6,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'stylesheets/theme.scss'
 
 import Pages from '../pages/Pages'
-import Transcriptions from '../pages/Transcriptions'
+import Transcriptions from '../transcriptions/Transcriptions'
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)
@@ -85,7 +85,7 @@ function setLocale (to, from, next) {
   }
 
   // Do something with locale, check availability of messages etc.
-  store.commit('SET_LOCALE', locale)
+  store.commit(SET_LOCALE, locale)
   next()
 }
 

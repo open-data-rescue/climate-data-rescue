@@ -3,11 +3,11 @@ module Admin
     #load_and_authorize_resource
     #Corresponds to the "transcription" model, transcription.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the transcription model
     #All .html.slim views for "transcription.rb" are located at "project_root\app\views\transcriptions"
+    layout 'admin_app', only: :index
 
     # GET /transcriptions
     # GET /transcriptions.json
     def index
-      @transcriptions = transcriptions
     end
 
     # GET /transcriptions/transcription_id
