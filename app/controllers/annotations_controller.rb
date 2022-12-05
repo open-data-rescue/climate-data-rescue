@@ -158,7 +158,7 @@ class AnnotationsController < ApplicationController
   # PUT /annotations/annotation_id.json
   def update
     Annotation.transaction do
-      @annotation = Annotation.includes(:data_entries).references(:data_entries).find(params[:id])
+      @annotation = Annotation.includes(:data_entries, :transcription).references(:data_entries).find(params[:id])
       metadata = params.require(:annotation).permit!
       meta = metadata[:meta]
       data = metadata[:data].to_unsafe_h if metadata[:data]

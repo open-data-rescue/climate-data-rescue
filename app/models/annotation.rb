@@ -9,6 +9,8 @@ class Annotation < ApplicationRecord
             presence: true
   validates :observation_date,
             presence: true
+            
+  before_save :update_parents
 
   def self.order_by_date(direction='asc')
     order("observation_date #{direction}")
@@ -21,6 +23,11 @@ class Annotation < ApplicationRecord
       width: nil,
       height: nil
     )
+  end
+  
+  def update_parents
+    transcription.save!
+    page.save!
   end
 
   def self.with_dimensions

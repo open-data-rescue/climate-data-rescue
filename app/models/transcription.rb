@@ -3,10 +3,10 @@ class Transcription < ApplicationRecord
   belongs_to :user, required: true
   has_one :page_type, through: :page
   has_many :field_groups, through: :page_type
-  has_many :field_groups_fields, through: :field_groups, counter_cache: :field_groups_fields_count
+  has_many :field_groups_fields, through: :field_groups
   has_many :fields, through: :field_groups
   has_many :annotations, dependent: :destroy
-  has_many :data_entries, through: :annotations, counter_cache: :data_entries_count
+  has_many :data_entries, through: :annotations
 
   validates :page_id, uniqueness: { scope: :user_id }
 
@@ -39,10 +39,11 @@ class Transcription < ApplicationRecord
     ((num_data_entries.to_f / num_data_entries_expected.to_f) * 100) || 0
   end
 
-  private
-
   def update_row_counters
     self.started_rows_count = annotations.pluck(:observation_date).uniq.size
     self.expected_rows_count = page.num_rows_expected || 0
+    
+    self.field_groups_fields_count = self.field_groups_fields.count(:all)
+    self.data_entries_count = self.data_entries.count(:all)
   end
 end
