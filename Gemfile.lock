@@ -211,7 +211,7 @@ GEM
     multi_json (1.15.0)
     mysql2 (0.5.4)
     netrc (0.11.0)
-    newrelic_rpm (8.13.1)
+    newrelic_rpm (8.14.0)
     nio4r (2.5.8)
     nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
