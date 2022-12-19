@@ -29,9 +29,10 @@ if annotation
                 if entry
                   json.field_options_ids entry.field_options_ids
                     if entry.field_options_ids.present?
+
                         selected_options = []
-                        selected_options = @field_options.select{|fo| entry.field_options_ids.split(',').collect{|a| a.to_i}.include?(fo.id) } if @field_options
-                        # selected_options = FieldOption.where(id: entry.field_options_ids.split(','))
+                        # selected_options = @field_options.select{|fo| entry.field_options_ids.split(',').collect{|a| a.to_i}.include?(fo.id) } if @field_options
+                        selected_options = FieldOption.where(id: entry.field_options_ids.split(','))
                         # Rails.logger.info selected_options.to_a.to_s
 
                         json.selected_options do
