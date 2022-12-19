@@ -1,7 +1,7 @@
 class AnnotationsController < ApplicationController
   #load_and_authorize_resource
   respond_to :json
-  before_action :ensure_current_user
+  before_action :ensure_current_user, :get_field_options
 
   #Corresponds to the "Annotation" model, Annotation.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the Annotation model
   # All .html.slim views for "annotation.rb" are located at "project_root\app\views\annotations"
@@ -41,8 +41,6 @@ class AnnotationsController < ApplicationController
                         )
     end
 
-    @field_options = FieldOption.all
-
     respond_to do |format|
       format.html # index.html.slim
       format.json
@@ -72,8 +70,6 @@ class AnnotationsController < ApplicationController
 
       :data_entries
     ).find(params[:id])
-
-    @field_options = FieldOption.all
 
     respond_to do |format|
       format.html # show.html.slim
@@ -245,5 +241,9 @@ class AnnotationsController < ApplicationController
 
   def backbone_annotation_params
     params.require(:annotation).permit(:x_tl, :y_tl, :width, :height, :page_id, :transcription_id, :date_time_id, :field_group_id, :observation_date)
+  end
+
+  def get_field_options
+    @field_options = FieldOption.all
   end
 end
