@@ -7,7 +7,6 @@ updates:
     time: "10:00"
   open-pull-requests-limit: 10
   assignees:
-  - rsmithlal
   ignore:
   - dependency-name: rubocop
     versions:
