@@ -138,7 +138,7 @@ module Admin
         end
 
         respond_to do |format|
-          if @field.update_attributes(field_params)
+          if @field.update(field_params)
             format.html { redirect_to admin_fields_path, success: 'Field was successfully updated.' }
             format.json
           else
