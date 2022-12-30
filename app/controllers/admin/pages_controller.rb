@@ -97,7 +97,7 @@ module Admin
         end
 
         respond_to do |format|
-          if @page.update_attributes(page_params)
+          if @page.update(page_params)
             format.html { redirect_to admin_page_path(@page), success: 'Page was successfully updated.' }
             format.json { head :no_content }
           else
