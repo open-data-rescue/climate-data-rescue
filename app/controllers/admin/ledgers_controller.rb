@@ -8,10 +8,10 @@ module Admin
     # GET /ledgers.json
     def index
       if current_user && current_user.admin?
-        
+
         #@ledgers is the variable containing all instances of the "ledger.rb" model passed to the ledger view "index.html.slim" (project_root/ledgers) and is used to populate the page with information about each ledger using @ledgers.each (an iterative loop).
         @ledgers = Ledger.all
-    
+
         respond_to do |format|
           format.html # index.html.erb
           format.json { render json: @ledgers }
@@ -28,7 +28,7 @@ module Admin
       if current_user
         #@ledger is a variable containing an instance of the "ledger.rb" model. It is passed to the ledger view "show.html.slim" (project_root/ledgers/ledger_id) and is used to populate the page with information about the ledger instance.
         @ledger = Ledger.find(params[:id])
-    
+
         respond_to do |format|
           format.html # show.html.erb
           format.json { render json: @ledger }
@@ -81,7 +81,7 @@ module Admin
             flash[:danger] = e.message
           end
         end
-    
+
         respond_to do |format|
           if @ledger && @ledger.id
             format.html { redirect_to @ledger, success: 'Ledger was successfully created.' }
@@ -103,9 +103,9 @@ module Admin
       if current_user && current_user.admin?
         Ledger.transaction do
           begin
-            #@ledger is a variable containing an instance of the "ledger.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
+            #@ledger is a variable containing an instance of the "ledger.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action.
             ledger = Ledger.find(params[:id])
-            ledger.update_attributes(ledger_params)
+            ledger.update(ledger_params)
             respond_with ledger if ledger.save
           rescue => e
             # flash[:danger] = e.message
@@ -121,18 +121,18 @@ module Admin
     # DELETE /ledgers/ledger_id.json
     def destroy
         #this function is called to delete the instance of "ledger.rb" identified by the ledger_id passed to the destroy function when it was called
-      
+
       if current_user && current_user.admin?
-        
+
         Ledger.transaction do
           begin
             @ledger = Ledger.find(params[:id])
             @ledger.destroy
           rescue => e
             # flash[:danger] = e.message
-          end 
+          end
         end
-        
+
         respond_to do |format|
           format.html { redirect_to ledgers_url }
           format.json { head :no_content }
@@ -142,7 +142,7 @@ module Admin
         redirect_to root_path
       end
     end
-    
+
     private
     def ledger_params
       params.require(:ledger).permit(:title, :ledger_type, :start_date, :end_date)

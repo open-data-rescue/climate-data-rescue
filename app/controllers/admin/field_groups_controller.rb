@@ -15,10 +15,10 @@ module Admin
           @page_type = PageType.find params[:page_type_id]
           @field_groups = @field_groups.select{|field_group| !field_group.page_types.include?(@page_type) }
         end
-        
+
         respond_to do |format|
           format.html # index.html.erb
-          format.json 
+          format.json
         end
       else
         flash[:danger] = 'Only administrators can modify fieldgroups! <a href="' + new_user_session_path + '">Log in to continue.</a>'
@@ -47,15 +47,15 @@ module Admin
     # GET /fieldgroups/new.json
     def new
       if current_user && current_user.admin?
-        
+
         #@field_group is a variable containing an instance of the "FieldGroup.rb" model. It is passed to the fieldgroup view "new.html.slim" (project_root/fieldgroups/new) and is used to populate the page with information about the fieldgroup instance. "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to set the attributes of the new fieldgroup instance.
         @field_group = FieldGroup.new
-        
+
         respond_to do |format|
           format.html # new.html.erb
           format.json { render json: @field_group }
         end
-        
+
       else
         flash[:danger] = 'Only users can modify fieldgroups! <a href="' + new_user_session_path + '">Log in to continue.</a>'
         redirect_to root_path
@@ -77,12 +77,12 @@ module Admin
     # POST /fieldgroups.json
     def create
       if current_user && current_user.admin?
-        
+
         FieldGroup.transaction do
           begin
             #@field_group is a variable containing an instance of the "FieldGroup.rb" model created with data passed in the params of the "new.html.slim" form submit action.
             @field_group = FieldGroup.create!(field_group_params)
-            
+
             if params[:page_type_id]
               @page_type = PageType.find params[:page_type_id]
             end
@@ -90,17 +90,17 @@ module Admin
             flash[:danger] = e.message
           end
         end
-        
+
         respond_to do |format|
           if @field_group.id
             format.html { redirect_to admin_field_group_path(@field_group), success: 'Fieldgroup was successfully created.' }
-            format.json 
+            format.json
           else
             format.html { render action: "new" }
             format.json { render json: @field_group.errors, status: :unprocessable_fieldgroup }
           end
         end
-        
+
       else
         flash[:danger] = 'Only users can modify fieldgroups! <a href="' + new_user_session_path + '">Log in to continue.</a>'
         redirect_to root_path
@@ -111,27 +111,27 @@ module Admin
     # PUT /fieldgroups/fieldgroup_id.json
     def update
       if current_user && current_user.admin?
-        
+
         FieldGroup.transaction do
           begin
-            #@field_group is a variable containing an instance of the "FieldGroup.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
+            #@field_group is a variable containing an instance of the "FieldGroup.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action.
             @field_group = FieldGroup.find(params[:id])
-            
+
           rescue => e
             flash[:danger] = e.message
           end
         end
 
         respond_to do |format|
-          if @field_group.update_attributes(field_group_params)
+          if @field_group.update(field_group_params)
             format.html { redirect_to admin_field_group_path(@field_group), success: 'Fieldgroup was successfully updated.' }
-            format.json 
+            format.json
           else
             format.html { render action: "edit" }
             format.json { render json: @field_group.errors, status: :unprocessable_fieldgroup }
           end
         end
-        
+
       else
         flash[:danger] = 'Only users can modify fieldgroups! <a href="' + new_user_session_path + '">Log in to continue.</a>'
         redirect_to root_path
@@ -142,7 +142,7 @@ module Admin
     # DELETE /fieldgroups/fieldgroup_id.json
     def destroy
       if current_user && current_user.admin?
-        
+
         FieldGroup.transaction do
           begin
             #this function is called to delete the instance of "FieldGroup.rb" identified by the fieldgroup_id passed to the destroy function when it was called
@@ -225,7 +225,7 @@ module Admin
 
       render "index"
     end
-    
+
     protected
     def field_group_params
       params.require(:field_group).permit(:internal_name, :name, :display_name, :description, :help, :page_type_id, :position, :colour_class)

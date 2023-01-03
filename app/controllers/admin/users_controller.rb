@@ -1,6 +1,6 @@
 module Admin
   class UsersController < AdminController
-    
+
     def index
       @users = User.includes(:transcriptions).order('admin desc, created_at asc')
     end
@@ -13,7 +13,7 @@ module Admin
       begin
         User.transaction do
           @user = User.find params[:id]
-          @user.update_attributes(users_params)
+          @user.update(users_params)
         end
       rescue => e
         flash[:danger] = e.message
@@ -23,7 +23,7 @@ module Admin
         format.html { redirect_to admin_users_path }
       end
     end
-    
+
     def destroy
       begin
         User.transaction do
