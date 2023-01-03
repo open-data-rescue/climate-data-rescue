@@ -1,16 +1,13 @@
 
-require_dependency 'coveralls'
 require_dependency 'jsonapi/rspec'
 require_dependency "paperclip/matchers"
 require_dependency 'pundit/rspec'
 require_dependency 'simplecov'
 
-Coveralls.wear!
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
   [
-    SimpleCov::Formatter::HTMLFormatter,
-    Coveralls::SimpleCov::Formatter
+    SimpleCov::Formatter::HTMLFormatter
   ]
 )
 

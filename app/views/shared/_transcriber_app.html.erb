@@ -670,9 +670,9 @@
 
           if (displayAttribute) {
             if (displayAttribute == "icon") {
-              res += ("<img src='" + iconUrl + "' />");
+              res += `<img src="${iconUrl}"></img> ${name}`;
             } else if (displayAttribute == "symbol") {
-              res += textSymbol;
+              res += `${textSymbol} ))) ${name}`; //textSymbol;
             } else {
               res += name;
             }
