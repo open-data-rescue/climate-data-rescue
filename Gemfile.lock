@@ -202,7 +202,7 @@ GEM
     modernizr-rails (2.7.1)
     msgpack (1.6.0)
     multi_json (1.15.0)
-    mysql2 (0.5.4)
+    mysql2 (0.5.5)
     net-imap (0.3.4)
       date
       net-protocol
