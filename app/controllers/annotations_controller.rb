@@ -206,7 +206,7 @@ class AnnotationsController < ApplicationController
   def value_for_option_ids(ids)
     value = ""
     if ids.is_a?(String)
-      ids = ids.split(',')
+      ids = ids.remove("field_").split(',')
     end
     options = FieldOption.where(id: ids)
     value = options.map{|option| option.value}.join(" ") if options.any?
@@ -230,7 +230,7 @@ class AnnotationsController < ApplicationController
       )
       datum.value = entry_value
       datum.user_id = value[:user_id] if datum.user_id.nil?
-      datum.field_options_ids = (value[:selected_option_ids].present? ? value[:selected_option_ids] : nil)
+      datum.field_options_ids = (value[:selected_option_ids].present? ? value[:selected_option_ids].remove("field_") : nil)
       datum.save!
     end
   end
