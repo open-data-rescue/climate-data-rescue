@@ -1,7 +1,7 @@
 nav.navbar.navbar-default.navbar-static-top.draw-top-nav
   .container-fluid
     .navbar-header
-      button.navbar-toggle.collapsed aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button" 
+      button.navbar-toggle.collapsed aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button"
         span.sr-only Toggle navigation
         span.icon-bar
         span.icon-bar
@@ -13,8 +13,8 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
         li class="#{yield(:home)}" = link_to t('home'), baseUri
         - if StaticPage.header_links.any?
           - StaticPage.header_links.each do |sp|
-            = render "static_pages/link", page: sp, top_level: true
-          
+            = render "static_pages/link", page: sp, top_level: true, header: true
+
         li class="#{yield(:transcribe)} top-level-nav dropdown-submenu"
           a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
             = t('main-nav.transcribe.transcribe') + ' '
@@ -79,8 +79,3 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
         - else
           li = link_to t('log-in'), baseUri + "/login", :class => "sidebar-url"
           li = link_to t('sign-up'), baseUri + "/users/sign_up", :class => "sidebar-url"
-
-
-
-
-

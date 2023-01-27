@@ -1,5 +1,6 @@
 - title = page.title ? page.title : page.id.to_s
 - top_level = top_level || false
+- header = header || false
 - nav_class =  top_level ? 'top-level-nav' : ''
 - opens_new_tab = opens_new_tab || false
 - link_opts = { target: (page.is_external? || opens_new_tab ? "_blank" : "_self"), name: CGI.escape(title.downcase) }
@@ -14,4 +15,5 @@ li class = nav_class
   - if page.children.any?
     ul.dropdown-menu
       - page.children.each do |child|
-        = render 'static_pages/link', page: child, opens_new_tab: opens_new_tab
+        - if child.visible && (header ? child.show_in_header : child.show_in_footer)
+          = render 'static_pages/link', page: child, opens_new_tab: opens_new_tab
