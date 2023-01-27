@@ -47,7 +47,7 @@
 
       var value = '';
       var data = $this.select2('data');
-      // console.log(data);
+      // console.log("** updateFieldOptionIds", data);
 
       _.each(data, function(option, idx) {
         var $element = $(option.element);
@@ -870,7 +870,7 @@
             $select.trigger("change");
             _.each(field.selected_options, function setSelectedOptions(option) {
               // console.log(option);
-              var $option = $("<option class='user-option' selected></option>").val(option.id).html(self.formatSelection(option));
+              var $option = $("<option class='user-option' selected></option>").val(`field_${option.id}`).html(self.formatSelection(option));
 
               // For custom tag template
               $option.attr("data-display-attribute", option.display_attribute);
