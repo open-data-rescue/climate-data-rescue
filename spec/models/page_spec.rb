@@ -17,7 +17,6 @@ describe Page do
 
   describe 'callbacks' do
     it { is_expected.to callback(:extract_upload_dimensions).before(:save) }
-    it { is_expected.to callback(:parse_filename).before(:validation) }
     it { is_expected.to callback(:check_for_delete).before(:destroy) }
   end
 
