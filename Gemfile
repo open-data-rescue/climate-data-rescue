@@ -49,6 +49,8 @@ gem 'will_paginate'
 gem 'paperclip'
 # gem 'aws-sdk-s3', '~> 1'
 
+gem 'with_advisory_lock'
+
 # Support for tag inputs
 gem 'select2-rails'
 
