@@ -24,7 +24,6 @@ class Page < ApplicationRecord
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
 
-  before_validation :parse_filename
   before_save :extract_upload_dimensions
   before_destroy :check_for_delete
 
@@ -112,42 +111,6 @@ class Page < ApplicationRecord
     if data_entries.any?
       errors.add(:base, I18n.t('cant-delete-page-that-has-been-transcribed'))
       throw(:abort)
-    end
-  end
-
-  def parse_filename
-    return if image.blank? || persisted?
-    filename = image_file_name
-    components = filename.split("_")
-    ledger_type = components[1]
-    volume = components[2]
-    start_date = components[3]
-    end_date = components[4]
-
-    if components.count == 6
-      self.accession_number = components[0]
-      if ledger_type && volume
-        ledger = Ledger.find_or_create_by(ledger_type: ledger_type) do |ledger|
-          ledger.title = ledger_type
-        end
-      end
-
-      if components[5] && components[5].length > 0
-        # take the first character of the 6th position?
-        page_type_num = components[5][0]
-        self.page_type = PageType.find_or_create_by(number: page_type_num, ledger_id: ledger.id) do |page_type|
-          page_type.ledger_type = ledger_type
-          page_type.title = "Register #{ledger_type}, page #{page_type_num}"
-        end
-      end
-
-      self.volume = volume
-      self.start_date = Date.parse(start_date)
-      self.end_date = Date.parse(end_date)
-
-      self.title = "#{start_date} to #{end_date}"
-    else
-      raise "invalid filename"
     end
   end
 
