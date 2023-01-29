@@ -48,14 +48,20 @@ module Admin
       page = nil
 
       filename = filename_sans_suffix(image: image)
-      Page.with_advisory_lock("Page_#{filename}", timeout_seconds: 60) do
+      components = parse_filename(filename: filename)
+
+      # Get or create the Ledger and PageType if needed
+      ledger = create_or_find_ledger(components: components)
+      page_type = create_or_find_page_type(ledger: ledger, components: components)
+
+      Page.with_advisory_lock("Page_#{filename}_lock", timeout_seconds: 60) do
         # search based on filename before the suffix
         page = Page.where("image_file_name like ?", "#{filename}.%").take
         Page.transaction do
           if page.present? # update the image for the existing page
             page.update!(image: image)
           else # create a new page + ledger and page types if needed
-            page = create_page(image: image)
+            page = create_page(image: image, ledger: ledger, page_type: page_type, components: components)
           end
         end
       end
