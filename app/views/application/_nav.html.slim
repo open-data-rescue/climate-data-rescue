@@ -47,21 +47,6 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
                   = locale_switcher_link(lang, static_page: @page)
         - if user_signed_in?
           - if current_user.admin?
-            li id="better-together-menu" class="#{yield(:better_together)} top-level-nav dropdown-submenu"
-              a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
-                = t('better-together.better-together') + ' '
-                span.caret
-              ul.dropdown-menu
-                li.external = link_to t('better-together.about-better-together'), 'https://bebettertogether.ca', target: :bebettertogether
-                li.external = link_to t('better-together.report-an-issue'), 'mailto:support@bettertogethersolutions.com?subject=[DRAW-BTCE]%20Issue%20Report&body=The%20URL%20is:%20' + request.url, target: :bebettertogethersupport
-                li role="separator" class="divider"
-                li.nav-label
-                  label Public
-                li class="#{yield(:better_together_blog)}" = link_to t('better-together.community.blog'), better_together_posts_path
-                li role="separator" class="divider"
-                li.nav-label
-                  label Admin
-                li class="#{yield(:better_together_posts)}" = link_to BetterTogether::Post.model_name.human(count: 2), admin_better_together_posts_path
             li id="admin-menu" class="#{yield(:admin)} top-level-nav dropdown-submenu"
               a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
                 = 'Admin '

@@ -1,2 +1,0 @@
-module BetterTogether::PostsHelper
-end
