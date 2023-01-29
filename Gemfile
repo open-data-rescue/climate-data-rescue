@@ -19,12 +19,7 @@ gem 'activerecord-session_store'
 
 #bootstrap stuff
 gem 'sass-rails'
-#gem 'sprockets-rails'
 gem 'bootstrap-sass'
-
-# source 'https://rails-assets.org' do
-#   gem 'rails-assets-tether', '>= 1.1.0'
-# end
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'execjs'
