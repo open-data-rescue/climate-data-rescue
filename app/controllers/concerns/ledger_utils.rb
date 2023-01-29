@@ -26,23 +26,45 @@ module LedgerUtils
   # Find the ledger, if not present create a new one
   #
   def create_or_find_ledger(components:)
-    return nil unless components[:ledger_type]
+    raise "Unable to find or create Ledger" unless components[:ledger_type]
 
-    Ledger.find_or_create_by(ledger_type: components[:ledger_type]) do |ledger|
-      ledger.title = components[:ledger_type]
+    # Logic to ensure only one ledger of given type (because DB does not have constraint)
+    ledger = Ledger.find_by(ledger_type: components[:ledger_type])
+
+    if !ledger
+      Ledger.with_advisory_lock("Ledger_#{components[:ledger_type]}_lock", timeout_seconds: 60) do
+        Ledger.transaction do
+          ledger = Ledger.find_or_create_by(ledger_type: components[:ledger_type]) do |ledger|
+            ledger.title = components[:ledger_type]
+          end
+        end
+      end
     end
+
+    ledger
   end
 
   #
   # Find the page type, if not present create a new one
   #
   def create_or_find_page_type(ledger:, components:)
-    return nil unless ledger && components[:page_type_num]
+    raise "Unable to find or create PageType" unless ledger && components[:page_type_num]
 
-    PageType.find_or_create_by(number: components[:page_type_num], ledger_id: ledger.id) do |page_type|
-      page_type.ledger_type = components[:ledger_type]
-      page_type.title = "Register #{components[:ledger_type]}, page #{components[:page_type_num]}"
+    # Logic to ensure only one PageType of given type (because DB does not have constraint)
+    page_type = PageType.find_by(number: components[:page_type_num], ledger_id: ledger.id)
+
+    if !page_type
+      PageType.with_advisory_lock("PageType_#{components[:page_type_num]}_#{ledger.id}_lock", timeout_seconds: 60) do
+        PageType.transaction do
+          page_type = PageType.find_or_create_by(number: components[:page_type_num], ledger_id: ledger.id) do |pt|
+            pt.ledger_type = components[:ledger_type]
+            pt.title = "Register #{components[:ledger_type]}, page #{components[:page_type_num]}"
+          end
+        end
+      end
     end
+
+    page_type
   end
 
   #
@@ -57,14 +79,9 @@ module LedgerUtils
   #
   # Create a page if it does not exist
   #
-  def create_page(image:)
-    return if image.blank?
-
+  def create_page(image:, ledger:, page_type:, components:)
+    raise "no image for page" if image.blank?
     raise "duplicate page" if Page.where("image_file_name like ?", "#{filename_sans_suffix(image: image)}.%").count > 0
-
-    components = parse_filename(filename: filename_sans_suffix(image: image))
-    ledger = create_or_find_ledger(components: components)
-    page_type = create_or_find_page_type(ledger: ledger, components: components)
 
     page = Page.new(
              image: image,
