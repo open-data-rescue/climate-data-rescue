@@ -214,7 +214,7 @@ GEM
       net-protocol
     newrelic_rpm (8.15.0)
     nio4r (2.5.8)
-    nokogiri (1.14.0)
+    nokogiri (1.14.1)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     optimist (3.0.1)
@@ -403,7 +403,7 @@ GEM
     thor (1.2.1)
     tilt (2.0.11)
     timeout (0.3.1)
-    tzinfo (2.0.5)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -415,7 +415,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webpacker (5.4.3)
+    webpacker (5.4.4)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
@@ -493,7 +493,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.1.0)
   uglifier
   web-console (>= 3.3.0)
-  webpacker (~> 5.0)
+  webpacker (~> 5.4)
   websocket-extensions (~> 0.1.5)
   will_paginate
 
