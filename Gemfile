@@ -72,7 +72,7 @@ gem 'rails-observers'
 
 gem 'friendly_id', '~> 5.4.2'
 gem 'mobility', '~> 1.0.3'
-gem 'friendly_id-mobility', '~> 1.0.3'
+gem 'friendly_id-mobility', '~> 1.0.4'
 
 gem 'globalize', '~> 6.0' # TODO: change when Rails upgrades
 gem 'globalize-accessors'
