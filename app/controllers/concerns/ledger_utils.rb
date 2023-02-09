@@ -25,13 +25,14 @@ module LedgerUtils
       page_types = components[4].split(".")
       page_type_num = page_types[0]
       start_date = Date.parse(components[3])
+      end_date = start_date.next_month.prev_day
 
       {
         accession_number: components[0],
         ledger_type:      components[1],
         volume:           components[2],
         start_date:       start_date,
-        end_date:         start_date.next_month.prev_day,
+        end_date:         end_date,
         page_type_num:    page_type_num,
         page_title:       "#{components[0]} - #{start_date} to #{end_date}"
       }

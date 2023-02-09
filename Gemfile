@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.6.7'
 
-gem 'rails', '~> 5.2.6'
+gem 'rails', '~> 5.2.5'
 
 gem 'mysql2'
 
@@ -21,13 +21,14 @@ gem 'activerecord-session_store'
 gem 'sass-rails'
 #gem 'sprockets-rails'
 gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
 
 # source 'https://rails-assets.org' do
 #   gem 'rails-assets-tether', '>= 1.1.0'
 # end
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'execjs'
+gem 'mini_racer', '~> 0.2.6'
 
 gem 'modernizr-rails'
 
@@ -36,10 +37,11 @@ gem 'log4r'
 
 #for user authentication
 gem 'devise'
-gem 'pundit'
 
 #to handle .slim files
 gem 'slim-rails'
+
+gem "sentry-raven"
 
 #for forms
 gem 'simple_form'
@@ -47,57 +49,54 @@ gem 'will_paginate'
 
 #for attachments
 gem 'paperclip'
-# gem 'aws-sdk-s3', '~> 1'
+gem 'aws-sdk-s3', '~> 1'
 
 gem 'with_advisory_lock'
 
 # Support for tag inputs
 gem 'select2-rails'
 
+# gem "rails-backbone"
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 
-gem 'jsonapi-rails'
-gem 'jsonapi-rspec'
-
 gem "jquery-fileupload-rails"
 
-gem 'routing-filter', '~> 0.6.0' # TODO: change when Rails upgrades
+gem 'routing-filter', git: 'https://github.com/svenfuchs/routing-filter'
 
 gem 'http_accept_language'
 
 gem 'rails-i18n'
 gem 'i18n-active_record', :require => 'i18n/active_record'
-# gem 'i18n-tasks'
 
 gem 'rails-observers'
 
-gem 'friendly_id', '~> 5.4.2'
-gem 'mobility', '~> 1.0.3'
-gem 'friendly_id-mobility', '~> 1.0.3'
-
-gem 'globalize', '~> 5.3.0' # TODO: change when Rails upgrades
+gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'globalize-accessors'
-
-gem "sidekiq"
-gem "sidekiq-scheduler"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'newrelic_rpm'
-
-gem 'puma',  '~> 5.6.4'
+gem 'rollbar'
+gem 'puma',  '~> 4.3.1'
 
 gem "recaptcha", require: "recaptcha/rails"
 
 gem 'bootsnap', '>= 1.1.0', require: false
 
-gem 'webpacker', '~> 3.5'
-gem 'websocket-extensions', '~> 0.1.5'
+gem 'eager_group'
 
+# Deploy with Capistrano
+# Deploy with Capistrano
 group :development do
-  # What is this used for?
-  # gem 'execjs'
+  gem 'capistrano'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano3-puma'
+
+  gem 'execjs'
 
   gem "better_errors"
   gem "binding_of_caller"
@@ -117,18 +116,15 @@ group :development do
 end
 
 group :development, :test do
-  gem 'brakeman'
   gem 'fuubar'
   gem 'rspec-rails'
   gem 'pry'
   gem 'rubocop-rspec'
   gem 'listen'
-  gem 'faker', '~> 2.15.1'
+  gem 'faker', '~> 2.19.0'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'shoulda-callback-matchers'
-  # gem 'capybara'
-  gem 'database_cleaner'
 end
 
 group :test do
