@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_18_232624) do
+ActiveRecord::Schema.define(version: 2023_02_10_204547) do
 
   create_table "annotations", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(version: 2022_10_18_232624) do
     t.string "ledger_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["ledger_type"], name: "index_ledgers_on_ledger_type", unique: true
   end
 
   create_table "mobility_string_translations", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
@@ -228,6 +229,7 @@ ActiveRecord::Schema.define(version: 2022_10_18_232624) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "visible", default: false
+    t.index ["title", "ledger_type", "number"], name: "index_page_types_on_title_and_ledger_type_and_number", unique: true
   end
 
   create_table "page_types_field_groups", id: :integer, charset: "utf8", force: :cascade do |t|
@@ -255,7 +257,9 @@ ActiveRecord::Schema.define(version: 2022_10_18_232624) do
     t.datetime "image_updated_at"
     t.string "volume"
     t.boolean "visible", default: true
+    t.index ["image_file_name"], name: "index_pages_on_image_file_name", unique: true
     t.index ["page_type_id"], name: "index_pages_on_page_type_id"
+    t.index ["title", "page_type_id", "accession_number", "volume"], name: "unque_page_ldgr_vol", unique: true
   end
 
   create_table "sessions", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
