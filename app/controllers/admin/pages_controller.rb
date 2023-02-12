@@ -2,6 +2,8 @@ module Admin
   class PagesController < AdminController
     layout 'admin_app', only: :index
 
+    include LedgerUtils
+
     respond_to :html
     #Corresponds to the "page" model, page.rb. The functions defined below correspond with the various CRUD operations permitting the creation and modification of instances of the page model
     #All .html.slim views for "page.rb" are located at "project_root\app\views\pages"
@@ -37,35 +39,42 @@ module Admin
     # POST /pages
     # POST /pages.json
     def create
-      Page.transaction do
-        raise "no image detected" unless params[:page][:image].present?
-        upload = params[:page][:image]
-        Rails.logger.debug upload unless Rails.env.production?
+      raise "no image detected" unless params[:page][:image].present?
 
-        if upload.is_a? Array
-          image = upload[0]
-        else
-          image = upload
-        end
+      upload = params[:page][:image]
+      Rails.logger.debug upload unless Rails.env.production?
 
-        filename = image.original_filename
-        page = Page.find_by(image_file_name: filename)
-        if page.present?
-          page.image = image
-          page.save!
-        else
-          page = Page.create!(image: image, visible: false)
+      image = upload.is_a?(Array) ? upload[0] : upload
+      page = nil
+
+      filename = filename_sans_suffix(image: image)
+      components = parse_filename(filename: filename)
+
+      # Get or create the Ledger and PageType if needed
+      ledger = create_or_find_ledger(components: components)
+      page_type = create_or_find_page_type(ledger: ledger, components: components)
+
+      Page.with_advisory_lock("Page_#{filename}_lock", timeout_seconds: 60) do
+        # search based on filename before the suffix
+        page = Page.where("image_file_name like ?", "#{filename}.%").take
+        Page.transaction do
+          if page.present? # update the image for the existing page
+            page.update!(image: image)
+          else # create a new page + ledger and page types if needed
+            page = create_page(image: image, ledger: ledger, page_type: page_type, components: components)
+          end
         end
-        respond_to do |format|
-          format.html { #(html response is for browsers using iframe solution)
-            render :json => [page.to_jq_upload].to_json,
-            :content_type => 'text/html',
-            :layout => false
-          }
-          format.json {
-            render :json => {files: [page.to_jq_upload] }.to_json
-          }
-        end
+      end
+
+      respond_to do |format|
+        format.html { #(html response is for browsers using iframe solution)
+          render :json => [page.to_jq_upload].to_json,
+          :content_type => 'text/html',
+          :layout => false
+        }
+        format.json {
+          render :json => {files: [page.to_jq_upload] }.to_json
+        }
       end
     rescue => ex
       Rails.logger.error ex.message

@@ -2,7 +2,7 @@
     <% if StaticPage.footer_links.any? %>
         <div class="footer-nav-wrapper">
             <ul class="nav navbar-nav footer-nav footer-nav-collapse">
-              <%= render partial: "static_pages/link", collection: StaticPage.footer_links, as: :page, locals: { top_level: true } %>
+              <%= render partial: "static_pages/link", collection: StaticPage.footer_links, as: :page, locals: { top_level: true, header: false } %>
             </ul>
         </div>
     <% end %>
