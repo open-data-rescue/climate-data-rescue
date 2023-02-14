@@ -1,19 +1,17 @@
-- title = page.title ? page.title : page.id.to_s
-- top_level = top_level || false
 - header = header || false
-- nav_class =  top_level ? 'top-level-nav' : ''
 - opens_new_tab = opens_new_tab || false
-- link_opts = { target: (page.is_external? || opens_new_tab ? "_blank" : "_self"), name: CGI.escape(title.downcase) }
-- if @page == page
-  - nav_class += ' active'
-- if page && page.children.any?
-  - nav_class += ' dropdown-submenu'
-  / - link_opts[:data] = { toggle: 'dropdown' }
+- top_active = @page && @page == page
+- top_active ||= @page && page.children.collect(&:id).include?(@page.id)
 
-li class = nav_class
-  = link_to (page.children.any? && top_level ? (title + ' <span class="caret"></span>').html_safe : title), page.link, link_opts
-  - if page.children.any?
-    ul.dropdown-menu
+li.nav-item.dropdown
+  a class="nav-link dropdown-toggle #{top_active ? 'active' : ''}" data-toggle="dropdown" href="#" role="button"
+    = page.title
+  div.dropdown-menu
+    - if page.link
+      - link_opts = { class: "dropdown-item #{(@page && @page == page)? 'active' : ''}", target: (page.is_external? || opens_new_tab ? "_blank" : "_self"), name: CGI.escape(page.title.downcase) }
+      = link_to(page.title, page.link, link_opts)
+    - if page.children.any?
       - page.children.each do |child|
         - if child.visible && (header ? child.show_in_header : child.show_in_footer)
-          = render 'static_pages/link', page: child, opens_new_tab: opens_new_tab
+          - link_opts = {class: "dropdown-item #{(@page && @page == child)? 'active' : ''}", target: (child.is_external? || opens_new_tab ? "_blank" : "_self"), name: CGI.escape(child.title.downcase) }
+          = link_to(child.title, child.link, link_opts)

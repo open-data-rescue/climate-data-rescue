@@ -10,13 +10,12 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require jquery_ujs
+// require jquery
+// require jquery_ujs
 //= require jquery-ui
 //= require jquery.ba-outside-events.min
 //= require modernizr
 //= require moment/min/moment.min
-//= require bootstrap-sprockets
 //= require bootstrap-switch/dist/js/bootstrap-switch
 //= require select2-full-custom
 //= require jquery-fileupload
@@ -38,8 +37,6 @@
 //= require backbone-forms/bootstrap-modal
 //= require backbone-forms/distribution/templates/bootstrap3
 //
-// 
-//= require wickedpicker
 //= require magnify/jquery.magnify
 //= require magnify/jquery.magnify-mobile
 //= require bootstrap-notify/bootstrap-notify
@@ -78,13 +75,13 @@ $(document).ready(function(){
                 };
             };
         };
-        
+
         return Backbone._sync(method, model, options);
     };
 
 
-    $('[data-toggle="popover"]').popover();
-    $('[data-toggle="tooltip"]').tooltip();    
+    // $('[data-toggle="popover"]').popover();
+    // $('[data-toggle="tooltip"]').tooltip();
 
     window.setTimeout(function() {
       $(".alert").fadeTo(500, 0).slideUp(500, function(){
@@ -95,19 +92,19 @@ $(document).ready(function(){
 
 
 // Dynamically sticky footer
-$(window).bind("load", function() { 
-       
+$(window).bind("load", function() {
+
        var footerHeight = 0,
            footerTop = 0,
            $footer = $(".footer");
-           
+
        positionFooter();
-       
+
        function positionFooter() {
-       
+
                 footerHeight = $footer.height();
                 footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
-       
+
                if ( ($(document.body).height()) < $(window).height()) {
                    $footer.css({
                         position: "absolute"
@@ -119,13 +116,13 @@ $(window).bind("load", function() {
                         position: "static"
                    })
                }
-               
+
        }
 
        $(window)
                .scroll(positionFooter)
                .resize(positionFooter)
-               
+
 });
 
 function alertMessageJson(message) {
@@ -141,7 +138,7 @@ function alertMessageJson(message) {
                 }
             });
         });
-        
+
         alertMessage(msg);
     } else if (message && message.error){
       alertMessage(message.error);

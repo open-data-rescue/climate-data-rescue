@@ -19,7 +19,8 @@ gem 'activerecord-session_store'
 
 #bootstrap stuff
 gem 'sass-rails'
-gem 'bootstrap-sass'
+# gem 'bootstrap-sass'
+gem 'bootstrap'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'execjs'

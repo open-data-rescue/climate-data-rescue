@@ -8,19 +8,18 @@
  *= require select2
  *= require select2-bootstrap
  *= require trumbowyg/dist/ui/trumbowyg
- *= require wickedpicker
  *= require bootstrap-switch/dist/css/bootstrap3/bootstrap-switch
  *= require eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min
  *= require magnify
  *= require animate
  *= require snowEffect
 
-
  *= require_tree .
  *= require_self
 */
-@import "bootstrap-sprockets";
-@import "bootstrap";
+// @import "bootstrap-sprockets";
+// @import "bootstrap";
+@import "bootstrap/scss/bootstrap";
 @import "draw-variables";
 
 // html, body {
@@ -216,8 +215,8 @@ a {
     }
 }
 
-.field-option-table, 
-.fields-table, 
+.field-option-table,
+.fields-table,
 .field-groups-table {
   tbody {
     tr:not(.title-wrapper) {
@@ -451,7 +450,7 @@ table#admin-pages {
 
 
 a.dropdown-toggle.nav-user-flair {
-  padding-left: 45px;
+  padding-left: 45px !important;
   position: relative;
 
   img.nav-user-photo {

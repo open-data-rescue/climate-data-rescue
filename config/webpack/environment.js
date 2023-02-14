@@ -16,6 +16,14 @@ environment.loaders.prepend('erb', erb)
 //   environment.loaders.append('eslint', eslint)
 // }
 
+environment.plugins.append('Provide',
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery',
+    Popper: ['popper.js', 'default']
+  })
+)
+
 var path = require('path');
 
 environment.plugins.prepend('env',
@@ -23,6 +31,16 @@ environment.plugins.prepend('env',
     'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   })
 )
+
+// TODO: the expose loader syntax, check
+environment.plugins.append(
+  "Provide",
+  new webpack.ProvidePlugin({
+    $: "jquery/src/jquery",
+    jQuery: "jquery/src/jquery",
+    Popper: ['popper.js', 'default']
+  })
+);
 
 // added and allow BootstrapVue to work.
 const config = environment.toWebpackConfig()
@@ -34,5 +52,7 @@ config.resolve = {
   },
   extensions: ['*', '.js', '.vue', '.json']
 }
+
+environment.config.set('resolve.alias', {jquery: 'jquery/src/jquery'});
 
 module.exports = environment
