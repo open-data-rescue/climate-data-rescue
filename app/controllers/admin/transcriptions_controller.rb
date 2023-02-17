@@ -70,8 +70,6 @@ module Admin
         @page_types = PageType.order(:title).distinct
       else
         page_type_id = params['page_type_id']
-        # limit = params['limit'] || nil
-        # offset = params['offset'] || nil
 
         raise "missing page type for export" unless page_type_id.present?
 
@@ -86,20 +84,9 @@ module Admin
         )
         .find(page_type_id)
 
-# Views::AnnotationsAndDataEntry.where(page_type_id: page_type_id).order('transcription_id, page_start_date ASC, page_id, observation_date asc').group_by{|a| a.transcription_id}
-
-        # .limit(limit).offset(offset)
         @annotations = Views::AnnotationsAndDataEntry
                          .where(page_type_id: page_type_id)
                          .order('transcription_id, observation_date asc, field_group_id')
-
-        # Rails.logger.debug "**********************************"
-        # Rails.logger.debug "**********************************"
-        #
-        # Rails.logger.debug "* page type = #{@page_type.present?}"
-        #
-        # Rails.logger.debug "**********************************"
-        # Rails.logger.debug "**********************************"
       end
 
       respond_to do |format|
@@ -110,7 +97,7 @@ module Admin
             "attachment; \
             filename=DRAW_transcriptions_#{DateTime.current}.csv"
         end
-        format.json
+        # format.json
       end
     end
 

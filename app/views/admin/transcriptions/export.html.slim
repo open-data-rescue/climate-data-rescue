@@ -4,7 +4,7 @@ h1 = t('admin.transcriptions.export.header')
 ul
   - if @page_types.present? && @page_types.any?
     - @page_types.each do |schema|
-      li 
+      li
         = 'id: ' + schema.id.to_s
         br
         = schema.title
@@ -17,5 +17,5 @@ ul
         br
         a.btn.btn-primary.btn-xs target="_blank" href="export.csv?page_type_id=#{schema.id}"
           = 'Download csv'
-        a.btn.btn-primary.btn-xs target="_blank" href="export.json?page_type_id=#{schema.id}"
-          = 'Download json'
+        / a.btn.btn-primary.btn-xs target="_blank" href="export.json?page_type_id=#{schema.id}"
+        /  = 'Download json'
