@@ -1,31 +1,26 @@
 
-- if @transcriptions.present? && @transcriptions.any? && @page_type.present?
+- if @page_type.present? && @annotations.count > 0
   - headers = %w[date time]
   - @page_type.field_groups.each do |group|
     - headers = headers.concat(group.fields.map(&:field_key))
+  - columns = headers.each_with_index.map{|o, idx| [o, idx] }.to_h
   - headers = headers.concat(%w[transcription_id page_id user_id first_started last_updated])
-  / = CSV.generate_line(headers, encoding: 'UTF-8')
+
   - csv_string = CSV.generate(encoding: 'UTF-8') do |csv|
     - csv << headers
-    - @transcriptions.each do |transcription|
-      - dates = transcription.annotations_with_dimensions.group_by do |a|
-        - a.observation_date.utc.to_date
-      - dates.each do |date, date_annotations|
-        - times = date_annotations.group_by { |a| a.observation_date.utc }
-        - times.each do |time, time_annotations|
-          - row = [date.to_s, time.strftime('%H:%M')]
-          - created = nil
-          - updated = nil
-          - @page_type.field_groups.each do |group|
-            - annotation = time_annotations.select{|a| a.field_group == group}.first
-            - created = annotation.created_at if annotation && (created.nil? || annotation.created_at < created)
-            - updated = annotation.updated_at if annotation && (updated.nil? || annotation.updated_at > updated)
-            - group.fields.each do |field|
-              - entry = nil
-              - entry = transcription.data_entries.select{|a| a.field_id == field.id && a.annotation_id == annotation.id}.first if annotation
-              - value = nil
-              - value = entry.value.html_safe if entry.present? && entry.value.present?
-              - row << value
-          - row = row.concat([transcription.id, transcription.page_id, transcription.user_id, (created ? created.strftime('%Y-%m-%d %H:%M') : nil), (updated ? updated.strftime('%Y-%m-%d %H:%M') : nil)])
-          - csv << row
+    - row = []
+    - current_observation_date = @annotations.first&.observation_date
+    - @annotations.each do |annotation|
+      - if row.length == 0
+        - time = annotation.observation_date.utc
+        - row = [time.to_date, time.strftime('%H:%M')].concat Array.new(columns.keys.length - 2, '')
+      - row[columns[annotation.field_key]] = annotation.value if annotation.value
+      - if annotation.observation_date != current_observation_date
+        - row += [annotation.transcription_id, annotation.page_id, 'uid is ' + annotation.user_id.to_s]
+        - row << annotation.created_at ? annotation.created_at.strftime('%Y-%m-%d %H:%M') : nil
+        - row << annotation.updated_at ? annotation.updated_at.strftime('%Y-%m-%d %H:%M') : nil
+        - current_observation_date = annotation.observation_date
+        - csv << row
+        - row = []
+
   = csv_string.html_safe

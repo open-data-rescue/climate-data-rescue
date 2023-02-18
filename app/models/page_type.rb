@@ -3,8 +3,8 @@ class PageType < ApplicationRecord
 
   has_many :pages
   has_many :page_types_field_groups, dependent: :destroy
+  # -> { references(:page_types_field_groups).order("page_types_field_groups.sort_order asc") },
   has_many :field_groups,
-           -> { references(:page_types_field_groups).order("page_types_field_groups.sort_order asc") },
            through: :page_types_field_groups
   has_many :fields, through: :field_groups
   has_many :transcriptions, through: :pages

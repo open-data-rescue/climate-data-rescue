@@ -64,51 +64,29 @@ module Admin
     end
 
     def export
-      Rails.logger.info params
+      # Rails.logger.info params
+      @annotations = nil
       if request.format.html?
         @page_types = PageType.order(:title).distinct
       else
-        limit = params['limit'] || nil
-        offset = params['offset'] || nil
+        page_type_id = params['page_type_id']
 
-        if params['page_type_id'].present?
-          @page_type = PageType.includes(
-            {
-              page_types_field_groups: {
-                field_group: {
-                  field_groups_fields: :field
-                }
+        raise "missing page type for export" unless page_type_id.present?
+
+        @page_type = PageType.includes(
+          {
+            page_types_field_groups: {
+              field_group: {
+                field_groups_fields: :field
               }
             }
-          )
-          .find(params['page_type_id'])
+          }
+        )
+        .find(page_type_id)
 
-          if @page_type.present?
-            # @data_entries = DataEntry.joins(:annotation, :field).where(
-            #   field_id: @page_type.fields.pluck(:id),
-            #   annotation_id: @page_type.annotations.pluck(:id)
-            # )
-            @transcriptions = @page_type.transcriptions
-                                        .select(Arel.star, Page.arel_table[:start_date])
-                                        .joins(
-                                          :annotations,
-                                          :page
-                                        )
-                                        .preload(:data_entries, {annotations_with_dimensions: :field_group}, {field_groups: :fields}, {fields: :translations})
-                                        .includes(:annotations, {page: :page_days}, :fields)
-                                        .order('pages.start_date ASC')
-                                        .limit(limit).offset(offset)
-                                        .distinct
-          end
-        else
-          @transcriptions = Transcription.joins(
-            :data_entries,
-            :page
-          )
-          .preload(:data_entries, {annotations_with_dimensions: :field_group}, {field_groups: :fields}, {fields: :translations})
-          .includes(:annotations, {page: :page_days})
-          .limit(limit).offset(offset).order('pages.start_date ASC').distinct
-        end
+        @annotations = Views::AnnotationsAndDataEntry
+                         .where(page_type_id: page_type_id)
+                         .order('transcription_id, observation_date asc, field_group_id')
       end
 
       respond_to do |format|
@@ -118,9 +96,8 @@ module Admin
           response.headers['Content-Disposition'] =
             "attachment; \
             filename=DRAW_transcriptions_#{DateTime.current}.csv"
-          # response.headers['Content-Type'] = 'text/plain'
         end
-        format.json
+        # format.json
       end
     end
 
