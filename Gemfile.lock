@@ -99,7 +99,7 @@ GEM
     database_cleaner-core (2.0.1)
     date (3.3.3)
     debug_inspector (1.1.0)
-    devise (4.8.1)
+    devise (4.9.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0)
@@ -214,7 +214,7 @@ GEM
       net-protocol
     newrelic_rpm (8.15.0)
     nio4r (2.5.8)
-    nokogiri (1.14.0)
+    nokogiri (1.14.2)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     optimist (3.0.1)
@@ -299,9 +299,9 @@ GEM
     regexp_parser (2.6.2)
     request_store (1.5.1)
       rack (>= 1.4)
-    responders (3.0.1)
-      actionpack (>= 5.0)
-      railties (>= 5.0)
+    responders (3.1.0)
+      actionpack (>= 5.2)
+      railties (>= 5.2)
     rexml (3.2.5)
     routing-filter (0.7.0)
       actionpack (>= 6.1)
@@ -403,7 +403,7 @@ GEM
     thor (1.2.1)
     tilt (2.0.11)
     timeout (0.3.1)
-    tzinfo (2.0.5)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -426,7 +426,7 @@ GEM
     will_paginate (3.3.1)
     with_advisory_lock (4.6.0)
       activerecord (>= 4.2)
-    zeitwerk (2.6.6)
+    zeitwerk (2.6.7)
 
 PLATFORMS
   ruby
