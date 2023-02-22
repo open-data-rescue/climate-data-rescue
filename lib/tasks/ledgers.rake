@@ -128,7 +128,7 @@ namespace :ledgers do
     Ledger.transaction do
       from.page_types.update_all(ledger_id: to.id)
       from.destroy
-      puts "Moved #{moving_count} pages"
+      puts "Moved #{moving_count} page types"
     end
   end
 
