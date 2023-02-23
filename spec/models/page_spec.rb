@@ -31,14 +31,14 @@ describe Page do
 
     context 'when it has page_metadata' do
       it 'returns true' do
-        page.page_metadata.new
+        page.page_info = PageInfo.new
         expect(page.has_page_metadata?).to be_truthy
       end
     end
 
     context 'when it does not have a page_metadata' do
       it 'returns true' do
-        page.page_metadata = []
+        page.page_info = nil
         expect(page.has_page_metadata?).to be_falsy
       end
     end
