@@ -16,6 +16,7 @@
     - Environment Variables
     - Starting and Stopping the application
 - Attribution and Acknowlegements
+-
 
 ## Introduction
 This application seeks to aid in the digitization of paper records through the crowd-sourced transcription of scanned image files, particularly documents ill-suited for Optical Character Recognition (OCR). It specializes in recovering data stored in a highly structured format. The app fully supports multilingual localization of the user interface and the data schema organization (field labels, help texts, etc).
