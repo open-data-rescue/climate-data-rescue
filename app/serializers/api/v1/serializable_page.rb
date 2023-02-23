@@ -23,6 +23,12 @@ module Api
       attribute :admin_delete_url do
         @url_helpers.admin_page_url(@object.id)
       end
+
+      attribute :page_metadata do
+        if @object.has_page_metadata?
+          "Observer: #{@object.page_info.observer} | Lat: #{@object.page_info.lat} | Lon: #{@object.page_info.lon} | Location: #{@object.page_info.location} | Elevation: #{@object.page_info.elevation}"
+        end
+      end
     end
   end
 end

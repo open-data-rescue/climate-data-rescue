@@ -16,18 +16,6 @@ updates:
     - 1.12.1
     - 1.9.0
     - 1.9.1
-  - dependency-name: aws-sdk-s3
-    versions:
-    - 1.87.0
-    - 1.88.0
-    - 1.88.1
-    - 1.88.2
-    - 1.89.0
-    - 1.90.0
-    - 1.91.0
-    - 1.92.0
-    - 1.93.0
-    - 1.93.1
   - dependency-name: rspec-rails
     versions:
     - 5.0.0
