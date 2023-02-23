@@ -1,6 +1,8 @@
 class Page < ApplicationRecord
   STALE_DURATION = ENV.fetch("STALE_DURATION_WEEKS", 2).to_i.weeks.freeze
 
+  include FileAttachment
+
   belongs_to :page_type
 
   has_many :field_groups, through: :page_type
@@ -8,19 +10,24 @@ class Page < ApplicationRecord
   has_many :transcriptions, dependent: :destroy, autosave: true
   has_many :page_days, dependent: :destroy
   has_many :data_entries, dependent: :destroy
+  has_one :page_info, dependent: :destroy
 
-  #handles the image upload association
-  has_attached_file :image,
-                  styles: {
-                    thumb: ["64x64#", :jpg],
-                    small: ["200x200>", :jpg],
-                    medium: ["400x400>", :jpg],
-                    large: ["600x600>", :jpg],
-                    xlarge: ["1000x1000>", :jpg]
-                  },
-                  default_style: :medium,
-                  url: "/system/:attachment/:style/:hash.:extension",
-                  hash_secret: "SECRET"
+  # handles the image upload association
+  has_attached_file *Page.page_url(
+    [
+      :image,
+      styles: {
+        thumb: ["64x64#", :jpg],
+        small: ["200x200>", :jpg],
+        medium: ["400x400>", :jpg],
+        large: ["600x600>", :jpg],
+        xlarge: ["1000x1000>", :jpg]
+      },
+      default_style: :medium,
+      hash_secret: "SECRET"
+    ]
+  )
+
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
 
@@ -29,14 +36,12 @@ class Page < ApplicationRecord
 
   #sets a scope for all transcribable pages to be those that are not done
   scope :transcribeable, -> {
-    joins(page_type: {
-      field_groups: :fields
-    }).
+    joins(page_type: :field_groups).
     where(
       done: false,
       visible: true,
       page_types: { visible: true }
-    ).inactive.order("pages.start_date asc, page_types.number asc").distinct
+    ).inactive.order("pages.start_date asc").distinct
   }
 
   scope :unseen, -> (user) {
@@ -64,6 +69,10 @@ class Page < ApplicationRecord
 
   def has_metadata?
     page_days.any?
+  end
+
+  def has_page_metadata?
+    page_info ? true : false
   end
 
   def num_rows_expected

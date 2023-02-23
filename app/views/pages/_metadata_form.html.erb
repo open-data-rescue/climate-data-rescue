@@ -3,6 +3,40 @@
 <% submit_btn_text = submit_btn_text || t('page-metadata.form.labels.submit-btn') %>
 
 <% days = page.has_metadata? ? page.page_days.order(:date) : (page.start_date..page.end_date) %>
+<% page_meta = page.has_page_metadata?  ? page.page_info : nil%>
+
+<%= form_tag baseUri + (page.has_page_metadata? ? '/page-page_metadata/update' : "/page-page_metadata/create"), method: "post" do %>
+
+  <%= hidden_field_tag "page_id", page.id %>
+
+  <div class="date-container">
+    <div><label for="observer">Observer</label></div>
+    <div class="datetime-group">
+        <%= text_field_tag "observer", page_meta ? page_meta.observer : nil, required: true, class: "form-control" %>
+    </div>
+    <div><label for="lat">Latitude</label></div>
+    <div class="datetime-group">
+        <%= text_field_tag "lat", page_meta ? page_meta.lat : nil, required: true, class: "form-control" %>
+    </div>
+    <div><label for="lon">Longitude</label></div>
+    <div class="datetime-group">
+        <%= text_field_tag "lon", page_meta ? page_meta.lon : nil, required: true, class: "form-control" %>
+    </div>
+    <div><label for="location">Location</label></div>
+    <div class="datetime-group">
+        <%= text_field_tag "location", page_meta ? page_meta.location : nil, required: true, class: "form-control" %>
+    </div>
+    <div><label for="elevation">Elevation</label></div>
+    <div class="datetime-group">
+        <%= text_field_tag "elevation", page_meta ? page_meta.elevation : nil, required: true, class: "form-control" %>
+    </div>
+  </div>
+  <div class="row voffset20">
+    <div class="form-actions col-sm-12">
+      <%= button_tag submit_btn_text.html_safe, class: "btn btn-primary pull-right", type:"submit" %>
+    </div>
+  </div>
+<% end %>
 
 <%= form_tag baseUri + (page.has_metadata? ? '/page-metadata/update' : "/page-metadata/create"), method: "post" do %>
   <%= hidden_field_tag "create_transcription", create_transcription %>
@@ -24,7 +58,7 @@
         <div class="observations-container voffset20">
           <div><label for="days[#{index}][num_observations]"><%= t('page-metadata.form.labels.num-observations') %></label></div>
           <div>
-            <%= select_tag "days[#{index}][num_observations]", options_for_select(0..10, (day.is_a?(PageDay) ? day.num_observations : nil)), required: true, prompt: strip_tags(t('page-metadata.form.placeholders.num-observations')), class: 'form-control' %>
+            <%= select_tag "days[#{index}][num_observations]", options_for_select(0..10, (day.is_a?(PageDay) ? day.num_observations : 1)), required: true, prompt: strip_tags(t('page-metadata.form.placeholders.num-observations')), class: 'form-control' %>
           </div>
         </div>
       </div>
@@ -51,7 +85,7 @@
       });
     });
 
-    // $('input.page-date').each(function (idx) { 
+    // $('input.page-date').each(function (idx) {
     //   console.log($(this));
     //   if (!($(this).data("DateTimePicker") === void 0)) {
     //     $(this).data("DateTimePicker").viewDate($(this).val());

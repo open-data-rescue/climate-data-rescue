@@ -696,7 +696,8 @@
             widgetPositioning : {
               vertical : "top"
             },
-            format : "DD MMM YYYY, hh:mm A",
+            // format : "DD MMM YYYY, hh:mm A",
+            format : "DD MMM YYYY",
             useCurrent: false,
             sideBySide : true,
             defaultDate : '<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day + 108.minutes).to_s : (transcription.page.start_date.beginning_of_day + 108.minutes).to_s) %>',
