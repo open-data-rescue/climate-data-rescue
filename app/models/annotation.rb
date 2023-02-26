@@ -1,3 +1,4 @@
+# TODO - Audit
 class Annotation < ApplicationRecord
   has_many :data_entries, dependent: :destroy
   belongs_to :transcription, autosave: true
@@ -30,5 +31,5 @@ class Annotation < ApplicationRecord
     transcription.save!
     page.save!
   end
-  
+
 end
