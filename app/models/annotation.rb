@@ -1,3 +1,4 @@
+# TODO - Audit
 class Annotation < ApplicationRecord
   has_many :data_entries, dependent: :destroy
   belongs_to :transcription, autosave: true
@@ -38,5 +39,11 @@ class Annotation < ApplicationRecord
       height: nil
     )
   end
-  
+
+  # This is needed because "autosave" does not update parent on save (only children)
+  def update_parents
+    transcription.save!
+    page.save!
+  end
+
 end

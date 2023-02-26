@@ -1,3 +1,4 @@
+# TODO: Audit
 class Transcription < ApplicationRecord
   belongs_to :page, required: true
   belongs_to :user, required: true
