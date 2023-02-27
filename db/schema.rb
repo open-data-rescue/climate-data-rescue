@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_26_161316) do
+ActiveRecord::Schema.define(version: 2023_02_27_192645) do
 
   create_table "annotations", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2023_02_26_161316) do
     t.text "object", size: :long
     t.text "object_changes", size: :long
     t.datetime "created_at", precision: 6
+    t.virtual "whodunnit_as_id", type: :integer, as: "cast(`whodunnit` as unsigned)", stored: true
     t.text "value"
     t.text "prev_value"
     t.integer "user_id"
