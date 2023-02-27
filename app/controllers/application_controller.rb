@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :baseUri, :baseUri_no_lang, :baseUri_with_lang, :request_path
 
+  before_action :set_paper_trail_whodunnit
+
   def default_url_options(options = {})
     if Rails.env.development?
       options
@@ -51,22 +53,9 @@ class ApplicationController < ActionController::Base
     basepath
   end
 
-  # helper_method :page_dates_hash
-  # def page_dates_hash
-  #   dates = {}
-
-  #   date_array = Page.order("start_date asc").pluck("distinct start_date")
-
-  #   if date_array.any?
-  #     dates = date_array.group_by{|d| d.year}
-
-  #     dates.each do |year, days|
-  #       dates[year] = dates[year].collect{|d| d.month}.uniq
-  #     end
-  #   else
-  #     dates = nil
-  #   end
-  # end
+  def user_for_paper_trail
+    current_user ? current_user.id : 'Anon user'
+  end
 
   protected
 

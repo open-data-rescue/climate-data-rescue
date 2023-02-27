@@ -917,8 +917,10 @@ fr:
         fields:
           help:
             datetime: "Quelle est la date et l'heure de cette observation? <b>Vous pouvez sélectionner la date et l'heure en cliquant sur l'icône de l'horloge.</b> <br><br>Devrait suivre le format <span style='white-space: nowrap;'><code>04 Aug 1874, 01:48 AM</code></span>."
+            notes: "Notes sur ce qui a été modifié et pourquoi"
           labels:
             datetime: "Date et l'heure"
+            notes: "Notes d'administration"
         help:
           fields:
             datetime:
