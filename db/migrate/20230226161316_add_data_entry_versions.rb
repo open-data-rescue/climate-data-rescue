@@ -11,6 +11,8 @@ class AddDataEntryVersions < ActiveRecord::Migration[6.1]
       t.text     :object_changes, limit: TEXT_BYTES
       t.datetime :created_at, limit: 6
 
+      t.virtual :whodunnit_as_id, type: :integer, as: "CAST(whodunnit as UNSIGNED)", stored: true
+
       # These will use the meta information
       t.text :value
       t.text :prev_value
