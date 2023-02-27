@@ -7,6 +7,7 @@ class DataEntryAuditView < ActiveRecord::Migration[6.1]
         	u.display_name as user_name,
         	p.id as page_id,
         	p.title as page_title,
+          pi.location,
         	t.id as transcription_id,
         	a.id as annotation_id,
         	a.observation_date,
@@ -22,6 +23,8 @@ class DataEntryAuditView < ActiveRecord::Migration[6.1]
         	who.display_name who_name
         from
         	pages p
+        left join page_infos pi on
+	        pi.page_id = p.id
         join transcriptions t on
         	t.page_id = p.id
         join annotations a on
