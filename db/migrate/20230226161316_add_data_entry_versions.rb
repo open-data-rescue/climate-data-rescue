@@ -16,6 +16,7 @@ class AddDataEntryVersions < ActiveRecord::Migration[6.1]
       t.text :prev_value
       t.integer :user_id
       t.integer :prev_user_id
+      t.text :notes
     end
     add_index :audit_data_entry_versions, %i(item_type item_id)
   end

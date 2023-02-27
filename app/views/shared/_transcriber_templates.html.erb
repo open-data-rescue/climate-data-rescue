@@ -285,12 +285,38 @@
                       <% end %>
                     </div>
                   <% end %>
+
                   <%=
                     button_tag t('transcriber.transcription-box-template.form.submit-btn-text'),
                     class:"submit-btn btn btn-primary btn-md btn-draw-accented"
                   %>
                 </div>
               </div>
+              <%# We only show this for admins %>
+              <% if current_user&.admin %>
+                <div class="notes-container">
+                  <label for="transcription-notes-help"
+                    style="cursor: help;"
+                    aria-hidden="true"
+                    title="<%=strip_tags(t('transcriber.transcription-box-template.form.fields.labels.notes'))%>"
+                    data-toggle="popover"
+                    data-trigger="hover"
+                    data-content="<%= t('transcriber.transcription-box-template.form.fields.help.notes').html_safe %>"
+                    data-container="body"
+                    data-html="true"
+                    data-placement="auto"
+                  >
+                    <%= t('transcriber.transcription-box-template.form.fields.labels.notes') %>
+                  </label>
+                  <%=
+                    text_area_tag(
+                      "annotation[notes]",
+                      nil,
+                      class: 'admin-note-text'
+                    )
+                  %>
+                </div>
+              <% end %>
             <% end %>
           </div>
         <% end %>

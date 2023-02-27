@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2023_02_26_161316) do
     t.text "prev_value"
     t.integer "user_id"
     t.integer "prev_user_id"
+    t.text "notes"
     t.index ["item_type", "item_id"], name: "index_audit_data_entry_versions_on_item_type_and_item_id"
   end
 
