@@ -10,7 +10,7 @@ module FieldOptionsHelper
     options.each do |option|
       selected = select_all || (option.value == default_value)
       res << {
-        'id' => option.id,
+        'id' => "field_#{option.id}",
         'text' => option.name,
         'is_default' => true,
         'is_field_option' => true,
