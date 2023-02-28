@@ -465,7 +465,7 @@ CREATE TABLE `sessions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_sessions_on_session_id` (`session_id`),
   KEY `index_sessions_on_updated_at` (`updated_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=1041170 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1041172 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `static_page_translations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

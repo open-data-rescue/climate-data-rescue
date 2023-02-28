@@ -1,7 +1,7 @@
 
 module Api
   module V1
-    class DataEntriesAuditsController < BaseController
+    class DataEntriesAuditDetailsController < BaseController
       def index
         query = Views::DataEntriesAuditDetailQuery.new(
           collection: policy_scope(Views::DataEntriesAuditDetail),
@@ -18,13 +18,20 @@ module Api
 
       def jsonapi_class
         {
-          DataEntriesAuditDetail: Api::V1::SerializableDataEntriesAuditDetail
+          'Views::DataEntriesAuditDetail': Api::V1::SerializableDataEntriesAuditDetail
         }
       end
 
       def available_filters
         %i[id location page_id observaton_date who_id user_id user_name who_name].freeze
       end
+
+      def query_sort
+        return {sort: :id} if params[:sort].blank?
+
+        super
+      end
+
     end
   end
 end
