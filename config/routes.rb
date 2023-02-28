@@ -43,6 +43,8 @@ Rails.application.routes.draw do
 
     resources :transcriptions
 
+    get 'data_entry_audit' => 'data_entry_audits#index'
+
     # for field options app
     get 'field_options_for_field/:field_id' => "field_options#for_field", as: "field_options_for_field"
     post 'add_field_option_to_field' => "field_options#add_to_field", as: "add_field_option_to_field"
