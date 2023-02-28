@@ -7,6 +7,8 @@ Rails.application.routes.draw do
         resources :pages, only: %i[index], path: 'page'
         resources :page_types, only: %i[index],  path: 'page_type'
         resources :transcriptions, only: %i[index],  path: 'transcription'
+
+        get 'data_entries_audit_detail', to: 'data_entries_audit_detail#index'
       end
     end
   end

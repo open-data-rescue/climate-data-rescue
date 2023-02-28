@@ -131,11 +131,11 @@ CREATE TABLE `data_entries` (
   KEY `index_data_entries_on_user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1917414 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `date_entries_audit_details`;
-/*!50001 DROP VIEW IF EXISTS `date_entries_audit_details`*/;
+DROP TABLE IF EXISTS `data_entries_audit_details`;
+/*!50001 DROP VIEW IF EXISTS `data_entries_audit_details`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE VIEW `date_entries_audit_details` AS SELECT 
+/*!50001 CREATE VIEW `data_entries_audit_details` AS SELECT 
  1 AS `id`,
  1 AS `user_id`,
  1 AS `user_name`,
@@ -592,7 +592,7 @@ CREATE TABLE `versions` (
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-/*!50001 DROP VIEW IF EXISTS `date_entries_audit_details`*/;
+/*!50001 DROP VIEW IF EXISTS `data_entries_audit_details`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
@@ -601,7 +601,7 @@ CREATE TABLE `versions` (
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY INVOKER */
-/*!50001 VIEW `date_entries_audit_details` AS select `adev`.`id` AS `id`,`u`.`id` AS `user_id`,`u`.`display_name` AS `user_name`,`p`.`id` AS `page_id`,`p`.`title` AS `page_title`,`pi`.`location` AS `location`,`t`.`id` AS `transcription_id`,`a`.`id` AS `annotation_id`,`a`.`observation_date` AS `observation_date`,`de`.`field_id` AS `field_id`,`f`.`field_key` AS `field_key`,`adev`.`value` AS `value`,`adev`.`prev_value` AS `prev_value`,`adev`.`notes` AS `notes`,`adev`.`whodunnit` AS `whodunnit`,`adev`.`created_at` AS `change_time`,`adev`.`event` AS `event`,`who`.`id` AS `who_id`,`who`.`display_name` AS `who_name` from ((((((((`pages` `p` left join `page_infos` `pi` on((`pi`.`page_id` = `p`.`id`))) join `transcriptions` `t` on((`t`.`page_id` = `p`.`id`))) join `annotations` `a` on((`a`.`transcription_id` = `t`.`id`))) join `data_entries` `de` on((`de`.`annotation_id` = `a`.`id`))) join `fields` `f` on((`de`.`field_id` = `f`.`id`))) join `users` `u` on((`de`.`user_id` = `u`.`id`))) join `audit_data_entry_versions` `adev` on((`adev`.`item_id` = `de`.`id`))) join `users` `who` on((`who`.`id` = `adev`.`whodunnit_as_id`))) */;
+/*!50001 VIEW `data_entries_audit_details` AS select `adev`.`id` AS `id`,`u`.`id` AS `user_id`,`u`.`display_name` AS `user_name`,`p`.`id` AS `page_id`,`p`.`title` AS `page_title`,`pi`.`location` AS `location`,`t`.`id` AS `transcription_id`,`a`.`id` AS `annotation_id`,`a`.`observation_date` AS `observation_date`,`de`.`field_id` AS `field_id`,`f`.`field_key` AS `field_key`,`adev`.`value` AS `value`,`adev`.`prev_value` AS `prev_value`,`adev`.`notes` AS `notes`,`adev`.`whodunnit` AS `whodunnit`,`adev`.`created_at` AS `change_time`,`adev`.`event` AS `event`,`who`.`id` AS `who_id`,`who`.`display_name` AS `who_name` from ((((((((`pages` `p` left join `page_infos` `pi` on((`pi`.`page_id` = `p`.`id`))) join `transcriptions` `t` on((`t`.`page_id` = `p`.`id`))) join `annotations` `a` on((`a`.`transcription_id` = `t`.`id`))) join `data_entries` `de` on((`de`.`annotation_id` = `a`.`id`))) join `fields` `f` on((`de`.`field_id` = `f`.`id`))) join `users` `u` on((`de`.`user_id` = `u`.`id`))) join `audit_data_entry_versions` `adev` on((`adev`.`item_id` = `de`.`id`))) join `users` `who` on((`who`.`id` = `adev`.`whodunnit_as_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
