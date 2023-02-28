@@ -164,7 +164,6 @@ ActiveRecord::Schema.define(version: 2023_02_15_205558) do
     t.string "ledger_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["ledger_type"], name: "index_ledgers_on_ledger_type", unique: true
   end
 
   create_table "mobility_string_translations", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
@@ -257,9 +256,7 @@ ActiveRecord::Schema.define(version: 2023_02_15_205558) do
     t.datetime "image_updated_at"
     t.string "volume"
     t.boolean "visible", default: true
-    t.index ["image_file_name"], name: "index_pages_on_image_file_name", unique: true
     t.index ["page_type_id"], name: "index_pages_on_page_type_id"
-    t.index ["title", "page_type_id", "accession_number", "volume"], name: "unque_page_ldgr_vol", unique: true
   end
 
   create_table "sessions", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
