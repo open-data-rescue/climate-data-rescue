@@ -3,6 +3,7 @@ class DataEntryAuditView < ActiveRecord::Migration[6.1]
     execute <<-SQL
       CREATE OR REPLACE DEFINER = 'root'@'localhost' SQL SECURITY INVOKER VIEW date_entries_audit_details AS
         select
+          adev.id as id,
         	u.id as user_id,
         	u.display_name as user_name,
         	p.id as page_id,
