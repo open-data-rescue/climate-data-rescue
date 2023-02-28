@@ -407,6 +407,7 @@ en:
         invalid:
   external-url:
   export-transcriptions: Export
+  data-entry-audit: "Data Entry Audit"
   field-group-successfully-deleted:
   field-groups: "Field Groups"
   field-options: "Field Options"
