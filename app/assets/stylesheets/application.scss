@@ -497,19 +497,19 @@ table#admin-pages {
 // }
 //
 //
-// a.dropdown-toggle.nav-user-flair {
-//   padding-left: 45px !important;
-//   position: relative;
-//
-//   img.nav-user-photo {
-//     width: 30px;
-//     position: absolute;
-//     left: 10px;
-//     top: 10px;
-//     display: block;
-//   }
-//
-// }
+a.dropdown-toggle.nav-user-flair {
+  padding-left: 45px !important;
+  position: relative;
+
+  img.nav-user-photo {
+    width: 30px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    display: block;
+  }
+
+}
 
 .magnify, #page-img {
     width: 100%;

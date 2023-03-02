@@ -47,6 +47,26 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
                 = locale_switcher_link(lang, static_page: @page)
 
       - if user_signed_in?
+        - if current_user.admin?
+            li id="admin-menu" class="#{yield(:admin)} dropdown"
+              a.dropdown-toggle.nav-link aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
+                = 'Admin'
+
+              div.dropdown-menu
+                = link_to t('pages'), admin_pages_path, {class: "dropdown-item #{yield(:pages)}"}
+                div.dropdown-divider
+                = link_to t('transcriptions.transcriptions'), admin_transcriptions_path, {class: "dropdown-item"}
+                = link_to t('export-transcriptions'), admin_transcriptions_path + '/export', {class: "dropdown-item"}
+                div.dropdown-divider
+                = link_to t('page-schemas'), admin_page_types_path, {class: "dropdown-item #{yield(:page_types)}"}
+                = link_to t('field-groups'), admin_field_groups_path, {class: "dropdown-item #{yield(:field_groups)}"}
+                = link_to t('fields'), admin_fields_path, {class: "dropdown-item #{yield(:fields)}"}
+                = link_to t('field-values'), admin_field_options_path, {class: "dropdown-item #{yield(:field_options)}"}
+                div.dropdown-divider
+                = link_to t('content-pages'), admin_static_pages_path, {class: "dropdown-item #{yield(:static_pages)}"}
+                = link_to t('content-images'), admin_content_images_path, {class: "dropdown-item #{yield(:content_images)}"}
+                div.dropdown-divider
+                = link_to t('users.users'), admin_users_path, {class: "dropdown-item #{yield(:users)}"}
         li class="#{yield(:user)} nav-item dropdown"
           a class="nav-link dropdown-toggle nav-user-flair" data-toggle="dropdown" href="#" role="button"
             = image_tag (current_user.avatar.present? ? current_user.avatar.url(:thumb) : 'default-person.png'), class: "img-fluid rounded-circle nav-user-photo mr-2"
@@ -58,45 +78,3 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
       - else
         li.nav-item = link_to t('log-in'), "#{baseUri}/login", class: "nav-link sidebar-url"
         li.nav-item = link_to t('sign-up'), "#{baseUri}/users/sign_up", class: "nav-link sidebar-url"
-
-/ transcribe
-/ Then we need the right menu
-
-    ul.nav.navbar-nav.navbar-right
-      - if user_signed_in?
-        - if current_user.admin?
-          li id="admin-menu" class="#{yield(:admin)} top-level-nav dropdown-submenu"
-            a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
-              = 'Admin '
-              span.caret
-            ul.dropdown-menu
-              li class="#{yield(:pages)}" = link_to t('pages'), admin_pages_path
-              li class="#{yield(:transcriptions)}"
-                = link_to t('transcriptions.transcriptions'), admin_transcriptions_path
-                ul.dowpdown-menu
-                  li class="#{yield(:transcriptions)}" = link_to t('transcriptions.transcriptions'), admin_transcriptions_path
-                  li class="#{yield(:transcriptions)}" = link_to t('export-transcriptions'), admin_transcriptions_path + '/export'
-              li role="separator" class="divider"
-              li class="#{yield(:page_types)}" = link_to t('page-schemas'), admin_page_types_path
-              li class="#{yield(:field_groups)}" = link_to t('field-groups'), admin_field_groups_path
-              li class="#{yield(:fields)}" = link_to t('fields'), admin_fields_path
-              li class="#{yield(:field_options)}" = link_to t('field-values'), admin_field_options_path
-              li role="separator" class="divider"
-              li class="#{yield(:static_pages)}" = link_to t('content-pages'), admin_static_pages_path
-              li class="#{yield(:content_images)}" = link_to t('content-images'), admin_content_images_path
-              li role="separator" class="divider"
-              li class="#{yield(:users)}" = link_to t('users.users'), admin_users_path
-              / - if current_user && current_user.admin?
-              /   li target="translator" = link_to t('edit-site-translations'), '/translator'
-        li id="user-menu" class="#{yield(:user)} top-level-nav dropdown-submenu"
-          a href=my_profile_path class="nav-user-flair dropdown-toggle" data-toggle="dropdown" data-trigger="hover"
-            = image_tag (current_user.avatar.present? ? current_user.avatar.url(:thumb) : 'default-person.png'), :class => "img-responsive img-circle nav-user-photo"
-            = current_user.display_name
-            i.caret
-          / = link_to (current_user.display_name + '&nbsp;<i class="caret"></i>').html_safe, my_profile_path, class: "dropdown-toggle", data: {toggle: "dropdown", trigger: "hover"}, aria_expanded:"false", aria_haspopup:"true"
-          ul.dropdown-menu
-            li class="#{yield(:profile)}"= link_to t('my-profile'), my_profile_path
-            li = link_to t('log-out'), "/logout"
-      - else
-        li = link_to t('log-in'), baseUri + "/login", :class => "sidebar-url"
-        li = link_to t('sign-up'), baseUri + "/users/sign_up", :class => "sidebar-url"
