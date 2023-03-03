@@ -34,6 +34,9 @@ html lang="en"
     = javascript_pack_tag "application"
     = stylesheet_pack_tag "styles"
 
+    = javascript_pack_tag "admin_app"
+    = stylesheet_pack_tag "admin_app"
+
     = javascript_include_tag "application"
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
     /! Le HTML5 shim, for IE6-8 support of HTML elements
@@ -58,10 +61,10 @@ html lang="en"
               = yield
         - else
             - if params[:controller] == "home" && params[:action] == "index"
-              .col-sm-8.col-md-6.col-lg-10.main-content-container
+              .col-sm-8.col-md-6.col-lg-11.main-content-container
                 = yield
             - else
-              .col-sm-10.col-md-8.col-lg-10.main-content-container.default
+              .col-sm-11.col-md-8.col-lg-11.main-content-container.default
                 = yield
         - if content_for? :large_page_image
           .col-sm-12.voffset30.large-page-img-container

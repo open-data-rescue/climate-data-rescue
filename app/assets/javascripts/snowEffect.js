@@ -107,26 +107,28 @@ var LetItSnow = (function() {
     $snowflake.click(toggleSnowfall);
 
     canvas = document.getElementById("snow-canvas");
-    ctx = canvas.getContext("2d");
+    if (canvas) {
+      ctx = canvas.getContext("2d");
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    canvas.addEventListener("mousemove", function(e) {
-      mX = e.clientX;
-      mY = e.clientY;
-    });
-
-    window.addEventListener("resize", function(){
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-    });
 
-    var snowfallCookie = Cookies.get('letItSnow');
-    // Snow if cookie says so, otherwise the default is no
-    var snowfallEnabled = snowfallCookie == 'true'; // || snowfallCookie == void 0;
+      canvas.addEventListener("mousemove", function(e) {
+        mX = e.clientX;
+        mY = e.clientY;
+      });
 
-    if (snowfallEnabled) start();
+      window.addEventListener("resize", function(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+
+      var snowfallCookie = Cookies.get('letItSnow');
+      // Snow if cookie says so, otherwise the default is no
+      var snowfallEnabled = snowfallCookie == 'true'; // || snowfallCookie == void 0;
+
+      if (snowfallEnabled) start();      
+    }
   }
 
   function toggleSnowfall() {

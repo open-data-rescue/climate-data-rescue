@@ -1,6 +1,6 @@
 module Admin
   class PagesController < AdminController
-    layout 'admin_app', only: :index
+    # layout 'admin_app', only: :index
 
     include LedgerUtils
 
@@ -9,6 +9,7 @@ module Admin
     #All .html.slim views for "page.rb" are located at "project_root\app\views\pages"
     # GET /pages
     def index
+      # check
     end
 
     # GET /pages/page_id

@@ -1,10 +1,15 @@
 import Vue from 'vue'
-import router from '../router'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'stylesheets/theme.scss'
+
+// Install BootstrapVue
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
+
 import {store} from '../store/model.store'
 
 import AdminApp from '../components/AdminApp.vue'
-
-require('@rails/ujs').start()
 
 Vue.config.productionTip = false
 
@@ -13,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
   new Vue({
     el,
     store,
-    router,
     render: h => h(AdminApp)
   }).$mount(el)
 })
