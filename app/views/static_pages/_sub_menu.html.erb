@@ -2,7 +2,7 @@
 <% opens_new_tab = opens_new_tab || false %>
 
 <%# See https://codepen.io/svnt/pen/beEgre %>
-<li class="dropdown-submenu" role="menu">
+<li class="dropdown-submenu bg-dark" role="menu">
   <%= link_to(
                page.title,
                page.link,
@@ -14,7 +14,7 @@
              )
   %>
   <% if page.children.count > 0 %>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu bg-dark">
       <% page.children.each do |child| %>
         <% if child.visible && (header ? child.show_in_header : child.show_in_footer) %>
           <% if child.children.any? %>

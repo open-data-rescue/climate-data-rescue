@@ -14,11 +14,11 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
       li.nav-item.dropdown
         a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
           = t('main-nav.transcribe.transcribe')
-        div.dropdown-menu
+        div.dropdown-menu.bg-dark
           - if current_user
-            = link_to t('main-nav.transcribe.my-transcriptions'), my_profile_path, {class: "dropdown-item"}
-          = link_to t('all-pages'), public_pages_index_path, {class: "dropdown-item"}
-          = link_to t('main-nav.transcribe.transcribe-random-page'), baseUri + "/transcribe", {class: "dropdown-item"}
+            = link_to t('main-nav.transcribe.my-transcriptions'), my_profile_path, {class: "dropdown-item bg-dark"}
+          = link_to t('all-pages'), public_pages_index_path, {class: "dropdown-item bg-dark"}
+          = link_to t('main-nav.transcribe.transcribe-random-page'), baseUri + "/transcribe", {class: "dropdown-item bg-dark"}
 
     ul.navbar-nav.mt-2.mt-lg-0
       / li.nav-item.snowball
@@ -38,40 +38,39 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
       li.nav-item.dropdown
         a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
           = t(I18n.locale)
-        div.dropdown-menu
+        div.dropdown-menu.bg-dark
           - I18n.available_locales.each do |lang|
             - if lang != I18n.locale
-              a.dropdown-item
-                = locale_switcher_link(lang, static_page: @page)
+              = locale_switcher_link(lang, static_page: @page, opts: {class: "dropdown-item bg-dark"})
 
       - if user_signed_in?
         - if current_user.admin?
-            li id="admin-menu" class="#{yield(:admin)} dropdown"
+            li id="admin-menu" class="#{yield(:admin)} dropdown bg-dark"
               a.dropdown-toggle.nav-link aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
                 = 'Admin'
 
-              div.dropdown-menu
-                = link_to t('pages'), admin_pages_path, {class: "dropdown-item #{yield(:pages)}"}
+              div.dropdown-menu.bg-dark
+                = link_to t('pages'), admin_pages_path, {class: "dropdown-item bg-dark #{yield(:pages)}"}
                 div.dropdown-divider
-                = link_to t('transcriptions.transcriptions'), admin_transcriptions_path, {class: "dropdown-item"}
-                = link_to t('export-transcriptions'), admin_transcriptions_path + '/export', {class: "dropdown-item"}
+                = link_to t('transcriptions.transcriptions'), admin_transcriptions_path, {class: "dropdown-item bg-dark"}
+                = link_to t('export-transcriptions'), admin_transcriptions_path + '/export', {class: "dropdown-item bg-dark"}
                 div.dropdown-divider
-                = link_to t('page-schemas'), admin_page_types_path, {class: "dropdown-item #{yield(:page_types)}"}
-                = link_to t('field-groups'), admin_field_groups_path, {class: "dropdown-item #{yield(:field_groups)}"}
-                = link_to t('fields'), admin_fields_path, {class: "dropdown-item #{yield(:fields)}"}
-                = link_to t('field-values'), admin_field_options_path, {class: "dropdown-item #{yield(:field_options)}"}
+                = link_to t('page-schemas'), admin_page_types_path, {class: "dropdown-item bg-dark #{yield(:page_types)}"}
+                = link_to t('field-groups'), admin_field_groups_path, {class: "dropdown-item bg-dark #{yield(:field_groups)}"}
+                = link_to t('fields'), admin_fields_path, {class: "dropdown-item bg-dark #{yield(:fields)}"}
+                = link_to t('field-values'), admin_field_options_path, {class: "dropdown-item bg-dark #{yield(:field_options)}"}
                 div.dropdown-divider
-                = link_to t('content-pages'), admin_static_pages_path, {class: "dropdown-item #{yield(:static_pages)}"}
-                = link_to t('content-images'), admin_content_images_path, {class: "dropdown-item #{yield(:content_images)}"}
+                = link_to t('content-pages'), admin_static_pages_path, {class: "dropdown-item bg-dark #{yield(:static_pages)}"}
+                = link_to t('content-images'), admin_content_images_path, {class: "dropdown-item bg-dark #{yield(:content_images)}"}
                 div.dropdown-divider
-                = link_to t('users.users'), admin_users_path, {class: "dropdown-item #{yield(:users)}"}
-        li class="#{yield(:user)} nav-item dropdown"
+                = link_to t('users.users'), admin_users_path, {class: "dropdown-item bg-dark #{yield(:users)}"}
+        li class="#{yield(:user)} nav-item dropdown bg-dark"
           a class="nav-link dropdown-toggle nav-user-flair" data-toggle="dropdown" href="#" role="button"
             = image_tag (current_user.avatar.present? ? current_user.avatar.url(:thumb) : 'default-person.png'), class: "img-fluid rounded-circle nav-user-photo mr-2"
             = current_user.display_name
-          div.dropdown-menu
-            a class="#{yield(:profile)} dropdown-item"= link_to t('my-profile'), my_profile_path
-            a class='dropdown-item' = link_to t('log-out'), "/logout"
+          div.dropdown-menu.bg-dark
+            = link_to t('my-profile'), my_profile_path, {class: "dropdown-item bg-dark #{yield(:profile)}"}
+            = link_to t('log-out'), "/logout", {class: "dropdown-item bg-dark"}
 
       - else
         li.nav-item = link_to t('log-in'), "#{baseUri}/login", class: "nav-link sidebar-url"
