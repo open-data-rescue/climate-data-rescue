@@ -5,36 +5,22 @@
 
 <li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle <%= top_active ? 'active' : '' %>" data-toggle="dropdown" href="#" role="button"><%= page.title %></a>
-  <div class="dropdown-menu">
-    <% if page.link %>
-      <%= link_to(
-                   page.title,
-                   page.link,
-                   {
-                     class: "dropdown-item #{(@page && @page == page)? 'active' : ''}",
-                     target: page.is_external? || opens_new_tab ? "_blank" : "_self",
-                     name: CGI.escape(page.title.downcase)
-                   }
-                 )
-      %>
-    <% end %>
+  <ul class="dropdown-menu multi-level">
     <% if page.children.any? %>
-      <% page.children.each do |child| %>
-        <%# TODO: nested menu %>
-        <%# See https://codepen.io/svnt/pen/beEgre %>
-        <% if child.visible && (header ? child.show_in_header : child.show_in_footer) %>
-          <%= link_to(
-                       child.title,
-                       child.link,
-                       {
-                         class: "dropdown-item #{(@page && @page == child)? 'active' : ''}",
-                         target: child.is_external? || opens_new_tab ? "_blank" : "_self",
-                         name: CGI.escape(child.title.downcase)
-                       }
-                     )
-          %>
-        <% end %>
+      <%= render partial: 'static_pages/sub_menu', locals: { page: page, header: header } %>
+    <% else %>
+      <% if page.link %>
+        <%= link_to(
+                     page.title,
+                     page.link,
+                     {
+                       class: "dropdown-item #{(@page && @page == page)? 'active' : ''}",
+                       target: page.is_external? || opens_new_tab ? "_blank" : "_self",
+                       name: CGI.escape(page.title.downcase)
+                     }
+                   )
+        %>
       <% end %>
     <% end %>
-  </div>
+  </ul>
 </li>

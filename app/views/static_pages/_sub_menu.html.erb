@@ -1,0 +1,38 @@
+<% header = header || false %>
+<% opens_new_tab = opens_new_tab || false %>
+
+<%# See https://codepen.io/svnt/pen/beEgre %>
+<li class="dropdown-submenu" role="menu">
+  <%= link_to(
+               page.title,
+               page.link,
+               {
+                 class: "dropdown-item #{(@page && @page == page)? 'active' : ''}",
+                 target: page.is_external? || opens_new_tab ? "_blank" : "_self",
+                 name: CGI.escape(page.title.downcase)
+               }
+             )
+  %>
+  <% if page.children.count > 0 %>
+    <ul class="dropdown-menu">
+      <% page.children.each do |child| %>
+        <% if child.visible && (header ? child.show_in_header : child.show_in_footer) %>
+          <% if child.children.any? %>
+            <%= render partial: 'static_pages/sub_menu', locals: { page: child, header: header } %>
+          <% else %>
+            <%= link_to(
+                         child.title,
+                         child.link,
+                         {
+                           class: "dropdown-item #{(@page && @page == child)? 'active' : ''}",
+                           target: child.is_external? || opens_new_tab ? "_blank" : "_self",
+                           name: CGI.escape(child.title.downcase)
+                         }
+                       )
+            %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </ul>
+  <% end %>
+</li>

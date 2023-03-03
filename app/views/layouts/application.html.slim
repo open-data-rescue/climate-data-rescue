@@ -42,46 +42,39 @@ html lang="en"
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
   body
-    .body-bg-img.holiday-special
-    canvas#snow-canvas
-    .container-fluid.main-wrapper
-      .container-fluid.top-nav
-        = render 'application/nav'
-      .container-fluid.main-app
-        .row
-          #message-container.col-md-12
-            = render partial: 'application/alerts'
-        .row
-          - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index") || (params[:controller] == "pages" && params[:action] == "index") || (params[:controller] == "admin/fields" && params[:action] == "index")
-              .col-sm-11.main-content-container.default
+    .body-bg-img
+    / .holiday-special
+    / canvas#snow-canvas
+    / .container-fluid.main-wrapper
+    .top-nav
+      = render 'application/nav'
+    main.container-fluid.main-app
+      .row
+        #message-container.col-md-12
+          = render partial: 'application/alerts'
+      .row
+        - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index") || (params[:controller] == "pages" && params[:action] == "index") || (params[:controller] == "admin/fields" && params[:action] == "index")
+            .col-sm-11.main-content-container.default
+              = yield
+        - else
+            - if params[:controller] == "home" && params[:action] == "index"
+              .col-sm-8.col-md-6.col-lg-10.main-content-container
                 = yield
-          - else
-              - if params[:controller] == "home" && params[:action] == "index"
-                .col-sm-8.col-md-6.col-lg-10.main-content-container
-                  = yield
-              - else
-                .col-sm-10.col-md-8.col-lg-10.main-content-container.default
-                  = yield
-          - if content_for? :large_page_image
-            .col-sm-12.voffset30.large-page-img-container
-               = yield :large_page_image
+            - else
+              .col-sm-10.col-md-8.col-lg-10.main-content-container.default
+                = yield
+        - if content_for? :large_page_image
+          .col-sm-12.voffset30.large-page-img-container
+             = yield :large_page_image
 
-    .container-fluid.footer
-      footer
-        .container
-          .row
-            .col-sm-12
-              h1.text-center
-                = t('app.layout.footer.partners')
-          .row.voffset30.boffset30.partner-imgs-container
-            .col-xs-4
-              = image_tag "partners/McGill_logoT.gif", class: "partner-logo mcgill-logo img-responsive"
-            .col-xs-4
-              = image_tag "partners/Geothink_Logo_T2.jpg", class: "partner-logo geothink-logo img-responsive"
-            .col-xs-4
-              = image_tag "partners/cirm.jpg", class: "partner-logo criem-logo img-responsive"
-        .row.voffset20
-          = render 'application/footer'
-
+    div.footer
+      .d-flex.justify-content-center.mb-2
+        .h2
+          = t('app.layout.footer.partners')
+      .d-flex.justify-content-center.mb-4
+        = image_tag "partners/McGill_logoT.gif", class: "w-25 mx-5"
+        = image_tag "partners/Geothink_Logo_T2.jpg", class: "w-25 mx-5"
+        = image_tag "partners/cirm.jpg", class: "w-25 mx-5"
+      = render 'application/footer'
 
     = render partial: 'shared/templates'

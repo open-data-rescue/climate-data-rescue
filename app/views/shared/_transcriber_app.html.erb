@@ -421,6 +421,7 @@
                   $box.resizable("destroy");
                   pageCanvas.enableScrolling();
                   $(document).off("keyup");
+                  // TODO: check outside events - is this file the only place we use clickoutside
                   $box.off("clickoutside");
                 };
               });

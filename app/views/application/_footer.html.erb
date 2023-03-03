@@ -1,12 +1,10 @@
-<div class="nav navbar navbar-default draw-footer-nav-container">
-    <% if StaticPage.footer_links.any? %>
-        <div class="footer-nav-wrapper">
-            <ul class="nav navbar-nav footer-nav footer-nav-collapse">
-              <%= render partial: "static_pages/link", collection: StaticPage.footer_links, as: :page, locals: { top_level: true, header: false } %>
-            </ul>
-        </div>
-    <% end %>
-    <div>
-        <p class="footer-copyright">&copy; <%= t('app.footer.copyright-holder') %> <%= Date.today.year %></p>
-    </div>
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark draw-footer-nav">
+  <% if StaticPage.footer_links.any? %>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <%= render partial: "static_pages/link", collection: StaticPage.footer_links, as: :page, locals: { top_level: true, header: false } %>
+    </ul>
+  <% end %>
+  <div class="my-2 my-lg-0 footer-copyright">
+    &copy; <%= t('app.footer.copyright-holder') %> <%= Date.today.year %>
+  </div>
+</nav>
