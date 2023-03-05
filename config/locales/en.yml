@@ -468,6 +468,7 @@ en:
         skip-page-btn: "Skip and try a new page"
         submit-btn: "Start Transcribing"
         update-btn: "Update metadata"
+        update-station-btn: "Update Station metadata"
       placeholders:
         num-observations: "Select the number of rows"
     headers:

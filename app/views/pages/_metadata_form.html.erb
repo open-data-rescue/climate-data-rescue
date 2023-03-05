@@ -33,7 +33,7 @@
   </div>
   <div class="row voffset20">
     <div class="form-actions col-sm-12">
-      <%= button_tag submit_btn_text.html_safe, class: "btn btn-primary pull-right", type:"submit" %>
+      <%= button_tag t('page-metadata.form.labels.update-station-btn').html_safe, class: "btn btn-primary pull-right", type:"submit" %>
     </div>
   </div>
 <% end %>
@@ -84,11 +84,4 @@
         useStrict: true,
       });
     });
-
-    // $('input.page-date').each(function (idx) {
-    //   console.log($(this));
-    //   if (!($(this).data("DateTimePicker") === void 0)) {
-    //     $(this).data("DateTimePicker").viewDate($(this).val());
-    //   }
-    // });
 </script>
