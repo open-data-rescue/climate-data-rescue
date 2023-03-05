@@ -47,7 +47,6 @@ gem 'will_paginate'
 
 #for attachments
 gem 'paperclip'
-# gem 'aws-sdk-s3', '~> 1'
 
 gem 'with_advisory_lock'
 

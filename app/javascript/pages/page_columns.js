@@ -67,6 +67,12 @@ export const page_columns = [
     sortable: false
   },
   {
+    key: 'page_metadata',
+    label: 'Page Metadata',
+    class: 'page-metadata',
+    sortable: false
+  },
+  {
     key: 'created_at',
     label: 'Created',
     class: 'created-at',
