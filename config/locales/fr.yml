@@ -342,6 +342,7 @@ fr:
         skip-page-btn: "Ignorez cette page et essayez une autre"
         submit-btn: "Commencer la transcription"
         update-btn: "Mis à jour les métadonnées"
+        update-station-btn: "Mettre à jour les métadonnées de la station"
       placeholders:
         num-observations: "Sélectionnez le nombre de lignes"
     headers:
