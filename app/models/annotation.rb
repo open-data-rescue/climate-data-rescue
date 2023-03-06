@@ -1,3 +1,6 @@
+# TODO: Audit
+# Put note in the annotation as to what was updated and why
+# or we could just put that in the data entry
 class Annotation < ApplicationRecord
   has_many :data_entries, dependent: :destroy
   belongs_to :transcription, autosave: true
@@ -30,5 +33,5 @@ class Annotation < ApplicationRecord
     transcription.save!
     page.save!
   end
-  
+
 end

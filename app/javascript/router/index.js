@@ -7,6 +7,7 @@ import 'stylesheets/theme.scss'
 
 import Pages from '../pages/Pages'
 import Transcriptions from '../transcriptions/Transcriptions'
+import DataEntryAudits from '../data_entry_audits/DataEntryAudits'
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)
@@ -56,6 +57,24 @@ const routes = [
             {
               property: 'og:description',
               content: 'The list of transcriptions'
+            }
+          ]
+        }
+      },
+      {
+        path: 'data_entry_audit',
+        component: DataEntryAudits,
+        name: 'data_entry_audit',
+        meta: {
+          title: 'Date Entry Audit | DRAW',
+          metaTags: [
+            {
+              name: 'description',
+              content: 'Audit of the Data Entries'
+            },
+            {
+              property: 'og:description',
+              content: 'Audit of the Data Entries'
             }
           ]
         }

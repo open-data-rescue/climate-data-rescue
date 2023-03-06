@@ -41,6 +41,9 @@ module DataRescueAtHome
     config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
     config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js snowEffect.js )
 
+    #
+    config.active_record.schema_format = :sql
+
     # base URL setting
     Rails.application.routes.default_url_options[:host] = ENV["BASE_URL"]
   end

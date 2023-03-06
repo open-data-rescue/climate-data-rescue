@@ -119,6 +119,7 @@ class AnnotationsController < ApplicationController
       metadata = params.require(:annotation).permit!
       meta = metadata[:meta]
       data = metadata[:data].to_unsafe_h
+      notes = metadata[:notes]
 
       logger.debug "meta: " + meta.to_s
       logger.debug "data: " + data.to_s
@@ -135,7 +136,7 @@ class AnnotationsController < ApplicationController
         observation_date: DateTime.parse(annotation_params[:observation_date])
       )
 
-      process_annotation_data(annotation: @annotation, data: data)
+      process_annotation_data(annotation: @annotation, data: data, notes: notes)
     end
     respond_to do |format|
       format.json
@@ -156,6 +157,7 @@ class AnnotationsController < ApplicationController
       metadata = params.require(:annotation).permit!
       meta = metadata[:meta]
       data = metadata[:data].to_unsafe_h if metadata[:data]
+      notes = metadata[:notes]
 
       if meta && data
         @annotation.update(
@@ -167,7 +169,7 @@ class AnnotationsController < ApplicationController
           observation_date: DateTime.parse(annotation_params[:observation_date])
         )
 
-        process_annotation_data(annotation: @annotation, data: data)
+        process_annotation_data(annotation: @annotation, data: data, notes: notes)
       else
         # Rails.logger.info "Updating with backbone attributes"
         @annotation.update(backbone_annotation_params.merge(observation_date: DateTime.parse(annotation_params[:observation_date])))
@@ -214,7 +216,7 @@ class AnnotationsController < ApplicationController
     value
   end
 
-  def process_annotation_data(annotation:, data:)
+  def process_annotation_data(annotation:, data:, notes: nil)
     return unless data && data.length > 0
     data.each do |key, value|
       entry_value = value[:value]
@@ -231,6 +233,8 @@ class AnnotationsController < ApplicationController
       datum.value = entry_value
       datum.user_id = value[:user_id] if datum.user_id.nil?
       datum.field_options_ids = (value[:selected_option_ids].present? ? value[:selected_option_ids].remove("field_") : nil)
+      # Set notes ...
+      datum.edit_notes = notes if notes
       datum.save!
     end
   end
