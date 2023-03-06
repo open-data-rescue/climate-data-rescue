@@ -29,12 +29,14 @@ import { appStore } from './app.store';
 // page add-ons
 import { pageStore, pageEndpoints } from './page.store';
 import { transcriptionStore, transcriptionEndpoints } from './transcription.store';
+import { dataEntryAuditStore, dataEntryAuditEndpoints } from './data_entry_audit.store';
 
 import merge from 'lodash.merge'
 
 const endpoints = {
   ...pageEndpoints,
   ...transcriptionEndpoints,
+  ...dataEntryAuditEndpoints
 }
 
 // NOTE: this is really the store
@@ -58,6 +60,7 @@ export const store = new Vuex.Store({
     selected: {
       ...pageStore.selected,
       ...transcriptionStore.selected,
+      ...dataEntryAuditStore.selected
     },
     ...appStore.state
     // ...mailingStore.state
@@ -80,6 +83,7 @@ export const store = new Vuex.Store({
     },
     ...pageStore.getters,
     ...transcriptionStore.getters,
+    ...dataEntryAuditStore.getters
     // ...sessionLimitStore.getters,
   },
   plugins: [
@@ -248,6 +252,7 @@ export const store = new Vuex.Store({
     // },
     ...pageStore.actions,
     ...transcriptionStore.actions,
+    ...dataEntryAuditStore.actions
     // ...personSessionStore.actions,
   }
 })
