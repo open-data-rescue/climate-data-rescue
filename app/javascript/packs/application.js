@@ -9,6 +9,9 @@ import * as ActiveStorage from "@rails/activestorage"
 
 import 'bootstrap'
 
+// import 'bootstrap-switch.css'
+import 'bootstrap-switch'
+
 Rails.start()
 ActiveStorage.start()
 

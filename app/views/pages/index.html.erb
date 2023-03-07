@@ -30,7 +30,7 @@
                   <% transcription = @user_transcriptions.find{|t| t.page_id == page.id} %>
                   <% if transcription %>
                     <% if transcription.complete %>
-                      <a href="<%= transcription_path(transcription) %>" class="btn btn-default btn-sm"><%= t('view-completed-transcription') %></a>
+                      <a href="<%= transcription_path(transcription) %>" class="btn btn-primary btn-sm"><%= t('view-completed-transcription') %></a>
                     <% else %>
                       <a href="<%= edit_transcription_path(transcription) %>" class="btn btn-success btn-sm"><%= t('edit-transcription') %></a>
                     <% end %>

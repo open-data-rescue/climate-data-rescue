@@ -37,7 +37,7 @@
             <div class="modal-footer">\
                 <% if (allowCancel) { %>\
                   <% if (cancelText) { %>\
-                      <button type="button" class="btn cancel btn-default" data-dismiss="modal">{{cancelText}}</button>\
+                      <button type="button" class="btn cancel btn-primary" data-dismiss="modal">{{cancelText}}</button>\
                   <% } %>\
                 <% } %>\
                 <button type="button" class="btn ok btn-primary">{{okText}}</button>\

@@ -8,9 +8,9 @@
       #my-profile-details.col-xs-9.col-lg-10
         /! Show user information. Pulled dynamically from the user model instance
         h1 #{@user.display_name}
-        p 
+        p
           strong = @user.email
-        p 
+        p
           = pluralize(@user.transcriptions.count, strip_tags(t("transcription")))
           = " "
           = t('in-total').html_safe
@@ -18,7 +18,7 @@
         - if @user == current_user || current_user.admin?
           /! if current user is admin or this is their user page, show full name
           / andlinks to edit the user information
-          p 
+          p
             strong = "#{User.human_attribute_name(:full_name)}: #{@user.full_name}"
             br
             span = "(#{t('simple_form.hints.user.edit.full_name')})"
@@ -26,17 +26,17 @@
 
       #my-profile-photo.col-xs-3.col-lg-2
         - if @user.avatar.present?
-          = image_tag @user.avatar.url(:medium), :class => "img-responsive img-circle"
+          = image_tag @user.avatar.url(:medium), :class => "img-fluid rounded-circle"
         - else
-          = image_tag "default-person.png", :class => "img-responsive img-circle"
+          = image_tag "default-person.png", :class => "img-fluid rounded-circle"
 
-  - if @user == current_user || (current_user && current_user.admin?)   
+  - if @user == current_user || (current_user && current_user.admin?)
     section#my-certificate
       .row
-        .col-md-12 
+        .col-md-12
           h2 = t('profile.certificate.heading')
-          p = t('profile.certificate.description') 
-          
+          p = t('profile.certificate.description')
+
           h3 = t('profile.certificate.ccr.heading')
           p = t('profile.certificate.ccr.introduction').html_safe
           ol.boffset20
@@ -68,7 +68,7 @@
             - if @completed_transcriptions_size > 0
               span.badge
                 = @completed_transcriptions_size
-            button#toggle-completed-transcriptions.btn.btn-default data-target="#completed-transcriptions-container" data-toggle="collapse" title= t('toggle-completed-transcriptions') aria-expanded="false" aria-controls="completed-transcriptions-container"
+            button#toggle-completed-transcriptions.btn.btn-primary data-target="#completed-transcriptions-container" data-toggle="collapse" title= t('toggle-completed-transcriptions') aria-expanded="false" aria-controls="completed-transcriptions-container"
              i.fa.fa-caret-down
       .row.voffset20
         .col-md-12
@@ -205,5 +205,3 @@
       #active-transcriptions-container .table-responsive {
         max-height: 500px;
       }
-
-
