@@ -10,7 +10,7 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery-ui
+// require jquery-ui
 //= require jquery.ba-outside-events.min
 //= require modernizr
 //= require moment/min/moment.min
@@ -19,7 +19,6 @@
 //= require page-uploader-plugin
 //= require boxer-plugin
 //= require jquery.kinetic
-//= require trumbowyg/dist/trumbowyg
 //= require eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker
 //
 //= require backbone/underscore
@@ -36,7 +35,7 @@
 //
 //= require magnify/jquery.magnify
 //= require magnify/jquery.magnify-mobile
-//= require bootstrap-notify/bootstrap-notify
+//  require bootstrap-notify/bootstrap-notify
 //
 //= require content_images
 //= require snowEffect

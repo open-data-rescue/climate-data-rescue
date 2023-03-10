@@ -40,11 +40,13 @@ config.resolve = {
   alias: {
     'vue$': 'vue/dist/vue.esm.js',
     '@': path.resolve(__dirname, '../../app/javascript'),
-    '@mixins': '@/mixins'
+    '@mixins': '@/mixins',
+    jquery: 'jquery/src/jquery',
+    'jquery-ui': 'jquery-ui-dist'
   },
   extensions: ['*', '.js', '.vue', '.json']
 }
 
-environment.config.set('resolve.alias', {jquery: 'jquery/src/jquery'});
+// environment.config.set('resolve.alias', {jquery: 'jquery/src/jquery'});
 
 module.exports = environment

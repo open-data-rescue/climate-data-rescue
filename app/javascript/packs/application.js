@@ -11,6 +11,9 @@ import 'bootstrap'
 
 // import 'bootstrap-switch.css'
 import 'bootstrap-switch'
+import 'trumbowyg'
+
+import "jquery-ui/jquery-ui.js"
 
 Rails.start()
 ActiveStorage.start()

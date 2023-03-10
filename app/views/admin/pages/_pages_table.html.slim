@@ -4,7 +4,7 @@
 - users ||= transcriptions.map(&:user).flatten.uniq
 
 /! List all pages and their info in a table
-.table-responsive style="max-height: 70vh;"
+.table-responsive style="max-height: 50vh;"
   table#admin-pages.table.table-striped
     thead
       tr
@@ -58,5 +58,5 @@
           td = content_tag(:i, '', class: 'fa fa-check') if page.done
           td
             = link_to t('view-details'), admin_page_path(page), class: "btn btn-xs btn-primary"
-            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_page_path(page), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
+            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_page_path(page), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"}
             = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_page_path(page), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete

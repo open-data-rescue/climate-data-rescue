@@ -8,20 +8,13 @@ gem 'mysql2'
 
 gem 'mime-types', require: 'mime/types/full'
 
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
-
 gem 'paper_trail'
 gem "ranked-model"
 
 gem 'uglifier'
 
-gem 'activerecord-session_store'
-
 #bootstrap stuff
 gem 'sass-rails'
-# gem 'bootstrap-sass'
-gem 'bootstrap'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'execjs'

@@ -50,7 +50,7 @@
           class="vue-table"
           selectable responsive striped hover
           no-local-sorting no-footer-sorting no-sort-reset
-          sticky-header="70vh"
+          sticky-header="55vh"
           primary-key="id"
           :items="sortedCollection"
           :fields="tableColumns"
