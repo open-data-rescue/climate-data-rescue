@@ -21,9 +21,6 @@ html lang="en"
     = stylesheet_link_tag "application", :media => "all"
     /!= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
 
-    - if content_for(:head)
-      = yield(:head)
-
     - if StaticPage.visible.find_by(slug: "/custom_stylesheet")
       style#admin-stylesheet type="text/css"
         = render_snippet("/custom_stylesheet")
@@ -32,9 +29,13 @@ html lang="en"
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/v4-shims.css">
 
     = javascript_pack_tag "application"
+    = javascript_pack_tag "exposedjs"
     = stylesheet_pack_tag "styles"
 
-    = javascript_include_tag "application"
+    - if content_for(:head)
+      = yield(:head)
+
+    / = javascript_include_tag "application"
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
 
     /! Le HTML5 shim, for IE6-8 support of HTML elements
@@ -53,15 +54,18 @@ html lang="en"
       .d-flex
         #message-container.col-md-12
           = render partial: 'application/alerts'
-      .d-flex.justify-content-center
-        .d-flex.ml-5.mr-5
-          - if current_page?(root_url)
+      / .d-flex.justify-content-center
+      /  .d-flex.ml-5.mr-5
+      .justify-content-center
+          - if current_page?(root_url) || current_page?('/')
             = yield
           - else
-            .main-content-container.p-3
+            .main-content-container.p-3.d-flex.flex-row
               = yield
+          / TODO - this may be an issue ?
           - if content_for? :large_page_image
-            .col-sm-12.voffset30.large-page-img-container
+            / col-sm-12.voffset30
+            .large-page-img-container.d-flex.flex-row
                = yield :large_page_image
 
       = render 'application/footer'

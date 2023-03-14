@@ -16,12 +16,6 @@ gem 'uglifier'
 #bootstrap stuff
 gem 'sass-rails'
 
-# See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'execjs'
-
-gem 'modernizr-rails'
-
-gem "figaro"
 gem 'log4r'
 
 #for user authentication
@@ -40,16 +34,11 @@ gem 'paperclip'
 
 gem 'with_advisory_lock'
 
-# Support for tag inputs
-gem 'select2-rails'
-
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 
 gem 'jsonapi-rails'
 gem 'jsonapi-rspec'
-
-gem "jquery-fileupload-rails"
 
 gem 'routing-filter'
 
@@ -86,9 +75,6 @@ gem 'webpacker', '~> 5.0'
 gem 'websocket-extensions', '~> 0.1.5'
 
 group :development do
-  # What is this used for?
-  # gem 'execjs'
-
   gem "better_errors"
   gem "binding_of_caller"
 
@@ -129,4 +115,4 @@ end
 # gem 'debugger'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-# gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

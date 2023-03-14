@@ -1,22 +1,23 @@
-- provide :admin, 'active'
-- provide :transcriptions, 'active'
 
-.row
-  .col-md-8
-    h1 = t('transcription') + " #{@transcription.id}"
-    /!Get the name and load the image of the page associated with the transcription
-    h4 = @transcription.page.title + ' Pg. ' + @transcription.page_type.number.to_s
-  .col-md-4
-    = image_tag @transcription.page.image.url(:small)
+/- provide :admin, 'active'
+/- provide :transcriptions, 'active'
 
-= render 'transcriptions/transcriptions_table', transcriptions: [@transcription], detail_links: false
+/.row
+/  .col-md-8
+/    h1 = t('transcription') + " #{@transcription.id}"
+/    /!Get the name and load the image of the page associated with the transcription
+/    h4 = @transcription.page.title + ' Pg. ' + @transcription.page_type.number.to_s
+/  .col-md-4
+/    = image_tag @transcription.page.image.url(:small)
+/
+/ = render 'transcriptions/transcriptions_table', transcriptions: [@transcription], detail_links: false
 
-= render "shared/transcription_data_table", transcription: @transcription
+/ = render "shared/transcription_data_table", transcription: @transcription
 
 
 
-= link_to t('edit-transcription'), edit_transcription_path(@transcription)
-'&nbsp|
-= link_to t('back'), admin_transcriptions_path
+/= link_to t('edit-transcription'), edit_transcription_path(@transcription)
+/'&nbsp|
+/= link_to t('back'), admin_transcriptions_path
 
 = render 'pages/large_page_image', page: @transcription.page

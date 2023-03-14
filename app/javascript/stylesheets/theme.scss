@@ -4,10 +4,8 @@
 // Your variable overrides
 $primary: $primary-color;
 
-// import LogoImage from "./images/planorama_logo_transparent.png";
-// @import 'jquery-ui/images';
-
-// @import 'jquery-ui-dist/jquery-ui.css';
+//
+@import 'jquery-ui-dist/jquery-ui.css';
 
 // Bootstrap and its default variables
 
@@ -23,3 +21,11 @@ $primary: $primary-color;
 @import 'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css';
 
 @import 'trumbowyg/dist/ui/trumbowyg.css';
+
+//
+@import 'blueimp-file-upload/css/jquery.fileupload.css';
+@import 'blueimp-file-upload/css/jquery.fileupload-ui.css';
+
+//
+@import 'select2/dist/css/select2.css';
+@import 'select2-bootstrap-theme/dist/select2-bootstrap.css';

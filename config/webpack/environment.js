@@ -24,13 +24,18 @@ environment.plugins.prepend('env',
   })
 )
 
-// TODO: the expose loader syntax, check
 environment.plugins.append(
   "Provide",
   new webpack.ProvidePlugin({
     $: "jquery/src/jquery",
     jQuery: "jquery/src/jquery",
-    Popper: ['popper.js', 'default']
+    Popper: ['popper.js', 'default'],
+    Backbone: "backbone/backbone.js",
+    Marionette: "backbone.marionette/lib/backbone.marionette",
+    'Backbone.Marionette': "backbone.marionette/lib/backbone.marionette",
+    Form: "backbone-forms/distribution/backbone-forms",
+    'Backbone.Form': "backbone-forms/distribution/backbone-forms",
+    '_': "underscore/underscore.js"
   })
 );
 
@@ -41,12 +46,23 @@ config.resolve = {
     'vue$': 'vue/dist/vue.esm.js',
     '@': path.resolve(__dirname, '../../app/javascript'),
     '@mixins': '@/mixins',
+    underscore: 'underscore/underscore.js',
     jquery: 'jquery/src/jquery',
-    'jquery-ui': 'jquery-ui-dist'
+    Marionette: "backbone.marionette/lib/backbone.marionette",
+    'Backbone.Marionette': "backbone.marionette/lib/backbone.marionette",
+    'jquery-ui/ui/widget': 'blueimp-file-upload/js/vendor/jquery.ui.widget.js',
+    '../img/progressbar.gif': 'blueimp-file-upload/img/progressbar.gif',
+    '../img/loading.gif': 'blueimp-file-upload/img/loading.gif',
+    'jquery-ui': 'jquery-ui-dist',
+    'select2': 'select2/dist',
+    'images/ui-icons_444444_256x240.png': 'jquery-ui-dist/images/ui-icons_444444_256x240.png',
+    'images/ui-icons_555555_256x240.png': 'jquery-ui-dist/images/ui-icons_555555_256x240.png',
+    'images/ui-icons_777620_256x240.png': 'jquery-ui-dist/images/ui-icons_777620_256x240.png',
+    'images/ui-icons_777777_256x240.png': 'jquery-ui-dist/images/ui-icons_777777_256x240.png',
+    'images/ui-icons_cc0000_256x240.png': 'jquery-ui-dist/images/ui-icons_cc0000_256x240.png',
+    'images/ui-icons_ffffff_256x240.png': 'jquery-ui-dist/images/ui-icons_ffffff_256x240.png'
   },
   extensions: ['*', '.js', '.vue', '.json']
 }
-
-// environment.config.set('resolve.alias', {jquery: 'jquery/src/jquery'});
 
 module.exports = environment
