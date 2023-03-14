@@ -220,6 +220,9 @@ class AnnotationsController < ApplicationController
     return unless data && data.length > 0
     data.each do |key, value|
       entry_value = value[:value]
+      if value[:value].kind_of?(Array)
+        entry_value = entry_value.reject { |c| c.empty? }
+      end
 
       if value[:selected_option_ids].present?
         entry_value = value_for_option_ids value[:selected_option_ids]
@@ -230,7 +233,11 @@ class AnnotationsController < ApplicationController
         field_id: value[:field_id]
       )
       datum.data_type = value[:data_type] if value[:data_type]
-      datum.value = entry_value
+      if entry_value && entry_value.length > 0
+        datum.value = entry_value
+      else
+        datum.value = nil
+      end
       datum.user_id = value[:user_id] if datum.user_id.nil?
       datum.field_options_ids = (value[:selected_option_ids].present? ? value[:selected_option_ids].remove("field_") : nil)
       # Set notes ...
