@@ -884,9 +884,11 @@
               $select.append($option).trigger("change");
             });
           } else if ($select.length > 0) {
-            $select.find("option.user-option").remove();
-            var $option = $("<option class='user-option' selected></option>").val(value).text(value);
-            $select.append($option).trigger("change");
+            if ($select.attr('data-multiple') == 'false') {
+              $select.find("option.user-option").remove();
+              var $option = $("<option class='user-option' selected></option>").val(value).text(value);
+              $select.append($option).trigger("change");
+            }
           } else {
             $select.val(value).trigger("change");
             // console.log(value);
