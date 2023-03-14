@@ -18,7 +18,7 @@ html lang="en"
         gtag('config', 'UA-106824244-1');
     - else
       meta name="robots" content="noindex,nofollow"
-    = stylesheet_link_tag "application", :media => "all"
+    / = stylesheet_link_tag "application", :media => "all"
     /!= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
 
     - if StaticPage.visible.find_by(slug: "/custom_stylesheet")

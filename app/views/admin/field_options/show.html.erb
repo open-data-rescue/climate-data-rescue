@@ -7,6 +7,6 @@
       <li>Stored Value: <%= @field_option.value %></li>
       <li>Display When Selected: <%= @field_option.display_attribute %></li>
       <li>Help: <%= @field_option.help %></li>
-      <li><%= image_tag(@field_option.image.url(:large), class: "img-responsive") if @field_option.image.present? %></li>
+      <li><%= image_pack_tag(@field_option.image.url(:large), class: "img-responsive") if @field_option.image.present? %></li>
     </ul>
 <% end %>

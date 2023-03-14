@@ -17,17 +17,17 @@
       <%= f.input :text_symbol, label: "Symbol", wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
       <%= f.label "Display this when selected" %>
       <%= f.select :display_attribute, options_for_select({
-          "Icon" => "icon", 
+          "Icon" => "icon",
           "Symbol" => "symbol",
           "Name" => "name"
           }, ( @field_option.display_attribute.present? ? @field_option.display_attribute : "name")), required: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
       <% if field_option.image.present? %>
-        <br><label>Current Image</label> <%= image_tag(field_option.image.url(:icon)) %>
+        <br><label>Current Image</label> <%= image_pack_tag(field_option.image.url(:icon)) %>
       <% end %>
       <%= f.input :image, multipart: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
       <%= f.input :help, required: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
     </div>
-    
+
     <div class="row">
         <div class="col-md-12">
             <%= submit_tag "Save", class: "btn btn-primary" %>

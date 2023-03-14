@@ -4,6 +4,6 @@
     - if content_image.image.present?
         label style="margin-right: 15px;"
             = "Current Image"
-        = image_tag(content_image.image.url(:thumb))
+        = image_pack_tag(content_image.image.url(:thumb))
     = f.input :image, as: :file
     = f.button :submit, "Save"

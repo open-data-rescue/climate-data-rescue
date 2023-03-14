@@ -3,23 +3,15 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
 
- *= require eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min
- *= require magnify
- *= require animate
- *= require snowEffect
+ *  require eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min
+ *  require magnify
 
- *= require_tree .
- *= require_self
+ *  require animate
+ *  require snowEffect
+
 */
-// @import "bootstrap-sprockets";
-// @import "bootstrap";
-@import "bootstrap/scss/bootstrap";
-@import "draw-variables";
-
-// html, body {
-//   height: 100%;
-//   margin: 0;
-// }
+// @import "bootstrap/scss/bootstrap";
+// @import "draw-variables";
 
 .translation_missing {
   background-color: #e0e0e0 !important;
@@ -56,11 +48,13 @@ a {
     -moz-background-size: cover;
     -webkit-background-size: cover;
     background-size: cover;
-    background-image: url(image_path("mcgill-background"));
+    // TODO
+    background-image: url("~mcgill-background.jpg");
     background-position: left center;
 
   &.holiday-special {
-    background-image: url(image_path("holiday-bg"));
+    // TODO
+    background-image: url("~holiday-bg.jpg");
     -webkit-filter: grayscale(50%); /* Safari 6.0 - 9.0 */
     filter: grayscale(50%);
   }

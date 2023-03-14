@@ -25,4 +25,4 @@
                         = key.to_s.capitalize + " "
                         = value.attachment.options[:styles][key].first.split("x").first + "px"
                 .col-md-10
-                    = image_tag(@content_image.image.url(key), style: "max-width: 100%;")
+                    = image_pack_tag(@content_image.image.url(key), style: "max-width: 100%;")

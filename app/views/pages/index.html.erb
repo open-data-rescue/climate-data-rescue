@@ -20,7 +20,7 @@
       </div>
       <% pages.each do |page| %>
         <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6" style="min-height: 300px;">
-            <%= image_tag(page.image.url(:medium), class: "img-responsive center-block")%>
+            <%= image_pack_tag(page.image.url(:medium), class: "img-responsive center-block")%>
             <div class="text-center" style="width: 100%;">
                 <h5><%= t('page') %> <%= page.page_type.number %></h5>
                 <% if current_user && current_user.admin? %>

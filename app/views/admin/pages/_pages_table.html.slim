@@ -25,7 +25,7 @@
       - pages.each do |page|
         tr
           td = link_to page.id, admin_page_path(page)
-          td = link_to image_tag((page.image.url(:thumb))), admin_page_path(page)
+          td = link_to image_pack_tag((page.image.url(:thumb))), admin_page_path(page)
           td = page.title
           td = page.height
           td = page.width

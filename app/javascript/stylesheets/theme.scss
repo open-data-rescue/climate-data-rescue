@@ -8,7 +8,6 @@ $primary: $primary-color;
 @import 'jquery-ui-dist/jquery-ui.css';
 
 // Bootstrap and its default variables
-
 @import 'bootstrap/scss/_functions.scss';
 @import 'bootstrap/scss/_variables.scss';
 @import 'bootstrap/scss/_mixins.scss';
@@ -29,3 +28,5 @@ $primary: $primary-color;
 //
 @import 'select2/dist/css/select2.css';
 @import 'select2-bootstrap-theme/dist/select2-bootstrap.css';
+
+@import './draw-style.scss';

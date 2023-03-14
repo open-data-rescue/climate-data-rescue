@@ -22,7 +22,7 @@
           - @users.each do |user|
             tr
               td = user.id
-              td = link_to(image_tag((user.avatar.present? ? user.avatar.url(:thumb) : 'default-person.png'), :class => "center-block img-circle", style: 'max-width:50px;'), user_path(user))
+              td = link_to(image_pack_tag((user.avatar.present? ? user.avatar.url(:thumb) : 'default-person.png'), :class => "center-block img-circle", style: 'max-width:50px;'), user_path(user))
               td = user.display_name
               td = user.full_name
               td = link_to(user.email, "mailto:#{user.email}")

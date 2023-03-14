@@ -4,6 +4,6 @@
     .col-md-12
       h3 = title
       .table-responsive#preview-image style="height: 400px;"
-        = image_tag(page.image.url(:original), class: 'image-responsive')
+        = image_pack_tag(page.image.url(:original), class: 'image-responsive')
 
 = render 'shared/sample_image_javascript'

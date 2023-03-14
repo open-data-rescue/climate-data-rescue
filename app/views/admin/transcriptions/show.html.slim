@@ -8,7 +8,7 @@
 /    /!Get the name and load the image of the page associated with the transcription
 /    h4 = @transcription.page.title + ' Pg. ' + @transcription.page_type.number.to_s
 /  .col-md-4
-/    = image_tag @transcription.page.image.url(:small)
+/    = image_pack_tag @transcription.page.image.url(:small)
 /
 / = render 'transcriptions/transcriptions_table', transcriptions: [@transcription], detail_links: false
 

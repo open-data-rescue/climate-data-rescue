@@ -66,7 +66,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
                 = link_to t('users.users'), admin_users_path, {class: "dropdown-item bg-dark #{yield(:users)}"}
         li class="#{yield(:user)} nav-item dropdown bg-dark"
           a class="nav-link dropdown-toggle nav-user-flair" data-toggle="dropdown" href="#" role="button"
-            = image_tag (current_user.avatar.present? ? current_user.avatar.url(:thumb) : 'default-person.png'), class: "img-fluid rounded-circle nav-user-photo mr-2"
+            = image_pack_tag (current_user.avatar.present? ? current_user.avatar.url(:thumb) : 'default-person.png'), class: "img-fluid rounded-circle nav-user-photo mr-2"
             = current_user.display_name
           div.dropdown-menu.bg-dark
             = link_to t('my-profile'), my_profile_path, {class: "dropdown-item bg-dark #{yield(:profile)}"}

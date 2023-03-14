@@ -47,6 +47,10 @@ import "../utils/boxer-plugin.js"
 import "../utils/content_images.js"
 import "../utils/snowEffect.js"
 
+import 'stylesheets/theme.scss'
+
+// see https://dev.to/shivashankarror/rails-6-using-images-with-webpacker-and-asset-pipeline-4gk3
+const images = require.context('../images', true)
 
 Rails.start()
 ActiveStorage.start()

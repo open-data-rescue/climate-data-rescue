@@ -32,9 +32,9 @@
               td = link_to(transcription.id, [:admin, transcription])
             td
               - if current_user.admin
-                = link_to image_tag(transcription.page.image.url(:thumb), title: strip_tags(t('transcriptions.table.tooltips.view-page-details')), data: { toggle: 'tooltip', trigger: 'hover', placement: 'top' }), admin_page_path(transcription.page)
+                = link_to image_pack_tag(transcription.page.image.url(:thumb), title: strip_tags(t('transcriptions.table.tooltips.view-page-details')), data: { toggle: 'tooltip', trigger: 'hover', placement: 'top' }), admin_page_path(transcription.page)
               - else
-                = image_tag(transcription.page.image.url(:thumb))
+                = image_pack_tag(transcription.page.image.url(:thumb))
             td = transcription.page.title
             td = transcription.data_entries_count
             td = transcription.num_data_entries_expected
