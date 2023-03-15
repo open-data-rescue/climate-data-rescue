@@ -16,4 +16,4 @@ li class = nav_class
     ul.dropdown-menu
       - page.children.each do |child|
         - if child.visible && (header ? child.show_in_header : child.show_in_footer)
-          = render 'static_pages/link', page: child, opens_new_tab: opens_new_tab
+          = render 'static_pages/link', page: child, opens_new_tab: opens_new_tab, header: header
