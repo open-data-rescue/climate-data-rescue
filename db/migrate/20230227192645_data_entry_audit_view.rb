@@ -1,4 +1,4 @@
-class DataEntryAuditView < ActiveRecord::Migration[6.1]
+class DataEntryAuditView < ActiveRecord::Migration[5.2]
   def up
     execute <<-SQL
       CREATE OR REPLACE DEFINER = 'root'@'localhost' SQL SECURITY INVOKER VIEW data_entries_audit_details AS
