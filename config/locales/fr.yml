@@ -290,6 +290,7 @@ fr:
   email: Courriel
   en: English
   external-url:
+  data-entry-audit: "Audit de saisie de données"
   field-groups: "Regroupements de champs"
   field-options: "Valeurs de champs"
   field-values: "Valeurs de champs"

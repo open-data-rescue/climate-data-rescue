@@ -394,6 +394,7 @@ en:
       reset_password_token:
         invalid:
   external-url:
+  data-entry-audit: "Data Entry Audit"
   export-transcriptions: Export
   field-group-successfully-deleted:
   field-groups: "Field Groups"

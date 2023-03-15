@@ -1,0 +1,11 @@
+= simple_form_for(@audit, url: admin_data_entries_audit_detail_path, method: :put) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :location, label: t('Location'), :readonly => true
+    = f.input :page_title, label: t('Page Title'), :readonly => true
+    = f.input :value, label: t('Current Value'), :readonly => true
+    = f.input :prev_value, label: t('Previous Value'), :readonly => true
+    = f.input :notes, label: t('Notes')
+
+  .form-actions
+    = f.button :submit, strip_tags(t('save').html_safe), class: 'btn btn-primary'

@@ -1,0 +1,35 @@
+- provide(:admin, 'active')
+h1.boffset20 = t('data-entry-audit')
+.table-responsive
+  table.table.table-striped.datatables
+	thead
+	  tr
+		th = t('Location')
+		th = t('Page')
+		th = t('Transcription Id')
+		th = t('Observation Date')
+		th = t('Original Transcriber')
+		th = t('Who Edited')
+		th = t('Action')
+		th = t('Field')
+		th = t('Current Value')
+		th = t('Previous Value')
+		th = t('Notes')
+		th = t('Time of Change')
+		th
+	tbody
+	  - @audits.each do |audit|
+		tr
+		  td = audit.location
+		  td = link_to audit.page_title, controller: 'pages', action: 'show', id: audit.page_id
+		  td = link_to audit.transcription_id, controller: 'transcriptions', action: 'show', id: audit.transcription_id
+		  td = audit.observation_date ? audit.observation_date.utc.strftime('%d %b %Y, %I:%M %p') : nil
+		  td = link_to audit.user_name, controller: 'users', action: 'show', id: audit.user_id
+		  td = link_to audit.who_name, controller: 'users', action: 'show', id: audit.who_id
+		  td = audit.event
+		  td = audit.field_key
+		  td = audit.value
+		  td = audit.prev_value
+		  td = audit.notes
+		  td = audit.change_time ? I18n.l(audit.change_time, format: :long) : nil
+		  td = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_data_entries_audit_detail_path(audit), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"}
