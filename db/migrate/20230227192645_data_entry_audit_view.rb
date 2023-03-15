@@ -1,7 +1,7 @@
 class DataEntryAuditView < ActiveRecord::Migration[6.1]
   def up
     execute <<-SQL
-      CREATE OR REPLACE DEFINER = 'root'@'localhost' SQL SECURITY INVOKER VIEW date_entries_audit_details AS
+      CREATE OR REPLACE DEFINER = 'root'@'localhost' SQL SECURITY INVOKER VIEW data_entries_audit_details AS
         select
         	adev.id as id,
         	u.id as user_id,
@@ -44,7 +44,7 @@ class DataEntryAuditView < ActiveRecord::Migration[6.1]
   end
   def down
     execute <<-SQL
-      DROP VIEW IF EXISTS date_entries_audit_details;
+      DROP VIEW IF EXISTS data_entries_audit_details;
     SQL
   end
 end
