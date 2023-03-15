@@ -33,9 +33,17 @@
   </tr>
   <tr>
     <% if I18n.locale == :fr %>
-    <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_fr.png" %>" style= "width:175px;height:97px;"></span></td>
+      <td style="text-align:center">
+        <span>
+          <%= image_pack_tag 'drawlogo_fr.png', style: "width:175px;height:97px;" %>
+        </span>
+      </td>
     <% else %>
-    <td style="text-align:center"><span><img src= "<%= image_path "drawlogo_en.png" %>" style= "width:175px;height:97px;"></span></td>
+      <td style="text-align:center">
+        <span>
+          <%= image_pack_tag 'drawlogo_en.png', style: "width:175px;height:97px;" %>
+        </span>
+      </td>
     <% end %>
   </tr>
   </table>
