@@ -47,12 +47,6 @@ ActiveRecord::Schema.define(version: 2023_02_27_192645) do
     t.index ["item_type", "item_id"], name: "index_audit_data_entry_versions_on_item_type_and_item_id"
   end
 
-  create_table "better_together_posts", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
-    t.string "bt_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "content_images", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "image_file_name"
     t.string "image_content_type"
