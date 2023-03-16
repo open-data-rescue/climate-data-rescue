@@ -5,18 +5,18 @@ h1 Ledger: #{@ledger.title}
 
 ul
     li = "Type: " + @ledger.ledger_type
-  
+
 
 
 /! list all pagetypes associated with this ledger
-ul 
+ul
   - @ledger.page_types.each do |page_type|
     li style="margin-top: 15px;"
       = link_to "#{page_type.title}", page_type_path(page_type)
     ul
       - @ledger.pages.each do |page|
-        li 
-          = link_to(image_pack_tag(page.image.url(:thumb)), page)
+        li
+          = link_to(image_tag(page.image.url(:thumb)), page)
           = link_to(page.title, page)
 
 - if current_user.admin?
