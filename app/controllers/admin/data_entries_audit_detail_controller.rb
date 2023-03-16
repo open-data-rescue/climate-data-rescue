@@ -27,6 +27,10 @@ module Admin
         rescue => e
           flash[:danger] = e.message
         end
+        
+        respond_to do |format|
+          format.html { redirect_to admin_data_entries_audit_detail_path }
+        end
       end
     end
     
