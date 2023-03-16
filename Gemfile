@@ -11,6 +11,7 @@ gem 'mime-types', require: 'mime/types/full'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
+gem 'paper_trail'
 gem "ranked-model"
 
 gem 'uglifier'

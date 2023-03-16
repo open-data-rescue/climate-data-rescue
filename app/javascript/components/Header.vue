@@ -62,6 +62,11 @@
         </b-dropdown-item>
         <b-dropdown-divider />
 
+        <b-dropdown-item :href="localizedPath('/admin/data_entry_audit')">
+          Data Entry Audit
+        </b-dropdown-item>
+        <b-dropdown-divider />
+
         <b-dropdown-item :href="localizedPath('/admin/static_pages')">
           Custom Pages
         </b-dropdown-item>

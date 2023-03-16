@@ -7,6 +7,8 @@ Rails.application.routes.draw do
         resources :pages, only: %i[index], path: 'page'
         resources :page_types, only: %i[index],  path: 'page_type'
         resources :transcriptions, only: %i[index],  path: 'transcription'
+
+        get 'data_entries_audit_detail', to: 'data_entries_audit_details#index'
       end
     end
   end
@@ -40,6 +42,8 @@ Rails.application.routes.draw do
           as: 'export_transcriptions'
 
     resources :transcriptions
+
+    get 'data_entry_audit' => 'data_entry_audits#index'
 
     # for field options app
     get 'field_options_for_field/:field_id' => "field_options#for_field", as: "field_options_for_field"
