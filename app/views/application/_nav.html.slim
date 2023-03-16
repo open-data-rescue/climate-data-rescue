@@ -61,6 +61,8 @@ nav.navbar.navbar-default.navbar-static-top.draw-top-nav
                 li class="#{yield(:fields)}" = link_to t('fields'), admin_fields_path
                 li class="#{yield(:field_options)}" = link_to t('field-values'), admin_field_options_path
                 li role="separator" class="divider"
+                li class="#{yield(:admin_data_entry_audit)}" = link_to t('data-entry-audit'), admin_data_entries_audit_detail_index_path
+                li role="separator" class="divider"
                 li class="#{yield(:static_pages)}" = link_to t('content-pages'), admin_static_pages_path
                 li class="#{yield(:content_images)}" = link_to t('content-images'), admin_content_images_path
                 li role="separator" class="divider"

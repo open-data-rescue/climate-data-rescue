@@ -125,7 +125,8 @@ class AnnotationsController < ApplicationController
       metadata = params.require(:annotation).permit!
       meta = metadata[:meta]
       data = metadata[:data].to_unsafe_h
-      
+      notes = metadata[:notes]
+
       logger.debug "meta: " + meta.to_s
       logger.debug "data: " + data.to_s
       
@@ -141,7 +142,7 @@ class AnnotationsController < ApplicationController
         observation_date: DateTime.parse(annotation_params[:observation_date])
       )
 
-      process_annotation_data(annotation: @annotation, data: data)
+      process_annotation_data(annotation: @annotation, data: data, notes: notes)
     end
     respond_to do |format|
       format.json
@@ -158,11 +159,13 @@ class AnnotationsController < ApplicationController
   # PUT /annotations/annotation_id.json
   def update
     Annotation.transaction do
-      @annotation = Annotation.includes(:data_entries).references(:data_entries).find(params[:id])
+      @annotation = Annotation.includes(:data_entries, :transcription).references(:data_entries).find(params[:id])
       metadata = params.require(:annotation).permit!
       meta = metadata[:meta]
       data = metadata[:data].to_unsafe_h if metadata[:data]
       
+      notes = metadata[:notes]
+
       if meta && data
         @annotation.update(
           x_tl: meta[:x_tl], 
@@ -173,7 +176,7 @@ class AnnotationsController < ApplicationController
           observation_date: DateTime.parse(annotation_params[:observation_date])
         )
         
-        process_annotation_data(annotation: @annotation, data: data)
+        process_annotation_data(annotation: @annotation, data: data, notes: notes)
       else
         # Rails.logger.info "Updating with backbone attributes"
         @annotation.update(backbone_annotation_params.merge(observation_date: DateTime.parse(annotation_params[:observation_date])))
@@ -219,10 +222,13 @@ class AnnotationsController < ApplicationController
     value
   end
 
-  def process_annotation_data(annotation:, data:)
+  def process_annotation_data(annotation:, data:, notes: nil)
     return unless data && data.length > 0
     data.each do |key, value|
       entry_value = value[:value]
+      if value[:value].kind_of?(Array)
+        entry_value = entry_value.reject { |c| c.empty? }
+      end
 
       if value[:selected_option_ids].present?
         entry_value = value_for_option_ids value[:selected_option_ids]
@@ -230,12 +236,18 @@ class AnnotationsController < ApplicationController
 
       datum = annotation.data_entries.find_or_create_by(
         page_id: value[:page_id],
-        field_id: value[:field_id],
-        data_type: value[:data_type]
+        field_id: value[:field_id]
       )
-      datum.value = entry_value
+      datum.data_type = value[:data_type] if value[:data_type]
+      if entry_value && entry_value.length > 0
+        datum.value = entry_value
+      else
+        datum.value = nil
+      end
       datum.user_id = value[:user_id] if datum.user_id.nil?
       datum.field_options_ids = (value[:selected_option_ids].present? ? value[:selected_option_ids].remove("field_") : nil)
+      # Set notes ...
+      datum.edit_notes = notes if notes
       datum.save!
     end
   end

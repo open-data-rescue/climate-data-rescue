@@ -1,2 +1,2 @@
-web: ./docker/startup.sh
-release: ./docker/prepare-db.sh
+web: bundle exec puma -p $PORT
+release: bundle exec rails db:migrate

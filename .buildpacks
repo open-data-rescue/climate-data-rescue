@@ -1,0 +1,4 @@
+https://github.com/yespark/heroku-imagemagick-buildpack
+https://github.com/gaffneyc/heroku-buildpack-jemalloc.git
+https://github.com/weibeld/heroku-buildpack-graphviz.git
+https://github.com/heroku/heroku-buildpack-ruby

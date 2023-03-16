@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :pages
     resources :static_pages
     resources :users
+    resources :data_entries_audit_detail
 
     match 'transcriptions/export' => 'transcriptions#export',
           via: %i[get post],
@@ -68,7 +69,7 @@ Rails.application.routes.draw do
   get 'my-profile' => 'users#my_profile', as: "my_profile"
 
   post 'create_page_metadata' => "page_days#create"
-
+  
   scope path: 'page-metadata' do
     post 'create' => 'page_days#create'
     post 'update' => 'page_days#update'

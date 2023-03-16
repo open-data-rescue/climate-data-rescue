@@ -394,6 +394,7 @@ en:
       reset_password_token:
         invalid:
   external-url:
+  data-entry-audit: "Data Entry Audit"
   export-transcriptions: Export
   field-group-successfully-deleted:
   field-groups: "Field Groups"
@@ -1220,8 +1221,10 @@ en:
         fields:
           help:
             datetime: "What is the date and time of this observation? <b>You can select the date and time by clicking on the clock icon.</b><br>Should follow the format <span style='white-space: nowrap;'><code>04 Aug 1874, 01:48 AM</code></span>."
+            notes: "Notes about what was edited and why"
           labels:
             datetime: "Date and time"
+            notes: "Admin Notes"
         help:
           fields:
             datetime:

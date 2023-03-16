@@ -222,6 +222,9 @@ GEM
       racc (~> 1.4)
     optimist (3.0.1)
     orm_adapter (0.5.0)
+    paper_trail (13.0.0)
+      activerecord (>= 5.2)
+      request_store (~> 1.1)
     paperclip (6.1.0)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
@@ -445,6 +448,7 @@ DEPENDENCIES
   modernizr-rails
   mysql2
   newrelic_rpm
+  paper_trail
   paperclip
   pry
   puma (~> 4.3.1)
