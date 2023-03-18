@@ -31,7 +31,7 @@ CREATE TABLE `annotations` (
   KEY `by_page` (`page_id`),
   KEY `by_date_time` (`date_time_id`),
   KEY `annotations_x_tl_IDX` (`x_tl`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=427685 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=427683 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `annotations_and_data_entries`;
 /*!50001 DROP VIEW IF EXISTS `annotations_and_data_entries`*/;
@@ -48,9 +48,10 @@ SET character_set_client = utf8;
  1 AS `updated_at`,
  1 AS `field_group_id`,
  1 AS `user_id`,
- 1 AS `data_entry id`,
+ 1 AS `data_entry_id`,
  1 AS `value`,
  1 AS `value_as_number`,
+ 1 AS `field_options_ids`,
  1 AS `field_id`,
  1 AS `internal_name`,
  1 AS `field_key`*/;
@@ -86,7 +87,7 @@ CREATE TABLE `audit_data_entry_versions` (
   `notes` text,
   PRIMARY KEY (`id`),
   KEY `index_audit_data_entry_versions_on_item_type_and_item_id` (`item_type`,`item_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `better_together_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -129,7 +130,7 @@ CREATE TABLE `data_entries` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `annotation_field` (`annotation_id`,`field_id`),
   KEY `index_data_entries_on_user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1917438 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1917425 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `data_entries_audit_details`;
 /*!50001 DROP VIEW IF EXISTS `data_entries_audit_details`*/;
@@ -385,7 +386,7 @@ CREATE TABLE `page_infos` (
   PRIMARY KEY (`id`),
   KEY `index_page_infos_on_page_id` (`page_id`),
   KEY `index_page_infos_on_user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `page_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -465,7 +466,7 @@ CREATE TABLE `sessions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_sessions_on_session_id` (`session_id`),
   KEY `index_sessions_on_updated_at` (`updated_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=1041200 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1041157 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `static_page_translations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -588,7 +589,7 @@ CREATE TABLE `versions` (
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY INVOKER */
-/*!50001 VIEW `annotations_and_data_entries` AS select `a`.`id` AS `annotation_id`,`a`.`transcription_id` AS `transcription_id`,`a`.`page_id` AS `page_id`,`p`.`page_type_id` AS `page_type_id`,`p`.`start_date` AS `page_start_date`,`a`.`observation_date` AS `observation_date`,`a`.`created_at` AS `created_at`,`a`.`updated_at` AS `updated_at`,`a`.`field_group_id` AS `field_group_id`,`d`.`user_id` AS `user_id`,`d`.`id` AS `data_entry id`,`d`.`value` AS `value`,if((`d`.`value` regexp '^-?[0-9]+.?[0-9]*$'),cast(`d`.`value` as decimal(14,4)),NULL) AS `value_as_number`,`d`.`field_id` AS `field_id`,`field_stuff`.`internal_name` AS `internal_name`,`field_stuff`.`field_key` AS `field_key` from (((`draw_development`.`annotations` `a` join `draw_development`.`data_entries` `d` on((`d`.`annotation_id` = `a`.`id`))) join `draw_development`.`pages` `p` on((`p`.`id` = `a`.`page_id`))) join (select `f`.`id` AS `field_id`,`f`.`field_key` AS `field_key`,`f`.`internal_name` AS `internal_name`,`f`.`period` AS `period`,`f`.`measurement_type` AS `measurement_type`,`f`.`measurement_unit_original` AS `measurement_unit_original`,`f`.`measurement_unit_si` AS `measurement_unit_si`,`f`.`time_of_day` AS `time_of_day`,`ptfg`.`page_type_id` AS `page_type_id`,`fgf`.`field_group_id` AS `field_group_id` from ((`draw_development`.`fields` `f` join `draw_development`.`field_groups_fields` `fgf` on((`fgf`.`field_id` = `f`.`id`))) join `draw_development`.`page_types_field_groups` `ptfg` on((`ptfg`.`field_group_id` = `fgf`.`field_group_id`)))) `field_stuff` on(((`field_stuff`.`field_id` = `d`.`field_id`) and (`field_stuff`.`page_type_id` = `p`.`page_type_id`)))) */;
+/*!50001 VIEW `annotations_and_data_entries` AS select `a`.`id` AS `annotation_id`,`a`.`transcription_id` AS `transcription_id`,`a`.`page_id` AS `page_id`,`p`.`page_type_id` AS `page_type_id`,`p`.`start_date` AS `page_start_date`,`a`.`observation_date` AS `observation_date`,`a`.`created_at` AS `created_at`,`a`.`updated_at` AS `updated_at`,`a`.`field_group_id` AS `field_group_id`,`d`.`user_id` AS `user_id`,`d`.`id` AS `data_entry_id`,`d`.`value` AS `value`,if((`d`.`value` regexp '^-?[0-9]+.?[0-9]*$'),cast(`d`.`value` as decimal(14,4)),NULL) AS `value_as_number`,`d`.`field_options_ids` AS `field_options_ids`,`d`.`field_id` AS `field_id`,`field_stuff`.`internal_name` AS `internal_name`,`field_stuff`.`field_key` AS `field_key` from (((`draw_development`.`annotations` `a` join `draw_development`.`data_entries` `d` on((`d`.`annotation_id` = `a`.`id`))) join `draw_development`.`pages` `p` on((`p`.`id` = `a`.`page_id`))) join (select `f`.`id` AS `field_id`,`f`.`field_key` AS `field_key`,`f`.`internal_name` AS `internal_name`,`f`.`period` AS `period`,`f`.`measurement_type` AS `measurement_type`,`f`.`measurement_unit_original` AS `measurement_unit_original`,`f`.`measurement_unit_si` AS `measurement_unit_si`,`f`.`time_of_day` AS `time_of_day`,`ptfg`.`page_type_id` AS `page_type_id`,`fgf`.`field_group_id` AS `field_group_id` from ((`draw_development`.`fields` `f` join `draw_development`.`field_groups_fields` `fgf` on((`fgf`.`field_id` = `f`.`id`))) join `draw_development`.`page_types_field_groups` `ptfg` on((`ptfg`.`field_group_id` = `fgf`.`field_group_id`)))) `field_stuff` on(((`field_stuff`.`field_id` = `d`.`field_id`) and (`field_stuff`.`page_type_id` = `p`.`page_type_id`)))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -715,6 +716,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20230226155950'),
 ('20230226161316'),
 ('20230227192645'),
-('20230305154341');
+('20230305154341'),
+('20230316214752');
 
 
