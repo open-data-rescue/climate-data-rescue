@@ -8,6 +8,8 @@ namespace :data_entries do
   end
 
   task :fix_incorrect => :environment do  |t, args|
+    PaperTrail.enabled = false
+
     candidates = incorrect_entries
     candidates.each do |candidate|
       entry = candidate.data_entry
@@ -25,9 +27,13 @@ namespace :data_entries do
 
       putc '.'
     end
+
+    PaperTrail.enabled = true
   end
 
   task :fix_missing => :environment do  |t, args|
+    PaperTrail.enabled = false
+
     candidates = missing_entries
 
     candidates.each do |candidate|
@@ -41,6 +47,8 @@ namespace :data_entries do
 
       putc '.'
     end
+
+    PaperTrail.enabled = true
   end
 
   def incorrect_entries
