@@ -23,7 +23,7 @@ namespace :data_entries do
         entry.value = options.map{|option| option.value}.join(" ") if options.any?
       end
 
-      entry.save!
+      entry.save!(touch: false)
 
       putc '.'
     end
@@ -43,7 +43,7 @@ namespace :data_entries do
       options = FieldOption.where(id: ids)
       entry.value = options.map{|option| option.value}.join(" ") if options.any?
 
-      entry.save!
+      entry.save!(touch: false)
 
       putc '.'
     end
