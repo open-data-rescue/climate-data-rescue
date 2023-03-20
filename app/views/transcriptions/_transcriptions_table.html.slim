@@ -51,7 +51,7 @@
               td = link_to transcription.page_type.title, admin_page_type_path(transcription.page_type)
               td = link_to(transcription.user.name, user_path(transcription.user))
             - if render_btns
-              td
+              td (style="width: 10em")
                 = link_to t('edit-transcription'), edit_transcription_path(transcription), class: "btn btn-xs btn-draw-accented"
                 = link_to t('view-details'), (current_user.admin? ?  admin_transcription_path(transcription) :  transcription_path(transcription)), class: "btn btn-xs btn-primary" if detail_links
                 - if transcription.complete

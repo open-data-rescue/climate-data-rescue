@@ -49,6 +49,8 @@ import "../utils/snowEffect.js"
 
 import 'stylesheets/theme.scss'
 
+import "trumbowyg/icons.svg"
+
 // see https://dev.to/shivashankarror/rails-6-using-images-with-webpacker-and-asset-pipeline-4gk3
 const images = require.context('../images', true)
 

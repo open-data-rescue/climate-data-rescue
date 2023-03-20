@@ -59,7 +59,7 @@ class UsersController < ApplicationController
   private
 
   def users_params
-    params.require(:user).permit(:email, :name, :display_name, :avatar, :bio, :full_name, :id)
+    params.require(:user).permit(:email, :name, :display_name, :admin, :avatar, :bio, :full_name, :id)
   end
 
   def find_user_and_transcriptions

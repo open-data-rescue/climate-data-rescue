@@ -24,7 +24,7 @@ h3 = t('field-values')
         tr
           td = field_option.internal_name
           td = link_to field_option.name, admin_field_option_path(field_option)
-          td = image_pack_tag(field_option.image.url(:icon)) if field_option.image.present?
+          td = image_tag(field_option.image.url(:icon)) if field_option.image.present?
           td = field_option.text_symbol
           td = field_option.display_attribute
           td = field_option.value

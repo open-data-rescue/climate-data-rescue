@@ -59,7 +59,8 @@ html lang="en"
           - if current_page?(root_url) || current_page?('/')
             = yield
           - else
-            .main-content-container.p-3.d-flex.flex-row
+            .main-content-container.container.p-3
+              /.p-3.d-flex.flex-row
               = yield
           / TODO - this may be an issue ?
           - if content_for? :large_page_image

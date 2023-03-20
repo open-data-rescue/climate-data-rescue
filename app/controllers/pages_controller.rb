@@ -11,6 +11,7 @@ class PagesController < ApplicationController
                  .includes(:page_type)
                  .references(:page_type)
                  .order("page_types.number ASC")
+                 .limit(10)
     @user_transcriptions = current_user ? current_user.transcriptions.to_a : []
   end
 

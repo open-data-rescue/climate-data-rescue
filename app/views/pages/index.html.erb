@@ -4,7 +4,7 @@
 
 <h1>
   <%= t('pages') %>
-  <span class="badge"><%= @pages.to_a.size %></span>
+  <span class="badge badge-pill badge-secondary" style="font-size: 0.4em; vertical-align: middle;"><%= @pages.to_a.size %></span>
   <% if @user_transcriptions.any? %>
     <%= link_to t('view-my-transcriptions', count: @user_transcriptions.size), my_profile_path, class: 'btn btn-info' %>
   <% end %>

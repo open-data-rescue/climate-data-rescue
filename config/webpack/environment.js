@@ -60,7 +60,8 @@ config.resolve = {
     'images/ui-icons_777620_256x240.png': 'jquery-ui-dist/images/ui-icons_777620_256x240.png',
     'images/ui-icons_777777_256x240.png': 'jquery-ui-dist/images/ui-icons_777777_256x240.png',
     'images/ui-icons_cc0000_256x240.png': 'jquery-ui-dist/images/ui-icons_cc0000_256x240.png',
-    'images/ui-icons_ffffff_256x240.png': 'jquery-ui-dist/images/ui-icons_ffffff_256x240.png'
+    'images/ui-icons_ffffff_256x240.png': 'jquery-ui-dist/images/ui-icons_ffffff_256x240.png',
+    'trumbowyg/icons.svg':'trumbowyg/dist/ui/icons.svg'
   },
   extensions: ['*', '.js', '.vue', '.json']
 }
