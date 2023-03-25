@@ -11,23 +11,23 @@
 
   <div class="date-container">
     <div><label for="observer">Observer</label></div>
-    <div class="datetime-group">
+    <div class="form-group">
         <%= text_field_tag "observer", page_meta ? page_meta.observer : nil, required: true, class: "form-control" %>
     </div>
     <div><label for="lat">Latitude</label></div>
-    <div class="datetime-group">
+    <div class="form-group">
         <%= text_field_tag "lat", page_meta ? page_meta.lat : nil, required: true, class: "form-control" %>
     </div>
     <div><label for="lon">Longitude</label></div>
-    <div class="datetime-group">
+    <div class="form-group">
         <%= text_field_tag "lon", page_meta ? page_meta.lon : nil, required: true, class: "form-control" %>
     </div>
     <div><label for="location">Location</label></div>
-    <div class="datetime-group">
+    <div class="form-group">
         <%= text_field_tag "location", page_meta ? page_meta.location : nil, required: true, class: "form-control" %>
     </div>
     <div><label for="elevation">Elevation</label></div>
-    <div class="datetime-group">
+    <div class="form-group">
         <%= text_field_tag "elevation", page_meta ? page_meta.elevation : nil, required: true, class: "form-control" %>
     </div>
   </div>

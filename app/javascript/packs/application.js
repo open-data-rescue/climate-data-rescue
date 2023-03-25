@@ -3,11 +3,12 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-import Rails from "@rails/ujs"
+// import Rails from "@rails/ujs"
 
 import * as ActiveStorage from "@rails/activestorage"
 
 import 'jquery'
+import 'jquery-ujs'
 import 'bootstrap'
 
 // import 'bootstrap-switch.css'
@@ -28,13 +29,12 @@ import "backbone.wreqr/lib/backbone.wreqr.js"
 import "backbone-forms/distribution/backbone-forms"
 import "backbone-forms/distribution/editors/list"
 // import "backbone-forms/distribution/editors/fileUploadEditor"
-import "backbone-forms/distribution/adapters/backbone.bootstrap-modal.js"
-import "backbone-forms/distribution/templates/bootstrap.js"
+// import "backbone-forms/distribution/adapters/backbone.bootstrap-modal.js"
+// import "backbone-forms/distribution/templates/bootstrap.js"
 
 import "jquery.kinetic/jquery.kinetic.js"
 // import "magnify/dist/js/jquery.magnify.js"
-import "eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
-//= require moment/min/moment.min
+// import "bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"
 //= require eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker
 
 // TODO: no repo?
@@ -48,13 +48,29 @@ import "../utils/content_images.js"
 import "../utils/snowEffect.js"
 
 import 'stylesheets/theme.scss'
+import 'stylesheets/transcriptions.scss'
+
+import "tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css"
 
 import "trumbowyg/icons.svg"
 
 // see https://dev.to/shivashankarror/rails-6-using-images-with-webpacker-and-asset-pipeline-4gk3
 const images = require.context('../images', true)
 
-Rails.start()
+// Expoed modules for erbs
+import Marionette from "expose-loader?exposes=Marionette!backbone.marionette/lib/backbone.marionette";
+import _ from "expose-loader?exposes=_!underscore/underscore.js";
+// import Form from "expose-loader?exposes=Backbone.Form!backbone-forms/distribution/backbone-forms.js";
+import BootstrapModal from "expose-loader?exposes=Backbone.BootstrapModal!backbone-forms/distribution/adapters/backbone.bootstrap-modal.js";
+import "../templates/bootstrap4.js"
+
+// import Moment from "expose-loader?exposes=Moment!moment/moment.js"
+import moment from "expose-loader?exposes=moment!moment/moment.js"
+import "tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.js"
+
+import "bootstrap-notify/bootstrap-notify.js"
+
+// Rails.start()
 ActiveStorage.start()
 
 $(document).ready(function(){
@@ -71,6 +87,7 @@ $(document).ready(function(){
     // Over-ride the backbone sync so that the rails CSRF token is passed to the backend
     Backbone._sync = Backbone.sync;
     Backbone.sync = function(method, model, options) {
+      // is this working
         if (method == 'create' || method == 'update' || method == 'delete') {
             var auth_options = {};
             auth_options[$("meta[name='csrf-param']").attr('content')] = $("meta[name='csrf-token']").attr('content');

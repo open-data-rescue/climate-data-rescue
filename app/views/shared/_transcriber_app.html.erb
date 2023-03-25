@@ -168,7 +168,9 @@
             title : '<%= j t('transcriber.stop-transcribing-modal.title') %>',
             animate : true,
             content : $('#stop-transcribing-template').html(),
-            showFooter : false
+            showFooter : false,
+            class: 'modal bs-modal-lg',
+            template: Backbone.Form.modalTemplate
           }).open();
         },
         'click .btn-zoom-in:not(.disabled)': 'zoomIn',
@@ -536,6 +538,9 @@
             title : '<%= j t('transcriber.delete-annotation-confirmation-modal.title').html_safe %>',
             animate : true,
             okText : '<%= j t('transcriber.delete-annotation-confirmation-modal.ok-btn-text').html_safe %>',
+            template: Backbone.Form.modalTemplate,
+            content : $('#empty-template').html(),
+            showFooter: true,
             submitFn : function(){
               annotation.destroy({
                 success : function(mdl) {
@@ -632,12 +637,12 @@
         //end field toggler
         "click .submit-btn" : function(e) {
           e.preventDefault();
-          var $form = $(e.target).parents("form.annotation-form");
+          var $form = $(e.target).parents("form.annotation-form"); //.first();
           if (this.model) {
             this.updateAnnotation(this.model);
             // console.log("update");
           } else {
-            // console.log("new");
+            console.log("new", $form);
             this.createNewAnnotation($form);
           };
         }
@@ -702,9 +707,9 @@
             // format : "DD MMM YYYY",
             useCurrent: false,
             sideBySide : true,
-            defaultDate : '<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day + 108.minutes).to_s : (transcription.page.start_date.beginning_of_day + 108.minutes).to_s) %>',
-            minDate : '<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.to_s : (transcription.page.start_date.beginning_of_day.to_s)) %>',
-            maxDate : '<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.to_s : (transcription.page.end_date.end_of_day.to_s)) %>',
+            defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S')) %>'),
+            minDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>'),
+            maxDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.end_date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>'),
           });
 
           $(datetime).on('dp.change', function(e) {
@@ -930,7 +935,8 @@
                 transcriber : self,
                 fieldGroupName : fieldGroupName
               }),
-              showFooter : false
+              showFooter : false,
+              template: Backbone.Form.modalTemplate
             }).open();
           }
 
@@ -1187,33 +1193,35 @@
     var fieldGuidePage = new Page({
       title: '<%= j t('transcriber.guide-images.title.fields').html_safe %>',
       description : '<%= j t('transcriber.guide-images.help-text.fields').html_safe %>',
-      popoverPlacement: function(context, source) {
-        var self = this;
-        setTimeout(function() {
-          self.$arrow.css('left', (self.$tip.outerWidth() / 2));
-          self.$tip.css({
-            left: ($('#field-guide-container').offset().left + ($('#field-guide-container').width() / 2)),
-            top: ($('#page-time-container').offset().top - $('#transcriber-toolbar').outerHeight()),
-          });
-        }, 0);
-        return 'bottom';
-      },
+      <%# TODO - $arrow not defined %>
+      // popoverPlacement: function(context, source) {
+      //   var self = this;
+      //   setTimeout(function() {
+      //     self.$arrow.css('left', (self.$tip.outerWidth() / 2));
+      //     self.$tip.css({
+      //       left: ($('#field-guide-container').offset().left + ($('#field-guide-container').width() / 2)),
+      //       top: ($('#page-time-container').offset().top - $('#transcriber-toolbar').outerHeight()),
+      //     });
+      //   }, 0);
+      //   return 'bottom';
+      // },
     });
     var timeGuidePage = new Page({
       image_id : 'time-guide',
       title: '<%= j t('transcriber.guide-images.title.time').html_safe %>',
       description : '<%= j t('transcriber.guide-images.help-text.time').html_safe %>',
-      popoverPlacement: function(context, source) {
-        var self = this;
-        setTimeout(function() {
-          self.$arrow.css('top', (self.$tip.outerHeight() / 2));
-          self.$tip.css({
-            top: ($('#time-guide-container').offset().top + ($('#time-guide-container').outerHeight() / 2)),
-            left: $('#time-guide-container').outerWidth(),
-          });
-        }, 0);
-        return 'right';
-      },
+      <%# TODO - $arrow not defined %>
+      // popoverPlacement: function(context, source) {
+      //   var self = this;
+      //   setTimeout(function() {
+      //     self.$arrow.css('top', (self.$tip.outerHeight() / 2));
+      //     self.$tip.css({
+      //       top: ($('#time-guide-container').offset().top + ($('#time-guide-container').outerHeight() / 2)),
+      //       left: $('#time-guide-container').outerWidth(),
+      //     });
+      //   }, 0);
+      //   return 'right';
+      // },
     });
     var pageCanvas = new PageImage({
       model : mainPage,

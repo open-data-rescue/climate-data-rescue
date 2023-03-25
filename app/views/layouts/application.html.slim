@@ -7,6 +7,7 @@ html lang="en"
     title
       = content_for?(:title) ? yield(:title) + " | " : ''
       = strip_tags(t('app.meta-info.title')).html_safe
+    / TODO: test
     = csrf_meta_tags
     - if Rails.env.production?
       <!-- Global Site Tag (gtag.js) - Google Analytics -->
@@ -57,7 +58,8 @@ html lang="en"
       /  .d-flex.ml-5.mr-5
       .justify-content-center
           - if current_page?(root_url) || current_page?('/')
-            = yield
+            .container
+              = yield
           - else
             .main-content-container.container.p-3
               /.p-3.d-flex.flex-row
