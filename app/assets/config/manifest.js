@@ -1,1 +1,1 @@
-// link_tree ../images
+// Nor used
