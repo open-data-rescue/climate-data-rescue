@@ -21,7 +21,7 @@
         - @content_image.image.styles.each do |key, value|
             .row.boffset20
                 .col-md-2
-                    button type="button" class="btn btn-primary btn-xs url-btn btn-block" data-style=key.to_s data-clipboard-text=@content_image.image.url(key).split("?")[0] data-title="Copied!"
+                    button type="button" class="btn btn-primary btn-sm url-btn btn-block" data-style=key.to_s data-clipboard-text=@content_image.image.url(key).split("?")[0] data-title="Copied!"
                         = key.to_s.capitalize + " "
                         = value.attachment.options[:styles][key].first.split("x").first + "px"
                 .col-md-10

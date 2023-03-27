@@ -43,9 +43,9 @@ h4 Fields from all groups are listed below, edit carefully please.
           td = field.field_groups.count
           td = number_with_precision(field.translation_score, precision: 2).to_s + '%'
           td
-            = link_to t('view-details'), admin_field_path(field), class: "btn btn-xs btn-primary"
-            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_field_path(field), class: "btn btn-xs btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"}
-            = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_field_path(field), class: "btn btn-xs btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete
+            = link_to t('view-details'), admin_field_path(field), class: "btn btn-sm btn-primary"
+            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_field_path(field), class: "btn btn-sm btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"}
+            = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_field_path(field), class: "btn btn-sm btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete
         - if field.help.present?
           tr
             td colspan=13
