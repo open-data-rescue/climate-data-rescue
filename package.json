@@ -28,7 +28,7 @@
     "jsonapi-vuex": "^4.5",
     "lodash": "^4.17.21",
     "luxon": "^3.1.0",
-    "magnify": "^2.3.3",
+    "magnify": "2.1.0",
     "moment": "^2.29.4",
     "node-polyglot": "^2.4.0",
     "node-sass": "^4.12.0",

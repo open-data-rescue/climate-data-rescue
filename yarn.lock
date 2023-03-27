@@ -6285,10 +6285,10 @@ luxon@^3.1.0:
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.3.0.tgz#d73ab5b5d2b49a461c47cedbc7e73309b4805b48"
   integrity sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==
 
-magnify@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/magnify/-/magnify-2.3.3.tgz#e6c97483748467424f44b7e3f1724f34d05ce7bf"
-  integrity sha512-fAM1MrUwqVBG2sS2a8lWoWCyONgF9+QXX85hCzmfLD/xKBM9FgoKMPjiTvrMa9o+fBlaZsKV60Z3ERVU+WEsSg==
+magnify@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/magnify/-/magnify-2.1.0.tgz#2477dd35cdd76dc2eeb8bac3c8a257b560392ee5"
+  integrity sha512-btnMNV6BcdcnQo2PXOKn5sM2PmOfQ/hA2v7omS+uJEgFyEmSfT7Xd6y3S52Tu/I0BAWICUykek7oT5i5HwGnbg==
   dependencies:
     jquery ">=1.7.0"
 

@@ -30,17 +30,13 @@ import "backbone-forms/distribution/backbone-forms"
 import "backbone-forms/distribution/editors/list"
 // import "backbone-forms/distribution/editors/fileUploadEditor"
 // import "backbone-forms/distribution/adapters/backbone.bootstrap-modal.js"
-// import "backbone-forms/distribution/templates/bootstrap.js"
 
 import "jquery.kinetic/jquery.kinetic.js"
-// import "magnify/dist/js/jquery.magnify.js"
-// import "bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"
-//= require eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker
+import "magnify/dist/js/jquery.magnify.js"
+import "magnify/dist/js/jquery.magnify-mobile.js"
 
 // TODO: no repo?
 // require jquery.ba-outside-events.min
-// require magnify/jquery.magnify-mobile
-// import "magnify/dist/js/jquery.magnify.js"
 
 import "../utils/page-uploader-plugin.js"
 import "../utils/boxer-plugin.js"
@@ -49,6 +45,8 @@ import "../utils/snowEffect.js"
 
 import 'stylesheets/theme.scss'
 import 'stylesheets/transcriptions.scss'
+
+import 'magnify/dist/css/magnify.css'
 
 import "tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css"
 

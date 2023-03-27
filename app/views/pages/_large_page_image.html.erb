@@ -1,12 +1,14 @@
 
 <% if page %>
   <% content_for :head do %>
-   <%= javascript_pack_tag "magnify" %>
+    <script>
+      $(document).ready(function () {
+        $('#page-img').magnify();
+      });
+    </script>
   <% end %>
 
   <% content_for :large_page_image do %>
     <%= image_tag page.image.url(:original), id: "page-img", class: "img-responsive", data: { 'magnify-src' => page.image.url(:original) } %>
   <% end %>
 <% end %>
-
-<%# http://localhost:3000/system/images/original/0c8dfefff53a3f1b655f7f7b06103d88a4438701.jpg?1586456114 %>
