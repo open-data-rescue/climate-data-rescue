@@ -54,19 +54,14 @@ html lang="en"
       .d-flex
         #message-container.col-md-12
           = render partial: 'application/alerts'
-      / .d-flex.justify-content-center
-      /  .d-flex.ml-5.mr-5
       .justify-content-center
-          - if current_page?(root_url) || current_page?('/')
+          - if current_page?(root_url) || current_page?('/') || current_page?('/en') || current_page?('/fr')
             .container
               = yield
           - else
             .main-content-container.p-3
-              /.p-3.d-flex.flex-row
               = yield
-          / TODO - this may be an issue ?
           - if content_for? :large_page_image
-            / col-sm-12.voffset30
             .large-page-img-container.d-flex.flex-row
                = yield :large_page_image
 
