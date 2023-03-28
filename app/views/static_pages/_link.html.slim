@@ -9,7 +9,8 @@
   - nav_class += ' active'
 - if page && page.children.any?
   - nav_class += ' dropdown-submenu'
-  / - link_opts[:data] = { toggle: 'dropdown-toggle' }
+  - if (header ? page.visible_header_children? : page.visible_footer_children?)
+    - link_opts[:class] = link_opts[:class] + " dropdown-toggle"
 li class = nav_class
   = link_to (page.children.any? && top_level ? title.html_safe : title), page.link, link_opts
   - if page.children.any?

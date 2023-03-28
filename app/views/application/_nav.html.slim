@@ -60,6 +60,8 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
                 = link_to t('fields'), admin_fields_path, {class: "dropdown-item bg-dark #{yield(:fields)}"}
                 = link_to t('field-values'), admin_field_options_path, {class: "dropdown-item bg-dark #{yield(:field_options)}"}
                 div.dropdown-divider
+                = link_to t('data-entry-audit'), admin_data_entry_audit_path, {class: "dropdown-item bg-dark #{yield(:admin_data_entry_audit)}"}
+                div.dropdown-divider
                 = link_to t('content-pages'), admin_static_pages_path, {class: "dropdown-item bg-dark #{yield(:static_pages)}"}
                 = link_to t('content-images'), admin_content_images_path, {class: "dropdown-item bg-dark #{yield(:content_images)}"}
                 div.dropdown-divider
