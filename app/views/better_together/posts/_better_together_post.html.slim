@@ -1,7 +1,0 @@
-
-div class=dom_class(better_together_post, :list)
-  h3.post-title
-    a href=better_together_post_path(better_together_post)
-      = better_together_post.title
-  .post-content-summary
-    = strip_tags(better_together_post.content).truncate(250, separator: /\s/)

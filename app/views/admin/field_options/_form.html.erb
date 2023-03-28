@@ -17,7 +17,7 @@
       <%= f.input :text_symbol, label: "Symbol", wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
       <%= f.label "Display this when selected" %>
       <%= f.select :display_attribute, options_for_select({
-          "Icon" => "icon", 
+          "Icon" => "icon",
           "Symbol" => "symbol",
           "Name" => "name"
           }, ( @field_option.display_attribute.present? ? @field_option.display_attribute : "name")), required: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
@@ -27,7 +27,7 @@
       <%= f.input :image, multipart: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
       <%= f.input :help, required: true, wrapper_html: { class: 'field-option' }, input_html: { class: 'form-control' } %>
     </div>
-    
+
     <div class="row">
         <div class="col-md-12">
             <%= submit_tag "Save", class: "btn btn-primary" %>

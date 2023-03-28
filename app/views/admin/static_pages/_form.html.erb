@@ -23,20 +23,6 @@
     </div>
   </div>
 
-  <!-- <div class="row" data-hook="admin_page_form_meta">
-      <div class="form-group col-md-4">
-        <%= f.input :meta_title, input_html: { class: 'form-control' } %>
-      </div>
-
-      <div class="form-group col-md-4">
-        <%= f.input :meta_keywords, input_html: { class: 'form-control' } %>
-      </div>
-
-      <div class="form-group col-md-4">
-        <%= f.input :meta_description, input_html: { class: 'form-control' } %>
-      </div>
-  </div> -->
-
   <div class="row">
       <div class="col-sm-4">
       <%= f.input :show_in_header %>
@@ -72,7 +58,7 @@
   <div class="row voffset20">
     <div class="col-md-12">
       <%= f.button :submit, strip_tags(t('save')), class: "btn btn-primary" %>
-      <%= link_to t('cancel'), admin_static_pages_path, class: "btn btn-default pull-right" %>
+      <%= link_to t('cancel'), admin_static_pages_path, class: "btn btn-primary pull-right" %>
     </div>
   </div>
 
@@ -89,16 +75,16 @@
     <% end %>
     <div class="col-md-12">
         <div class="form-group">
-          <button type="button" id="toggle-visual-editor-btn" class="btn btn-xs btn-default pull-right" data-toggle="popover" data-trigger="hover" data-container="body" data-html="true" data-placement="auto top" data-title="Visual Editor" data-content="If you turn on the visual editor, you may lose some fine-grained control over the result of your page. <b>Do not use the visual editor to modify the custom stylesheet.</b>">Toggle Visual Editor</button>
+          <button type="button" id="toggle-visual-editor-btn" class="btn btn-sm btn-primary pull-right" data-toggle="popover" data-trigger="hover" data-container="body" data-html="true" data-placement="auto top" data-title="Visual Editor" data-content="If you turn on the visual editor, you may lose some fine-grained control over the result of your page. <b>Do not use the visual editor to modify the custom stylesheet.</b>">Toggle Visual Editor</button>
             <%= f.input :body, as: :text, required: true, input_html: { id: "page-content", rows: 30 }, label: t('page-body') %>
         </div>
-    </div>  
+    </div>
   </div>
 
   <div class="row">
     <div class="col-md-12">
       <%= f.button :submit, strip_tags(t('save')), class: "btn btn-primary" %>
-      <%= link_to t('cancel'), admin_static_pages_path, class: "btn btn-default pull-right" %>
+      <%= link_to t('cancel'), admin_static_pages_path, class: "btn btn-primary pull-right" %>
     </div>
   </div>
 <% end %>
@@ -112,7 +98,7 @@
             $('#page-content').trumbowyg({
                 removeformatPasted: true,
                 autogrow: true,
-                svgPath: '<%= image_path("trombowyg/icons.svg")%>',
+                svgPath: '<%= asset_pack_path("media/ui/icons.svg")%>',
                 semantic: false
             }).on("tbwinit", function() {
                 editorIsEnabled = true;
@@ -127,48 +113,12 @@
               $('#page-content').trumbowyg({
                   removeformatPasted: true,
                   autogrow: true,
-                  svgPath: '<%= image_path("trombowyg/icons.svg")%>',
+                  svgPath: '<%= asset_pack_path("media/ui/icons.svg")%>',
                   semantic: false
               }).on("tbwinit", function() {
                 editorIsEnabled = true;
               });
             };
         });
-
-        // $("#static_page_visible").bootstrapSwitch({
-        //     size : "small",
-        //     onText : "is visible",
-        //     offText : "Hidden",
-        //     labelText : "<b>Page</b>",
-        //     onColor : "success",
-        //     offColor : "danger",
-        //     inverse : true
-        // });
-        // $("#static_page_title_as_header").bootstrapSwitch({
-        //     size : "small",
-        //     onText : "is Title",
-        //     offText : "Title is not",
-        //     labelText : "<b>Page Header</b>",
-        //     onColor : "success",
-        //     offColor : "danger",
-        //     inverse : true
-        // });
-        // $("#static_page_show_in_header").bootstrapSwitch({
-        //     size : "small",
-        //     onText : "Show in",
-        //     offText : "hidden",
-        //     labelText : "<b>Top Nav</b>",
-        //     onColor : "success",
-        //     offColor : "danger"
-        // });
-        // $("#static_page_show_in_sidebar").bootstrapSwitch({
-        //     size : "small",
-        //     onText : "Show in",
-        //     offText : "hidden",
-        //     labelText : "<b>Footer</b>",
-        //     onColor : "success",
-        //     offColor : "danger"
-        // });
-        
     });
 </script>

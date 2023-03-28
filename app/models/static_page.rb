@@ -21,6 +21,18 @@ class StaticPage < ApplicationRecord
 
   before_save :update_positions_and_slug
 
+  def visible_children?
+    children.where(visible: true).count > 0
+  end
+
+  def visible_header_children?
+    children.where(visible: true, show_in_header: true).count > 0
+  end
+
+  def visible_footer_children?
+    children.where(visible: true, show_in_footer: true).count > 0
+  end
+
   def initialize(*args)
     super(*args)
     last_page = StaticPage.last
@@ -39,7 +51,7 @@ class StaticPage < ApplicationRecord
   def link
     foreign_link.blank? ? "/#{I18n.locale}#{slug}" : foreign_link
   end
-  
+
   def is_external?
     foreign_link.present?
   end

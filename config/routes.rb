@@ -13,17 +13,9 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :better_together, path: '/' do
-    resources :posts, only: %i(index show)
-  end
   filter :locale
 
   namespace :admin do
-    namespace :better_together, path: '/' do
-      resources :posts
-    end
-
-
     get '/' => 'admin#landing'
     resources :content_images
     match "content_images/:id/delete" => "content_images#destroy", via: [:get, :delete], as: 'delete_content_image'

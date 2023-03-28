@@ -4,7 +4,7 @@
 
 <h1>
   <%= t('pages') %>
-  <span class="badge"><%= @pages.to_a.size %></span>
+  <span class="badge badge-pill badge-secondary" style="font-size: 0.4em; vertical-align: middle;"><%= @pages.to_a.size %></span>
   <% if @user_transcriptions.any? %>
     <%= link_to t('view-my-transcriptions', count: @user_transcriptions.size), my_profile_path, class: 'btn btn-info' %>
   <% end %>
@@ -30,7 +30,7 @@
                   <% transcription = @user_transcriptions.find{|t| t.page_id == page.id} %>
                   <% if transcription %>
                     <% if transcription.complete %>
-                      <a href="<%= transcription_path(transcription) %>" class="btn btn-default btn-sm"><%= t('view-completed-transcription') %></a>
+                      <a href="<%= transcription_path(transcription) %>" class="btn btn-primary btn-sm"><%= t('view-completed-transcription') %></a>
                     <% else %>
                       <a href="<%= edit_transcription_path(transcription) %>" class="btn btn-success btn-sm"><%= t('edit-transcription') %></a>
                     <% end %>

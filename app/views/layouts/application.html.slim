@@ -7,6 +7,7 @@ html lang="en"
     title
       = content_for?(:title) ? yield(:title) + " | " : ''
       = strip_tags(t('app.meta-info.title')).html_safe
+    / TODO: test
     = csrf_meta_tags
     - if Rails.env.production?
       <!-- Global Site Tag (gtag.js) - Google Analytics -->
@@ -18,11 +19,8 @@ html lang="en"
         gtag('config', 'UA-106824244-1');
     - else
       meta name="robots" content="noindex,nofollow"
-    = stylesheet_link_tag "application", :media => "all"
+    / = stylesheet_link_tag "application", :media => "all"
     /!= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
-
-    - if content_for(:head)
-      = yield(:head)
 
     - if StaticPage.visible.find_by(slug: "/custom_stylesheet")
       style#admin-stylesheet type="text/css"
@@ -31,8 +29,15 @@ html lang="en"
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/v4-shims.css">
 
-    = javascript_include_tag "application"
+    = javascript_pack_tag "application"
+    = stylesheet_pack_tag "styles"
+
+    - if content_for(:head)
+      = yield(:head)
+
+    / = javascript_include_tag "application"
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
+
     /! Le HTML5 shim, for IE6-8 support of HTML elements
     /[if lt IE 9]
       = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"
@@ -41,45 +46,29 @@ html lang="en"
   body
     .body-bg-img
     / .holiday-special
-    canvas#snow-canvas
-    .container-fluid.main-wrapper
-      .container-fluid.top-nav
+    / canvas#snow-canvas
+
+    .container-fluid.main-app
+      .top-nav
         = render 'application/nav'
-      .container-fluid.main-app
-        .row
-          #message-container.col-md-12
-            = render partial: 'application/alerts'
-        .row
-          - if (params[:controller] == "transcriptions" && params[:action] == "new") || (params[:controller] == "fields" && params[:action] == "index") || (params[:controller] == "pages" && params[:action] == "index") || (params[:controller] == "admin/fields" && params[:action] == "index")
-              .col-sm-11.main-content-container.default
-                = yield
+      .d-flex
+        #message-container.col-md-12
+          = render partial: 'application/alerts'
+      / .d-flex.justify-content-center
+      /  .d-flex.ml-5.mr-5
+      .justify-content-center
+          - if current_page?(root_url) || current_page?('/')
+            .container
+              = yield
           - else
-              - if params[:controller] == "home" && params[:action] == "index"
-                .col-sm-8.col-md-6.col-lg-10.main-content-container
-                  = yield
-              - else
-                .col-sm-10.col-md-8.col-lg-10.main-content-container.default
-                  = yield
+            .main-content-container.p-3
+              /.p-3.d-flex.flex-row
+              = yield
+          / TODO - this may be an issue ?
           - if content_for? :large_page_image
-            .col-sm-12.voffset30.large-page-img-container
+            / col-sm-12.voffset30
+            .large-page-img-container.d-flex.flex-row
                = yield :large_page_image
 
-    .container-fluid.footer
-      footer
-        .container
-          .row
-            .col-sm-12
-              h1.text-center
-                = t('app.layout.footer.partners')
-          .row.voffset30.boffset30.partner-imgs-container
-            .col-xs-4
-              = image_tag "partners/McGill_logoT.gif", class: "partner-logo mcgill-logo img-responsive"
-            .col-xs-4
-              = image_tag "partners/Geothink_Logo_T2.jpg", class: "partner-logo geothink-logo img-responsive"
-            .col-xs-4
-              = image_tag "partners/cirm.jpg", class: "partner-logo criem-logo img-responsive"
-        .row.voffset20
-          = render 'application/footer'
-
-
+      = render 'application/footer'
     = render partial: 'shared/templates'

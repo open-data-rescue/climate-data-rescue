@@ -119,7 +119,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import 'stylesheets/draw-variables';
+  // @import 'stylesheets/draw-variables';
 
   #admin-app {
     #header-draw-logo {

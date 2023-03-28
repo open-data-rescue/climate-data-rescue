@@ -1,15 +1,17 @@
 <% if flash.to_hash.length > 0 %>
   <% flash.each do |key, value| %>
     <% if key == 'notice' %>
-      <% style = 'info' %>
+      <% style = 'success' %>
     <% elsif key == 'alert' || key == 'error' || key == 'recaptcha_error' %>
       <% style = 'danger' %>
     <% else %>
       <% style = key %>
     <% end %>
-    <div class="alert alert-<%= style %> fade in">
-        <button class="close glyphicon glyphicon-remove" data-dismiss="alert"></button>
+    <div class="alert alert-<%= style %>" role="alert">
         <%= value.html_safe %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
     </div>
   <% end %>
 <% end %>

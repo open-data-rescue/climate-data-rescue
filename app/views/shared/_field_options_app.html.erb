@@ -1,5 +1,5 @@
 <script id="field-options-app" type="text/javascript">
-    
+
     FieldOptionsApp = new Marionette.Application();
 
     FieldOptionsApp.addRegions({
@@ -114,8 +114,8 @@
                     model: new FieldOption()
 
                 });
-                
-                var modal = new Backbone.BootstrapModal({ 
+
+                var modal = new Backbone.BootstrapModal({
                     content : form,
                     title : "Create New Field Option",
                     animate : true,
@@ -133,14 +133,14 @@
 
                         // console.log(form.model);
                         var fileObject = form.$el.find(':input[type="file"]')[0].files[0];
-                        
+
 
                         if (fileObject != undefined){
                             form.model.set("image", fileObject);
                         }
 
                         if (!errors) {
-                            form.model.save(null, { 
+                            form.model.save(null, {
                                 success : function(mdl) {
                                     AvailableOptions.add(mdl);
                                     // console.log(mdl);
@@ -161,7 +161,7 @@
                 }).open();
             }
         });
-        
+
         FieldView = Marionette.ItemView.extend({
             template : "#field-template",
             onRender : function() {
@@ -213,11 +213,11 @@
                 this.model.schema = schema;
                 this.model.set("delete_image", false);
                 var form = new Backbone.Form({
-                    model: this.model, 
+                    model: this.model,
 
                 });
-                
-                var modal = new Backbone.BootstrapModal({ 
+
+                var modal = new Backbone.BootstrapModal({
                     content : form,
                     title : "Edit Field Option",
                     animate : true,
@@ -235,14 +235,14 @@
 
                         // console.log(form.model);
                         var fileObject = form.$el.find(':input[type="file"]')[0].files[0];
-                        
+
 
                         if (fileObject != undefined){
                             form.model.set("image", fileObject);
                         }
 
                         if (!errors) {
-                            form.model.save(null, { 
+                            form.model.save(null, {
                                 url : "<%= admin_field_options_path %>" + "/" + form.model.get("id") + "?field_id=" + <%= field.id %>,
                                 success : function(mdl) {
                                     // console.log(mdl);
@@ -359,22 +359,22 @@
                             update : function(e, ui) {
                                 item_id = ui.item.data('field-option-id');
                                 position = ui.item.index() - 1;
-                                
+
                                 console.log(position);
                                 $.ajax({
                                     type: 'POST',
                                     url: '<%= admin_update_field_option_sort_order_path %>',
                                     dataType: 'json',
-                                    data: { 
+                                    data: {
                                         field_id : <%= field.id %>,
-                                        field_option_id: item_id, 
-                                        sort_order_position: position 
-                                    } 
+                                        field_option_id: item_id,
+                                        sort_order_position: position
+                                    }
                                 });
                             }
                         });
                     }
-                    
+
                 }
             }
         });
@@ -453,7 +453,7 @@
 </script>
 
 <script type="text/template" id="field-options-layout-template">
-  <h3>Field Options (<i>Optional</i>)  <button class="btn btn-primary btn-xs" id="create-field-option-btn" type="button">New</button></h3>
+  <h3>Field Options (<i>Optional</i>)  <button class="btn btn-primary btn-sm" id="create-field-option-btn" type="button">New</button></h3>
   <div id="field-multi-toggle-container"></div>
   <div id="options-tables-container" class="row">
     <div class="col-md-12">
@@ -478,7 +478,7 @@
   <td>{{= display_attribute }}</td>
   <td>{{= help }}</td>
   <td>
-    <i class="fa fa-pencil model-edit-btn pull-left btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
+    <i class="fa fa-pencil model-edit-btn pull-left btn btn-primary btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
     {{ if(assigned) { }}
             <i class="fa fa-times fa-2x remove-from-field-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field"></i>
     {{ } else { }}
