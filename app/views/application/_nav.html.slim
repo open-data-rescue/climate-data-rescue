@@ -7,18 +7,17 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
   / The contents of the nav bar - left side
   div.collapse.navbar-collapse id="#draw-nav-toggler"
     ul.navbar-nav.mr-auto.mt-2.mt-lg-0
-      / TODO - logic to make home active etc ...
-      li.nav-item = link_to(t('home'), baseUri, class: "nav-link")
+      li.nav-item = link_to(t('home'), baseUri, class: "nav-link #{yield(:home)}")
       = render partial: "static_pages/link", collection: StaticPage.header_links, as: :page, locals: { top_level: true, header: true }
 
-      li.nav-item.dropdown
+      li.nav-item.dropdown-submenu.top-level-nav
         a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
           = t('main-nav.transcribe.transcribe')
         div.dropdown-menu.bg-dark
           - if current_user
-            = link_to t('main-nav.transcribe.my-transcriptions'), my_profile_path, {class: "dropdown-item bg-dark"}
-          = link_to t('all-pages'), public_pages_index_path, {class: "dropdown-item bg-dark"}
-          = link_to t('main-nav.transcribe.transcribe-random-page'), baseUri + "/transcribe", {class: "dropdown-item bg-dark"}
+            = link_to t('main-nav.transcribe.my-transcriptions'), my_profile_path, {class: "dropdown-item bg-dark #{yield(:profile)}"}
+          = link_to t('all-pages'), public_pages_index_path, {class: "dropdown-item bg-dark #{yield(:weather_logs)}"}
+          = link_to t('main-nav.transcribe.transcribe-random-page'), baseUri + "/transcribe", {class: "dropdown-item bg-dark #{yield(:new_transcription)}"}
 
     ul.navbar-nav.mt-2.mt-lg-0
       / li.nav-item.snowball
@@ -35,7 +34,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
       li.nav-item
         a.nav-link.fab.fa-twitter href="https://twitter.com/DRAWMcGill" target="_blank"
 
-      li.nav-item.dropdown
+      li.nav-item.dropdown-submenu.top-level-nav
         a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
           = t(I18n.locale)
         div.dropdown-menu.bg-dark
@@ -45,15 +44,15 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
 
       - if user_signed_in?
         - if current_user.admin?
-            li id="admin-menu" class="#{yield(:admin)} dropdown bg-dark"
+            li id="admin-menu" class="#{yield(:admin)} dropdown-submenu top-level-nav bg-dark"
               a.dropdown-toggle.nav-link aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
                 = 'Admin'
 
               div.dropdown-menu.bg-dark
                 = link_to t('pages'), admin_pages_path, {class: "dropdown-item bg-dark #{yield(:pages)}"}
                 div.dropdown-divider
-                = link_to t('transcriptions.transcriptions'), admin_transcriptions_path, {class: "dropdown-item bg-dark"}
-                = link_to t('export-transcriptions'), admin_transcriptions_path + '/export', {class: "dropdown-item bg-dark"}
+                = link_to t('transcriptions.transcriptions'), admin_transcriptions_path, {class: "dropdown-item bg-dark #{yield(:transcriptions)}"}
+                = link_to t('export-transcriptions'), admin_transcriptions_path + '/export', {class: "dropdown-item bg-dark #{yield(:export)}"}
                 div.dropdown-divider
                 = link_to t('page-schemas'), admin_page_types_path, {class: "dropdown-item bg-dark #{yield(:page_types)}"}
                 = link_to t('field-groups'), admin_field_groups_path, {class: "dropdown-item bg-dark #{yield(:field_groups)}"}
@@ -66,14 +65,15 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
                 = link_to t('content-images'), admin_content_images_path, {class: "dropdown-item bg-dark #{yield(:content_images)}"}
                 div.dropdown-divider
                 = link_to t('users.users'), admin_users_path, {class: "dropdown-item bg-dark #{yield(:users)}"}
-        li class="#{yield(:user)} nav-item dropdown bg-dark"
-          a class="nav-link dropdown-toggle nav-user-flair" data-toggle="dropdown" href="#" role="button"
+        / TODO add class active
+        li class="#{yield(:user)} nav-item dropdown-submenu top-level-nav bg-dark"
+          a class="nav-link dropdown-toggle nav-link nav-user-flair" data-toggle="dropdown" href="#" role="button"
             - if current_user.avatar.present?
               = image_tag current_user.avatar.url(:thumb), class: "img-fluid rounded-circle nav-user-photo mr-2"
             - else
               = image_pack_tag 'default-person.png', class: "img-fluid rounded-circle nav-user-photo mr-2"
             = current_user.display_name
-          div.dropdown-menu.bg-dark
+          div.dropdown-menu.multi-level.bg-dark
             = link_to t('my-profile'), my_profile_path, {class: "dropdown-item bg-dark #{yield(:profile)}"}
             = link_to t('log-out'), "/logout", {class: "dropdown-item bg-dark"}
 

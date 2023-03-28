@@ -7,7 +7,6 @@ html lang="en"
     title
       = content_for?(:title) ? yield(:title) + " | " : ''
       = strip_tags(t('app.meta-info.title')).html_safe
-    / TODO: test
     = csrf_meta_tags
     - if Rails.env.production?
       <!-- Global Site Tag (gtag.js) - Google Analytics -->

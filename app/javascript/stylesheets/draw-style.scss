@@ -218,39 +218,12 @@ a {
   }
 }
 
-// .switches-container {
-//   .checkbox {
-//     label {
-//       display: block;
-//       padding-left: 0;
-//
-//       .bootstrap-switch.bootstrap-switch-wrapper {
-//         display: block;
-//       }
-//     }
-//   }
-// }
-
 .draw-footer-nav {
-    // display: block;
-    // width: 100%;
-    // margin-bottom: 0;
-    // background: rgba(0,0,0,0.8);
-    // border-color: transparent;
     color: white;
 
     .footer-copyright {
         margin: 10px 0;
     }
-
-    // > div {
-    //   display: block;
-    //   text-align: center;
-    // }
-    //
-    // .navbar-nav > li > a, .navbar-header a {
-    //     color: white;
-    // }
 }
 
 .draw-top-nav {
@@ -272,11 +245,12 @@ a {
   color: $accent-color;
 }
 
+a.dropdown-item.active,
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav> li > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
-    color: white;
-    background-color: $accent-color;
+    color: white !important;
+    background-color: $accent-color !important;
 }
 
 .homepage-wrapper {
@@ -363,7 +337,7 @@ table#admin-pages {
 .transcriber-left-nav,
 .top-nav {
   ul.dropdown-menu {
-      min-width: 100%;
+    min-width: 100%;
   }
 
   .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
@@ -376,23 +350,17 @@ table#admin-pages {
 
   .dropdown-menu {
     background: rgba(0, 0, 0, 0.8);
-  }
-
-  .dropdown-item {
-    font-size: 13px;
-    color: white !important;
-  }
-  .dropdown-item:visited {
-    font-size: 13px;
-    color: white !important;
-  }
-
-  .dropdown-menu {
     font-size: 13px;
     color: white;
     & > a {
       color: white;
     }
+  }
+
+  .dropdown-item:visited,
+  .dropdown-item {
+    font-size: 13px;
+    color: white !important;
   }
 
   // .dropdown-submenu {
@@ -465,14 +433,6 @@ table#admin-pages {
 
   .dropdown-submenu.pull-left {
       float: none;
-  }
-
-  .dropdown-submenu.pull-left>.dropdown-menu {
-      left: -100%;
-      margin-left: 10px;
-      -webkit-border-radius: 6px 0 6px 6px;
-      -moz-border-radius: 6px 0 6px 6px;
-      border-radius: 6px 0 6px 6px;
   }
 
   a.dropdown-toggle.nav-user-flair {
