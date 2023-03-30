@@ -29,7 +29,6 @@ import "backbone.wreqr/lib/backbone.wreqr.js"
 import "backbone-forms/distribution/backbone-forms"
 import "backbone-forms/distribution/editors/list"
 // import "backbone-forms/distribution/editors/fileUploadEditor"
-// import "backbone-forms/distribution/adapters/backbone.bootstrap-modal.js"
 
 import "jquery.kinetic/jquery.kinetic.js"
 import "magnify/dist/js/jquery.magnify.js"
@@ -42,6 +41,7 @@ import "../utils/page-uploader-plugin.js"
 import "../utils/boxer-plugin.js"
 import "../utils/content_images.js"
 import "../utils/snowEffect.js"
+import "../utils/fileUploadEditor.js"
 
 import 'stylesheets/theme.scss'
 import 'stylesheets/transcriptions.scss'
@@ -56,8 +56,9 @@ import "trumbowyg/icons.svg"
 const images = require.context('../images', true)
 
 // Expoed modules for erbs
-import Marionette from "expose-loader?exposes=Marionette!backbone.marionette/lib/backbone.marionette";
 import _ from "expose-loader?exposes=_!underscore/underscore.js";
+// import Backbone from "expose-loader?exposes=Backbone!backbone/backbone.js";
+import Marionette from "expose-loader?exposes=Marionette!backbone.marionette/lib/backbone.marionette";
 // import Form from "expose-loader?exposes=Backbone.Form!backbone-forms/distribution/backbone-forms.js";
 import BootstrapModal from "expose-loader?exposes=Backbone.BootstrapModal!backbone-forms/distribution/adapters/backbone.bootstrap-modal.js";
 import "../templates/bootstrap4.js"
@@ -79,7 +80,8 @@ $(document).ready(function(){
 $(document).ready(function(){
   _.templateSettings = {
         interpolate : /\{\{\=(.+?)\}\}/g,
-        evaluate : /\{\{(.+?)\}\}/g
+        evaluate : /\{\{(.+?)\}\}/g,
+        // escape:    /{{-([\s\S]+?)}}/g
     };
 
     // Over-ride the backbone sync so that the rails CSRF token is passed to the backend

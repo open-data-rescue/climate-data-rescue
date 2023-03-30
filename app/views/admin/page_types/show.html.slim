@@ -8,11 +8,11 @@
       a.btn.btn-primary href=admin_page_types_path style="margin-right: 20px;" data-toggle="tooltip" data-trigger="hover" title="Back to all page types"
         i.fa.fa-arrow-left
       = t('schema') + ": " + @page_type.title + "  "
-      = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_page_type_path(@page_type), class: "btn btn-sm btn-draw-accented pull-right", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"}
+      = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_page_type_path(@page_type), class: "btn btn-sm btn-draw-accented float-right", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"}
       - if @page_type.visible
-        span.label.label-success.pull-right style="font-size: 40%;" = t('visible')
+        span.badge.badge-success.float-right style="font-size: 50%;" = t('visible')
       - else
-        span.label.label-danger.pull-right style="font-size: 40%;" = t('hidden')
+        span.badge.badge-danger.float-right style="font-size: 50%;" = t('hidden')
 .row.voffset20
   .col-md-12
     h3 = t('fields')

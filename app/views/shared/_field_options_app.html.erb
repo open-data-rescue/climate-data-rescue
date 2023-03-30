@@ -117,6 +117,7 @@
 
                 var modal = new Backbone.BootstrapModal({
                     content : form,
+                    template: Backbone.Form.bbModalTemplate,
                     title : "Create New Field Option",
                     animate : true,
                     submitFn : function(){
@@ -183,7 +184,11 @@
         });
 
         FieldOptionView = Marionette.ItemView.extend({
-            template : "#field-option-template",
+            // template : "#field-option-template",
+            template: function(serialized_model) {
+              var tmpl = $('#field-option-template');
+              return _.template(tmpl[0].innerHTML)(serialized_model);
+            },
             tagName : "tr",
             className : "field-option",
 
@@ -200,7 +205,6 @@
 
             editModel : function() {
                 schema = {};
-
                 schema = $.extend(
                     {
                         delete_image : {
@@ -212,13 +216,14 @@
                 );
                 this.model.schema = schema;
                 this.model.set("delete_image", false);
-                var form = new Backbone.Form({
-                    model: this.model,
 
+                var form = new Backbone.Form({
+                  model: this.model
                 });
 
                 var modal = new Backbone.BootstrapModal({
                     content : form,
+                    template: Backbone.Form.bbModalTemplate,
                     title : "Edit Field Option",
                     animate : true,
                     submitFn : function(){
@@ -310,7 +315,11 @@
 
 
         FieldOptionsCollectionView = Marionette.CompositeView.extend({
-            template : "#options-collection-template",
+            // template : "#options-collection-template",
+            template: function(serialized_model) {
+              var tmpl = $('#options-collection-template');
+              return _.template(tmpl[0].innerHTML)(serialized_model);
+            },
             childView : FieldOptionView,
             ChildViewContainer : "#option-rows-container",
             tagName : "table",
@@ -360,7 +369,7 @@
                                 item_id = ui.item.data('field-option-id');
                                 position = ui.item.index() - 1;
 
-                                console.log(position);
+                                // console.log(position);
                                 $.ajax({
                                     type: 'POST',
                                     url: '<%= admin_update_field_option_sort_order_path %>',
@@ -446,8 +455,8 @@
     })(Backbone, Marionette);
 
     $(document).ready(function() {
-        FieldOptionsApp.addInitializer(FieldOptionsApp.AppManager.init);
-        FieldOptionsApp.start();
+      FieldOptionsApp.addInitializer(FieldOptionsApp.AppManager.init);
+      FieldOptionsApp.start();
     });
 
 </script>
@@ -456,7 +465,7 @@
   <h3>Field Options (<i>Optional</i>)  <button class="btn btn-primary btn-sm" id="create-field-option-btn" type="button">New</button></h3>
   <div id="field-multi-toggle-container"></div>
   <div id="options-tables-container" class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 mb-2 mt-2">
       <div id="assigned-options-container" class="table-responsive"></div>
     </div>
     <div class="col-md-12">
@@ -478,15 +487,16 @@
   <td>{{= display_attribute }}</td>
   <td>{{= help }}</td>
   <td>
-    <i class="fa fa-pencil model-edit-btn pull-left btn btn-primary btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
+    <button class="model-edit-btn float-left btn btn-outline-dark btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)">
+      <i class="fa fa-pencil"></i>
+    </button>
     {{ if(assigned) { }}
-            <i class="fa fa-times fa-2x remove-from-field-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field"></i>
+            <i class="fa fa-times fa-2x remove-from-field-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field"></i>
     {{ } else { }}
-        <i class="fa fa-plus fa-2x add-to-field-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field"></i>
+        <i class="fa fa-plus fa-2x add-to-field-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field"></i>
     {{ } }}
   </td>
 </script>
-
 
 <script type="text/template" id="options-collection-template">
   <thead>

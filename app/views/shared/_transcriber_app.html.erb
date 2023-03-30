@@ -168,6 +168,7 @@
             title : '<%= j t('transcriber.stop-transcribing-modal.title') %>',
             animate : true,
             content : $('#stop-transcribing-template').html(),
+            template: Backbone.Form.bbModalTemplate,
             showFooter : false,
             class: 'modal bs-modal-lg',
             template: Backbone.Form.modalTemplate
@@ -540,6 +541,7 @@
             okText : '<%= j t('transcriber.delete-annotation-confirmation-modal.ok-btn-text').html_safe %>',
             template: Backbone.Form.modalTemplate,
             content : $('#empty-template').html(),
+            template: Backbone.Form.bbModalTemplate,
             showFooter: true,
             submitFn : function(){
               annotation.destroy({
@@ -935,6 +937,7 @@
                 transcriber : self,
                 fieldGroupName : fieldGroupName
               }),
+              template: Backbone.Form.bbModalTemplate,
               showFooter : false,
               template: Backbone.Form.modalTemplate
             }).open();

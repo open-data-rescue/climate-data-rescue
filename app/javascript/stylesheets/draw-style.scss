@@ -431,7 +431,7 @@ table#admin-pages {
       border-left-color: #fff;
   }
 
-  .dropdown-submenu.pull-left {
+  .dropdown-submenu.float-left {
       float: none;
   }
 
@@ -464,12 +464,17 @@ table#admin-pages {
 
 div[class*=".col-*"] {
   .form-group {
-    .checkbox input[type="checkbox"] {
+    input[type="checkbox"].form-control {
       position: relative;
       top: 2px;
       margin-right: 5px;
     }
   }
+}
+
+input[type="checkbox"].form-control {
+  width: auto !important;
+  height: auto !important;
 }
 
 a.btn-primary:visited {

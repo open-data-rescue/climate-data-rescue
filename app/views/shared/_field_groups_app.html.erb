@@ -1,5 +1,5 @@
 <script id="field-groups-app" type="text/javascript">
-    
+
     FieldGroupsApp = new Marionette.Application();
 
     FieldGroupsApp.addRegions({
@@ -42,7 +42,7 @@
                     hint : "Select the colour for the group. This will be its colour of its transcriber tab, and anntoation boxes.",
                     options : [
                         {label : "Purple" , val: "purple-group"},
-                        {label : "Red" , val: "red-group"}, 
+                        {label : "Red" , val: "red-group"},
                         {label : "Pink" , val: "pink-group"},
                         {label : "Blue" , val: "blue-group"},
                         {label : "Cyan" , val: "cyan-group"},
@@ -104,9 +104,10 @@
                     model: new FieldGroup()
 
                 });
-                
-                var modal = new Backbone.BootstrapModal({ 
+
+                var modal = new Backbone.BootstrapModal({
                     content : form,
+                    template: Backbone.Form.bbModalTemplate,
                     title : "Create New Field Group",
                     animate : true,
                     submitFn : function(){
@@ -119,10 +120,10 @@
                         var errors = form.commit({ validate: true });
 
                         // console.log(form.model);
-                        
+
 
                         if (!errors) {
-                            form.model.save(null, { 
+                            form.model.save(null, {
                                 success : function(mdl) {
                                     AvailableFieldGroups.add(mdl);
                                     // console.log(mdl);
@@ -139,7 +140,11 @@
         });
 
         FieldGroupView = Marionette.ItemView.extend({
-            template : "#field-group-template",
+            // template : "#field-group-template",
+            template: function(serialized_model) {
+              var tmpl = $('#field-group-template');
+              return _.template(tmpl[0].innerHTML)(serialized_model);
+            },
             tagName : "tr",
             className : "field-group",
 
@@ -155,14 +160,15 @@
             },
 
             editModel : function() {
-                
+
                 var form = new Backbone.Form({
-                    model: this.model, 
+                    model: this.model,
 
                 });
-                
-                var modal = new Backbone.BootstrapModal({ 
+
+                var modal = new Backbone.BootstrapModal({
                     content : form,
+                    template: Backbone.Form.bbModalTemplate,
                     title : "Edit Field Group",
                     animate : true,
                     submitFn : function(){
@@ -173,7 +179,7 @@
                         var errors = form.commit({ validate: true });
 
                         if (!errors) {
-                            form.model.save(null, { 
+                            form.model.save(null, {
                                 url : "<%= admin_field_groups_path %>" + "/" + form.model.get("id") + "?page_type_id=" + <%= page_type.id %>,
                                 success : function(mdl) {
                                     // console.log(mdl);
@@ -235,7 +241,11 @@
 
 
         FieldGroupsCollectionView = Marionette.CompositeView.extend({
-            template : "#field-groups-collection-template",
+            // template : "#field-groups-collection-template",
+            template: function(serialized_model) {
+              var tmpl = $('#field-groups-collection-template');
+              return _.template(tmpl[0].innerHTML)(serialized_model);
+            },
             childView : FieldGroupView,
             childViewContainer : ".field-group-rows-container",
             tagName : "table",
@@ -280,22 +290,22 @@
                             update : function(e, ui) {
                                 item_id = ui.item.data('field-group-id');
                                 position = ui.item.index();
-                                
+
                                 console.log(position);
                                 $.ajax({
                                     type: 'POST',
                                     url: '<%= admin_update_field_group_sort_order_path %>',
                                     dataType: 'json',
-                                    data: { 
+                                    data: {
                                         page_type_id : <%= page_type.id %>,
-                                        field_group_id: item_id, 
-                                        sort_order_position: position 
-                                    } 
+                                        field_group_id: item_id,
+                                        sort_order_position: position
+                                    }
                                 });
                             }
                         });
                     }
-                    
+
                 }
             }
         });
@@ -395,11 +405,13 @@
         <td>{{= num_fields }}<br /><a href="<%= admin_field_groups_path %>/{{= id }}/edit" target="fg_{{= id }}">Add/Remove Fields <i class="fa fa-external-link"></i></a></td>
         <td>
             {{ if(assigned) { }}
-                    <i class="fa fa-times fa-2x remove-from-page-type-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Page Type"></i>
+                    <i class="fa fa-times fa-2x remove-from-page-type-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Page Type"></i>
             {{ } else { }}
-                <i class="fa fa-plus fa-2x add-to-page-type-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Page Type"></i>
+                <i class="fa fa-plus fa-2x add-to-page-type-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Page Type"></i>
             {{ } }}
-            <i class="fa fa-pencil model-edit-btn pull-right btn btn-primary btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
+            <button class="model-edit-btn float-right btn btn-primary btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)">
+              <i class="fa fa-pencil"></i>
+            </button>
         </td>
 </script>
 

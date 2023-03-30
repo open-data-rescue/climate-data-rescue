@@ -84,7 +84,7 @@
 </script>
 
 <script id="transcription-data-panel-template" type="text/template">
-  <i class="close fa fa-close btn btn-light btn-sm pull-right"></i>
+  <i class="close fa fa-close btn btn-light btn-sm float-right"></i>
   <div id="data-table-container">
     <i class="fa fa-refresh fa-spin center-block"></i>
   </div>
@@ -121,7 +121,7 @@
       </button>
 
       <button type="button"
-        class="btn btn-sm btn-danger delete-annotation-btn pull-right"
+        class="btn btn-sm btn-danger delete-annotation-btn float-right"
         data-toggle="tooltip" data-trigger="hover" data-container="#canvas"
         title="<%= strip_tags(t('transcriber.annotation-boxes.tooltips.delete')) %>">
         <i class="fa fa-trash"></i>
@@ -354,7 +354,7 @@
         id: "transcription-complete-btn", type: 'submit'
       %>
       <%= link_to t('transcriber.stop-transcribing-modal.buttons.take-a-break'),
-        transcription, class: 'btn btn-lg btn-primary pull-right',
+        transcription, class: 'btn btn-lg btn-primary float-right',
         id: 'take-a-break-btn'
       %>
     <% end %>
@@ -369,10 +369,10 @@
     </div>
     <img src="<%= strip_tags(t('transcriber.annotation-box-instructions-modal.tutorial-img-src')) %>" alt="" class="img-responsive center-block" />
     <div class="box-modal-btn-container voffset20">
-        <button class="dont-ask-again btn btn-lg btn-info pull-left">
+        <button class="dont-ask-again btn btn-lg btn-info float-left">
           <%= t('transcriber.annotation-box-instructions-modal.btn-labels.mark-and-dont-ask-again').html_safe %>
         </button>
-        <button class="draw-box-btn btn btn-lg btn-primary pull-right">
+        <button class="draw-box-btn btn btn-lg btn-primary float-right">
           <%= t('transcriber.annotation-box-instructions-modal.btn-labels.mark-transcribed-area').html_safe %>
         </button>
     </div>

@@ -90,6 +90,7 @@
 
                 var modal = new Backbone.BootstrapModal({
                     content : form,
+                    template: Backbone.Form.bbModalTemplate,
                     title : "Create New Field",
                     animate : true,
                     submitFn : function(){
@@ -122,7 +123,11 @@
         });
 
         FieldView = Marionette.ItemView.extend({
-            template : "#field-template",
+            // template : "#field-template",
+            template: function(serialized_model) {
+              var tmpl = $('#field-template');
+              return _.template(tmpl[0].innerHTML)(serialized_model);
+            },
             tagName : "tr",
             className : "field",
 
@@ -146,6 +151,7 @@
 
                 var modal = new Backbone.BootstrapModal({
                     content : form,
+                    template: Backbone.Form.bbModalTemplate,
                     title : "Edit Field",
                     animate : true,
                     submitFn : function(){
@@ -218,7 +224,11 @@
 
 
         FieldsCollectionView = Marionette.CompositeView.extend({
-            template : "#fields-collection-template",
+            // template : "#fields-collection-template",
+            template: function(serialized_model) {
+              var tmpl = $('#fields-collection-template');
+              return _.template(tmpl[0].innerHTML)(serialized_model);
+            },
             childView : FieldView,
             childViewContainer : ".field-rows-container",
             tagName : "table",
@@ -386,11 +396,13 @@
         <td>{{= num_field_values }}<br /><a href="<%= admin_fields_path %>/{{= id }}/edit" target="field_{{= id }}">Add/Remove Values <i class="fa fa-external-link"></i></a></td>
         <td>
             {{ if(assigned) { }}
-                    <i class="fa fa-times fa-2x remove-from-field-group-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field Group"></i>
+                    <i class="fa fa-times fa-2x remove-from-field-group-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field Group"></i>
             {{ } else { }}
-                <i class="fa fa-plus fa-2x add-to-field-group-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field Group"></i>
+                <i class="fa fa-plus fa-2x add-to-field-group-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field Group"></i>
             {{ } }}
-            <i class="fa fa-pencil model-edit-btn pull-right btn btn-primary btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
+            <button class="model-edit-btn float-right btn btn-primary btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)">
+              <i class="fa fa-pencil"></i>
+            </button>
         </td>
 </script>
 
