@@ -3,10 +3,10 @@
 - provide(:title, "Fields")
 h3 = t('admin.fields.available-fields')
 
-.p
-  = link_to t('new-field'), new_admin_field_path
-
 h4 Fields from all groups are listed below, edit carefully please.
+
+.p.mb-2
+  = link_to t('new-field'), new_admin_field_path
 
 /! List all fields and their attribute information in a table
 .table-responsive

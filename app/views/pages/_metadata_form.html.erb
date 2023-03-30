@@ -31,9 +31,9 @@
         <%= text_field_tag "elevation", page_meta ? page_meta.elevation : nil, required: true, class: "form-control" %>
     </div>
   </div>
-  <div class="row voffset20">
+  <div class="row voffset20 mb-2">
     <div class="form-actions col-sm-12">
-      <%= button_tag t('page-metadata.form.labels.update-station-btn').html_safe, class: "btn btn-primary pull-right", type:"submit" %>
+      <%= button_tag t('page-metadata.form.labels.update-station-btn').html_safe, class: "btn btn-primary float-right", type:"submit" %>
     </div>
   </div>
 <% end %>
@@ -66,7 +66,7 @@
   </div>
   <div class="row voffset20">
     <div class="form-actions col-sm-12">
-      <%= button_tag submit_btn_text.html_safe, class: "btn btn-primary pull-right", type:"submit" %>
+      <%= button_tag submit_btn_text.html_safe, class: "btn btn-primary float-right", type:"submit" %>
     </div>
   </div>
 <% end %>

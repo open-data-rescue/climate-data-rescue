@@ -43,19 +43,42 @@
           <div class="modal-footer">\
             <% if (allowCancel) { %>\
               <% if (cancelText) { %>\
-                <a href="#" class="btn cancel"><%= cancelText %></a>\
+                <a href="#" class="btn btn-small btn-secondary cancel"><%= cancelText %></a>\
               <% } %>\
             <% } %>\
-            <a href="#" class="btn ok btn-primary"><%= okText %></a>\
+            <a href="#" class="btn btn-small ok btn-primary"><%= okText %></a>\
           </div>\
         <% } %>\
       </div>\
     </div>\
   ');
 
+  Form.bbModalTemplate = _.template('\
+    <div class="modal-dialog modal-lg">\
+      <div class="modal-content">\
+        <% if (title) { %>\
+          <div class="modal-header">\
+            <h3><%= title %></h3>\
+            <% if (allowCancel) { %>\
+              <a class="close">×</a>\
+            <% } %>\
+          </div>\
+        <% } %>\
+        <div class="modal-body"><%= content %></div>\
+          <div class="modal-footer">\
+            <% if (allowCancel) { %>\
+              <% if (cancelText) { %>\
+                <a href="#" class="btn btn-small btn-secondary cancel"><%= cancelText %></a>\
+              <% } %>\
+            <% } %>\
+            <a href="#" class="btn btn-small ok btn-primary"><%= okText %></a>\
+          </div>\
+      </div>\
+    </div>\
+  ');
 
   /**
-   * Bootstrap 3 templates
+   * Bootstrap 4 templates
    */
   Form.template = _.template('\
     <form class="form-horizontal" role="form" data-fieldsets></form>\
@@ -72,8 +95,8 @@
 
 
   Form.Field.template = _.template("\
-    <div class='form-group field-<%= key %>'>\
-      <label class='col-sm-4 control-label' for='<%= editorId %>'>\
+    <div class='form-group row field-<%= key %>'>\
+      <label class='col-sm-4 col-form-label' for='<%= editorId %>'>\
         <%= title %>\
         <% if (help && (help.length > 0) ) { %>\
             <i class='glyphicon glyphicon-info-sign bpopover' title='<%= title %>' data-container='body' data-trigger='hover' data-placement='<%= help_placement %>' data-toggle='popover' data-content='<%= help %>'></i>\
@@ -118,7 +141,7 @@
 
     Form.editors.List.Item.template = _.template('\
       <li class="clearfix">\
-        <div class="pull-left" data-editor></div>\
+        <div class="float-left" data-editor></div>\
         <button type="button" class="btn bbf-del" data-action="remove">&times;</button>\
       </li>\
     ');
