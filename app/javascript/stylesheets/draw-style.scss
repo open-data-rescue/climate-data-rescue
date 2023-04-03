@@ -330,6 +330,10 @@ table#admin-pages {
   text-shadow: #333 1px 1px 3px;
 }
 
+.nav-link {
+  white-space: nowrap;
+}
+
 .nav-link.fab {
   line-height: 18px;
 }
@@ -350,7 +354,7 @@ table#admin-pages {
 
   .dropdown-menu {
     background: rgba(0, 0, 0, 0.8);
-    font-size: 13px;
+    // font-size: 13px;
     color: white;
     & > a {
       color: white;
@@ -359,7 +363,7 @@ table#admin-pages {
 
   .dropdown-item:visited,
   .dropdown-item {
-    font-size: 13px;
+    // font-size: 13px;
     color: white !important;
   }
 
@@ -375,7 +379,7 @@ table#admin-pages {
   .dropdown-menu,
   .dropdown-submenu {
     position: relative;
-    font-size: 13px;
+    // font-size: 13px;
     color: white;
 
     & > a {
@@ -383,7 +387,7 @@ table#admin-pages {
     }
 
     & > .dropdown-menu {
-      font-size: 13px;
+      // font-size: 13px;
 
       & > li {
         &:hover, &:focus {
@@ -443,7 +447,7 @@ table#admin-pages {
       width: 30px;
       position: absolute;
       left: 10px;
-      top: 0px;
+      top: 5px;
       display: block;
     }
   }

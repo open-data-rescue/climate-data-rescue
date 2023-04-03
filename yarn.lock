@@ -5930,7 +5930,7 @@ jquery.kinetic@^2.2.4:
   resolved "https://registry.yarnpkg.com/jquery.kinetic/-/jquery.kinetic-2.2.4.tgz#a3f66d7565aff507be43a104259b34bcbffaff4f"
   integrity sha512-hbbMGpSZWoYpGUWMGIyIEpfpeW/xnXkCtwK+VB82VE0TZjTyFfAX6ZVRa/ZL2pyn9b2g8b36hdm79cPHVlHkvQ==
 
-jquery@>=1.7.0, "jquery@>=1.8.0 <4.0.0", jquery@^3.6.0, jquery@^3.6.3:
+jquery@>=1.7.0, "jquery@>=1.8.0 <4.0.0", jquery@^3.6.0, jquery@^3.6.4:
   version "3.6.4"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.4.tgz#ba065c188142100be4833699852bf7c24dc0252f"
   integrity sha512-v28EW9DWDFpzcD9O5iyJXg3R3+q+mET5JhnjJzQUZMHOv67bpSIHq81GEYpPNZHG+XXHsfSme3nxp/hndKEcsQ==
@@ -8725,10 +8725,10 @@ select2-bootstrap-theme@^0.1.0-beta.10:
   resolved "https://registry.yarnpkg.com/select2-bootstrap-theme/-/select2-bootstrap-theme-0.1.0-beta.10.tgz#b9426ecfc03bf4a235e76a132377574310469ac0"
   integrity sha512-gc9Y9yNjkGRqeFmI/pAKyL4maMKH9VKAn62E+uF/hxz8FTmfuKH0sDEGhFhk3f8Jp+emtsDdK1c1nb6S51BV0Q==
 
-select2@^4.0.3:
-  version "4.0.13"
-  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.13.tgz#0dbe377df3f96167c4c1626033e924372d8ef44d"
-  integrity sha512-1JeB87s6oN/TDxQQYCvS5EFoQyvV6eYMZZ0AeA4tdFDYWN3BAGZ8npr17UBFddU0lgAt3H0yjX3X6/ekOj1yjw==
+select2@^4.1.0-rc.0:
+  version "4.1.0-rc.0"
+  resolved "https://registry.yarnpkg.com/select2/-/select2-4.1.0-rc.0.tgz#ba3cd3901dda0155e1c0219ab41b74ba51ea22d8"
+  integrity sha512-Hr9TdhyHCZUtwznEH2CBf7967mEM0idtJ5nMtjvk3Up5tPukOLXbHUNmh10oRfeNIhj+3GD3niu+g6sVK+gK0A==
 
 selfsigned@^1.10.8:
   version "1.10.14"
