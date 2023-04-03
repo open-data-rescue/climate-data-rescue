@@ -169,19 +169,23 @@
 }
 
 
+.select2-selection__arrow {
+  line-height: 1em !important;
+}
+
 .field-options-dropdown {
-    width: 205px !important;
-
-    li.select2-results__option[role="group"] {
-
-        .select2-results__group {
-            border-bottom: 1px solid #333;
-        }
-
-        & + li.select2-results__option[role="group"] {
-            margin-top: 5px;
-        }
-    }
+    // width: 205px !important;
+    //
+    // li.select2-results__option[role="group"] {
+    //
+    //     .select2-results__group {
+    //         border-bottom: 1px solid #333;
+    //     }
+    //
+    //     & + li.select2-results__option[role="group"] {
+    //         margin-top: 5px;
+    //     }
+    // }
 }
 
 #transcriber-toolbar {

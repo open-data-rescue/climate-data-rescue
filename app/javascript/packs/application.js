@@ -18,7 +18,9 @@ import 'trumbowyg'
 import "jquery-ui/jquery-ui.js"
 import "blueimp-file-upload/js/jquery.fileupload.js"
 
-import "select2/js/select2.full.js"
+// NOTE: change this to the dist once JQuery goes to 3.7 or select2 focus bug is fixed
+// import "select2/js/select2.full.js"
+import "../utils/select2.full.js"
 
 import "underscore/underscore.js"
 import "backbone/backbone.js"

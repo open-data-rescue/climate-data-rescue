@@ -228,7 +228,7 @@ export default {
   // }
 
   .page-size-group {
-    width: 110px;
+    width: 200px;
 
     .page-size-selector {
       text-align: right;
