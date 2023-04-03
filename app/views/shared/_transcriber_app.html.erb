@@ -218,7 +218,7 @@
           this.currentZoom = zoom;
           this.updateZoomLevel();
 
-          Cookies.set('zoomLevelPage', zoom);
+          Cookies.set('zoomLevelPage', zoom, {sameSite: 'strict'});
         };
       },
 
