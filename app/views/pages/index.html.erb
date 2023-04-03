@@ -1,9 +1,9 @@
 <% provide(:weather_logs, "active") %>
 <% provide(:transcribe, "active") %>
-<% provide(:title, strip_tags(t('pages'))) %>
+<% provide(:title, strip_tags(t('pages.label'))) %>
 
 <h1>
-  <%= t('pages') %>
+  <%= t('pages.label') %>
   <span class="badge badge-pill badge-secondary" style="font-size: 0.4em; vertical-align: middle;"><%= @pages.to_a.size %></span>
   <% if @user_transcriptions.any? %>
     <%= link_to t('view-my-transcriptions', count: @user_transcriptions.size), my_profile_path, class: 'btn btn-info' %>

@@ -489,7 +489,12 @@ en:
   page-title: "Page Title"
   page-type: "Page Type"
   page-types: "Page Types"
-  pages: Pages
+  pages:
+    label: Pages
+    date-uploaded: Date Uploaded
+    transcriptions: Transcriptions
+    visible-to-transcribers: Visible to Transcribers
+    page-completed: Page Completed
   pages-uploaded:
   parent-page:
   path:
@@ -1314,6 +1319,8 @@ en:
   custom-pages: Custom Pages
   edit-user: Edit User
   external-url: External URL
+  filename: Filename
+  hidden: Hidden
   icon-image: Icon Image
   internal-name: Internal Name
   in-use: In Use
@@ -1322,6 +1329,7 @@ en:
   measurement-unit-original: Measurement Unit (Original)
   measurement-unit-si: Measrurement Unit SI
   odr-type: ODR Type
+  metadata: Meta Date
   name: Name
   new: New
   new-field: New Field
@@ -1356,7 +1364,7 @@ en:
     users: Users
     send-password-reset-instructions: Send Password Reset Instructions
     forgot-password: Forgot Password
-  value:
+  value: Value
   view-all-field-groups: View All Field Groups
   view-all-fields: View All Fields
   view-all-pages: View All Pages
@@ -1367,4 +1375,4 @@ en:
   visible: Visible
   weather-logs: Weather Logs
   what-is-draw: "What is DRAW?"
-  width:
+  width: Width

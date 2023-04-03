@@ -11,7 +11,7 @@ h3 = t('page-schemas')
         th = t('title')
         th = t('register')
         th = t('page-number')
-        th = t('pages')
+        th = t('pages.label')
         th = t('field-groups')
         th = t('visible')
         th
@@ -27,10 +27,10 @@ h3 = t('page-schemas')
           td = content_tag(:i, '', class: 'fa fa-check') if page_type.visible
           td.text-right
             = link_to t('view-details'), admin_page_type_path(page_type), class: "btn btn-sm btn-primary"
-            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_page_type_path(page_type), class: "btn btn-sm btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"} 
-            = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_page_type_path(page_type), class: "btn btn-sm btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete 
+            = link_to ('<i class="fa fa-pencil"></i>').html_safe, edit_admin_page_type_path(page_type), class: "btn btn-sm btn-draw-accented", data: {toggle: "tooltip", original_title: strip_tags(t('edit')), trigger: "hover"}
+            = link_to ('<i class="fa fa-trash"></i>').html_safe, admin_page_type_path(page_type), class: "btn btn-sm btn-danger", data: {:confirm => strip_tags(t('are-you-sure')), toggle: "tooltip", original_title: strip_tags(t('delete')), trigger: "hover"}, :method => :delete
 
-br 
+br
 
 //- if current_user.admin?
   = link_to 'New Page Type', new_page_type_path
