@@ -22,7 +22,6 @@
         </li>
         <% if content_pages.any? %>
           <% content_pages.each do |sp| %>
-            <%# TODO: opens_new_tab is not working ... %>
             <%= render "static_pages/link", page: sp, top_level: true, opens_new_tab: true %>
           <% end %>
         <% end %>
@@ -137,7 +136,7 @@
       <div id="field-group-tab-bar">
         <% field_groups.each do |field_group| %>
           <button id="field-group-tab-<%= field_group.id %>"
-            class="btn btn-primary btn-sm field-group-tab"
+            class="btn btn-light btn-sm field-group-tab"
             data-classname=" <%= field_group.colour_class %>"
             data-field-group-id="<%= field_group.id %>"
             data-field-count=<%= field_group.fields.size %>>

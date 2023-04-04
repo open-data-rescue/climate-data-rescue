@@ -35,6 +35,7 @@
     "resolve-url-loader": "^5.0.0",
     "select2": "^4.1.0-rc.0",
     "select2-bootstrap-theme": "^0.1.0-beta.10",
+    "select2-bootstrap4-theme": "^1.0.0",
     "tempusdominus-bootstrap-4": "^5.39.2",
     "trumbowyg": "^2.27.3",
     "vue": "^2.6.12",

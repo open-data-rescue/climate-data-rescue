@@ -495,6 +495,7 @@ en:
     transcriptions: Transcriptions
     visible-to-transcribers: Visible to Transcribers
     page-completed: Page Completed
+    mark-as-completd: Mark as Completed
   pages-uploaded:
   parent-page:
   path:
@@ -1288,7 +1289,7 @@ en:
       many: "%{count} active transcriptions"
     data-table:
       header:
-        data-collected:
+        data-collected: Data Collected
     export:
       header: Header
       download-csv: Download (CSV)
@@ -1318,6 +1319,7 @@ en:
     view-transcriptions-ready-for-review: View Transcriptions Ready For Review
   custom-pages: Custom Pages
   edit-user: Edit User
+  editing-page: Editing Page
   external-url: External URL
   filename: Filename
   hidden: Hidden
@@ -1350,6 +1352,7 @@ en:
   text-symbol: Text Symbol
   time-of-day: Time of Day
   title: Title
+  transcription: Transcription
   unique-key: Unique Key
   unique-rows:
   unique-rows-expected:
