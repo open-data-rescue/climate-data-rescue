@@ -708,9 +708,9 @@
             // format : "DD MMM YYYY",
             useCurrent: false,
             sideBySide : true,
-            defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S')) %>'),
-            minDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>'),
-            maxDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.end_date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>'),
+            defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S')) %>', "ddd, DD MMM YYYY hh:mm:ss"),
+            minDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>', "ddd, DD MMM YYYY hh:mm:ss"),
+            maxDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.end_date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>', "ddd, DD MMM YYYY hh:mm:ss"),
           });
 
           $(datetime).on('dp.change', function(e) {
