@@ -97,7 +97,6 @@
                 field.fetch({
                     url : "<%= admin_field_path(field) %>",
                     success : function(field){
-                        console.info("got field info");
                         view = new FieldView({
                             model : field
                         });
@@ -108,8 +107,6 @@
             },
 
             createFieldOption : function() {
-                // console.info("Create field option btn clicked");
-                // console.log(FieldOption);
                 var form = new Backbone.Form({
                     model: new FieldOption()
 
@@ -120,46 +117,39 @@
                     template: Backbone.Form.bbModalTemplate,
                     title : "Create New Field Option",
                     animate : true,
-                    submitFn : function(){
-                        // console.log("submit fn called");
-                        // console.log(this);
-                        var modal = this;
-
-                        form = this.options.content;
-
-                        this.$el.find('.progress_bar').css('width', '0%');
-                        form.model.on("progress", this.progress, this);
-
-                        var errors = form.commit({ validate: true });
-
-                        // console.log(form.model);
-                        var fileObject = form.$el.find(':input[type="file"]')[0].files[0];
-
-
-                        if (fileObject != undefined){
-                            form.model.set("image", fileObject);
-                        }
-
-                        if (!errors) {
-                            form.model.save(null, {
-                                success : function(mdl) {
-                                    AvailableOptions.add(mdl);
-                                    // console.log(mdl);
-                                    modal.close();
-                                },
-                                fileAttribute : "image",
-                                paramRoot : "field_option",
-                                formData : true
-                            });
-                        };
-                        return errors;
-                    },
-
-                    progress : function(e, ctx) {
-                        var percent = Math.round(e * 100.0);
-                        this.$el.find('.progress-bar').css('width', percent + '%');
-                    }
+                    okCloses: false,
                 }).open();
+
+                modal.on('ok', function() {
+                  modal.$el.find('.progress_bar').css('width', '0%');
+                  form.model.on(
+                    "progress",
+                    function(e, ctx) {
+                      var percent = Math.round(e * 100.0);
+                      modal.$el.find('.progress-bar').css('width', percent + '%');
+                    }
+                  );
+
+                  var errors = form.commit({ validate: true });
+                  // var fileObject = form.$el.find(':input[type="file"]')[0].files[0];
+                  //
+                  // if (fileObject != undefined){
+                  //   form.model.set("image", fileObject);
+                  // }
+
+                  if (!errors) {
+                    form.model.save(null, {
+                      success : function(mdl) {
+                        AvailableOptions.add(mdl);
+                        modal.close();
+                      },
+                      fileAttribute : "image",
+                      paramRoot : "field_option",
+                      formData : true
+                    });
+                  };
+                  return errors;
+                });
             }
         });
 
@@ -226,46 +216,32 @@
                     template: Backbone.Form.bbModalTemplate,
                     title : "Edit Field Option",
                     animate : true,
-                    submitFn : function(){
-                        // console.log("submit fn called");
-                        // console.log(this);
-                        var modal = this;
-
-                        form = this.options.content;
-
-                        this.$el.find('.progress_bar').css('width', '0%');
-                        form.model.on("progress", this.progress, this);
-
-                        var errors = form.commit({ validate: true });
-
-                        // console.log(form.model);
-                        var fileObject = form.$el.find(':input[type="file"]')[0].files[0];
-
-
-                        if (fileObject != undefined){
-                            form.model.set("image", fileObject);
-                        }
-
-                        if (!errors) {
-                            form.model.save(null, {
-                                url : "<%= admin_field_options_path %>" + "/" + form.model.get("id") + "?field_id=" + <%= field.id %>,
-                                success : function(mdl) {
-                                    // console.log(mdl);
-                                    modal.close();
-                                },
-                                fileAttribute : "image",
-                                paramRoot : "field_option",
-                                formData : true
-                            });
-                        };
-                        return errors;
-                    },
-
-                    progress : function(e, ctx) {
-                        var percent = Math.round(e * 100.0);
-                        this.$el.find('.progress-bar').css('width', percent + '%');
-                    }
+                    okCloses: false
                 }).open();
+
+                modal.on('ok', function() {
+                  form.model.on(
+                    "progress",
+                    function(e, ctx) {
+                      var percent = Math.round(e * 100.0);
+                      modal.$el.find('.progress-bar').css('width', percent + '%');
+                    }
+                  );
+
+                  var errors = form.commit({ validate: true });
+
+                  if (!errors) {
+                    form.model.save(null, {
+                      url : "<%= admin_field_options_path %>" + "/" + form.model.get("id") + "?field_id=" + <%= field.id %>,
+                      success : function(mdl) {
+                        modal.close();
+                      },
+                      fileAttribute : "image",
+                      paramRoot : "field_option"
+                    });
+                  };
+                  return errors;
+                });
             },
 
             addToField : function() {
@@ -279,7 +255,6 @@
                     data : {field_id: <%= field.id %>, field_option_id: id},
                     dataType: 'json',
                     success : function(response) {
-                        // console.info("added field option to field");
                         AvailableOptions.remove(mdl);
                         AssignedOptions.add(mdl);
                         $(".tooltip").remove();
@@ -298,7 +273,6 @@
                     data : {field_id: <%= field.id %>, field_option_id: id},
                     dataType: 'json',
                     success : function(response) {
-                        // console.info("removed field option from field");
                         AssignedOptions.remove(mdl);
                         AvailableOptions.add(mdl);
                         $(".tooltip").remove();
@@ -343,14 +317,8 @@
                 };
 
                 if (this.options.sortable) {
-                    // table_width = this.$el.width();
-                    // cells = this.$el.find('tr.field-option')[0].cells.length;
-                    // desired_width = table_width / cells + 'px';
-                    // this.$el.find("tr.field-option td").css('width', desired_width);
-
                     if (this.$el.sortable("instance")) {
                         this.$el.sortable("refreshPositions");
-                        // console.info("positions refreshed");
                     } else {
                         this.$el.sortable({
                             axis: 'y',
@@ -369,7 +337,6 @@
                                 item_id = ui.item.data('field-option-id');
                                 position = ui.item.index() - 1;
 
-                                // console.log(position);
                                 $.ajax({
                                     type: 'POST',
                                     url: '<%= admin_update_field_option_sort_order_path %>',
@@ -405,13 +372,11 @@
 
         return {
             init : function() {
-                console.info("Field Options App Started");
                 FieldOptionsApp.main.show(MainLayout);
 
                 AssignedOptions.fetch({
                     url : "<%= admin_field_options_for_field_path(field) %>",
                     success : function(collection) {
-                        // console.log(collection);
                         view = new FieldOptionsCollectionView({
                             collection : collection,
                             collectionTitle : "<h4>Assigned Field Options</h4>",
@@ -433,7 +398,6 @@
                 AvailableOptions.fetch({
                     url : "<%= admin_field_options_path(field_id: field.id) %>",
                     success : function(collection) {
-                        // console.log(collection);
                         view = new FieldOptionsCollectionView({
                             collection : collection,
                             collectionTitle : "<h4>Available Field Options</h4>",

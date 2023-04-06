@@ -72,7 +72,6 @@
             regions : {
                 assigned : "#assigned-field-groups-container",
                 available : "#available-field-groups-container",
-                // multiToggle : "#field-multi-toggle-container"
             },
 
             className : "col-md-12",
@@ -81,28 +80,9 @@
                 "click #create-field-group-btn" : "createFieldGroup"
             },
 
-            onRender : function() {
-                // layout = this;
-                // page_type = new PageType();
-                // page_type.fetch({
-                //     url : "<%= admin_page_types_path(page_type) %>",
-                //     success : function(field){
-                //         console.info("got field group info");
-                //         view = new PageTypeView({
-                //             model : page_type
-                //         });
-
-                //         layout.multiToggle.show(view);
-                //     }
-                // });
-            },
-
             createFieldGroup : function() {
-                // console.info("Create field option btn clicked");
-                // console.log(Field);
                 var form = new Backbone.Form({
                     model: new FieldGroup()
-
                 });
 
                 var modal = new Backbone.BootstrapModal({
@@ -110,32 +90,23 @@
                     template: Backbone.Form.bbModalTemplate,
                     title : "Create New Field Group",
                     animate : true,
-                    submitFn : function(){
-                        // console.log("submit fn called");
-                        // console.log(this);
-                        var modal = this;
-
-                        form = this.options.content;
-
-                        var errors = form.commit({ validate: true });
-
-                        // console.log(form.model);
-
-
-                        if (!errors) {
-                            form.model.save(null, {
-                                success : function(mdl) {
-                                    AvailableFieldGroups.add(mdl);
-                                    // console.log(mdl);
-                                    modal.close();
-                                },
-                                paramRoot : "field_group",
-                                formData : true
-                            });
-                        };
-                        return errors;
-                    },
+                    okCloses: false
                 }).open();
+
+                modal.on('ok', function() {
+                  var errors = form.commit({ validate: true });
+                  if (!errors) {
+                    form.model.save(null, {
+                      success : function(mdl) {
+                        AvailableFieldGroups.add(mdl);
+                        modal.close();
+                      },
+                      paramRoot : "field_group",
+                      formData : true
+                    });
+                  };
+                  return errors;
+                });
             }
         });
 
@@ -171,27 +142,24 @@
                     template: Backbone.Form.bbModalTemplate,
                     title : "Edit Field Group",
                     animate : true,
-                    submitFn : function(){
-                        // console.log("submit fn called");
-                        // console.log(this);
-                        var modal = this;
-                        form = this.options.content;
-                        var errors = form.commit({ validate: true });
-
-                        if (!errors) {
-                            form.model.save(null, {
-                                url : "<%= admin_field_groups_path %>" + "/" + form.model.get("id") + "?page_type_id=" + <%= page_type.id %>,
-                                success : function(mdl) {
-                                    // console.log(mdl);
-                                    modal.close();
-                                },
-                                paramRoot : "field_group",
-                                formData : true
-                            });
-                        };
-                        return errors;
-                    },
+                    okCloses: false
                 }).open();
+
+                modal.on('ok', function() {
+                  var errors = form.commit({ validate: true });
+
+                  if (!errors) {
+                    form.model.save(null, {
+                      url : "<%= admin_field_groups_path %>" + "/" + form.model.get("id") + "?page_type_id=" + <%= page_type.id %>,
+                      success : function(mdl) {
+                        modal.close();
+                      },
+                      paramRoot : "field_group",
+                      formData : true
+                    });
+                  };
+                  return errors;
+                });
             },
 
             addToPageType : function() {

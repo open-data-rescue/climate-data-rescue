@@ -81,8 +81,6 @@
             },
 
             createField : function() {
-                // console.info("Create field option btn clicked");
-                // console.log(Field);
                 var form = new Backbone.Form({
                     model: new Field()
 
@@ -93,32 +91,25 @@
                     template: Backbone.Form.bbModalTemplate,
                     title : "Create New Field",
                     animate : true,
-                    submitFn : function(){
-                        // console.log("submit fn called");
-                        // console.log(this);
-                        var modal = this;
-
-                        form = this.options.content;
-
-                        var errors = form.commit({ validate: true });
-
-                        // console.log(form.model);
-
-
-                        if (!errors) {
-                            form.model.save(null, {
-                                success : function(mdl) {
-                                    AvailableFields.add(mdl);
-                                    // console.log(mdl);
-                                    modal.close();
-                                },
-                                paramRoot : "field",
-                                formData : true
-                            });
-                        };
-                        return errors;
-                    },
+                    okCloses: false
                 }).open();
+
+                modal.on('ok', function() {
+                  form = this.options.content;
+                  var errors = form.commit({ validate: true });
+
+                  if (!errors) {
+                    form.model.save(null, {
+                      success : function(mdl) {
+                        AvailableFields.add(mdl);
+                        modal.close();
+                      },
+                      paramRoot : "field",
+                      formData : true
+                    });
+                  };
+                  return errors;
+                });
             }
         });
 
@@ -143,10 +134,8 @@
             },
 
             editModel : function() {
-
                 var form = new Backbone.Form({
-                    model: this.model,
-
+                  model: this.model,
                 });
 
                 var modal = new Backbone.BootstrapModal({
@@ -154,27 +143,25 @@
                     template: Backbone.Form.bbModalTemplate,
                     title : "Edit Field",
                     animate : true,
-                    submitFn : function(){
-                        // console.log("submit fn called");
-                        // console.log(this);
-                        var modal = this;
-                        form = this.options.content;
-                        var errors = form.commit({ validate: true });
-
-                        if (!errors) {
-                            form.model.save(null, {
-                                url : "<%= admin_fields_path %>" + "/" + form.model.get("id") + "?field_group_id=" + <%= field_group.id %>,
-                                success : function(mdl) {
-                                    // console.log(mdl);
-                                    modal.close();
-                                },
-                                paramRoot : "field",
-                                formData : true
-                            });
-                        };
-                        return errors;
-                    },
+                    okCloses: false
                 }).open();
+
+                modal.on('ok', function() {
+                  form = this.options.content;
+                  var errors = form.commit({ validate: true });
+
+                  if (!errors) {
+                    form.model.save(null, {
+                      url : "<%= admin_fields_path %>" + "/" + form.model.get("id") + "?field_group_id=" + <%= field_group.id %>,
+                      success : function(mdl) {
+                        modal.close();
+                      },
+                      paramRoot : "field",
+                      formData : true
+                    });
+                  };
+                  return errors;
+                });
             },
 
             addToFieldGroup : function() {
@@ -274,7 +261,6 @@
                                 item_id = ui.item.data('field-id');
                                 position = ui.item.index();
 
-                                console.log(position);
                                 $.ajax({
                                     type: 'POST',
                                     url: '<%= admin_update_field_sort_order_path %>',
@@ -310,7 +296,6 @@
 
         return {
             init : function() {
-                console.info("Fields App Started");
                 FieldsApp.main.show(MainLayout);
 
                 AssignedFields.fetch({

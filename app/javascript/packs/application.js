@@ -3,8 +3,6 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-// import Rails from "@rails/ujs"
-
 import * as ActiveStorage from "@rails/activestorage"
 
 import 'jquery'
@@ -20,30 +18,35 @@ import "blueimp-file-upload/js/jquery.fileupload.js"
 
 // NOTE: change this to the dist once JQuery goes to 3.7 or select2 focus bug is fixed
 // import "select2/js/select2.full.js"
-import "../utils/select2.full.js"
+require("../utils/select2.full.js");
 
-import "underscore/underscore.js"
-import "backbone/backbone.js"
-import "backbone.marionette/lib/backbone.marionette.js"
-import "backbone-model-file-upload/backbone-model-file-upload.js"
-import "backbone.wreqr/lib/backbone.wreqr.js"
+require("underscore/underscore.js");
 
-import "backbone-forms/distribution/backbone-forms"
-import "backbone-forms/distribution/editors/list"
+require("backbone/backbone.js");
+
+require("backbone.marionette/lib/backbone.marionette.js");
+require("backbone.wreqr/lib/backbone.wreqr.js");
+require("backbone-forms/distribution/backbone-forms");
+require("backbone-forms/distribution/adapters/backbone.bootstrap-modal.js");
+require("backbone-forms/distribution/editors/list");
+// TODO: change later date because module does not work with the old code
+require("../utils/fileUploadEditor.js");
 // import "backbone-forms/distribution/editors/fileUploadEditor"
 
-import "jquery.kinetic/jquery.kinetic.js"
-import "magnify/dist/js/jquery.magnify.js"
-import "magnify/dist/js/jquery.magnify-mobile.js"
+// require("backbone-model-file-upload/backbone-model-file-upload.js");
+require("../utils/backbone-model-file-upload.js");
+
+require("jquery.kinetic/jquery.kinetic.js");
+require("magnify/dist/js/jquery.magnify.js");
+require("magnify/dist/js/jquery.magnify-mobile.js");
 
 // TODO: no repo?
 // require jquery.ba-outside-events.min
 
-import "../utils/page-uploader-plugin.js"
-import "../utils/boxer-plugin.js"
-import "../utils/content_images.js"
-import "../utils/snowEffect.js"
-import "../utils/fileUploadEditor.js"
+require("../utils/page-uploader-plugin.js");
+require("../utils/boxer-plugin.js");
+require("../utils/content_images.js");
+require("../utils/snowEffect.js");
 
 import 'stylesheets/theme.scss'
 import 'stylesheets/transcriptions.scss'
@@ -59,17 +62,15 @@ const images = require.context('../images', true)
 
 // Expoed modules for erbs
 import _ from "expose-loader?exposes=_!underscore/underscore.js";
-// import Backbone from "expose-loader?exposes=Backbone!backbone/backbone.js";
 import Marionette from "expose-loader?exposes=Marionette!backbone.marionette/lib/backbone.marionette";
-// import Form from "expose-loader?exposes=Backbone.Form!backbone-forms/distribution/backbone-forms.js";
-import BootstrapModal from "expose-loader?exposes=Backbone.BootstrapModal!backbone-forms/distribution/adapters/backbone.bootstrap-modal.js";
-import "../templates/bootstrap4.js"
+require("../templates/bootstrap4.js");
 
 // import Moment from "expose-loader?exposes=Moment!moment/moment.js"
 import moment from "expose-loader?exposes=moment!moment/moment.js"
-import "tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.js"
 
-import "bootstrap-notify/bootstrap-notify.js"
+require("tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.js");
+
+require("bootstrap-notify/bootstrap-notify.js");
 
 // Rails.start()
 ActiveStorage.start()
@@ -112,9 +113,6 @@ $(document).ready(function(){
         return Backbone._sync(method, model, options);
     };
 
-
-    // $('[data-toggle="popover"]').popover();
-    // $('[data-toggle="tooltip"]').tooltip();
 
     window.setTimeout(function() {
       $(".alert").fadeTo(500, 0).slideUp(500, function(){

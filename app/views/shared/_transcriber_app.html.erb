@@ -530,29 +530,32 @@
             }
           });
         },
+        <%#
+          # Delete the annotation, self destruct...
+         %>
         "click .delete-annotation-btn" : function(e) {
           var self = this;
           var annotation = this.model;
 
           var modal = new Backbone.BootstrapModal({
             title : '<%= j t('transcriber.delete-annotation-confirmation-modal.title').html_safe %>',
-            animate : true,
             okText : '<%= j t('transcriber.delete-annotation-confirmation-modal.ok-btn-text').html_safe %>',
-            template: Backbone.Form.modalTemplate,
             content : $('#empty-template').html(),
             template: Backbone.Form.bbModalTemplate,
+            animate : true,
             showFooter: true,
-            submitFn : function(){
-              annotation.destroy({
-                success : function(mdl) {
-                  self.destroy();
-                  setMsg('<%= j t('transcriber.messages.annotation-deleted').html_safe %>', true, "success");
-                  $(".tooltip").remove();
-                  modal.close();
-                }
-              });
-            }
+            okCloses: false
           }).open();
+
+          modal.on('ok', function() {
+            annotation.destroy({
+              success : function(mdl) {
+                modal.close()
+                self.destroy();
+                setMsg('<%= j t('transcriber.messages.annotation-deleted').html_safe %>', true, "success");
+              }
+            });
+          });
         }
       },
       setMsg : function(msg) {
@@ -561,17 +564,14 @@
 
         return $msgContainer;
       },
-      clearMsg : function(msg) {
-        var $msgContainer = this.$(".annotation-msg");
-        $msgContainer.html("");
-
-        return $msgContainer;
-      },
-
+      <%#
+        # Render the annotation
+       %>
       onRender : function() {
         if (this.model) {
           var annotation = this.model;
 
+          // Rely on CSS to position and size the annotation
           this.$el.css({
             "left": annotation.get('x_tl'),
             "top": annotation.get('y_tl'),
@@ -708,9 +708,9 @@
             // format : "DD MMM YYYY",
             useCurrent: false,
             sideBySide : true,
-            defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S')) %>'),
-            minDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>'),
-            maxDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.end_date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>'),
+            defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S')) %>', "ddd, DD MMM YYYY hh:mm:ss"),
+            minDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>', "ddd, DD MMM YYYY hh:mm:ss"),
+            maxDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.end_date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>', "ddd, DD MMM YYYY hh:mm:ss"),
           });
 
           $(datetime).on('dp.change', function(e) {
@@ -1019,61 +1019,6 @@
         this.annotations = new AnnotationCollection();
         this.annotationBoxes = [];
       },
-      annotate: function(imageView, colourClass) {
-        var self = this;
-        // create a new annotation box
-        var annotation = new Annotation();
-
-        imageView.disableScrolling();
-
-        // Using the boxer plugin
-        imageView.$el.boxer({
-          appendTo: "#canvas",
-          container : "#page-container",
-          target : "#target-image",
-          groupColour : annotation.get('field_group').colour_class,
-          zoomLevel: toolbarLayout.currentZoom,
-
-          stop: function(event, ui) {
-            var offset = ui.box.offset();
-            var position = {
-              x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-              y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-            };
-
-            annotation.set("x_tl", position.x);
-            annotation.set("y_tl", position.y);
-            annotation.set("width", ui.box.width());
-            annotation.set("height", ui.box.height());
-
-            annotation.save(annotation.attributes, {
-              success : function(mdl) {
-                ui.box.remove();
-
-                self.addBox(mdl);
-
-                setMsg('<%= j t('transcriber.messages.annotation-saved').html_safe %>', true, "success");
-
-                imageView.$el.boxer('destroy');
-
-                imageView.enableScrolling();
-
-                self.sync();
-
-                transcriber.$('.selectable').val('empty').trigger('change');
-                transcriber.$('.long-text').val('').trigger('change');
-
-                transcriber.show();
-              },
-              error : function() {
-                console.log("error");
-                imageView.$el.boxer('destroy');
-                transcriber.show();
-              }
-            });
-          }
-        });
-      },
       sync: function() {
         this.annotations.fetch();
       },
@@ -1085,11 +1030,6 @@
         box.render();
 
         return box;
-      },
-      clearBoxes: function() {
-        _.each(this.annotationBoxes, function(box) {
-          box.destroy();
-        });
       },
       render: function() {
         var self = this;
@@ -1141,18 +1081,13 @@
           target : "#target-image",
           groupColour : annotation.get('field_group').colour_class,
           zoomLevel: toolbarLayout.currentZoom,
-
           stop: function(event, ui) {
-            var offset = ui.box.offset();
-            var position = {
-              x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-              y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-            };
+            var dimensions = ui.dimensions;
 
-            annotation.set("x_tl", position.x);
-            annotation.set("y_tl", position.y);
-            annotation.set("width", ui.box.width());
-            annotation.set("height", ui.box.height());
+            annotation.set("x_tl", dimensions.left);
+            annotation.set("y_tl", dimensions.top);
+            annotation.set("width", dimensions.width);
+            annotation.set("height", dimensions.height);
 
             annotation.save(annotation.attributes, {
               success : function(mdl) {
