@@ -30,11 +30,6 @@ environment.plugins.append(
     $: "jquery/src/jquery",
     jQuery: "jquery/src/jquery",
     Popper: ['popper.js', 'default'],
-    Backbone: "backbone/backbone.js",
-    // Marionette: "backbone.marionette/lib/backbone.marionette.js",
-    // 'Backbone.Marionette': "backbone.marionette/lib/backbone.marionette.js",
-    Form: "backbone-forms/distribution/backbone-forms",
-    'Backbone.Form': "backbone-forms/distribution/backbone-forms",
     '_': "underscore/underscore.js"
   })
 );

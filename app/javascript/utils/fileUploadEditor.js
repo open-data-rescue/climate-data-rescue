@@ -36,7 +36,6 @@ Form.editors.File = Form.editors.Text.extend({
         var val = this.$the_file;
         return val;
     },
-
 }, {
     // Also may be good to add progress bar
     template: _.template('\

@@ -17,10 +17,11 @@ module Admin
     def update
       FieldOption.transaction do
         begin
-          #@field_option is a variable containing an instance of the "FieldOption.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action. 
+          Rails.logger.debug "*** UPDATE FIELD OPTION #{params}"
+          #@field_option is a variable containing an instance of the "FieldOption.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action.
           @field_option = FieldOption.find(params[:id])
           @field_option.update(field_option_params)
-          
+
           if params[:field_option][:image] && !(params[:field_option][:image].size > 0) && params[:field_option][:delete_image] && params[:field_option][:delete_image] == "true"
             @field_option.image = nil
             @field_option.save!
@@ -29,8 +30,9 @@ module Admin
           if params[:field_id]
             @field = Field.find params[:field_id]
           end
-          
+
         rescue => e
+          Rails.logger.error "*** WE HAVE A PROBLEM #{e}"
           flash[:danger] = e.message
           respond_to do |format|
             format.json { render json: {message: e.message} and return}
@@ -45,15 +47,16 @@ module Admin
     end
 
     def create
+      Rails.logger.debug("********** CRATE FIELD OPTION")
       FieldOption.transaction do
         begin
           #@field_Option is a variable containing an instance of the "FieldOption.rb" model created with data passed in the params of the "new.html.slim" form submit action.
           @field_option = FieldOption.create!(field_option_params)
-          # if params[:image].present?
-          #   @field_option.image = params[:image]
-          # end
-          
-          # @field_option.save!
+          if params[:image].present?
+            @field_option.image = params[:image]
+          end
+
+          @field_option.save!
         rescue => e
           flash[:danger] = e.message
         end
@@ -164,7 +167,7 @@ module Admin
 
     def destroy
       if current_user && current_user.admin?
-        
+
         FieldOption.transaction do
           begin
             #this function is called to delete the instance of "FieldOption.rb" identified by the fieldOption_id passed to the destroy function when it was called

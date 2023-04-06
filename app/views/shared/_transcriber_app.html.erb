@@ -544,12 +544,13 @@
             template: Backbone.Form.bbModalTemplate,
             animate : true,
             showFooter: true,
+            okCloses: false
           }).open();
 
-          <%# TODO: we need to fix all the other submitFn code %>
           modal.on('ok', function() {
             annotation.destroy({
               success : function(mdl) {
+                modal.close()
                 self.destroy();
                 setMsg('<%= j t('transcriber.messages.annotation-deleted').html_safe %>', true, "success");
               }
