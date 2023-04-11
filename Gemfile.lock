@@ -295,7 +295,7 @@ GEM
       ffi (>= 1.0.6)
       msgpack (>= 0.4.3)
       optimist (>= 3.0.0)
-    recaptcha (5.12.3)
+    recaptcha (5.13.0)
       json
     redis-client (0.13.0)
       connection_pool
