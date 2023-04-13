@@ -33,12 +33,24 @@ $.widget("ui.boxer", $.ui.mouse, {
 
         var offset = $(target).offset();
 
-        this.startPosition = {
-          // x: (event.pageX / this.zoomLevel) - $(document).scrollLeft() - offset.left,
-          // y: (event.pageY / this.zoomLevel) - $(document).scrollTop() - offset.top
-          x: (event.pageX - $(document).scrollLeft() - offset.left) / this.zoomLevel,
-          y: (event.pageY - $(document).scrollTop() - offset.top) / this.zoomLevel
-        };
+        const browser = Bowser.getParser(window.navigator.userAgent);
+        if (browser.getEngineName() == 'Blink') {
+          // This works for Chrome, problem with zoonm down though
+          this.startPosition = {
+            x: (event.pageX / this.zoomLevel) - $(document).scrollLeft() - offset.left,
+            y: (event.pageY / this.zoomLevel) - $(document).scrollTop() - offset.top
+          };
+
+        } else {
+          // This works for FF !!
+          this.startPosition = {
+            x: (event.pageX - $(document).scrollLeft() - offset.left) / this.zoomLevel,
+            y: (event.pageY - $(document).scrollTop() - offset.top) / this.zoomLevel
+          };
+
+        }
+
+        console.debug("******** START ", this.startPosition);
 
         if (this.options.disabled)
             return;
@@ -83,12 +95,18 @@ $.widget("ui.boxer", $.ui.mouse, {
             $container.scrollTop($container.scrollTop() - 5);
         };
 
-        var currentPosition = {
-          x: (pageX - $(document).scrollLeft() - $(target).offset().left) / this.zoomLevel,
-          y: (pageY - $(document).scrollTop() - $(target).offset().top) / this.zoomLevel
-        };
+        let x = 0;
+        let y = 0;
+        const browser = Bowser.getParser(window.navigator.userAgent);
+        if (browser.getEngineName() == 'Blink') {
+          x = (pageX / this.zoomLevel) - $(document).scrollLeft() - $(target).offset().left;
+          y = (pageY / this.zoomLevel) - $(document).scrollTop() - $(target).offset().top;
+        } else {
+          x = (pageX - $(document).scrollLeft() - $(target).offset().left) / this.zoomLevel;
+          y = (pageY - $(document).scrollTop() - $(target).offset().top) / this.zoomLevel;
+        }
 
-        var x1 = this.startPosition.x, y1 = this.startPosition.y, x2 = currentPosition.x, y2 = currentPosition.y;
+        var x1 = this.startPosition.x, y1 = this.startPosition.y, x2 = x, y2 = y;
 
         // Support dragging in both directions
         if (x1 > x2) { var tmp = x2; x2 = x1; x1 = tmp; }
