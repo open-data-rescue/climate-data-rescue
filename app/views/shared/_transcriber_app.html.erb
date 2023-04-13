@@ -1,12 +1,12 @@
-
 <script type="text/javascript" id="transcriber-app">
-  var TranscriberApp = (function(Backbone, Marionette) {
+  var TranscriberApp = (function(Backbone, Marionette, Bowser) {
     var annotationInstructionsCookie = Cookies.get('hideAnnotationInstructions');
     var hideAnnotationInstructions = annotationInstructionsCookie == 'true';
 
     var EventAggregator = new Backbone.Wreqr.EventAggregator();
     var transcriberOffset = {left: 25, top: 250};
-    var lastDate = latestMsg = null;
+    var lastDate = null;
+    var latestMsg = null;
 
     var defaultFieldOptions = [
       {
@@ -284,13 +284,6 @@
       }
     });
 
-    var PageCanvas = Marionette.ItemView.extend({
-      template : "#page-canvas-template",
-      attributes : {
-        id: "canvas"
-      }
-    });
-
     var PageImage = Marionette.ItemView.extend({
       template : "#page-image-template",
 
@@ -427,6 +420,7 @@
                   $box.off("clickoutside");
                 };
               });
+              // TODO: clickoutside event does not work
               $box.on("clickoutside", function(e){
                 e.preventDefault();
                 $box.find(".annotation-actions").show();
@@ -438,16 +432,24 @@
             },
             stop : function(e, ui) {
               var offset = $box.offset();
-              var position = {
-                x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-                y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-              };
+
+              let x = 0;
+              let y = 0;
+              const browser = Bowser.getParser(window.navigator.userAgent);
+              if (browser.getEngineName() == 'Blink') {
+                x = offset.left - $(document).scrollLeft() - $("#target-image").offset().left;
+                y = offset.top - $(document).scrollTop() - $("#target-image").offset().top;
+              } else {
+                x = (offset.left - $(document).scrollLeft() - $("#target-image").offset().left) / toolbarLayout.currentZoom;
+                y = (offset.top - $(document).scrollTop() - $("#target-image").offset().top) / toolbarLayout.currentZoom;
+              }
+
 
               var width = $box.width();
               var height = $box.height();
 
-              annotation.set("x_tl", position.x);
-              annotation.set("y_tl", position.y);
+              annotation.set("x_tl", x);
+              annotation.set("y_tl", y);
               annotation.set("width", (width >= 110 ? width : 110));
               annotation.set("height", (height >= 30 ? height : 30));
 
@@ -479,6 +481,7 @@
 
           $box.draggable({
             create : function() {
+              // TODO: problem with this calc
               $(document).on("keyup", function(e) {
                 e.preventDefault();
                 if( e.which === 27 || e.keyCode === 27 ){
@@ -500,16 +503,23 @@
             },
             stop : function(e, ui) {
               var offset = $box.offset();
-              var position = {
-                  x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-                  y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-              };
+
+              let x = 0;
+              let y = 0;
+              const browser = Bowser.getParser(window.navigator.userAgent);
+              if (browser.getEngineName() == 'Blink') {
+                x = offset.left - $(document).scrollLeft() - $("#target-image").offset().left;
+                y = offset.top - $(document).scrollTop() - $("#target-image").offset().top;
+              } else {
+                x = (offset.left - $(document).scrollLeft() - $("#target-image").offset().left) / toolbarLayout.currentZoom;
+                y = (offset.top - $(document).scrollTop() - $("#target-image").offset().top) / toolbarLayout.currentZoom;
+              }
 
               var width = $box.width();
               var height = $box.height();
 
-              annotation.set("x_tl", position.x);
-              annotation.set("y_tl", position.y);
+              annotation.set("x_tl", x);
+              annotation.set("y_tl", y);
               annotation.set("width", width);
               annotation.set("height", height);
 
@@ -841,6 +851,7 @@
         // console.log($form);
 
         $form.find("[name='annotation[observation_date]']").val(annotation.get('date_time_id'));
+        // ???
         $form.find("#x-field").val(annotation.get('x_tl'));
         $form.find("#y-field").val(annotation.get('y_tl'));
         $form.find("#width-field").val(annotation.get('width'));
@@ -945,10 +956,6 @@
           $form.off("ajax:success");
           $form.off("ajax:error");
         }).on("ajax:error", function(e, xhr, status, error) {
-          // console.log(e);
-          console.error(error);
-          console.error(status);
-          // console.log(xhr);
           pageCanvas.$el.boxer('destroy');
           self.show();
           setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %><br>' + error + " | " + status, true, "danger");
@@ -1215,7 +1222,7 @@
       MainLayout : mainLayout,
       setMsg: setMsg,
     };
-  })(Backbone, Marionette)
+  })(Backbone, Marionette, Bowser)
 
   $(document).ready(function() {
     TranscriberApp.init();

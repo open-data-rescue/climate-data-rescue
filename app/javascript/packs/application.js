@@ -61,6 +61,7 @@ import "trumbowyg/icons.svg"
 const images = require.context('../images', true)
 
 // Expoed modules for erbs
+import Bowser from "expose-loader?exposes=Bowser!bowser/bundled.js";
 import _ from "expose-loader?exposes=_!underscore/underscore.js";
 import Marionette from "expose-loader?exposes=Marionette!backbone.marionette/lib/backbone.marionette";
 require("../templates/bootstrap4.js");
@@ -156,25 +157,25 @@ $(window).bind("load", function() {
 
 });
 
-function alertMessageJson(message) {
-    var msg = '';
-    console.log(message);
-    if (message && message.isArray){
-        message.each(function(el,idx,arr){
-            console.log(el);
-            el.error.each(function(e){
-                msg += e;
-                if (el.error.length > 0) {
-                    msg += '<br />';
-                }
-            });
-        });
-
-        alertMessage(msg);
-    } else if (message && message.error){
-      alertMessage(message.error);
-    }
-};
+// function alertMessageJson(message) {
+//     var msg = '';
+//     // console.log(message);
+//     if (message && message.isArray){
+//         message.each(function(el,idx,arr){
+//             console.log(el);
+//             el.error.each(function(e){
+//                 msg += e;
+//                 if (el.error.length > 0) {
+//                     msg += '<br />';
+//                 }
+//             });
+//         });
+//
+//         alertMessage(msg);
+//     } else if (message && message.error){
+//       alertMessage(message.error);
+//     }
+// };
 
 function alertMessage(message) {
     $('#message-container').html("<div class=\"alert alert-warning fade in\"><button class=\"close\" data-dismiss=\"alert\"><span class=\"glyphicon glyphicon-remove\" style=\"margin-right: 14px\"></span></button>"+ message +"</div>");
