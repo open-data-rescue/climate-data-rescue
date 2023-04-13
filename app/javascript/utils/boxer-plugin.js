@@ -129,7 +129,7 @@ $.widget("ui.boxer", $.ui.mouse, {
 
         var options = this.options;
 
-        var clone = this.helper.clone().appendTo(this.element).removeClass("helper");
+        var clone = this.helper.clone().appendTo(options.appendTo).removeClass("helper");
 
         this._trigger("stop", event, { box: clone, dimensions: this.dimensions });
 
