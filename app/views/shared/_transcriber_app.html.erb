@@ -208,7 +208,7 @@
 
         var zoom = (percent ? (value / 100) : value);
         if (zoom > 0.1) {
-          this.zoomContainer.css({
+          this.zoomContainer.find(".annotationed_page").css({
             zoom : zoom,
             // handle zoom css for firefox
             '-moz-transform' : ('scale(' + zoom + ')'),
@@ -580,7 +580,6 @@
       onRender : function() {
         if (this.model) {
           var annotation = this.model;
-
           // Rely on CSS to position and size the annotation
           this.$el.css({
             "left": annotation.get('x_tl'),
@@ -593,7 +592,7 @@
             'data-field-group-id' : annotation.get('field_group').id
           }).addClass(annotation.get('field_group').colour_class);
 
-          pageCanvas.$el.append(this.$el);
+          pageCanvas.$el.find(".annotationed_page").append(this.$el);
 
           this.$('[data-toggle="popover"]').popover();
           this.$('[data-toggle="tooltip"]').tooltip();
@@ -1040,7 +1039,6 @@
       },
       render: function() {
         var self = this;
-        // console.log('render existing annotations', this);
 
         this.annotations.fetch({
           success: function(collection) {
@@ -1083,7 +1081,7 @@
 
         // Using the boxer plugin
         pageCanvas.$el.boxer({
-          appendTo: "#canvas",
+          appendTo: "#annotationed_page", //"#canvas",
           container : "#page-container",
           target : "#target-image",
           groupColour : annotation.get('field_group').colour_class,

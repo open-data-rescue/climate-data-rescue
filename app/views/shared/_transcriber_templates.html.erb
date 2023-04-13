@@ -90,7 +90,9 @@
 </script>
 
 <script type="text/template" id="page-canvas-template">
-  <img src="<%= page.image.url(:original) %>" alt="" id="target-image">
+  <div class="annotationed_page" id="annotationed_page">
+    <img src="<%= page.image.url(:original) %>" alt="" id="target-image">
+  </div>
 </script>
 
 <script type="text/template" id="page-image-template">
