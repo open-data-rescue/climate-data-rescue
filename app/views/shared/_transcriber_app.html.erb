@@ -416,18 +416,21 @@
                   $box.resizable("destroy");
                   pageCanvas.enableScrolling();
                   $(document).off("keyup");
-                  // TODO: check outside events - is this file the only place we use clickoutside
-                  $box.off("clickoutside");
+                  self.clearMsg();
+                  $(document).off("click");
                 };
               });
-              // TODO: clickoutside event does not work
-              $box.on("clickoutside", function(e){
+              $(document).on("click", function(e) {
                 e.preventDefault();
-                $box.find(".annotation-actions").show();
-                $box.resizable("destroy");
-                pageCanvas.enableScrolling()
-                $(document).off("keyup");
-                $box.off("clickoutside");
+                thing = $(e.target).closest('.annotation-marker').first().attr('id');
+                if (thing != self.el.id) {
+                  $box.find(".annotation-actions").show();
+                  $box.resizable("destroy");
+                  pageCanvas.enableScrolling();
+                  $(document).off("keyup");
+                  self.clearMsg();
+                  $(document).off("click");
+                }
               });
             },
             stop : function(e, ui) {
@@ -461,11 +464,12 @@
                   setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %>', true, "danger");
                 }
               }).always(function() {
+                self.clearMsg();
                 $box.find(".annotation-actions").show();
                 $box.resizable("destroy");
                 pageCanvas.enableScrolling()
                 $(document).off("keyup");
-                $box.off("clickoutside");
+                $(document).off("click");
               });
             }
           });
@@ -489,16 +493,21 @@
                   $box.draggable("destroy");
                   pageCanvas.enableScrolling()
                   $(document).off("keyup");
-                  $box.off("clickoutside");
+                  self.clearMsg();
+                  $(document).off("click");
                 };
               });
-              $box.on("clickoutside", function(e){
+              $(document).on("click", function(e) {
                 e.preventDefault();
-                $box.find(".annotation-actions").show();
-                $box.draggable("destroy");
-                pageCanvas.enableScrolling()
-                $(document).off("keyup");
-                $box.off("clickoutside");
+                thing = $(e.target).closest('.annotation-marker').first().attr('id');
+                if (thing != self.el.id) {
+                  $box.find(".annotation-actions").show();
+                  $box.draggable("destroy");
+                  pageCanvas.enableScrolling();
+                  $(document).off("keyup");
+                  self.clearMsg();
+                  $(document).off("click");
+                }
               });
             },
             stop : function(e, ui) {
@@ -531,11 +540,12 @@
                   setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %>', true, "danger");
                 }
               }).always(function() {
+                self.clearMsg();
                 $box.find(".annotation-actions").show();
                 $box.draggable("destroy");
                 pageCanvas.enableScrolling()
                 $(document).off("keyup");
-                $box.off("clickoutside");
+                $(document).off("click");
               });
             }
           });
@@ -572,6 +582,12 @@
         var $msgContainer = this.$(".annotation-msg");
         $msgContainer.html(msg);
 
+        return $msgContainer;
+      },
+      clearMsg : function() {
+        var $msgContainer = this.$(".annotation-msg");
+        $msgContainer.html('');
+        $msgContainer.removeClass('active')
         return $msgContainer;
       },
       <%#
