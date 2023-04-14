@@ -40,9 +40,6 @@ require("jquery.kinetic/jquery.kinetic.js");
 require("magnify/dist/js/jquery.magnify.js");
 require("magnify/dist/js/jquery.magnify-mobile.js");
 
-// TODO: no repo?
-// require jquery.ba-outside-events.min
-
 require("../utils/page-uploader-plugin.js");
 require("../utils/boxer-plugin.js");
 require("../utils/content_images.js");
