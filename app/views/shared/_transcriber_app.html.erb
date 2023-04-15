@@ -208,7 +208,7 @@
 
         var zoom = (percent ? (value / 100) : value);
         if (zoom > 0.1) {
-          this.zoomContainer.find(".annotationed_page").css({
+          this.zoomContainer.find(".annotated_page").css({
             zoom : zoom,
             // handle zoom css for firefox
             '-moz-transform' : ('scale(' + zoom + ')'),
@@ -484,8 +484,8 @@
           pageCanvas.disableScrolling()
 
           $box.draggable({
+            appendTo: "#annotated_page",
             create : function() {
-              // TODO: problem with this calc
               $(document).on("keyup", function(e) {
                 e.preventDefault();
                 if( e.which === 27 || e.keyCode === 27 ){
@@ -493,8 +493,7 @@
                   $box.draggable("destroy");
                   pageCanvas.enableScrolling()
                   $(document).off("keyup");
-                  self.clearMsg();
-                  $(document).off("click");
+                  $box.off("click");
                 };
               });
               $(document).on("click", function(e) {
@@ -510,19 +509,34 @@
                 }
               });
             },
-            stop : function(e, ui) {
-              var offset = $box.offset();
-
-              let x = 0;
-              let y = 0;
+            start: function( event, ui ) {
               const browser = Bowser.getParser(window.navigator.userAgent);
               if (browser.getEngineName() == 'Blink') {
-                x = offset.left - $(document).scrollLeft() - $("#target-image").offset().left;
-                y = offset.top - $(document).scrollTop() - $("#target-image").offset().top;
-              } else {
-                x = (offset.left - $(document).scrollLeft() - $("#target-image").offset().left) / toolbarLayout.currentZoom;
-                y = (offset.top - $(document).scrollTop() - $("#target-image").offset().top) / toolbarLayout.currentZoom;
+                var x = $box.position().left; // - ($(document).scrollLeft() + $("#target-image").offset().left);
+                var y = $box.position().top - ($(document).scrollTop() + $("#target-image").offset().top);
+                ui.position = { left: x, top: y};
               }
+            },
+            drag: function( event, ui ) {
+              var zoom = toolbarLayout.currentZoom; //getComputedStyle(this).zoom;
+              const browser = Bowser.getParser(window.navigator.userAgent);
+              if (browser.getEngineName() == 'Blink') {
+                var x = ui.offset.left - $(document).scrollLeft() - $("#target-image").offset().left; // / zoom; // / zoom;
+                var y = ui.offset.top - $(document).scrollTop() - $("#target-image").offset().top; // / zoom; // / zoom;
+
+                ui.position.left = x;
+                ui.position.top = y;
+              } else {
+                var x = ui.position.left / zoom;
+                var y = ui.position.top / zoom;
+                ui.position.left = x;
+                ui.position.top = y;
+              }
+            },
+            stop : function(e, ui) {
+              var zoom = toolbarLayout.currentZoom;
+              var x = ui.position.left;
+              var y = ui.position.top;
 
               var width = $box.width();
               var height = $box.height();
@@ -608,7 +622,7 @@
             'data-field-group-id' : annotation.get('field_group').id
           }).addClass(annotation.get('field_group').colour_class);
 
-          pageCanvas.$el.find(".annotationed_page").append(this.$el);
+          pageCanvas.$el.find(".annotated_page").append(this.$el);
 
           this.$('[data-toggle="popover"]').popover();
           this.$('[data-toggle="tooltip"]').tooltip();
@@ -1097,7 +1111,7 @@
 
         // Using the boxer plugin
         pageCanvas.$el.boxer({
-          appendTo: "#annotationed_page", //"#canvas",
+          appendTo: "#annotated_page", //"#canvas",
           container : "#page-container",
           target : "#target-image",
           groupColour : annotation.get('field_group').colour_class,

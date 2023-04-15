@@ -90,13 +90,15 @@
 </script>
 
 <script type="text/template" id="page-canvas-template">
-  <div class="annotationed_page" id="annotationed_page">
+  <div class="annotated_page" id="annotated_page">
     <img src="<%= page.image.url(:original) %>" alt="" id="target-image">
   </div>
 </script>
 
 <script type="text/template" id="page-image-template">
-  <img src="<%= page.image.url(:original) %>" id="{{= image_id }}">
+  <div class="annotated_page">
+    <img src="<%= page.image.url(:original) %>" id="{{= image_id }}">
+  </div>
 </script>
 
 <script id="annotation-box-template" type="text/template">
