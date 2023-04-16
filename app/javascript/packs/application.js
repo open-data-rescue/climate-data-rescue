@@ -14,7 +14,10 @@ import 'bootstrap-switch'
 import 'trumbowyg'
 
 import "jquery-ui/jquery-ui.js"
-import "blueimp-file-upload/js/jquery.fileupload.js"
+
+require ("blueimp-file-upload/js/jquery.fileupload.js");
+
+// require('./jquery.fileupload-process')
 
 // NOTE: change this to the dist once JQuery goes to 3.7 or select2 focus bug is fixed
 // import "select2/js/select2.full.js"
