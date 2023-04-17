@@ -13,7 +13,11 @@ module Api
         @details = query.resolve
 
         render jsonapi: @details,
-               meta: { total: query.total }
+               meta: {
+                 total: query.total,
+                 current_page: query.page.number,
+                 per_page: query.page.size
+               }
       end
 
       def jsonapi_class
@@ -27,7 +31,7 @@ module Api
       end
 
       def query_sort
-        return {sort: :id} if params[:sort].blank?
+        return {sort: :change_time} if params[:sort].blank?
 
         super
       end

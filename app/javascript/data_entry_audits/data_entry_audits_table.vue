@@ -3,6 +3,9 @@
     :model="model"
     :columns="columns"
     ref="data-entry-audits-table"
+    :filters="filters"
+    defaultSortBy="change_time"
+    defaultSortDesc="true"
   >
     <!-- <template #cell(observation_date)="{ item }">
       {{DateTime.fromISO(item.observation_date).toFormat("DDD, t ZZZZ")}}
@@ -12,6 +15,7 @@
     </template>
   </table-vue>
 </template>
+
 
 <script>
 import { dataEntryAuditModel as model } from '@/store/data_entry_audit.store'
@@ -29,7 +33,10 @@ export default {
   data: () => ({
     columns,
     model,
-    DateTime
+    DateTime,
+    filters: [
+      'page_title', 'who_name', 'event'
+    ]
   }),
   mounted() {
     this.$refs['data-entry-audits-table'].fetchPaged()
