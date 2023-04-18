@@ -9,8 +9,7 @@ if annotation
     json.created_at annotation.created_at
     json.updated_at annotation.updated_at
     json.date_time_id annotation.date_time_id
-    json.observation_date annotation.observation_date.utc.strftime('%d %b %Y, %I:%M %p')
-    # json.observation_date annotation.observation_date.utc.strftime('%d %b %Y')
+    json.observation_date (ENV["DRAW_ENV"] == "DRAW" ? annotation.observation_date.utc.strftime('%d %b %Y, %I:%M %p') : annotation.observation_date.utc.strftime('%d %b %Y'))
     json.page_id annotation.page_id
     json.transcription_id annotation.transcription_id
     json.field_group_id annotation.field_group_id
