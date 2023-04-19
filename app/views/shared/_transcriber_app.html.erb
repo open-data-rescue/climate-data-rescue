@@ -743,7 +743,7 @@
             widgetPositioning : {
               vertical : "top"
             },
-            format : "<%= ENV['DRAW_ENV'] == 'DRAW' ? 'DD MMM YYYY, hh:mm A' : 'DD MMM YYYY') %>",
+            format : "<%= ENV['DRAW_ENV'] == 'DRAW' ? 'DD MMM YYYY, hh:mm A' : 'DD MMM YYYY' %>",
             useCurrent: false,
             sideBySide : true,
             defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S')) %>', "ddd, DD MMM YYYY hh:mm:ss"),
