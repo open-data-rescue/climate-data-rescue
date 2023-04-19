@@ -1,10 +1,10 @@
 <% provide(:weather_logs, "active") %>
 <% provide(:transcribe, "active") %>
-<% provide(:title, strip_tags(t('pages'))) %>
+<% provide(:title, strip_tags(t('pages.label'))) %>
 
 <h1>
-  <%= t('pages') %>
-  <span class="badge"><%= @pages.to_a.size %></span>
+  <%= t('pages.label') %>
+  <span class="badge badge-pill badge-secondary" style="font-size: 0.4em; vertical-align: middle;"><%= @pages.to_a.size %></span>
   <% if @user_transcriptions.any? %>
     <%= link_to t('view-my-transcriptions', count: @user_transcriptions.size), my_profile_path, class: 'btn btn-info' %>
   <% end %>
@@ -22,7 +22,7 @@
         <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6" style="min-height: 300px;">
             <%= image_tag(page.image.url(:medium), class: "img-responsive center-block")%>
             <div class="text-center" style="width: 100%;">
-                <h5><%= t('page') %> <%= page.page_type.number %></h5>
+                <h5><%= t('page.label') %> <%= page.page_type.number %></h5>
                 <% if current_user && current_user.admin? %>
                   <%= link_to(t('view-details'), admin_page_path(page), class: 'btn btn-sm  btn-draw-accented') %>
                 <% end %>
@@ -30,7 +30,7 @@
                   <% transcription = @user_transcriptions.find{|t| t.page_id == page.id} %>
                   <% if transcription %>
                     <% if transcription.complete %>
-                      <a href="<%= transcription_path(transcription) %>" class="btn btn-default btn-sm"><%= t('view-completed-transcription') %></a>
+                      <a href="<%= transcription_path(transcription) %>" class="btn btn-primary btn-sm"><%= t('view-completed-transcription') %></a>
                     <% else %>
                       <a href="<%= edit_transcription_path(transcription) %>" class="btn btn-success btn-sm"><%= t('edit-transcription') %></a>
                     <% end %>

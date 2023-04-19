@@ -1,4 +1,4 @@
-<% provide :title, strip_tags(t('new-transcription')) %>
+<% provide :title, strip_tags(t('new-transcription.label')) %>
 <% provide :transcribe, "active" %>
 <% provide :new_transcription, "active" %>
 
@@ -18,12 +18,12 @@
       <div class="col-md-12">
         <h3><%= t('page-metadata.headers.main') %></h3>
       </div>
-      <div class="col-md-12 boffset20">
+      <div class="col-md-12 mb-3">
         <%= render_snippet("/new_transcription_metadata_instructions") %>
       </div>
 
-      <div class="col-sm-12">
-        <%= link_to t('page-metadata.form.labels.skip-page-btn'), new_transcription_path, class: "btn btn-info pull-right"%>
+      <div class="col-sm-12 mb-1">
+        <%= link_to t('page-metadata.form.labels.skip-page-btn'), new_transcription_path, class: "btn btn-info float-right"%>
       </div>
       <div class="col-md-12">
         <%= render 'pages/metadata_form', page: @page, create_transcription: true %>
@@ -34,7 +34,7 @@
 <% else %>
     <div class="row voffset20">
         <div class="col-md-12">
-            <p><%= link_to t('page-metadata.form.labels.skip-page-btn'), new_transcription_path, class: "btn btn-info btn-xs"%>.</p>
+            <p><%= link_to t('page-metadata.form.labels.skip-page-btn'), new_transcription_path, class: "btn btn-info btn-sm"%>.</p>
         </div>
     </div>
 <% end %>

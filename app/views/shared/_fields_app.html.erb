@@ -81,8 +81,6 @@
             },
 
             createField : function() {
-                // console.info("Create field option btn clicked");
-                // console.log(Field);
                 var form = new Backbone.Form({
                     model: new Field()
 
@@ -90,39 +88,37 @@
 
                 var modal = new Backbone.BootstrapModal({
                     content : form,
+                    template: Backbone.Form.bbModalTemplate,
                     title : "Create New Field",
                     animate : true,
-                    submitFn : function(){
-                        // console.log("submit fn called");
-                        // console.log(this);
-                        var modal = this;
-
-                        form = this.options.content;
-
-                        var errors = form.commit({ validate: true });
-
-                        // console.log(form.model);
-
-
-                        if (!errors) {
-                            form.model.save(null, {
-                                success : function(mdl) {
-                                    AvailableFields.add(mdl);
-                                    // console.log(mdl);
-                                    modal.close();
-                                },
-                                paramRoot : "field",
-                                formData : true
-                            });
-                        };
-                        return errors;
-                    },
+                    okCloses: false
                 }).open();
+
+                modal.on('ok', function() {
+                  form = this.options.content;
+                  var errors = form.commit({ validate: true });
+
+                  if (!errors) {
+                    form.model.save(null, {
+                      success : function(mdl) {
+                        AvailableFields.add(mdl);
+                        modal.close();
+                      },
+                      paramRoot : "field",
+                      formData : true
+                    });
+                  };
+                  return errors;
+                });
             }
         });
 
         FieldView = Marionette.ItemView.extend({
-            template : "#field-template",
+            // template : "#field-template",
+            template: function(serialized_model) {
+              var tmpl = $('#field-template');
+              return _.template(tmpl[0].innerHTML)(serialized_model);
+            },
             tagName : "tr",
             className : "field",
 
@@ -138,37 +134,34 @@
             },
 
             editModel : function() {
-
                 var form = new Backbone.Form({
-                    model: this.model,
-
+                  model: this.model,
                 });
 
                 var modal = new Backbone.BootstrapModal({
                     content : form,
+                    template: Backbone.Form.bbModalTemplate,
                     title : "Edit Field",
                     animate : true,
-                    submitFn : function(){
-                        // console.log("submit fn called");
-                        // console.log(this);
-                        var modal = this;
-                        form = this.options.content;
-                        var errors = form.commit({ validate: true });
-
-                        if (!errors) {
-                            form.model.save(null, {
-                                url : "<%= admin_fields_path %>" + "/" + form.model.get("id") + "?field_group_id=" + <%= field_group.id %>,
-                                success : function(mdl) {
-                                    // console.log(mdl);
-                                    modal.close();
-                                },
-                                paramRoot : "field",
-                                formData : true
-                            });
-                        };
-                        return errors;
-                    },
+                    okCloses: false
                 }).open();
+
+                modal.on('ok', function() {
+                  form = this.options.content;
+                  var errors = form.commit({ validate: true });
+
+                  if (!errors) {
+                    form.model.save(null, {
+                      url : "<%= admin_fields_path %>" + "/" + form.model.get("id") + "?field_group_id=" + <%= field_group.id %>,
+                      success : function(mdl) {
+                        modal.close();
+                      },
+                      paramRoot : "field",
+                      formData : true
+                    });
+                  };
+                  return errors;
+                });
             },
 
             addToFieldGroup : function() {
@@ -218,7 +211,11 @@
 
 
         FieldsCollectionView = Marionette.CompositeView.extend({
-            template : "#fields-collection-template",
+            // template : "#fields-collection-template",
+            template: function(serialized_model) {
+              var tmpl = $('#fields-collection-template');
+              return _.template(tmpl[0].innerHTML)(serialized_model);
+            },
             childView : FieldView,
             childViewContainer : ".field-rows-container",
             tagName : "table",
@@ -264,7 +261,6 @@
                                 item_id = ui.item.data('field-id');
                                 position = ui.item.index();
 
-                                console.log(position);
                                 $.ajax({
                                     type: 'POST',
                                     url: '<%= admin_update_field_sort_order_path %>',
@@ -300,7 +296,6 @@
 
         return {
             init : function() {
-                console.info("Fields App Started");
                 FieldsApp.main.show(MainLayout);
 
                 AssignedFields.fetch({
@@ -357,7 +352,7 @@
 </script>
 
 <script type="text/template" id="fields-layout-template">
-  <h3>Fields  <button class="btn btn-primary btn-xs" id="create-field-btn" type="button">New</button></h3>
+  <h3>Fields  <button class="btn btn-primary btn-sm" id="create-field-btn" type="button">New</button></h3>
   <div id="fields-tables-container" class="row">
     <div class="col-md-12">
       <div id="assigned-fields-container" class="table-responsive"></div>
@@ -386,11 +381,13 @@
         <td>{{= num_field_values }}<br /><a href="<%= admin_fields_path %>/{{= id }}/edit" target="field_{{= id }}">Add/Remove Values <i class="fa fa-external-link"></i></a></td>
         <td>
             {{ if(assigned) { }}
-                    <i class="fa fa-times fa-2x remove-from-field-group-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field Group"></i>
+                    <i class="fa fa-times fa-2x remove-from-field-group-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field Group"></i>
             {{ } else { }}
-                <i class="fa fa-plus fa-2x add-to-field-group-btn pull-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field Group"></i>
+                <i class="fa fa-plus fa-2x add-to-field-group-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field Group"></i>
             {{ } }}
-            <i class="fa fa-pencil model-edit-btn pull-right btn btn-default btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)"></i>
+            <button class="model-edit-btn float-right btn btn-primary btn-sm" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Edit details (globally)">
+              <i class="fa fa-pencil"></i>
+            </button>
         </td>
 </script>
 

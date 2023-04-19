@@ -2,18 +2,21 @@
 /!In the future, this page could show the user pages that were created since the user's last login. Pages have a "created_at" datetime attribute and users have a "last_sign_in_at" datetime attribute
 - provide(:home, "active")
 - provide(:title, t('home'))
-.container-fluid.homepage-wrapper
-    .row.voffset30
-        .col-md-12.homepage-intro
-            - if StaticPage.find_by(slug: "/homepage-intro").present?
-                = render_snippet("/homepage-intro")
-            - else
-                h1.homepage-header.text-center
-                    = t('draw-acronym')
-                h2.homepage-subtitle.text-center Data Rescue: Archives and Weather
-                = t('draw-homepage-intro')
+/.d-flex.justify-content-center
+/.homepage-wrapper
+/.row.voffset30
+/    .col-md-12.homepage-intro
+- if StaticPage.find_by(slug: "/homepage-intro").present?
+  .homepage-wrapper
+    .homepage-intro
+      = render_snippet("/homepage-intro")
+- else
+  h1.homepage-header.text-center
+      = t('draw-acronym')
+  h2.homepage-subtitle.text-center Data Rescue: Archives and Weather
+  = t('draw-homepage-intro')
 
-    / .row.voffset40.boffset20
-    /     .col-md-12.homepage-actions.text-center
-    /         = link_to t('start-transcribing'), new_transcription_path, class: "btn btn-lg btn-default btn-draw-accented"
-    /         = link_to t('what-is-draw'), "/about", class: "btn btn-lg btn-default btn-draw-transparent"
+/ .row.voffset40.boffset20
+/     .col-md-12.homepage-actions.text-center
+/         = link_to t('start-transcribing'), new_transcription_path, class: "btn btn-lg btn-primary btn-draw-accented"
+/         = link_to t('what-is-draw'), "/about", class: "btn btn-lg btn-primary btn-draw-transparent"

@@ -6,100 +6,117 @@
 <div class="row">
 	<div class="col-md-12">
 		<%= form_tag(admin_pages_url + ".json", method: :post, multipart: true, id: "fileupload-form", remote: true) do %>
-                <p><%= t('upload-pages-help-text') %></p>
-                <span class="btn btn-primary fileinput-button" style="margin-right: 15px;">
-                    <i class="fa fa-upload" style="top: 2px;"></i>&nbsp;
-                    Upload Pages
-                    <%= file_field :page, :image, :multiple => true %>
-                </span>
-                <%= link_to t('continue'), admin_pages_url, class: "continue-btn btn btn-success btn-lg pull-right", disabled: false %>
-                
-                
-                <table class="table table-striped" style="margin-top: 20px;">
-                    <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
-                        
-                    </tbody>
-                </table>
-          <% end %>
+      <span class="btn btn-primary fileinput-button" style="margin-right: 15px;">
+        <i class="fa fa-upload" style="top: 2px;"></i>&nbsp;
+        Upload Pages
+        <%= file_field :page, :image, :multiple => true %>
+      </span>
+      <%= link_to t('continue'), admin_pages_url, class: "continue-btn btn btn-success btn-lg float-right", disabled: false %>
+      <table class="table table-striped" style="margin-top: 20px;">
+        <tbody class="files" id="file-upload-list" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+      </table>
+    <% end %>
 	</div>
 </div>
 <div class="row">
-    <div class="col-md-6 col-md-offset-6">
-        <%= link_to t('continue'), admin_pages_url, class: "continue-btn btn btn-success btn-lg pull-right", disabled: false %>
-    </div>
+  <div class="col-md-6 offset-md-6">
+    <%= link_to t('continue'), admin_pages_url, class: "continue-btn btn btn-success btn-lg float-right", disabled: false %>
+  </div>
 </div>
 
 <script type="text/javascript">
+  function cancelUpload(arg) {
+    var url = $(arg).attr('url');
+
+    $.ajax({
+      url : url,
+      dataType : "json",
+      type : "DELETE",
+      success : function(response){
+        $(arg).parents('tr').remove();
+      }
+    });
+  };
+
 	$(document).ready(function(){
 		var filesCount = 0;
-        var filesCompleted = 0;
-        var filesDeleted = 0;
-        
+    var filesCompleted = 0;
+    var filesDeleted = 0;
+
 		$('#fileupload-form').pageUploader({
-            max_number : 100,
-            submit_fn : function(){
-                if (!$('.continue-btn').hasClass('disabled')){
-                    $('.continue-btn').addClass('disabled');
-                }
-                filesCount++;
-                console.log('#files: ' + filesCount);
-            },
-            complete_fn : function(){
-                //empty so it skips the default complete action
-                var empty = null;
-            },
-            always_fn : function(){
-                filesCompleted++;
-                if (filesCount == (filesCompleted + filesDeleted)){
-                    $('.continue-btn').removeClass('disabled');
-                }
-                console.log('#files: ' + filesCount);
-                console.log('#files completed: ' + filesCompleted);
-                console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
-            },
-            delete_fn : function(data, response, xhr){
-                console.log(data);
-                console.log(data.context.context.firstElementChild);
-                
-                url = $("#" + data.context.context.firstElementChild.id).data('url');
-                
-                $.ajax({
-                    url : url,
-                    dataType : "json",
-                    type : "DELETE",
-                    success : function(response){
-                        console.log(response);
-                    }
-                });
-                
-                if (true){
-                    filesDeleted++;
-                    filesCompleted--;
-                }
-                if (filesCount == (filesCompleted + filesDeleted)){
-                    $('.continue-btn').removeClass('disabled');
-                }
-                console.log('#files: ' + filesCount);
-                console.log('#files deleted: ' + filesDeleted);
-                console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
-            },
-            fail_fn : function(data){
-                var response = data.jqXHR.responseJSON;
-                console.log(data.context);
-                console.log(response);
-                if (response){
-                    var errors = response[0].error;
-                    $(data.context[0]).find('.error-msg').html(errors);
-                    console.log('#files: ' + filesCount);
-                    console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
-                    // console.log(data);
-                } else if (response && response.error){
-                  $(data.context).find('.error-msg').html(response.error);
-                  console.log("one error");
-                  console.log('#files: ' + filesCount);
-                  console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
-                }
-            }
-        });
+      max_number : 100,
+      submit_fn : function(){
+        if (!$('.continue-btn').hasClass('disabled')){
+          $('.continue-btn').addClass('disabled');
+        }
+        filesCount++;
+        console.log('#files: ' + filesCount);
+      },
+      add_fn: function(data) {
+        console.log('#add: ', data);
+        data.context = $('<tr class="file"></tr>')
+          .append(
+            `
+            <td><a target="_blank">${data.files[0].name}</a></td>
+            <td width="60%">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger delete-file-btn disabled" onclick="cancelUpload(this)">Delete</button>
+            </td>
+            `
+          )
+          .appendTo('#file-upload-list');
+        data.submit();
+      },
+      progress_fn: function(data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        console.debug("PROGRESS...", progress, data);
+        $(data.context).find('.progress-bar').css(
+          'width',
+          progress + '%'
+        );
+      },
+      complete_fn : function(data){
+        //empty so it skips the default complete action
+      },
+      always_fn : function(data){
+        console.log('ALWAYS #data: ', data.result);
+        console.log('ALWAYS #data: ', data);
+        filesCompleted++;
+        if (filesCount == (filesCompleted + filesDeleted)){
+          $('.continue-btn').removeClass('disabled');
+        }
+
+        var file = data.result.files[0];
+        console.debug("**** ",data.result.files, file )
+        var btn =   $(data.context).find('.delete-file-btn');
+        btn.attr({url: `/admin${file.deleteUrl}`})
+        btn.removeClass('disabled');
+
+        console.log('#files: ' + filesCount);
+        console.log('#files completed: ' + filesCompleted);
+        console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
+      },
+      fail_fn : function(data){
+        var response = data.jqXHR.responseJSON;
+        console.log(data.context);
+        console.log(response);
+        if (response){
+            var errors = response[0].error;
+            $(data.context[0]).find('.error-msg').html(errors);
+            console.log('#files: ' + filesCount);
+            console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
+            // console.log(data);
+        } else if (response && response.error){
+          $(data.context).find('.error-msg').html(response.error);
+          console.log("one error");
+          console.log('#files: ' + filesCount);
+          console.log('total completed/deleted : ' + (filesCompleted + filesDeleted));
+        }
+      }
+    });
 	});
 </script>

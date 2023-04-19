@@ -1,3 +1,4 @@
+- provide(:export, "active")
 
 h1 = t('admin.transcriptions.export.header')
 
@@ -15,7 +16,7 @@ ul
         = schema.transcriptions.pluck('distinct page_id').count
         = ' pages'
         br
-        a.btn.btn-primary.btn-xs target="_blank" href="export.csv?page_type_id=#{schema.id}"
+        a.btn.btn-primary.btn-sm target="_blank" href="export.csv?page_type_id=#{schema.id}"
           = 'Download csv'
-        / a.btn.btn-primary.btn-xs target="_blank" href="export.json?page_type_id=#{schema.id}"
+        / a.btn.btn-primary.btn-sm target="_blank" href="export.json?page_type_id=#{schema.id}"
         /  = 'Download json'

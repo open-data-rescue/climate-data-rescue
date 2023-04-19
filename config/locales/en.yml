@@ -204,16 +204,17 @@ en:
         one:
         other:
   admin:
+    admin: Admin
     fields:
-      available-fields:
-    linked-field-groups:
-    linked-fields:
-    linked-schemas:
+      available-fields: Available Fields
+    linked-field-groups: Linked Field Groups
+    linked-fields: Linked Fields
+    linked-schemas: Linked Schemas
     new-field-group:
-    percent-translated:
+    percent-translated: Percent Translated
     transcriptions:
       export:
-        header:
+        header: Header
   admin-access-only-error-msg: "Admin Access Only Error Message"
   all-pages: "All Pages"
   annotation: Annotation
@@ -449,7 +450,10 @@ en:
   new-custom-page:
   new-field:
   new-field-value:
-  new-transcription: "New Transcription"
+  new-transcription:
+    label: "New Transcription"
+    header: "Header"
+    page-info: "Page Info"
   no-metadata:
   no-pages-available: "No pages available"
   no-pages-completed-yet: "No pages completed yet"
@@ -457,7 +461,10 @@ en:
   none: None
   observation-date:
   observations-expected:
-  page: Page
+  page:
+    label: "Page"
+    first-day: "First Day"
+    last-day: "Last Day"
   page-body:
   page-link:
   page-metadata:
@@ -482,7 +489,13 @@ en:
   page-title: "Page Title"
   page-type: "Page Type"
   page-types: "Page Types"
-  pages: Pages
+  pages:
+    label: Pages
+    date-uploaded: Date Uploaded
+    transcriptions: Transcriptions
+    visible-to-transcribers: Visible to Transcribers
+    page-completed: Page Completed
+    mark-as-completd: Mark as Completed
   pages-uploaded:
   parent-page:
   path:
@@ -1276,8 +1289,9 @@ en:
       many: "%{count} active transcriptions"
     data-table:
       header:
-        data-collected:
+        data-collected: Data Collected
     export:
+      header: Header
       download-csv: Download (CSV)
       download-json: Download (JSON)
     completed:
@@ -1303,7 +1317,43 @@ en:
     transcriptions: Transcriptions
     view-all-transcriptions: View All Transcriptions
     view-transcriptions-ready-for-review: View Transcriptions Ready For Review
-  unique-key:
+  custom-pages: Custom Pages
+  edit-user: Edit User
+  editing-page: Editing Page
+  external-url: External URL
+  filename: Filename
+  hidden: Hidden
+  icon-image: Icon Image
+  internal-name: Internal Name
+  in-use: In Use
+  image: Image
+  measurement-type: Measurement Type
+  measurement-unit-original: Measurement Unit (Original)
+  measurement-unit-si: Measrurement Unit SI
+  odr-type: ODR Type
+  metadata: Meta Date
+  name: Name
+  new: New
+  new-field: New Field
+  new-custom-page: New Custom Page
+  observation-date: Observation Date
+  page-link: Page Link
+  page-number: Page Number
+  parent-page: Parent Page
+  path: Path
+  period: Period
+  register: Register
+  sample-page: Sample Page
+  schema: Schema
+  sign-in-count: Sign in Count
+  signed-up-on: Signed Up On
+  sort-order: Sort Order
+  stored-value: Stored Value
+  text-symbol: Text Symbol
+  time-of-day: Time of Day
+  title: Title
+  transcription: Transcription
+  unique-key: Unique Key
   unique-rows:
   unique-rows-expected:
   upload-a-photo:
@@ -1311,15 +1361,16 @@ en:
   upload-pages-help-text:
   uploaded-pages:
   user:
-  user-name:
+  user-name: User Name
   user-observations:
   users:
     users: Users
     send-password-reset-instructions: Send Password Reset Instructions
-  value:
-  view-all-field-groups:
-  view-all-fields:
-  view-all-pages:
+    forgot-password: Forgot Password
+  value: Value
+  view-all-field-groups: View All Field Groups
+  view-all-fields: View All Fields
+  view-all-pages: View All Pages
   view-completed-transcription: View Completed Transcription
   view-details: "View details"
   view-list-of-pages-to-transcribe: "View all transcribable pages"
@@ -1327,4 +1378,4 @@ en:
   visible: Visible
   weather-logs: Weather Logs
   what-is-draw: "What is DRAW?"
-  width:
+  width: Width

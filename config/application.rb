@@ -38,8 +38,8 @@ module DataRescueAtHome
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_fieldgroups_in_json = true
 
-    config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
-    config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js snowEffect.js )
+    # config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
+    # config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js snowEffect.js )
 
     #
     config.active_record.schema_format = :sql

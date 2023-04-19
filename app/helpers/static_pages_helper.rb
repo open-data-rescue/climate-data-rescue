@@ -4,7 +4,7 @@ module StaticPagesHelper
 	  raw page.body if page
 	end
 
-  def locale_switcher_link lang, static_page: nil
+  def locale_switcher_link lang, static_page: nil, opts: {}
     res = nil
     url = baseUri_with_lang(lang)
     if static_page.present? && static_page.is_a?(StaticPage)
@@ -14,11 +14,11 @@ module StaticPagesHelper
         url += static_page.slug
        end
       url.gsub!('//', '/')
-      res = link_to(t(lang), url)
+      res = link_to(t(lang), url, opts)
     else
-      res = link_to(t(lang), params.to_unsafe_h.merge({ locale: lang }))
+      res = link_to(t(lang), params.to_unsafe_h.merge({ locale: lang }), opts)
     end
-    
+
     res
   end
 end

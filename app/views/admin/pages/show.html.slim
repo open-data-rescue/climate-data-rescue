@@ -4,9 +4,9 @@
 h3
   = @page.title
   - if @page.visible
-    span.label.label-success.pull-right style="font-size: 60%;" = t('visible')
+    span.badge.badge-success.float-right style="font-size: 50%;" = t('visible')
   - else
-    span.label.label-danger.pull-right style="font-size: 60%;" = t('hidden')
+    span.badge.badge-danger.float-right style="font-size: 50%;" = t('hidden')
 
 = link_to t('transcribe-this-page'), new_transcription_path(@transcription, :current_page_id => @page)
 <br />

@@ -8,10 +8,12 @@
           <%= content_for?(:title) ? yield(:title) + " | " : '' %>
           <%= t('app.meta-info.title').html_safe %>
         </title>
+        <%# TODO: make sure these are ok? %>
         <%= csrf_meta_tags %>
 
         <% if Rails.env.production? %>
             <!-- Global Site Tag (gtag.js) - Google Analytics -->
+            <!-- TODO: change -->
             <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106824244-1"></script>
             <script>
               window.dataLayer = window.dataLayer || [];
@@ -22,16 +24,18 @@
             </script>
         <% end %>
 
-        <%= stylesheet_link_tag "application", :media => "all"%>
-        
         <% if StaticPage.visible.find_by(slug: "/custom_stylesheet") %>
             <style id="admin-stylesheet" type="text/css"><%= render_snippet("/custom_stylesheet") %></style>
         <% end %>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/v4-shims.css">
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
-        <%= javascript_include_tag "application" %>
+        <%= javascript_pack_tag "application" %>
+        <%= stylesheet_pack_tag "application" %>
     </head>
     <body>
       <div class="container">

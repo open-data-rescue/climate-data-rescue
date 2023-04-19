@@ -1,0 +1,603 @@
+
+@import "draw-variables";
+
+// Place all the styles related to the Transcriptions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+/*
+ * Scribe Transcription Styles. Most of these come from the original Scribe project and have been modified to fit this project's specifications. Not all styles are used presently, but are included for future additions
+ */
+
+.field-group-help-text {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#annotation-box {
+    font-family: verdana,tahoma,sans-serif;
+    font-size: 13px;
+    height: auto;
+    max-width: calc(100% - 50px);
+    position:absolute;
+    z-index:200;
+    top:20px;
+    left:25%;
+    display:none;
+}
+#field-group-tab-bar {
+    border-bottom: 1px solid #e0e0e0;
+    // font-size: 10pt;
+    margin-left: 0;
+    margin-bottom: 0px;
+
+    padding-left: 0;
+    padding-right: 30px;
+    padding-bottom: 2px;
+
+    height: auto;
+    // width: 100%;
+    display: block;
+    overflow: hidden;
+    position: relative;
+
+    .close-btn {
+        max-width: 30px;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+}
+#field-group-tab-bar .field-group-tab {
+    // background: #f4f4f4;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-top: 1px solid #e0e0e0;
+    // color: #666;
+    cursor: pointer;
+    display: inline-block;
+    margin: 3px 2px 0;
+    padding: 2px 7px;
+
+    &:first-of-type {
+        margin-left: 0;
+    }
+    &:last-of-type {
+        margin-right: 0;
+    }
+
+    &:hover {
+        color: black;
+    }
+}
+#scribe_prompt {
+    border-bottom: 1px solid #e0e0e0;
+    color: #999999;
+    height: 39px;
+    padding: 6px;
+}
+#scribe_prompt_text {
+    display:inline;
+    float: left;
+    position: relative;
+    top:0px;
+    margin-bottom:0px;
+}
+#transcription-area {
+    background-color: white;
+    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+    min-height: 130px;
+    height: auto;
+    width: 100%;
+    z-index:200;
+}
+
+#transcription-box-tab-container {
+    padding:5px;
+}
+
+.scribe_button {
+    bottom: 33px;
+    position: absolute;
+    right: 10px;
+}
+#transcription-area .ui-draggable-dragging {
+    box-shadow: 3px 3px 4px #000;
+    z-index: 1;
+}
+
+.user-input-container {
+    // display: block;
+    // height: auto;
+    // overflow-x: auto;
+
+    .transcriber-input, .scribe_input_label {
+        // float: left;
+        // font-size: 8pt;
+        // margin: 5px;
+        vertical-align: top;
+        width: 100px;
+        position: relative;
+        display: inline-block;
+
+        &.datetime, &.date-label {
+            width: 240px;
+            margin-right: 20px;
+
+            .day:not(.disabled):not(.active) {
+                background: rgba(173,216,230,0.3) none repeat scroll 0 0;
+            }
+
+            .input-group-addon:hover {
+                cursor: pointer;
+            }
+        }
+
+        input, select {
+            width: 100%;
+            display: block;
+        }
+    }
+
+    .scribe_input_label {
+        padding: 0 5px;
+        vertical-align: bottom;
+    }
+
+    .transcriber-input {
+      &.long-text {
+        width: auto;
+
+        textarea.long-text {
+          width: 430px;
+          height: 200px;
+        }
+      }
+    }
+}
+
+.admin-note-text {
+  width: 100%;
+}
+
+#transcription-box-form-container {
+    clear: both;
+    // height: 49px;
+    padding: 5px;
+}
+.ui-draggable-dragging {
+    cursor: pointer;
+}
+
+
+.select2-selection__arrow {
+  line-height: 1em !important;
+}
+
+.field-options-dropdown {
+    // width: 205px !important;
+    //
+    // li.select2-results__option[role="group"] {
+    //
+    //     .select2-results__group {
+    //         border-bottom: 1px solid #333;
+    //     }
+    //
+    //     & + li.select2-results__option[role="group"] {
+    //         margin-top: 5px;
+    //     }
+    // }
+}
+
+#transcriber-toolbar {
+  li.transcriber-btn-li {
+    margin-right: 15px;
+  }
+
+  .navbar-nav > li > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+
+#app-container {
+  height: 100%;
+  width: 100%;
+  background: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  #transcriber-container {
+    // background: black;
+    // width: 100vw;
+    // height: 100vh;
+    // position: absolute;
+
+    #transcriber-toolbar-wrapper {
+      width: 100%;
+      height: 50px;
+      padding: 0 10px;
+      background: black;
+      display: table;
+
+      > div {
+        display: table-cell;
+        vertical-align: middle;
+        width: 50%;
+        // padding: 0 15px;
+      }
+
+      > div:last-child:after {
+        clear: left;
+      }
+
+      // .bootstrap-switch {
+      //   border: transparent;
+      // }
+
+      #finish-transcribing-btn {
+        transition: all 0.5s;
+      }
+
+      #get-started-txt {
+        color: white;
+        margin-top: 7px;
+      }
+    }
+
+    #transcriber-image-container {
+      height: calc(100vh - 50px);
+      width: 100%;
+      position: relative;
+
+      #field-guide-kinetic, #time-guide-kinetic {
+        overflow: scroll;
+        height: 100%;
+        width: 100%;
+
+        .control-mask {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          padding: 5px;
+          padding-right: 15px;
+          // background : rgba(0,0,0, 0.6);
+          opacity: 0;
+          transition: 0.5s opacity;
+          color: white;
+
+          .actions-container {
+            .reset-position-btn {
+              white-space: normal;
+            }
+          }
+        }
+
+        &:hover {
+          .control-mask {
+            opacity: 1;
+          }
+          .description-msg {
+            opacity: 1;
+          }
+        }
+      }
+
+      #field-guide-container {
+        border-bottom: 3px solid $accent-color;
+        height: 20%;
+        // height: 200px;
+        margin-left: 15%;
+        position: relative;
+        box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+
+        #field-guide-kinetic {
+          .control-mask {
+            .action-msg {
+            }
+          }
+
+          &.kinetic-active:hover {
+            .action-msg, .description-msg {
+              cursor: ns-resize;
+            }
+          }
+        }
+      }
+
+      #page-time-container {
+        height: 80%;
+        width: 100%;
+        position: relative;
+
+        #time-guide-container {
+          width: 15%;
+          height: 100%;
+          position: absolute;
+          overflow: hidden;
+          box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+          border-right: 3px solid $accent-color;
+
+          #time-guide-kinetic {
+            &.kinetic-active:hover {
+              .action-msg, .description-msg {
+                cursor: ew-resize;
+              }
+            }
+          }
+        }
+
+        #page-container {
+          width: 85%;
+          height: 100%;
+          top: 0;
+          left: 15%;
+          position: absolute;
+          overflow: hidden;
+
+          #canvas {
+            position: relative;
+            overflow: scroll;
+            width: 100%;
+            height: 100%;
+
+            &.ui-boxer {
+              cursor: crosshair;
+            }
+          }
+          &.kinetic-active #canvas.ui-boxer {
+            cursor: move;
+          }
+        }
+      }
+
+      .transcription-data-panel {
+        transition: width 0.1s, height 0.1s, top 0.1s;
+        width: 0vw;
+        position: absolute;
+        height: 50%;
+        top: 0;
+        right: 0;
+        background-color: white;
+        z-index: 500;
+        overflow-y: scroll;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        padding: 0;
+
+        &.showing-panel {
+          width: 100vw;
+          padding: 15px;
+        }
+      }
+    }
+  }
+}
+
+.annotation-marker {
+  min-width: 110px;
+  min-height: 30px;
+
+  border: 1px solid hsla(0, 100%, 0%, 0.3);
+  background: hsla(268, 100%, 68%, 0.3);
+  z-index: 80;
+  position: absolute;
+  cursor: default;
+
+  &.helper {
+    border: 2px dotted black;
+  }
+
+  &.ui-draggable {
+    cursor: move;
+  }
+
+  .inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.5s ease;
+
+    .annotation-actions {
+      opacity: 0;
+      -webkit-transition: all 1s ease;
+      transition: all 1s ease;
+    }
+
+    .annotation-msg {
+        transition: all 1s ease;
+        position: absolute;
+        bottom: 0%;
+        text-align: center;
+        padding: 5px;
+        width: 100%;
+        opacity: 0;
+        color: white;
+
+        background: rgba(0, 0%, 0%, 0.05);
+
+        &.active {
+            opacity: 1;
+            background: rgba(0, 0%, 0%, 0.2);
+        }
+    }
+  }
+  &:hover {
+    .annotation-actions {
+      opacity: 1;
+    }
+    .annotation-msg {
+      opacity: 1;
+    }
+    .inner {
+    }
+  }
+
+  #nwgrip, #negrip, #swgrip, #segrip, #ngrip, #egrip, #sgrip, #wgrip {
+      width: 10px;
+      height: 10px;
+      background-color: #ffffff;
+      border: 1px solid #000000;
+      position: absolute;
+  }
+  #nwgrip {
+      left: -5px;
+      top: -5px;
+  }
+  #negrip{
+       top: -5px;
+       right: -5px;
+  }
+  #swgrip{
+      bottom: -5px;
+      left: -5px;
+  }
+  #segrip{
+       bottom: -5px;
+      right:-5px;
+  }
+  #ngrip{
+       top: -5px;
+      left:50%;
+  }
+  #sgrip{
+       bottom: -5px;
+      left: 50%;
+  }
+  #wgrip{
+       left:-5px;
+       top:50%;
+  }
+  #egrip{
+       right:-5px;
+       top:50%;
+  }
+}
+
+// field group colours
+$fg-red: hsla(0, 100%, 68%, 0.3);
+$fg-pink: hsla(311, 100%, 68%, 0.3);
+$fg-purple: hsla(268, 100%, 68%, 0.3);
+$fg-blue: hsla(217, 100%, 68%, 0.3);
+$fg-cyan: hsla(178, 100%, 68%, 0.3);
+$fg-green: hsla(126, 100%, 68%, 0.3);
+$fg-yellow: hsla(62, 100%, 68%, 0.3);
+$fg-orange: hsla(26, 100%, 68%, 0.3);
+$fg-gray: hsla(0, 0%, 50%, 0.3);
+
+$tab-active-text: white;
+
+@function tab-background($colour) {
+  @return rgba($colour, 0.3);
+}
+@function active-tab-background($colour) {
+  @return rgba(tab-background($colour), 1);
+}
+
+.red-group {
+  background: $fg-red;
+}
+.pink-group {
+  background: $fg-pink;
+}
+.purple-group {
+  background: $fg-purple;
+}
+.blue-group {
+  background: $fg-blue;
+}
+.cyan-group {
+  background: $fg-cyan;
+}
+.green-group {
+  background: $fg-green;
+}
+.yellow-group {
+  background: $fg-yellow;
+}
+.orange-group {
+  background: $fg-orange;
+}
+.gray-group {
+  background: $fg-gray;
+}
+
+
+#field-group-tab-bar {
+  .field-group-tab.red-group {
+    background: tab-background($fg-red);
+
+    &.active {
+      background: active-tab-background($fg-red);
+      color: $tab-active-text;
+    }
+  }
+  .field-group-tab.pink-group {
+    background: tab-background($fg-pink);
+
+    &.active {
+      background: active-tab-background($fg-pink);
+      color: $tab-active-text;
+    }
+  }
+  .field-group-tab.purple-group {
+    background: tab-background($fg-purple);
+
+    &.active {
+      background: active-tab-background($fg-purple);
+      color: $tab-active-text;
+    }
+  }
+  .field-group-tab.blue-group {
+    background: tab-background($fg-blue);
+
+    &.active {
+      background: active-tab-background($fg-blue);
+      color: $tab-active-text;
+    }
+  }
+  .field-group-tab.cyan-group {
+    background: tab-background($fg-cyan);
+
+    &.active {
+      background: active-tab-background($fg-cyan);
+      color: $tab-active-text;
+    }
+  }
+  .field-group-tab.green-group {
+    background: tab-background($fg-green);
+
+    &.active {
+      background: active-tab-background($fg-green);
+      color: $tab-active-text;
+    }
+  }
+  .field-group-tab.yellow-group {
+    background: tab-background($fg-yellow);
+
+    &.active {
+      background: active-tab-background($fg-yellow);
+      color: $tab-active-text;
+    }
+  }
+  .field-group-tab.orange-group {
+    background: tab-background($fg-orange);
+
+    &.active {
+      background: active-tab-background($fg-orange);
+      color: $tab-active-text;
+    }
+  }
+  .field-group-tab.gray-group {
+    background: tab-background($fg-gray);
+
+    &.active {
+      background: active-tab-background($fg-gray);
+      color: $tab-active-text;
+    }
+  }
+}

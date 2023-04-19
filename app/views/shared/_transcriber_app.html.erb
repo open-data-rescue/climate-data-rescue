@@ -1,12 +1,12 @@
-
 <script type="text/javascript" id="transcriber-app">
-  var TranscriberApp = (function(Backbone, Marionette) {
+  var TranscriberApp = (function(Backbone, Marionette, Bowser) {
     var annotationInstructionsCookie = Cookies.get('hideAnnotationInstructions');
     var hideAnnotationInstructions = annotationInstructionsCookie == 'true';
 
     var EventAggregator = new Backbone.Wreqr.EventAggregator();
     var transcriberOffset = {left: 25, top: 250};
-    var lastDate = latestMsg = null;
+    var lastDate = null;
+    var latestMsg = null;
 
     var defaultFieldOptions = [
       {
@@ -19,7 +19,6 @@
     var commonSelect2Configs = {
       placeholder: 'type',
       dropdownCssClass : 'field-options-dropdown',
-      forceAbove : true,
       theme : "bootstrap",
       templateResult : function(obj, container) {
         var result = "<div>";
@@ -114,6 +113,7 @@
       // if (!fade) {
       //   delay = 0;
       // }
+      // TODO: Using bootstrap notify only here
       $.notify(
         {
           message: message
@@ -167,7 +167,10 @@
             title : '<%= j t('transcriber.stop-transcribing-modal.title') %>',
             animate : true,
             content : $('#stop-transcribing-template').html(),
-            showFooter : false
+            template: Backbone.Form.bbModalTemplate,
+            showFooter : false,
+            class: 'modal bs-modal-lg',
+            template: Backbone.Form.modalTemplate
           }).open();
         },
         'click .btn-zoom-in:not(.disabled)': 'zoomIn',
@@ -205,7 +208,7 @@
 
         var zoom = (percent ? (value / 100) : value);
         if (zoom > 0.1) {
-          this.zoomContainer.css({
+          this.zoomContainer.find(".annotated_page").css({
             zoom : zoom,
             // handle zoom css for firefox
             '-moz-transform' : ('scale(' + zoom + ')'),
@@ -214,7 +217,7 @@
           this.currentZoom = zoom;
           this.updateZoomLevel();
 
-          Cookies.set('zoomLevelPage', zoom);
+          Cookies.set('zoomLevelPage', zoom, {sameSite: 'strict'});
         };
       },
 
@@ -278,13 +281,6 @@
             mainLayout.$('.transcription-data-panel').addClass('showing-panel');
           }
         });
-      }
-    });
-
-    var PageCanvas = Marionette.ItemView.extend({
-      template : "#page-canvas-template",
-      attributes : {
-        id: "canvas"
       }
     });
 
@@ -420,30 +416,43 @@
                   $box.resizable("destroy");
                   pageCanvas.enableScrolling();
                   $(document).off("keyup");
-                  $box.off("clickoutside");
+                  self.clearMsg();
+                  $(document).off("click");
                 };
               });
-              $box.on("clickoutside", function(e){
+              $(document).on("click", function(e) {
                 e.preventDefault();
-                $box.find(".annotation-actions").show();
-                $box.resizable("destroy");
-                pageCanvas.enableScrolling()
-                $(document).off("keyup");
-                $box.off("clickoutside");
+                thing = $(e.target).closest('.annotation-marker').first().attr('id');
+                if (thing != self.el.id) {
+                  $box.find(".annotation-actions").show();
+                  $box.resizable("destroy");
+                  pageCanvas.enableScrolling();
+                  $(document).off("keyup");
+                  self.clearMsg();
+                  $(document).off("click");
+                }
               });
             },
             stop : function(e, ui) {
               var offset = $box.offset();
-              var position = {
-                x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-                y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-              };
+
+              let x = 0;
+              let y = 0;
+              const browser = Bowser.getParser(window.navigator.userAgent);
+              if (browser.getEngineName() == 'Blink') {
+                x = offset.left - $(document).scrollLeft() - $("#target-image").offset().left;
+                y = offset.top - $(document).scrollTop() - $("#target-image").offset().top;
+              } else {
+                x = (offset.left - $(document).scrollLeft() - $("#target-image").offset().left) / toolbarLayout.currentZoom;
+                y = (offset.top - $(document).scrollTop() - $("#target-image").offset().top) / toolbarLayout.currentZoom;
+              }
+
 
               var width = $box.width();
               var height = $box.height();
 
-              annotation.set("x_tl", position.x);
-              annotation.set("y_tl", position.y);
+              annotation.set("x_tl", x);
+              annotation.set("y_tl", y);
               annotation.set("width", (width >= 110 ? width : 110));
               annotation.set("height", (height >= 30 ? height : 30));
 
@@ -455,11 +464,12 @@
                   setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %>', true, "danger");
                 }
               }).always(function() {
+                self.clearMsg();
                 $box.find(".annotation-actions").show();
                 $box.resizable("destroy");
                 pageCanvas.enableScrolling()
                 $(document).off("keyup");
-                $box.off("clickoutside");
+                $(document).off("click");
               });
             }
           });
@@ -474,6 +484,7 @@
           pageCanvas.disableScrolling()
 
           $box.draggable({
+            appendTo: "#annotated_page",
             create : function() {
               $(document).on("keyup", function(e) {
                 e.preventDefault();
@@ -482,30 +493,56 @@
                   $box.draggable("destroy");
                   pageCanvas.enableScrolling()
                   $(document).off("keyup");
-                  $box.off("clickoutside");
+                  $box.off("click");
                 };
               });
-              $box.on("clickoutside", function(e){
+              $(document).on("click", function(e) {
                 e.preventDefault();
-                $box.find(".annotation-actions").show();
-                $box.draggable("destroy");
-                pageCanvas.enableScrolling()
-                $(document).off("keyup");
-                $box.off("clickoutside");
+                thing = $(e.target).closest('.annotation-marker').first().attr('id');
+                if (thing != self.el.id) {
+                  $box.find(".annotation-actions").show();
+                  $box.draggable("destroy");
+                  pageCanvas.enableScrolling();
+                  $(document).off("keyup");
+                  self.clearMsg();
+                  $(document).off("click");
+                }
               });
             },
+            start: function( event, ui ) {
+              const browser = Bowser.getParser(window.navigator.userAgent);
+              if (browser.getEngineName() == 'Blink') {
+                var x = $box.position().left; // - ($(document).scrollLeft() + $("#target-image").offset().left);
+                var y = $box.position().top - ($(document).scrollTop() + $("#target-image").offset().top);
+                ui.position = { left: x, top: y};
+              }
+            },
+            drag: function( event, ui ) {
+              var zoom = toolbarLayout.currentZoom; //getComputedStyle(this).zoom;
+              const browser = Bowser.getParser(window.navigator.userAgent);
+              if (browser.getEngineName() == 'Blink') {
+                var x = ui.offset.left - $(document).scrollLeft() - $("#target-image").offset().left; // / zoom; // / zoom;
+                var y = ui.offset.top - $(document).scrollTop() - $("#target-image").offset().top; // / zoom; // / zoom;
+
+                ui.position.left = x;
+                ui.position.top = y;
+              } else {
+                var x = ui.position.left / zoom;
+                var y = ui.position.top / zoom;
+                ui.position.left = x;
+                ui.position.top = y;
+              }
+            },
             stop : function(e, ui) {
-              var offset = $box.offset();
-              var position = {
-                  x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-                  y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-              };
+              var zoom = toolbarLayout.currentZoom;
+              var x = ui.position.left;
+              var y = ui.position.top;
 
               var width = $box.width();
               var height = $box.height();
 
-              annotation.set("x_tl", position.x);
-              annotation.set("y_tl", position.y);
+              annotation.set("x_tl", x);
+              annotation.set("y_tl", y);
               annotation.set("width", width);
               annotation.set("height", height);
 
@@ -517,34 +554,42 @@
                   setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %>', true, "danger");
                 }
               }).always(function() {
+                self.clearMsg();
                 $box.find(".annotation-actions").show();
                 $box.draggable("destroy");
                 pageCanvas.enableScrolling()
                 $(document).off("keyup");
-                $box.off("clickoutside");
+                $(document).off("click");
               });
             }
           });
         },
+        <%#
+          # Delete the annotation, self destruct...
+         %>
         "click .delete-annotation-btn" : function(e) {
           var self = this;
           var annotation = this.model;
 
           var modal = new Backbone.BootstrapModal({
             title : '<%= j t('transcriber.delete-annotation-confirmation-modal.title').html_safe %>',
-            animate : true,
             okText : '<%= j t('transcriber.delete-annotation-confirmation-modal.ok-btn-text').html_safe %>',
-            submitFn : function(){
-              annotation.destroy({
-                success : function(mdl) {
-                  self.destroy();
-                  setMsg('<%= j t('transcriber.messages.annotation-deleted').html_safe %>', true, "success");
-                  $(".tooltip").remove();
-                  modal.close();
-                }
-              });
-            }
+            content : $('#empty-template').html(),
+            template: Backbone.Form.bbModalTemplate,
+            animate : true,
+            showFooter: true,
+            okCloses: false
           }).open();
+
+          modal.on('ok', function() {
+            annotation.destroy({
+              success : function(mdl) {
+                modal.close()
+                self.destroy();
+                setMsg('<%= j t('transcriber.messages.annotation-deleted').html_safe %>', true, "success");
+              }
+            });
+          });
         }
       },
       setMsg : function(msg) {
@@ -553,17 +598,19 @@
 
         return $msgContainer;
       },
-      clearMsg : function(msg) {
+      clearMsg : function() {
         var $msgContainer = this.$(".annotation-msg");
-        $msgContainer.html("");
-
+        $msgContainer.html('');
+        $msgContainer.removeClass('active')
         return $msgContainer;
       },
-
+      <%#
+        # Render the annotation
+       %>
       onRender : function() {
         if (this.model) {
           var annotation = this.model;
-
+          // Rely on CSS to position and size the annotation
           this.$el.css({
             "left": annotation.get('x_tl'),
             "top": annotation.get('y_tl'),
@@ -575,7 +622,7 @@
             'data-field-group-id' : annotation.get('field_group').id
           }).addClass(annotation.get('field_group').colour_class);
 
-          pageCanvas.$el.append(this.$el);
+          pageCanvas.$el.find(".annotated_page").append(this.$el);
 
           this.$('[data-toggle="popover"]').popover();
           this.$('[data-toggle="tooltip"]').tooltip();
@@ -630,12 +677,12 @@
         //end field toggler
         "click .submit-btn" : function(e) {
           e.preventDefault();
-          var $form = $(e.target).parents("form.annotation-form");
+          var $form = $(e.target).parents("form.annotation-form"); //.first();
           if (this.model) {
             this.updateAnnotation(this.model);
             // console.log("update");
           } else {
-            // console.log("new");
+            console.log("new", $form);
             this.createNewAnnotation($form);
           };
         }
@@ -696,13 +743,12 @@
             widgetPositioning : {
               vertical : "top"
             },
-            format : "DD MMM YYYY, hh:mm A",
-            // format : "DD MMM YYYY",
+            format : "<%= ENV['DRAW_ENV'] == 'DRAW' ? 'DD MMM YYYY, hh:mm A' : 'DD MMM YYYY') %>",
             useCurrent: false,
             sideBySide : true,
-            defaultDate : '<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day + 108.minutes).to_s : (transcription.page.start_date.beginning_of_day + 108.minutes).to_s) %>',
-            minDate : '<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.to_s : (transcription.page.start_date.beginning_of_day.to_s)) %>',
-            maxDate : '<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.to_s : (transcription.page.end_date.end_of_day.to_s)) %>',
+            defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S')) %>', "ddd, DD MMM YYYY hh:mm:ss"),
+            minDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>', "ddd, DD MMM YYYY hh:mm:ss"),
+            maxDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.end_date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>', "ddd, DD MMM YYYY hh:mm:ss"),
           });
 
           $(datetime).on('dp.change', function(e) {
@@ -833,6 +879,7 @@
         // console.log($form);
 
         $form.find("[name='annotation[observation_date]']").val(annotation.get('date_time_id'));
+        // ???
         $form.find("#x-field").val(annotation.get('x_tl'));
         $form.find("#y-field").val(annotation.get('y_tl'));
         $form.find("#width-field").val(annotation.get('width'));
@@ -928,17 +975,15 @@
                 transcriber : self,
                 fieldGroupName : fieldGroupName
               }),
-              showFooter : false
+              template: Backbone.Form.bbModalTemplate,
+              showFooter : false,
+              template: Backbone.Form.modalTemplate
             }).open();
           }
 
           $form.off("ajax:success");
           $form.off("ajax:error");
         }).on("ajax:error", function(e, xhr, status, error) {
-          // console.log(e);
-          console.error(error);
-          console.error(status);
-          // console.log(xhr);
           pageCanvas.$el.boxer('destroy');
           self.show();
           setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %><br>' + error + " | " + status, true, "danger");
@@ -1009,61 +1054,6 @@
         this.annotations = new AnnotationCollection();
         this.annotationBoxes = [];
       },
-      annotate: function(imageView, colourClass) {
-        var self = this;
-        // create a new annotation box
-        var annotation = new Annotation();
-
-        imageView.disableScrolling();
-
-        // Using the boxer plugin
-        imageView.$el.boxer({
-          appendTo: "#canvas",
-          container : "#page-container",
-          target : "#target-image",
-          groupColour : annotation.get('field_group').colour_class,
-          zoomLevel: toolbarLayout.currentZoom,
-
-          stop: function(event, ui) {
-            var offset = ui.box.offset();
-            var position = {
-              x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-              y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-            };
-
-            annotation.set("x_tl", position.x);
-            annotation.set("y_tl", position.y);
-            annotation.set("width", ui.box.width());
-            annotation.set("height", ui.box.height());
-
-            annotation.save(annotation.attributes, {
-              success : function(mdl) {
-                ui.box.remove();
-
-                self.addBox(mdl);
-
-                setMsg('<%= j t('transcriber.messages.annotation-saved').html_safe %>', true, "success");
-
-                imageView.$el.boxer('destroy');
-
-                imageView.enableScrolling();
-
-                self.sync();
-
-                transcriber.$('.selectable').val('empty').trigger('change');
-                transcriber.$('.long-text').val('').trigger('change');
-
-                transcriber.show();
-              },
-              error : function() {
-                console.log("error");
-                imageView.$el.boxer('destroy');
-                transcriber.show();
-              }
-            });
-          }
-        });
-      },
       sync: function() {
         this.annotations.fetch();
       },
@@ -1076,14 +1066,8 @@
 
         return box;
       },
-      clearBoxes: function() {
-        _.each(this.annotationBoxes, function(box) {
-          box.destroy();
-        });
-      },
       render: function() {
         var self = this;
-        // console.log('render existing annotations', this);
 
         this.annotations.fetch({
           success: function(collection) {
@@ -1126,23 +1110,18 @@
 
         // Using the boxer plugin
         pageCanvas.$el.boxer({
-          appendTo: "#canvas",
+          appendTo: "#annotated_page", //"#canvas",
           container : "#page-container",
           target : "#target-image",
           groupColour : annotation.get('field_group').colour_class,
           zoomLevel: toolbarLayout.currentZoom,
-
           stop: function(event, ui) {
-            var offset = ui.box.offset();
-            var position = {
-              x: offset.left - $(document).scrollLeft() - $("#target-image").offset().left,
-              y : offset.top - $(document).scrollTop() - $("#target-image").offset().top
-            };
+            var dimensions = ui.dimensions;
 
-            annotation.set("x_tl", position.x);
-            annotation.set("y_tl", position.y);
-            annotation.set("width", ui.box.width());
-            annotation.set("height", ui.box.height());
+            annotation.set("x_tl", dimensions.left);
+            annotation.set("y_tl", dimensions.top);
+            annotation.set("width", dimensions.width);
+            annotation.set("height", dimensions.height);
 
             annotation.save(annotation.attributes, {
               success : function(mdl) {
@@ -1185,33 +1164,35 @@
     var fieldGuidePage = new Page({
       title: '<%= j t('transcriber.guide-images.title.fields').html_safe %>',
       description : '<%= j t('transcriber.guide-images.help-text.fields').html_safe %>',
-      popoverPlacement: function(context, source) {
-        var self = this;
-        setTimeout(function() {
-          self.$arrow.css('left', (self.$tip.outerWidth() / 2));
-          self.$tip.css({
-            left: ($('#field-guide-container').offset().left + ($('#field-guide-container').width() / 2)),
-            top: ($('#page-time-container').offset().top - $('#transcriber-toolbar').outerHeight()),
-          });
-        }, 0);
-        return 'bottom';
-      },
+      <%# TODO - $arrow not defined %>
+      // popoverPlacement: function(context, source) {
+      //   var self = this;
+      //   setTimeout(function() {
+      //     self.$arrow.css('left', (self.$tip.outerWidth() / 2));
+      //     self.$tip.css({
+      //       left: ($('#field-guide-container').offset().left + ($('#field-guide-container').width() / 2)),
+      //       top: ($('#page-time-container').offset().top - $('#transcriber-toolbar').outerHeight()),
+      //     });
+      //   }, 0);
+      //   return 'bottom';
+      // },
     });
     var timeGuidePage = new Page({
       image_id : 'time-guide',
       title: '<%= j t('transcriber.guide-images.title.time').html_safe %>',
       description : '<%= j t('transcriber.guide-images.help-text.time').html_safe %>',
-      popoverPlacement: function(context, source) {
-        var self = this;
-        setTimeout(function() {
-          self.$arrow.css('top', (self.$tip.outerHeight() / 2));
-          self.$tip.css({
-            top: ($('#time-guide-container').offset().top + ($('#time-guide-container').outerHeight() / 2)),
-            left: $('#time-guide-container').outerWidth(),
-          });
-        }, 0);
-        return 'right';
-      },
+      <%# TODO - $arrow not defined %>
+      // popoverPlacement: function(context, source) {
+      //   var self = this;
+      //   setTimeout(function() {
+      //     self.$arrow.css('top', (self.$tip.outerHeight() / 2));
+      //     self.$tip.css({
+      //       top: ($('#time-guide-container').offset().top + ($('#time-guide-container').outerHeight() / 2)),
+      //       left: $('#time-guide-container').outerWidth(),
+      //     });
+      //   }, 0);
+      //   return 'right';
+      // },
     });
     var pageCanvas = new PageImage({
       model : mainPage,
@@ -1268,7 +1249,7 @@
       MainLayout : mainLayout,
       setMsg: setMsg,
     };
-  })(Backbone, Marionette)
+  })(Backbone, Marionette, Bowser)
 
   $(document).ready(function() {
     TranscriberApp.init();
