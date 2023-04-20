@@ -46,11 +46,9 @@
 
       var value = '';
       var data = $this.select2('data');
-      // console.log("** updateFieldOptionIds", data);
 
       _.each(data, function(option, idx) {
         var $element = $(option.element);
-        // console.log(option);
         if (option.is_field_option === true || $element.data('isFieldOption') === true) {
           if (idx != 0) {
               value += ',';
@@ -60,8 +58,6 @@
       });
 
       $optionIdsInput.val(value);
-      // console.log($this.attr('id'));
-      // console.log('updated field option ids:', value);
     };
 
     function processFieldOptionResults(_data, params) {
@@ -72,10 +68,7 @@
           text: '<%= j t('transcriber.field-options.group-labels.values') %>',
           children: [],
       };
-      // console.info("ajax");
-      // console.log(_data);
       _.each(_data, function(option) {
-        // console.log(option);
         var title = option.name;
         if (option.help && option.help.length > 0) {
           title += ': ' + option.help;
@@ -108,12 +101,7 @@
     }
 
     function setMsg(message, fade, style) {
-      // console.log(message);
       var delay = 2000;
-      // if (!fade) {
-      //   delay = 0;
-      // }
-      // TODO: Using bootstrap notify only here
       $.notify(
         {
           message: message
@@ -312,7 +300,6 @@
           cursor : this.options.cursor,
           "can scroll" : this.options.scroll,
           stopped : function() {
-            // console.log(options);
             if (self.options.stopFn) {
               self.options.stopFn.call(this);
             }
@@ -665,7 +652,7 @@
           var $dateField = $currentForm.find('.datetime-group');
 
           if ($dateField.length > 0 && lastDate != null) {
-             $dateField.first().data("DateTimePicker").date(lastDate);
+            $dateField.first().datetimepicker('date', lastDate);
           };
 
           $currentForm.show();
@@ -680,16 +667,13 @@
           var $form = $(e.target).parents("form.annotation-form"); //.first();
           if (this.model) {
             this.updateAnnotation(this.model);
-            // console.log("update");
           } else {
-            console.log("new", $form);
             this.createNewAnnotation($form);
           };
         }
       },
 
       formatSelection : function (data, container) {
-        // console.log(data);
         var res = "<div>";
         var $element = $(data.element);
 
@@ -727,7 +711,6 @@
         }
 
         res += "</div>";
-        // console.log(data, container, res)
 
         return res;
       },
@@ -735,7 +718,6 @@
       initializeFields : function() {
         var self = this;
         // Set up plugins for input fields
-
         // Time Fields
         _.each(this.$('.datetime-group'), function(datetime) {
           $(datetime).datetimepicker({
@@ -746,19 +728,19 @@
             format : "<%= ENV['DRAW_ENV'] == 'DRAW' ? 'DD MMM YYYY, hh:mm A' : 'DD MMM YYYY' %>",
             useCurrent: false,
             sideBySide : true,
-            defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S')) %>', "ddd, DD MMM YYYY hh:mm:ss"),
+            defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day + 108.minutes).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day + 108.minutes).strftime('%a, %d %b %Y %H:%M:%S')) %>', "ddd, DD MMM YYYY hh:mm:ss"),
             minDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>', "ddd, DD MMM YYYY hh:mm:ss"),
             maxDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.end_date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>', "ddd, DD MMM YYYY hh:mm:ss"),
           });
 
-          $(datetime).on('dp.change', function(e) {
+          $(datetime).on('change.datetimepicker', function(e) {
             if (e.date) {
               lastDate = e.date;
             }
           });
 
           if (lastDate != null) {
-            $(datetime).data("DateTimePicker").date(lastDate);
+            $(datetime).datetimepicker('date', lastDate);
           };
         });
 
@@ -767,7 +749,6 @@
           var $field = $(field);
 
           $field.on("change", updateFieldOptionIds);
-          // console.log($field);
 
           var select2Config = {};
 
@@ -798,8 +779,6 @@
               select2Config,
               {
                 current : function(element,callback) {
-                  // console.log('current ajax callback initiated')
-                  // console.log("select2 initialized for " + $field.data("field-id"));
                   $.ajax({
                     url : "/field_options_for_field/" + $field.data("field-id"),
                     dataType : "json",
@@ -836,10 +815,8 @@
 
           setMsg('<%= j t('transcriber.messages.annotation-saved').html_safe %>', true, "success");
         }).on("ajax:error", function(e, xhr, status, error) {
-          // console.log(e);
           console.error(error);
           console.error(status);
-          // console.log(xhr);
           setMsg('<%= j t('transcriber.messages.annotation-save-failed').html_safe %><br>' + error + " | " + status, true, "danger");
 
           self.show();
@@ -855,7 +832,6 @@
         var field_group = annotation.get('field_group');
 
         // Clear values and reset form desitantation
-        // console.log(this, field_group, annotation);
         var $form = $("form.annotation-form#field_group_" + field_group.id);
 
         $form.attr({
@@ -874,31 +850,25 @@
           $transcriber.offset(transcriberOffset); //set position of the box to open at the click event 'e' position
         };
 
-        // // console.log(annotation);
         $form = $transcriber.find("form[data-field-group-id=" + annotation.get('field_group').id + "]");
-        // console.log($form);
 
         $form.find("[name='annotation[observation_date]']").val(annotation.get('date_time_id'));
-        // ???
         $form.find("#x-field").val(annotation.get('x_tl'));
         $form.find("#y-field").val(annotation.get('y_tl'));
         $form.find("#width-field").val(annotation.get('width'));
         $form.find("#height-field").val(annotation.get('height'));
 
-        // // update transcriber width and position
+        // update transcriber width and position
         var fields = annotation.get('field_group').fields;
 
-          // console.log(fields);
         var newWidth = (fields.length + 3) * 110 + 100;
 
         $transcriber.css("width", newWidth);
 
-        // // set field values from response
+        // set field values from response
         _.each(fields, function(field){
-          // console.log(field);
           var value = field.value;
           var $fieldContainer = $form.find(".transcriber-input[data-field-id=" + field.id +"]");
-          // console.log(field)
 
           if (field.data_type === 'long_text') {
             var $textArea = $fieldContainer.find("textarea.long-text[data-field-id=" + field.id + "]");
@@ -907,7 +877,6 @@
           }
 
           var $select = $fieldContainer.find("select");
-          // console.log($select);
 
           if ($select.children().length > 0) {
             $select.children().remove();
@@ -917,7 +886,6 @@
           if (field.selected_options) {
             $select.trigger("change");
             _.each(field.selected_options, function setSelectedOptions(option) {
-              // console.log(option);
               var $option = $("<option class='user-option' selected></option>").val(`field_${option.id}`).html(self.formatSelection(option));
 
               // For custom tag template
@@ -936,7 +904,6 @@
             }
           } else {
             $select.val(value).trigger("change");
-            // console.log(value);
           };
         });
       },
@@ -1017,17 +984,16 @@
       },
 
       onRender : function() {
-        // console.log(this);
         this.ui.forms.attr({
           method: 'post',
           action: '/annotations'
         });
         $("#transcriber-container").append(this.$el);
         if (this.$el.is(":hidden")) {
-            // show transcriber
-           this.$el.show(250); /*open the box with a delay of half a second. This is what makes the transcription
-           box open with a flourish. Remove the value from the .show() function to make it open instantly */
-           this.$el.offset(transcriberOffset);
+          // show transcriber
+          this.$el.show(250); /*open the box with a delay of half a second. This is what makes the transcription
+          box open with a flourish. Remove the value from the .show() function to make it open instantly */
+          this.$el.offset(transcriberOffset);
         };
 
         this.$el.draggable({
@@ -1071,7 +1037,6 @@
 
         this.annotations.fetch({
           success: function(collection) {
-            // console.log(collection);
             collection.each(function(annotation) {
               self.addBox(annotation);
             });
@@ -1143,7 +1108,6 @@
                 transcriber.show();
               },
               error : function() {
-                console.log("error");
                 pageCanvas.$el.boxer('destroy');
                 transcriber.show();
               }
