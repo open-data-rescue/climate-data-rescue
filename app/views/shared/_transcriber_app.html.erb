@@ -652,7 +652,7 @@
           var $dateField = $currentForm.find('.datetime-group');
 
           if ($dateField.length > 0 && lastDate != null) {
-             $dateField.first().data("DateTimePicker").date(lastDate);
+            $dateField.first().datetimepicker('date', lastDate);
           };
 
           $currentForm.show();
@@ -718,7 +718,6 @@
       initializeFields : function() {
         var self = this;
         // Set up plugins for input fields
-
         // Time Fields
         _.each(this.$('.datetime-group'), function(datetime) {
           $(datetime).datetimepicker({
@@ -729,19 +728,19 @@
             format : "<%= ENV['DRAW_ENV'] == 'DRAW' ? 'DD MMM YYYY, hh:mm A' : 'DD MMM YYYY' %>",
             useCurrent: false,
             sideBySide : true,
-            defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day).strftime('%a, %d %b %Y %H:%M:%S')) %>', "ddd, DD MMM YYYY hh:mm:ss"),
+            defaultDate : moment('<%= ( page.has_metadata? ? (page.page_days.order(:date).first.date.beginning_of_day + 108.minutes).strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day + 108.minutes).strftime('%a, %d %b %Y %H:%M:%S')) %>', "ddd, DD MMM YYYY hh:mm:ss"),
             minDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).first.date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.start_date.beginning_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>', "ddd, DD MMM YYYY hh:mm:ss"),
             maxDate : moment('<%= ( page.has_metadata? ? page.page_days.order(:date).last.date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S') : (transcription.page.end_date.end_of_day.strftime('%a, %d %b %Y %H:%M:%S'))) %>', "ddd, DD MMM YYYY hh:mm:ss"),
           });
 
-          $(datetime).on('dp.change', function(e) {
+          $(datetime).on('change.datetimepicker', function(e) {
             if (e.date) {
               lastDate = e.date;
             }
           });
 
           if (lastDate != null) {
-            $(datetime).data("DateTimePicker").date(lastDate);
+            $(datetime).datetimepicker('date', lastDate);
           };
         });
 
