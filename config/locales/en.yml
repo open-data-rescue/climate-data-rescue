@@ -1243,7 +1243,7 @@ en:
       annotation-saved: "Annotation saved successfully!"
       annotation-saved-with-field-group: "%{field_group} annotation saved successfully!"
       boxer-message-preference-save-failed: "Unable to save annotation box tutorial preference."
-      draw-annotation-box-instructions-with-field-group: "Click and drag the main image to draw a box around the %{field_group} observation that you just transcribed. Don't include the date or time. <br><br>Annotation will be saved after you finish."
+      draw-annotation-box-instructions-with-field-group: "Click and drag the main image to draw a box around the %{field_group} observation that you just transcribed. Don't include the date or time. <br><em>Annotation will be saved after you finish.</em>"
     stop-transcribing-modal:
       buttons:
         mark-finished: "Mark as complete"

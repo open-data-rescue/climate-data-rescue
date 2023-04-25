@@ -909,7 +909,7 @@ fr:
       annotation-saved: "L'annotation a été sauvegardée avec succès"
       annotation-saved-with-field-group: "L'annotation « %{field_group} » a été sauvegardée avec succès"
       boxer-message-preference-save-failed: "Impossible d'enregistrer les préférences d'aide des annotations."
-      draw-annotation-box-instructions-with-field-group: "Cliquez et faites glisser l'image principale pour marquer une boîte autour de l'observation %{field_group} que vous venez de transcrire. N'incluez pas la date ou l'heure. <br> <br> L'annotation sera sauvegardée après la fin."
+      draw-annotation-box-instructions-with-field-group: "Cliquez et faites glisser l'image principale pour marquer une boîte autour de l'observation %{field_group} que vous venez de transcrire. N'incluez pas la date ou l'heure. <br> <em>L'annotation sera sauvegardée après la fin.</em>"
     stop-transcribing-modal:
       buttons:
         mark-finished: "Marquer comme complète"
