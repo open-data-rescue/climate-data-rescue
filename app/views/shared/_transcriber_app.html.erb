@@ -397,27 +397,27 @@
           $box.resizable({
             handles: 'ne, nw, se, sw',
             create : function() {
-              $(document).on("keyup", function(e) {
+              $(document).on("keyup.draw.resize", function(e) {
                 e.preventDefault();
                 if( e.which === 27 || e.keyCode === 27 ){
                   $box.find(".annotation-actions").show();
                   $box.resizable("destroy");
                   pageCanvas.enableScrolling();
-                  $(document).off("keyup");
+                  $(document).off("keyup.draw.resize");
                   self.clearMsg();
-                  $(document).off("click");
+                  $(document).off("click.draw.resize");
                 };
               });
-              $(document).on("click", function(e) {
+              $(document).on("click.draw.resize", function(e) {
                 e.preventDefault();
                 thing = $(e.target).closest('.annotation-marker').first().attr('id');
                 if (thing != self.el.id) {
                   $box.find(".annotation-actions").show();
                   $box.resizable("destroy");
                   pageCanvas.enableScrolling();
-                  $(document).off("keyup");
+                  $(document).off("keyup.draw.resize");
                   self.clearMsg();
-                  $(document).off("click");
+                  $(document).off("click.draw.resize");
                 }
               });
             },
@@ -456,8 +456,8 @@
                 $box.find(".annotation-actions").show();
                 $box.resizable("destroy");
                 pageCanvas.enableScrolling()
-                $(document).off("keyup");
-                $(document).off("click");
+                $(document).off("keyup.draw.resize");
+                $(document).off("click.draw.resize"); // THIS IS A PROBLEM
               });
             }
           });
@@ -474,26 +474,26 @@
           $box.draggable({
             appendTo: "#annotated_page",
             create : function() {
-              $(document).on("keyup", function(e) {
+              $(document).on("keyup.draw.move", function(e) {
                 e.preventDefault();
                 if( e.which === 27 || e.keyCode === 27 ){
                   $box.find(".annotation-actions").show();
                   $box.draggable("destroy");
                   pageCanvas.enableScrolling()
-                  $(document).off("keyup");
-                  $box.off("click");
+                  $(document).off("keyup.draw.move");
+                  $box.off("click.draw.move");
                 };
               });
-              $(document).on("click", function(e) {
+              $(document).on("click.draw.move", function(e) {
                 e.preventDefault();
                 thing = $(e.target).closest('.annotation-marker').first().attr('id');
                 if (thing != self.el.id) {
                   $box.find(".annotation-actions").show();
                   $box.draggable("destroy");
                   pageCanvas.enableScrolling();
-                  $(document).off("keyup");
+                  $(document).off("keyup.draw.move");
                   self.clearMsg();
-                  $(document).off("click");
+                  $(document).off("click.draw.move");
                 }
               });
             },
@@ -546,8 +546,8 @@
                 $box.find(".annotation-actions").show();
                 $box.draggable("destroy");
                 pageCanvas.enableScrolling()
-                $(document).off("keyup");
-                $(document).off("click");
+                $(document).off("keyup.draw.move");
+                $(document).off("click.draw.move");
               });
             }
           });
