@@ -29,7 +29,7 @@
           - if @user.avatar.present?
             = image_tag @user.avatar.url(:medium), :class => "img-fluid rounded-circle"
           - else
-            = image_pack_tag "default-person.png", :class => "img-fluid rounded-circle"
+            = vite_image_tag "images/default-person.png", :class => "img-fluid rounded-circle"
 
     - if @user == current_user || (current_user && current_user.admin?)
       section#my-certificate

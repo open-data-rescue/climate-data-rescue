@@ -2071,7 +2071,7 @@ S2.define('select2/selection/search',[
     this.$search = $search.find('textarea');
 
     this.$search.prop('autocomplete', this.options.get('autocomplete'));
-    this.$search.attr('aria-label', searchLabel());
+    // this.$search.attr('aria-label', searchLabel());
 
     var $rendered = decorated.call(this);
 
@@ -2387,8 +2387,10 @@ S2.define('select2/translation',[
   Translation._cache = {};
 
   Translation.loadPath = function (path) {
+    console.debug("****** S2 translation path", path);
     if (!(path in Translation._cache)) {
       var translations = require(path);
+      console.debug("****** S2 cache", translations);
 
       Translation._cache[path] = translations;
     }
@@ -4208,7 +4210,7 @@ S2.define('select2/dropdown/search',[
     this.$search = $search.find('input');
 
     this.$search.prop('autocomplete', this.options.get('autocomplete'));
-    this.$search.attr('aria-label', searchLabel());
+    // this.$search.attr('aria-label', searchLabel());
 
     $rendered.prepend($search);
 

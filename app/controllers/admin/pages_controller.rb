@@ -1,7 +1,5 @@
 module Admin
   class PagesController < AdminController
-    # layout 'admin_app', only: :index
-
     include LedgerUtils
 
     respond_to :html

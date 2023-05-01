@@ -118,7 +118,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="scss" scoped>
   // @import 'stylesheets/draw-variables';
 
   #admin-app {
@@ -132,7 +132,7 @@ export default {
     }
 
     #header-nav {
-      /deep/ a {
+      ::v-deep a {
         color: #ffffff;
 
         &:not(.navbar-brand):hover,
@@ -149,7 +149,7 @@ export default {
         }
       }
 
-      /deep/ .dropdown-menu {
+      ::v-deep .dropdown-menu {
         background: rgba(0, 0, 0, 0.8);
 
         a {
