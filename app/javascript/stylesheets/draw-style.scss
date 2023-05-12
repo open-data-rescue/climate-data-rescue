@@ -306,9 +306,9 @@ a.dropdown-item.active,
 }
 
 .edit-page-btn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  position: fixed;
+  top: 5em;
+  right: 30px;
 }
 
 table#admin-pages {
