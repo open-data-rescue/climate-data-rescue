@@ -43,15 +43,15 @@ gem 'routing-filter'
 
 gem 'http_accept_language'
 
-gem 'rails-i18n'
+gem 'rails-i18n', '~> 7.0.0'
 gem 'i18n-active_record', :require => 'i18n/active_record'
 # gem 'i18n-tasks'
 
 gem 'rails-observers'
 
 gem 'friendly_id', '~> 5.4.2'
-gem 'mobility', '~> 1.0.3'
-gem 'friendly_id-mobility', '~> 1.0.3'
+# gem 'mobility', '~> 1.0.3'
+# gem 'friendly_id-mobility', '~> 1.0.3'
 
 gem 'globalize'
 gem 'globalize-accessors'
