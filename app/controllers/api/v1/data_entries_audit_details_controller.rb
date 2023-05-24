@@ -8,6 +8,7 @@ module Api
           filters: query_filters,
           page: query_page,
           sort: query_sort,
+          query_op: query_op
         )
 
         @details = query.resolve
@@ -27,7 +28,7 @@ module Api
       end
 
       def available_filters
-        %i[id location page_id observaton_date who_id user_id user_name who_name].freeze
+        %i[id event page_title who_name].freeze
       end
 
       def query_sort
