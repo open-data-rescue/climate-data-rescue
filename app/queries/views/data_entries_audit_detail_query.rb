@@ -12,7 +12,7 @@ class Views::DataEntriesAuditDetailQuery < ::BaseQuery
   end
 
   def filter_class
-    QueryFilters::PageFilter
+    QueryFilters::AuditFilter
   end
 
   protected
@@ -20,10 +20,6 @@ class Views::DataEntriesAuditDetailQuery < ::BaseQuery
   def sort_by
     if sort.key == :created_at
       tables.data_entries_audit_details[:change_time]
-      # puts "****** #{sort.key}"
-      # tables.data_entries_audit_details[sort.key]
-      # col_table_name, col = sort.key.to_s.split('.')
-      # tables.send(col_table_name)[col]
     else
       tables.data_entries_audit_details[sort.key]
     end
