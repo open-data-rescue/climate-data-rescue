@@ -3,11 +3,10 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
-    "@rails/actioncable": "^7.0.4",
-    "@rails/activestorage": "^7.0.4",
-    "@rails/ujs": "^7.0.4",
-    "@vitejs/plugin-vue": "^3.2.0",
-    "@vue/compat": "^3.2.45",
+    "@intlify/unplugin-vue-i18n": "^0.11.0",
+    "@popperjs/core": "^2.11.7",
+    "@vitejs/plugin-vue": "^4.2.1",
+    "@vue/compat": "^3.2.47",
     "axios": "^1.2.0",
     "backbone-forms": "^0.14.1",
     "backbone-model-file-upload": "^1.0.2",
@@ -44,8 +43,8 @@
   "devDependencies": {
     "@vue/compiler-sfc": "^3.2.45",
     "@vue/runtime-dom": "^3.2.47",
-    "vite": "^4.2.0",
-    "vite-plugin-full-reload": "^1.0.4",
+    "vite": "^4.3.0",
+    "vite-plugin-full-reload": "^1.0.5",
     "vite-plugin-ruby": "^3.2.0"
   },
   "scripts": {

@@ -67,7 +67,7 @@ gem 'puma', '~> 5.0'
 
 gem "recaptcha", require: "recaptcha/rails"
 
-gem 'bootsnap', require: false
+# gem 'bootsnap', require: false
 
 # gem 'websocket-extensions', '~> 0.1.5'
 
@@ -117,5 +117,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "vite_rails", "~> 3.0"
-gem "haml-rails", "~> 2.1"
-gem "sassc-rails", "~> 2.1"
+gem 'vite_plugin_legacy'
+
+gem "haml-rails"
+# gem "sassc-rails"

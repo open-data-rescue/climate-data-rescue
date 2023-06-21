@@ -1,6 +1,19 @@
 require_relative 'boot'
 
-require 'rails/all'
+# require 'rails/all'
+require "rails"
+# Pick the frameworks you want:
+require "active_model/railtie"
+require "active_job/railtie"
+require "active_record/railtie"
+# require "active_storage/engine"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "action_mailbox/engine"
+# require "action_text/engine"
+require "action_view/railtie"
+require "action_cable/engine"
+require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -12,8 +25,8 @@ module DataRescueAtHome
     config.load_defaults 6.0
 
     # Disable asset pipeline, should all be moved to webpacker now
-    config.assets.enabled = false
-    config.generators { |g| g.assets false }
+    # config.assets.enabled = false
+    # config.generators { |g| g.assets false }
 
     if !Rails.env.test?
       config.active_job.queue_adapter = :sidekiq

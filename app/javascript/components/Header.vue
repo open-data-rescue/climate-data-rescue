@@ -100,8 +100,8 @@
 </template>
 
 <script>
-import DrawLogoEn from '../../assets/images/drawlogo_en.png'
-import DrawLogoFr from '../../assets/images/drawlogo_fr.png'
+import DrawLogoEn from '../images/drawlogo_en.png'
+import DrawLogoFr from '../images/drawlogo_fr.png'
 import UrlHelpers from '../mixins/UrlHelpers'
 
 export default {
