@@ -13,7 +13,7 @@ gem "ranked-model"
 gem 'uglifier'
 
 #bootstrap stuff
-gem 'sass-rails'
+# gem 'sass-rails'
 
 gem 'log4r'
 

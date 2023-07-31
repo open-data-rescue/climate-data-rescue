@@ -13,28 +13,23 @@ console.log('Vite ⚡️ Rails')
 
 console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify.app/guide/rails')
 
-// Example: Load Rails libraries in Vite.
-//
-// import * as Turbo from '@hotwired/turbo'
-// Turbo.start()
-//
-// import ActiveStorage from '@rails/activestorage'
-// ActiveStorage.start()
-//
-// // Import all channels.
-// const channels = import.meta.globEager('./**/*_channel.js')
+// // Example: Import a stylesheet in app/frontend/index.css
+// // import '~/index.css'
+// // import * as ActiveStorage from "@rails/activestorage"
 
-// Example: Import a stylesheet in app/frontend/index.css
-// import '~/index.css'
-// import * as ActiveStorage from "@rails/activestorage"
-
+import '/stylesheets/theme.scss';
+import '/stylesheets/transcriptions.scss';
+import 'magnify/dist/css/magnify.css';
+import "tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css";
+import 'select2/dist/css/select2.css';
+import 'select2-bootstrap-theme/dist/select2-bootstrap.css';
 import './imports.js';
 
 import 'jquery-ujs';
 import 'bootstrap';
 
-// import 'bootstrap-switch.css'
-import 'bootstrap-switch';
+// // import 'bootstrap-switch.css'
+// import 'bootstrap-switch';
 import 'trumbowyg'
 
 import "jquery-ui-dist/jquery-ui.js";
@@ -59,25 +54,26 @@ import "../utils/page-uploader-plugin.js";
 import "../utils/boxer-plugin.js";
 import "../utils/content_images.js";
 import "../utils/snowEffect.js";
+import "../utils/select2.full.js";
 
-import '@/stylesheets/theme.scss'
-import '@/stylesheets/transcriptions.scss'
+// // import '@/stylesheets/theme.scss'
+// // import '@/stylesheets/transcriptions.scss'
 
-import 'magnify/dist/css/magnify.css'
+// // import 'magnify/dist/css/magnify.css'
 
-import "tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css"
+// // import "tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css"
 
-import "trumbowyg/dist/ui/icons.svg"
+// // import "trumbowyg/dist/ui/icons.svg"
 
-// see https://dev.to/shivashankarror/rails-6-using-images-with-webpacker-and-asset-pipeline-4gk3
-// const images = require.context('../images', true)
+// // see https://dev.to/shivashankarror/rails-6-using-images-with-webpacker-and-asset-pipeline-4gk3
+// // const images = require.context('../images', true)
 
 import "tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.js";
 
 import "bootstrap-notify/bootstrap-notify.js";
 
-// Rails.start()
-// ActiveStorage.start()
+// // Rails.start()
+// // ActiveStorage.start()
 
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();

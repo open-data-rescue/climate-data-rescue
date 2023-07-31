@@ -2387,10 +2387,8 @@ S2.define('select2/translation',[
   Translation._cache = {};
 
   Translation.loadPath = function (path) {
-    console.debug("****** S2 translation path", path);
     if (!(path in Translation._cache)) {
       var translations = require(path);
-      console.debug("****** S2 cache", translations);
 
       Translation._cache[path] = translations;
     }

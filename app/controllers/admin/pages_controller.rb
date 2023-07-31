@@ -68,7 +68,7 @@ module Admin
       respond_to do |format|
         format.html { #(html response is for browsers using iframe solution)
           render :json => [page.to_jq_upload].to_json,
-          :content_type => 'text/html',
+          :content_type => 'application/json',
           :layout => false
         }
         format.json {

@@ -33,6 +33,9 @@
     "moment": "2.17.0",
     "popper.js": "^1.16.1",
     "sass": "^1.62.1",
+    "select2": "^4.1.0-rc.0",
+    "select2-bootstrap-theme": "^0.1.0-beta.10",
+    "select2-bootstrap4-theme": "^1.0.0",
     "tempusdominus-bootstrap-4": "^5.39.2",
     "trumbowyg": "^2.27.3",
     "underscore": "^1.13.6",
@@ -46,9 +49,5 @@
     "vite": "^4.3.0",
     "vite-plugin-full-reload": "^1.0.5",
     "vite-plugin-ruby": "^3.2.0"
-  },
-  "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
-    "build:css": "sass ./app/assets/stylesheets/application.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   }
 }

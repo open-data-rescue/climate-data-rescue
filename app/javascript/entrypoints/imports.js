@@ -1,7 +1,6 @@
 /*
   This effectively does what the expose loader was doing with webpack
 */
-// import "requirejs"
 
 import jQuery from 'jquery'
 window.$ = window.jQuery = jQuery;
@@ -32,3 +31,6 @@ window.Backbone.Wreqr = Wreqr;
 // import Form from "backbone-forms/distribution.amd/backbone-forms.js";
 
 // require("backbone-forms/distribution/backbone-forms.js")(Backbone);
+
+import trumbowygSvgIcons from 'trumbowyg/dist/ui/icons.svg';
+window.trumbowygSvgIcons = trumbowygSvgIcons;

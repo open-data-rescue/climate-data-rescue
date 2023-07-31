@@ -26,3 +26,29 @@ export default defineConfig({
 })
 
 // see https://v3-migration.vuejs.org/migration-build.html#compat-configuration
+// resolve: {
+//   extensions: ['.js', '.mjs']
+// }
+
+// {
+//   "compilerOptions": {
+//     "module": "ESNext",
+//       "target": "es2017",
+//         "lib": ["ESNext", "DOM"],
+//           "esModuleInterop": true,
+//             "strict": true,
+//               "strictNullChecks": true,
+//                 "moduleResolution": "Node",
+//                   "resolveJsonModule": true,
+//                     "skipLibCheck": true,
+//                       "paths": {
+//       "@/*": ["./app/javascript/*"],
+//         "~/*": ["./app/javascript/*"]
+//     }
+//   },
+//   "exclude": [
+//     "**/dist",
+//     "**/node_modules",
+//     "**/test"
+//   ]
+// }

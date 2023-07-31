@@ -22,10 +22,9 @@ Bundler.require(*Rails.groups)
 module DataRescueAtHome
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 7.0
 
     # Disable asset pipeline, should all be moved to webpacker now
-    # config.assets.enabled = false
     # config.generators { |g| g.assets false }
 
     if !Rails.env.test?
@@ -50,9 +49,6 @@ module DataRescueAtHome
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_fieldgroups_in_json = true
-
-    # config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
-    # config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js snowEffect.js )
 
     #
     config.active_record.schema_format = :sql

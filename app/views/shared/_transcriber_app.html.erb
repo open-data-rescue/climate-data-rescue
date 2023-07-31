@@ -246,7 +246,7 @@
         $btn.data('panel', 'open');
         $btn.html('<%= j t('transcriber.toolbar.hide-data') %>');
 
-        view = new DataTableView();
+        var view = new DataTableView();
         mainLayout.dataPanel.show(view);
       },
     });
