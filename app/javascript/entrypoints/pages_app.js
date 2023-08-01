@@ -4,7 +4,7 @@ import Vue from 'vue'
 import { createApp } from 'vue';
 import {store} from '@/store/model.store'
 
-import Pages from '@/pages/Pages.vue'
+import Pages from '@/pages/pages.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
