@@ -42,13 +42,10 @@ WORKDIR /opt/draw
 # Just not use dev here
 # TODO: we need to check this
 RUN bin/bundle install --without development
-RUN bin/yarn install --frozen-lockfile
-# RUN bin/vite install
+RUN bin/vite install
 
 # The pre-compile will be done as part of the deploy of the image
 # The precompile will also deal with the webpacker assets
-# RUN bin/rake assets:precompile --trace
-# bin/vite build --clear
 
 # We expose the port
 EXPOSE 3000
