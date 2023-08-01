@@ -2071,7 +2071,7 @@ S2.define('select2/selection/search',[
     this.$search = $search.find('textarea');
 
     this.$search.prop('autocomplete', this.options.get('autocomplete'));
-    this.$search.attr('aria-label', searchLabel());
+    // this.$search.attr('aria-label', searchLabel());
 
     var $rendered = decorated.call(this);
 
@@ -4208,7 +4208,7 @@ S2.define('select2/dropdown/search',[
     this.$search = $search.find('input');
 
     this.$search.prop('autocomplete', this.options.get('autocomplete'));
-    this.$search.attr('aria-label', searchLabel());
+    // this.$search.attr('aria-label', searchLabel());
 
     $rendered.prepend($search);
 
