@@ -63,7 +63,8 @@ gem "sidekiq-scheduler"
 # gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'newrelic_rpm'
 
-gem 'puma', '~> 5.0'
+# gem 'puma', '~> 5.0'
+gem 'puma', '~> 6.3.1'
 
 gem "recaptcha", require: "recaptcha/rails"
 
