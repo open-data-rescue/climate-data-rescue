@@ -25,7 +25,7 @@
 </div>
 
 <script type="module">
-  function cancelUpload(arg) {
+  window.cancelUpload =  function cancelUpload(arg) {
     var url = $(arg).attr('url');
 
     $.ajax({

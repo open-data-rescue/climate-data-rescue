@@ -11,22 +11,28 @@
     define(['jquery'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // Node/CommonJS
-    module.exports = function (root, jQuery) {
-      if (jQuery === undefined) {
-        // require('jQuery') returns a factory that requires window to
-        // build a jQuery instance, we normalize how we use modules
-        // that require this pattern but the window provided is a noop
-        // if it's defined (how jquery works)
-        if (typeof window !== 'undefined') {
-          jQuery = require('jquery');
-        }
-        else {
-          jQuery = require('jquery')(root);
-        }
-      }
-      factory(jQuery);
-      return jQuery;
-    };
+    factory(jQuery);
+    return jQuery;
+    // module.exports = function (root, jQuery) {
+    //   console.debug("************ mod exports");
+
+    //   if (jQuery === undefined) {
+    //     console.debug("************ jQuery undefined");
+    //     // require('jQuery') returns a factory that requires window to
+    //     // build a jQuery instance, we normalize how we use modules
+    //     // that require this pattern but the window provided is a noop
+    //     // if it's defined (how jquery works)
+    //     if (typeof window !== 'undefined') {
+    //       jQuery = require('jquery');
+    //     }
+    //     else {
+    //       jQuery = require('jquery')(root);
+    //     }
+    //   }
+    //   console.debug("************ JQ FACTORY");
+    //   factory(jQuery);
+    //   return jQuery;
+    // };
   } else {
     // Browser globals
     factory(jQuery);
