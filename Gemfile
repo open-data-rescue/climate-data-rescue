@@ -54,7 +54,7 @@ gem 'friendly_id', '~> 5.4.2'
 gem 'mobility', '~> 1.0.3'
 gem 'friendly_id-mobility', '~> 1.0.3'
 
-gem 'globalize', '~> 6.0' # TODO: change when Rails upgrades
+gem 'globalize', '~> 6.3' # TODO: change when Rails upgrades
 gem 'globalize-accessors'
 
 gem "sidekiq"
