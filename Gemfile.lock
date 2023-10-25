@@ -272,7 +272,7 @@ GEM
       ffi (>= 1.0.6)
       msgpack (>= 0.4.3)
       optimist (>= 3.0.0)
-    recaptcha (5.14.0)
+    recaptcha (5.16.0)
     redis-client (0.14.1)
       connection_pool
     regexp_parser (2.8.1)
