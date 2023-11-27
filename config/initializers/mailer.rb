@@ -41,7 +41,7 @@ Rails.application.config.action_mailer.tap do |action_mailer|
       password = ENV.fetch('SMTP_PASSWORD', nil)
       action_mailer.smtp_settings[:password] = password if password
       authentication = ENV.fetch('SMTP_AUTHENTICATION', nil) # plain etc
-      action_mailer.smtp_settings[:authentication] authentication if authentication
+      action_mailer.smtp_settings[:authentication] = authentication if authentication
       enable_starttls_auto = ENV.fetch('SMTP_SSL_START_AUTO', nil)
       action_mailer.smtp_settings[:enable_starttls_auto] = enable_starttls_auto if enable_starttls_auto
       openssl_verify_mode = ENV.fetch('SMTP_SSL_VERIFY_MODE', nil)
