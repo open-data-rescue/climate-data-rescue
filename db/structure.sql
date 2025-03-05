@@ -89,6 +89,26 @@ CREATE TABLE `audit_data_entry_versions` (
   KEY `index_audit_data_entry_versions_on_item_type_and_item_id` (`item_type`,`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `blog_posts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `blog_posts` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `content` text,
+  `author` varchar(255) DEFAULT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `lock_version` int(11) NOT NULL DEFAULT '0',
+  `created_at` datetime(6) NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  `published_at` datetime(6) DEFAULT NULL,
+  `job_title` varchar(150) DEFAULT NULL,
+  `published` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `index_blog_posts_on_author` (`author`),
+  KEY `index_blog_posts_on_slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `content_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -480,6 +500,48 @@ CREATE TABLE `static_pages` (
   CONSTRAINT `fk_rails_7542642651` FOREIGN KEY (`parent_id`) REFERENCES `static_pages` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `taggings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `taggings` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tag_id` bigint(20) DEFAULT NULL,
+  `taggable_type` varchar(255) DEFAULT NULL,
+  `taggable_id` bigint(20) DEFAULT NULL,
+  `tagger_type` varchar(255) DEFAULT NULL,
+  `tagger_id` bigint(20) DEFAULT NULL,
+  `context` varchar(128) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `tenant` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `taggings_idx` (`tag_id`,`taggable_id`,`taggable_type`,`context`,`tagger_id`,`tagger_type`),
+  KEY `index_taggings_on_taggable_type_and_taggable_id` (`taggable_type`,`taggable_id`),
+  KEY `index_taggings_on_tagger_type_and_tagger_id` (`tagger_type`,`tagger_id`),
+  KEY `taggings_taggable_context_idx` (`taggable_id`,`taggable_type`,`context`),
+  KEY `index_taggings_on_tag_id` (`tag_id`),
+  KEY `index_taggings_on_taggable_id` (`taggable_id`),
+  KEY `index_taggings_on_taggable_type` (`taggable_type`),
+  KEY `index_taggings_on_tagger_id` (`tagger_id`),
+  KEY `index_taggings_on_context` (`context`),
+  KEY `index_taggings_on_tagger_id_and_tagger_type` (`tagger_id`,`tagger_type`),
+  KEY `taggings_idy` (`taggable_id`,`taggable_type`,`tagger_id`,`context`),
+  KEY `index_taggings_on_tenant` (`tenant`),
+  CONSTRAINT `fk_rails_9fcd2e236b` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `tags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tags` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  `taggings_count` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_tags_on_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `transcriptions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -534,7 +596,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`),
   UNIQUE KEY `index_users_on_confirmation_token` (`confirmation_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=761 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=762 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `versions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -692,6 +754,15 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20230316214752'),
 ('20250224161953'),
 ('20250224180604'),
-('20250224180941');
+('20250224180941'),
+('20250225154447'),
+('20250226143336'),
+('20250226143337'),
+('20250226143338'),
+('20250226143339'),
+('20250226143340'),
+('20250226143341'),
+('20250226143342'),
+('20250226152344');
 
 

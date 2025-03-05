@@ -69,9 +69,7 @@ gem 'puma', '~> 6.3.1'
 
 gem "recaptcha", require: "recaptcha/rails"
 
-# gem 'bootsnap', require: false
-
-# gem 'websocket-extensions', '~> 0.1.5'
+gem 'acts-as-taggable-on', '~> 9.0'
 
 gem "cssbundling-rails", "~> 1.1"
 
