@@ -8,8 +8,8 @@ export const SELECT = 'SELECT';
 export const UNSELECT = 'UNSELECT';
 
 export const SELECTED = 'SELECTED';
-// export const FETCH_SELECTED = 'FETCH SELECTED';
-// export const FETCH_BY_ID = 'FETCH BY ID'
+export const FETCH_SELECTED = 'FETCH SELECTED';
+export const FETCH_BY_ID = 'FETCH BY ID'
 export const FETCH = 'FETCH';
 export const NEW = 'NEW';
 export const SAVE = 'SAVE';
@@ -21,7 +21,7 @@ export const SET_LOCALE = 'SET LOCALE'
 // export const UPDATE_ALL = 'UPDATE ALL';
 //
 // export const PATCH_RELATED = 'PATCH RELATED';
-// export const PATCH_FIELDS = 'PATCH FIELDS';
+export const PATCH_FIELDS = 'PATCH FIELDS';
 
 // global app things
 import { appStore } from './app.store';
@@ -219,37 +219,37 @@ export const store = new Vuex.Store({
     // [CLEAR] ({dispatch}, {model}) {
     //   this.commit('jv/clearRecords', { _jv: { type: model } })
     // },
-    // [FETCH_SELECTED] ({state, dispatch}, {model}) {
-    //   if (!state.selected[model]) {
-    //     return Promise.reject(`No ${model} selected`)
-    //   }
-    //   return dispatch(FETCH_BY_ID, {model, id: state.selected[model]})
-    // },
-    // [FETCH_BY_ID] ({dispatch}, {model, id}) {
-    //   // We do need this - not all fetch by id will be selected models
-    //   return dispatch('jv/get', `${endpoints[model]}/${id}`)
-    // },
-    // [PATCH_FIELDS] ({dispatch, commit}, {model, item, fields=[], selected = true}) {
-    //   // limited field selection
-    //   let smallItem = {
-    //     // always include lock version so that we have optimistic locking
-    //     lock_version: item.lock_version || 0,
-    //     ...fields.map(field => ({[field]: item[field]})).reduce((p, c) => ({...p, ...c}), {}),
-    //     id: item.id,
-    //     _jv: {
-    //       type: model,
-    //       id: item.id
-    //     }
-    //   }
-    //   return new Promise((res, rej) => {
-    //     dispatch('jv/patch', smallItem).then((savedModel) => {
-    //       if (selected) {
-    //         commit(SELECT, {model, itemOrId: savedModel});
-    //       }
-    //       res(savedModel);
-    //     }).catch(rej);
-    //   });
-    // },
+    [FETCH_SELECTED] ({state, dispatch}, {model}) {
+      if (!state.selected[model]) {
+        return Promise.reject(`No ${model} selected`)
+      }
+      return dispatch(FETCH_BY_ID, {model, id: state.selected[model]})
+    },
+    [FETCH_BY_ID] ({dispatch}, {model, id}) {
+      // We do need this - not all fetch by id will be selected models
+      return dispatch('jv/get', `${endpoints[model]}/${id}`)
+    },
+    [PATCH_FIELDS] ({dispatch, commit}, {model, item, fields=[], selected = true}) {
+      // limited field selection
+      let smallItem = {
+        // always include lock version so that we have optimistic locking
+        lock_version: item.lock_version || 0,
+        ...fields.map(field => ({[field]: item[field]})).reduce((p, c) => ({...p, ...c}), {}),
+        id: item.id,
+        _jv: {
+          type: model,
+          id: item.id
+        }
+      }
+      return new Promise((res, rej) => {
+        dispatch('jv/patch', smallItem).then((savedModel) => {
+          if (selected) {
+            commit(SELECT, {model, itemOrId: savedModel});
+          }
+          res(savedModel);
+        }).catch(rej);
+      });
+    },
     ...pageStore.actions,
     ...transcriptionStore.actions,
     ...dataEntryAuditStore.actions
