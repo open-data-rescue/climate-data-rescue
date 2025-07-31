@@ -14,14 +14,14 @@ module Api
           query_op: query_op
         )
 
-        @posts = query.resolve
+        @posts = query.resolve(paginated: false)
 
         render jsonapi: @posts,
                class: { 'Blog::Post': Api::V1::SerializableBlogPost}, 
                meta: {
                  total: query.total,
-                 current_page: query.page.number,
-                 per_page: query.page.size
+                #  current_page: query.page.number,
+                #  per_page: query.page.size
                }
       end
 
@@ -101,7 +101,7 @@ module Api
       end
 
       def query_sort
-        return {sort: :updated_at} if params[:sort].blank?
+        return {sort: :published_at, desc: true} if params[:sort].blank?
 
         super
       end

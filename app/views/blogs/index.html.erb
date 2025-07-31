@@ -1,0 +1,7 @@
+<% content_for :head do -%>
+  <%= vite_javascript_tag "blog_app" %>
+<% end -%>
+
+<div id="blog-app">
+  <blog :lang="'<%= I18n.locale.to_s %>'"></blog>
+</div>

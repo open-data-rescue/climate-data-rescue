@@ -110,13 +110,14 @@ export const tableMixin = {
           // this stores some metadata that returns with the fetch call
           this.correctOrder = data._jv.json.data.map(m => m.id);
           if (typeof data._jv.json.meta !== 'undefined') {
-            // TODO: FIX
-            this.currentPage = data._jv.json.meta.current_page;
+            if (data._jv.json.meta.current_page) {
+              this.currentPage = data._jv.json.meta.current_page;
+            }
             this.totalRows = data._jv.json.meta.total;
             this.fullTotalRows = this.totalRows; //data._jv.json.meta.full_total;
           }
           res(data);
-        }).catch(rej).finally(() => this.tableBusy = false); // TODO maybe actually handle it here??
+        }).catch(rej).finally(() => this.tableBusy = false);
       })
     },
     fetchPaged(clear=true) {

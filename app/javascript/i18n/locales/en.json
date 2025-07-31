@@ -1,0 +1,14 @@
+{
+  "locale": {
+    "en": "English",
+    "fr": "French"
+  },
+  "blog": {
+    "title": "DRAW Blog",
+    "byline": "by {0} on {1}",
+    "index-title": "Blog Posts",
+    "sub": "Exploring weather and all it entails",
+    "intro": "Welcome to the DRAW Blog! Our focus here is to introduce topics related to DRAW and weather. This could be background information about parts of the project (such as symbols), discussion on weather issues (such as climate change), or may simply be a way to get to know the DRAW team further. Check in regularly for new posts!",
+    "navto-top": "Top"
+  }
+}

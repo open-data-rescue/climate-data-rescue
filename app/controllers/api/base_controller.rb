@@ -12,8 +12,22 @@ module Api
     after_action :verify_authorized, except: :index
     after_action :verify_policy_scoped, only: :index
 
+    before_action :set_locale
 
-
+    def set_locale
+      def_locale = http_accept_language.compatible_language_from(I18n.available_locales)
+  
+      if session[:locale]
+        def_locale = session[:locale]
+      else
+        def_locale = I18n.default_locale
+      end
+  
+      I18n.locale = params[:locale].present? ? params[:locale] : def_locale
+  
+      session[:locale] = I18n.locale
+    end
+  
     def self.deserializable_resource(key, options = {}, &block)
       options = options.dup
       klass = options.delete(:class) ||

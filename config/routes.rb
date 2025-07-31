@@ -7,13 +7,28 @@ Rails.application.routes.draw do
         resources :pages, only: %i[index], path: 'page'
         resources :page_types, only: %i[index],  path: 'page_type'
         resources :transcriptions, only: %i[index],  path: 'transcription'
-        resources :blog_posts, except: %i[new edit], path: 'blog_post'
+        # resources :blog_posts, except: %i[new edit], path: 'blog_post'
         get 'data_entries_audit_detail', to: 'data_entries_audit_details#index'
       end
     end
   end
 
   filter :locale
+
+  namespace :api do
+    namespace :v1 do
+      resources :blog_posts, except: %i[new edit], path: 'blog_post'
+    end
+  end
+
+  authenticate :user do
+    # filter :locale
+    namespace :api do
+      namespace :v1 do
+        resources :blog_posts, except: %i[index], path: 'blog_post'
+      end
+    end
+  end
 
   namespace :admin do
     get '/' => 'admin#landing'
@@ -58,6 +73,8 @@ Rails.application.routes.draw do
 
   root :to => "home#index"
 
+  get 'blog' => 'blogs#index'
+
   resources :transcriptions do
     resources 'annotations',
       except: %i[new edit],
@@ -101,7 +118,6 @@ Rails.application.routes.draw do
     post 'update' => 'page_info#update'
   end
 
-  resources :static_pages
   constraints(StaticPage) do
     get ':locale/(*path)', to: 'static_pages#show', as: 'static', format: false
   end

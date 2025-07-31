@@ -89,15 +89,29 @@ CREATE TABLE `audit_data_entry_versions` (
   KEY `index_audit_data_entry_versions_on_item_type_and_item_id` (`item_type`,`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `blog_post_translations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `blog_post_translations` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `blog_post_id` bigint(20) NOT NULL,
+  `locale` varchar(255) NOT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `content` text,
+  `slug` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_blog_post_translations_on_blog_post_id` (`blog_post_id`),
+  KEY `index_blog_post_translations_on_locale` (`locale`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `blog_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `blog_posts` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `content` text,
   `author` varchar(255) DEFAULT NULL,
-  `slug` varchar(255) DEFAULT NULL,
   `lock_version` int(11) NOT NULL DEFAULT '0',
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
@@ -105,9 +119,8 @@ CREATE TABLE `blog_posts` (
   `job_title` varchar(150) DEFAULT NULL,
   `published` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `index_blog_posts_on_author` (`author`),
-  KEY `index_blog_posts_on_slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `index_blog_posts_on_author` (`author`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `content_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -763,6 +776,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20250226143340'),
 ('20250226143341'),
 ('20250226143342'),
-('20250226152344');
+('20250226152344'),
+('20250401143412');
 
 

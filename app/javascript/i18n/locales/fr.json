@@ -1,0 +1,14 @@
+{
+  "locale": {
+    "en": "Anglais",
+    "fr": "Francais"
+  },
+  "blog": {
+    "title": "BLOGUE SAM",
+    "byline": "par {0} le {1}",
+    "index-title": "Récents",
+    "sub": "Explorer le climat et tout ce que cela implique",
+    "intro": "Bienvenue à notre blogue SAM! Notre but ici est d'introduire des sujets reliés à SAM et à la météo. Cela peut être de l'information sur différentes parties du projet, tel que les symboles, des discussions sur des enjeux de météo comme le changement climatique, ou cela peut simplement être une manière de mieux connaître l'équipe de SAM. Venez consulter la page à toutes les deux semaines pour de nouvelles publications!",
+    "navto-top": "Haut de Page"
+  }
+}

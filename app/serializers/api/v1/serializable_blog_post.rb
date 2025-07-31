@@ -8,7 +8,15 @@ module Api
                  :title, :content, :author, :slug, :job_title,
                  :published, :published_at
 
-      # TODO: tags
+      attribute :published_at_datestring do
+        return nil unless @object.published_at
+        I18n.l(@object.published_at, format: :long)
+      end
+
+      # Tags
+      attribute :tag_list do #|post|
+        @object.taggings.select{|t| t.context == 'tags'}.collect(&:tag).collect(&:name)
+      end
     end
   end
 end

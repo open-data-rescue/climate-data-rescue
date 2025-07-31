@@ -23,7 +23,6 @@ class Blog::PostPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      Rails.logger.debug "*********** POST SCOPE"
       scope.all
     end
   end

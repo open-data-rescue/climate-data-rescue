@@ -7,7 +7,6 @@ class ApplicationPolicy
   end
 
   def index?
-    Rails.logger.debug "****** INDEX?"
     false
   end
 
