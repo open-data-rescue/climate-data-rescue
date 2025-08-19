@@ -72,7 +72,7 @@ gem "recaptcha", require: "recaptcha/rails"
 
 # gem 'websocket-extensions', '~> 0.1.5'
 
-gem "cssbundling-rails", "~> 1.1"
+gem "cssbundling-rails", "~> 1.4"
 
 group :development do
   gem "better_errors"
