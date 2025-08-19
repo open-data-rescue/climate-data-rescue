@@ -115,6 +115,7 @@ GEM
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
     ffi (1.17.0-arm64-darwin)
+    ffi (1.17.0-x86_64-linux-gnu)
     friendly_id (5.4.2)
       activerecord (>= 4.0.0)
     fugit (1.11.1)
@@ -205,6 +206,8 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.17.2-arm64-darwin)
       racc (~> 1.4)
+    nokogiri (1.17.2-x86_64-linux)
+      racc (~> 1.4)
     orm_adapter (0.5.0)
     paper_trail (16.0.0)
       activerecord (>= 6.1)
@@ -222,8 +225,8 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.10)
-    rack-mini-profiler (3.3.1)
+    rack (2.2.17)
+    rack-mini-profiler (4.0.1)
       rack (>= 1.2.0)
     rack-proxy (0.7.7)
       rack
@@ -386,6 +389,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-24
+  x86_64-linux
 
 DEPENDENCIES
   better_errors
