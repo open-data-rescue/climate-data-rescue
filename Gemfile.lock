@@ -115,6 +115,7 @@ GEM
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
     ffi (1.17.0-arm64-darwin)
+    ffi (1.17.0-x86_64-linux-gnu)
     friendly_id (5.4.2)
       activerecord (>= 4.0.0)
     fugit (1.11.1)
@@ -205,6 +206,8 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.17.2-arm64-darwin)
       racc (~> 1.4)
+    nokogiri (1.17.2-x86_64-linux)
+      racc (~> 1.4)
     orm_adapter (0.5.0)
     paper_trail (16.0.0)
       activerecord (>= 6.1)
@@ -270,7 +273,7 @@ GEM
     rb-inotify (0.11.1)
       ffi (~> 1.0)
     rb-readline (0.5.5)
-    recaptcha (5.18.0)
+    recaptcha (5.20.1)
     redis-client (0.23.0)
       connection_pool
     regexp_parser (2.9.3)
@@ -386,6 +389,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-24
+  x86_64-linux
 
 DEPENDENCIES
   better_errors
