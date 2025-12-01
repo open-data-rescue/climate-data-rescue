@@ -81,7 +81,7 @@ GEM
     byebug (11.1.3)
     climate_control (1.2.0)
     coderay (1.1.3)
-    concurrent-ruby (1.3.4)
+    concurrent-ruby (1.3.5)
     connection_pool (2.4.1)
     crass (1.0.6)
     cssbundling-rails (1.4.1)
@@ -115,6 +115,7 @@ GEM
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
     ffi (1.17.0-arm64-darwin)
+    ffi (1.17.0-x86_64-linux-gnu)
     friendly_id (5.4.2)
       activerecord (>= 4.0.0)
     fugit (1.11.1)
@@ -131,17 +132,17 @@ GEM
       request_store (~> 1.0)
     globalize-accessors (0.3.0)
       globalize (>= 5.0.0)
-    haml (6.3.0)
+    haml (6.4.0)
       temple (>= 0.8.2)
       thor
       tilt
-    haml-rails (2.1.0)
+    haml-rails (3.0.0)
       actionpack (>= 5.1)
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
     http_accept_language (2.1.1)
-    i18n (1.14.6)
+    i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     i18n-active_record (1.4.0)
       i18n (>= 0.5.0)
@@ -175,7 +176,7 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.10)
     log4r (1.1.10)
     logger (1.6.4)
-    loofah (2.23.1)
+    loofah (2.24.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -190,7 +191,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2024.1203)
     mini_mime (1.1.5)
-    minitest (5.25.4)
+    minitest (5.26.2)
     mysql2 (0.5.6)
     net-imap (0.5.2)
       date
@@ -203,7 +204,9 @@ GEM
       net-protocol
     newrelic_rpm (9.16.1)
     nio4r (2.7.4)
-    nokogiri (1.17.2-arm64-darwin)
+    nokogiri (1.18.10-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     paper_trail (16.0.0)
@@ -222,12 +225,12 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.10)
+    rack (2.2.21)
     rack-mini-profiler (3.3.1)
       rack (>= 1.2.0)
     rack-proxy (0.7.7)
       rack
-    rack-test (2.1.0)
+    rack-test (2.2.0)
       rack (>= 1.3)
     rails (7.0.8.7)
       actioncable (= 7.0.8.7)
@@ -243,7 +246,7 @@ GEM
       activesupport (= 7.0.8.7)
       bundler (>= 1.15.0)
       railties (= 7.0.8.7)
-    rails-dom-testing (2.2.0)
+    rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
@@ -263,7 +266,7 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
-    rake (13.2.1)
+    rake (13.3.1)
     ranked-model (0.4.11)
       activerecord (>= 5.2)
     rb-fsevent (0.11.2)
@@ -346,11 +349,11 @@ GEM
       actionpack (>= 3.1)
       railties (>= 3.1)
       slim (>= 3.0, < 6.0, != 5.0.0)
-    temple (0.10.3)
+    temple (0.10.4)
     terrapin (1.0.1)
       climate_control
-    thor (1.3.2)
-    tilt (2.4.0)
+    thor (1.4.0)
+    tilt (2.6.1)
     timeout (0.4.3)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -386,6 +389,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-24
+  x86_64-linux
 
 DEPENDENCIES
   better_errors
