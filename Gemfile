@@ -64,7 +64,7 @@ gem "sidekiq-scheduler"
 gem 'newrelic_rpm'
 
 # gem 'puma', '~> 5.0'
-gem 'puma', '~> 6.3.1'
+gem 'puma', '~> 7.1.0'
 
 gem "recaptcha", require: "recaptcha/rails"
 
