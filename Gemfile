@@ -118,7 +118,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "vite_rails", "3.0.15"
-gem "vite_ruby", "3.3.4"
+gem "vite_ruby", "3.9.2"
 gem 'vite_plugin_legacy'
 
 gem "haml-rails"
