@@ -11,18 +11,19 @@ module Api
           filters: query_filters,
           page: query_page,
           sort: query_sort,
-          query_op: query_op
+          query_op: query_op,
+          paginated: query_page ? true : false
         )
 
-        @posts = query.resolve(paginated: false)
+        @posts = query.resolve
+
+        meta = { total: query.total }
+        meta[:current_page] = query.page.number if query.page.number
+        meta[:per_page] = query.page.size if query.page.size
 
         render jsonapi: @posts,
                class: { 'Blog::Post': Api::V1::SerializableBlogPost}, 
-               meta: {
-                 total: query.total,
-                #  current_page: query.page.number,
-                #  per_page: query.page.size
-               }
+               meta: meta
       end
 
       def show

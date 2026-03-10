@@ -15,9 +15,10 @@ class BaseQuery
   delegate :number, to: :page, prefix: true
   delegate :number=, to: :page, prefix: true
 
-  def initialize(sort: nil, page: nil, filters: {}, collection: nil, query_op: nil)
+  def initialize(sort: nil, page: nil, filters: {}, collection: nil, query_op: nil, paginated: true)
     @total = 0
     @collection = collection
+    @paginated = paginated
 
     self.tables = OpenStruct.new(**tables_hash)
 
@@ -54,7 +55,7 @@ class BaseQuery
     filters.delete_field(key)
   end
 
-  def resolve(paginated: true)
+  def resolve()
     results = base_collection
               .where(query_conditions)
               .order(order_statement)
@@ -64,7 +65,7 @@ class BaseQuery
     results = results.paginate(
       page: page.number,
       per_page: page.size
-    ) if paginated
+    ) if @paginated
 
     results
   end
@@ -91,10 +92,17 @@ class BaseQuery
   end
 
   def initialize_page(page)
-    self.page = OpenStruct.new(
-      number: (page.present? && page[:number] ? page[:number].to_i : 1), # default page: 1
-      size: (page.present? && page[:size] ? page[:size].to_i : 10) # default page size: 10
-    )
+    self.page = if @paginated
+        OpenStruct.new(
+          number: (page.present? && page[:number] ? page[:number].to_i : 1), # default page: 1
+          size: (page.present? && page[:size] ? page[:size].to_i : 10) # default page size: 10
+        )
+      else
+        OpenStruct.new(
+          number: nil,
+          size: nil
+        )
+      end    
   end
 
   def initialize_filters(filters)

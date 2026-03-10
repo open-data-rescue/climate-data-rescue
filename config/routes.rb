@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     resources :pages
     resources :static_pages
     resources :users
+    resources :blog_posts
 
     match 'transcriptions/export' => 'transcriptions#export',
           via: %i[get post],

@@ -20,7 +20,6 @@ export const modelMixinNoProp = {
       this.$store.commit(UNSELECT, {model: this.model});
     },
     fetch(params, url = null) {
-      console.debug("FFFFFF")
       return this.$store.dispatch(FETCH, {model: this.model, url: url, params});
     },
     search(params) {
