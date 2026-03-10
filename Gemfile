@@ -1,9 +1,10 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.2"
+ruby "3.1.4"
 
 gem "rails", "~> 7.0.4"
+gem 'concurrent-ruby', '1.3.4'
 
 gem 'mysql2'
 
@@ -49,7 +50,7 @@ gem 'i18n-active_record', :require => 'i18n/active_record'
 
 gem 'rails-observers'
 
-gem 'friendly_id', '~> 5.4.2'
+# gem 'friendly_id', '~> 5.4.2'
 # gem 'mobility', '~> 1.0.3'
 # gem 'friendly_id-mobility', '~> 1.0.3'
 
@@ -68,9 +69,7 @@ gem 'puma', '~> 6.3.1'
 
 gem "recaptcha", require: "recaptcha/rails"
 
-# gem 'bootsnap', require: false
-
-# gem 'websocket-extensions', '~> 0.1.5'
+gem 'acts-as-taggable-on', '~> 9.0'
 
 gem "cssbundling-rails", "~> 1.1"
 
@@ -118,7 +117,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "vite_rails", "3.0.15"
-gem "vite_ruby", "3.9.2"
+gem "vite_ruby", "3.3.4"
 gem 'vite_plugin_legacy'
 
 gem "haml-rails"
