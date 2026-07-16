@@ -9,7 +9,7 @@
     FieldOptionsApp.AppManager = (function(Backbone, Marionette){
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
-        Field = Backbone.Model.extend({
+        var Field = Backbone.Model.extend({
             url : "<%= admin_fields_path %>",
             schema : {
                 multi_select : "Checkbox"
@@ -18,7 +18,7 @@
                 multi_select : false
             }
         });
-        FieldOption = Backbone.Model.extend({
+        var FieldOption = Backbone.Model.extend({
             url : "<%= admin_field_options_path %>",
             schema : {
                 image : {
@@ -73,11 +73,11 @@
             paramRoot : "field_option"
         });
 
-        FieldOptionsCollection = Backbone.Collection.extend({
+        var FieldOptionsCollection = Backbone.Collection.extend({
             model : FieldOption
         });
 
-        FieldOptionsLayout = Marionette.LayoutView.extend({
+        var FieldOptionsLayout = Marionette.LayoutView.extend({
             template : "#field-options-layout-template",
             regions : {
                 assigned : "#assigned-options-container",
@@ -92,12 +92,12 @@
             },
 
             onRender : function() {
-                layout = this;
-                field = new Field();
+                var layout = this;
+                var field = new Field();
                 field.fetch({
                     url : "<%= admin_field_path(field) %>",
                     success : function(field){
-                        view = new FieldView({
+                        var view = new FieldView({
                             model : field
                         });
 
@@ -153,10 +153,10 @@
             }
         });
 
-        FieldView = Marionette.ItemView.extend({
+        var FieldView = Marionette.ItemView.extend({
             template : "#field-template",
             onRender : function() {
-                self = this;
+                var self = this;
                 this.$el.find("#field-multi-toggle").bootstrapSwitch({
                     size : "small",
                     onText : "Multiple",
@@ -173,7 +173,7 @@
             }
         });
 
-        FieldOptionView = Marionette.ItemView.extend({
+        var FieldOptionView = Marionette.ItemView.extend({
             // template : "#field-option-template",
             template: function(serialized_model) {
               var tmpl = $('#field-option-template');
@@ -194,7 +194,7 @@
             },
 
             editModel : function() {
-                schema = {};
+                var schema = {};
                 schema = $.extend(
                     {
                         delete_image : {
@@ -288,7 +288,7 @@
         });
 
 
-        FieldOptionsCollectionView = Marionette.CompositeView.extend({
+        var FieldOptionsCollectionView = Marionette.CompositeView.extend({
             // template : "#options-collection-template",
             template: function(serialized_model) {
               var tmpl = $('#options-collection-template');
@@ -334,8 +334,8 @@
                                 ui.item.children('td').effect('highlight', {}, 1000);
                             },
                             update : function(e, ui) {
-                                item_id = ui.item.data('field-option-id');
-                                position = ui.item.index() - 1;
+                                var item_id = ui.item.data('field-option-id');
+                                var position = ui.item.index() - 1;
 
                                 $.ajax({
                                     type: 'POST',
@@ -355,15 +355,15 @@
             }
         });
 
-        MainLayout = new FieldOptionsLayout();
+        var MainLayout = new FieldOptionsLayout();
 
-        AssignedOptions = new FieldOptionsCollection({
+        var AssignedOptions = new FieldOptionsCollection({
             url : "<%= admin_field_options_for_field_path(field) %>",
             initialize : function() {
                 EventAggregator.on("refresh_field_options", this.fetch, this);
             }
         });
-        AvailableOptions = new FieldOptionsCollection({
+        var AvailableOptions = new FieldOptionsCollection({
             url : "<%= admin_field_options_path %>",
             initialize : function() {
                 EventAggregator.on("refresh_field_options", this.fetch, this);
@@ -377,7 +377,7 @@
                 AssignedOptions.fetch({
                     url : "<%= admin_field_options_for_field_path(field) %>",
                     success : function(collection) {
-                        view = new FieldOptionsCollectionView({
+                        var view = new FieldOptionsCollectionView({
                             collection : collection,
                             collectionTitle : "<h4>Assigned Field Options</h4>",
                             initialize : function() {
@@ -398,7 +398,7 @@
                 AvailableOptions.fetch({
                     url : "<%= admin_field_options_path(field_id: field.id) %>",
                     success : function(collection) {
-                        view = new FieldOptionsCollectionView({
+                        var view = new FieldOptionsCollectionView({
                             collection : collection,
                             collectionTitle : "<h4>Available Field Options</h4>",
                             initialize : function() {
