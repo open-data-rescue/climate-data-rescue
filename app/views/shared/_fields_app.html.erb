@@ -9,10 +9,10 @@
     FieldsApp.AppManager = (function(Backbone, Marionette){
         var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
-        FieldGroup = Backbone.Model.extend({
+        var FieldGroup = Backbone.Model.extend({
             url : "<%= admin_field_groups_path %>",
         });
-        Field = Backbone.Model.extend({
+        var Field = Backbone.Model.extend({
             url : "<%= admin_fields_path %>",
             schema : {
                 field_key : {
@@ -62,11 +62,11 @@
             paramRoot : "field"
         });
 
-        FieldsCollection = Backbone.Collection.extend({
+        var FieldsCollection = Backbone.Collection.extend({
             model : Field
         });
 
-        FieldsLayout = Marionette.LayoutView.extend({
+        var FieldsLayout = Marionette.LayoutView.extend({
             template : "#fields-layout-template",
             regions : {
                 assigned : "#assigned-fields-container",
@@ -113,7 +113,7 @@
             }
         });
 
-        FieldView = Marionette.ItemView.extend({
+        var FieldView = Marionette.ItemView.extend({
             // template : "#field-template",
             template: function(serialized_model) {
               var tmpl = $('#field-template');
@@ -210,7 +210,7 @@
         });
 
 
-        FieldsCollectionView = Marionette.CompositeView.extend({
+        var FieldsCollectionView = Marionette.CompositeView.extend({
             // template : "#fields-collection-template",
             template: function(serialized_model) {
               var tmpl = $('#fields-collection-template');
@@ -279,15 +279,15 @@
             }
         });
 
-        MainLayout = new FieldsLayout();
+        var MainLayout = new FieldsLayout();
 
-        AssignedFields = new FieldsCollection({
+        var AssignedFields = new FieldsCollection({
             url : "<%= admin_fields_for_field_group_path(field_group) %>",
             initialize : function() {
                 EventAggregator.on("refresh_fields", this.fetch, this);
             }
         });
-        AvailableFields = new FieldsCollection({
+        var AvailableFields = new FieldsCollection({
             url : "<%= admin_fields_path %>",
             initialize : function() {
                 EventAggregator.on("refresh_fields", this.fetch, this);
@@ -302,7 +302,7 @@
                     url : "<%= admin_fields_for_field_group_path(field_group) %>",
                     success : function(collection) {
                         // console.log(collection);
-                        view = new FieldsCollectionView({
+                        var view = new FieldsCollectionView({
                             collection : collection,
                             collectionTitle : "<h4>Assigned Fields</h4>",
                             initialize : function() {
@@ -324,7 +324,7 @@
                     url : "<%= admin_fields_path(field_group_id: field_group.id) %>",
                     success : function(collection) {
                         // console.log(collection);
-                        view = new FieldsCollectionView({
+                        var view = new FieldsCollectionView({
                             collection : collection,
                             collectionTitle : "<h4>Available Fields</h4>",
                             initialize : function() {
