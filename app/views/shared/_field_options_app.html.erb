@@ -7,7 +7,7 @@
     });
 
     FieldOptionsApp.AppManager = (function(Backbone, Marionette){
-        var EventAggregator = new Backbone.Wreqr.EventAggregator();
+        // var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
         var Field = Backbone.Model.extend({
             url : "<%= admin_fields_path %>",
@@ -360,13 +360,13 @@
         var AssignedOptions = new FieldOptionsCollection({
             url : "<%= admin_field_options_for_field_path(field) %>",
             initialize : function() {
-                EventAggregator.on("refresh_field_options", this.fetch, this);
+//                EventAggregator.on("refresh_field_options", AssignedOptions.fetch, AssignedOptions);
             }
         });
         var AvailableOptions = new FieldOptionsCollection({
             url : "<%= admin_field_options_path %>",
             initialize : function() {
-                EventAggregator.on("refresh_field_options", this.fetch, this);
+//                EventAggregator.on("refresh_field_options", AvailableOptions.fetch, AvailableOptions);
             }
         });
 
@@ -391,7 +391,7 @@
                             sortable: true
                         });
                         MainLayout.assigned.show(view);
-                        EventAggregator.on("refresh_field_options", this.fetch, this);
+//                        EventAggregator.on("refresh_field_options", AssignedOptions.fetch, AssignedOptions);
                     }
                 });
 
@@ -411,7 +411,7 @@
                             })
                         });
                         MainLayout.available.show(view);
-                        EventAggregator.on("refresh_field_options", this.fetch, this);
+//                        EventAggregator.on("refresh_field_options", AvailableOptions.fetch, AvailableOptions);
                     }
                 });
             }
