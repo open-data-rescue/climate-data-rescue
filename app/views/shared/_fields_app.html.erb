@@ -7,12 +7,12 @@
     });
 
     FieldsApp.AppManager = (function(Backbone, Marionette){
-        var EventAggregator = new Backbone.Wreqr.EventAggregator();
+        const EventAggregator = new Backbone.Wreqr.EventAggregator();
 
-        var FieldGroup = Backbone.Model.extend({
+        const FieldGroup = Backbone.Model.extend({
             url : "<%= admin_field_groups_path %>",
         });
-        var Field = Backbone.Model.extend({
+        const Field = Backbone.Model.extend({
             url : "<%= admin_fields_path %>",
             schema : {
                 field_key : {
@@ -62,11 +62,11 @@
             paramRoot : "field"
         });
 
-        var FieldsCollection = Backbone.Collection.extend({
+        const FieldsCollection = Backbone.Collection.extend({
             model : Field
         });
 
-        var FieldsLayout = Marionette.LayoutView.extend({
+        const FieldsLayout = Marionette.LayoutView.extend({
             template : "#fields-layout-template",
             regions : {
                 assigned : "#assigned-fields-container",
@@ -113,7 +113,7 @@
             }
         });
 
-        var FieldView = Marionette.ItemView.extend({
+        const FieldView = Marionette.ItemView.extend({
             // template : "#field-template",
             template: function(serialized_model) {
               var tmpl = $('#field-template');
@@ -123,7 +123,7 @@
             className : "field",
 
             initialize : function(options) {
-                this.listenTo(this.model, "change", this.render);
+                // this.listenTo(this.model, "change", this.render);
                 this.listenTo(this.model, "close_view", this.close);
             },
 
@@ -194,7 +194,7 @@
                     data : {field_group_id: <%= field_group.id %>, field_id: id},
                     dataType: 'json',
                     success : function(response) {
-                        // console.info("removed field option from field");
+                        // console.info("**** removed field option from field");
                         AssignedFields.remove(mdl);
                         AvailableFields.add(mdl);
                         $(".tooltip").remove();
@@ -210,7 +210,7 @@
         });
 
 
-        var FieldsCollectionView = Marionette.CompositeView.extend({
+        const FieldsCollectionView = Marionette.CompositeView.extend({
             // template : "#fields-collection-template",
             template: function(serialized_model) {
               var tmpl = $('#fields-collection-template');
@@ -258,8 +258,8 @@
                                 ui.item.children('td').effect('highlight', {}, 1000);
                             },
                             update : function(e, ui) {
-                                item_id = ui.item.data('field-id');
-                                position = ui.item.index();
+                                var item_id = ui.item.data('field-id');
+                                var position = ui.item.index();
 
                                 $.ajax({
                                     type: 'POST',
@@ -284,13 +284,13 @@
         var AssignedFields = new FieldsCollection({
             url : "<%= admin_fields_for_field_group_path(field_group) %>",
             initialize : function() {
-                EventAggregator.on("refresh_fields", this.fetch, this);
+                EventAggregator.on("refresh_fields", AssignedFields.fetch, AssignedFields);
             }
         });
         var AvailableFields = new FieldsCollection({
             url : "<%= admin_fields_path %>",
             initialize : function() {
-                EventAggregator.on("refresh_fields", this.fetch, this);
+                EventAggregator.on("refresh_fields", AvailableFields.fetch, AvailableFields);
             }
         });
 
@@ -316,7 +316,7 @@
                             sortable: true
                         });
                         MainLayout.assigned.show(view);
-                        EventAggregator.on("refresh_fields", this.fetch, this);
+                        EventAggregator.on("refresh_fields", AssignedFields.fetch, AssignedFields);
                     }
                 });
 
@@ -337,7 +337,7 @@
                             })
                         });
                         MainLayout.available.show(view);
-                        EventAggregator.on("refresh_fields", this.fetch, this);
+                        EventAggregator.on("refresh_fields", AvailableFields.fetch, AvailableFields);
                     }
                 });
             }
@@ -381,7 +381,7 @@
         <td>{{= num_field_values }}<br /><a href="<%= admin_fields_path %>/{{= id }}/edit" target="field_{{= id }}">Add/Remove Values <i class="fa fa-external-link"></i></a></td>
         <td>
             {{ if(assigned) { }}
-                    <i class="fa fa-times fa-2x remove-from-field-group-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field Group"></i>
+                <i class="fa fa-times fa-2x remove-from-field-group-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Remove From Field Group"></i>
             {{ } else { }}
                 <i class="fa fa-plus fa-2x add-to-field-group-btn float-right" data-toggle="tooltip" data-placement="auto top" data-container="body" title="Add to Field Group"></i>
             {{ } }}

@@ -7,7 +7,7 @@
     });
 
     FieldGroupsApp.AppManager = (function(Backbone, Marionette){
-        var EventAggregator = new Backbone.Wreqr.EventAggregator();
+        // var EventAggregator = new Backbone.Wreqr.EventAggregator();
 
         var PageType = Backbone.Model.extend({
             url : "<%= admin_page_types_path %>",
@@ -256,8 +256,8 @@
                                 ui.item.children('td').effect('highlight', {}, 1000);
                             },
                             update : function(e, ui) {
-                                item_id = ui.item.data('field-group-id');
-                                position = ui.item.index();
+                                var item_id = ui.item.data('field-group-id');
+                                var position = ui.item.index();
 
                                 console.log(position);
                                 $.ajax({
@@ -283,13 +283,13 @@
         var AssignedFieldGroups = new FieldGroupsCollection({
             url : "<%= admin_field_groups_for_page_type_path(page_type) %>",
             initialize : function() {
-                EventAggregator.on("refresh_field_groups", this.fetch, this);
+//                EventAggregator.on("refresh_field_groups", AssignedFieldGroups.fetch, AssignedFieldGroups);
             }
         });
         var AvailableFieldGroups = new FieldGroupsCollection({
             url : "<%= admin_field_groups_path %>",
             initialize : function() {
-                EventAggregator.on("refresh_field_groups", this.fetch, this);
+//                EventAggregator.on("refresh_field_groups", AvailableFieldGroups.fetch, AvailableFieldGroups);
             }
         });
 
@@ -316,7 +316,7 @@
                             sortable: true
                         });
                         MainLayout.assigned.show(view);
-                        EventAggregator.on("refresh_field_groups", AssignedFieldGroups.fetch, AssignedFieldGroups);
+//                        EventAggregator.on("refresh_field_groups", AssignedFieldGroups.fetch, AssignedFieldGroups);
                     }
                 });
 
@@ -337,7 +337,7 @@
                             })
                         });
                         MainLayout.available.show(view);
-                        EventAggregator.on("refresh_field_groups", AvailableFieldGroups.fetch, AvailableFieldGroups);
+//                        EventAggregator.on("refresh_field_groups", AvailableFieldGroups.fetch, AvailableFieldGroups);
                     }
                 });
             }
