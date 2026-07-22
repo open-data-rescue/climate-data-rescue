@@ -132,6 +132,9 @@ module Admin
           begin
             #@field is a variable containing an instance of the "field.rb" model with attributes updated with data passed in the params of the "edit.html.slim" form submit action.
             @field = Field.find(params[:id])
+            if params[:field_group_id]
+              @field_group = FieldGroup.find params[:field_group_id]
+            end
           rescue => e
             flash[:danger] = e.message
           end
