@@ -22,6 +22,7 @@ RUN apk add \
       freetds-dev \
       git \
       imagemagick \
+      imagemagick-jpeg \
       less \
       netcat-openbsd \
       mysql-client \
